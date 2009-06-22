@@ -96,21 +96,31 @@ public class PendingEntrySummary extends TransientBusinessObjectBase {
      * @return the amount of the wrapped entry, or null if the entry does not represent a credit
      */
     public KualiDecimal getCreditAmount() {
-        return originEntry.getTransactionDebitCreditCode().equals(KFSConstants.GL_CREDIT_CODE) ? originEntry.getTransactionLedgerEntryAmount() : null; 
+        if (!StringUtils.isBlank(originEntry.getTransactionDebitCreditCode())) {
+            if (originEntry.getTransactionDebitCreditCode().equals(KFSConstants.GL_CREDIT_CODE)) {
+                return originEntry.getTransactionLedgerEntryAmount(); 
+            }
+        }
+        return null;
     }
 
     /**
      * @return the amount of the wrapped entry, or null if the entry does not represent a debit
      */
     public KualiDecimal getDebitAmount() {
-        return originEntry.getTransactionDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE) ? originEntry.getTransactionLedgerEntryAmount() : null;
+        if (!StringUtils.isBlank(originEntry.getTransactionDebitCreditCode())) { 
+            if (originEntry.getTransactionDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE)) {
+                return originEntry.getTransactionLedgerEntryAmount();
+            }
+        }
+        return null;
     }
 
     /**
      * @return the amount for the wrapped entry, or null if the entry represents either a debit or a credt
      */
     public KualiDecimal getBudgetAmount() {
-        return (originEntry.getTransactionDebitCreditCode().equals(KFSConstants.GL_BUDGET_CODE) || originEntry.getTransactionDebitCreditCode().equals(KFSConstants.EMPTY_STRING)) ? originEntry.getTransactionLedgerEntryAmount() : null;
+        return (originEntry.getTransactionDebitCreditCode() == null || originEntry.getTransactionDebitCreditCode().equals(KFSConstants.GL_BUDGET_CODE) || originEntry.getTransactionDebitCreditCode().equals(KFSConstants.EMPTY_STRING)) ? originEntry.getTransactionLedgerEntryAmount() : null;
     }
 
     /**

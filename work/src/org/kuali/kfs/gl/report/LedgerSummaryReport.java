@@ -98,11 +98,11 @@ public class LedgerSummaryReport {
      * @param detailLine the proper detail amount to add the amoun tto
      */
     protected void addEntryToLedgerSummaries(OriginEntry originEntry, LedgerSummaryTotalLine totalLine, LedgerBalanceTypeSummaryTotalLine balanceTypeTotal, LedgerSummaryDetailLine detailLine) {
-        if (originEntry.getTransactionDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE)) {
+        if (originEntry.getTransactionDebitCreditCode() != null && originEntry.getTransactionDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE)) {
             totalLine.addDebitAmount(originEntry.getTransactionLedgerEntryAmount());
             balanceTypeTotal.addDebitAmount(originEntry.getTransactionLedgerEntryAmount());
             detailLine.addDebitAmount(originEntry.getTransactionLedgerEntryAmount());
-        } else if (originEntry.getTransactionDebitCreditCode().equals(KFSConstants.GL_CREDIT_CODE)) {
+        } else if (originEntry.getTransactionDebitCreditCode() != null && originEntry.getTransactionDebitCreditCode().equals(KFSConstants.GL_CREDIT_CODE)) {
             totalLine.addCreditAmount(originEntry.getTransactionLedgerEntryAmount());
             balanceTypeTotal.addCreditAmount(originEntry.getTransactionLedgerEntryAmount());
             detailLine.addCreditAmount(originEntry.getTransactionLedgerEntryAmount());

@@ -66,7 +66,7 @@ public class CreditMemoDocumentPreRules extends AccountsPayableDocumentPreRulesB
         VendorCreditMemoDocument cm = (VendorCreditMemoDocument) accountsPayableDocument;
         StringBuffer questionTextBuffer = new StringBuffer("");
         questionTextBuffer.append(questionText);
-        // KULPURAP-3744: remove the html table tags
+        
 //        questionTextBuffer.append( "<style type=\"text/css\"> table.questionTable {border-collapse: collapse;} td.leftTd { border-bottom:1px solid #000000; border-right:1px solid #000000; padding:3px; width:300px; } td.rightTd { border-bottom:1px solid #000000; border-left:1px solid #000000; padding:3px; width:300px; } </style>" );
 //                    
 //        questionTextBuffer.append("<br/><br/>Summary Detail Below:<br/><br/><table class=\"questionTable\" align=\"center\">");

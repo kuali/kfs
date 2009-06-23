@@ -16,15 +16,17 @@
 package org.kuali.kfs.sys.document.workflow;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.integration.ld.LaborLedgerPendingEntryForSearching;
 import org.kuali.kfs.integration.ld.LaborLedgerPostingDocumentForSearching;
-import org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
@@ -42,12 +44,15 @@ import org.kuali.rice.kew.docsearch.SearchableAttributeFloatValue;
 import org.kuali.rice.kew.docsearch.SearchableAttributeStringValue;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.rule.WorkflowAttributeValidationError;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.FieldUtils;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
@@ -57,6 +62,18 @@ import org.kuali.rice.kns.workflow.attribute.DataDictionarySearchableAttribute;
 
 public class FinancialSystemSearchableAttribute extends DataDictionarySearchableAttribute {
 
+    //used to map the special fields to the DD Entry that validate it.
+    private static Map<String, String> magicFields = new HashMap<String, String>();
+    
+    static {
+        magicFields.put("chartOfAccountsCode","SourceAccountingLine");
+        magicFields.put("organizationCode","Organization");
+        magicFields.put("accountNumber","SourceAccountingLine");
+        magicFields.put("financialDocumentTypeCode","GeneralLedgerPendingEntry");
+        magicFields.put("financialDocumentTotalAmount","FinancialSystemDocumentHeader");
+    }
+    
+    
     public List<Row> getSearchingRows(DocumentSearchContext documentSearchContext) {
         DataDictionaryService ddService = SpringContext.getBean(DataDictionaryService.class);
 
@@ -207,6 +224,34 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
        
         return searchAttrValues;
     }
+    
+    /**
+     * 
+     * @see org.kuali.rice.kns.workflow.attribute.DataDictionarySearchableAttribute#validateUserSearchInputs(java.util.Map, org.kuali.rice.kew.docsearch.DocumentSearchContext)
+     */
+    
+    @Override
+    public List<WorkflowAttributeValidationError> validateUserSearchInputs(Map<Object, String> paramMap, DocumentSearchContext searchContext) {
+        // this list is irrelevant. the validation errors are put on the stack in the validationService.
+        List<WorkflowAttributeValidationError> errors =  super.validateUserSearchInputs(paramMap, searchContext);
+        
+        DictionaryValidationService validationService = KNSServiceLocator.getDictionaryValidationService();
+        
+        for (Object key : paramMap.keySet()) {
+            String value = paramMap.get(key);
+            
+            if (!StringUtils.isEmpty(value)) {
+                
+                if (magicFields.containsKey(key)) {
+                    validationService.validateAttributeFormat(magicFields.get(key), (String)key, value, (String)key);
+                }
+                
+            }
+            
+        }
+        return errors;
+    }
+    
     
     /**
      * Harvest chart of accounts code, account number, and organization code as searchable attributes from an accounting document

@@ -66,7 +66,6 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
     * CM
     * Close PO
      */
-    @RelatesTo(JiraIssue.KULPURAP2666)
     @ConfigureContext(session = parke, shouldCommitTransactions = true)
     public final void testFullProcess() throws Exception {
         // 1. use the ACM document to create the REQ and PO

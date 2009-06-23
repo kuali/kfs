@@ -145,17 +145,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             }
         }
         if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.ACCT) && accountNumber.length() != 0) {
-            if ((accountNumber.length() == 7) && (StringUtils.isNumeric(accountNumber))) {
-                invoiceDetails = getCustomerInvoiceDetailsByAccountNumber(accountNumber);
-            } else {
-                CustomerInvoiceDocumentBatchStep newbatch = new CustomerInvoiceDocumentBatchStep();
-                try {
-                    newbatch.execute(accountNumber, getDateTimeService().getCurrentDate());
-                }
-                catch (InterruptedException e) {
-                    // do nada
-                }
-            }
+            invoiceDetails = getCustomerInvoiceDetailsByAccountNumber(accountNumber);
         }
 
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");

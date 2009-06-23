@@ -464,10 +464,21 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
      * 
      * @param searchResults the list to be sorted
      */
-    private void sortResultListByPayeeName(List searchResults) {
+    protected void sortResultListByPayeeName(List searchResults) {
         Collections.sort(searchResults, new Comparator() {
             public int compare(Object o1, Object o2) {
-                return (((org.kuali.kfs.pdp.businessobject.PaymentDetail) o1).getPaymentGroup().getPayeeName()).compareTo(((org.kuali.kfs.pdp.businessobject.PaymentDetail) o2).getPaymentGroup().getPayeeName());
+                PaymentDetail detail1 = (org.kuali.kfs.pdp.businessobject.PaymentDetail) o1;
+                PaymentDetail detail2 = (org.kuali.kfs.pdp.businessobject.PaymentDetail) o2;
+                
+                if (detail1 == null || detail1.getPaymentGroup() == null || detail1.getPaymentGroup().getPayeeName() == null) {
+                    return -1;
+                }
+                
+                if (detail2 == null || detail2.getPaymentGroup() == null || detail2.getPaymentGroup().getPayeeName() == null) {
+                    return 1;
+                }                
+                
+                return detail1.getPaymentGroup().getPayeeName().compareTo(detail2.getPaymentGroup().getPayeeName());
             }
         });
     }

@@ -166,10 +166,12 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
             }
             glPendingTransaction.setAmount(paymentAccountDetail.getAccountNetAmount().abs());
 
-            String trnDesc;
+            String trnDesc = "";
 
             String payeeName = paymentGroup.getPayeeName();
-            trnDesc = payeeName.length() > 40 ? payeeName.substring(0, 40) : StringUtils.rightPad(payeeName, 40);
+            if (StringUtils.isNotBlank(payeeName)) {
+                trnDesc = payeeName.length() > 40 ? payeeName.substring(0, 40) : StringUtils.rightPad(payeeName, 40);
+            }
 
             if (reversal) {
                 String poNbr = paymentAccountDetail.getPaymentDetail().getPurchaseOrderNbr();

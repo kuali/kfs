@@ -114,9 +114,9 @@
     <property name="name" value="accountDelegateSystemId" />
     <property name="label" value="Account Delegate Universal ID" />
     <property name="shortLabel" value="UnvlID" />
-   <!-- <property name="control" >
+    <property name="control" >
       <bean parent="HiddenControlDefinition" />
-    </property> -->
+    </property>
     <property name="displayLabelAttribute" value="accountDelegate.principalName" />
   </bean>
   <bean id="AccountDelegate-accountDelegate.principalName" parent="AccountDelegate-accountDelegate.principalName-parentBean" />

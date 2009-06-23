@@ -654,9 +654,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="accountFiscalOfficerSystemIdentifier" />
     <property name="label" value="Fiscal Officer Unvl ID" />
     <property name="shortLabel" value="FiscOffId" />
-   <!--  <property name="control" >
+    <property name="control" >
       <bean parent="HiddenControlDefinition" />
-    </property> -->
+    </property>
     <property name="displayLabelAttribute" value="accountFiscalOfficerUser.principalName" />
   </bean>
 
@@ -683,9 +683,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="accountsSupervisorySystemsIdentifier" />
     <property name="label" value="Supervisor Unvl ID" />
     <property name="shortLabel" value="SprvsrId" />
-  <!--   <property name="control" >
+    <property name="control" >
       <bean parent="HiddenControlDefinition" />
-    </property> -->
+    </property>
     <property name="displayLabelAttribute" value="accountSupervisoryUser.principalName" />
   </bean>
 
@@ -716,9 +716,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="accountManagerSystemIdentifier" />
     <property name="label" value="Manager Unvl ID" />
     <property name="shortLabel" value="MgrId" />
-   <!--   <property name="control" >
+    <property name="control" >
       <bean parent="HiddenControlDefinition" />
-    </property>-->
+    </property>
     <property name="displayLabelAttribute" value="accountManagerUser.principalName" />
   </bean>
   <bean id="Account-accountManagerUser.principalName" parent="Account-accountManagerUser.principalName-parentBean" />

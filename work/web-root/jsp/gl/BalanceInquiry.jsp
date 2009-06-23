@@ -122,7 +122,7 @@
 				requestURI="glBalanceInquiry.do?methodToCall=viewResults&reqSearchResultsSize=${reqSearchResultsSize}&searchResultKey=${searchResultKey}">
 				
 				<c:set var="columnLength" value="${fn:length(row.columns)-13}" />
-				<c:forEach items="${row.columns}" var="column" begin="1" varStatus="status">
+				<c:forEach items="${row.columns}" var="column" varStatus="status">
 
 					<c:if test="${!empty column.columnAnchor.title}">
 						<c:set var="title" value="${column.columnAnchor.title}" />
@@ -130,7 +130,6 @@
 					<c:if test="${empty column.columnAnchor.title}">
 						<c:set var="title" value="${column.propertyValue}" />
 					</c:if>
-   				    <c:if test="${status.index > 0}">
 					
 							<c:choose>
 		
@@ -139,7 +138,7 @@
 									<display:column class="numbercell" sortable="true" media="${(status.index < columnLength) ? 'all' : 'csv excel xml'}"
 										decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator"
 										title="${column.columnTitle}" comparator="${column.comparator}">
-										
+																				
 										<c:choose>
 		
 											<c:when test="${column.propertyURL != \"\"}">
@@ -197,8 +196,7 @@
 		
 								</c:otherwise>
 		
-							</c:choose>
-				    </c:if>	
+							</c:choose>	
 				</c:forEach>
 				
 			</display:table>

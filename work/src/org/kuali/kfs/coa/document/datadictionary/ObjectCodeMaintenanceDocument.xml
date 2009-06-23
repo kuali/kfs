@@ -63,7 +63,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialObjectCodeName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialObjectCodeShortName" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="reportsToChartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="reportsToChartOfAccountsCode" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="reportsToFinancialObjectCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialObjectTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialObjectLevelCode" p:required="true"/>

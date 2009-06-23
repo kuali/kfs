@@ -55,8 +55,8 @@ function setReportsToChartCode() {
 		var dwrReply = {
 			callback:function(data) {
 			if ( data != null && typeof data == 'object' ) {
-				document.getElementsByName("document.newMaintainableObject.reportsToChartOfAccountsCode").item(0).value = data.reportsToChartOfAccountsCode;
-				document.getElementsByName("document.newMaintainableObject.reportsToChartOfAccountsCode").item(0).disabled = true;
+				var reportsToChartDiv = document.getElementById("document.newMaintainableObject.reportsToChartOfAccountsCode.div");
+				reportsToChartDiv.innerHTML = data.reportsToChartOfAccountsCode;
 			} else {
 				window.status = "chart not found."; 
 			} },

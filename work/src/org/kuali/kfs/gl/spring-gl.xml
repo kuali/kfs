@@ -65,7 +65,13 @@
           <list>
             <ref bean="universityDateFiscalYearMaker" />
           </list>	
-        </property> 
+        </property>
+        <property name="batchFileDirectories">
+          <list>
+            <value>${reports.directory}/gl</value>
+            <value>${staging.directory}/gl</value>
+          </list>
+        </property>
 	</bean>
 
     <bean id="glModuleService" parent="glModuleService-parentBean"/>

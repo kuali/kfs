@@ -64,43 +64,6 @@ public interface BatchInputFileService {
     public String save(Person user, BatchInputFileType inputType, String fileUserIdentifier, InputStream fileContents, Object parsedObject) throws AuthorizationException, FileStorageException;
 
     /**
-     * Returns the contents of a batch input file contained on the server if the user has permissions for the files batch input
-     * type.
-     * 
-     * @param user - user who is requesting the download
-     * @param inputType - instance of a BatchInputFileType
-     * @param downloadFileNameWithNoPath - name of the file to retrieve, with no path information
-     * @return File - File representation of the batch input, or null if errors occured. Check GlobalVariables.errorMap for error
-     *         messages.
-     * @throws AuthorizationException - if user does not have permission to view batch files of this type FileNotFoundException - if
-     *         given file does not exist on the file system
-     */
-    public File download(Person user, BatchInputFileType inputType, String downloadFileName) throws AuthorizationException, FileNotFoundException;
-
-    /**
-     * Deletes a batch input file contained on the server if the user has permissions for the files batch input type. Also deletes
-     * the associated .done file if one exists. If deletion fails, this method will place the reason for failure in the
-     * GlobalVariables error map.
-     * 
-     * @param user - user who is requesting the delete
-     * @param inputType - instance of a BatchInputFileType
-     * @param deleteFileNameWithNoPath - name of the file to remove, with no path information
-     * @return whether the file (and its done file) was deleted
-     * @throws AuthorizationException - if user does not have permission to delete batch files of this type FileNotFoundException -
-     *         if given file does not exist on the file system
-     */
-    public boolean delete(Person user, BatchInputFileType inputType, String deleteFileNameWithNoPath) throws AuthorizationException, FileNotFoundException;
-
-    /**
-     * Returns whether a the given file has been processed by the associated batch job
-     * 
-     * @param inputType
-     * @param fileNameWithNoPath
-     * @return
-     */
-    public boolean hasBeenProcessed(BatchInputFileType inputType, String fileNameWithNoPath);
-
-    /**
      * Checks if the batch input type is active (can be used for upload).
      * 
      * @param batchInputFileType - input type to check is active

@@ -70,7 +70,14 @@
 				<value>assetDepreciationBatchJobTrigger</value>
 			</list>
 		</property>
-		<!-- Asset Depreciation batch - END -->								
+		<!-- Asset Depreciation batch - END -->
+		<property name="batchFileDirectories">
+         	<list>
+            	<value>${reports.directory}/cam</value>
+            	<value>${staging.directory}/cm</value>
+          	</list>
+        </property>
+										
 	</bean>
 
     <bean id="camModuleService" parent="camModuleService-parentBean"/>

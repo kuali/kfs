@@ -42,36 +42,7 @@ public interface BatchInputFileSetService {
      * @return a Map of type to file name mappings of the saved files
      * @throws FileStorageException - if errors were encountered while attempting to write the file
      */
-    public Map<String, String> save(Person user, BatchInputFileSetType inputType, String fileUserIdentifer, Map<String, InputStream> typeToStreamMap, boolean suppressDoneFileCreation) throws AuthorizationException, FileStorageException;
-
-    /**
-     * Returns the contents of a batch input file contained on the server if the user has permissions for the files batch input
-     * type.
-     * 
-     * @param user - user who is requesting the download
-     * @param inputType - instance of a BatchInputFileSetType
-     * @param fileType - the type of the file to retrieve
-     * @param fileUserIdentifier file identifier specified by user
-     * @return File - File representation of the batch input, or null if errors occured. Check GlobalVariables.errorMap for error
-     *         messages.
-     * @throws AuthorizationException - if user does not have permission to view batch files of this type FileNotFoundException - if
-     *         given file does not exist on the file system
-     */
-    public File download(Person user, BatchInputFileSetType inputType, String fileType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException;
-
-    /**
-     * Deletes a batch input file contained on the server if the user has permissions for the files batch input type. Also deletes
-     * the associated .done file if one exists. If the file set may not be deleted, then the GlobalVariable's error map will be
-     * populated with the reason why.
-     * 
-     * @param user - user who is requesting the delete
-     * @param inputType - instance of a BatchInputFileSetType
-     * @param fileUserIdentifier file identifier specified by user
-     * @return whether the file was successfully downloaded
-     * @throws AuthorizationException - if user does not have permission to delete batch files of this type FileNotFoundException -
-     *         if given file does not exist on the file system
-     */
-    public boolean delete(Person user, BatchInputFileSetType inputType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException;
+    public Map<String, String> save(Person user, BatchInputFileSetType inputType, String fileUserIdentifer, Map<String, InputStream> typeToStreamMap) throws AuthorizationException, FileStorageException;
 
     /**
      * Checks if the batch input type is active (can be used for upload).
@@ -82,29 +53,11 @@ public interface BatchInputFileSetService {
     public boolean isBatchInputTypeActive(BatchInputFileSetType batchInputFileSetType);
 
     /**
-     * Returns a list of batch type file names (including path) that the given user has permissions to manage.
-     * 
-     * @param user - user for checking permissions
-     * @return List<String> - List of filenames
-     */
-    public Set<String> listBatchTypeFileUserIdentifiersForUser(BatchInputFileSetType batchInputFileSetType, Person user) throws AuthorizationException;
-
-    /**
      * Returns whether a file set identifier is properly formatted.
      * 
      * @param fileUserIdentifier
      * @return
      */
     public boolean isFileUserIdentifierProperlyFormatted(String fileUserIdentifier);
-
-    /**
-     * Returns whether a file set for a given user has already been processed
-     * 
-     * @param user
-     * @param inputType
-     * @param fileUserIdentifier
-     * @return
-     */
-    public boolean hasBeenProcessed(Person user, BatchInputFileSetType inputType, String fileUserIdentifier);
 }
 

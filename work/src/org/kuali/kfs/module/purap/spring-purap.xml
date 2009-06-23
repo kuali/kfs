@@ -28,7 +28,7 @@
                            
     <bean id="purapModuleConfiguration" parent="purapModuleConfiguration-parentBean" />
 
-    <bean id="purapModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
+    <bean id="purapModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
     	<property name="namespaceCode" value="KFS-PURAP" />
 		<property name="initializeDataDictionary" value="true" />
         <property name="packagePrefixes">
@@ -79,7 +79,13 @@
             <map>
                 <entry key="org.kuali.kfs.integration.purap.PurchasingAccountsPayableSensitiveData" value="org.kuali.kfs.module.purap.businessobject.SensitiveData" />
             </map>
-        </property> 
+        </property>
+        <property name="batchFileDirectories">
+          	<list>
+            	<value>${reports.directory}/purap</value>
+            	<value>${staging.directory}/purap</value>
+          	</list>
+        </property>
 	</bean>
 
     <bean id="itemUnitOfMeasureService" class="org.kuali.kfs.module.purap.service.impl.ItemUnitOfMeasureServiceImpl">

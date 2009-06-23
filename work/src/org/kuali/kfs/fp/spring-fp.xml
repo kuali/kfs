@@ -65,6 +65,13 @@
             <ref bean="fiscalYearFunctionControlFiscalYearMaker" />
           </list>	
         </property>
+        <property name="batchFileDirectories">
+          <list>
+            <value>${reports.directory}/fp</value>
+            <value>${staging.directory}/fp</value>
+          </list>
+        </property>
+
 	</bean>
 
     <bean id="fpModuleService" parent="fpModuleService-parentBean"/>

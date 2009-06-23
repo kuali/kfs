@@ -26,7 +26,6 @@ public class AssetBarCodeInventoryInputFileForm extends KualiBatchInputFileSetFo
     
     public AssetBarCodeInventoryInputFileForm() {
         super();
-        this.setSupressDoneFileCreation(true);
         this.messages = new ArrayList<String>();        
     }
 

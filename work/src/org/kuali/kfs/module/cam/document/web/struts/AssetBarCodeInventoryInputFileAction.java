@@ -144,46 +144,6 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
     
     /**
      * 
-     * @see org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetAction#download(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     * 
-     * Overridden because the super class has a set of files and a second pulldown menu. BCI only has one file type and therefore one pulldown menu to select from.
-     */
-    @Override
-    public ActionForward download(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        KualiBatchInputFileSetForm kualiBatchInputFileSetForm = (KualiBatchInputFileSetForm) form;
-        BatchUpload batchUpload = kualiBatchInputFileSetForm.getBatchUpload();
-
-        if (StringUtils.isBlank(batchUpload.getExistingFileName())) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_DOWNLOAD, new String[] {});
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
-
-        BatchInputFileSetService batchInputFileSetService = SpringContext.getBean(BatchInputFileSetService.class);
-        if (!batchInputFileSetService.isFileUserIdentifierProperlyFormatted(batchUpload.getExistingFileName())) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_SET_IDENTIFIER_BAD_FORMAT);
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
-
-        BatchInputFileSetType batchType = retrieveBatchInputFileSetTypeImpl(batchUpload.getBatchInputTypeName());
-        File batchInputFile = null;
-        try {
-            batchInputFile = batchInputFileSetService.download(GlobalVariables.getUserSession().getPerson(), batchType, kualiBatchInputFileSetForm.getDownloadFileType(), batchUpload.getExistingFileName());
-        }
-        catch (FileNotFoundException e1) {
-            LOG.error("errors downloading file " + e1.getMessage(), e1);
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_DOWNLOAD, new String[] { e1.getMessage() });
-
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
-
-        WebUtils.saveMimeInputStreamAsFile(response, "text/plain", new FileInputStream(batchInputFile), batchInputFile.getName(), new Long(batchInputFile.length()).intValue());
-
-        return null;
-    }
-    
-    
-    /**
-     * 
      * Builds list of filenames that the user has permission to manage, and populates the form member. Throws an exception if the
      * batch file set type is not active. Sets the title key from the batch input type. This method must be called before the action
      * handler to ensure proper authorization.
@@ -191,9 +151,6 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
      */
     @Override    
     public void setupForm(KualiBatchInputFileSetForm form) {
-        List<KeyLabelPair> userFiles = new ArrayList<KeyLabelPair>();
-
-        Person user = GlobalVariables.getUserSession().getPerson();
         BatchInputFileSetType batchInputFileSetType = retrieveBatchInputFileSetTypeImpl(form.getBatchUpload().getBatchInputTypeName());
 
         if (batchInputFileSetType == null) {
@@ -207,20 +164,6 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
         form.setBatchInputFileSetType(batchInputFileSetType);
 
         BatchInputFileSetService batchInputFileSetService = SpringContext.getBean(BatchInputFileSetService.class);
-        Set<String> fileUserIdentifiers = batchInputFileSetService.listBatchTypeFileUserIdentifiersForUser(batchInputFileSetType, user);
-
-        userFiles.add(new KeyLabelPair("", "Select a file identifier"));
-        for (String fileUserIdentifier : fileUserIdentifiers) {
-            String label = fileUserIdentifier;
-            if (batchInputFileSetService.hasBeenProcessed(user, batchInputFileSetType, fileUserIdentifier)) {
-                label = label + " (processed)";
-            }
-            else {
-                label = label + " (ready to process)";
-            }
-            userFiles.add(new KeyLabelPair(fileUserIdentifier, label));
-        }
-        form.setFileUserIdentifiers(userFiles);
 
         List<KeyLabelPair> fileTypes = new ArrayList<KeyLabelPair>();
         fileTypes.add(new KeyLabelPair("", "Select a file type to download"));
@@ -233,45 +176,4 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
         // set title key
         form.setTitleKey(batchInputFileSetType.getTitleKey());
     }
-
-
-    /**
-     * 
-     * @see org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetAction#delete(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        KualiBatchInputFileSetForm kualiBatchInputFileSetForm = (KualiBatchInputFileSetForm) form;
-        BatchUpload batchUpload = kualiBatchInputFileSetForm.getBatchUpload();
-
-        if (StringUtils.isBlank(batchUpload.getExistingFileName())) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_DELETE, new String[] {});
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
-
-        //BatchInputFileSetService batchInputFileSetService = SpringContext.getBean(BatchInputFileSetService.class);
-        AssetBarcodeInventoryInputFileService batchInputFileSetService = SpringContext.getBean(AssetBarcodeInventoryInputFileService.class);
-        
-        if (!batchInputFileSetService.isFileUserIdentifierProperlyFormatted(batchUpload.getExistingFileName())) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_SET_IDENTIFIER_BAD_FORMAT);
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
-
-        BatchInputFileSetType batchType = retrieveBatchInputFileSetTypeImpl(batchUpload.getBatchInputTypeName());
-        try {
-            boolean deleteSuccessful = batchInputFileSetService.delete(GlobalVariables.getUserSession().getPerson(), batchType, batchUpload.getExistingFileName());
-
-            if (deleteSuccessful) {
-                GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_BATCH_UPLOAD_DELETE_SUCCESSFUL);
-            }
-        }
-        catch (FileNotFoundException e1) {
-            LOG.error("errors deleting file " + e1.getMessage(), e1);
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_DELETE, new String[] { e1.getMessage() });
-        }
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    
 }

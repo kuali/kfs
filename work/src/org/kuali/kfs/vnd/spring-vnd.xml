@@ -28,7 +28,7 @@
                            
     <bean id="vndModuleConfiguration" parent="vndModuleConfiguration-parentBean" />
 
-	<bean id="vndModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
+	<bean id="vndModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
 		<property name="namespaceCode" value="KFS-VND"/>
 		<property name="initializeDataDictionary" value="true" />
         <property name="packagePrefixes">
@@ -52,6 +52,12 @@
 				<value>org/kuali/kfs/vnd/ojb-vnd.xml</value>
 			</list>
 		</property>
+        <property name="batchFileDirectories">
+          	<list>
+            	<value>${reports.directory}/vnd</value>
+          	</list>
+        </property>
+
 	</bean>
 
     <bean id="vndModuleService" parent="vndModuleService-parentBean"/>

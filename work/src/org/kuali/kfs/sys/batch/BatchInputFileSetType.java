@@ -16,6 +16,7 @@
 package org.kuali.kfs.sys.batch;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -60,7 +61,7 @@ public interface BatchInputFileSetType extends BatchInputType {
      * @param user - user who is uploading the file
      * @param fileUserIdentifer - file identifier given by user through the batch upload UI
      */
-    public String getFileName(String fileType, String principalName, String fileUserIdentifer);
+    public String getFileName(String fileType, String principalName, String fileUserIdentifer, Date creationDate);
 
     /**
      * Returns whether the file must be uploaded
@@ -69,13 +70,6 @@ public interface BatchInputFileSetType extends BatchInputType {
      * @return whether it must be uploaded
      */
     public boolean isFileRequired(String fileType);
-
-    /**
-     * Returns whether this batch input file set supports the creation of a done file
-     * 
-     * @return
-     */
-    public boolean isSupportsDoneFileCreation();
 
     /**
      * Returns the directory name where done files are to be stored. The behavior of this method is defined if
@@ -91,7 +85,7 @@ public interface BatchInputFileSetType extends BatchInputType {
      * 
      * @return the done file name
      */
-    public String getDoneFileName(Person user, String fileUserIdentifer);
+    public String getDoneFileName(Person user, String fileUserIdentifer, Date creationDate);
 
     /**
      * Returns the set of file user identifiers parsed from the provided list of files for the user.

@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cam.batch;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,7 @@ import org.kuali.kfs.module.cam.document.web.struts.AssetBarCodeInventoryInputFi
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * Batch input type for the barcode inventory document.
@@ -106,11 +108,15 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
      * 
      * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getFileName(java.lang.String, org.kuali.rice.kim.bo.Person, java.lang.String)
      */
-    public String getFileName(String fileType, String principalName, String fileUserIdentifer) {
+    public String getFileName(String fileType, String principalName, String fileUserIdentifer, Date creationDate) {
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         StringBuilder buf = new StringBuilder();
         fileUserIdentifer = StringUtils.deleteWhitespace(fileUserIdentifer);
         fileUserIdentifer = StringUtils.remove(fileUserIdentifer, FILE_NAME_PART_DELIMITER);
-        buf.append(FILE_NAME_PREFIX).append(FILE_NAME_PART_DELIMITER).append(principalName).append(FILE_NAME_PART_DELIMITER).append(fileUserIdentifer).append(getFileExtension());
+        buf.append(FILE_NAME_PREFIX).append(FILE_NAME_PART_DELIMITER).append(principalName)
+                .append(FILE_NAME_PART_DELIMITER).append(fileUserIdentifer)
+                .append(FILE_NAME_PART_DELIMITER).append(dateTimeService.toDateTimeStringForFilename(creationDate))
+                .append(getFileExtension(fileType));
         return buf.toString();
     }
 
@@ -148,13 +154,6 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
     }
 
     /**
-     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#isSupportsDoneFileCreation()
-     */
-    public boolean isSupportsDoneFileCreation() {
-        return true;
-    }
-
-    /**
      * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getDoneFileDirectoryPath()
      */
     public String getDoneFileDirectoryPath() {
@@ -177,11 +176,15 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
      * 
      * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getDoneFileName(org.kuali.rice.kim.bo.Person, java.lang.String)
      */
-    public String getDoneFileName(Person user, String fileUserIdentifer) {
+    public String getDoneFileName(Person user, String fileUserIdentifer, Date creationDate) {
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         StringBuilder buf = new StringBuilder();
         fileUserIdentifer = StringUtils.deleteWhitespace(fileUserIdentifer);
         fileUserIdentifer = StringUtils.remove(fileUserIdentifer, FILE_NAME_PART_DELIMITER);
-        buf.append(FILE_NAME_PREFIX).append(FILE_NAME_PART_DELIMITER).append(user.getPrincipalName()).append(FILE_NAME_PART_DELIMITER).append(fileUserIdentifer).append(getDoneFileExtension());
+        buf.append(FILE_NAME_PREFIX).append(FILE_NAME_PART_DELIMITER).append(user.getPrincipalName())
+                .append(FILE_NAME_PART_DELIMITER).append(fileUserIdentifer)
+                .append(FILE_NAME_PART_DELIMITER).append(dateTimeService.toDateTimeStringForFilename(creationDate))
+                .append(getDoneFileExtension());
         return buf.toString();
     }
 

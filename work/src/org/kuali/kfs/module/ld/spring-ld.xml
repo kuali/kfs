@@ -81,6 +81,12 @@
 				<entry key="org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferTargetAccountingLine" value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine" />
             </map>
         </property> 
+        <property name="batchFileDirectories">
+	        <list>
+    	        <value>${reports.directory}/ld</value>
+        	    <value>${staging.directory}/ld</value>
+          	</list>
+        </property>
 	</bean>
 
     <bean id="ldModuleService" parent="ldModuleService-parentBean"/>

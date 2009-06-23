@@ -74,7 +74,14 @@
             <ref bean="systemInformationFiscalYearMaker" />
             <ref bean="organizationAccountingDefaultFiscalYearMaker" />
           </list>	
-        </property>  	
+        </property>
+        <property name="batchFileDirectories">
+          <list>
+            <value>${reports.directory}/ar</value>
+            <value>${staging.directory}/ar</value>
+          </list>
+        </property>
+          	
 	</bean>
 
     <bean id="arModuleService" parent="arModuleService-parentBean"/>

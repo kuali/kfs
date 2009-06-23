@@ -36,7 +36,6 @@ public class KualiBatchInputFileSetForm extends KualiForm {
 
     private String titleKey;
     private BatchInputFileSetType batchInputFileSetType;
-    private boolean supressDoneFileCreation;
 
     private String downloadFileType;
     private List<KeyLabelPair> fileTypes;
@@ -48,7 +47,6 @@ public class KualiBatchInputFileSetForm extends KualiForm {
         super();
         this.batchUpload = new BatchUpload();
         this.uploadedFiles = new HashMap<String, FormFile>();
-        this.supressDoneFileCreation = false;
     }
 
     /**
@@ -127,24 +125,6 @@ public class KualiBatchInputFileSetForm extends KualiForm {
      */
     public void setUploadedFiles(Map<String, FormFile> uploadedFiles) {
         this.uploadedFiles = uploadedFiles;
-    }
-
-    /**
-     * Gets the supressDoneFileCreation attribute.
-     * 
-     * @return Returns the supressDoneFileCreation.
-     */
-    public boolean isSupressDoneFileCreation() {
-        return supressDoneFileCreation;
-    }
-
-    /**
-     * Sets the supressDoneFileCreation attribute value.
-     * 
-     * @param supressDoneFileCreation The supressDoneFileCreation to set.
-     */
-    public void setSupressDoneFileCreation(boolean supressDoneFileCreation) {
-        this.supressDoneFileCreation = supressDoneFileCreation;
     }
 
     /**

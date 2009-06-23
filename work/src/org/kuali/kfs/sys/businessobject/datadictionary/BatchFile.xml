@@ -1,0 +1,115 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="BatchFile" parent="BatchFile-parentBean" />
+
+  <bean id="BatchFile-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.batch.BatchFile" />
+    <property name="lookupDefinition" >
+      <ref bean="BatchFile-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="name" />
+    <property name="objectLabel" value="Batch File" />
+    <property name="attributes" >
+      <list>
+        <ref bean="BatchFile-path" />
+        <ref bean="BatchFile-fileName" />
+        <ref bean="BatchFile-lastModifiedDate" />
+        <ref bean="BatchFile-fileSize" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+  <bean id="BatchFile-path" parent="BatchFile-path-parentBean" />
+
+  <bean id="BatchFile-path-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="path" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="File Path" />
+    <property name="shortLabel" value="Path" />
+    <property name="maxLength" value="15" />
+    <property name="control" >
+      <bean parent="MultiselectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.BatchFileDirectoryPathValuesFinder" />
+    </property>
+  </bean>
+  
+  <bean id="BatchFile-fileName" parent="BatchFile-fileName-parentBean" />
+
+  <bean id="BatchFile-fileName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fileName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="File Name" />
+    <property name="shortLabel" value="File Name" />
+    <property name="maxLength" value="40" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"/>
+    </property>
+  </bean>
+
+  <bean id="BatchFile-lastModifiedDate" parent="BatchFile-lastModifiedDate-parentBean" />
+
+  <bean id="BatchFile-lastModifiedDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
+    <property name="name" value="lastModifiedDate" />
+    <property name="label" value="Last Modified Date" />
+    <property name="shortLabel" value="Last Modified Date" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter"/>
+  </bean>
+  
+  <bean id="BatchFile-fileSize" parent="BatchFile-fileSize-parentBean" />
+
+  <bean id="BatchFile-fileSize-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="fileSize" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="File Size" />
+    <property name="shortLabel" value="File Size" />
+    <property name="maxLength" value="40" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    
+    
+  </bean>
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="BatchFile-lookupDefinition" parent="BatchFile-lookupDefinition-parentBean" />
+
+  <bean id="BatchFile-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Batch File Lookup" />
+    <property name="lookupableID" value="batchFileLookupable"/>
+    <property name="instructions" value="Batch File Lookup" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="path" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fileName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lastModifiedDate" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="path" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fileName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lastModifiedDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="fileSize" />
+      </list>
+    </property>
+  </bean>
+</beans>

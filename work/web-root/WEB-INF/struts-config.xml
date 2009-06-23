@@ -28,6 +28,8 @@
 			type="org.kuali.kfs.sys.web.struts.KualiBalanceInquiryReportMenuForm" />
 		<form-bean name="KualiBatchJobModifyForm"
 			type="org.kuali.kfs.sys.web.struts.KualiBatchJobModifyForm" />
+		<form-bean name="KualiBatchFileAdminForm"
+			type="org.kuali.kfs.sys.web.struts.KualiBatchFileAdminForm" />
 		<form-bean name="KualiBatchInputFileForm"
 			type="org.kuali.kfs.sys.web.struts.KualiBatchInputFileForm" />
 		<form-bean name="KualiBatchInputFileSetForm"
@@ -298,6 +300,14 @@
 				path="/jsp/sys/KualiBatchJobModify.jsp" />
 		</action>
 
+		<action path="/batchFileAdmin" name="KualiBatchFileAdminForm" scope="request"
+			attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.kfs.sys.web.struts.KualiBatchFileAdminAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/sys/KualiBatchFileAdmin.jsp" />
+		</action>
+		
 		<!-- EFT Action Mapping -->
 		<action path="/electronicFundTransfer"
 			name="ElectronicFundTransferForm" scope="request"

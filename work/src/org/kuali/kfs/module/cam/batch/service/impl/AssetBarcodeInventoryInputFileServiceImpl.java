@@ -20,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -30,43 +31,19 @@ import org.kuali.kfs.module.cam.document.web.struts.AssetBarCodeInventoryInputFi
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
 import org.kuali.kfs.sys.batch.service.impl.BatchInputFileSetServiceImpl;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.DateTimeService;
 
 public class AssetBarcodeInventoryInputFileServiceImpl extends BatchInputFileSetServiceImpl implements  AssetBarcodeInventoryInputFileService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetBarcodeInventoryInputFileServiceImpl.class);
-    
-    /**
-     * 
-     * @see org.kuali.kfs.sys.batch.service.impl.BatchInputFileSetServiceImpl#delete(org.kuali.rice.kim.bo.Person, org.kuali.kfs.sys.batch.BatchInputFileSetType, java.lang.String)
-     */
-    @Override
-    public boolean delete(Person user, BatchInputFileSetType inputType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException {
-        if (user == null || inputType == null || StringUtils.isBlank(fileUserIdentifier)) {
-            LOG.error("an invalid(null) argument was given");
-            throw new IllegalArgumentException("an invalid(null) argument was given");
-        }
-
-        for (String fileType : inputType.getFileTypes()) {
-            String fileName = generateFileName(user, inputType, fileUserIdentifier, fileType);
-            File file = new File(fileName);
-            if (file.exists()) {
-                file.delete();
-            }
-        }
-        File doneFile = new File(generateDoneFileName(user, inputType, fileUserIdentifier));
-        if (doneFile.exists()) {
-            doneFile.delete();
-        }
-        return true;
-    }
 
     public Map<String, String> save(Person user, AssetBarcodeInventoryInputFileType inputType, String fileUserIdentifier, Map<String, InputStream> typeToStreamMap, AssetBarCodeInventoryInputFileForm form) throws AuthorizationException, FileStorageException {
-        assertNoFilesInSetExist(user, inputType, fileUserIdentifier);
-
-        Map<String, File> typeToTempFiles = copyStreamsToTemporaryDirectory(user, inputType, fileUserIdentifier, typeToStreamMap);
+        Date creationDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
+        Map<String, File> typeToTempFiles = copyStreamsToTemporaryDirectory(user, inputType, fileUserIdentifier, typeToStreamMap, creationDate);
         
         // null the map, because it's full of exhausted input streams that are useless 
         typeToStreamMap = null;
@@ -104,19 +81,16 @@ public class AssetBarcodeInventoryInputFileServiceImpl extends BatchInputFileSet
             deleteTempFiles(typeToTempFiles);
         }
 
-        boolean suppressDoneFileCreation = form.isSupressDoneFileCreation();
-        if (!suppressDoneFileCreation && inputType.isSupportsDoneFileCreation()) {
-            String doneFileName = inputType.getDoneFileDirectoryPath() + File.separator + inputType.getDoneFileName(user, fileUserIdentifier);
-            File doneFile = new File(doneFileName);
-            try {
-                doneFile.createNewFile();
-                
-                typeToFiles.put(KFSConstants.DONE_FILE_TYPE, doneFile);
-            }
-            catch (IOException e) {
-                LOG.error("unable to create done file", e);
-                throw new RuntimeException("unable to create done file", e);
-            }
+        String doneFileName = inputType.getDoneFileDirectoryPath() + File.separator + inputType.getDoneFileName(user, fileUserIdentifier, creationDate);
+        File doneFile = new File(doneFileName);
+        try {
+            doneFile.createNewFile();
+            
+            typeToFiles.put(KFSConstants.DONE_FILE_TYPE, doneFile);
+        }
+        catch (IOException e) {
+            LOG.error("unable to create done file", e);
+            throw new RuntimeException("unable to create done file", e);
         }
         
         inputType.process(typeToFiles,form);

@@ -61,6 +61,12 @@
 				<value>genesisBatchJobTrigger</value>
 			</list>
 		</property>
+		<property name="batchFileDirectories">
+          	<list>
+            	<value>${reports.directory}/bc</value>
+          	</list>
+        </property>
+		
 	</bean>
 
     <bean id="bcModuleService" parent="bcModuleService-parentBean"/>

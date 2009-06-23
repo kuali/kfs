@@ -73,7 +73,12 @@
                 <entry key="org.kuali.kfs.integration.cg.ContractAndGrantsProposal" value="org.kuali.kfs.module.cg.businessobject.Proposal" />
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" value="org.kuali.kfs.module.cg.businessobject.Agency" />
             </map>
-        </property> 
+        </property>
+        <property name="batchFileDirectories">
+          	<list>
+            	<value>${reports.directory}/cg</value>
+          	</list>
+        </property>
 	</bean>
 
     <bean id="cgModuleService" parent="cgModuleService-parentBean"/>

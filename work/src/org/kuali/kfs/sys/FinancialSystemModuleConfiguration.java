@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,8 @@ import org.kuali.rice.kns.bo.ModuleConfiguration;
  */
 public class FinancialSystemModuleConfiguration extends ModuleConfiguration {
     protected List<FiscalYearMaker> fiscalYearMakers;
-
+    protected List<String> batchFileDirectories;
+    
     /**
      * Constructs a FinancialSystemModuleConfiguration.java.
      */
@@ -34,6 +36,7 @@ public class FinancialSystemModuleConfiguration extends ModuleConfiguration {
         super();
         
         fiscalYearMakers = new ArrayList<FiscalYearMaker>();
+        batchFileDirectories = new ArrayList<String>();
     }
 
     /**
@@ -53,5 +56,23 @@ public class FinancialSystemModuleConfiguration extends ModuleConfiguration {
     public void setFiscalYearMakers(List<FiscalYearMaker> fiscalYearMakers) {
         this.fiscalYearMakers = fiscalYearMakers;
     }
-
+    
+    public List<String> getBatchFileDirectories() {
+        return batchFileDirectories;
+    }
+    
+    public void setBatchFileDirectories(List<String> batchFileDirectories) {
+        if (batchFileDirectories == null) {
+            this.batchFileDirectories = new ArrayList<String>();
+        }
+        else {
+            this.batchFileDirectories = batchFileDirectories;
+            for (String batchFileDirectory : this.batchFileDirectories) {
+                File directory = new File(batchFileDirectory);
+                if (!directory.exists() || !directory.isDirectory()) {
+                    throw new RuntimeException(batchFileDirectory + " is not an existing directory.");
+                }
+            }
+        }
+    }
 }

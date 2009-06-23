@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -43,6 +44,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -64,11 +66,11 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
      * @param fileType the file type
      * @return the file name, starting with the directory path
      */
-    protected String generateFileName(Person user, BatchInputFileSetType inputType, String fileUserIdentifier, String fileType) {        
+    protected String generateFileName(Person user, BatchInputFileSetType inputType, String fileUserIdentifier, String fileType, Date creationDate) {        
         if (!isFileUserIdentifierProperlyFormatted(fileUserIdentifier)) {
             throw new IllegalArgumentException("The file set identifier is not properly formatted: " + fileUserIdentifier);
         }
-        return inputType.getDirectoryPath(fileType) + File.separator + inputType.getFileName(fileType, user.getPrincipalName(), fileUserIdentifier);
+        return inputType.getDirectoryPath(fileType) + File.separator + inputType.getFileName(fileType, user.getPrincipalName(), fileUserIdentifier, creationDate);
     }
 
     /**
@@ -80,11 +82,11 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
      * @param fileType the file type
      * @return the file name, starting with the directory path
      */
-    protected String generateTempFileName(Person user, BatchInputFileSetType inputType, String fileUserIdentifier, String fileType) {
+    protected String generateTempFileName(Person user, BatchInputFileSetType inputType, String fileUserIdentifier, String fileType, Date creationDate) {
         if (!isFileUserIdentifierProperlyFormatted(fileUserIdentifier)) {
             throw new IllegalArgumentException("The file set identifier is not properly formatted: " + fileUserIdentifier);
         }
-        return getTempDirectoryName() + File.separator + inputType.getFileName(fileType, user.getPrincipalName(), fileUserIdentifier);
+        return getTempDirectoryName() + File.separator + inputType.getFileName(fileType, user.getPrincipalName(), fileUserIdentifier, creationDate);
     }
     /**
      * Generates the file name of the done file, if supported by the underlying input type
@@ -95,100 +97,11 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
      * @param fileType the file type
      * @return the file name, starting with the directory path
      */
-    protected String generateDoneFileName(Person user, BatchInputFileSetType inputType, String fileUserIdentifier) {        
+    protected String generateDoneFileName(Person user, BatchInputFileSetType inputType, String fileUserIdentifier, Date creationDate) {        
         if (!isFileUserIdentifierProperlyFormatted(fileUserIdentifier)) {
             throw new IllegalArgumentException("The file set identifier is not properly formatted: " + fileUserIdentifier);
         }
-        return inputType.getDoneFileDirectoryPath() + File.separator + inputType.getDoneFileName(user, fileUserIdentifier);
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.batch.service.BatchInputFileSetService#delete(org.kuali.rice.kim.bo.Person,
-     *      org.kuali.kfs.sys.batch.BatchInputFileSetType, java.lang.String)
-     */
-    public boolean delete(Person user, BatchInputFileSetType inputType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException {
-        if (user == null || inputType == null || StringUtils.isBlank(fileUserIdentifier)) {
-            LOG.error("an invalid(null) argument was given");
-            throw new IllegalArgumentException("an invalid(null) argument was given");
-        }
-
-        if (!canDelete(user, inputType, fileUserIdentifier)) {
-            return false;
-        }
-
-        for (String fileType : inputType.getFileTypes()) {
-            String fileName = generateFileName(user, inputType, fileUserIdentifier, fileType);
-            File file = new File(fileName);
-            if (file.exists()) {
-                file.delete();
-            }
-        }
-        File doneFile = new File(generateDoneFileName(user, inputType, fileUserIdentifier));
-        if (doneFile.exists()) {
-            doneFile.delete();
-        }
-        return true;
-    }
-
-    /**
-     * Determines whether a file set may be deleted, and if not, it will populate the GlobalVariable's error map with the reason why
-     * not
-     * 
-     * @param user
-     * @param inputType
-     * @param fileUserIdentifier
-     * @return
-     * @throws AuthorizationException
-     * @throws FileNotFoundException
-     */
-    protected boolean canDelete(Person user, BatchInputFileSetType inputType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException {
-        // we can only delete if we're authorized on each of the files of the file set
-        for (String fileType : inputType.getFileTypes()) {
-            String fileName = generateFileName(user, inputType, fileUserIdentifier, fileType);
-            File file = new File(fileName);
-            if (file.exists()) {
-                if (!user.getPrincipalName().equals(inputType.getAuthorPrincipalName(file))) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_DELETE_FAILED_FILE_SET_NOT_AUTHORIZED);
-                    return false;
-                }
-            }
-        }
-
-        // and the file hasn't been processed
-        if (hasBeenProcessed(user, inputType, fileUserIdentifier)) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_DELETE_FAILED_FILE_SET_ALREADY_PROCESSED);
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.batch.service.BatchInputFileSetService#hasBeenProcessed(org.kuali.rice.kim.bo.Person,
-     *      org.kuali.kfs.sys.batch.BatchInputFileSetType, java.lang.String)
-     */
-    public boolean hasBeenProcessed(Person user, BatchInputFileSetType inputType, String fileUserIdentifier) {
-        // if the done file exists, then that means that the file set has not been processed
-        File doneFile = new File(generateDoneFileName(user, inputType, fileUserIdentifier));
-        return !doneFile.exists();
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.batch.service.BatchInputFileSetService#download(org.kuali.rice.kim.bo.Person,
-     *      org.kuali.kfs.sys.batch.BatchInputFileSetType, java.lang.String)
-     */
-    public File download(Person user, BatchInputFileSetType inputType, String fileType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException {
-        String fileName = generateFileName(user, inputType, fileUserIdentifier, fileType);
-        File file = new File(fileName);
-        if (!user.getPrincipalName().equals(inputType.getAuthorPrincipalName(file))) {
-            LOG.error("User " + user.getPrincipalName() + " is not authorized to download the following file: " + file.getName());
-            throw new AuthorizationException(user.getPrincipalName(), "download", inputType.getFileSetTypeIdentifer());
-        }
-
-        if (!file.exists()) {
-            LOG.error("unable to download file " + fileName + " because it doesn not exist.");
-            throw new FileNotFoundException("Unable to download file " + fileName + ". File does not exist on server.");
-        }
-        return file;
+        return inputType.getDoneFileDirectoryPath() + File.separator + inputType.getDoneFileName(user, fileUserIdentifier, creationDate);
     }
 
     /**
@@ -210,28 +123,13 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
     }
 
     /**
-     * @see org.kuali.kfs.sys.batch.service.BatchInputFileSetService#listBatchTypeFilesForUser(org.kuali.kfs.sys.batch.BatchInputFileSetType,
-     *      org.kuali.rice.kim.bo.Person)
-     */
-    public Set<String> listBatchTypeFileUserIdentifiersForUser(BatchInputFileSetType batchInputFileSetType, Person user) throws AuthorizationException {
-        List<File> files = new ArrayList<File>();
-        for (String fileType : batchInputFileSetType.getFileTypes()) {
-            File fileTypeDirectory = new File(batchInputFileSetType.getDirectoryPath(fileType));
-            File[] filesFromDirectory = fileTypeDirectory.listFiles();
-            Collections.addAll(files, filesFromDirectory);
-        }
-        return batchInputFileSetType.extractFileUserIdentifiers(user, files);
-    }
-
-    /**
      * @see org.kuali.kfs.sys.batch.service.BatchInputFileSetService#save(org.kuali.rice.kim.bo.Person,
      *      org.kuali.kfs.sys.batch.BatchInputFileSetType, java.lang.String, java.util.Map)
      */
-    public Map<String, String> save(Person user, BatchInputFileSetType inputType, String fileUserIdentifier, Map<String, InputStream> typeToStreamMap, boolean suppressDoneFileCreation) throws AuthorizationException, FileStorageException {
+    public Map<String, String> save(Person user, BatchInputFileSetType inputType, String fileUserIdentifier, Map<String, InputStream> typeToStreamMap) throws AuthorizationException, FileStorageException {
+        Date creationDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
         // check user is authorized to upload a file for the batch type
-        assertNoFilesInSetExist(user, inputType, fileUserIdentifier);
-
-        Map<String, File> typeToTempFiles = copyStreamsToTemporaryDirectory(user, inputType, fileUserIdentifier, typeToStreamMap);
+        Map<String, File> typeToTempFiles = copyStreamsToTemporaryDirectory(user, inputType, fileUserIdentifier, typeToStreamMap, creationDate);
         
         // null the map, because it's full of exhausted input streams that are useless 
         typeToStreamMap = null;
@@ -269,18 +167,16 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
             deleteTempFiles(typeToTempFiles);
         }
 
-        if (!suppressDoneFileCreation && inputType.isSupportsDoneFileCreation()) {
-            String doneFileName = inputType.getDoneFileDirectoryPath() + File.separator + inputType.getDoneFileName(user, fileUserIdentifier);
-            File doneFile = new File(doneFileName);
-            try {
-                doneFile.createNewFile();
-                
-                typeToFiles.put(KFSConstants.DONE_FILE_TYPE, doneFile);
-            }
-            catch (IOException e) {
-                LOG.error("unable to create done file", e);
-                throw new RuntimeException("unable to create done file", e);
-            }
+        String doneFileName = inputType.getDoneFileDirectoryPath() + File.separator + inputType.getDoneFileName(user, fileUserIdentifier, creationDate);
+        File doneFile = new File(doneFileName);
+        try {
+            doneFile.createNewFile();
+            
+            typeToFiles.put(KFSConstants.DONE_FILE_TYPE, doneFile);
+        }
+        catch (IOException e) {
+            LOG.error("unable to create done file", e);
+            throw new RuntimeException("unable to create done file", e);
         }
         
         inputType.process(typeToFiles);
@@ -289,7 +185,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
     }
 
     protected Map<String, File> copyStreamsToTemporaryDirectory(Person user, BatchInputFileSetType inputType,
-            String fileUserIdentifier, Map<String, InputStream> typeToStreamMap) throws FileStorageException {
+            String fileUserIdentifier, Map<String, InputStream> typeToStreamMap, Date creationDate) throws FileStorageException {
         Map<String, File> tempFiles = new HashMap<String, File>();
         
         String tempDirectoryName = getTempDirectoryName();
@@ -303,7 +199,7 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
 
         try {
             for (String fileType : inputType.getFileTypes()) {
-                String tempFileName = generateTempFileName(user, inputType, fileUserIdentifier, fileType);
+                String tempFileName = generateTempFileName(user, inputType, fileUserIdentifier, fileType, creationDate);
                 InputStream source = typeToStreamMap.get(fileType);
                 File tempFile = new File(tempFileName);
                 copyInputStreamToFile(source, tempFile, buf);
@@ -332,35 +228,6 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
     protected String getTempDirectoryName() {
         String tempDirectoryName = getKualiConfigurationService().getPropertyString(KFSConstants.TEMP_DIRECTORY_KEY);
         return tempDirectoryName;
-    }
-    /**
-     * Checks whether files associated with the set are already persisted on the file system or the done file. It checks both the
-     * directory specified by the input type and the temporary directory.  If so, then an exception is thrown
-     * 
-     * @param user the user who uploaded or will upload the file
-     * @param inputType the file set type
-     * @param fileUserIdentifier the file identifier
-     */
-    protected void assertNoFilesInSetExist(Person user, BatchInputFileSetType inputType, String fileUserIdentifier) throws FileStorageException {
-        for (String fileType : inputType.getFileTypes()) {
-            String fileName = generateFileName(user, inputType, fileUserIdentifier, fileType);
-            File file = new File(fileName);
-            if (file.exists()) {
-                // only print out the file name itself, no path
-                throw new FileStorageException("Cannot store file because the name " + file.getName() + " already exists on the file system.");
-            }
-            String tempFileName = generateTempFileName(user, inputType, fileUserIdentifier, fileType);
-            File tempFile = new File(tempFileName);
-            if (file.exists()) {
-                // only print out the file name itself, no path
-                throw new FileStorageException("Cannot store file because the name " + file.getName() + " already exists in the temp directory.");
-            }
-        }
-        File doneFile = new File(generateDoneFileName(user, inputType, fileUserIdentifier));
-        if (doneFile.exists()) {
-            throw new FileStorageException("Cannot store file because the name " + doneFile.getName() + " already exists on the file system.");
-        }
-
     }
 
     /**

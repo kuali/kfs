@@ -64,7 +64,14 @@
             <ref bean="effortCertificationReportPositionFiscalYearMaker" />
             <ref bean="effortCertificationReportDefinitionFiscalYearMaker" />
           </list>	
-        </property>  
+        </property>
+        
+        <property name="batchFileDirectories">
+          	<list>
+            	<value>${reports.directory}/ec</value>
+          	</list>
+        </property>
+          
 	</bean>
 
     <bean id="ecModuleService" parent="ecModuleService-parentBean"/>

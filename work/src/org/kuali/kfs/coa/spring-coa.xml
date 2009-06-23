@@ -65,7 +65,12 @@
             <ref bean="indirectCostRecoveryRateDetailFiscalYearMaker" />
             <ref bean="indirectCostRecoveryRateFiscalYearMaker" />
           </list>	
-        </property>  
+        </property>
+        <property name="batchFileDirectories">
+          	<list>
+            	<value>${reports.directory}/coa</value>
+         	</list>
+        </property>
 	</bean>
 
     <bean id="coaModuleService" parent="coaModuleService-parentBean"/>

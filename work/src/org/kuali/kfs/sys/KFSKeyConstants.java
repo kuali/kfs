@@ -551,7 +551,6 @@ public class KFSKeyConstants {
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_COLLECTOR = "message.batchUpload.title.collector";
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_ENTERPRISE_FEEDER = "message.batchUpload.title.enterprise.feeder";
     public static final String MESSAGE_BATCH_UPLOAD_SAVE_SUCCESSFUL = "message.batchUpload.saveSuccessful";
-    public static final String MESSAGE_BATCH_UPLOAD_DELETE_SUCCESSFUL = "message.batchUpload.deleteSuccessful";
     public static final String ERROR_BATCH_UPLOAD_DELETE_FAILED_FILE_ALREADY_PROCESSED = "error.batchUpload.deleteFailed.fileAlreadyProcessed";
     public static final String ERROR_BATCH_UPLOAD_DELETE_FAILED_FILE_SET_ALREADY_PROCESSED = "error.batchUpload.deleteFailed.fileSetAlreadyProcessed";
     public static final String ERROR_BATCH_UPLOAD_DELETE_FAILED_NOT_AUTHORIZED = "error.batchUpload.deleteFailed.fileNotAuthorized";
@@ -899,4 +898,9 @@ public class KFSKeyConstants {
     public static final String MESSAGE_ACCOUNT_DERIVED_ROLE_PRINCIPAL_INACTIVATED_FISCAL_OFFICER_SECONARY_DELEGATE_NOTIFICATION = "message.accountDerivedRole.principalInactivated.fiscalOfficerSecondaryDelegate.notification";
     public static final String MESSAGE_ACCOUNT_DERIVED_ROLE_PRINCIPAL_INACTIVATED_ACCOUNT_DELEGATE_INACTIVATED_INFORMATION = "message.accountDerivedRole.principalInactivated.accountDelegateInactivatedInformation";
     public static final String MESSAGE_ACCOUNT_DERIVED_ROLE_PRINCIPAL_INACTIVATED_ACCOUNT_DELEGATE_BLOCKED_INACTIVATION_INFORMATION = "message.accountDerivedRole.principalInactivated.accountDelegateBlockedInactivationInformation";
+    
+    public static final String QUESTION_BATCH_FILE_ADMIN_DELETE_CONFIRM = "question.batch.file.admin.delete.confirm";
+    public static final String MESSAGE_BATCH_FILE_ADMIN_DELETE_SUCCESSFUL = "message.batch.file.admin.delete.successful";
+    public static final String MESSAGE_BATCH_FILE_ADMIN_DELETE_ERROR = "message.batch.file.admin.delete.error";
+    public static final String MESSAGE_BATCH_FILE_ADMIN_DELETE_CANCELLED = "message.batch.file.admin.delete.cancelled";
 }

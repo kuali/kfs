@@ -74,6 +74,13 @@
 				<value>pdpExtractCanceledChecksJobTrigger</value>
 			</list>
 		</property>
+        <property name="batchFileDirectories">
+          	<list>
+            	<value>${reports.directory}/pdp</value>
+            	<value>${staging.directory}/pdp</value>
+          	</list>
+        </property>
+
 	</bean>
 
     <bean id="pdpModuleService" parent="pdpModuleService-parentBean"/>

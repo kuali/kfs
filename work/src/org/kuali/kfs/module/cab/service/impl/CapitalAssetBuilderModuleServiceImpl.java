@@ -1225,7 +1225,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 }
                 else {
                     // Validate New Asset information
-                    valid &= checkNewCapitalAssetFieldsExist(capitalAssetInformation);
+                    valid &= checkNewCapitalAssetFieldsExist(capitalAssetInformation, accountingDocument);
                     if (valid) {
                         valid = validateNewCapitalAssetFields(capitalAssetInformation);
                     }
@@ -1361,7 +1361,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param capitalAssetInformation the fields of add asset to be checked
      * @return boolean false if a required field is missing
      */
-    private boolean checkNewCapitalAssetFieldsExist(CapitalAssetInformation capitalAssetInformation) {
+    private boolean checkNewCapitalAssetFieldsExist(CapitalAssetInformation capitalAssetInformation, AccountingDocument accountingDocument) {
         boolean valid = true;
 
         if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetTypeCode())) {
@@ -1376,7 +1376,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             valid = false;
         }
 
-        if (StringUtils.isBlank(capitalAssetInformation.getVendorName())) {
+        // skip vendor name required validation for procurement card document
+        if (!(accountingDocument instanceof ProcurementCardDocument) && StringUtils.isBlank(capitalAssetInformation.getVendorName())) {
             String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.VENDOR_NAME);
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.VENDOR_NAME, KFSKeyConstants.ERROR_REQUIRED, label);
             valid = false;
@@ -1875,7 +1876,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.CASH_RECEIPT;
         else if (accountingDocument instanceof AdvanceDepositDocument)
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.ADVANCE_DEPOSIT;
-        else if (accountingDocument instanceof CreditCardReceiptDocument) 
+        else if (accountingDocument instanceof CreditCardReceiptDocument)
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.CREDIT_CARD_RECEIPT;
         else if (accountingDocument instanceof DistributionOfIncomeAndExpenseDocument)
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.DISTRIBUTION_OF_INCOME_AND_EXPENSE;

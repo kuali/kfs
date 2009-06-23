@@ -669,7 +669,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param paymentDetail
      * @param documentType
      */
-    private void addAccounts(AccountsPayableDocument accountsPayableDocument, PaymentDetail paymentDetail, String documentType) {
+    protected void addAccounts(AccountsPayableDocument accountsPayableDocument, PaymentDetail paymentDetail, String documentType) {
         String creditMemoDocType = getDataDictionaryService().getDocumentTypeNameByClass(VendorCreditMemoDocument.class);
         List<SourceAccountingLine> sourceAccountingLines = purapAccountingService.generateSourceAccountsForVendorRemit(accountsPayableDocument);
         for (SourceAccountingLine sourceAccountingLine : sourceAccountingLines) {
@@ -677,17 +677,18 @@ public class PdpExtractServiceImpl implements PdpExtractService {
           PaymentAccountDetail paymentAccountDetail = new PaymentAccountDetail();
           paymentAccountDetail.setAccountNbr(sourceAccountingLine.getAccountNumber());
 
-                if (creditMemoDocType.equals(documentType)) {
-                    lineAmount = lineAmount.negated();
-                }
+          if (creditMemoDocType.equals(documentType)) {
+             lineAmount = lineAmount.negated();
+          }
 
           paymentAccountDetail.setAccountNetAmount(sourceAccountingLine.getAmount());
           paymentAccountDetail.setFinChartCode(sourceAccountingLine.getChartOfAccountsCode());
           paymentAccountDetail.setFinObjectCode(sourceAccountingLine.getFinancialObjectCode());
-          paymentAccountDetail.setFinSubObjectCode(StringUtils.defaultIfEmpty(sourceAccountingLine.getFinancialSubObjectCode(),KFSConstants.DASH));
+          
+          paymentAccountDetail.setFinSubObjectCode(StringUtils.defaultIfEmpty(sourceAccountingLine.getFinancialSubObjectCode(),KFSConstants.getDashFinancialSubObjectCode()));
           paymentAccountDetail.setOrgReferenceId(sourceAccountingLine.getOrganizationReferenceId());
-          paymentAccountDetail.setProjectCode(StringUtils.defaultIfEmpty(sourceAccountingLine.getProjectCode(),KFSConstants.DASH));
-          paymentAccountDetail.setSubAccountNbr(StringUtils.defaultIfEmpty(sourceAccountingLine.getSubAccountNumber(),KFSConstants.DASH));
+          paymentAccountDetail.setProjectCode(StringUtils.defaultIfEmpty(sourceAccountingLine.getProjectCode(),KFSConstants.getDashProjectCode()));
+          paymentAccountDetail.setSubAccountNbr(StringUtils.defaultIfEmpty(sourceAccountingLine.getSubAccountNumber(),KFSConstants.getDashSubAccountNumber()));
           paymentDetail.addAccountDetail(paymentAccountDetail);
         }
     }

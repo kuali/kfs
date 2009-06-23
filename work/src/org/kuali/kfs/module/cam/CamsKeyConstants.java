@@ -23,7 +23,6 @@ public class CamsKeyConstants {
     public static final String CONTINUE_QUESTION = "document.question.continue.text";
     public static final String ERROR_INVALID_BUILDING_CODE = "error.invalid.building.code";
     public static final String ERROR_INVALID_ROOM_NUMBER = "error.invalid.room.number";
-    public static final String ERROR_NO_DETAIL_LINE = "error.invalid.no.detail.line";
     public static final String ERROR_INVALID_IN_SERVICE_DATE = "error.invalid.in.service.date";
     public static final String ERROR_BLANK_IN_SERVICE_DATE_DISALLOWED = "error.blank.in.service.date.disallowed";
 

@@ -476,7 +476,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
 
         Person contractManager = personService.getPerson(cm.getContractManagerUserIdentifier());
         if (ObjectUtils.isNotNull(contractManager)) {
-            return contractManager.getEmailAddress();
+            return contractManager.getEmailAddressUnmasked();
         }
         return "";
     }

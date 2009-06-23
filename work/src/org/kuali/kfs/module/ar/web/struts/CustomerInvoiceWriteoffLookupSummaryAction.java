@@ -100,7 +100,7 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
         
         //  manually fire off the batch job
         SchedulerService schedulerService = SpringContext.getBean(SchedulerService.class);
-        schedulerService.runJob("customerInvoiceWriteoffBatchJob", person.getEmailAddress());
+        schedulerService.runJob("customerInvoiceWriteoffBatchJob", person.getEmailAddressUnmasked());
         
         customerInvoiceWriteoffLookupSummaryForm.setSentToBatch(true);
         

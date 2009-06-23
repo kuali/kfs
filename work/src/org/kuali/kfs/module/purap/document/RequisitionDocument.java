@@ -196,10 +196,10 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         }
         this.setDeliveryCampusCode(currentUser.getCampusCode());
         this.setDeliveryToName(currentUser.getName());
-        this.setDeliveryToEmailAddress(currentUser.getEmailAddress());
+        this.setDeliveryToEmailAddress(currentUser.getEmailAddressUnmasked());
         this.setDeliveryToPhoneNumber(SpringContext.getBean(PhoneNumberService.class).formatNumberIfPossible(currentUser.getPhoneNumber()));
         this.setRequestorPersonName(currentUser.getName());
-        this.setRequestorPersonEmailAddress(currentUser.getEmailAddress());
+        this.setRequestorPersonEmailAddress(currentUser.getEmailAddressUnmasked());
         this.setRequestorPersonPhoneNumber(SpringContext.getBean(PhoneNumberService.class).formatNumberIfPossible(currentUser.getPhoneNumber()));
 
         DefaultPrincipalAddress defaultPrincipalAddress = new DefaultPrincipalAddress(currentUser.getPrincipalId());

@@ -429,7 +429,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
     private String getContractManagerEmail(ContractManager cm) {
         Person contractManager = personService.getPerson(cm.getContractManagerUserIdentifier());
         if (ObjectUtils.isNotNull(contractManager)) {
-            return contractManager.getEmailAddress();
+            return contractManager.getEmailAddressUnmasked();
         }
         return "";
     }

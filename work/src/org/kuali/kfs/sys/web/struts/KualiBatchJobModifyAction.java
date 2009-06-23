@@ -132,7 +132,7 @@ public class KualiBatchJobModifyAction extends KualiAction {
         request.setAttribute("canSchedule", canModifyJob(batchModifyForm, "schedule"));
         request.setAttribute("canUnschedule", canModifyJob(batchModifyForm, "unschedule"));
         request.setAttribute("canStopJob", canModifyJob(batchModifyForm, "stopJob"));
-        request.setAttribute("userEmailAddress", GlobalVariables.getUserSession().getPerson().getEmailAddress());
+        request.setAttribute("userEmailAddress", GlobalVariables.getUserSession().getPerson().getEmailAddressUnmasked());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

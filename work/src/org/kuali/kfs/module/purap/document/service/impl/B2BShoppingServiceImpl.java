@@ -166,7 +166,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
             // default data from user
             req.setDeliveryCampusCode(user.getCampusCode());
             req.setDeliveryToName(user.getName());
-            req.setDeliveryToEmailAddress(user.getEmailAddress());
+            req.setDeliveryToEmailAddress(user.getEmailAddressUnmasked());
             req.setDeliveryToPhoneNumber(SpringContext.getBean(PhoneNumberService.class).formatNumberIfPossible(user.getPhoneNumber()));
             
             DefaultPrincipalAddress defaultPrincipalAddress = new DefaultPrincipalAddress(user.getPrincipalId());

@@ -67,8 +67,8 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
     private static final String BATCH_FILE_KEY = "BATCH-FILE";
     private static final String WORKFLOW_DOC_ID_PREFIX = " - WITH WORKFLOW DOCID: ";
 
+    private PersonService<Person> personService;
     private CustomerService customerService;
-    private PersonService personService;
     private CustomerInvoiceDocumentService invoiceDocumentService;
     private DateTimeService dateTimeService;
     private BatchInputFileService batchInputFileService;
@@ -192,7 +192,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
     private void createCustomerInvoiceWriteoffDocumentsFromBatchVO(CustomerInvoiceWriteoffBatchVO batchVO, com.lowagie.text.Document pdfdoc) {
         
         //  retrieve the Person from the batch
-        Person person = personService.getPersonByPrincipalName(batchVO.getSubmittedByPrincipalName());
+        Person person = getPersonService().getPersonByPrincipalName(batchVO.getSubmittedByPrincipalName());
         if (person == null) {
             throw new RuntimeException("The Person who initiated this batch could not be retrieved.");
         }
@@ -558,8 +558,13 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
         this.reportsDirectory = reportsDirectory;
     }
 
-    public void setPersonService(PersonService personService) {
-        this.personService = personService;
+    /**
+     * @return Returns the personService.
+     */
+    protected PersonService<Person> getPersonService() {
+        if(personService==null)
+            personService = SpringContext.getBean(PersonService.class);
+        return personService;
     }
 
     public void setCustomerService(CustomerService customerService) {

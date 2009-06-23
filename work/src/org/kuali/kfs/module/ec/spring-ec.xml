@@ -250,9 +250,6 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
-		<property name="personService">
-            <ref bean="personService" />
-        </property>		
 	</bean> 
 
 	<bean id="outstandingCertificationsByReportLookupableHelperService" class="org.kuali.kfs.module.ec.businessobject.lookup.OutstandingCertificationsByReportLookupableHelperServiceImpl" singleton="false">
@@ -271,9 +268,6 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
-		<property name="personService">
-            <ref bean="personService" />
-        </property>		
 	</bean> 
 
 	<bean id="duplicateCertificationsReportLookupableHelperService" class="org.kuali.kfs.module.ec.businessobject.lookup.DuplicateCertificationsLookupableHelperServiceImpl" singleton="false">
@@ -292,9 +286,6 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
-		<property name="personService">
-            <ref bean="personService" />
-        </property>		
 	</bean> 
 
 	<bean id="effortLedgerBalanceLookupableHelperService" class="org.kuali.kfs.module.ec.businessobject.lookup.EffortLedgerBalanceLookupableHelperServiceImpl" singleton="false">
@@ -310,7 +301,7 @@
 		<property name="optionsService">
 			<ref bean="optionsService" />
 		</property>
-				
+
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -326,9 +317,6 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
-		<property name="personService">
-            <ref bean="personService" />
-        </property>		
 	</bean> 
 	
 	<bean id="effortCertificationDetailBuildLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
@@ -353,9 +341,6 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
-		<property name="personService">
-            <ref bean="personService" />
-        </property>
 	</bean>   	
 	
 	<bean id="effortLedgerBalanceInquirable" class="org.kuali.kfs.module.ec.businessobject.inquiry.EffortLedgerBalanceInquirableImpl" singleton="false"/>

@@ -23,12 +23,14 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.ReportCriteriaDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -45,15 +47,11 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
 
     private WorkflowInfo workflowInfo;
     private WorkflowDocumentService workflowDocumentService;
-    private org.kuali.rice.kim.service.PersonService personService;
+    private PersonService<Person> personService;
 
     
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
-    }
-
-    public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
-        this.personService = personService;
     }
 
     /**
@@ -97,7 +95,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
             // if a super user network id was given... take all actions as super user
             if (StringUtils.isNotBlank(superUserNetworkId)) {
                 // approve each action request as the super user
-                Person superUser = personService.getPersonByPrincipalName(superUserNetworkId);
+                Person superUser = getPersonService().getPersonByPrincipalName(superUserNetworkId);
                 LOG.debug("Attempting to super user approve all action requests found on document id " + documentNumber + " for given criteria:  principalName - " + networkIdString + "; nodeName - " + nodeName);
                 superUserApproveAllActionRequests(superUser, documentNumber, nodeName, userToCheck, potentialAnnotation);
                 return true;
@@ -256,5 +254,14 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
         }
         return workflowInfo;
     }
-}
+    
+    /**
+     * @return Returns the personService.
+     */
+    protected PersonService<Person> getPersonService() {
+        if(personService==null)
+            personService = SpringContext.getBean(PersonService.class);
+        return personService;
+    }
 
+}

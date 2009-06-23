@@ -21,12 +21,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -37,7 +37,7 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
     private static final String LOOKUP_USER_ID_FIELD = "lookupPerson.principalName";
     private static final String LOOKUP_UNIVERSAL_USER_ID_FIELD = "awardProjectDirectors.projectDirector.principalId";
 
-    private PersonService personService;
+    private PersonService<Person> personService;
 
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResultsHelper(java.util.Map, boolean)
@@ -46,7 +46,7 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
     protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
         // perform the lookup on the project director object first
         if (!StringUtils.isBlank(fieldValues.get(LOOKUP_USER_ID_FIELD))) {
-            Person person = personService.getPersonByPrincipalName(fieldValues.get(LOOKUP_USER_ID_FIELD));
+            Person person = getPersonService().getPersonByPrincipalName(fieldValues.get(LOOKUP_USER_ID_FIELD));
 
             // if no project directors match, we can return an empty list right now
             if (person == null) {
@@ -72,20 +72,12 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
     }
 
     /**
-     * Gets the personService attribute.
-     * 
      * @return Returns the personService.
      */
-    protected PersonService getPersonService() {
+    protected PersonService<Person> getPersonService() {
+        if(personService==null)
+            personService = SpringContext.getBean(PersonService.class);
         return personService;
     }
 
-    /**
-     * Sets the personService attribute value.
-     * 
-     * @param personService The personService to set.
-     */
-    public void setPersonService(PersonService personService) {
-        this.personService = personService;
-    }
 }

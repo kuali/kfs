@@ -43,6 +43,7 @@ import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeader
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.impl.PersonImpl;
@@ -78,12 +79,12 @@ import com.lowagie.text.pdf.PdfWriter;
 public class LockboxServiceImpl implements LockboxService {
     private static Logger LOG = org.apache.log4j.Logger.getLogger(LockboxServiceImpl.class);;
 
+    private PersonService<Person> personService;
     private DocumentService documentService;
     private SystemInformationService systemInformationService;
     private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
     private CashControlDocumentService cashControlDocumentService;
     private PaymentApplicationDocumentService payAppDocService;
-    private PersonService<PersonImpl> personService;
     private DataDictionaryService dataDictionaryService;
     private DateTimeService dateTimeService;
     private BusinessObjectService boService;
@@ -117,10 +118,10 @@ public class LockboxServiceImpl implements LockboxService {
             LOG.info("   using Financial Document Initiator ID: '" + initiator + "'");
             
             //  puke if the initiator stored in the systemInformation table is no good
-            Person person = personService.getPerson(initiator);
+            Person person = getPersonService().getPerson(initiator);
             if (person == null) {
                 LOG.warn("   could not find [" + initiator + "] when searching by PrincipalID, so trying to find as a PrincipalName.");
-                person = personService.getPersonByPrincipalName(initiator);
+                person = getPersonService().getPersonByPrincipalName(initiator);
                 if (person == null) {
                     LOG.error("Financial Document Initiator ID [" + initiator + "] specified in SystemInformation [" + sysInfo.toString() + "] for Lockbox Number " + lockbox.getLockboxNumber() + " is not present in the system as either a PrincipalID or a PrincipalName.");
                     throw new RuntimeException("Financial Document Initiator ID [" + initiator + "] specified in SystemInformation [" + sysInfo.toString() + "] for Lockbox Number " + lockbox.getLockboxNumber() + " is not present in the system as either a PrincipalID or a PrincipalName.");
@@ -646,8 +647,13 @@ public class LockboxServiceImpl implements LockboxService {
         this.payAppDocService = paymentApplicationDocumentService;
     }
 
-    public void setPersonService(PersonService<PersonImpl> personService) {
-        this.personService = personService;
+    /**
+     * @return Returns the personService.
+     */
+    protected PersonService<Person> getPersonService() {
+        if(personService==null)
+            personService = SpringContext.getBean(PersonService.class);
+        return personService;
     }
 
     /**

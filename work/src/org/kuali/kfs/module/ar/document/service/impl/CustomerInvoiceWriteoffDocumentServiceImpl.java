@@ -47,7 +47,6 @@ import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.exception.UnknownDocumentIdException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -65,7 +64,6 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
 
     private ParameterService parameterService;
     private UniversityDateService universityDateService;
-    private PersonService<Person> personService;
     private BusinessObjectService businessObjectService;
     private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
     private CustomerInvoiceDocumentService customerInvoiceDocumentService;
@@ -454,14 +452,6 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
 
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
-    }
-
-    public PersonService getPersonService() {
-        return personService;
-    }
-
-    public void setPersonService(PersonService personService) {
-        this.personService = personService;
     }
 
     public BusinessObjectService getBusinessObjectService() {

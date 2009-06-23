@@ -62,6 +62,7 @@ import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -85,7 +86,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private ParameterService parameterService;
     private CustomerProfileService customerProfileService;
     private DateTimeService dateTimeService;
-    private org.kuali.rice.kim.service.PersonService personService;
+    private PersonService<Person> personService;
     private PaymentGroupService paymentGroupService;
     private PaymentDetailService paymentDetailService;
     private CreditMemoService creditMemoService;
@@ -125,7 +126,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private void extractPayments(boolean immediateOnly, Date processRunDate) {
         LOG.debug("extractPayments() started");
 
-        Person uuser = personService.getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+        Person uuser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
         if (uuser == null) {
             LOG.error("extractPayments() Unable to find user " + KFSConstants.SYSTEM_USER);
             throw new IllegalArgumentException("Unable to find user " + KFSConstants.SYSTEM_USER);
@@ -1078,15 +1079,6 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     }
 
     /**
-     * Sets the personService attribute value.
-     * 
-     * @param personService The personService to set.
-     */
-    public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
-        this.personService = personService;
-    }
-
-    /**
      * Sets the paymentGroupService attribute value.
      * 
      * @param paymentGroupService The paymentGroupService to set.
@@ -1168,5 +1160,14 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     public void setPurapAccountingService(PurapAccountingServiceImpl purapAccountingService) {
         this.purapAccountingService = purapAccountingService;
     }
-}
+    
+    /**
+     * @return Returns the personService.
+     */
+    protected PersonService<Person> getPersonService() {
+        if(personService==null)
+            personService = SpringContext.getBean(PersonService.class);
+        return personService;
+    }
 
+}

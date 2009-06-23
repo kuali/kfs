@@ -61,6 +61,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -78,10 +79,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class DisbursementVoucherExtractServiceImpl implements DisbursementVoucherExtractService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherExtractServiceImpl.class);
 
+    private PersonService<Person> personService;
     private ParameterService parameterService;
     private DisbursementVoucherDao disbursementVoucherDao;
     private DateTimeService dateTimeService;
-    private org.kuali.rice.kim.service.PersonService personService;
     private CustomerProfileService customerProfileService;
     private PaymentFileService paymentFileService;
     private PaymentGroupService paymentGroupService;
@@ -114,7 +115,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             throw new IllegalArgumentException("Invalid Max Notes Lines parameter");
         }
 
-        Person uuser = personService.getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+        Person uuser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
         if (uuser == null) {
             LOG.debug("extractPayments() Unable to find user " + KFSConstants.SYSTEM_USER);
             throw new IllegalArgumentException("Unable to find user " + KFSConstants.SYSTEM_USER);
@@ -702,15 +703,6 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
     /**
-     * This method sets the personService instance.
-     * 
-     * @param personService The org.kuali.rice.kim.service.PersonService to be set.
-     */
-    public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
-        this.personService = personService;
-    }
-
-    /**
      * This method sets the customerProfileService instance.
      * 
      * @param customerProfileService The CustomerProfileService to be set.
@@ -753,6 +745,15 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      */
     public void setPaymentFileEmailService(PdpEmailService paymentFileEmailService) {
         this.paymentFileEmailService = paymentFileEmailService;
+    }
+
+    /**
+     * @return Returns the personService.
+     */
+    protected PersonService<Person> getPersonService() {
+        if(personService==null)
+            personService = SpringContext.getBean(PersonService.class);
+        return personService;
     }
 
 }

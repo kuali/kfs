@@ -88,6 +88,7 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.AdHocRouteRecipient;
 import org.kuali.rice.kns.bo.Note;
@@ -138,7 +139,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private KualiWorkflowInfo workflowInfoService;
     private MaintenanceDocumentService maintenanceDocumentService;
     private ParameterService parameterService;
-    private org.kuali.rice.kim.service.PersonService personService;
+    private PersonService<Person> personService;
     private MailService mailService;
     private B2BPurchaseOrderService b2bPurchaseOrderService;
 
@@ -208,10 +209,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
-    }
-
-    public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
-        this.personService = personService;
     }
 
     public void setMailService(MailService mailService) {
@@ -525,7 +522,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         po.setOverrideWorkflowButtons(Boolean.FALSE);
         boolean performedAction = purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission", NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getPerson(), null);
         if (!performedAction) {
-            Person systemUserPerson = personService.getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+            Person systemUserPerson = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
             purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission by user " + GlobalVariables.getUserSession().getPerson().getName(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), systemUserPerson, KFSConstants.SYSTEM_USER);
         }
         po.setOverrideWorkflowButtons(Boolean.TRUE);
@@ -1946,5 +1943,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return purchaseOrderDao.getPendingPurchaseOrdersForFaxing();
     }
 
-}
+    /**
+     * @return Returns the personService.
+     */
+    protected PersonService<Person> getPersonService() {
+        if(personService==null)
+            personService = SpringContext.getBean(PersonService.class);
+        return personService;
+    }
 
+}

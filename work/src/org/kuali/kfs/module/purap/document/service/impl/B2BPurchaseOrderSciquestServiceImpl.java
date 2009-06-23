@@ -36,6 +36,7 @@ import org.kuali.kfs.module.purap.util.cxml.PurchaseOrderResponse;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -49,7 +50,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
     private B2BDao b2bDao;
     private RequisitionService requisitionService;
     private ParameterService parameterService;
-    private org.kuali.rice.kim.service.PersonService personService;
+    private PersonService<Person> personService;
 
     // injected values
     private String b2bEnvironment;
@@ -474,15 +475,11 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
      */
     private String getContractManagerEmail(ContractManager cm) {
 
-        Person contractManager = personService.getPerson(cm.getContractManagerUserIdentifier());
+        Person contractManager = getPersonService().getPerson(cm.getContractManagerUserIdentifier());
         if (ObjectUtils.isNotNull(contractManager)) {
             return contractManager.getEmailAddressUnmasked();
         }
         return "";
-    }
-
-    public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
-        this.personService = personService;
     }
 
     public void setRequisitionService(RequisitionService requisitionService) {
@@ -525,5 +522,13 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
         b2bPurchaseOrderPassword = purchaseOrderPassword;
     }
 
-}
+    /**
+     * @return Returns the personService.
+     */
+    protected PersonService<Person> getPersonService() {
+        if(personService==null)
+            personService = SpringContext.getBean(PersonService.class);
+        return personService;
+    }
 
+}

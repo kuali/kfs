@@ -328,9 +328,6 @@
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>		
-		<property name="personService">
-			<ref bean="personService" />
-		</property>		
 	</bean>
 
 	<bean id="lockMonitorLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -1049,9 +1046,6 @@
 		<property name="humanResourcesPayrollDao">
 			<ref bean="humanResourcesPayrollDao" />
 		</property> 
-		<property name="personService">
-			<ref bean="personService" />
-		</property> 
 	</bean> 
 	
 	<bean id="csfTrackerLookupableHelperServiceImpl" class="org.kuali.kfs.module.bc.businessobject.lookup.CSFTrackerLookupableHelperServiceImpl" scope="prototype">
@@ -1070,9 +1064,6 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
-		<property name="personService">
-			<ref bean="personService" />
-		</property>	
 	</bean>
 	
 	<bean id="csfTrackerLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

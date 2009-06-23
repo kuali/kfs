@@ -27,6 +27,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.dataaccess.ChartDao;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kim.bo.Person;
@@ -34,6 +35,7 @@ import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kim.service.RoleManagementService;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.util.spring.Cached;
 
 /**
@@ -150,7 +152,7 @@ public class ChartServiceImpl implements ChartService {
         }
 
         if (chartManagerId != null) {
-            chartManager = personService.getPerson(chartManagerId);
+            chartManager = getPersonService().getPerson(chartManagerId);
         }
 
         return chartManager;
@@ -189,21 +191,12 @@ public class ChartServiceImpl implements ChartService {
     }
 
     /**
-     * Gets the personService attribute.
-     * 
      * @return Returns the personService.
      */
     protected PersonService<Person> getPersonService() {
+        if(personService==null)
+            personService = SpringContext.getBean(PersonService.class);
         return personService;
-    }
-
-    /**
-     * Sets the personService attribute value.
-     * 
-     * @param personService The personService to set.
-     */
-    public void setPersonService(PersonService<Person> personService) {
-        this.personService = personService;
     }
 
 }

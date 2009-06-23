@@ -22,8 +22,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
-import org.kuali.kfs.integration.ec.EffortCertificationReport;
 import org.kuali.kfs.integration.ec.EffortCertificationModuleService;
+import org.kuali.kfs.integration.ec.EffortCertificationReport;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;
@@ -31,6 +31,7 @@ import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
 import org.kuali.kfs.module.ld.document.service.SalaryTransferPeriodValidationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.Note;
@@ -128,7 +129,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
         Note cancelNote = noteService.createNote(new Note(), document.getDocumentHeader());
         cancelNote.setNoteText(kualiConfigurationService.getPropertyString(LaborKeyConstants.EFFORT_AUTO_DISAPPROVE_MESSAGE));
 
-        Person systemUser = personService.getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+        Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
         cancelNote.setAuthorUniversalIdentifier(systemUser.getPrincipalId());
         noteService.save(cancelNote);
         document.addNote(cancelNote);
@@ -343,12 +344,12 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
     }
 
     /**
-     * Sets the personService attribute value.
-     * 
-     * @param personService The personService to set.
+     * @return Returns the personService.
      */
-    public void setPersonService(PersonService<Person> personService) {
-        this.personService = personService;
+    protected PersonService<Person> getPersonService() {
+        if(personService==null)
+            personService = SpringContext.getBean(PersonService.class);
+        return personService;
     }
 
 }

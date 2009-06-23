@@ -1299,9 +1299,6 @@
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>	
-		<property name="personService">
-			<ref bean="personService" />
-		</property>	
 	</bean>	
 		
 	<bean id="expenseTransferAccountingLineService" class="org.kuali.kfs.sys.service.impl.AccountingLineServiceImpl">

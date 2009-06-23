@@ -32,6 +32,7 @@ import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
@@ -49,8 +50,8 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
  */
 public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private KualiConfigurationService kualiConfigurationService;
-    private org.kuali.rice.kim.service.PersonService personService;
-
+    private PersonService<Person> personService;
+    
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
@@ -230,7 +231,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
     protected String getUniversalIdFromNetworkID(String networkID) {
         String universalId = null;
         if (StringUtils.isNotBlank(networkID)) {
-            Person user = personService.getPersonByPrincipalName(networkID);
+            Person user = getPersonService().getPersonByPrincipalName(networkID);
             if (user != null) {
                 universalId = user.getPrincipalId();
             } else {
@@ -285,13 +286,12 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
     }
 
     /**
-     * Sets the personService attribute value.
-     * 
-     * @param personService The personService to set.
+     * @return Returns the personService.
      */
-    public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
-        this.personService = personService;
+    protected PersonService<Person> getPersonService() {
+        if(personService==null)
+            personService = SpringContext.getBean(PersonService.class);
+        return personService;
     }
-    
-}
 
+}

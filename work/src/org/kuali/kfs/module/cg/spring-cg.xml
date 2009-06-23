@@ -108,9 +108,6 @@
 	</bean>
 	
 	<bean id="proposalLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.ProposalLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
-		<property name="personService">
-			<ref bean="personService" />
-		</property>
 	</bean>
 
 	<bean id="proposalLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -120,9 +117,6 @@
 	</bean>
 
     <bean id="awardLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.AwardLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
-		<property name="personService">
-			<ref bean="personService" />
-		</property>
     </bean>
 
     <bean id="awardLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

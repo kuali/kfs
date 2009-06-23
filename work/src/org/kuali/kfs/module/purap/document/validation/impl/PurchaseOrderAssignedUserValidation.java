@@ -20,15 +20,17 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurchaseOrderAssignedUserValidation extends GenericValidation {
-    private PersonService personService;
+    private PersonService<Person> personService;
     
     /**
      * Validation to check that the assigned user exists in the system.
@@ -59,12 +61,13 @@ public class PurchaseOrderAssignedUserValidation extends GenericValidation {
         return valid;
     }
 
-    public PersonService getPersonService() {
+    /**
+     * @return Returns the personService.
+     */
+    protected PersonService<Person> getPersonService() {
+        if(personService==null)
+            personService = SpringContext.getBean(PersonService.class);
         return personService;
-    }
-
-    public void setPersonService(PersonService personService) {
-        this.personService = personService;
     }
 
 }

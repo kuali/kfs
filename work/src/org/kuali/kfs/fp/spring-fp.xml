@@ -307,9 +307,6 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService"/>
 		</property>
-		<property name="personService">
-			<ref bean="personService"/>
-		</property>
 		<property name="customerProfileService">
 			<ref bean="pdpCustomerProfileService"/>
 		</property>

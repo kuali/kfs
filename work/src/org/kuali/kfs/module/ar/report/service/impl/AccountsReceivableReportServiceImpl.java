@@ -77,8 +77,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsReceivableReportServiceImpl.class);
 
     private DateTimeService dateTimeService;
-    private PersonService<Person> personService;
     private DocumentService documentService;
+    private PersonService<Person> personService;
     
     private PhoneNumberFormatter phoneNumberFormatter = new PhoneNumberFormatter();
 
@@ -135,7 +135,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         Person user = null;
         try {
-            user = personService.getPerson(initiatorID);
+            user = getPersonService().getPerson(initiatorID);
         } catch (Exception e) {
             LOG.error("Exception thrown from PersonService.getPerson('" + initiatorID + "').", e);
             throw new RuntimeException("Exception thrown from PersonService.getPerson('" + initiatorID + "').", e);
@@ -266,7 +266,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         Person user = null;
         try {
-            user = personService.getPerson(initiatorID);
+            user = getPersonService().getPerson(initiatorID);
         } catch (Exception e) {
             LOG.error("Exception thrown from PersonService.getPerson('" + initiatorID + "').", e);
             throw new RuntimeException("Exception thrown from PersonService.getPerson('" + initiatorID + "').", e);
@@ -739,19 +739,12 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     }
 
     /**
-     * Gets the personService attribute. 
      * @return Returns the personService.
      */
-    public PersonService<Person> getPersonService() {
+    protected PersonService<Person> getPersonService() {
+        if(personService==null)
+            personService = SpringContext.getBean(PersonService.class);
         return personService;
-    }
-
-    /**
-     * Sets the personService attribute value.
-     * @param personService The personService to set.
-     */
-    public void setPersonService(PersonService<Person> personService) {
-        this.personService = personService;
     }
 
     public void setDocumentService(DocumentService documentService) {

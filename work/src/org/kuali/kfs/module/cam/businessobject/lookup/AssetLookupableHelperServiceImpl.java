@@ -53,7 +53,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetLookupableHelperServiceImpl.class);
 
     protected AssetService assetService;
-    private PersonService personService;
+    private PersonService<Person> personService;
 
     /**
      * Custom action urls for Asset.
@@ -282,7 +282,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         // perform the lookup on the asset representative first
         String principalName = fieldValues.get(CamsPropertyConstants.Asset.REP_USER_AUTH_ID);
         if (StringUtils.isNotBlank(principalName)) {
-            Person person = personService.getPersonByPrincipalName(principalName);
+            Person person = getPersonService().getPersonByPrincipalName(principalName);
 
             if (person == null) {
                 return Collections.EMPTY_LIST;
@@ -294,22 +294,14 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
 
         return super.getSearchResultsHelper(fieldValues, unbounded);
     }
-
+    
     /**
-     * Gets the personService attribute.
-     * 
      * @return Returns the personService.
      */
-    public PersonService getPersonService() {
+    protected PersonService<Person> getPersonService() {
+        if(personService==null)
+            personService = SpringContext.getBean(PersonService.class);
         return personService;
     }
 
-    /**
-     * Sets the personService attribute value.
-     * 
-     * @param personService The personService to set.
-     */
-    public void setPersonService(PersonService personService) {
-        this.personService = personService;
-    }
 }

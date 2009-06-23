@@ -23,6 +23,7 @@ import org.kuali.kfs.module.bc.dataaccess.HumanResourcesPayrollDao;
 import org.kuali.kfs.module.bc.exception.IncumbentNotFoundException;
 import org.kuali.kfs.module.bc.exception.PositionNotFoundException;
 import org.kuali.kfs.module.bc.service.HumanResourcesPayrollService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
@@ -36,8 +37,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollService {
     HumanResourcesPayrollDao humanResourcesPayrollDao;
-    PersonService personService;
-
+    private PersonService<Person> personService;
+    
     /**
      * This is just a bootstrap implementation. Should be replaced by the real integration with the payroll/hr system.
      * 
@@ -71,7 +72,7 @@ public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollSe
      */
     @Transactional
     public Incumbent getIncumbent(String emplid) throws IncumbentNotFoundException {
-        Person user = (Person) personService.getPersonByEmployeeId(emplid);
+        Person user = (Person) getPersonService().getPersonByEmployeeId(emplid);
 
         if (user == null) {
             throw new IncumbentNotFoundException(emplid);
@@ -104,12 +105,12 @@ public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollSe
     }
 
     /**
-     * Sets the personService attribute value.
-     * 
-     * @param personService The personService to set.
+     * @return Returns the personService.
      */
-    @NonTransactional
-    public void setPersonService(PersonService personService) {
-        this.personService = personService;
+    protected PersonService<Person> getPersonService() {
+        if(personService==null)
+            personService = SpringContext.getBean(PersonService.class);
+        return personService;
     }
+
 }

@@ -49,6 +49,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -76,7 +77,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     private KualiRuleService ruleService;
     private KualiConfigurationService kualiConfigurationService;
     private ParameterService parameterService;
-    private org.kuali.rice.kim.service.PersonService personService;
+    private PersonService<Person> personService;
     private PostalCodeValidationService postalCodeValidationService;
     private PurapService purapService;
     private RequisitionDao requisitionDao;
@@ -202,7 +203,7 @@ public class RequisitionServiceImpl implements RequisitionService {
             requisition.setVendorDetail(vendorDetail);
 
             if ((!PurapConstants.RequisitionSources.B2B.equals(requisitionSource)) && ObjectUtils.isNull(requisition.getVendorContractGeneratedIdentifier())) {
-               Person initiator = personService.getPerson(requisition.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+               Person initiator = getPersonService().getPerson(requisition.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
                 VendorContract b2bContract = vendorService.getVendorB2BContract(vendorDetail, initiator.getCampusCode());
                 if (b2bContract != null) {
                     return "Standard requisition with no contract selected but a B2B contract exists for the selected vendor.";
@@ -393,10 +394,6 @@ public class RequisitionServiceImpl implements RequisitionService {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
-    public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
-        this.personService = personService;
-    }
-
     public void setCapitalAssetBuilderModuleService(CapitalAssetBuilderModuleService capitalAssetBuilderModuleService) {
         this.capitalAssetBuilderModuleService = capitalAssetBuilderModuleService;
     }
@@ -405,5 +402,13 @@ public class RequisitionServiceImpl implements RequisitionService {
         this.postalCodeValidationService = postalCodeValidationService;
     }
 
-}
+    /**
+     * @return Returns the personService.
+     */
+    protected PersonService<Person> getPersonService() {
+        if(personService==null)
+            personService = SpringContext.getBean(PersonService.class);
+        return personService;
+    }
 
+}

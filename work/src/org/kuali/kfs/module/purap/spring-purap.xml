@@ -128,7 +128,6 @@
 		<property name="parameterService" ref="parameterService" />
 		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
-		<property name="personService" ref="personService"/>
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
 		<property name="paymentDetailService" ref="pdpPaymentDetailService"/>
 		<property name="creditMemoService" ref="creditMemoService"/>
@@ -147,7 +146,6 @@
 		<property name="documentService" ref="documentService"/>
         <property name="kualiConfigurationService" ref="kualiConfigurationService"/>
         <property name="parameterService" ref="parameterService"/>
-        <property name="personService" ref="personService"/>
         <property name="postalCodeValidationService" ref="postalCodeValidationService"/>
     	<property name="purapService" ref="purapService"/>
         <property name="requisitionDao" ref="requisitionDao"/>
@@ -181,7 +179,6 @@
     
 	<bean id="purapWorkflowIntegrationService" class="org.kuali.kfs.module.purap.document.service.impl.PurApWorkflowIntegrationServiceImpl">
         <property name="workflowDocumentService" ref="workflowDocumentService"/>
-        <property name="personService" ref="personService"/>
 	</bean>
 	
     <bean id="purapGeneralLedgerService" class="org.kuali.kfs.module.purap.service.impl.PurapGeneralLedgerServiceImpl">
@@ -295,7 +292,6 @@
         <property name="workflowInfoService" ref="workflowInfoService" />
         <property name="maintenanceDocumentService" ref="maintenanceDocumentService" />
         <property name="parameterService" ref="parameterService" />
-        <property name="personService" ref="personService" />
         <property name="mailService" ref="mailService" />
         <property name="printService" ref="printService" />
 	</bean>
@@ -354,7 +350,6 @@
         <property name="b2bDao" ref="b2bDao"/>
         <property name="requisitionService" ref="requisitionService"/>
         <property name="parameterService" ref="parameterService"/>
-        <property name="personService" ref="personService"/>
         <property name="b2bEnvironment">
         	<value>${b2b.environment}</value>
         </property>

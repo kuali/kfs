@@ -66,6 +66,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocumentService {
 
+    private PersonService<Person> personService;
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private ReceivableAccountingLineService receivableAccountingLineService;
@@ -79,7 +80,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     private CustomerInvoiceDetailService customerInvoiceDetailService;
     private CustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails;
     private UniversityDateService universityDateService;
-    private PersonService<Person> personService;
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentServiceImpl.class);
 
@@ -393,7 +393,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
 
         // 
         // attempt to retrieve the initiator person specified, and puke if not found
-        Person initiator = personService.getPersonByPrincipalName(initiatorPrincipalName);
+        Person initiator = getPersonService().getPersonByPrincipalName(initiatorPrincipalName);
         if (initiator == null) {
             throw new IllegalArgumentException("The parameter value for initiatorPrincipalName [" + initiatorPrincipalName + "] passed in doesnt map to a person.");
         }
@@ -766,8 +766,14 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         this.universityDateService = universityDateService;
     }
 
-    public void setPersonService(PersonService<Person> personService) {
-        this.personService = personService;
+    /**
+     * @return Returns the personService.
+     */
+    protected PersonService<Person> getPersonService() {
+        if(personService==null)
+            personService = SpringContext.getBean(PersonService.class);
+        return personService;
     }
+
 
 }

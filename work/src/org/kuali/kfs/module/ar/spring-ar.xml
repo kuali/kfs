@@ -123,9 +123,6 @@
 		<property name="paymentApplicationDocumentService">
 			<ref bean="paymentApplicationDocumentService" />
 		</property>
-		<property name="personService">
-			<ref bean="personService" />
-		</property>
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
@@ -287,9 +284,6 @@
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>
-		<property name="personService">
-			<ref bean="personService" />
-		</property>
 	</bean>	
 	
 	<bean id="customerInvoiceWriteoffDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceWriteoffDocumentServiceImpl">		
@@ -305,9 +299,6 @@
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>		
-		<property name="personService">
-			<ref bean="personService" />
-		</property>
 		<property name="customerInvoiceDocumentService">
 			<ref bean="customerInvoiceDocumentService" />
 		</property>	
@@ -592,9 +583,6 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>			
-		<property name="personService">
-			<ref bean="personService" />
-		</property>					
 		<property name="customerService">
 			<ref bean="customerService" />
 		</property>					
@@ -708,9 +696,6 @@
 	<bean id="accountsReceivableReportService" class="org.kuali.kfs.module.ar.report.service.impl.AccountsReceivableReportServiceImpl">
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
-		</property>
-		<property name="personService">
-			<ref bean="personService" />
 		</property>
 		<property name="documentService">
 			<ref bean="documentService" />

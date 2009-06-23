@@ -109,6 +109,37 @@
 	<bean id="PurchaseOrder-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
+				<bean parent="AccountingDocument-newAccountingLineBranchingValidation" scope="prototype">
+					<property name="branchMap">
+						<map>
+							<entry>
+								<key><value>isNewLine</value></key>
+								<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />
+							</entry>
+							<entry>
+								<key><value>isOldLine</value></key>
+								<bean parent="PurchasingAccountsPayable-fixErrorPathValidation" scope="prototype">
+									<property name="parameterProperties">
+										<list>
+											<bean parent="validationFieldConversion">
+												<property name="sourceEventProperty" value="accountingLine" />
+												<property name="targetValidationProperty" value="accountingLineForValidation" />
+											</bean>
+										</list>
+									</property>
+								</bean>
+							</entry>
+						</map>
+					</property>
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>  			
 				<bean parent="PurchaseOrder-addAccountingLineDefaultValidation-parentBean" scope="prototype">
 					<property name="quitOnFail" value="true" />
 				</bean>
@@ -181,6 +212,37 @@
 	<bean id="PurchaseOrder-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
+				<bean parent="AccountingDocument-newAccountingLineBranchingValidation" scope="prototype">
+					<property name="branchMap">
+						<map>
+							<entry>
+								<key><value>isNewLine</value></key>
+								<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />
+							</entry>
+							<entry>
+								<key><value>isOldLine</value></key>
+								<bean parent="PurchasingAccountsPayable-fixErrorPathValidation" scope="prototype">
+									<property name="parameterProperties">
+										<list>
+											<bean parent="validationFieldConversion">
+												<property name="sourceEventProperty" value="accountingLine" />
+												<property name="targetValidationProperty" value="accountingLineForValidation" />
+											</bean>
+										</list>
+									</property>
+								</bean>
+							</entry>
+						</map>
+					</property>
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>  			
   				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
   					<property name="validations">
   						<list>

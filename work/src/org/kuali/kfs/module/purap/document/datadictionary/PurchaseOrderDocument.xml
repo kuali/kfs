@@ -1385,6 +1385,7 @@
 	    <property name="importedLinePropertyPrefix" value="source"/>
 	    <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/> 
 	    <property name="importingAllowed" value="false"/> 
+	    <property name="accountingLineGroupClass" value="org.kuali.kfs.sys.document.web.CollectionAccountingLineGroupImpl"/>
     </bean>
 
     <bean id="PurchaseOrderDocument-distributeSourceAccountingLineGroup" parent="PurchaseOrderDocument-distributeSourceAccountingLineGroup-parentBean"/>  
@@ -1396,6 +1397,7 @@
 	    <property name="importedLinePropertyPrefix" value="source"/>	  
 	    <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/> 
 	    <property name="importingAllowed" value="true"/> 
+	    <property name="accountingLineGroupClass" value="org.kuali.kfs.sys.document.web.CollectionAccountingLineGroupImpl"/>
     </bean>
   
     <bean id="PurchaseOrderDocument-accountingLineView" parent="PurchaseOrderDocument-accountingLineView-parent"/>

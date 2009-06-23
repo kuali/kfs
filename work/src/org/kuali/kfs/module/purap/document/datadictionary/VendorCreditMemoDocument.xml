@@ -636,6 +636,7 @@
 	    <property name="importedLinePropertyPrefix" value="source"/>
 	    <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/> 
 	    <property name="importingAllowed" value="false"/>
+	    <property name="accountingLineGroupClass" value="org.kuali.kfs.sys.document.web.CollectionAccountingLineGroupImpl"/>
     </bean>
   
     <bean id="VendorCreditMemoDocument-accountingLineView" parent="VendorCreditMemoDocument-accountingLineView-parent"/>

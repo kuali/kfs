@@ -89,7 +89,7 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
         // only run item validations if before full entry
         if (!purapService.isFullDocumentEntryCompleted(paymentRequestDocument)) {
             if (item.getItemType().isLineItemIndicator()) {
-                valid &= validateAboveTheLineItems(item, identifierString);
+                valid &= validateAboveTheLineItems(item, identifierString,paymentRequestDocument.isReceivingDocumentRequiredIndicator());
             }
             valid &= validateItemWithoutAccounts(item, identifierString);
         }
@@ -105,7 +105,7 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
      * @param identifierString - identifier string used to mark in an error map
      * @return
      */
-    private boolean validateAboveTheLineItems(PaymentRequestItem item, String identifierString) {
+    private boolean validateAboveTheLineItems(PaymentRequestItem item, String identifierString, boolean isReceivingDocumentRequiredIndicator) {
         boolean valid = true;
         // Currently Quantity is allowed to be NULL on screen;
         // must be either a positive number or NULL for DB
@@ -115,9 +115,11 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMOUNT_BELOW_ZERO, ItemFields.INVOICE_QUANTITY, identifierString);
             }
-            if (item.getPoOutstandingQuantity().isLessThan(item.getItemQuantity())) {
-                valid = false;
-                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_QUANTITY_TOO_MANY, ItemFields.INVOICE_QUANTITY, identifierString, ItemFields.OPEN_QUANTITY);
+            if (!isReceivingDocumentRequiredIndicator){
+                if (item.getPoOutstandingQuantity().isLessThan(item.getItemQuantity())) {
+                    valid = false;
+                    GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_QUANTITY_TOO_MANY, ItemFields.INVOICE_QUANTITY, identifierString, ItemFields.OPEN_QUANTITY);
+                }
             }
         }
         if (ObjectUtils.isNotNull(item.getExtendedPrice()) && item.getExtendedPrice().isPositive() && ObjectUtils.isNotNull(item.getPoOutstandingQuantity()) && item.getPoOutstandingQuantity().isPositive()) {

@@ -20,6 +20,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.ghatten;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.rorenfro;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.ferland;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.dfogle;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.stroud;
 
@@ -74,6 +75,7 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
         RequisitionDocument reqDoc = (RequisitionDocument) documentService.getByDocumentHeaderId(reqNumber);
         String poNumber = reqDoc.getRelatedViews().getRelatedPurchaseOrderViews().get(0).getDocumentNumber();
         PurchaseOrderDocument poDoc = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(poNumber);
+        poDoc.setReceivingDocumentRequiredIndicator(false);
         // approve the PO
         poDoc.setPurchaseOrderVendorChoiceCode("LPRC");
         // submit then approve the PO
@@ -130,20 +132,16 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
         assertTrue("stroud should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         documentService.approveDocument(paymentRequestDocument, "Test approving as stroud", null); */
         WorkflowTestUtils.waitForNodeChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
-        changeCurrentUser(rorenfro);
+        changeCurrentUser(ferland);
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(paymentRequestDocument,     
                 ACCOUNT_REVIEW));
         assertTrue("Document should be enroute.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
-        assertTrue("rorenfro should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
-        documentService.approveDocument(paymentRequestDocument, "Test approving as rorenfro", null); 
-        WorkflowTestUtils.waitForNodeChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), "Tax");
-        changeCurrentUser(dfogle);
-        paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
-        documentService.approveDocument(paymentRequestDocument, "Test approving as dfogle", null); 
+        assertTrue("ferland should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
+        documentService.approveDocument(paymentRequestDocument, "Test approving as ferland", null); 
 
         WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
-//
+
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
         assertTrue("Document should now be final.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());    
         return paymentRequestDocument;

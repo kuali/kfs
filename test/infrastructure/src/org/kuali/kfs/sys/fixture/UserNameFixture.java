@@ -25,7 +25,7 @@ public enum UserNameFixture {
     kfs, // This is the KualiUser.SYSTEM_USER, which certain automated document type authorizers require.
     khuntley, // KualiTestBaseWithSession used this one by default. (testUsername in configuration.properties, no longer used but
                 // cannot be removed because that file cannot be committed).
-    ghatten, stroud, dfogle, rjweiss, rorenfro, hschrein, hsoucy, lraab, jhavens, kcopley, mhkozlow, ineff, vputman, cswinson, mylarge, rruffner, season, dqperron, aatwood, parke, appleton, twatson, butt, jkitchen , bomiddle, aickes, day, jgerhart,
+    ghatten, stroud, dfogle, rjweiss, rorenfro, sterner, ferland, hschrein, hsoucy, lraab, jhavens, kcopley, mhkozlow, ineff, vputman, cswinson, mylarge, rruffner, season, dqperron, aatwood, parke, appleton, twatson, butt, jkitchen , bomiddle, aickes, day, jgerhart,
     // Regional Budget Manager
     ocmcnall, 
     // University Administration Budget Manager

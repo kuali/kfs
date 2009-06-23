@@ -24,7 +24,7 @@ import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 
 public enum RequisitionAccountingLineFixture {
     BASIC_REQ_ACCOUNT_1(PurApAccountingLineFixture.BASIC_ACCOUNT_1, // PurApAccountingLineFixture
-            AccountingLineFixture.LINE2 // AccountingLineFixture
+            AccountingLineFixture.PURAP_LINE3 // AccountingLineFixture
     ),BASIC_REQ_ACCOUNT_2(PurApAccountingLineFixture.BASIC_ACCOUNT_1, // PurApAccountingLineFixture
             AccountingLineFixture.PURAP_LINE1 // AccountingLineFixture
     ), PERFORMANCE_ACCOUNT(PurApAccountingLineFixture.BASIC_ACCOUNT_1, // PurApAccountingLineFixture

@@ -292,12 +292,6 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
                 GlobalVariables.getErrorMap().putError(CabPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.PreTag.ERROR_PRE_TAG_DETAIL_EXCESS, new String[] { pretag.getQuantityInvoiced().toString() + "" + " Total number of detail lines " + totalNumerOfDetails.toString() });
                 success &= false;
             }
-            else {
-                if ((pretag.getQuantityInvoiced().compareTo(new KualiDecimal(0)) > 0) && (totalActiveDetails == 0)) {
-                    GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.PreAssetTagging.SECTION_ID_PREASSET_TAGGING_DETAIL, CamsKeyConstants.ERROR_NO_DETAIL_LINE);
-                    success &= false;
-                }
-            }
         }
 
         return success;

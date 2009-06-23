@@ -88,7 +88,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
         Map fieldValues = new HashMap();
         fieldValues.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PROCESS_ID, p.getId());
         List paymentGroupList = (List) this.businessObjectService.findMatching(PaymentGroup.class, fieldValues);
-        DynamicCollectionComparator.sort(paymentGroupList, PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_SORT_VALUE, PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYEE_NAME, PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_LINE1_ADDRESS);
+        DynamicCollectionComparator.sort(paymentGroupList, PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_SORT_VALUE, PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYEE_NAME, PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_LINE1_ADDRESS, PdpPropertyConstants.PaymentGroup.NOTES_LINES);
         
         return paymentGroupList.iterator();
     }

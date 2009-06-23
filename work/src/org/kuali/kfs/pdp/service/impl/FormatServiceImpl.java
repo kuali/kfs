@@ -433,7 +433,7 @@ public class FormatServiceImpl implements FormatService {
                         paymentInfo.noteLines = paymentInfo.noteLines.add(new KualiInteger(paymentGroup.getNoteLines()));
 
                         // if noteLines don't excede the maximum assign the same disbursementNumber
-                        if (paymentInfo.noteLines.intValue() < maxNoteLines) {
+                        if (paymentInfo.noteLines.intValue() <= maxNoteLines) {
                             KualiInteger checkNumber = paymentInfo.disbursementNumber;
                             paymentGroup.setDisbursementNbr(checkNumber);
                             

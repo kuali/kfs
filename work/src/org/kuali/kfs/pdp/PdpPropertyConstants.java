@@ -170,7 +170,7 @@ public class PdpPropertyConstants {
         public static final String NRA_PAYMENT = "nraPayment";
         public static final String PROCESS_IMMEDIATE = "processImmediate";
         public static final String PAYMENT_DATE = "paymentDate"; 
-        
+        public static final String NOTES_LINES = "noteLines";
     }
     
     public static class PaymentProcess {

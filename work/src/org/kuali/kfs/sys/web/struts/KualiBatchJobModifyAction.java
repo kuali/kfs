@@ -82,7 +82,7 @@ public class KualiBatchJobModifyAction extends KualiAction {
         AttributeSet permissionDetails = new AttributeSet();
         permissionDetails.put(KfsKimAttributes.NAMESPACE_CODE, form.getJob().getNamespaceCode());
         permissionDetails.put(KfsKimAttributes.BEAN_NAME, form.getJob().getName());
-        return getIdentityManagementService().isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.MODIFY_BATCH_JOB, permissionDetails, new AttributeSet(getRoleQualification(form, actionType)));
+        return getIdentityManagementService().isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KNSConstants.KNS_NAMESPACE, KFSConstants.PermissionTemplate.MODIFY_BATCH_JOB.name, permissionDetails, new AttributeSet(getRoleQualification(form, actionType)));
     }
     
     protected void checkJobAuthorization(KualiBatchJobModifyForm form, String actionType) throws AuthorizationException {

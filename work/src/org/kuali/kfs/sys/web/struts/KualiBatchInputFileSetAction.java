@@ -89,7 +89,7 @@ public class KualiBatchInputFileSetAction extends KualiAction {
         AttributeSet permissionDetails = new AttributeSet();
         permissionDetails.put(KimAttributes.NAMESPACE_CODE, KimCommonUtils.getNamespaceCode(batchInputFileType.getClass()));
         permissionDetails.put(KimAttributes.BEAN_NAME, batchUpload.getBatchInputTypeName());
-        if (!getIdentityManagementService().isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.UPLOAD_BATCH_INPUT_FILES, permissionDetails, null)) {
+        if (!getIdentityManagementService().isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KNSConstants.KNS_NAMESPACE, KFSConstants.PermissionTemplate.UPLOAD_BATCH_INPUT_FILES.name, permissionDetails, null)) {
             throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalName(), methodToCall, batchUpload.getBatchInputTypeName());
         }
     }

@@ -19,6 +19,7 @@ import java.io.File;
 import java.util.List;
 
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchFile;
 import org.kuali.kfs.sys.batch.BatchFileUtils;
 import org.kuali.kfs.sys.batch.service.BatchFileAdminAuthorizationService;
@@ -40,13 +41,13 @@ public class BatchFileAdminAuthorizationServiceImpl implements BatchFileAdminAut
     
     public boolean canDownload(BatchFile batchFile, Person user) {
         return getIdentityManagementService().isAuthorizedByTemplateName(user.getPrincipalId(),
-                KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.VIEW_BATCH_FILES,
+                KNSConstants.KNS_NAMESPACE, KFSConstants.PermissionTemplate.VIEW_BATCH_FILES.name,
                 generateDownloadCheckPermissionDetails(batchFile, user), generateDownloadCheckRoleQualifiers(batchFile, user));
     }
 
     public boolean canDelete(BatchFile batchFile, Person user) {
         return getIdentityManagementService().isAuthorizedByTemplateName(user.getPrincipalId(),
-                KNSConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.VIEW_BATCH_FILES,
+                KNSConstants.KNS_NAMESPACE, KFSConstants.PermissionTemplate.VIEW_BATCH_FILES.name,
                 generateDownloadCheckPermissionDetails(batchFile, user), generateDownloadCheckRoleQualifiers(batchFile, user));
     }
     

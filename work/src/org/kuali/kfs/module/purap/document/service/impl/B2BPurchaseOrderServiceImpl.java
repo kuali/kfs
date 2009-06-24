@@ -183,6 +183,8 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         cxml.append("        <Total>\n");
         cxml.append("          <Money currency=\"USD\">").append(purchaseOrder.getTotalDollarAmount()).append("</Money>\n");
         cxml.append("        </Total>\n");
+        
+        
         cxml.append("        <ShipTo>\n");
         cxml.append("          <Address addressID=\"").append(purchaseOrder.getDeliveryCampusCode()).append(purchaseOrder.getOrganizationCode()).append("\">\n");
         cxml.append("            <Name xml:lang=\"en\">Kuali</Name>\n");
@@ -200,23 +202,42 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         else {
             cxml.append("              <DeliverTo><![CDATA[").append(purchaseOrder.getRequestorPersonPhoneNumber()).append("]]></DeliverTo>\n");
         }
-        if (StringUtils.isNotEmpty(purchaseOrder.getDeliveryBuildingName())) {
-            cxml.append("              <DeliverTo><![CDATA[").append(purchaseOrder.getDeliveryBuildingName()).append("]]></DeliverTo>\n");
+
+        //check indicator to decide if receiving or delivery address should be sent to the vendor
+        if (purchaseOrder.getAddressToVendorIndicator()) {  //use receiving address
+            if (StringUtils.isNotEmpty(purchaseOrder.getReceivingName())) {
+                cxml.append("              <DeliverTo><![CDATA[").append(purchaseOrder.getReceivingName()).append("]]></DeliverTo>\n");
+            }
+            cxml.append("              <Street><![CDATA[").append(purchaseOrder.getReceivingLine1Address().trim()).append("]]></Street>\n");
+            if (StringUtils.isNotEmpty(purchaseOrder.getReceivingLine2Address())) {
+                cxml.append("              <Street><![CDATA[").append(purchaseOrder.getReceivingLine2Address().trim()).append("]]></Street>\n");
+            }
+            cxml.append("              <City><![CDATA[").append(purchaseOrder.getReceivingCityName().trim()).append("]]></City>\n");
+            cxml.append("              <State>").append(purchaseOrder.getReceivingStateCode()).append("</State>\n");
+            cxml.append("              <PostalCode>").append(purchaseOrder.getReceivingPostalCode()).append("</PostalCode>\n");
+            cxml.append("              <Country isoCountryCode=\"").append(purchaseOrder.getReceivingCountryCode()).append("\">").append(purchaseOrder.getReceivingCountryCode()).append("</Country>\n");
         }
-        cxml.append("              <Street><![CDATA[").append(purchaseOrder.getDeliveryBuildingLine1Address().trim()).append("]]></Street>\n");
-        if (StringUtils.isNotEmpty(purchaseOrder.getDeliveryBuildingLine2Address())) {
-            cxml.append("              <Street><![CDATA[").append(purchaseOrder.getDeliveryBuildingLine2Address().trim()).append("]]></Street>\n");
+        else { //use final delivery address
+            if (StringUtils.isNotEmpty(purchaseOrder.getDeliveryBuildingName())) {
+                cxml.append("              <DeliverTo><![CDATA[").append(purchaseOrder.getDeliveryBuildingName()).append(" (").append(purchaseOrder.getDeliveryBuildingCode()).append(")]]></DeliverTo>\n");
+            }
+            cxml.append("              <Street><![CDATA[").append(purchaseOrder.getDeliveryBuildingLine1Address().trim()).append("]]></Street>\n");
+            if (StringUtils.isNotEmpty(purchaseOrder.getDeliveryBuildingLine2Address())) {
+                cxml.append("              <Street><![CDATA[").append(purchaseOrder.getDeliveryBuildingLine2Address().trim()).append("]]></Street>\n");
+            }
+            if (StringUtils.isNotEmpty(purchaseOrder.getDeliveryBuildingRoomNumber())) {
+                cxml.append("              <Street><![CDATA[").append(purchaseOrder.getDeliveryBuildingRoomNumber().trim()).append("]]></Street>\n");
+            }
+            cxml.append("              <City><![CDATA[").append(purchaseOrder.getDeliveryCityName().trim()).append("]]></City>\n");
+            cxml.append("              <State>").append(purchaseOrder.getDeliveryStateCode()).append("</State>\n");
+            cxml.append("              <PostalCode>").append(purchaseOrder.getDeliveryPostalCode()).append("</PostalCode>\n");
+            cxml.append("              <Country isoCountryCode=\"").append(purchaseOrder.getDeliveryCountryCode()).append("\">").append(purchaseOrder.getDeliveryCountryName()).append("</Country>\n");
         }
-        if (StringUtils.isNotEmpty(purchaseOrder.getDeliveryBuildingRoomNumber())) {
-            cxml.append("              <Street><![CDATA[").append(purchaseOrder.getDeliveryBuildingRoomNumber().trim()).append("]]></Street>\n");
-        }
-        cxml.append("              <City><![CDATA[").append(purchaseOrder.getDeliveryCityName().trim()).append("]]></City>\n");
-        cxml.append("              <State>").append(purchaseOrder.getDeliveryStateCode()).append("</State>\n");
-        cxml.append("              <PostalCode>").append(purchaseOrder.getDeliveryPostalCode()).append("</PostalCode>\n");
-        cxml.append("              <Country isoCountryCode=\"").append(purchaseOrder.getDeliveryCountryCode()).append("\">").append(purchaseOrder.getDeliveryCountryName()).append("</Country>\n");
         cxml.append("            </PostalAddress>\n");
         cxml.append("          </Address>\n");
         cxml.append("        </ShipTo>\n");
+
+        
         cxml.append("        <BillTo>\n");
         cxml.append("          <Address addressID=\"").append(purchaseOrder.getDeliveryCampusCode()).append("\">\n");
         cxml.append("            <Name xml:lang=\"en\"><![CDATA[").append(purchaseOrder.getBillingName().trim()).append("]]></Name>\n");

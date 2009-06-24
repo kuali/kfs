@@ -83,16 +83,22 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     }
 
     public Integer getCapitalAssetQuantity() {
+        // Return capitalAssetQuantity first if it already set. Otherwise, return the size of details. If the order is reversed, the
+        // user input of quantity may be overridden.
+        if (this.capitalAssetQuantity != null) {
+            return this.capitalAssetQuantity;
+        }
+
         if (ObjectUtils.isNotNull(capitalAssetInformationDetails) && !capitalAssetInformationDetails.isEmpty()) {
             return capitalAssetInformationDetails.size();
         }
-
-        return capitalAssetQuantity;
+        return null;
     }
 
     public void setCapitalAssetQuantity(Integer capitalAssetQuantity) {
         this.capitalAssetQuantity = capitalAssetQuantity;
     }
+
 
     public String getCapitalAssetTypeCode() {
         return capitalAssetTypeCode;

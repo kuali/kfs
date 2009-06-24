@@ -1178,8 +1178,8 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
                 maxItemNumber = detailLine.getItemLineNumber();
             }
         }
-
-        for (int index = 1; index <= quantity; index++) {
+        // If details collection has old lines, this loop will add new lines to make the total equal to the quantity. 
+        for (int index = 1; detailLines.size() < quantity; index++) {
             CapitalAssetInformationDetail detailLine = new CapitalAssetInformationDetail();
             detailLine.setItemLineNumber(maxItemNumber + index);
             detailLine.setVersionNumber(1L);

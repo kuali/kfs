@@ -1442,12 +1442,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
         }
 
+        valid &= validateTotalNumberOfAssetTagLines(capitalAssetInformation);
+
         int index = 0;
         List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAssetInformation.getCapitalAssetInformationDetails();
         for (CapitalAssetInformationDetail dtl : capitalAssetInformationDetails) {
             // We have to explicitly call this DD service to uppercase each field. This may not be the best place and maybe form
-            // populate
-            // is a better place but we CAMS team don't own FP document. This is the best we can do for now.
+            // populate is a better place but we CAMS team don't own FP document. This is the best we can do for now.
             SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(dtl);
             String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
 
@@ -1486,6 +1487,28 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_ROOM_NUMBER, dtl.getBuildingRoomNumber(), dtl.getBuildingCode(), dtl.getCampusCode());
             }
             index++;
+        }
+
+        return valid;
+    }
+
+    /**
+     * Validate asset quantity the user entered matching the number of asset tag lines.
+     * 
+     * @param capitalAssetInformation
+     * @return
+     */
+    private boolean validateTotalNumberOfAssetTagLines(CapitalAssetInformation capitalAssetInformation) {
+        boolean valid = true;
+        Integer userInputAssetQuantity = capitalAssetInformation.getCapitalAssetQuantity();
+        if (userInputAssetQuantity != null && (ObjectUtils.isNull(capitalAssetInformation.getCapitalAssetInformationDetails()) || capitalAssetInformation.getCapitalAssetInformationDetails().isEmpty())) {
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_QUANTITY, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_TAG_LINE_REQUIRED);
+            valid = false;
+        }
+        else if (userInputAssetQuantity != null && userInputAssetQuantity.intValue() != capitalAssetInformation.getCapitalAssetInformationDetails().size()) {
+            String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_QUANTITY);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_QUANTITY, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_QUANTITY_NOT_MATCHING_TAG_LINES, label);
+            valid = false;
         }
 
         return valid;

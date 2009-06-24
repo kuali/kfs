@@ -54,7 +54,8 @@ public class CabKeyConstants {
         public static final String ERROR_ASSET_CREATE_NEW_ALLOW_ONLY = "error.asset.create.new.allow.only";
         public static final String ERROR_ASSET_NEW_OR_UPDATE_ONLY = "error.asset.new.or.update.only";
         public static final String ERROR_ASSET_ACTIVE_CAPITAL_ASSET_REQUIRED = "error.asset.active.capital.asset.required";
-        
+        public static final String ERROR_ASSET_TAG_LINE_REQUIRED = "error.asset.tag.line.required";
+        public static final String ERROR_ASSET_QUANTITY_NOT_MATCHING_TAG_LINES = "error.asset.quantity.not.matching.tag.lines";
     }
     
     public static final String CHART_ORG_DISALLOWED_BY_CURRENT_USER = "chart.org.disallowed.by.current.user";

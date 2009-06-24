@@ -248,6 +248,7 @@
     <property name="name" value="defaultSubAccountNumber" />
     <property name="label" value="Default Sub Account" />
     <property name="shortLabel" value="Default Sub Account" />
+    <property name="required" value="false"/>
   </bean>
   
   <bean id="CustomerProfile-defaultObjectCode" parent="CustomerProfile-defaultObjectCode-parentBean" />
@@ -262,6 +263,7 @@
     <property name="name" value="defaultSubObjectCode" />
     <property name="label" value="Default Sub Object Code" />
     <property name="shortLabel" value="Default Sub Object Code" />
+    <property name="required" value="false"/>
   </bean>
   
   <bean id="CustomerProfile-address1" parent="CustomerProfile-address1-parentBean" />

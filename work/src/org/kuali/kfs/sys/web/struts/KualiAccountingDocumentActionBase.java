@@ -1204,6 +1204,8 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
 
             capitalAssetInformation.setVendorDetailAssignedIdentifier(null);
             capitalAssetInformation.setVendorHeaderGeneratedIdentifier(null);
+            // Set the BO to null cause it won't be updated automatically when vendorDetailAssetIdentifier and VendorHeanderGeneratedIndentifier set to null.
+            capitalAssetInformation.setVendorDetail(null);
             capitalAssetInformation.setVendorName(null);
 
             capitalAssetInformation.getCapitalAssetInformationDetails().clear();

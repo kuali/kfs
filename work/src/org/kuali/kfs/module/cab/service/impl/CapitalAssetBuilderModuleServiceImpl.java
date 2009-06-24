@@ -1506,8 +1506,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             valid = false;
         }
         else if (userInputAssetQuantity != null && userInputAssetQuantity.intValue() != capitalAssetInformation.getCapitalAssetInformationDetails().size()) {
-            String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_QUANTITY);
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_QUANTITY, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_QUANTITY_NOT_MATCHING_TAG_LINES, label);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_QUANTITY, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_QUANTITY_NOT_MATCHING_TAG_LINES);
             valid = false;
         }
 

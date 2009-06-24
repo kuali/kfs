@@ -102,7 +102,6 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -437,7 +436,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         if (ObjectUtils.isNull(getPurapDocumentIdentifier())) {
             // need retrieve the next available PO id to save in GL entries (only do if purap id is null which should be on first
             // save)
-            SequenceAccessorService sas = KNSServiceLocator.getSequenceAccessorService();
+            SequenceAccessorService sas = SpringContext.getBean(SequenceAccessorService.class);
             Long poSequenceNumber = sas.getNextAvailableSequenceNumber("PO_ID", this.getClass());
             setPurapDocumentIdentifier(poSequenceNumber.intValue());
         }

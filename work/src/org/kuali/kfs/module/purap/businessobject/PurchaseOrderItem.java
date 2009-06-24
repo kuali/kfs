@@ -29,7 +29,6 @@ import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -72,10 +71,8 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         super();
 
         this.setPurchaseOrder(po);
-
-        SequenceAccessorService sas = KNSServiceLocator.getSequenceAccessorService();
-        Integer itemIdentifier = sas.getNextAvailableSequenceNumber("PO_ITM_ID", PurchaseOrderDocument.class).intValue();
-        
+        SequenceAccessorService sas = SpringContext.getBean(SequenceAccessorService.class);
+        Integer itemIdentifier = sas.getNextAvailableSequenceNumber("PO_ITM_ID", PurchaseOrderDocument.class).intValue();        
         this.setItemIdentifier(itemIdentifier);        
         this.setItemLineNumber(ri.getItemLineNumber());
         this.setItemUnitOfMeasureCode(ri.getItemUnitOfMeasureCode());
@@ -84,8 +81,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         this.setItemDescription(ri.getItemDescription());
         this.setItemUnitPrice(ri.getItemUnitPrice());
         this.setItemAuxiliaryPartIdentifier(ri.getItemAuxiliaryPartIdentifier());
-        this.setItemAssignedToTradeInIndicator(ri.getItemAssignedToTradeInIndicator());
-        
+        this.setItemAssignedToTradeInIndicator(ri.getItemAssignedToTradeInIndicator());        
         this.setItemTaxAmount( ri.getItemTaxAmount() );
         
         //copy use tax items over, and blank out keys (useTaxId and itemIdentifier)

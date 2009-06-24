@@ -112,7 +112,7 @@
 	<!-- the account deletion is handled within our buildDeletionAwareLists, setting auto-delete=none as a workaround to Optimistic Locking Exception for now -->
     <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
         <orderby name="accountNumber" sort="ASC" />
-        <orderby name="objectCode" sort="ASC" />
+        <orderby name="financialObjectCode" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
         <inverse-foreignkey field-ref="itemIdentifier" />
     </collection-descriptor>
@@ -175,7 +175,7 @@
     <!-- the account deletion is handled within our buildDeletionAwareLists, setting auto-delete=none as a workaround to Optimistic Locking Exception for now -->
     <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.RequisitionAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
         <orderby name="accountNumber" sort="ASC" />
-        <orderby name="objectCode" sort="ASC" />
+        <orderby name="financialObjectCode" sort="ASC" />
         <inverse-foreignkey field-ref="itemIdentifier" />
     </collection-descriptor>    
     <collection-descriptor name="useTaxItems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseRequisitionItemUseTax" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -2902,7 +2902,7 @@
     <!-- the account deletion is handled within our buildDeletionAwareLists, setting auto-delete=none as a workaround to Optimistic Locking Exception for now -->
     <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
         <orderby name="accountNumber" sort="ASC" />
-        <orderby name="objectCode" sort="ASC" />
+        <orderby name="financialObjectCode" sort="ASC" />
         <inverse-foreignkey field-ref="itemIdentifier" />
     </collection-descriptor>
     <collection-descriptor name="useTaxItems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PaymentRequestItemUseTax" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -3599,7 +3599,7 @@
     <!-- the account deletion is handled within our buildDeletionAwareLists, setting auto-delete=none as a workaround to Optimistic Locking Exception for now -->
     <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.CreditMemoAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
         <orderby name="accountNumber" sort="ASC" />
-        <orderby name="objectCode" sort="ASC" />
+        <orderby name="financialObjectCode" sort="ASC" />
         <inverse-foreignkey field-ref="itemIdentifier" />
     </collection-descriptor>
     <collection-descriptor name="useTaxItems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.CreditMemoItemUseTax" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">

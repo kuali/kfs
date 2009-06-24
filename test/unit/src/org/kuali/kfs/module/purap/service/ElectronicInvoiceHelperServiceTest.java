@@ -90,7 +90,7 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         //Therefore, for unit test purpose, let's set the schemaLocation to CNV url.
         String schemaLocation = electronicInvoiceInputFileType.getSchemaLocation();
         int beginIndex = schemaLocation.indexOf("static");
-        String newSchemaLocation = "https://test.kuali.org/kfs-cnv/" + schemaLocation.substring(beginIndex);
+        String newSchemaLocation = "https://test.kuali.org/kfs-reg/" + schemaLocation.substring(beginIndex);
         electronicInvoiceInputFileType.setSchemaLocation(newSchemaLocation);
         
         ElectronicInvoiceLoad load = SpringContext.getBean(ElectronicInvoiceHelperService.class).loadElectronicInvoices();

@@ -80,7 +80,7 @@ public class ElectronicInvoiceParserTest extends KualiTestBase {
         //Therefore, for unit test purpose, let's set the schemaLocation to CNV url.
         String schemaLocation = eInvoiceInputFileType.getSchemaLocation();
         int beginIndex = schemaLocation.indexOf("static");
-        String newSchemaLocation = "https://test.kuali.org/kfs-cnv/" + schemaLocation.substring(beginIndex);
+        String newSchemaLocation = "https://test.kuali.org/kfs-reg/" + schemaLocation.substring(beginIndex);
         eInvoiceInputFileType.setSchemaLocation(newSchemaLocation);
         eInvoice = (ElectronicInvoice) batchInputFileService.parse(eInvoiceInputFileType, fileByteContent);
         

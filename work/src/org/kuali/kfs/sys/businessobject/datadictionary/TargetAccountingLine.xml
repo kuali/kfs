@@ -31,6 +31,7 @@
         <ref bean="TargetAccountingLine-encumbranceUpdateCode" />
         <ref bean="TargetAccountingLine-objectTypeCode" />
         <ref bean="TargetAccountingLine-accountExpiredOverride" />
+        <ref bean="TargetAccountingLine-nonFringeAccountOverride" />
         <ref bean="TargetAccountingLine-objectBudgetOverride" />
         <ref bean="TargetAccountingLine-financialDocumentLineDescription" />
         <ref bean="TargetAccountingLine-salesTaxRequired" />
@@ -273,6 +274,22 @@
     
     
   </bean>
+  
+  <bean id="TargetAccountingLine-nonFringeAccountOverride" parent="TargetAccountingLine-nonFringeAccountOverride-parentBean" />
+
+  <bean id="TargetAccountingLine-nonFringeAccountOverride-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="nonFringeAccountOverride" />
+    <property name="label" value="Non-fringe Account Override" />
+    <property name="shortLabel" value="Non-fringe Override" />
+    <property name="maxLength" value="1" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+    
+    
+  </bean>
+  
   <bean id="TargetAccountingLine-objectBudgetOverride" parent="TargetAccountingLine-objectBudgetOverride-parentBean" />
 
   <bean id="TargetAccountingLine-objectBudgetOverride-parentBean" abstract="true" parent="AttributeDefinition">

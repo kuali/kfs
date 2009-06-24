@@ -204,7 +204,8 @@ public class FormatServiceImpl implements FormatService {
     /**
      * @see org.kuali.kfs.pdp.service.FormatService#performFormat(java.lang.Integer)
      */
-    public void performFormat(Integer processId) {
+    public boolean performFormat(Integer processId) {
+        boolean successful = true;
         LOG.debug("performFormat() started");
 
         // get the PaymentProcess for the given id
@@ -240,7 +241,7 @@ public class FormatServiceImpl implements FormatService {
             Bank originalBank = paymentGroup.getBank();
 
             // process payment group data
-            processPaymentGroup(paymentGroup, paymentProcess, checkDisbursementType, achDisbursementType, extractedPaymentStatus, pendingPaymentStatus);
+            successful &= processPaymentGroup(paymentGroup, paymentProcess, checkDisbursementType, achDisbursementType, extractedPaymentStatus, pendingPaymentStatus);
 
             // create payment history record if bank was changed
             if (StringUtils.isNotBlank(originalBankCode) && !paymentGroup.getBankCode().equals(originalBankCode)) {
@@ -268,23 +269,25 @@ public class FormatServiceImpl implements FormatService {
         }
 
         // step 2 assign disbursement numbers and combine checks into one if possible
-        assignDisbursementNumbersAndCombineChecks(campus, paymentProcess, postFormatProcessSummary);
+        successful &= assignDisbursementNumbersAndCombineChecks(campus, paymentProcess, postFormatProcessSummary);
+        if (successful) {
+            // step 3 save the summarizing info
+            LOG.debug("performFormat() Save summarizing information");
+            postFormatProcessSummary.save();
 
-        // step 3 save the summarizing info
-        LOG.debug("performFormat() Save summarizing information");
-        postFormatProcessSummary.save();
+            // step 4 set formatted indicator to true and save in the db
+            paymentProcess.setFormattedIndicator(true);
+            businessObjectService.save(paymentProcess);
 
-        // step 4 set formatted indicator to true and save in the db
-        paymentProcess.setFormattedIndicator(true);
-        businessObjectService.save(paymentProcess);
+            // step 5 end the format process for this campus
+            LOG.debug("performFormat() End the format process for this campus");
+            endFormatProcess(campus);
 
-        // step 5 end the format process for this campus
-        LOG.debug("performFormat() End the format process for this campus");
-        endFormatProcess(campus);
-
-        // step 6 tell the extract batch job to start
-        LOG.debug("performFormat() Start extract");
-        extractChecks();
+            // step 6 tell the extract batch job to start
+            LOG.debug("performFormat() Start extract");
+            extractChecks();
+        }   
+        return successful;
     }
 
     /**
@@ -297,7 +300,8 @@ public class FormatServiceImpl implements FormatService {
      * @param extractedPaymentStatus
      * @param pendingPaymentStatus
      */
-    protected void processPaymentGroup(PaymentGroup paymentGroup, PaymentProcess paymentProcess, DisbursementType checkDisbursementType, DisbursementType achDisbursementType, PaymentStatus extractedPaymentStatus, PaymentStatus pendingPaymentStatus) {
+    protected boolean processPaymentGroup(PaymentGroup paymentGroup, PaymentProcess paymentProcess, DisbursementType checkDisbursementType, DisbursementType achDisbursementType, PaymentStatus extractedPaymentStatus, PaymentStatus pendingPaymentStatus) {
+        boolean successful = true;
         CustomerProfile customer = paymentGroup.getBatch().getCustomerProfile();
 
         // Set the sort field to be saved in the database
@@ -354,8 +358,9 @@ public class FormatServiceImpl implements FormatService {
             if (ObjectUtils.isNull(paymentGroup.getBank())) {
                 LOG.error("performFormat() A bank is needed for CHCK for customer: " + customer);
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_BANK_MISSING, customer.getCustomerShortName());
-
-                throw new FormatException("A bank is needed for CHCK for customer: " + customer.getChartCode() + "-" + customer.getUnitCode() + "-" + customer.getSubUnitCode());
+                successful = false;
+                return successful;
+               // throw new FormatException("A bank is needed for CHCK for customer: " + customer.getChartCode() + "-" + customer.getUnitCode() + "-" + customer.getSubUnitCode());
             }
         }
         else {
@@ -380,8 +385,9 @@ public class FormatServiceImpl implements FormatService {
             if (ObjectUtils.isNull(paymentGroup.getBank())) {
                 LOG.error("performFormat() A bank is needed for ACH for customer: " + customer);
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_BANK_MISSING, customer.getCustomerShortName());
-
-                throw new FormatException("A bank is needed for ACH for customer: " + customer.getChartCode() + "-" + customer.getUnitCode() + "-" + customer.getSubUnitCode());
+                successful = false;
+                return successful;
+            //    throw new FormatException("A bank is needed for ACH for customer: " + customer.getChartCode() + "-" + customer.getUnitCode() + "-" + customer.getSubUnitCode());
             }
 
             paymentGroup.setAchBankRoutingNbr(payeeAchAccount.getBankRoutingNumber());
@@ -393,6 +399,7 @@ public class FormatServiceImpl implements FormatService {
             achAccountNumber.setId(paymentGroup.getId());
             paymentGroup.setAchAccountNumber(achAccountNumber);
         }
+        return successful;
     }
 
     /**
@@ -401,7 +408,9 @@ public class FormatServiceImpl implements FormatService {
      * @param paymentProcess
      * @param postFormatProcessSummary
      */
-    protected void assignDisbursementNumbersAndCombineChecks(String campus, PaymentProcess paymentProcess, FormatProcessSummary postFormatProcessSummary) {
+    protected boolean assignDisbursementNumbersAndCombineChecks(String campus, PaymentProcess paymentProcess, FormatProcessSummary postFormatProcessSummary) {
+        boolean successful = true;
+        
         // keep a map with paymentGroupKey and PaymentInfo (disbursementNumber, noteLines)
         Map<String, PaymentInfo> combinedChecksMap = new HashMap<String, PaymentInfo>();
 
@@ -417,7 +426,9 @@ public class FormatServiceImpl implements FormatService {
 
             if (range == null) {
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_DISBURSEMENT_MISSING, campus, paymentGroup.getBank().getBankCode(), paymentGroup.getDisbursementType().getCode());
-                throw new FormatException("No disbursement range for bank code " + paymentGroup.getBank().getBankCode() + " and disbursement type code " + paymentGroup.getDisbursementType().getCode());
+                successful = false;
+                return successful;
+               // throw new FormatException("No disbursement range for bank code " + paymentGroup.getBank().getBankCode() + " and disbursement type code " + paymentGroup.getDisbursementType().getCode());
             }
 
             if (PdpConstants.DisbursementTypeCodes.CHECK.equals(paymentGroup.getDisbursementType().getCode())) {
@@ -491,6 +502,7 @@ public class FormatServiceImpl implements FormatService {
         for (DisbursementNumberRange element : disbursementRanges) {
             this.businessObjectService.save(element);
         }
+        return successful;
     }
 
     /**

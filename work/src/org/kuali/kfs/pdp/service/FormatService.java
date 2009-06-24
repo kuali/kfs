@@ -55,7 +55,7 @@ public interface FormatService {
      * This method formats the data for check printing.
      * @param procId
      */
-    public void performFormat(Integer procId);
+    public boolean performFormat(Integer procId);
 
     /**
      *  If the start format process was run and errored out,

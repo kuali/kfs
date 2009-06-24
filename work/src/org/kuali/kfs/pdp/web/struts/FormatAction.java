@@ -179,18 +179,17 @@ public class FormatAction extends KualiAction {
      */
     public ActionForward continueFormat(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         FormatForm formatForm = (FormatForm) form;
+        KualiInteger processId = formatForm.getFormatProcessSummary().getProcessId();
 
-        try {
-            KualiInteger processId = formatForm.getFormatProcessSummary().getProcessId();
-            formatService.performFormat(processId.intValue());
-
+        
+        boolean successful = formatService.performFormat(processId.intValue());
+        if (successful) {
             String lookupUrl = buildUrl(String.valueOf(processId.intValue()));
 
             return new ActionForward(lookupUrl, true);
-        }
-        catch (FormatException e) {
+        } else
             return mapping.findForward(PdpConstants.MAPPING_CONTINUE);
-        }
+        
     }
 
     /**

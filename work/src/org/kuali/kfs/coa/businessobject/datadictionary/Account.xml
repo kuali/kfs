@@ -69,12 +69,15 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="Account-active" />
         <ref bean="Account-closed" />
         <ref bean="Account-accountFiscalOfficerSystemIdentifier" />
+        <ref bean="Account-accountFiscalOfficerSystemIdentifierForSearching" />
         <ref bean="Account-accountFiscalOfficerUser.principalName" />
         <ref bean="Account-accountFiscalOfficerUser.name" />
         <ref bean="Account-accountsSupervisorySystemsIdentifier" />
+        <ref bean="Account-accountsSupervisorySystemsIdentifierForSearching" />
         <ref bean="Account-accountSupervisoryUser.principalName" />
         <ref bean="Account-accountSupervisoryUser.name" />
         <ref bean="Account-accountManagerSystemIdentifier" />
+        <ref bean="Account-accountManagerSystemIdentifierForSearching" />
         <ref bean="Account-accountManagerUser.principalName" />
         <ref bean="Account-accountManagerUser.name" />
         <ref bean="Account-accountGuideline.accountExpenseGuidelineText" />
@@ -660,6 +663,19 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="displayLabelAttribute" value="accountFiscalOfficerUser.principalName" />
   </bean>
 
+  <bean id="Account-accountFiscalOfficerSystemIdentifierForSearching" parent="Account-accountFiscalOfficerSystemIdentifierForSearching-parentBean" />
+
+  <bean id="Account-accountFiscalOfficerSystemIdentifierForSearching-parentBean" abstract="true" parent="PersonImpl-principalId">
+    <property name="name" value="accountFiscalOfficerSystemIdentifierForSearching" />
+    <property name="label" value="Fiscal Officer Unvl ID" />
+    <property name="shortLabel" value="FiscOffId" />
+    <property name="control" >
+      <bean parent="TextControlDefinition" />
+    </property>
+    <property name="displayLabelAttribute" value="accountFiscalOfficerUser.principalName" />
+  </bean>
+
+
   <bean id="Account-accountFiscalOfficerUser.principalName" parent="Account-accountFiscalOfficerUser.principalName-parentBean" />
 
   <dd:boAttributeRef id="Account-accountFiscalOfficerUser.principalName-parentBean" parent="PersonImpl-principalName" abstract="true"
@@ -688,6 +704,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="displayLabelAttribute" value="accountSupervisoryUser.principalName" />
   </bean>
+  
+  <bean id="Account-accountsSupervisorySystemsIdentifierForSearching" parent="Account-accountsSupervisorySystemsIdentifierForSearching-parentBean" />
+
+  <bean id="Account-accountsSupervisorySystemsIdentifierForSearching-parentBean" abstract="true" parent="PersonImpl-principalId">
+     <property name="name" value="accountsSupervisorySystemsIdentifierForSearching" />
+    <property name="label" value="Supervisor Unvl ID" />
+    <property name="shortLabel" value="SprvsrId" />
+    <property name="control" >
+      <bean parent="TextControlDefinition" />
+    </property>
+    <property name="displayLabelAttribute" value="accountSupervisoryUser.principalName" />
+  </bean>
 
   <bean id="Account-accountSupervisoryUser.principalName" parent="Account-accountSupervisoryUser.principalName-parentBean" />
 
@@ -710,6 +738,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Account Supervisor Name" />
     <property name="required" value="false" />
   </bean>
+  
   <bean id="Account-accountManagerSystemIdentifier" parent="Account-accountManagerSystemIdentifier-parentBean" />
 
   <bean id="Account-accountManagerSystemIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
@@ -721,6 +750,19 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="displayLabelAttribute" value="accountManagerUser.principalName" />
   </bean>
+  
+  <bean id="Account-accountManagerSystemIdentifierForSearching" parent="Account-accountManagerSystemIdentifierForSearching-parentBean" />
+  
+  <bean id="Account-accountManagerSystemIdentifierForSearching-parentBean" abstract="true" parent="PersonImpl-principalId">
+   <property name="name" value="accountManagerSystemIdentifierForSearching" />
+    <property name="label" value="Manager Unvl ID" />
+    <property name="shortLabel" value="MgrId" />
+    <property name="control" >
+      <bean parent="TextControlDefinition" />
+    </property>
+    <property name="displayLabelAttribute" value="accountManagerUser.principalName" />
+  </bean>
+  
   <bean id="Account-accountManagerUser.principalName" parent="Account-accountManagerUser.principalName-parentBean" />
 
   <bean id="Account-accountManagerUser.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">

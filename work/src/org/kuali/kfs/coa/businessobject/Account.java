@@ -1128,6 +1128,14 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     }
 
     /**
+     * @return Returns the accountFiscalOfficerSystemIdentifier.
+     */
+    public String getAccountFiscalOfficerSystemIdentifierForSearching() {
+        return getAccountFiscalOfficerSystemIdentifier();
+    }
+    
+    
+    /**
      * @param accountFiscalOfficerSystemIdentifier The accountFiscalOfficerSystemIdentifier to set.
      */
     public void setAccountFiscalOfficerSystemIdentifier(String accountFiscalOfficerSystemIdentifier) {
@@ -1139,6 +1147,13 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      */
     public String getAccountManagerSystemIdentifier() {
         return accountManagerSystemIdentifier;
+    }
+    
+    /**
+     * @return Returns the accountManagerSystemIdentifier.
+     */
+    public String getAccountManagerSystemIdentifierForSearching() {
+        return getAccountManagerSystemIdentifier();
     }
 
     /**
@@ -1181,6 +1196,13 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      */
     public String getAccountsSupervisorySystemsIdentifier() {
         return accountsSupervisorySystemsIdentifier;
+    }
+    
+    /**
+     * @return Returns the accountsSupervisorySystemsIdentifier.
+     */
+    public String getAccountsSupervisorySystemsIdentifierForSearching() {
+        return getAccountsSupervisorySystemsIdentifier();
     }
 
     /**

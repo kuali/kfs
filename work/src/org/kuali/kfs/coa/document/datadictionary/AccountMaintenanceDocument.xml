@@ -199,7 +199,7 @@
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account"/>
-    						<property name="attributeName" value="accountFiscalOfficerSystemIdentifier"/>
+    						<property name="attributeName" value="accountFiscalOfficerSystemIdentifierForSearching"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -212,7 +212,7 @@
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account"/>
-    						<property name="attributeName" value="accountsSupervisorySystemsIdentifier"/>
+    						<property name="attributeName" value="accountsSupervisorySystemsIdentifierForSearching"/>
     					</bean>
     				</property>
     				<property name="documentValues">
@@ -225,7 +225,7 @@
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account"/>
-    						<property name="attributeName" value="accountManagerSystemIdentifier"/>
+    						<property name="attributeName" value="accountManagerSystemIdentifierForSearching"/>
     					</bean>
     				</property>
     				<property name="documentValues">

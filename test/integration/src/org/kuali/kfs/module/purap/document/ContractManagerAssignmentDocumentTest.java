@@ -63,7 +63,6 @@ public class ContractManagerAssignmentDocumentTest extends KualiTestBase {
         return 0;
     }
 
-    @RelatesTo(JiraIssue.KULPURAP3956)
     /**
      * Tests the routing of ContractManagerAssignmentDocument to final.
      * 

@@ -426,8 +426,7 @@ public class PurapAccountingServiceTest extends KualiTestBase {
     
     /*
      * Tests of generateSummaryWithNoZeroTotalsUsingAlternateAmount(List<PurApItem> items)
-     */
-    @RelatesTo(JiraIssue.KULPURAP4144)
+     */    
     public void testGenerateSummaryWithNoZeroTotalsUsingAlternateAmount_OneItem_OneAccount() {
         PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.REQ_SUMMARY_ONE_ITEM_ONE_ACCOUNT;
         List<SourceAccountingLine> originalSourceAccounts = fixture.getSourceAccountingLineList();
@@ -444,7 +443,6 @@ public class PurapAccountingServiceTest extends KualiTestBase {
         checkAccountConsolidation(sourceLines,originalSourceAccounts);
     }
     
-    @RelatesTo(JiraIssue.KULPURAP4144)
     public void testGenerateSummaryWithNoZeroTotalsUsingAlternateAmount_OneItem_TwoAccounts() {
         PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.REQ_SUMMARY_ONE_ITEM_TWO_ACCOUNTS;
         List<SourceAccountingLine> originalSourceAccounts = fixture.getSourceAccountingLineList();
@@ -461,7 +459,6 @@ public class PurapAccountingServiceTest extends KualiTestBase {
         checkAccountConsolidation(sourceLines,originalSourceAccounts);
     }
     
-    @RelatesTo(JiraIssue.KULPURAP4144)
     public void testGenerateSummaryWithNoZeroTotalsUsingAlternateAmount_TwoItems_OneAccount() {
         PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.REQ_SUMMARY_TWO_ITEMS_ONE_ACCOUNT;
         List<SourceAccountingLine> originalSourceAccounts = fixture.getSourceAccountingLineList();

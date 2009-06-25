@@ -36,6 +36,10 @@ public class KualiBatchFileAdminForm extends KualiForm {
                 StringUtils.isNotBlank(request.getParameter(KNSConstants.QUESTION_CONTEXT))) {
             setFilePath(request.getParameter(KNSConstants.QUESTION_CONTEXT));
         }
+        
+        if (filePath != null && filePath.matches(".*\\.\\.[/\\\\].*")) {
+            throw new RuntimeException("Cannot access parent directory");
+        }
     }
 
     public String getFilePath() {

@@ -216,8 +216,8 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
      * @param inputTransactions String-formatted entries
      */
     private void scrub(String[] inputTransactions) {
-        clearOriginEntryTables();
-        loadInputTransactions(OriginEntrySource.BACKUP, inputTransactions, date);
+        this.clearBatchFiles();
+        loadInputTransactions(OriginEntrySource.BACKUP, inputTransactions);
         persistenceService.clearCache();
         scrubberService.scrubEntries();
     }

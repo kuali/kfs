@@ -15,21 +15,25 @@
  */
 package org.kuali.kfs.gl.businessobject;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.PrintStream;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
-import org.kuali.kfs.gl.dataaccess.OriginEntryDao;
-import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
@@ -52,11 +56,12 @@ public class OriginEntryTestBase extends KualiTestBase {
     protected ConfigurableDateService dateTimeService;
     protected PersistenceService persistenceService;
     protected UnitTestSqlDao unitTestSqlDao = null;
-    protected OriginEntryGroupService originEntryGroupService = null;
-    protected OriginEntryService originEntryService = null;
-    //protected OriginEntryDao originEntryDao = null;
     protected KualiConfigurationService kualiConfigurationService = null;
+    protected OriginEntryService originEntryService = null;
+    protected AccountingCycleCachingService accountingCycleCachingService = null;
     protected Date date;
+    protected String batchDirectory;
+    protected String builtDirectory;
 
     /**
      * Constructs a OriginEntryTestBase instance
@@ -74,7 +79,9 @@ public class OriginEntryTestBase extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        LOG.debug("setUp() starting");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("setUp() starting");
+        }
 
         dateTimeService = SpringContext.getBean(ConfigurableDateService.class);
         date = dateTimeService.getCurrentDate();
@@ -82,75 +89,150 @@ public class OriginEntryTestBase extends KualiTestBase {
         // Other objects needed for the tests
         persistenceService = SpringContext.getBean(PersistenceService.class);
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
-        originEntryService = SpringContext.getBean(OriginEntryService.class);
-        //originEntryDao = SpringContext.getBean(OriginEntryDao.class);
-        originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
         kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-
+        originEntryService = SpringContext.getBean(OriginEntryService.class);
+        batchDirectory = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("staging.directory")+"/gl/test_directory/originEntry";
+        
+        buildBatchDirectory();
+        
+        accountingCycleCachingService = SpringContext.getBean(AccountingCycleCachingService.class);
+        accountingCycleCachingService.initialize();
+        
         // Set all enhancements to off
         resetAllEnhancementFlags();
     }
 
+    /**
+     * Removes any build batch directory
+     * @see junit.framework.TestCase#tearDown()
+     */
+    @Override
+    protected void tearDown() throws Exception {
+        removeBatchDirectory();
+        
+        if (accountingCycleCachingService != null) {
+            accountingCycleCachingService.destroy();
+        }
+    }
+    
+    /**
+     * Recursively ensures that the whole of the path of the batch directory exists
+     */
+    protected void buildBatchDirectory() {
+        String[] directoryPieces = batchDirectory.split("/");
+        StringBuilder builtDirectorySoFar = new StringBuilder();
+        StringBuilder directoryToRemoveSoFar = new StringBuilder();
+        
+        for (String directoryPiece : directoryPieces) {
+            if (!StringUtils.isBlank(directoryPiece)) {
+                builtDirectorySoFar.append('/');
+                builtDirectorySoFar.append(directoryPiece);
+                
+                File dir = new File(builtDirectorySoFar.toString());
+                if (!dir.exists()) {
+                    directoryToRemoveSoFar.append('/');
+                    directoryToRemoveSoFar.append(directoryPiece);
+                    dir.mkdir();
+                }
+            }
+        }
+        
+        builtDirectory = directoryToRemoveSoFar.toString();
+    }
+    
+    /**
+     * Removes any directories added as part of building the batch directory
+     */
+    protected void removeBatchDirectory() {
+        String unbuiltDirectory = batchDirectory.substring(0, batchDirectory.length()-builtDirectory.length());
+        
+        String pathToUnbuild = new String(batchDirectory);
+        while (!unbuiltDirectory.equals(pathToUnbuild)) {
+            File pathToUnbuildFile = new File(pathToUnbuild);
+            clearAllFilesInDirectory(pathToUnbuildFile);
+            pathToUnbuildFile.delete();
+            
+            int lastSeperator = pathToUnbuild.lastIndexOf('/');
+            pathToUnbuild = pathToUnbuild.substring(0, lastSeperator);
+        }
+    }
+    
+    /**
+     * Removes all the files within the given directory
+     * @param dir the directory to delete files from
+     */
+    protected void clearAllFilesInDirectory(File dir) {
+        for (File f : dir.listFiles()) {
+            f.delete();
+        }
+    }
 
     /**
      * An inner class to point to a specific entry in a group
      */
     protected class EntryHolder {
-        public String groupCode;
-        public String transactionLine;
+        private String baseFileName;
+        private String transactionLine;
 
         /**
          * Constructs a OriginEntryTestBase.EntryHolder
-         * @param groupCode the group that the entry to point to is in
+         * @param baseFileName the group that the entry to point to is in
          * @param transactionLine the line number of the entry
          */
-        public EntryHolder(String groupCode, String transactionLine) {
-            this.groupCode = groupCode;
+        public EntryHolder(String baseFileName, String transactionLine) {
+            this.baseFileName = baseFileName;
             this.transactionLine = transactionLine;
         }
-    }
-
-    /**
-     * Given a group source code and a bunch of transactions, creates a new group and adds all
-     * the transactions to that group
-     * 
-     * @param groupCode the source code of the new group
-     * @param transactions an array of String-formatted entries to save into the group
-     * @param date the creation date of the new group
-     */
-    protected void loadInputTransactions(String groupCode, String[] transactions, Date date) {
-        //OriginEntryGroup group = originEntryGroupService.createGroup(new java.sql.Date(date.getTime()), groupCode, true, true, true);
-        OriginEntryGroup group = new OriginEntryGroup();
-        loadTransactions(transactions, group);
-    }
-
-    /**
-     * Given a group source code and a bunch of transactions, creates a new group and adds all
-     * the transactions to that group; sets the group creation date to today
-     * 
-     * @param groupCode the source code of the new group
-     * @param transactions an array of String-formatted entries to save into the group
-     */
-    protected void loadInputTransactions(String groupCode, String[] transactions) {
-        //OriginEntryGroup group = originEntryGroupService.createGroup(new java.sql.Date(dateTimeService.getCurrentDate().getTime()), groupCode, true, true, true);
-        OriginEntryGroup group = new OriginEntryGroup();
-        loadTransactions(transactions, group);
-    }
-
-    /**
-     * Loads an array of String formatted entries into the given origin entry group 
-     * 
-     * @param transactions an array of String formatted entries
-     * @param group the group to save those entries into
-     */
-    protected void loadTransactions(String[] transactions, OriginEntryGroup group) {
-        for (int i = 0; i < transactions.length; i++) {
-            OriginEntryFull e = new OriginEntryFull(transactions[i]);
-            //TODO: Shawn - need to use file 
-            //originEntryService.createEntry(e, group);
+        
+        /**
+         * @return the base file name
+         */
+        public String getBaseFileName() {
+            return this.baseFileName;
         }
+        
+        /**
+         * @return the transaction line
+         */
+        public String getTransactionLine() {
+            return this.transactionLine;
+        }
+    }
 
-        persistenceService.clearCache();
+    /**
+     * An inner class to filter only the files for this batch run
+     */
+    
+    class BatchFilenameFilter implements FilenameFilter {
+        
+        /**
+         * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
+         */
+        public boolean accept(File dir, String name) {
+            return name.endsWith(GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+        }
+    }
+
+    /**
+     * Given a type code and a bunch of transactions, creates a new backup file and adds all
+     * the transactions to that file
+     * 
+     * @param baseFileName the type code of the new file
+     * @param transactions an array of String-formatted entries to save into the file
+     */
+    protected void loadInputTransactions(String fileName, String[] transactions) {
+        PrintStream ps;
+        final String fullFileName = batchDirectory + "/" + fileName + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        try {
+            ps = new PrintStream(fullFileName);
+            for (int i = 0; i < transactions.length; i++) {
+                ps.println(transactions[i]);
+            }
+            ps.close();
+        }
+        catch (FileNotFoundException fnfe) {
+            throw new RuntimeException("Could not open file "+fullFileName);
+        }
     }
 
     /**
@@ -204,122 +286,108 @@ public class OriginEntryTestBase extends KualiTestBase {
     protected void clearGlAccountBalanceTable() {
         unitTestSqlDao.sqlCommand("delete from gl_acct_balances_t");
     }
-
+    
     /**
-     * Deletes everything in the gl origin entry table and the gl origin entry group table 
+     * Deletes all files in the batch test directory
      */
-    protected void clearOriginEntryTables() {
-        unitTestSqlDao.sqlCommand("delete from gl_origin_entry_t");
-        unitTestSqlDao.sqlCommand("delete from gl_origin_entry_grp_t");
+    protected void clearBatchFiles() {
+        //I didn't see a deleteAll method, so...
+        for (File file : new File(batchDirectory).listFiles(new BatchFilenameFilter())) {
+            file.delete();
+        }
     }
-
+    
     /**
-     * Check all the entries in gl_origin_entry_t against the data passed in EntryHolder[]. If any of them are different, assert an
+     * Check all the entries in the file against the data passed in EntryHolder[]. If any of them are different, assert an
      * error.
      * 
-     * @param groupCount the expected size of the group
+     * @param fileCount the expected number of files
      * @param requiredEntries an array of expected String-formatted entries to check against
      */
-    //TODO: Shawn - do it later
-//    protected void assertOriginEntries(int groupCount, EntryHolder[] requiredEntries) {
-//        persistenceService.clearCache();
-//
-//        final List groups = unitTestSqlDao.sqlSelect("select * from gl_origin_entry_grp_t order by origin_entry_grp_src_cd");
-//        assertEquals("Number of groups is wrong", groupCount, groups.size());
-//
-//        Collection<OriginEntryFull> c = originEntryDao.testingGetAllEntries();
-//
-//        // now, sort the lines here to avoid any DB sorting issues
-//        Comparator<OriginEntryFull> originEntryComparator = new Comparator<OriginEntryFull>() {
-//            public int compare(OriginEntryFull o1, OriginEntryFull o2) {
-//                int groupCompareResult = o1.getEntryGroupId().compareTo(o2.getEntryGroupId());
-//                if (groupCompareResult == 0) {
-//                    return o1.getLine().compareTo(o2.getLine());
-//                }
-//                else {
-//                    return groupCompareResult;
-//                }
-//            }
-//        };
-//        Comparator<EntryHolder> entryHolderComparator = new Comparator<EntryHolder>() {
-//            public int compare(EntryHolder o1, EntryHolder o2) {
-//                int groupCompareResult = String.valueOf(getGroup(groups, o1.groupCode)).compareTo(String.valueOf(getGroup(groups, o2.groupCode)));
-//                if (groupCompareResult == 0) {
-//                    return o1.transactionLine.compareTo(o2.transactionLine);
-//                }
-//                else {
-//                    return groupCompareResult;
-//                }
-//            }
-//        };
-//        ArrayList<OriginEntryFull> sortedEntryTransactions = new ArrayList<OriginEntryFull>(c);
-//        Collections.sort(sortedEntryTransactions, originEntryComparator);
-//        Arrays.sort(requiredEntries, entryHolderComparator);
-//
-//        // This is for debugging purposes - change to true for output
-//        if (true) {
-//            System.err.println("Groups:");
-//            for (Iterator iter = groups.iterator(); iter.hasNext();) {
-//                Map element = (Map) iter.next();
-//                System.err.println("G:" + element.get("ORIGIN_ENTRY_GRP_ID") + " " + element.get("ORIGIN_ENTRY_GRP_SRC_CD"));
-//            }
-//
-//            System.err.println("Transactions:");
-//            for (OriginEntryFull element : sortedEntryTransactions) {
-//                System.err.println("L:" + element.getEntryGroupId() + " " + element.getLine());
-//            }
-//            System.err.println("Expected Transactions:");
-//            for (EntryHolder element : requiredEntries) {
-//                System.err.println("L:" + getGroup(groups, element.groupCode) + " " + element.transactionLine);
-//            }
-//        }
-//
-//        assertEquals("Wrong number of transactions in Origin Entry", requiredEntries.length, c.size());
-//
-//
-//        int count = 0;
-//        for (Iterator iter = sortedEntryTransactions.iterator(); iter.hasNext();) {
-//            OriginEntryFull foundTransaction = (OriginEntryFull) iter.next();
-//
-//            // Check group
-//            int group = getGroup(groups, requiredEntries[count].groupCode);
-//
-//            assertEquals("Group for transaction " + foundTransaction.getEntryId() + " is wrong", group, foundTransaction.getEntryGroupId().intValue());
-//
-//            // Check transaction - this is done this way so that Anthill prints the two transactions to make
-//            // resolving the issue easier.
-//
-//            String expected = requiredEntries[count].transactionLine.substring(0, 173);// trim();
-//            String found = foundTransaction.getLine().substring(0, 173);// trim();
-//
-//            if (!found.equals(expected)) {
-//                System.err.println("Expected transaction: " + expected);
-//                System.err.println("Found transaction:    " + found);
-//
-//                fail("Transaction " + foundTransaction.getEntryId() + " doesn't match expected output");
-//            }
-//            count++;
-//        }
-//    }
+    protected void assertOriginEntries(int fileCount, EntryHolder[] requiredEntries) {
+        persistenceService.clearCache();
 
-    /**
-     * Given a list of origin entry groups and a group source code, returns the id of the group with that source code
-     * 
-     * @param groups a List of groups to selectg a group from
-     * @param groupCode the source code of the group to select
-     * @return the id of the first group in the list with that source code, or -1 if no groups with that source code were found
-     */
-    protected int getGroup(List groups, String groupCode) {
-        for (Iterator iter = groups.iterator(); iter.hasNext();) {
-            Map element = (Map) iter.next();
+        File[] files = new File(batchDirectory).listFiles(new BatchFilenameFilter());
+        assertEquals("Number of groups is wrong", fileCount, files.length);
 
-            String sourceCode = (String) element.get("ORIGIN_ENTRY_GRP_SRC_CD");
-            if (groupCode.equals(sourceCode)) {
-                BigDecimal groupId = (BigDecimal) element.get("ORIGIN_ENTRY_GRP_ID");
-                return groupId.intValue();
+        List<EntryHolder> sortedEntryTransactions = new ArrayList<EntryHolder>();
+        for (File file : files) {
+            BufferedReader br = null;
+            try {
+                br = new BufferedReader(new FileReader(file));
+                String type = file.getName().replaceFirst(GeneralLedgerConstants.BatchFileSystem.EXTENSION, "");
+                // FIXME have to do something to bring types and filenames into sync, and probably have to remove separator character too
+                String line = null;
+
+                while ((line = br.readLine()) != null) {
+                    sortedEntryTransactions.add(new EntryHolder(type,line));
+                }
+            }
+            catch (FileNotFoundException fnfe) {
+                throw new RuntimeException(fnfe);
+            }
+            catch (IOException ioe) {
+                throw new RuntimeException(ioe);
             }
         }
-        return -1;
+
+        // now, sort the lines here to avoid any DB sorting issues
+        //in the origin entry group version, this would sort the groups in order of creation, but in the files version,
+        //it will sort the files in alphabetical order by type; entries within the groups (files) should be sorted the same
+        //I don't foresee a problem with this...
+        Comparator<EntryHolder> entryHolderComparator = new Comparator<EntryHolder>() {
+            public int compare(EntryHolder o1, EntryHolder o2) {
+                int groupCompareResult = o1.baseFileName.compareTo(o2.baseFileName);
+                if (groupCompareResult == 0) {
+                    return o1.transactionLine.compareTo(o2.transactionLine);
+                }
+                else {
+                    return groupCompareResult;
+                }
+            }
+        };
+        Collections.sort(sortedEntryTransactions, entryHolderComparator);
+        Arrays.sort(requiredEntries, entryHolderComparator);
+
+        // This is for debugging purposes - change to true for output
+        if (true) {
+            System.err.println("Files:");
+            for (File file : files) {
+                System.err.println("F:" + file.getName());
+            }
+
+            System.err.println("Transactions:");
+            for (EntryHolder element : sortedEntryTransactions) {
+                System.err.println("L:" + element.baseFileName + " " + element.transactionLine);
+            }
+            System.err.println("Expected Transactions:");
+            for (EntryHolder element : requiredEntries) {
+                System.err.println("L:" + element.baseFileName + " " + element.transactionLine);
+            }
+        }
+
+        assertEquals("Wrong number of transactions in Origin Entry", requiredEntries.length, sortedEntryTransactions.size());
+
+        int count = 0;
+        for (EntryHolder foundTransaction : sortedEntryTransactions) {
+
+            // Check file type
+            assertEquals("Group for transaction " + count + " is wrong", requiredEntries[count].baseFileName, foundTransaction.baseFileName);
+
+            // Check transaction - this is done this way so that Anthill prints the two transactions to make
+            // resolving the issue easier.
+
+            String expected = requiredEntries[count].transactionLine.substring(0, 173);// trim();
+            String found = foundTransaction.transactionLine.substring(0, 173);// trim();
+
+            if (!found.equals(expected)) {
+                System.err.println("Expected transaction: " + expected);
+                System.err.println("Found transaction:    " + found);
+
+                fail("Transaction " + count + " doesn't match expected output");
+            }
+            count++;
+        }
     }
 
     protected static Object[] FLEXIBLE_OFFSET_ENABLED_FLAG = { OffsetDefinition.class, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG };
@@ -377,5 +445,4 @@ public class OriginEntryTestBase extends KualiTestBase {
 
         out.println(null == o ? "NULL" : o.toString());
     }
-
 }

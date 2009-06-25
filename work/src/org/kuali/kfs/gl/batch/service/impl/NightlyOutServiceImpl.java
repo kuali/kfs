@@ -84,7 +84,9 @@ public class NightlyOutServiceImpl implements NightlyOutService {
      * @see org.kuali.kfs.gl.service.NightlyOutService#copyApprovedPendingLedgerEntries()
      */
     public void copyApprovedPendingLedgerEntries() {
-        LOG.debug("copyApprovedPendingLedgerEntries() started");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("copyApprovedPendingLedgerEntries() started");
+        }
         Date today = new Date(dateTimeService.getCurrentTimestamp().getTime());
         
         Iterator pendingEntries = generalLedgerPendingEntryService.findApprovedPendingLedgerEntries();
@@ -94,16 +96,13 @@ public class NightlyOutServiceImpl implements NightlyOutService {
         try {
             outputFilePs  = new PrintStream(outputFile);
         }
-        catch (IOException e) {
-            // FIXME: do whatever is supposed to be done here
-            throw new RuntimeException(e);
+        catch (IOException ioe) {
+            throw new RuntimeException("Cannot open output file "+outputFile+" for writing", ioe);
         }
         
         EntryListReport entryListReport = new EntryListReport();
         LedgerSummaryReport nightlyOutLedgerSummaryReport = new LedgerSummaryReport();
         
-        //OriginEntryGroup group = originEntryGroupService.createGroup(today, OriginEntrySource.GENERATE_BY_EDOC, true, true, true);
-        //TODO: Shawn - might need to change this part to use file not collection
         Collection<OriginEntryLite> group = new ArrayList();
         while (pendingEntries.hasNext()) {
             // get one pending entry
@@ -114,14 +113,10 @@ public class NightlyOutServiceImpl implements NightlyOutService {
             // write entry to reports
             entryListReport.writeEntry(entry, pendingEntryListReportWriterService);
             nightlyOutLedgerSummaryReport.summarizeEntry(entry);
-                        
-            //TODO: Shawn - I think this part is related on KFSMI-2825, let's check it later 
+
             group.add(entry);
-            // copy the pending entry to origin entry table
-            //saveAsOriginEntry(pendingEntry, group);
             
             // copy the pending entry to text file
-            
             try {
                 outputFilePs.printf("%s\n", entry.getLine());
             } catch (Exception e) {

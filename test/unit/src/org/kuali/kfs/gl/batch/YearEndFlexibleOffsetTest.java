@@ -519,11 +519,11 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         Integer previousFiscalYear = new Integer(((Number)jobParameters.get(KFSConstants.UNIV_FISCAL_YR)).intValue());
         Map<String, Integer> organizationReversionCounts = new HashMap<String, Integer>();
 
-        OrganizationReversionProcess orgRevProcess = new OrganizationReversionProcess(null, false, organizationReversionService, balanceService, originEntryGroupService, originEntryService, persistenceService, dtService, cashOrganizationReversionCategoryLogic, priorYearAccountService, orgReversionUnitOfWorkService, jobParameters, organizationReversionCounts);
+        OrganizationReversionProcess orgRevProcess = new OrganizationReversionProcess(null, false, organizationReversionService, balanceService, originEntryService, persistenceService, dtService, cashOrganizationReversionCategoryLogic, priorYearAccountService, orgReversionUnitOfWorkService, jobParameters, organizationReversionCounts);
         orgRevProcess.initializeProcess();
         
         clearGlBalanceTable();
-        clearOriginEntryTables();
+        clearBatchFiles();
         persistenceService.clearCache();
         for (Balance bal : balancesToTest) {
             bal.setUniversityFiscalYear(previousFiscalYear);

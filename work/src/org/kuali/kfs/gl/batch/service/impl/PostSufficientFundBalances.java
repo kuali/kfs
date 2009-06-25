@@ -36,8 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PostSufficientFundBalances implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostSufficientFundBalances.class);
-
-    private SufficientFundBalancesDao sufficientFundBalancesDao;
+    
     private AccountingCycleCachingService accountingCycleCachingService;
     private PersistenceStructureService persistenceStructureService;
     
@@ -46,10 +45,6 @@ public class PostSufficientFundBalances implements PostTransaction {
      */
     public PostSufficientFundBalances() {
         super();
-    }
-
-    public void setSufficientFundBalancesDao(SufficientFundBalancesDao sfbd) {
-        sufficientFundBalancesDao = sfbd;
     }
 
     /**

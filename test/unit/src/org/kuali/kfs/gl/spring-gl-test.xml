@@ -174,5 +174,75 @@
 			<ref bean="sufficientFundsService" />
 		</property>
 	</bean>
+	
+	<bean id="glNightlyOutService" class="org.kuali.kfs.gl.batch.service.impl.NightlyOutServiceImpl">
+		<property name="generalLedgerPendingEntryService">
+			<ref bean="generalLedgerPendingEntryService" />
+		</property>
+		<property name="originEntryService">
+			<ref bean="originEntryService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="originEntryGroupService">
+			<ref bean="originEntryGroupService" />
+		</property>
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="pendingEntryListReportWriterService" ref="mockReportWriterService" />
+		<property name="pendingEntrySummaryReportWriterService" ref="mockReportWriterService" />
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/test_directory/originEntry"/>
+	</bean>
+	
+	<bean id="glScrubberService" class="org.kuali.kfs.gl.service.impl.ScrubberServiceImpl">
+		<property name="flexibleOffsetAccountService">
+			<ref bean="flexibleOffsetAccountService" />
+		</property>
+		<property name="originEntryService">
+			<ref bean="originEntryService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="offsetDefinitionService">
+			<ref bean="offsetDefinitionService" />
+		</property>
+		<property name="objectCodeService">
+			<ref bean="objectCodeService" />
+		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="universityDateDao">
+			<ref bean="universityDateDao" />
+		</property>
+		<property name="originEntryGroupService">
+			<ref bean="originEntryGroupService" />
+		</property>
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
+		<property name="scrubberValidator">
+			<ref bean="scrubberValidator" />
+		</property>
+		<property name="scrubberProcessObjectCodeOverride">
+			<ref bean="glScrubberProcessObjectCodeOverride" />
+		</property>
+		<property name="runDateService">
+			<ref bean="glRunDateService" />
+		</property>
+		<property name="accountingCycleCachingService">
+		  	<ref bean="accountingCycleCachingService" />
+		</property>
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/test_directory/originEntry"/>
+		<property name="collectorFileDirectoryName" value="${staging.directory}/gl/test_directory/collector"/>
+		<property name="demergerReportWriterService" ref="mockReportWriterService" />
+		<property name="scrubberReportWriterService" ref="mockReportWriterService" />
+		<property name="scrubberLedgerReportWriterService" ref="mockReportWriterService" />
+		<property name="scrubberListingReportWriterService" ref="mockReportWriterService" />
+		<property name="scrubberBadBalanceListingReportWriterService" ref="mockReportWriterService" />
+		<property name="scrubberReportOnlyWriterService" ref="mockReportWriterService" />
+		<property name="demergerRemovedTransactionsListingReportWriterService" ref="mockReportWriterService" />
+	</bean>
         
 </beans>

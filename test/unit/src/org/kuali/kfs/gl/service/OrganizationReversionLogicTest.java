@@ -220,7 +220,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
         previousFiscalYear = new Integer(((Number)jobParameters.get(KFSConstants.UNIV_FISCAL_YR)).intValue());
         Map<String, Integer> organizationReversionCounts = new HashMap<String, Integer>();
 
-        orgRevProcess = new OrganizationReversionProcess(null, false, organizationReversionService, balanceService, originEntryGroupService, originEntryService, persistenceService, dtService, cashOrganizationReversionCategoryLogic, priorYearAccountService, orgReversionUnitOfWorkService, jobParameters, organizationReversionCounts);
+        orgRevProcess = new OrganizationReversionProcess(null, false, organizationReversionService, balanceService, originEntryService, persistenceService, dtService, cashOrganizationReversionCategoryLogic, priorYearAccountService, orgReversionUnitOfWorkService, jobParameters, organizationReversionCounts);
         orgRevProcess.initializeProcess();
     }
 
@@ -240,7 +240,7 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
      */
     protected OriginEntryGroup runOrganizationReversionProcess(List<Balance> balancesToTestAgainst) {
         clearGlBalanceTable();
-        clearOriginEntryTables();
+        clearBatchFiles();
         persistenceService.clearCache();
         
         for (Balance bal : balancesToTestAgainst) {

@@ -16,21 +16,13 @@
 package org.kuali.kfs.gl.service;
 
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kfs.coa.businessobject.BalanceType;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.ObjectType;
-import org.kuali.kfs.gl.businessobject.OriginEntrySource;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.suite.RelatesTo;
-import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -61,7 +53,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_MONTH, 1);
         c.set(Calendar.MONTH, Calendar.JANUARY);
-        c.set(Calendar.YEAR, 2006);
+        c.set(Calendar.YEAR, TestUtils.getFiscalYearForTesting());
 
         // since the cutoff time is set to 10am (KFSP1/Scrubber+cutoff+time+configuration)
         // we want to ensure that the time is always after that time so the cutoff algorithm is not invoked
@@ -96,19 +88,19 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         // Add inputs to expected output ...
         EntryHolder output[] = new EntryHolder[12];
         for (int i = 0; i < stringInput.length; i++) {
-            output[i] = new EntryHolder(OriginEntrySource.BACKUP, stringInput[i]);
+            output[i] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, stringInput[i]);
         }
 
         int c = stringInput.length;
-        output[c++] = new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, "2007BA       -----5300---ACEE07CHKDPDBLANKACCT     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
-        output[c++] = new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, "2007  6044900-----5300---ACEE07CHKDPDBLANKCHAR     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
-        output[c++] = new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, "2007BA6044900-----    ---ACEE07CHKDPDBLANKOBJ      12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
-        output[c++] = new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, "2007BA6044900-----5300---ACEE07CHKDPD              12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
-        output[c++] = new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, "2007BA6044900-----5300---ACEE07CHKD  BLANKORIG     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
-        output[c++] = new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, "2007BA6044900-----5300---ACEE07    PDBLANKDOCT     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
+        output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, "2007BA       -----5300---ACEE07CHKDPDBLANKACCT     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
+        output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, "2007  6044900-----5300---ACEE07CHKDPDBLANKCHAR     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
+        output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, "2007BA6044900-----    ---ACEE07CHKDPDBLANKOBJ      12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
+        output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, "2007BA6044900-----5300---ACEE07CHKDPD              12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
+        output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, "2007BA6044900-----5300---ACEE07CHKD  BLANKORIG     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
+        output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, "2007BA6044900-----5300---ACEE07    PDBLANKDOCT     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ");
 
-        //scrub(stringInput);
-        //assertOriginEntries(4, output);
+        scrub(stringInput);
+        assertOriginEntries(4, output);
     }
 //
 //    /**
@@ -1830,8 +1822,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * @param inputTransactions an array of String-formatted entries to scrub
      */
     private void scrub(String[] inputTransactions) {
-        clearOriginEntryTables();
-        loadInputTransactions(OriginEntrySource.BACKUP, inputTransactions, date);
+        clearBatchFiles();
+        loadInputTransactions(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions);
         persistenceService.clearCache();
         scrubberService.scrubEntries();
     }

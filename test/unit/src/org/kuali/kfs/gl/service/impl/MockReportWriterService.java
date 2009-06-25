@@ -15,18 +15,18 @@
  */
 package org.kuali.kfs.gl.service.impl;
 
-import java.io.PrintStream;
 import java.util.List;
 
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.batch.service.WrappingBatchService;
+import org.kuali.kfs.sys.service.DocumentNumberAwareReportWriterService;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.bo.BusinessObject;
 
 /**
  * A class which pretends to be a good report writer service, but really does nothing
  */
-public class MockReportWriterService implements ReportWriterService, WrappingBatchService {
+public class MockReportWriterService implements ReportWriterService, WrappingBatchService, DocumentNumberAwareReportWriterService {
     
     public void pageBreak() {
         // nothing to do
@@ -110,5 +110,12 @@ public class MockReportWriterService implements ReportWriterService, WrappingBat
      */
     public void writeParameterLine(String message, Object... args) {
         // not doing anything   
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.service.DocumentNumberAwareReportWriterService#setDocumentNumber(java.lang.String)
+     */
+    public void setDocumentNumber(String documentNumber) {
+        // that's a nice document number
     }
 }

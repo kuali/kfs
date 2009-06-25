@@ -244,7 +244,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
      * Clears out the origin entry and origin entry group tables to prepare for the test
      */
     protected void initializeDatabaseForTest() {
-        clearOriginEntryTables();
+        clearBatchFiles();
     }
 
     /**

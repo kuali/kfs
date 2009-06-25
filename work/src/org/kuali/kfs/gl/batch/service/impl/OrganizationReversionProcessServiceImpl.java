@@ -59,7 +59,6 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
     private OrganizationReversionService organizationReversionService;
     private ParameterService parameterService;
     private BalanceService balanceService;
-    private OriginEntryGroupService originEntryGroupService;
     private OriginEntryService originEntryService;
     private PersistenceService persistenceService;
     private DateTimeService dateTimeService;
@@ -84,10 +83,6 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
 
     public void setOrganizationReversionService(OrganizationReversionService organizationReversionService) {
         this.organizationReversionService = organizationReversionService;
-    }
-
-    public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
-        this.originEntryGroupService = originEntryGroupService;
     }
 
     public void setOriginEntryService(OriginEntryService originEntryService) {
@@ -139,7 +134,7 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
     public void organizationReversionProcessEndOfYear(String organizationReversionClosingFileName, Map jobParameters, Map<String, Integer> organizationReversionCounts) {
         LOG.debug("organizationReversionProcessEndOfYear() started");
         String outputFileName = batchFileDirectoryName + File.separator + organizationReversionClosingFileName;
-        OrganizationReversionProcess orp = new OrganizationReversionProcess(outputFileName, true, organizationReversionService, balanceService, originEntryGroupService, originEntryService, persistenceService, dateTimeService, cashOrganizationReversionCategoryLogic, priorYearAccountService, orgReversionUnitOfWorkService, jobParameters, organizationReversionCounts);
+        OrganizationReversionProcess orp = new OrganizationReversionProcess(outputFileName, true, organizationReversionService, balanceService, originEntryService, persistenceService, dateTimeService, cashOrganizationReversionCategoryLogic, priorYearAccountService, orgReversionUnitOfWorkService, jobParameters, organizationReversionCounts);
 
         orp.organizationReversionProcess();
         
@@ -158,7 +153,7 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
     public void organizationReversionProcessBeginningOfYear(String organizationReversionPreClosingFileName, Map jobParameters, Map<String, Integer> organizationReversionCounts) {
         LOG.debug("organizationReversionProcessEndOfYear() started");
         String outputFileName = batchFileDirectoryName + File.separator + organizationReversionPreClosingFileName;
-        OrganizationReversionProcess orp = new OrganizationReversionProcess(outputFileName, false, organizationReversionService, balanceService, originEntryGroupService, originEntryService, persistenceService, dateTimeService, cashOrganizationReversionCategoryLogic, priorYearAccountService, orgReversionUnitOfWorkService, jobParameters, organizationReversionCounts);
+        OrganizationReversionProcess orp = new OrganizationReversionProcess(outputFileName, false, organizationReversionService, balanceService, originEntryService, persistenceService, dateTimeService, cashOrganizationReversionCategoryLogic, priorYearAccountService, orgReversionUnitOfWorkService, jobParameters, organizationReversionCounts);
 
         orp.organizationReversionProcess();
         

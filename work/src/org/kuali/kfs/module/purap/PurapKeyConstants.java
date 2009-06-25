@@ -224,6 +224,7 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_ACCOUNTING_NOT_ALLOWED = "errors.item.accounting.notallowed";
     public static final String ERROR_ITEM_ACCOUNTING_INCOMPLETE = "errors.item.accounting.incomplete";
     public static final String ERROR_ITEM_ACCOUNTING_TOTAL = "errors.item.accounting.total";
+    public static final String ERROR_ITEM_ACCOUNTING_TOTAL_AMOUNT = "errors.item.accounting.total.amount";
     public static final String ERROR_PURCHASE_ORDER_EXCEEDING_TOTAL_LIMIT = "errors.purchaseorder.exceedingTotalLimit";
     public static final String ERROR_ITEM_REQUIRED = "errors.item.required";
     public static final String ERROR_ITEM_TRADEIN_DISCOUNT_COEXISTENCE = "errors.purchaseOrderItems.TradeInAndDiscountCoexistence";

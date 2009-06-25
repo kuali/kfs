@@ -65,4 +65,11 @@ public class PurchaseOrderAmendmentDocumentPresentationController extends Purcha
         return editModes;
     }
 
+    @Override
+    protected boolean canReload(Document document) {
+        //  show the reload button if the doc is anything but processed or final
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        return (workflowDocument.stateIsSaved() || workflowDocument.stateIsEnroute()) ;
+    }
+
 }

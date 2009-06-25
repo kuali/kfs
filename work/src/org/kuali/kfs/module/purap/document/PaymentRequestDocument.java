@@ -623,8 +623,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             String documentTitle = "";
             String[] nodeNames = getDocumentHeader().getWorkflowDocument().getNodeNames();
        
-            // if this will be final
-            if (nodeNames.length == 0) {
+            // if this doc is final or will be final
+            if (nodeNames.length == 0 || getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
                 documentTitle = (new StringBuffer("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Amount: ").append(preqAmount).toString();
             }
             else {

@@ -90,6 +90,7 @@ public class OrganizationReversionMockServiceImpl extends OrganizationReversionS
         detail.setOrganizationReversionCategoryCode(categoryCode);
         detail.setOrganizationReversionCode(categoryAlgorithm);
         detail.setOrganizationReversionObjectCode("5000");
+        detail.setActive(true);
         return detail;
     }
 

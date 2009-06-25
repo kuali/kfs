@@ -132,32 +132,32 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
         assertOriginEntries(4, output);
     }
-//
-//    /**
-//     * Tests that the scrubber generates cost share encumbrances for internal encumbrances entries
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testCostShareEncumbrancesForInternalEncumbrances() throws Exception {
-//
-//        String[] stringInput = new String[] { "2007BL4631618CS0014190---IEEX07PAYE01CSENCIE       00000THOMAS BUSEY/NEWEGG COMPUTERS                       40.72C2006-01-05          ----------                                      D                                ", "2007BL4631618CS0018000---IEAS07PAYE01CSENCIE       00000TP Generated Offset                                 40.72D2006-01-05          ----------                                      D                                " };
-//
-//        // Add inputs to expected output ...
-//        EntryHolder[] output = new EntryHolder[6];
-//        for (int i = 0; i < stringInput.length; i++) {
-//            output[i] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, stringInput[i]);
-//        }
-//
-//        // ... add expected output ...
-//        output[2] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL1031400-----9940---CEEX07PAYE01CSENCIE       00000THOMAS BUSEY/NEWEGG COMPUTERFR-BL4631618            40.72C2006-01-01          ----------                                      D                                ");
-//        output[3] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL1031400-----9893---CEFB07PAYE01CSENCIE       00000GENERATED OFFSET                                    40.72D2006-01-01          ----------                                                                       ");
-//        output[4] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631618CS0014190---IEEX07PAYE01CSENCIE       00000THOMAS BUSEY/NEWEGG COMPUTERS                       40.72C2006-01-05          ----------                                      D                                ");
-//        output[5] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631618CS0018000---IEAS07PAYE01CSENCIE       00000TP Generated Offset                                 40.72D2006-01-05          ----------                                      D                                ");
-//
-//        // ... and run the test.
-//        scrub(stringInput);
-//        assertOriginEntries(4, output);
-//    }
+
+    /**
+     * Tests that the scrubber generates cost share encumbrances for internal encumbrances entries
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
+    public void testCostShareEncumbrancesForInternalEncumbrances() throws Exception {
+
+        String[] stringInput = new String[] { testingYear+"BL4831496CS0014190---IEEX07PE  01CSENCIE       00000THOMAS BUSEY/NEWEGG COMPUTERS                          40.72C"+testingYear+"-01-05          ----------                                      D                                ", testingYear+"BL4831496CS0018000---IEAS07PE  01CSENCIE       00000TP Generated Offset                                    40.72D"+testingYear+"-01-05          ----------                                      D                                " };
+
+        // Add inputs to expected output ...
+        EntryHolder[] output = new EntryHolder[6];
+        for (int i = 0; i < stringInput.length; i++) {
+            output[i] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, stringInput[i]);
+        }
+
+        // ... add expected output ...
+        output[2] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----9940---CEEX07PE  01CSENCIE       00000THOMAS BUSEY/NEWEGG COMPUTERFR-BL4831496+0000000000000040.72C"+testingYear+"-01-01          ----------                                      D                                ");
+        output[3] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----9893---CEFB07PE  01CSENCIE       00000GENERATED OFFSET                        +0000000000000040.72D"+testingYear+"-01-01          ----------                                                                       ");
+        output[4] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0014190---IEEX07PE  01CSENCIE       00000THOMAS BUSEY/NEWEGG COMPUTERS           +0000000000000040.72C"+testingYear+"-01-05          ----------                                      D                                ");
+        output[5] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---IEAS07PE  01CSENCIE       00000TP Generated Offset                     +0000000000000040.72D"+testingYear+"-01-05          ----------                                      D                                ");
+
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4, output);
+    }
 //
 //    /**
 //     * Tests that the scrubber generates cost share encumbrances for external encumbrance entries

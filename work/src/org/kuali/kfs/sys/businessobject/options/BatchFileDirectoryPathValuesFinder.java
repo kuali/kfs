@@ -74,7 +74,7 @@ public class BatchFileDirectoryPathValuesFinder extends KeyValuesBase {
         protected void handleDirectoryStart(File directory, int depth, Collection results) throws IOException {
             super.handleDirectoryStart(directory, depth, results);
             KeyLabelPair entry = new KeyLabelPair();
-            entry.setKey(directory.getAbsolutePath());
+            entry.setKey(BatchFileUtils.pathRelativeToRootDirectory(directory.getAbsolutePath()));
             entry.setLabel(directory.getName());
             entry.setNumPaddedSpaces(4 * this.recursiveDepth);
             keyValues.add(entry);

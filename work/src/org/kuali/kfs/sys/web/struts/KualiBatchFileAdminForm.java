@@ -24,15 +24,6 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 public class KualiBatchFileAdminForm extends KualiForm {
     private String filePath;
 
-    
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String absolutePath) {
-        this.filePath = absolutePath;
-    }
-
     /**
      * @see org.kuali.rice.kns.web.struts.form.KualiForm#populate(javax.servlet.http.HttpServletRequest)
      */
@@ -45,5 +36,13 @@ public class KualiBatchFileAdminForm extends KualiForm {
                 StringUtils.isNotBlank(request.getParameter(KNSConstants.QUESTION_CONTEXT))) {
             setFilePath(request.getParameter(KNSConstants.QUESTION_CONTEXT));
         }
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }

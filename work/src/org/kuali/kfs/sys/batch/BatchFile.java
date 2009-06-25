@@ -28,7 +28,7 @@ public class BatchFile extends TransientBusinessObjectBase {
     }
 
     public String getPath() {
-        return file.getAbsoluteFile().getParentFile().getPath();
+        return BatchFileUtils.pathRelativeToRootDirectory(file.getAbsoluteFile().getParentFile().getAbsolutePath());
     }
     
     public String getFileName() {

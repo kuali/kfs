@@ -139,7 +139,11 @@ public class BatchFileLookupableHelperServiceImpl extends AbstractLookupableHelp
         List<File> directories = new ArrayList<File>();
         if (selectedPaths != null) {
             for (String selectedPath : selectedPaths) {
-                directories.add(new File(selectedPath));
+                File directory = new File(BatchFileUtils.resolvePathToAbsolutePath(selectedPath));
+                if (!directory.exists()) {
+                    throw new RuntimeException("Non existent directory " + BatchFileUtils.resolvePathToAbsolutePath(selectedPath));
+                }
+                directories.add(directory);
             }
         }
         return directories;
@@ -153,7 +157,8 @@ public class BatchFileLookupableHelperServiceImpl extends AbstractLookupableHelp
         for (Row row : rows) {
             for (Field field : row.getFields()) {
                 if ("path".equals(field.getPropertyName()) && Field.MULTISELECT.equals(field.getFieldType())) {
-                    return field.getPropertyValues();
+                    String[] values = field.getPropertyValues();
+                    return values;
                 }
             }
         }
@@ -263,7 +268,7 @@ public class BatchFileLookupableHelperServiceImpl extends AbstractLookupableHelp
     
     protected HtmlData getDownloadUrl(BatchFile batchFile) {
         Properties parameters = new Properties();
-        parameters.put("filePath", batchFile.retrieveFile().getAbsolutePath());
+        parameters.put("filePath", BatchFileUtils.pathRelativeToRootDirectory(batchFile.retrieveFile().getAbsolutePath()));
         parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "download");
         String href = UrlFactory.parameterizeUrl(CamsConstants.StrutsActions.ONE_UP + "batchFileAdmin.do", parameters);
         return new AnchorHtmlData(href, "download", "Download");
@@ -271,12 +276,12 @@ public class BatchFileLookupableHelperServiceImpl extends AbstractLookupableHelp
     
     protected HtmlData getDeleteUrl(BatchFile batchFile) {
         Properties parameters = new Properties();
-        parameters.put("filePath", batchFile.retrieveFile().getAbsolutePath());
+        parameters.put("filePath", BatchFileUtils.pathRelativeToRootDirectory(batchFile.retrieveFile().getAbsolutePath()));
         parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "delete");
         String href = UrlFactory.parameterizeUrl(CamsConstants.StrutsActions.ONE_UP + "batchFileAdmin.do", parameters);
         return new AnchorHtmlData(href, "delete", "Delete");
     }
-    
+
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
      */
@@ -287,7 +292,8 @@ public class BatchFileLookupableHelperServiceImpl extends AbstractLookupableHelp
         String[] selectedPaths = getSelectedPaths();
         if (selectedPaths != null) {
             for (String selectedPath : selectedPaths) {
-                if (!BatchFileUtils.isDirectoryAccessible(selectedPath)) {
+                String resolvedPath = BatchFileUtils.resolvePathToAbsolutePath(selectedPath);
+                if (!BatchFileUtils.isDirectoryAccessible(resolvedPath)) {
                     throw new RuntimeException("Can't access path " + selectedPath);
                 }
             }

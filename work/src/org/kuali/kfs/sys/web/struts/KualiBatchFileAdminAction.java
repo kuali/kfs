@@ -45,7 +45,8 @@ import org.kuali.rice.kns.web.struts.action.KualiAction;
 public class KualiBatchFileAdminAction extends KualiAction {
     public ActionForward download(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiBatchFileAdminForm fileAdminForm = (KualiBatchFileAdminForm) form;
-        File file = new File(fileAdminForm.getFilePath()).getAbsoluteFile();
+        String filePath = BatchFileUtils.resolvePathToAbsolutePath(fileAdminForm.getFilePath());
+        File file = new File(filePath).getAbsoluteFile();
         
         if (!file.exists() || !file.isFile()) {
             throw new RuntimeException("Error: non-existent file or directory provided");
@@ -76,7 +77,8 @@ public class KualiBatchFileAdminAction extends KualiAction {
     
     public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiBatchFileAdminForm fileAdminForm = (KualiBatchFileAdminForm) form;
-        File file = new File(fileAdminForm.getFilePath()).getAbsoluteFile();
+        String filePath = BatchFileUtils.resolvePathToAbsolutePath(fileAdminForm.getFilePath());
+        File file = new File(filePath).getAbsoluteFile();
         
         KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         
@@ -94,10 +96,12 @@ public class KualiBatchFileAdminAction extends KualiAction {
             throw new RuntimeException("Error: not authorized to delete file");
         }
         
+        String displayFileName = BatchFileUtils.pathRelativeToRootDirectory(file.getAbsolutePath());
+        
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (question == null) {
             String questionText = kualiConfigurationService.getPropertyString(KFSKeyConstants.QUESTION_BATCH_FILE_ADMIN_DELETE_CONFIRM);
-            questionText = MessageFormat.format(questionText, fileAdminForm.getFilePath());
+            questionText = MessageFormat.format(questionText, displayFileName);
             return performQuestionWithoutInput(mapping, fileAdminForm, request, response, "confirmDelete", questionText,
                     KNSConstants.CONFIRMATION_QUESTION, "delete", fileAdminForm.getFilePath());
         }
@@ -109,16 +113,16 @@ public class KualiBatchFileAdminAction extends KualiAction {
                     try {
                         file.delete();
                         status = kualiConfigurationService.getPropertyString(KFSKeyConstants.MESSAGE_BATCH_FILE_ADMIN_DELETE_SUCCESSFUL);
-                        status = MessageFormat.format(status, fileAdminForm.getFilePath());
+                        status = MessageFormat.format(status, displayFileName);
                     }
                     catch (SecurityException e) {
                         status = kualiConfigurationService.getPropertyString(KFSKeyConstants.MESSAGE_BATCH_FILE_ADMIN_DELETE_ERROR);
-                        status = MessageFormat.format(status, fileAdminForm.getFilePath());
+                        status = MessageFormat.format(status, displayFileName);
                     }
                 }
                 else if (ConfirmationQuestion.NO.equals(buttonClicked)) {
                     status = kualiConfigurationService.getPropertyString(KFSKeyConstants.MESSAGE_BATCH_FILE_ADMIN_DELETE_CANCELLED);
-                    status = MessageFormat.format(status, fileAdminForm.getFilePath());
+                    status = MessageFormat.format(status, displayFileName);
                 }
                 if (status != null) {
                     request.setAttribute("status", status);
@@ -134,15 +138,6 @@ public class KualiBatchFileAdminAction extends KualiAction {
      */
     @Override
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        KualiBatchFileAdminForm fileAdminForm = (KualiBatchFileAdminForm) form;
-        File file = new File(fileAdminForm.getFilePath()).getAbsoluteFile();
-        
-        if (!file.exists() || !file.isFile()) {
-            throw new RuntimeException("Error: non-existent file or directory provided");
-        }
-        File containingDirectory = file.getParentFile();
-        if (!BatchFileUtils.isDirectoryAccessible(containingDirectory.getAbsolutePath())) {
-            throw new RuntimeException("Error: inaccessible directory provided");
-        }
+        // do nothing... authorization is integrated into action handler
     }
 }

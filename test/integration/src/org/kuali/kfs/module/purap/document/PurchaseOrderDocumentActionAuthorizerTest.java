@@ -16,9 +16,25 @@
 package org.kuali.kfs.module.purap.document;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.rorenfro;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.document.web.struts.PurchaseOrderForm;
+import org.kuali.kfs.module.purap.fixture.PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
+import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 
 /**
  * This class is used to test the authorization of the
@@ -59,64 +75,80 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
 //        assertTrue(auth.canRetransmit());
 //    }
 //    
-//    /**
-//     * Tests that the print retransmit button is displayed when the purchase order 
-//     * is not an APO. It should allow purchasing users (in this case we use parke)
-//     * to see the button if the purchase order is not an APO.
-//     * 
-//     * @throws Exception
-//     */
-//    @RelatesTo(JiraIssue.KULPURAP3146)
-//    @ConfigureContext(session = parke, shouldCommitTransactions=false)
-//    public final void testValidForPrintingRetransmitNonAPO() throws Exception {
-//        Map editMode = new HashMap();
-//        Map documentActions = new HashMap();
-//
-//        editMode.put(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB, true);
-//        PurchaseOrderDocument poDocument = PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture.PO_VALID_RETRANSMIT.createPurchaseOrderDocument();
-//        poDocument.prepareForSave();       
-//        DocumentService documentService = SpringContext.getBean(DocumentService.class);
-//        AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
-//        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");      
-//        assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
-//
-//        PurchaseOrderService purchaseOrderService = SpringContext.getBean(PurchaseOrderService.class);
-//        PurchaseOrderDocument poRetransmitDocument = purchaseOrderService.createAndRoutePotentialChangeDocument(poDocument.getDocumentNumber(), PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, null, null, "RTPE");
-//        poRetransmitDocument.setStatusCode("CGIN");
-//        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poRetransmitDocument, editMode, documentActions);
-//        assertTrue(auth.canPrintRetransmit());
-//    }
-//    
-//    /**
-//     * Tests that the print retransmit button is displayed when the purchase order is an
-//     * APO and the user can be anyone (here it is set as rorenfro prior to checking for the authorizer).
-//     * It should allow anyone to see the print retransmit button if it's an APO.
-//     * 
-//     * @throws Exception
-//     */
-//    @RelatesTo(JiraIssue.KULPURAP3146)
-//    @ConfigureContext(session = parke, shouldCommitTransactions=false)
-//    public final void testValidForPrintingRetransmitAPO() throws Exception {
-//        Map editMode = new HashMap();
-//        Map documentActions = new HashMap();
-//        editMode.put(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB, true);
-//
-//        PurchaseOrderDocument poDocument = PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture.PO_VALID_RETRANSMIT.createPurchaseOrderDocument();
-//        poDocument.prepareForSave();       
-//        DocumentService documentService = SpringContext.getBean(DocumentService.class);
-//        AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
-//        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");      
-//        assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
-//
-//        PurchaseOrderService purchaseOrderService = SpringContext.getBean(PurchaseOrderService.class);
-//        PurchaseOrderDocument poRetransmitDocument = purchaseOrderService.createAndRoutePotentialChangeDocument(poDocument.getDocumentNumber(), PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, null, null, "RTPE");
-//        poRetransmitDocument.setStatusCode("CGIN");
-//        poRetransmitDocument.setPurchaseOrderAutomaticIndicator(true);
-//        changeCurrentUser(rorenfro);
-//        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poRetransmitDocument, editMode, documentActions);
-//        assertTrue(auth.canPrintRetransmit());
-//    }
-//    
+    /**
+     * Tests that the print retransmit button is displayed when the purchase order 
+     * is not an APO. It should allow purchasing users (in this case we use parke)
+     * to see the button if the purchase order is not an APO.
+     * 
+     * @throws Exception
+     */
+    @ConfigureContext(session = parke, shouldCommitTransactions=false)
+    public final void testValidForPrintingRetransmitNonAPO() throws Exception {
+        Map editMode = new HashMap();
+        Map documentActions = new HashMap();
+
+        editMode.put(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB, true);
+        PurchaseOrderDocument poDocument = PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture.PO_VALID_RETRANSMIT.createPurchaseOrderDocument();
+        poDocument.prepareForSave();       
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
+        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");      
+        assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+
+        PurchaseOrderService purchaseOrderService = SpringContext.getBean(PurchaseOrderService.class);
+        PurchaseOrderDocument poRetransmitDocument = purchaseOrderService.createAndRoutePotentialChangeDocument(poDocument.getDocumentNumber(), PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, null, null, "RTPE");
+        poRetransmitDocument.setStatusCode("CGIN");
+        PurchaseOrderForm poForm = new PurchaseOrderForm();
+        poForm.setDocument(poRetransmitDocument);
+        poForm.setEditingMode(editMode);
+        boolean buttonFound = false;
+        for (ExtraButton button : poForm.getExtraButtons()) {
+            if (button.getExtraButtonProperty().equals("methodToCall.printingRetransmitPo")) {
+                buttonFound = true;
+                break;
+            }
+        }
+        assertTrue(buttonFound);
+    }
+    
+    /**
+     * Tests that the print retransmit button is displayed when the purchase order is an
+     * APO and the user can be anyone (here it is set as rorenfro prior to checking for the authorizer).
+     * It should allow anyone to see the print retransmit button if it's an APO.
+     * 
+     * @throws Exception
+     */
+    @ConfigureContext(session = parke, shouldCommitTransactions=false)
+    public final void testValidForPrintingRetransmitAPO() throws Exception {
+        Map editMode = new HashMap();
+        Map documentActions = new HashMap();
+        editMode.put(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB, true);
+
+        PurchaseOrderDocument poDocument = PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture.PO_VALID_RETRANSMIT.createPurchaseOrderDocument();
+        poDocument.prepareForSave();       
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
+        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");      
+        assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+
+        PurchaseOrderService purchaseOrderService = SpringContext.getBean(PurchaseOrderService.class);
+        PurchaseOrderDocument poRetransmitDocument = purchaseOrderService.createAndRoutePotentialChangeDocument(poDocument.getDocumentNumber(), PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, null, null, "RTPE");
+        poRetransmitDocument.setStatusCode("CGIN");
+        poRetransmitDocument.setPurchaseOrderAutomaticIndicator(true);
+        changeCurrentUser(rorenfro);
+        PurchaseOrderForm poForm = new PurchaseOrderForm();
+        poForm.setDocument(poRetransmitDocument);
+        poForm.setEditingMode(editMode);
+        boolean buttonFound = false;
+        for (ExtraButton button : poForm.getExtraButtons()) {
+            if (button.getExtraButtonProperty().equals("methodToCall.printingRetransmitPo")) {
+                buttonFound = true;
+                break;
+            }
+        }
+        assertTrue(buttonFound);
+    }
+    
 //    /**
 //     * Tests that the print button for first transmit is displayed.
 //     * 

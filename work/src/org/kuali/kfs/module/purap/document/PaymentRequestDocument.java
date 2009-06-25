@@ -19,6 +19,7 @@ package org.kuali.kfs.module.purap.document;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -46,7 +47,6 @@ import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecif
 import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
-import org.kuali.kfs.module.purap.document.service.impl.PaymentRequestServiceImpl;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
@@ -604,7 +604,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(PaymentRequestDocument.class, PurapParameterConstants.PURAP_OVERRIDE_PREQ_DOC_TITLE)) {
             return getCustomDocumentTitle();
         }
-
         return this.buildDocumentTitle(super.getDocumentTitle());
     }
 
@@ -620,20 +619,31 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             String poNumber = getPurchaseOrderIdentifier().toString();
             String vendorName = StringUtils.trimToEmpty(getVendorName());
             String preqAmount = getGrandTotal().toString();
-            String indicator = getTitleIndicator();
 
-            String documentTitle = new StringBuffer("PO: ").append(poNumber).append(" Vendor: ").append(vendorName).append(" Amount: ").append(preqAmount).append(" ").append(indicator).toString();
+            String documentTitle = "";
             String[] nodeNames = getDocumentHeader().getWorkflowDocument().getNodeNames();
-            if ((nodeNames.length == 1) && (NodeDetailEnum.VENDOR_TAX_REVIEW.getName().equals(nodeNames[0]))) {
-                // tax review
-                // grab the first account
-                PurApAccountingLine theAccount = getFirstAccount();
-                // setup variables
-                String deliveryCampus = StringUtils.trimToEmpty((getProcessingCampus() != null ? getProcessingCampus().getCampus().getCampusShortName() : ""));
-                String accountNumber = (theAccount != null ? StringUtils.trimToEmpty(theAccount.getAccountNumber()) : "");
-                String department = (theAccount != null ? StringUtils.trimToEmpty((((theAccount.getAccount() != null) && (theAccount.getAccount().getOrganization() != null)) ? theAccount.getAccount().getOrganization().getOrganizationName() : "")) : "");
-                documentTitle = new StringBuffer("Vendor: ").append(vendorName).append(" PO: ").append(poNumber).append(" Account Number: ").append(accountNumber).append(" Dept: ").append(department).append(" Delivery Campus: ").append(deliveryCampus).toString();
+       
+            // if this will be final
+            if (nodeNames.length == 0) {
+                documentTitle = (new StringBuffer("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Amount: ").append(preqAmount).toString();
             }
+            else {
+                PurApAccountingLine theAccount = getFirstAccount();
+                String accountNumber = (theAccount != null ? StringUtils.trimToEmpty(theAccount.getAccountNumber()) : "n/a");
+                String payDate = (new SimpleDateFormat("MM/dd/yyyy")).format(getPaymentRequestPayDate());
+                String indicator = getTitleIndicator();
+                
+                // if routing with tax
+                if (NodeDetailEnum.VENDOR_TAX_REVIEW.getName().equals(nodeNames[0])) {                
+                    String deliveryCampus = StringUtils.trimToEmpty((getProcessingCampus() != null ? getProcessingCampus().getCampus().getCampusShortName() : "n/a"));                
+                    String department = (theAccount != null ? StringUtils.trimToEmpty((((theAccount.getAccount() != null) && (theAccount.getAccount().getOrganization() != null)) ? theAccount.getAccount().getOrganization().getOrganizationName() : "")) : "n/a");
+                    documentTitle = (new StringBuffer("Vendor: ")).append(vendorName).append(" PO: ").append(poNumber).append(" Account: ").append(accountNumber).append(" Dept: ").append(department).append(" Delivery Campus: ").append(deliveryCampus).append(" Pay Date: ").append(payDate).append(" ").append(indicator).toString();
+                }
+                else {
+                    documentTitle = (new StringBuffer("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Account: ").append(accountNumber).append(" Amount: ").append(preqAmount).append(" Pay Date: ").append(payDate).append(" ").append(indicator).toString();
+                }            
+            }
+           
             return documentTitle;
         }
         catch (WorkflowException e) {
@@ -659,6 +669,14 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                     accountLine.refreshNonUpdateableReferences();
                     return accountLine;
                 }
+                /*
+                if (((item.getExtendedPrice() != null) && item.getExtendedPrice().compareTo(BigDecimal.ZERO) > 0) && ((item.getAccounts() != null) && (!item.getAccounts().isEmpty()))) {
+                    // accounting lines are not empty so pick the first account
+               List accts = (List)item.getAccounts();
+               PaymentRequestAccount accountLine = (PaymentRequestAccount)accts.get(0);
+                    return accountLine.getFinancialChartOfAccountsCode() + "-" + accountLine.getAccountNumber();
+                }
+                */
             }
         }
         return null;

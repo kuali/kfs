@@ -312,7 +312,6 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @RelatesTo(JiraIssue.KULPURAP3167)
     public void testCreateAndRoutePotentialChangeDocument() throws Exception {
         //Need to create a requisition first to be used to create an APO
         RequisitionDocument req = RequisitionDocumentFixture.REQ_ALTERNATE_APO.createRequisitionDocument();

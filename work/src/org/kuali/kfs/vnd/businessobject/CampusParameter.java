@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Country;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.CountryService;
@@ -30,7 +31,7 @@ import org.kuali.rice.kns.service.StateService;
 /**
  * Campus Parameter Business Object. Maintenance document for campus parameters.
  */
-public class CampusParameter extends PersistableBusinessObjectBase {
+public class CampusParameter extends PersistableBusinessObjectBase implements Inactivateable{
 
     private String campusCode;
     private String campusPurchasingDirectorName;
@@ -45,6 +46,7 @@ public class CampusParameter extends PersistableBusinessObjectBase {
     private String purchasingDepartmentZipCode;
     private String purchasingDepartmentCountryCode;
     private boolean activeIndicator;
+    private boolean active;
 
     private Campus campus;
     private State purchasingDepartmentState;
@@ -203,5 +205,13 @@ public class CampusParameter extends PersistableBusinessObjectBase {
 
     public void setActiveIndicator(boolean activeIndicator) {
         this.activeIndicator = activeIndicator;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

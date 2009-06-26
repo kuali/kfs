@@ -29,6 +29,7 @@ import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kim.service.RoleService;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -40,7 +41,7 @@ import edu.emory.mathcs.backport.java.util.Collections;
  * 
  * @see org.kuali.kfs.vnd.businessobject.VendorContract
  */
-public class ContractManager extends PersistableBusinessObjectBase {
+public class ContractManager extends PersistableBusinessObjectBase implements Inactivateable{
 
     private Integer contractManagerCode;
     private String contractManagerName;
@@ -48,6 +49,7 @@ public class ContractManager extends PersistableBusinessObjectBase {
     private String contractManagerFaxNumber;
     private KualiDecimal contractManagerDelegationDollarLimit;
     private boolean activeIndicator;
+    private boolean active;
 
     public boolean isActiveIndicator() {
         return activeIndicator;
@@ -136,5 +138,13 @@ public class ContractManager extends PersistableBusinessObjectBase {
         }
 
         return m;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

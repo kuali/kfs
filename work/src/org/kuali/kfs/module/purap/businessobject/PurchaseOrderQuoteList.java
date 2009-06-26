@@ -20,19 +20,21 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.vnd.businessobject.ContractManager;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * Purchase Order Quote List Business Object.
  */
-public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase {
+public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase implements Inactivateable{
 
     private Integer purchaseOrderQuoteListIdentifier;
     private String purchaseOrderQuoteListName;
     private Integer contractManagerCode;
     private String contractManagerName;
     private boolean activeIndicator;
+    private boolean active;
     
     private ContractManager contractManager;
 
@@ -107,13 +109,21 @@ public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase {
         }
         return m;
     }
-
+    
     public boolean isActiveIndicator() {
         return activeIndicator;
     }
 
     public void setActiveIndicator(boolean activeIndicator) {
         this.activeIndicator = activeIndicator;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }

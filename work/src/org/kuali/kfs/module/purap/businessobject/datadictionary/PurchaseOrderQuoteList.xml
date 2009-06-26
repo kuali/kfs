@@ -83,7 +83,10 @@
   
   <bean id="PurchaseOrderQuoteList-activeIndicator" parent="PurchaseOrderQuoteList-activeIndicator-parentBean" />
   
-  <bean id="PurchaseOrderQuoteList-activeIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" />
+  <bean id="PurchaseOrderQuoteList-activeIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" >
+	<property name="name" value="active" />
+  </bean>
+
   
 
 <!-- Business Object Inquiry Definition -->
@@ -105,7 +108,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="contractManagerCode" />
               <bean parent="FieldDefinition"
-              		p:attributeName="activeIndicator"  />
+              		p:attributeName="active"  />
             </list>
           </property>
         </bean>
@@ -161,7 +164,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="contractManagerCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="activeIndicator"  />
+              p:attributeName="active"  />
       </list>
     </property>
     <property name="resultFields" >
@@ -171,7 +174,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="contractManagerName" />
         <bean parent="FieldDefinition"
-              p:attributeName="activeIndicator"  />
+              p:attributeName="active"  />
       </list>
     </property>
   </bean>

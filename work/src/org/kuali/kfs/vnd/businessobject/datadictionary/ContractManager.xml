@@ -121,7 +121,9 @@
   
   <bean id="ContractManager-activeIndicator"  parent="ContractManager-activeIndicator-parentBean" />
   
-  <bean id="ContractManager-activeIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" />
+  <bean id="ContractManager-activeIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" >
+	<property name="name" value="active" />
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 
@@ -148,7 +150,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="contractManagerDelegationDollarLimit" />
                <bean parent="FieldDefinition"
-              		p:attributeName="activeIndicator"  />
+              		p:attributeName="active"  />
             </list>
           </property>
         </bean>
@@ -181,7 +183,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="contractManagerDelegationDollarLimit" />
         <bean parent="FieldDefinition"
-              p:attributeName="activeIndicator"  />
+              p:attributeName="active"  />
       </list>
     </property>
     <property name="resultFields" >
@@ -197,7 +199,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="contractManagerDelegationDollarLimit" />
         <bean parent="FieldDefinition"
-              p:attributeName="activeIndicator"  />
+              p:attributeName="active"  />
       </list>
     </property>
   </bean>

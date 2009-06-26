@@ -30,7 +30,7 @@
     <field-descriptor name="purchasingDepartmentStateCode" column="PUR_DEPT_ST_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchasingDepartmentZipCode" column="PUR_DEPT_ZIP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchasingDepartmentCountryCode" column="PUR_DEPT_CNTRY_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="activeIndicator" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>    
+    <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.vnd.businessobject.ContactType" table="PUR_CNTCT_TYP_T">
@@ -525,7 +525,7 @@
     <field-descriptor name="contractManagerPhoneNumber" column="CONTR_MGR_PHN_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="contractManagerFaxNumber" column="CONTR_MGR_FAX_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="contractManagerDelegationDollarLimit" column="CONTR_MGR_DLGN_DLR_LMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="activeIndicator" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>    
+	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.vnd.businessobject.PaymentTermType" table="PUR_PMT_TERM_TYP_T">

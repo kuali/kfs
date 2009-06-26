@@ -187,7 +187,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   
   <bean id="CampusParameter-activeIndicator" parent="CampusParameter-activeIndicator-parentBean" />
   
-  <bean id="CampusParameter-activeIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" />
+  <bean id="CampusParameter-activeIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" >
+	<property name="name" value="active" />
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 
@@ -228,7 +230,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               <bean parent="FieldDefinition"
                     p:attributeName="purchasingDepartmentCountryCode" />
               <bean parent="FieldDefinition"
-              		p:attributeName="activeIndicator"  />
+              		p:attributeName="active"  />
             </list>
           </property>
         </bean>
@@ -253,7 +255,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="campusCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="activeIndicator"  />            
+              p:attributeName="active"  />            
       </list>
     </property>
     <property name="resultFields" >
@@ -263,7 +265,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="campus.campusName" />              
         <bean parent="FieldDefinition"
-              p:attributeName="activeIndicator"  />                                  
+              p:attributeName="active"  />                                  
       </list>
     </property>
   </bean>

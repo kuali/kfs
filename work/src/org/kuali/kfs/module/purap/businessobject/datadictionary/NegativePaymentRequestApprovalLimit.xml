@@ -83,7 +83,9 @@
   
   <bean id="NegativePaymentRequestApprovalLimit-activeIndicator" parent="NegativePaymentRequestApprovalLimit-activeIndicator-parentBean" />
   
-  <bean id="NegativePaymentRequestApprovalLimit-activeIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator"  />
+  <bean id="NegativePaymentRequestApprovalLimit-activeIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator"  >
+	<property name="name" value="active" />
+  </bean>
   	
 
 <!-- Business Object Inquiry Definition -->
@@ -109,7 +111,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="negativePaymentRequestApprovalLimitAmount" />
               <bean parent="FieldDefinition"
-              		p:attributeName="activeIndicator"  />
+              		p:attributeName="active"  />
             </list>
           </property>
         </bean>
@@ -140,7 +142,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="negativePaymentRequestApprovalLimitAmount" />
         <bean parent="FieldDefinition"
-              p:attributeName="activeIndicator"  />
+              p:attributeName="active"  />
       </list>
     </property>
     <property name="resultFields" >
@@ -154,7 +156,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="negativePaymentRequestApprovalLimitAmount" />
         <bean parent="FieldDefinition"
-              p:attributeName="activeIndicator"  />
+              p:attributeName="active"  />
       </list>
     </property>
   </bean>

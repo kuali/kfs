@@ -18,7 +18,7 @@ package org.kuali.kfs.gl.service;
 import java.util.Comparator;
 import java.util.Map;
 
-import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.PosterOutputSummaryAmountHolder;
 import org.kuali.kfs.gl.businessobject.PosterOutputSummaryEntry;
 import org.kuali.kfs.gl.businessobject.Transaction;
@@ -39,7 +39,7 @@ public interface PosterOutputSummaryService {
      * @param oe the origin entry with an amount to add
      * @param amountHolder the amount holder to add the amount to
      */
-    public abstract void addAmountToAmountHolder(OriginEntry oe, PosterOutputSummaryAmountHolder amountHolder);
+    public abstract void addAmountToAmountHolder(OriginEntryInformation oe, PosterOutputSummaryAmountHolder amountHolder);
     
     /**
      * Returns an instance of the comparator to use when sorting poster output summary entries
@@ -59,6 +59,6 @@ public interface PosterOutputSummaryService {
      * @param originEntry the origin entry to summarize
      * @param entries the map of entries that holds all summarizations
      */
-    public abstract void summarize(OriginEntry originEntry, Map<String, PosterOutputSummaryEntry> entries);
+    public abstract void summarize(OriginEntryInformation originEntry, Map<String, PosterOutputSummaryEntry> entries);
     
 }

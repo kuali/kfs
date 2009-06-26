@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.PosterOutputSummaryBalanceTypeFiscalYearAndPeriodTotal;
 import org.kuali.kfs.gl.businessobject.PosterOutputSummaryBalanceTypeFiscalYearTotal;
 import org.kuali.kfs.gl.businessobject.PosterOutputSummaryBalanceTypeTotal;
@@ -64,7 +64,7 @@ public class PosterOutputSummaryReport {
      * Summarizes an origin entry for this report
      * @param originEntry the origin entry to summarize
      */
-    public void summarize(OriginEntry originEntry) {
+    public void summarize(OriginEntryInformation originEntry) {
         getPosterOutputSummaryService().summarize(originEntry, posterOutputSummaryEntries);
     }
     

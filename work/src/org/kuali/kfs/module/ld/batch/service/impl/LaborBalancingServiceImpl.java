@@ -26,7 +26,7 @@ import org.kuali.kfs.gl.batch.service.impl.BalancingServiceBaseImpl;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.LedgerBalanceHistory;
-import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.batch.LaborBalancingStep;
@@ -124,7 +124,7 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
     /**
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getOriginEntry(java.lang.String, int)
      */
-    public OriginEntry getOriginEntry(String inputLine, int lineNumber) {
+    public OriginEntryInformation getOriginEntry(String inputLine, int lineNumber) {
         LaborOriginEntry originEntry = new LaborOriginEntry();
         originEntry.setFromTextFileForBatch(inputLine, lineNumber);
         
@@ -132,10 +132,10 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
     }
     
     /**
-     * @see org.kuali.kfs.gl.batch.service.BalancingService#updateEntryHistory(org.kuali.kfs.gl.businessobject.OriginEntry)
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#updateEntryHistory(org.kuali.kfs.gl.businessobject.OriginEntryInformation)
      * @see org.kuali.kfs.module.ld.batch.service.impl.LaborPosterServiceImpl#postAsLedgerEntry(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
-    public void updateEntryHistory(OriginEntry originEntry) {
+    public void updateEntryHistory(OriginEntryInformation originEntry) {
         // TODO Retrieve and update 1 by 1? Is a HashMap or cache better so that storing only occurs once at the end?
         LaborOriginEntry laborOriginEntry = (LaborOriginEntry) originEntry;
         LaborEntryHistory ledgerEntryHistory = new LaborEntryHistory(laborOriginEntry);
@@ -151,10 +151,10 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
     }
     
     /**
-     * @see org.kuali.kfs.gl.batch.service.BalancingService#updateBalanceHistory(org.kuali.kfs.gl.businessobject.OriginEntry)
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#updateBalanceHistory(org.kuali.kfs.gl.businessobject.OriginEntryInformation)
      * @see org.kuali.kfs.module.ld.batch.service.impl.LaborPosterServiceImpl#updateLedgerBalance(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
-    public void updateBalanceHistory(OriginEntry originEntry) {
+    public void updateBalanceHistory(OriginEntryInformation originEntry) {
         // TODO Retrieve and update 1 by 1? Is a HashMap or cache better so that storing only occurs once at the end?
         LaborOriginEntry laborOriginEntry = (LaborOriginEntry) originEntry;
         LaborBalanceHistory ledgerBalanceHistory = new LaborBalanceHistory(laborOriginEntry);

@@ -33,7 +33,7 @@ import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.PosterSummaryReportStep;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
 import org.kuali.kfs.gl.businessobject.GlSummary;
-import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.report.PosterOutputSummaryReport;
 import org.kuali.kfs.module.ld.LaborConstants;
@@ -162,7 +162,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
         if (mainPosterFile != null && mainPosterFile.exists()) {
             LaborOriginEntryFileIterator mainPosterIterator = new LaborOriginEntryFileIterator(mainPosterFile);
             while (mainPosterIterator.hasNext()) {
-                OriginEntry originEntry = mainPosterIterator.next();
+                OriginEntryInformation originEntry = mainPosterIterator.next();
                 posterOutputSummaryReport.summarize(originEntry);
             }
         } else {

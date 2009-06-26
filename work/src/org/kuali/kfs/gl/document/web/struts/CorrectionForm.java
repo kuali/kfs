@@ -285,7 +285,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     }
 
     /**
-     * Return size of list of all OriginEntry objects
+     * Return size of list of all OriginEntryInformation objects
      * @return size of entries size
      */
     public Integer getAllEntriesSize() {

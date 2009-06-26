@@ -28,7 +28,7 @@ import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
-import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.service.ScrubberValidator;
 import org.kuali.kfs.module.ld.LaborConstants;
@@ -77,7 +77,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * @see org.kuali.module.labor.service.LaborScrubberValidator#validateTransaction(owrg.kuali.module.labor.bo.LaborOriginEntry,
      *      org.kuali.kfs.module.ld.businessobject.LaborOriginEntry, org.kuali.kfs.gl.businessobject.UniversityDate)
      */
-    public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate, boolean laborIndicator, AccountingCycleCachingService laborAccountingCycleCachingService) {
+    public List<Message> validateTransaction(OriginEntryInformation originEntry, OriginEntryInformation scrubbedEntry, UniversityDate universityRunDate, boolean laborIndicator, AccountingCycleCachingService laborAccountingCycleCachingService) {
         LOG.debug("validateTransaction() started");
         List<Message> errors = new ArrayList<Message>();
         continuationAccountIndicator = false;

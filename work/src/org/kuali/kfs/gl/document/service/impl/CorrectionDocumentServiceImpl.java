@@ -730,7 +730,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         FileWriter newFileWriter;
 
         try {
-            // copy output file and put in OriginEntry directory
+            // copy output file and put in OriginEntryInformation directory
             inputFileReader = new FileReader(outputFile);
             newFileWriter = new FileWriter(newFile);
             int c;

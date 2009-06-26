@@ -55,9 +55,8 @@ import org.kuali.kfs.gl.batch.service.PosterService;
 import org.kuali.kfs.gl.batch.service.RunDateService;
 import org.kuali.kfs.gl.batch.service.VerifyTransaction;
 import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
-import org.kuali.kfs.gl.businessobject.OriginEntry;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.gl.businessobject.OriginEntryLite;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.ExpenditureTransactionDao;
@@ -441,7 +440,7 @@ public class PosterServiceImpl implements PosterService {
                         addReporting(reportSummary, MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Reversal.class).getFullTableName(), GeneralLedgerConstants.DELETE_CODE);
                     }
                     
-                    ledgerSummaryReport.summarizeEntry(new OriginEntryLite(tran));
+                    ledgerSummaryReport.summarizeEntry(new OriginEntryFull(tran));
                     return true;
                 }
             }
@@ -905,7 +904,7 @@ public class PosterServiceImpl implements PosterService {
         }
     }
 
-    protected String determineIcrOffsetBalanceSheetObjectCodeNumber(OriginEntry offsetEntry, ExpenditureTransaction et, IndirectCostRecoveryRateDetail icrRateDetail) {
+    protected String determineIcrOffsetBalanceSheetObjectCodeNumber(OriginEntryInformation offsetEntry, ExpenditureTransaction et, IndirectCostRecoveryRateDetail icrRateDetail) {
         String icrEntryDocumentType = parameterService.getParameterValue(PosterIndirectCostRecoveryEntriesStep.class, KFSConstants.SystemGroupParameterNames.GL_INDIRECT_COST_RECOVERY);
         OffsetDefinition offsetDefinition = offsetDefinitionService.getByPrimaryId(offsetEntry.getUniversityFiscalYear(), offsetEntry.getChartOfAccountsCode(), icrEntryDocumentType, et.getBalanceTypeCode());
         return offsetDefinition.getFinancialObjectCode();

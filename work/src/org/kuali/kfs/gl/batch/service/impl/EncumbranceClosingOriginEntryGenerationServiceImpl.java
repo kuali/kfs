@@ -16,10 +16,15 @@
 package org.kuali.kfs.gl.batch.service.impl;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.businessobject.PriorYearAccount;
@@ -45,6 +50,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -64,6 +70,7 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
     private OptionsService optionsService;
     private PriorYearAccountService priorYearAccountService;
     private SubFundGroupService subFundGroupService;
+    private BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.gl.batch.service.EncumbranceClosingOriginEntryGenerationService#createBeginningBalanceEntryOffsetPair(org.kuali.kfs.gl.businessobject.Encumbrance, java.lang.Integer, java.sql.Date)
@@ -349,7 +356,7 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
             return false;
         }
 
-        if (ObjectHelper.isOneOf(encumbrance.getBalanceTypeCode(), new String[] { KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE, KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE, KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE })) {
+        if (getEncumbranceBalanceTypeCodes().contains(encumbrance.getBalanceTypeCode())) {
             // internal encumbrances are forwarded, unless they are labor distribution
             if (KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE.equals(encumbrance.getBalanceTypeCode())) {
                 if (KFSConstants.LABOR_DISTRIBUTION_ORIGIN_CODE.equals(encumbrance.getOriginCode())) {
@@ -380,6 +387,22 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
         // we're still here? because we're not of a valid encumbrance balance type; we don't get forwarded
         return false;
 
+    }
+    
+    /**
+     * @return a list of BalanceType codes which correspond to encumbrance balance types
+     */
+    protected List<String> getEncumbranceBalanceTypeCodes() {
+        List<String> balanceTypeCodes = new ArrayList<String>();
+        
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put("active", Boolean.TRUE);
+        keys.put("finBalanceTypeEncumIndicator", Boolean.TRUE);
+        Collection balanceTypes = businessObjectService.findMatching(BalanceType.class, keys);
+        for (Object balanceTypeAsObject : balanceTypes) {
+            balanceTypeCodes.add(((BalanceType)balanceTypeAsObject).getCode());
+        }
+        return balanceTypeCodes;
     }
     
     /**
@@ -619,5 +642,21 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
      */
     public void setSubFundGroupService(SubFundGroupService subFundGroupService) {
         this.subFundGroupService = subFundGroupService;
+    }
+
+    /**
+     * Gets the businessObjectService attribute. 
+     * @return Returns the businessObjectService.
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

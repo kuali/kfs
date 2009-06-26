@@ -26,7 +26,6 @@ import java.util.Iterator;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.businessobject.OriginEntryLite;
 import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.module.ld.LaborConstants;
@@ -86,7 +85,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
         }
         
         //TODO: Shawn - might need to change this part to use file not collection
-        Collection<OriginEntryLite> group = new ArrayList();
+        Collection<OriginEntryFull> group = new ArrayList();
         Iterator<LaborLedgerPendingEntry> pendingEntries = laborLedgerPendingEntryService.findApprovedPendingLedgerEntries();
         
         LedgerSummaryReport nightlyOutLedgerSummaryReport = new LedgerSummaryReport();

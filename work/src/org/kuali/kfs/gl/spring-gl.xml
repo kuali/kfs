@@ -1105,10 +1105,6 @@
 	<bean id="originEntryDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.OriginEntryDaoOjb">
 		<property name="entryClass" value="org.kuali.kfs.gl.businessobject.OriginEntryFull"/>
    			</bean>
-	
-	<bean id="originEntryLiteDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.OriginEntryDaoOjb">
-		<property name="entryClass" value="org.kuali.kfs.gl.businessobject.OriginEntryLite"/>
-   			</bean>
 
 <!--	
 	<bean id="glOriginEntryGroupDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.OriginEntryGroupDaoOjb" />

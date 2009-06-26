@@ -38,7 +38,7 @@ public class EncumbranceHistory extends Encumbrance {
      * 
      * @param transaction
      */
-    public EncumbranceHistory(OriginEntry originEntry) {
+    public EncumbranceHistory(OriginEntryInformation originEntry) {
         this();
         this.setUniversityFiscalYear(originEntry.getUniversityFiscalYear());
         this.setChartOfAccountsCode(originEntry.getChartOfAccountsCode());
@@ -56,7 +56,7 @@ public class EncumbranceHistory extends Encumbrance {
      * Updates amount if the object already existed
      * @param originEntry representing the update details
      */
-    public void addAmount(OriginEntry originEntry) {
+    public void addAmount(OriginEntryInformation originEntry) {
         if (KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(originEntry.getTransactionEncumbranceUpdateCode())) {
             // If using referring doc number, add or subtract transaction amount from
             // encumbrance closed amount

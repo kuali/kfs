@@ -79,12 +79,12 @@ public class LedgerSummaryDetailLine extends LedgerBalanceTypeSummaryTotalLine {
     }
 
     /**
-     * Generates a Map key in a consistent format with the rest of the uses of this class for a given OriginEntry
+     * Generates a Map key in a consistent format with the rest of the uses of this class for a given OriginEntryInformation
      * 
      * @param entry the entry to build a key for
      * @return the "key" for a summary line which would include totals from entries like the given origin entry
      */
-    public static String getKeyString(OriginEntry entry) {
+    public static String getKeyString(OriginEntryInformation entry) {
         return LedgerSummaryDetailLine.makeKey(entry.getFinancialBalanceTypeCode(), entry.getFinancialSystemOriginationCode(), entry.getUniversityFiscalYear(), entry.getUniversityFiscalPeriodCode());
     }
 

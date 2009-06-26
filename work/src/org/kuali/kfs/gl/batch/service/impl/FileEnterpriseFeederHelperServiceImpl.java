@@ -28,8 +28,6 @@ import org.kuali.kfs.gl.batch.service.FileEnterpriseFeederHelperService;
 import org.kuali.kfs.gl.batch.service.ReconciliationParserService;
 import org.kuali.kfs.gl.batch.service.ReconciliationService;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.businessobject.OriginEntryLite;
 import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.impl.EnterpriseFeederStatusAndErrorMessagesWrapper;
@@ -123,7 +121,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
                 int count = 0;
                 
                 // create an entry to temporarily parse each line as it comes in
-                OriginEntryLite tempEntry = new OriginEntryLite();
+                OriginEntryFull tempEntry = new OriginEntryFull();
                 while ((line = dataFileReader.readLine()) != null) {
                     try {
                         enterpriseFeedPs.printf("%s\n", line);

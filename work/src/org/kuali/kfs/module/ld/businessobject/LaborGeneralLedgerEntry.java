@@ -19,7 +19,7 @@ package org.kuali.kfs.module.ld.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.gl.businessobject.OriginEntryLite;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -27,8 +27,8 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * Labor business object for Labor General ledger Entry
  */
 
-// Temporarily changed to be extended from OriginEntry.   
-public class LaborGeneralLedgerEntry extends OriginEntryLite {
+// Temporarily changed to be extended from OriginEntryInformation.   
+public class LaborGeneralLedgerEntry extends OriginEntryFull {
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;

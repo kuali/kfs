@@ -26,7 +26,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.dataaccess.OriginEntryDao;
@@ -174,9 +174,9 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
     /**
      * Delete an entry from the database
      * @param oe the entry to delete
-     * @see org.kuali.kfs.gl.dataaccess.OriginEntryDao#deleteEntry(org.kuali.kfs.gl.businessobject.OriginEntry)
+     * @see org.kuali.kfs.gl.dataaccess.OriginEntryDao#deleteEntry(org.kuali.kfs.gl.businessobject.OriginEntryInformation)
      */
-    public void deleteEntry(OriginEntry oe) {
+    public void deleteEntry(OriginEntryInformation oe) {
         LOG.debug("deleteEntry() started");
 
         getPersistenceBrokerTemplate().delete(oe);
@@ -379,7 +379,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
      * 
      * @param entry the entry to save.
      */
-    public void saveOriginEntry(OriginEntry entry) {
+    public void saveOriginEntry(OriginEntryInformation entry) {
         LOG.debug("saveOriginEntry() started");
 
         if ((entry != null) && (entry.getTransactionLedgerEntryDescription() != null) && (entry.getTransactionLedgerEntryDescription().length() > 40)) {

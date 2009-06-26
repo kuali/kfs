@@ -17,7 +17,7 @@ package org.kuali.kfs.gl.service.impl;
 
 import java.util.Map;
 
-import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 
 /**
@@ -28,7 +28,7 @@ public class ScrubberStatus {
     private String validFileName;
     private String errorFileName;
     private String expiredFileName;
-    private Map<OriginEntry, OriginEntry> unscrubbedToScrubbedEntries;
+    private Map<OriginEntryInformation, OriginEntryInformation> unscrubbedToScrubbedEntries;
 
     /**
      * Gets the errorFileName attribute.
@@ -107,7 +107,7 @@ public class ScrubberStatus {
      * 
      * @return Returns the unscrubbedToScrubbedEntry.
      */
-    public Map<OriginEntry, OriginEntry> getUnscrubbedToScrubbedEntries() {
+    public Map<OriginEntryInformation, OriginEntryInformation> getUnscrubbedToScrubbedEntries() {
         return unscrubbedToScrubbedEntries;
     }
 
@@ -116,7 +116,7 @@ public class ScrubberStatus {
      * 
      * @param unscrubbedToScrubbedEntry The unscrubbedToScrubbedEntry to set.
      */
-    public void setUnscrubbedToScrubbedEntries(Map<OriginEntry, OriginEntry> unscrubbedToScrubbedEntry) {
+    public void setUnscrubbedToScrubbedEntries(Map<OriginEntryInformation, OriginEntryInformation> unscrubbedToScrubbedEntry) {
         this.unscrubbedToScrubbedEntries = unscrubbedToScrubbedEntry;
     }
 }

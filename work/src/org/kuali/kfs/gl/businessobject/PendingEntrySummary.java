@@ -23,10 +23,10 @@ import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
- * An OriginEntry wrapper which helpfully summarizes data for the pending entry report
+ * An OriginEntryInformation wrapper which helpfully summarizes data for the pending entry report
  */
 public class PendingEntrySummary extends TransientBusinessObjectBase {
-    private OriginEntry originEntry;
+    private OriginEntryInformation originEntry;
     private boolean suppress;
     
     /**
@@ -141,7 +141,7 @@ public class PendingEntrySummary extends TransientBusinessObjectBase {
     /**
      * @param originEntry sets the origin entry
      */
-    public void setOriginEntry(OriginEntry originEntry) {
+    public void setOriginEntry(OriginEntryInformation originEntry) {
         this.originEntry = originEntry;
         this.suppress = false;
     }

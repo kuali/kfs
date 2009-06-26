@@ -24,7 +24,7 @@ import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.BalanceHistory;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.EntryHistory;
-import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.dataaccess.LedgerBalanceBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerEntryBalancingDao;
@@ -116,8 +116,8 @@ public abstract class BalancingServiceImplTestBase extends KualiTestBase {
     }
     
     public void testGetOriginEntry() {
-        LOG.debug("Basic test that getting GL or Labor OriginEntry works. Since the parsing method isn't part of Balancing we don't run a full test.");
-        OriginEntry originEntry = balancingService.getOriginEntry(INPUT_TRANSACTIONS[0], 0);
+        LOG.debug("Basic test that getting GL or Labor OriginEntryInformation works. Since the parsing method isn't part of Balancing we don't run a full test.");
+        OriginEntryInformation originEntry = balancingService.getOriginEntry(INPUT_TRANSACTIONS[0], 0);
         assertNotNull(originEntry);
         assertEquals(2009, originEntry.getUniversityFiscalYear().intValue());
     }

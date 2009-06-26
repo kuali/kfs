@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.report.PosterOutputSummaryReport;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
@@ -183,7 +183,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
                 this.postAsOriginEntry(balance, laborOriginEntry, balanceForwardsPs, runDate);
                 numberOfSelectedBalance++;
 
-                posterOutputSummaryReport.summarize((OriginEntry) laborOriginEntry);
+                posterOutputSummaryReport.summarize((OriginEntryInformation) laborOriginEntry);
                 this.updateReportSummary(reportSummary, LEDGER_BALANCE, KFSConstants.OperationType.SELECT);
                 this.updateReportSummary(reportSummary, LEDGER_BALANCE, KFSConstants.OperationType.INSERT);
             }

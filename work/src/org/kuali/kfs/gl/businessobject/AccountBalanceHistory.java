@@ -41,7 +41,7 @@ public class AccountBalanceHistory extends AccountBalance {
      * 
      * @param transaction
      */
-    public AccountBalanceHistory(OriginEntry originEntry) {
+    public AccountBalanceHistory(OriginEntryInformation originEntry) {
         this();
         this.setChartOfAccountsCode(originEntry.getChartOfAccountsCode());
         this.setAccountNumber(originEntry.getAccountNumber());

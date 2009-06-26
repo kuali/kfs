@@ -29,7 +29,7 @@ import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.LedgerBalanceHistory;
 import org.kuali.kfs.gl.businessobject.LedgerEntryHistory;
-import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.dataaccess.LedgerBalanceBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerBalanceHistoryBalancingDao;
 import org.kuali.kfs.gl.dataaccess.LedgerBalancingDao;
@@ -241,7 +241,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
                         currentErrorLine = posterErrorBufferedReader.readLine();
                     } else {
                         // Line is good, parse it via delegation
-                        OriginEntry originEntry = this.getOriginEntry(currentInputLine, lineNumber);
+                        OriginEntryInformation originEntry = this.getOriginEntry(currentInputLine, lineNumber);
                         
                         if (originEntry.getUniversityFiscalYear() >= startUniversityFiscalYear) {
                             // Line is in acceptable FY range, update history tables
@@ -355,7 +355,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
      * Possible override if sub class has additional history tables. Updates history data for custom table(s).
      * @param originEntry representing the update details
      */
-    protected void updateCustomHistory(OriginEntry originEntry) {
+    protected void updateCustomHistory(OriginEntryInformation originEntry) {
         return;
     }
     

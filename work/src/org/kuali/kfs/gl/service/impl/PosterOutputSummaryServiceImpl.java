@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
-import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.PosterOutputSummaryAmountHolder;
 import org.kuali.kfs.gl.businessobject.PosterOutputSummaryEntry;
 import org.kuali.kfs.gl.businessobject.Transaction;
@@ -38,9 +38,9 @@ public class PosterOutputSummaryServiceImpl implements PosterOutputSummaryServic
 
     /**
      * Default implementation
-     * @see org.kuali.kfs.gl.service.PosterOutputSummaryService#addOriginEntryAmountToAmountHolder(org.kuali.kfs.gl.businessobject.OriginEntry, org.kuali.kfs.gl.businessobject.PosterOutputSummaryAmountHolder)
+     * @see org.kuali.kfs.gl.service.PosterOutputSummaryService#addOriginEntryAmountToAmountHolder(org.kuali.kfs.gl.businessobject.OriginEntryInformation, org.kuali.kfs.gl.businessobject.PosterOutputSummaryAmountHolder)
      */
-    public void addAmountToAmountHolder(OriginEntry originEntry, PosterOutputSummaryAmountHolder amountHolder) {
+    public void addAmountToAmountHolder(OriginEntryInformation originEntry, PosterOutputSummaryAmountHolder amountHolder) {
         final String debitCreditCode = originEntry.getTransactionDebitCreditCode();
         final KualiDecimal amount = originEntry.getTransactionLedgerEntryAmount();
         final String objectTypeCode = originEntry.getFinancialObjectTypeCode();
@@ -110,9 +110,9 @@ public class PosterOutputSummaryServiceImpl implements PosterOutputSummaryServic
     }
 
     /**
-     * @see org.kuali.kfs.gl.service.PosterOutputSummaryService#getPosterOutputSummaryEntryMapKey(org.kuali.kfs.gl.businessobject.OriginEntry)
+     * @see org.kuali.kfs.gl.service.PosterOutputSummaryService#getPosterOutputSummaryEntryMapKey(org.kuali.kfs.gl.businessobject.OriginEntryInformation)
      */
-    protected String getPosterOutputSummaryEntryMapKey(OriginEntry originEntry) {
+    protected String getPosterOutputSummaryEntryMapKey(OriginEntryInformation originEntry) {
         return buildKey(originEntry.getFinancialBalanceTypeCode(), originEntry.getUniversityFiscalYear(), originEntry.getUniversityFiscalPeriodCode(), originEntry.getChartOfAccountsCode(), originEntry.getAccountNumber());
     }
 
@@ -147,9 +147,9 @@ public class PosterOutputSummaryServiceImpl implements PosterOutputSummaryServic
     }
 
     /**
-     * @see org.kuali.kfs.gl.service.PosterOutputSummaryService#summarizeOriginEntry(org.kuali.kfs.gl.businessobject.OriginEntry, java.util.Map)
+     * @see org.kuali.kfs.gl.service.PosterOutputSummaryService#summarizeOriginEntry(org.kuali.kfs.gl.businessobject.OriginEntryInformation, java.util.Map)
      */
-    public void summarize(OriginEntry originEntry, Map<String, PosterOutputSummaryEntry> entries) {
+    public void summarize(OriginEntryInformation originEntry, Map<String, PosterOutputSummaryEntry> entries) {
         final String key = getPosterOutputSummaryEntryMapKey(originEntry);
         PosterOutputSummaryEntry entry = entries.get(key);
         if (entry == null) {

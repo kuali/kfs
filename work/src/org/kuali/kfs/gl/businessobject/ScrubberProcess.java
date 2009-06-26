@@ -129,7 +129,7 @@ public class ScrubberProcess {
     private ReportWriterService demergerReportWriterService;
 
     // these three members will only be populated when in collector mode, otherwise the memory requirements will be huge
-    private Map<OriginEntry, OriginEntry> unscrubbedToScrubbedEntries;
+    private Map<OriginEntryInformation, OriginEntryInformation> unscrubbedToScrubbedEntries;
     private Map<Transaction, List<Message>> scrubberReportErrors;
     private LedgerSummaryReport ledgerSummaryReport;
     
@@ -187,7 +187,7 @@ public class ScrubberProcess {
         this.universityDateDao = universityDateDao;
         this.persistenceService = persistenceService;
         this.scrubberValidator = scrubberValidator;
-        this.unscrubbedToScrubbedEntries = new HashMap<OriginEntry, OriginEntry>();
+        this.unscrubbedToScrubbedEntries = new HashMap<OriginEntryInformation, OriginEntryInformation>();
         this.scrubberProcessObjectCodeOverride = scrubberProcessObjectCodeOverride;
         this.runDateService = runDateService;
         this.collectorMode = false;
@@ -551,7 +551,7 @@ public class ScrubberProcess {
      * @param transaction Transaction to identify
      * @return CE (Cost share encumbrance, O (Offset), C (apitalization), L (Liability), T (Transfer), CS (Cost Share), X (Other)
      */
-    private String getTransactionType(OriginEntry transaction) {
+    private String getTransactionType(OriginEntryInformation transaction) {
         if (TRANSACTION_TYPE_COST_SHARE_ENCUMBRANCE.equals(transaction.getFinancialBalanceTypeCode())) {
             return TRANSACTION_TYPE_COST_SHARE_ENCUMBRANCE;
         }
@@ -888,7 +888,7 @@ public class ScrubberProcess {
      * @param scrubbedEntry the originEntry that was scrubbed
      * @return a TransactionError initialized with any error encounted during entry generation, or (hopefully) null
      */
-    private TransactionError generateCostShareEntries(OriginEntry scrubbedEntry, ScrubberReportData scrubberReport) {
+    private TransactionError generateCostShareEntries(OriginEntryInformation scrubbedEntry, ScrubberReportData scrubberReport) {
         // 3000-COST-SHARE to 3100-READ-OFSD in the cobol Generate Cost Share Entries
         LOG.debug("generateCostShareEntries() started");
         try {
@@ -1143,7 +1143,7 @@ public class ScrubberProcess {
      * @param scrubbedEntry the entry to generate capitalization entries (possibly) for
      * @return null if no error, message if error
      */
-    private String processCapitalization(OriginEntry scrubbedEntry, ScrubberReportData scrubberReport) {
+    private String processCapitalization(OriginEntryInformation scrubbedEntry, ScrubberReportData scrubberReport) {
         
         try {
          // Lines 4694 - 4798 of the Pro Cobol listing on Confluence
@@ -1227,7 +1227,7 @@ public class ScrubberProcess {
      * @param scrubbedEntry the entry to generated plant indebtedness entries for if necessary
      * @return null if no error, message if error
      */
-    private String processPlantIndebtedness(OriginEntry scrubbedEntry, ScrubberReportData scrubberReport) {
+    private String processPlantIndebtedness(OriginEntryInformation scrubbedEntry, ScrubberReportData scrubberReport) {
         try{
             // Lines 4855 - 4979 of the Pro Cobol listing on Confluence 
             if (!parameterService.getIndicatorParameter(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.PLANT_INDEBTEDNESS_IND)) {
@@ -1351,7 +1351,7 @@ public class ScrubberProcess {
      * @param scrubbedEntry the entry to generate liability entries for if necessary
      * @return null if no error, message if error
      */
-    private String processLiabilities(OriginEntry scrubbedEntry, ScrubberReportData scrubberReport) {
+    private String processLiabilities(OriginEntryInformation scrubbedEntry, ScrubberReportData scrubberReport) {
         try{
             // Lines 4799 to 4839 of the Pro Cobol list of the scrubber on Confluence
             if (!parameterService.getIndicatorParameter(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.LIABILITY_IND)) {
@@ -1425,7 +1425,7 @@ public class ScrubberProcess {
      * @param scrubbedEntry basis for plant fund entry
      * @param liabilityEntry liability entry
      */
-    private void plantFundAccountLookup(OriginEntry scrubbedEntry, OriginEntryFull liabilityEntry) {
+    private void plantFundAccountLookup(OriginEntryInformation scrubbedEntry, OriginEntryFull liabilityEntry) {
         // 4000-PLANT-FUND-ACCT to 4000-PLANT-FUND-ACCT-EXIT in cobol
         
         liabilityEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
@@ -1459,7 +1459,7 @@ public class ScrubberProcess {
      * @param scrubbedEntry the entry to perhaps create a cost share encumbrance for 
      * @return a message if there was an error encountered generating the entries, or (hopefully) null if no errors were encountered
      */
-    private TransactionError generateCostShareEncumbranceEntries(OriginEntry scrubbedEntry, ScrubberReportData scrubberReport) {
+    private TransactionError generateCostShareEncumbranceEntries(OriginEntryInformation scrubbedEntry, ScrubberReportData scrubberReport) {
         try{
             // 3200-COST-SHARE-ENC to 3200-CSE-EXIT in the COBOL
             LOG.debug("generateCostShareEncumbranceEntries() started");
@@ -1587,7 +1587,7 @@ public class ScrubberProcess {
      * @param costShareEntry GL Entry for cost share
      * @param originEntry Scrubbed GL Entry that this is based on
      */
-    private void setCostShareObjectCode(OriginEntryFull costShareEntry, OriginEntry originEntry) {
+    private void setCostShareObjectCode(OriginEntryFull costShareEntry, OriginEntryInformation originEntry) {
         // This code is SET-OBJECT-2004 to 2520-INIT-SCRB-AREA in the Cobol
         ObjectCode originEntryFinancialObject = accountingCycleCachingService.getObjectCode(originEntry.getUniversityFiscalYear(), originEntry.getChartOfAccountsCode(), originEntry.getFinancialObjectCode());
 
@@ -1631,7 +1631,7 @@ public class ScrubberProcess {
      * @param scrubbedEntry entry to determine if an offset is needed for
      * @return true if an offset would be needed for this entry, false otherwise
      */
-    private boolean generateOffset(OriginEntry scrubbedEntry, ScrubberReportData scrubberReport) {
+    private boolean generateOffset(OriginEntryInformation scrubbedEntry, ScrubberReportData scrubberReport) {
         OriginEntryFull offsetEntry = new OriginEntryFull();
         try{
          // This code is 3000-OFFSET to SET-OBJECT-2004 in the Cobol
@@ -1749,7 +1749,7 @@ public class ScrubberProcess {
     }
 
     
-    private void createOutputEntry(OriginEntry entry, PrintStream ps) throws IOException {
+    private void createOutputEntry(OriginEntryInformation entry, PrintStream ps) throws IOException {
         try {
             ps.printf("%s\n", entry.getLine());
         } catch (Exception e) {
@@ -1853,7 +1853,7 @@ public class ScrubberProcess {
          * Constructs a ScrubberProcess.UnitOfWorkInfo instance
          * @param e an origin entry belonging to this unit of work
          */
-        public UnitOfWorkInfo(OriginEntry e) {
+        public UnitOfWorkInfo(OriginEntryInformation e) {
             univFiscalYr = e.getUniversityFiscalYear();
             finCoaCd = e.getChartOfAccountsCode();
             accountNbr = e.getAccountNumber();
@@ -1872,7 +1872,7 @@ public class ScrubberProcess {
          * @param e the entry to check
          * @return true if it belongs to this unit of work, false otherwise
          */
-        public boolean isSameUnitOfWork(OriginEntry e) {
+        public boolean isSameUnitOfWork(OriginEntryInformation e) {
             // Compare the key fields
             return univFiscalYr.equals(e.getUniversityFiscalYear()) && finCoaCd.equals(e.getChartOfAccountsCode()) && accountNbr.equals(e.getAccountNumber()) && subAcctNbr.equals(e.getSubAccountNumber()) && finBalanceTypCd.equals(e.getFinancialBalanceTypeCode()) && fdocTypCd.equals(e.getFinancialDocumentTypeCode()) && fsOriginCd.equals(e.getFinancialSystemOriginationCode()) && fdocNbr.equals(e.getDocumentNumber()) && ObjectHelper.isEqual(fdocReversalDt, e.getFinancialDocumentReversalDate()) && univFiscalPrdCd.equals(e.getUniversityFiscalPeriodCode());
         }
@@ -1973,7 +1973,7 @@ public class ScrubberProcess {
         // Read all the transactions in the valid group and update the cost share transactions
         String transactionType = getTransactionType(financialBalanceTypeCode, desc);
         if (TRANSACTION_TYPE_COST_SHARE.equals(transactionType)) {
-            OriginEntryLite transaction = new OriginEntryLite();
+            OriginEntryFull transaction = new OriginEntryFull();
             transaction.setFromTextFileForBatch(currentValidLine, 0);
             
             transaction.setFinancialDocumentTypeCode(KFSConstants.TRANSFER_FUNDS);
@@ -2073,7 +2073,7 @@ public class ScrubberProcess {
     
     protected void handleDemergerSaveValidEntry(String entryString) {
         if (collectorMode) {
-            OriginEntry tempEntry = new OriginEntryFull(entryString);
+            OriginEntryInformation tempEntry = new OriginEntryFull(entryString);
             ledgerSummaryReport.summarizeEntry(tempEntry);
         }
     }

@@ -24,7 +24,7 @@ import java.util.Map;
 import org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine;
 import org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine;
 import org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine;
-import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.ReportWriterService;
@@ -52,7 +52,7 @@ public class LedgerSummaryReport {
      * Summarizes an entry into the various totals which this report is keeping
      * @param entry an entry to summarize
      */
-    public void summarizeEntry(OriginEntry entry) {
+    public void summarizeEntry(OriginEntryInformation entry) {
         LedgerBalanceTypeSummaryTotalLine balanceTypeTotal = getBalanceTypeSummaryTotalLine(entry, balanceTypeTotals);
         LedgerSummaryDetailLine detailLine = getDetailLine(entry, details);
         addEntryToLedgerSummaries(entry, ledgerTotalLine, balanceTypeTotal, detailLine);
@@ -64,7 +64,7 @@ public class LedgerSummaryReport {
      * @param balanceTypeTotals the Map of balance type summarizers
      * @return the proper balance type summarizer
      */
-    protected LedgerBalanceTypeSummaryTotalLine getBalanceTypeSummaryTotalLine(OriginEntry entry, Map<String, LedgerBalanceTypeSummaryTotalLine> balanceTypeTotals) {
+    protected LedgerBalanceTypeSummaryTotalLine getBalanceTypeSummaryTotalLine(OriginEntryInformation entry, Map<String, LedgerBalanceTypeSummaryTotalLine> balanceTypeTotals) {
         final String balanceTypeCode = entry.getFinancialBalanceTypeCode();
         LedgerBalanceTypeSummaryTotalLine balanceTypeTotal = balanceTypeTotals.get(balanceTypeCode);
         if (balanceTypeTotal == null) {
@@ -80,7 +80,7 @@ public class LedgerSummaryReport {
      * @param detailLines a Map of detail line summarizers
      * @return the proper detail line summarizer
      */
-    protected LedgerSummaryDetailLine getDetailLine(OriginEntry entry, Map<String, LedgerSummaryDetailLine> detailLines) {
+    protected LedgerSummaryDetailLine getDetailLine(OriginEntryInformation entry, Map<String, LedgerSummaryDetailLine> detailLines) {
         final String key = LedgerSummaryDetailLine.getKeyString(entry);
         LedgerSummaryDetailLine detailLine = detailLines.get(key);
         if (detailLine == null) {
@@ -97,7 +97,7 @@ public class LedgerSummaryReport {
      * @param balanceTypeTotal the total for the entries with the same balance type as the origin entry to add the amount to
      * @param detailLine the proper detail amount to add the amoun tto
      */
-    protected void addEntryToLedgerSummaries(OriginEntry originEntry, LedgerSummaryTotalLine totalLine, LedgerBalanceTypeSummaryTotalLine balanceTypeTotal, LedgerSummaryDetailLine detailLine) {
+    protected void addEntryToLedgerSummaries(OriginEntryInformation originEntry, LedgerSummaryTotalLine totalLine, LedgerBalanceTypeSummaryTotalLine balanceTypeTotal, LedgerSummaryDetailLine detailLine) {
         if (originEntry.getTransactionDebitCreditCode() != null && originEntry.getTransactionDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE)) {
             totalLine.addDebitAmount(originEntry.getTransactionLedgerEntryAmount());
             balanceTypeTotal.addDebitAmount(originEntry.getTransactionLedgerEntryAmount());

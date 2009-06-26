@@ -30,7 +30,7 @@ import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryTotals;
 import org.kuali.kfs.gl.batch.service.impl.FilteringOriginEntryFileIterator.OriginEntryFilter;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
-import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.gl.service.ScrubberService;
@@ -180,7 +180,7 @@ public class CollectorScrubberProcess {
      * @param detail the Collector detail to check against
      * @return true if the origin entry is related, false otherwise
      */
-    protected boolean isOriginEntryRelatedToDetailRecord(OriginEntry originEntry, CollectorDetail detail) {
+    protected boolean isOriginEntryRelatedToDetailRecord(OriginEntryInformation originEntry, CollectorDetail detail) {
         return StringUtils.equals(originEntry.getUniversityFiscalPeriodCode(), detail.getUniversityFiscalPeriodCode()) && originEntry.getUniversityFiscalYear() != null && originEntry.getUniversityFiscalYear().equals(detail.getUniversityFiscalYear()) && StringUtils.equals(originEntry.getChartOfAccountsCode(), detail.getChartOfAccountsCode()) && StringUtils.equals(originEntry.getAccountNumber(), detail.getAccountNumber()) && StringUtils.equals(originEntry.getSubAccountNumber(), detail.getSubAccountNumber()) && StringUtils.equals(originEntry.getFinancialObjectCode(), detail.getFinancialObjectCode()) && StringUtils.equals(originEntry.getFinancialSubObjectCode(), detail.getFinancialSubObjectCode()) && StringUtils.equals(originEntry.getFinancialSystemOriginationCode(), detail.getFinancialSystemOriginationCode()) && StringUtils.equals(originEntry.getFinancialDocumentTypeCode(), detail.getFinancialDocumentTypeCode())
                 && StringUtils.equals(originEntry.getDocumentNumber(), detail.getDocumentNumber()) && StringUtils.equals(originEntry.getFinancialBalanceTypeCode(), detail.getFinancialBalanceTypeCode()) && StringUtils.equals(originEntry.getFinancialObjectTypeCode(), detail.getFinancialObjectTypeCode());
     }
@@ -223,7 +223,7 @@ public class CollectorScrubberProcess {
      * @param originEntry a scrubbed origin entry
      * @param detail a Collector detail to update
      */
-    protected void applyScrubberEditsToDetail(OriginEntry originEntry, CollectorDetail detail) {
+    protected void applyScrubberEditsToDetail(OriginEntryInformation originEntry, CollectorDetail detail) {
         detail.setUniversityFiscalPeriodCode(originEntry.getUniversityFiscalPeriodCode());
         detail.setUniversityFiscalYear(originEntry.getUniversityFiscalYear());
         detail.setChartOfAccountsCode(originEntry.getChartOfAccountsCode());
@@ -243,14 +243,14 @@ public class CollectorScrubberProcess {
      * 
      * @param unscrubbedToScrubbedEntries a Map relating original origin entries to scrubbed origin entries
      */
-    protected void applyChangesToDetailsFromScrubberEdits(Map<OriginEntry, OriginEntry> unscrubbedToScrubbedEntries) {
-        Set<Entry<OriginEntry, OriginEntry>> mappings = unscrubbedToScrubbedEntries.entrySet();
+    protected void applyChangesToDetailsFromScrubberEdits(Map<OriginEntryInformation, OriginEntryInformation> unscrubbedToScrubbedEntries) {
+        Set<Entry<OriginEntryInformation, OriginEntryInformation>> mappings = unscrubbedToScrubbedEntries.entrySet();
 
         int numDetailAccountValuesChanged = 0;
         for (CollectorDetail detail : batch.getCollectorDetails()) {
-            for (Entry<OriginEntry, OriginEntry> mapping : mappings) {
-                OriginEntry originalEntry = mapping.getKey();
-                OriginEntry scrubbedEntry = mapping.getValue();
+            for (Entry<OriginEntryInformation, OriginEntryInformation> mapping : mappings) {
+                OriginEntryInformation originalEntry = mapping.getKey();
+                OriginEntryInformation scrubbedEntry = mapping.getValue();
                 if (isOriginEntryRelatedToDetailRecord(originalEntry, detail)) {
                     if (!StringUtils.equals(originalEntry.getChartOfAccountsCode(), scrubbedEntry.getChartOfAccountsCode()) || !StringUtils.equals(originalEntry.getAccountNumber(), scrubbedEntry.getAccountNumber())) {
                         numDetailAccountValuesChanged++;

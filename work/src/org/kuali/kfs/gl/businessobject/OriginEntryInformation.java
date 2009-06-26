@@ -23,7 +23,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * Represents an origin entry
  */
-public interface OriginEntry extends BusinessObject {
+public interface OriginEntryInformation extends BusinessObject {
 
     /**
      * gets the transactionLedgerEntryDescription attribute value

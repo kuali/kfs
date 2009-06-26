@@ -36,7 +36,7 @@ public class BalanceHistory extends Balance implements LedgerBalanceHistory {
      * 
      * @param transaction
      */
-    public BalanceHistory(OriginEntry originEntry) {
+    public BalanceHistory(OriginEntryInformation originEntry) {
         this();
         this.setChartOfAccountsCode(originEntry.getChartOfAccountsCode());
         this.setAccountNumber(originEntry.getAccountNumber());

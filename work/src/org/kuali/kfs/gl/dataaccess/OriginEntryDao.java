@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -72,7 +72,7 @@ public interface OriginEntryDao {
      * 
      * @param oe Entry to delete
      */
-    public void deleteEntry(OriginEntry oe);
+    public void deleteEntry(OriginEntryInformation oe);
 
     /**
      * Return an iterator to all document keys reference by origin entries in a given group
@@ -134,7 +134,7 @@ public interface OriginEntryDao {
      * 
      * @param entry entry to save
      */
-    public void saveOriginEntry(OriginEntry entry);
+    public void saveOriginEntry(OriginEntryInformation entry);
 
 
     /**

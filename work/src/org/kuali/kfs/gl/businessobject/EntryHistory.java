@@ -42,7 +42,7 @@ public class EntryHistory extends Entry implements LedgerEntryHistory {
      * 
      * @param transaction
      */
-    public EntryHistory(OriginEntry originEntry) {
+    public EntryHistory(OriginEntryInformation originEntry) {
         this();
         this.setUniversityFiscalYear(originEntry.getUniversityFiscalYear());
         this.setChartOfAccountsCode(originEntry.getChartOfAccountsCode());

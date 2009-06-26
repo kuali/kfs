@@ -27,10 +27,9 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.batch.service.impl.NightlyOutServiceImpl.EntryListReport.EntryReportDocumentTypeTotalLine;
 import org.kuali.kfs.gl.businessobject.Entry;
-import org.kuali.kfs.gl.businessobject.OriginEntry;
-import org.kuali.kfs.gl.businessobject.OriginEntryLite;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.PendingEntrySummary;
 import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.service.NightlyOutService;
@@ -103,12 +102,12 @@ public class NightlyOutServiceImpl implements NightlyOutService {
         EntryListReport entryListReport = new EntryListReport();
         LedgerSummaryReport nightlyOutLedgerSummaryReport = new LedgerSummaryReport();
         
-        Collection<OriginEntryLite> group = new ArrayList();
+        Collection<OriginEntryFull> group = new ArrayList();
         while (pendingEntries.hasNext()) {
             // get one pending entry
             GeneralLedgerPendingEntry pendingEntry = (GeneralLedgerPendingEntry) pendingEntries.next();
             
-            OriginEntryLite entry = new OriginEntryLite(pendingEntry);
+            OriginEntryFull entry = new OriginEntryFull(pendingEntry);
             
             // write entry to reports
             entryListReport.writeEntry(entry, pendingEntryListReportWriterService);
@@ -243,7 +242,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
          * @param entry the entry to write
          * @param reportWriterService the reportWriterService to write the entry to
          */
-        public void writeEntry(OriginEntry entry, ReportWriterService reportWriterService) {
+        public void writeEntry(OriginEntryInformation entry, ReportWriterService reportWriterService) {
             pendingEntrySummary.setOriginEntry(entry);
             if (pendingEntrySummary.getSuppressableFieldsAsKey().equals(suppressKey)) {
                 pendingEntrySummary.suppressCommonFields(true);

@@ -43,7 +43,7 @@ import org.kuali.kfs.gl.batch.service.impl.OriginEntryOffsetPair;
 import org.kuali.kfs.gl.batch.service.impl.exception.FatalErrorException;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
-import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
@@ -323,7 +323,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
     public void testNominalActivityFlexibleOffsetsWhenOffsetsOn() {
         try {
             NominalActivityClosingHelper closingHelper = new NominalActivityClosingHelper(fiscalYear, transactionDate, parameterService, kualiConfigurationService);
-            OriginEntry entry;
+            OriginEntryInformation entry;
             
             // 1. flexible offsets on, flexible offset should be updated
             toggleFlexibleOffsets(true);
@@ -352,7 +352,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
     public void testNominalActivityFlexibleOffsetsWhenOffsetsOff() {
         try {
             NominalActivityClosingHelper closingHelper = new NominalActivityClosingHelper(fiscalYear, transactionDate, parameterService, kualiConfigurationService);
-            OriginEntry entry;
+            OriginEntryInformation entry;
                      
             // 1. flexible offsets off, flexible offset should not be updated
             toggleFlexibleOffsets(false);
@@ -562,7 +562,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
      * @param objectType the expected object type
      * @param amount the expected amount
      */
-    private void assertChartAndAccount(OriginEntry originEntry, String chart, String account) {
+    private void assertChartAndAccount(OriginEntryInformation originEntry, String chart, String account) {
         assertEquals("Origin Entry " + originEntry.toString() + " Chart of Accounts", chart, originEntry.getChartOfAccountsCode());
         assertEquals("Origin Entry " + originEntry.toString() + " Account Number", account, originEntry.getAccountNumber());
     }

@@ -26,7 +26,7 @@ import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
 import org.kuali.kfs.gl.businessobject.GlSummary;
-import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.report.PosterOutputSummaryReport;
 import org.kuali.kfs.gl.service.BalanceService;
@@ -127,7 +127,7 @@ public class PosterSummaryReportStep extends AbstractWrappedBatchStep {
         if (mainPosterFile != null && mainPosterFile.exists()) {
             OriginEntryFileIterator mainPosterIterator = new OriginEntryFileIterator(mainPosterFile);
             while (mainPosterIterator.hasNext()) {
-                final OriginEntry originEntry = mainPosterIterator.next();
+                final OriginEntryInformation originEntry = mainPosterIterator.next();
                 posterOutputSummaryReport.summarize(originEntry);
             }
         } else {
@@ -144,7 +144,7 @@ public class PosterSummaryReportStep extends AbstractWrappedBatchStep {
         if (icrPosterFile != null && icrPosterFile.exists()) {
             OriginEntryFileIterator icrIterator = new OriginEntryFileIterator(icrPosterFile);
             while (icrIterator.hasNext()) {
-                final OriginEntry originEntry = icrIterator.next();
+                final OriginEntryInformation originEntry = icrIterator.next();
                 posterOutputSummaryReport.summarize(originEntry);
             }
         } else {

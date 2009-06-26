@@ -35,7 +35,7 @@ import org.kuali.kfs.gl.businessobject.EncumbranceHistory;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.EntryHistory;
 import org.kuali.kfs.gl.businessobject.LedgerBalanceHistory;
-import org.kuali.kfs.gl.businessobject.OriginEntry;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.dataaccess.AccountBalanceDao;
 import org.kuali.kfs.gl.dataaccess.BalancingDao;
@@ -139,7 +139,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
     /**
      * @see org.kuali.kfs.gl.batch.service.BalancingService#getOriginEntry(java.lang.String, int)
      */
-    public OriginEntry getOriginEntry(String inputLine, int lineNumber) {
+    public OriginEntryInformation getOriginEntry(String inputLine, int lineNumber) {
         // We need a OriginEntryFull because that's what updateBalanceHistory is looking for
         OriginEntryFull originEntry = new OriginEntryFull();
         originEntry.setFromTextFileForBatch(inputLine, lineNumber);
@@ -148,10 +148,10 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
     }
     
     /**
-     * @see org.kuali.kfs.gl.batch.service.BalancingService#updateEntryHistory(org.kuali.kfs.gl.businessobject.OriginEntry)
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#updateEntryHistory(org.kuali.kfs.gl.businessobject.OriginEntryInformation)
      * @see org.kuali.kfs.gl.batch.service.impl.PostEntry#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
-    public void updateEntryHistory(OriginEntry originEntry) {
+    public void updateEntryHistory(OriginEntryInformation originEntry) {
         // TODO Retrieve and update 1 by 1? Is a HashMap or cache better so that storing only occurs once at the end?
         EntryHistory entryHistory = new EntryHistory(originEntry);
 
@@ -166,10 +166,10 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
     }
     
     /**
-     * @see org.kuali.kfs.gl.batch.service.BalancingService#updateBalanceHistory(org.kuali.kfs.gl.businessobject.OriginEntry)
+     * @see org.kuali.kfs.gl.batch.service.BalancingService#updateBalanceHistory(org.kuali.kfs.gl.businessobject.OriginEntryInformation)
      * @see org.kuali.kfs.gl.batch.service.impl.PostBalance#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
-    public void updateBalanceHistory(OriginEntry originEntry) {
+    public void updateBalanceHistory(OriginEntryInformation originEntry) {
         // TODO Retrieve and update 1 by 1? Is a HashMap or cache better so that storing only occurs once at the end?
         OriginEntryFull originEntryFull = (OriginEntryFull) originEntry;
         BalanceHistory balanceHistory = new BalanceHistory(originEntryFull);
@@ -242,10 +242,10 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
     }
     
     /**
-     * @see org.kuali.kfs.gl.batch.service.impl.BalancingServiceBaseImpl#updateCustomHistory(org.kuali.kfs.gl.businessobject.OriginEntry)
+     * @see org.kuali.kfs.gl.batch.service.impl.BalancingServiceBaseImpl#updateCustomHistory(org.kuali.kfs.gl.businessobject.OriginEntryInformation)
      */
     @Override
-    protected void updateCustomHistory(OriginEntry originEntry) {
+    protected void updateCustomHistory(OriginEntryInformation originEntry) {
         this.updateAccountBalanceHistory(originEntry);
         this.updateEncumbranceHistory(originEntry);
     }
@@ -256,7 +256,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
      * @param originEntry representing the update details
      * @see org.kuali.kfs.gl.batch.service.impl.PostAccountBalance#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
-    protected void updateAccountBalanceHistory(OriginEntry originEntry) {
+    protected void updateAccountBalanceHistory(OriginEntryInformation originEntry) {
         OriginEntryFull originEntryFull = (OriginEntryFull) originEntry;
         
         // As taken from PostAccountBalance#post: only post transactions where: balance type code is AC or CB or where object type isn't FB and
@@ -298,7 +298,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
      * @param originEntry representing the update details
      * @see org.kuali.kfs.gl.batch.service.impl.PostEncumbrance#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
-    protected void updateEncumbranceHistory(OriginEntry originEntry) {
+    protected void updateEncumbranceHistory(OriginEntryInformation originEntry) {
         OriginEntryFull originEntryFull = (OriginEntryFull) originEntry;
         
         // PostEncumbrance.verifyTransaction is not run because entries that fail that verification will be in the error poster file which entries

@@ -500,7 +500,7 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * @return Returns the offCampusState.
      */
     public State getOffCampusState() {
-        offCampusState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(this, offCampusCountryCode, offCampusStateCode, offCampusState);
+        offCampusState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(offCampusCountryCode, offCampusStateCode, offCampusState);
         return offCampusState;
     }
 
@@ -520,7 +520,7 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * @return Returns the postalZipCode.
      */
     public PostalCode getPostalZipCode() {
-        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(this, offCampusCountryCode, offCampusZipCode, postalZipCode);
+        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(offCampusCountryCode, offCampusZipCode, postalZipCode);
         return postalZipCode;
     }
 
@@ -540,7 +540,7 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * @return Returns the offCampusCountry.
      */
     public Country getOffCampusCountry() {
-        offCampusCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(this, offCampusCountryCode, offCampusCountry);
+        offCampusCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(offCampusCountryCode, offCampusCountry);
         return offCampusCountry;
     }
 

@@ -396,7 +396,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements Inactivate
      * @return Returns the bankState.
      */
     public State getBankState() {
-        bankState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(this, bankStateCode, bankState);
+        bankState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(bankStateCode, bankState);
         return bankState;
     }
 
@@ -406,7 +406,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements Inactivate
      * @return Returns the postalCode.
      */
     public PostalCode getPostalCode() {
-        postalCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountryIfNecessary(this, bankZipCode, postalCode);
+        postalCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountryIfNecessary(bankZipCode, postalCode);
         return postalCode;
     }
     

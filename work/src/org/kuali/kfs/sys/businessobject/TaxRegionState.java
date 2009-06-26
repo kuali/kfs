@@ -65,7 +65,7 @@ public class TaxRegionState extends PersistableBusinessObjectBase implements Ina
     }
 
     public State getState() {
-        state = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(this, postalCountryCode, stateCode, state);
+        state = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(postalCountryCode, stateCode, state);
         return state;
     }
 
@@ -96,7 +96,7 @@ public class TaxRegionState extends PersistableBusinessObjectBase implements Ina
      * @return Returns the country.
      */
     public Country getCountry() {
-        country = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(this, postalCountryCode, country);
+        country = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(postalCountryCode, country);
         return country;
     }
 

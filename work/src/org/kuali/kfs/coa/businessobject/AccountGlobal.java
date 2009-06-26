@@ -779,7 +779,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * @return Returns the accountState.
      */
     public State getAccountState() {
-        accountState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(this, accountStateCode, accountState);
+        accountState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(accountStateCode, accountState);
         return accountState;
     }
 
@@ -834,7 +834,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * @return Returns the postalZipCode.
      */
     public PostalCode getPostalZipCode() {
-        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountryIfNecessary(this, accountZipCode, postalZipCode);
+        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountryIfNecessary(accountZipCode, postalZipCode);
         
         return postalZipCode;
     }

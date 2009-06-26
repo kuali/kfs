@@ -24,7 +24,7 @@ public class TaxRegionPostalCode extends PersistableBusinessObjectBase implement
 	private TaxRegion taxRegion;
 	
 	public PostalCode getPostalZip() {
-	    postalZip = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(this, postalCountryCode, postalCode, postalZip);
+	    postalZip = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(postalCountryCode, postalCode, postalZip);
 		return postalZip;
 	}
 	public void setPostalZip(PostalCode postalZip) {
@@ -83,7 +83,7 @@ public class TaxRegionPostalCode extends PersistableBusinessObjectBase implement
      * @return Returns the country.
      */
     public Country getCountry() {
-        country = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(this, postalCountryCode, country);
+        country = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(postalCountryCode, country);
         return country;
     }
     /**

@@ -765,7 +765,7 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * @return Returns the disbVchrPayeeState.
      */
     public State getDisbVchrPayeeState() {
-        disbVchrPayeeState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(this, disbVchrPayeeCountryCode, disbVchrPayeeStateCode, disbVchrPayeeState);
+        disbVchrPayeeState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary( disbVchrPayeeCountryCode, disbVchrPayeeStateCode, disbVchrPayeeState);
         return disbVchrPayeeState;
     }
 
@@ -782,7 +782,7 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * @return Returns the disbVchrPayeeCountry.
      */
     public Country getDisbVchrPayeeCountry() {
-        disbVchrPayeeCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(this, disbVchrPayeeCountryCode, disbVchrPayeeCountry);
+        disbVchrPayeeCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(disbVchrPayeeCountryCode, disbVchrPayeeCountry);
         return disbVchrPayeeCountry;
     }
 
@@ -799,7 +799,7 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * @return Returns the disbVchrPayeePostalZipCode.
      */
     public PostalCode getDisbVchrPayeePostalZipCode() {
-        disbVchrPayeePostalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(this, disbVchrPayeeCountryCode, disbVchrPayeeZipCode, disbVchrPayeePostalZipCode);
+        disbVchrPayeePostalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(disbVchrPayeeCountryCode, disbVchrPayeeZipCode, disbVchrPayeePostalZipCode);
         return disbVchrPayeePostalZipCode;
     }
 

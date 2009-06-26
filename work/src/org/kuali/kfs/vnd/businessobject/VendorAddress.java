@@ -211,7 +211,7 @@ public class VendorAddress extends PersistableBusinessObjectBase implements Vend
     }
 
     public State getVendorState() {
-        vendorState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(this, vendorCountryCode, vendorStateCode, vendorState);
+        vendorState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(vendorCountryCode, vendorStateCode, vendorState);
         return vendorState;
     }
 
@@ -226,7 +226,7 @@ public class VendorAddress extends PersistableBusinessObjectBase implements Vend
     }
 
     public Country getVendorCountry() {
-        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(this, vendorCountryCode, vendorCountry);
+        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(vendorCountryCode, vendorCountry);
         return vendorCountry;
     }
 

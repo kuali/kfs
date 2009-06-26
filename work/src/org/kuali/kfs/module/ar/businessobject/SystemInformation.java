@@ -754,7 +754,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
      * @return Returns the organizationRemitToState.
      */
     public State getOrganizationRemitToState() {
-        organizationRemitToState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(this, organizationRemitToStateCode, organizationRemitToState);
+        organizationRemitToState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(organizationRemitToStateCode, organizationRemitToState);
         return organizationRemitToState;
     }
 
@@ -911,7 +911,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
      * @return Returns the orgRemitToZipCode.
      */
     public PostalCode getOrgRemitToZipCode() {
-        orgRemitToZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountryIfNecessary(this, organizationRemitToZipCode, orgRemitToZipCode);
+        orgRemitToZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountryIfNecessary(organizationRemitToZipCode, orgRemitToZipCode);
         return orgRemitToZipCode;
     }
 

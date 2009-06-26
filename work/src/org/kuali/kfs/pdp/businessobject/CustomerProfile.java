@@ -939,7 +939,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * @return Returns the state.
      */
     public State getState() {
-        state = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(this, this.stateCode, this.state);
+        state = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(this.stateCode, this.state);
         return state;
     }
 
@@ -958,7 +958,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * @return Returns the postalCode.
      */
     public PostalCode getPostalCode() {
-        postalCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountryIfNecessary(this, this.zipCode, this.postalCode);
+        postalCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountryIfNecessary(this.zipCode, this.postalCode);
         return postalCode;
     }
 
@@ -977,7 +977,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * @return Returns the country.
      */
     public Country getCountry() {
-        country = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(this, this.countryCode, this.country);
+        country = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(this.countryCode, this.country);
         return country;
     }
 

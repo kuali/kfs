@@ -558,7 +558,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * @return Returns the postalZipCode
      */
     public PostalCode getPostalZipCode() {
-        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(this, retirementCountryCode, retirementZipCode, postalZipCode);
+        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(retirementCountryCode, retirementZipCode, postalZipCode);
         return postalZipCode;
     }
 
@@ -806,7 +806,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * @return Returns the retirementCountry.
      */
     public Country getRetirementCountry() {
-        retirementCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(this, retirementCountryCode, retirementCountry);
+        retirementCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(retirementCountryCode, retirementCountry);
         return retirementCountry;
     }
 
@@ -826,7 +826,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * @return Returns the retirementState.
      */
     public State getRetirementState() {
-        retirementState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(this, retirementCountryCode, retirementStateCode, retirementState);
+        retirementState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(retirementCountryCode, retirementStateCode, retirementState);
         return retirementState;
     }
 

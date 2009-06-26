@@ -481,7 +481,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      * @return Returns the organizationCountry.
      */
     public Country getOrganizationCountry() {
-        organizationCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(this, organizationCountryCode, organizationCountry);
+        organizationCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(organizationCountryCode, organizationCountry);
         return organizationCountry;
     }
 
@@ -677,7 +677,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      * @return Returns the postalZip.
      */
     public PostalCode getPostalZip() {
-        postalZip = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(this, organizationCountryCode, organizationZipCode, postalZip);
+        postalZip = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary( organizationCountryCode, organizationZipCode, postalZip);
         return postalZip;
     }
 

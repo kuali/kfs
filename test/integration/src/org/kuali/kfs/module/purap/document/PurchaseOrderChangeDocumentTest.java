@@ -124,7 +124,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         catch (ValidationException ve) {
             throw new ValidationException(GlobalVariables.getErrorMap().toString() + ve);
         }
-    }
+    }    
     
     private void createAndSavePOSplitDocument(List<PurchaseOrderItem> newPOItems, boolean copyNotes, String splitNoteText) throws Exception {
         try {
@@ -137,6 +137,38 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
             throw new ValidationException(GlobalVariables.getErrorMap().toString() + ve);
         }
     }
+
+    @ConfigureContext(session = kfs, shouldCommitTransactions=true)
+    public final void testPurchaseOrderClose() throws Exception {
+        // There must be a PREQ against this PO in order to close this PO.
+        
+        changeCurrentUser(appleton);
+        PaymentRequestDocument preq = PaymentRequestDocumentFixture.PREQ_FOR_PO_CLOSE_DOC.createPaymentRequestDocument();
+        preq.setPurchaseOrderIdentifier(poTest.getPurapDocumentIdentifier());        
+        AccountingDocumentTestUtils.saveDocument(preq, docService);
+        createAndRoutePOChangeDocument(
+                PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT,
+                PurchaseOrderStatuses.PENDING_CLOSE);
+        assertMatchChangePO(poTest, poChange); /*
+        if (!poChange.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("F")) {
+            assertTrue(poTest.isPurchaseOrderCurrentIndicator());
+            assertTrue(poTest.isPendingActionIndicator());
+            assertTrue(poTest.getStatusCode().equals(PurchaseOrderStatuses.PENDING_CLOSE));
+            assertFalse(poChange.isPurchaseOrderCurrentIndicator());
+            assertFalse(poChange.isPendingActionIndicator());
+            assertTrue(poChange.getStatusCode().equals(PurchaseOrderStatuses.CHANGE_IN_PROCESS));
+        }
+        WorkflowTestUtils.waitForStatusChange(poChange.getDocumentHeader().getWorkflowDocument(), "F");           
+        refreshPO();
+        if (poChange.getDocumentHeader().getWorkflowDocument().stateIsFinal()) { */
+            assertFalse(poTest.isPurchaseOrderCurrentIndicator());
+            assertFalse(poTest.isPendingActionIndicator());
+            assertTrue(poTest.getStatusCode().equals(PurchaseOrderStatuses.RETIRED_VERSION));
+            assertTrue(poChange.isPurchaseOrderCurrentIndicator());
+            assertFalse(poChange.isPendingActionIndicator());
+            assertTrue(poChange.getStatusCode().equals(PurchaseOrderStatuses.CLOSED));   
+        //}
+    }   
     
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public void testSplitPurchaseOrder() throws Exception {
@@ -192,6 +224,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
      * 
      * @throws Exception
      */
+    @RelatesTo(JiraIssue.KULPURAP2226)
     @ConfigureContext(session = kfs, shouldCommitTransactions=true)
     public final void testCancelAmendPurchaseOrder() throws Exception {        
         createAndSavePOChangeDocument(
@@ -265,37 +298,6 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
             assertTrue(poChange.getStatusCode().equals(PurchaseOrderStatuses.OPEN));   
         //}
     }
-    
-    @ConfigureContext(session = kfs, shouldCommitTransactions=true)
-    public final void testPurchaseOrderClose() throws Exception {
-        // There must be a PREQ against this PO in order to close this PO.
-        changeCurrentUser(appleton);
-        PaymentRequestDocument preq = PaymentRequestDocumentFixture.PREQ_FOR_PO_CLOSE_DOC.createPaymentRequestDocument();
-        preq.setPurchaseOrderIdentifier(poTest.getPurapDocumentIdentifier());        
-        AccountingDocumentTestUtils.saveDocument(preq, docService);
-        createAndRoutePOChangeDocument(
-                PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT,
-                PurchaseOrderStatuses.PENDING_CLOSE);
-        assertMatchChangePO(poTest, poChange); /*
-        if (!poChange.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("F")) {
-            assertTrue(poTest.isPurchaseOrderCurrentIndicator());
-            assertTrue(poTest.isPendingActionIndicator());
-            assertTrue(poTest.getStatusCode().equals(PurchaseOrderStatuses.PENDING_CLOSE));
-            assertFalse(poChange.isPurchaseOrderCurrentIndicator());
-            assertFalse(poChange.isPendingActionIndicator());
-            assertTrue(poChange.getStatusCode().equals(PurchaseOrderStatuses.CHANGE_IN_PROCESS));
-        }
-        WorkflowTestUtils.waitForStatusChange(poChange.getDocumentHeader().getWorkflowDocument(), "F");           
-        refreshPO();
-        if (poChange.getDocumentHeader().getWorkflowDocument().stateIsFinal()) { */
-            assertFalse(poTest.isPurchaseOrderCurrentIndicator());
-            assertFalse(poTest.isPendingActionIndicator());
-            assertTrue(poTest.getStatusCode().equals(PurchaseOrderStatuses.RETIRED_VERSION));
-            assertTrue(poChange.isPurchaseOrderCurrentIndicator());
-            assertFalse(poChange.isPendingActionIndicator());
-            assertTrue(poChange.getStatusCode().equals(PurchaseOrderStatuses.CLOSED));   
-        //}
-    }   
     
     @RelatesTo(JiraIssue.KULPURAP2226)
     @ConfigureContext(session = parke, shouldCommitTransactions=true)

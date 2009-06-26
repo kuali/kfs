@@ -183,14 +183,13 @@ public class NegativeAPOTest extends KualiTestBase {
              assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
          }           
      }
-     
-     @RelatesTo(JiraIssue.KULPURAP3871)
+
      // Requisition has failed capital asset rules.
      public void testInvalidAPOCapitalAssetFailure() throws Exception {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_FAILS_CAPITAL_ASSET_RULE.createRequisitionDocument();
          assertFalse(reqService.isAutomaticPurchaseOrderAllowed(requisitionDocument)); 
          if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_FAILS_CAPITAL_ASSET_RULES);
+             String reason = kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_ACCT_LINE_CAPITAL_OBJ_LEVEL);
              assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
          }  
      }

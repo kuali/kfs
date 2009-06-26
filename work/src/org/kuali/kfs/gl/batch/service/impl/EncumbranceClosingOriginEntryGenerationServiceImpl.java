@@ -398,10 +398,13 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put("active", Boolean.TRUE);
         keys.put("finBalanceTypeEncumIndicator", Boolean.TRUE);
-        Collection balanceTypes = businessObjectService.findMatching(BalanceType.class, keys);
-        for (Object balanceTypeAsObject : balanceTypes) {
-            balanceTypeCodes.add(((BalanceType)balanceTypeAsObject).getCode());
-        }
+        //Collection balanceTypes = businessObjectService.findMatching(BalanceType.class, keys);
+        //for (Object balanceTypeAsObject : balanceTypes) {
+        //    balanceTypeCodes.add(((BalanceType)balanceTypeAsObject).getCode());
+        //}
+        balanceTypeCodes.add("IE");
+        balanceTypeCodes.add("PE");
+        balanceTypeCodes.add("EX");
         return balanceTypeCodes;
     }
     

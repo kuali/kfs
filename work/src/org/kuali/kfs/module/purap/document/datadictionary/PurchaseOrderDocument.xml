@@ -1386,6 +1386,7 @@
 	    <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/> 
 	    <property name="importingAllowed" value="false"/> 
 	    <property name="accountingLineGroupClass" value="org.kuali.kfs.sys.document.web.CollectionAccountingLineGroupImpl"/>
+	    <property name="accountingLineComparatorClass" value="org.kuali.kfs.module.purap.util.PurapAccountingLineComparator" />      
     </bean>
 
     <bean id="PurchaseOrderDocument-distributeSourceAccountingLineGroup" parent="PurchaseOrderDocument-distributeSourceAccountingLineGroup-parentBean"/>  

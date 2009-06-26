@@ -1038,6 +1038,7 @@
 	    <property name="errorKey" value="document.item*,*sourceAccountingLines*,newSourceLine*"/> 
 	    <property name="importingAllowed" value="false"/>
 	    <property name="accountingLineGroupClass" value="org.kuali.kfs.sys.document.web.CollectionAccountingLineGroupImpl"/>
+        <property name="accountingLineComparatorClass" value="org.kuali.kfs.module.purap.util.PurapAccountingLineComparator" />      
     </bean>
   
     <bean id="PaymentRequestDocument-accountingLineView" parent="PaymentRequestDocument-accountingLineView-parent"/>

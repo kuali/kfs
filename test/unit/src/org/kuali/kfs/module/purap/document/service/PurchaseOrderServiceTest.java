@@ -586,7 +586,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         
     }
     
-    @ConfigureContext(session = appleton, shouldCommitTransactions=false)
+    @ConfigureContext(session = appleton, shouldCommitTransactions=true)
     public void testIsPurchaseOrderOpenForProcessing_With_PREQ() throws Exception {
         PaymentRequestDocumentTest preqDocTest = new PaymentRequestDocumentTest();
         PurchaseOrderDocument purchaseOrderDocument = preqDocTest.createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, true);
@@ -595,7 +595,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
                 purchaseOrderDocument, true, new KualiDecimal[] {new KualiDecimal(100)});
         paymentRequestDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(purchaseOrderDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
         paymentRequestDocument.setStatusCode(PaymentRequestStatuses.IN_PROCESS);        
-        AccountingDocumentTestUtils.testSaveDocument(paymentRequestDocument, docService);
+        docService.saveDocument(paymentRequestDocument);
         assertFalse(poService.isPurchaseOrderOpenForProcessing(purchaseOrderDocument));
     }
 

@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.identity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -42,7 +42,7 @@ public class PaymentRequestHoldCancelInitiatorDerivedRoleTypeServiceImpl extends
         validateRequiredAttributesAgainstReceived(qualification);
         List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
         try {
-            PaymentRequestDocument document = (PaymentRequestDocument) getDocumentService().getByDocumentHeaderId(qualification.get(KfsKimAttributes.DOCUMENT_NUMBER));
+            AccountsPayableDocumentBase document = (AccountsPayableDocumentBase) getDocumentService().getByDocumentHeaderId(qualification.get(KfsKimAttributes.DOCUMENT_NUMBER));
             if ((document != null) && (document.getLastActionPerformedByUser() != null)) {
                 members.add( new RoleMembershipInfo(null,null,document.getLastActionPerformedByUser().getPrincipalId(),Role.PRINCIPAL_MEMBER_TYPE,null) );
             }

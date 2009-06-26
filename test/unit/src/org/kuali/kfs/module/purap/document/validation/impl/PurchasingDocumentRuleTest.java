@@ -308,7 +308,6 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
      * 
      * @throws Exception
      */
-    @RelatesTo(JiraIssue.KULPURAP3697)
     public void testMissingCommodityCodeWhenRequired() throws Exception {
         TestUtils.setSystemParameter(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
         RequisitionDocumentFixture reqFixture = RequisitionDocumentFixture.REQ_NO_APO_VALID;
@@ -321,9 +320,9 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
             event.setIterationSubject(item);
             validation.validate(event);
         }                
-        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_REQUIRED));
-        assertTrue(GlobalVariables.getErrorMap().fieldHasMessage("document.item[0]." + PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED));
-        GlobalVariables.getErrorMap().clear();
+        assertTrue(GlobalVariables.getMessageMap().containsMessageKey(KFSKeyConstants.ERROR_REQUIRED));
+        assertTrue(GlobalVariables.getMessageMap().fieldHasMessage(PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED));
+        GlobalVariables.getMessageMap().clearErrorMessages();
         TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
         PurchaseOrderDocumentFixture poFixture = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS;
                 
@@ -335,8 +334,8 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
             event.setIterationSubject(item);
             validation.validate(event);
         }                                
-        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_REQUIRED));
-        assertTrue(GlobalVariables.getErrorMap().fieldHasMessage("document.item[0]." + PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED));
+        assertTrue(GlobalVariables.getMessageMap().containsMessageKey(KFSKeyConstants.ERROR_REQUIRED));
+        assertTrue(GlobalVariables.getMessageMap().fieldHasMessage(PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED));
     
     }
     

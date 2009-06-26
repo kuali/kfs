@@ -28,6 +28,7 @@
 			
 		    <call-method-rule pattern="Status/Errors/Error/ErrorMessage" methodname="addPOResponseErrorMessage" paramcount="0" />
 		    <call-method-rule pattern="ObjectErrors/PurchaseOrderLineRef/Error/ErrorMessage" methodname="addPOResponseErrorMessage" paramcount="0" />
+            <call-method-rule pattern="ObjectErrors/PurchaseOrderRef/Error/ErrorMessage" methodname="addPOResponseErrorMessage" paramcount="0" />
 		    
     </pattern>
 

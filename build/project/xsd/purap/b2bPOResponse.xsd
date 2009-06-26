@@ -48,16 +48,39 @@
         		      	<xsd:element name="ObjectErrors" minOccurs="0">
         		      		<xsd:complexType>
 	        		      		<xsd:sequence>
-	        		      			<xsd:element name="PurchaseOrderLineRef" maxOccurs="unbounded">
+	        		      			<xsd:element name="PurchaseOrderRef" minOccurs="0">
 	        		      				<xsd:complexType>
 									  		<xsd:sequence>
-										  		<xsd:element ref="Error" maxOccurs="unbounded"/>
+										  		<xsd:element name="Error" maxOccurs="unbounded">
+                                                    <xsd:complexType>
+                                                       <xsd:sequence>
+                                                           <xsd:element name="ErrorMessage" maxOccurs="unbounded"/>
+                                                       </xsd:sequence>
+                                                       <xsd:attribute name="type" type="xsd:string" />
+                                                    </xsd:complexType>
+										  		</xsd:element>
 		                              		</xsd:sequence>	
-		                              		<xsd:attribute name="linenumber" type="xsd:unsignedInt" use="required" />
+                                            <xsd:attribute name="ponumber" type="xsd:unsignedInt" use="required" />
 		                              	</xsd:complexType>	
 	        		      			</xsd:element>
+                                    <xsd:element name="PurchaseOrderLineRef" minOccurs="0">
+                                        <xsd:complexType>
+                                            <xsd:sequence>
+                                                <xsd:element name="Error" maxOccurs="unbounded">
+                                                    <xsd:complexType>
+                                                       <xsd:sequence>
+                                                           <xsd:element name="ErrorMessage" maxOccurs="unbounded"/>
+                                                       </xsd:sequence>
+                                                       <xsd:attribute name="type" type="xsd:string" />
+                                                    </xsd:complexType>
+                                                </xsd:element>
+                                            </xsd:sequence> 
+                                            <xsd:attribute name="ponumber" type="xsd:unsignedInt" use="required" />
+                                            <xsd:attribute name="linenumber" type="xsd:unsignedInt" use="required" />
+                                        </xsd:complexType>  
+                                    </xsd:element>
 	       		      			</xsd:sequence>
-	       		      			</xsd:complexType>
+       		      			</xsd:complexType>
         		      	</xsd:element>
         		    </xsd:sequence>
         		</xsd:complexType>

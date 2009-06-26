@@ -427,9 +427,13 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         if (can) {
             boolean pendingPrint = PurchaseOrderStatuses.PENDING_PRINT.equals(getPurchaseOrderDocument().getStatusCode());
             boolean open = PurchaseOrderStatuses.OPEN.equals(getPurchaseOrderDocument().getStatusCode());
+            boolean errorCxml = PurchaseOrderStatuses.CXML_ERROR.equals(getPurchaseOrderDocument().getStatusCode());
+            boolean errorFax = PurchaseOrderStatuses.FAX_ERROR.equals(getPurchaseOrderDocument().getStatusCode());
+
             List<PaymentRequestView> preqViews = getPurchaseOrderDocument().getRelatedViews().getRelatedPaymentRequestViews();
             boolean hasPaymentRequest = preqViews != null && preqViews.size() > 0;
-            can = pendingPrint || (open && !hasPaymentRequest);
+
+            can = pendingPrint || (open && !hasPaymentRequest) || errorCxml || errorFax;
         }
 
         // check user authorization

@@ -452,5 +452,13 @@ public class DefaultAccountingLineGroupImpl implements AccountingLineGroup {
     public void setCollectionItemPropertyName(String collectionItemPropertyName) {
         this.collectionItemPropertyName = collectionItemPropertyName;
     }
-    
+
+
+    public AccountingDocument getAccountingDocument() {
+        return accountingDocument;
+    }
+
+    public void setAccountingDocument(AccountingDocument accountingDocument) {
+        this.accountingDocument = accountingDocument;
+    }
 }

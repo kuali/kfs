@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
@@ -248,6 +246,11 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     }
 
     public PaymentRequestDocument getPaymentRequest() {
+        if (ObjectUtils.isNotNull(getPurapDocumentIdentifier())) {
+            if (ObjectUtils.isNull(getPurapDocument())) {
+                this.refreshReferenceObject(PurapPropertyConstants.PURAP_DOC);
+            }
+        }
         return super.getPurapDocument();
     }
 
@@ -323,21 +326,6 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         this.getNewSourceLine().setAccountLinePercent(new BigDecimal(0));
     }
 
-    /**
-     * Refreshes payment request object.
-     * 
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#afterLookup(org.apache.ojb.broker.PersistenceBroker)
-     */
-    @Override
-    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.afterLookup(persistenceBroker);
-        if (ObjectUtils.isNotNull(this.getPurapDocumentIdentifier())) {
-            if (ObjectUtils.isNull(this.getPaymentRequest())) {
-                this.refreshReferenceObject(PurapPropertyConstants.PURAP_DOC);
-            }
-        }
-    }
-    
     /**
      * Added for electronic invoice
      */

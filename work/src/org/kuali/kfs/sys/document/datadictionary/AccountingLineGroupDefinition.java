@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.document.datadictionary;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +43,7 @@ public class AccountingLineGroupDefinition extends DataDictionaryDefinitionBase 
     private boolean headerRendering = true;
     private boolean importingAllowed = true;
     private Class<? extends DefaultAccountingLineGroupImpl> accountingLineGroupClass = org.kuali.kfs.sys.document.web.DefaultAccountingLineGroupImpl.class;
+    private Class<? extends Comparator<AccountingLine>> accountingLineComparatorClass = org.kuali.kfs.sys.businessobject.AccountingLineComparator.class;
     
     private List<? extends AccountingLineViewActionDefinition> accountingLineGroupActions;
     
@@ -300,6 +302,31 @@ public class AccountingLineGroupDefinition extends DataDictionaryDefinitionBase 
         this.accountingLineGroupClass = accountingLineGroupClass;
     }
     
+    /**
+     * Sets the accountingLineComparatorClass attribute value.
+     * @param accountingLineComparatorClass The accountingLineComparatorClass to set.
+     */
+    public void setAccountingLineComparatorClass(Class<? extends Comparator<AccountingLine>> accountingLineComparatorClass) {
+        this.accountingLineComparatorClass = accountingLineComparatorClass;
+    }
+    
+    /**
+     * @return an instance of the Comparator this group should use to sort accounting lines
+     */
+    public Comparator<AccountingLine> getAccountingLineComparator() {
+        Comparator<AccountingLine> comparator = null;
+        try {
+            comparator = accountingLineComparatorClass.newInstance();
+        }
+        catch (InstantiationException ie) {
+            throw new RuntimeException("Could not instantiate class for AccountingLineComparator for group", ie);
+        }
+        catch (IllegalAccessException iae) {
+            throw new RuntimeException("Illegal access attempting to instantiate class for AccountingLineComparator for group", iae);
+        }
+        return comparator;
+    }
+
     /**
      * Creates a new accounting line group for this definition
      * @param accountingDocument the document which owns or will own the accounting line being rendered

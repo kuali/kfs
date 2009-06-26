@@ -271,7 +271,7 @@ public class AccountingLineGroupTag extends TagSupport {
         int count = 0;
         boolean anyEditableLines = false;
         List<AccountingLine> lines = getAccountingLineCollection();
-        Collections.sort(lines, new AccountingLineComparator());
+        Collections.sort(lines, getGroupDefinition().getAccountingLineComparator());
         for (AccountingLine accountingLine : lines) {
             final RenderableAccountingLineContainer container = buildContainerForLine(groupDefinition, document, accountingLine, currentUser, new Integer(count), (addedTopLine ? false : true));
             containers.add(container);
@@ -355,17 +355,6 @@ public class AccountingLineGroupTag extends TagSupport {
             document = getForm().getFinancialDocument();
         }
         return document;
-    }
-    
-    private class AccountingLineComparator implements Comparator<AccountingLine> {
-       
-        public int compare(AccountingLine al1, AccountingLine al2) {
-            if (ObjectUtils.isNotNull(al1) && ObjectUtils.isNotNull(al2))
-                if (ObjectUtils.isNotNull(al1.getSequenceNumber()) && ObjectUtils.isNotNull(al2.getSequenceNumber()))
-                    return al1.getSequenceNumber().compareTo(al2.getSequenceNumber());
-            return 0;
-        }
-        
     }
 }
 

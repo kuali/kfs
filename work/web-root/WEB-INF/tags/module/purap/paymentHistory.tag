@@ -46,7 +46,7 @@
 					<kul:htmlAttributeHeaderCell scope="col">PO #</kul:htmlAttributeHeaderCell>
 					<kul:htmlAttributeHeaderCell scope="col">PREQ Status</kul:htmlAttributeHeaderCell>
 					<kul:htmlAttributeHeaderCell scope="col">Hold</kul:htmlAttributeHeaderCell>
-					<kul:htmlAttributeHeaderCell scope="col">Req Canc</kul:htmlAttributeHeaderCell>
+					<kul:htmlAttributeHeaderCell scope="col">Request Cancel</kul:htmlAttributeHeaderCell>
 					<kul:htmlAttributeHeaderCell scope="col">Vendor Name</kul:htmlAttributeHeaderCell>
 					<kul:htmlAttributeHeaderCell scope="col">Customer #</kul:htmlAttributeHeaderCell>
 					<kul:htmlAttributeHeaderCell scope="col">Amount</kul:htmlAttributeHeaderCell>

@@ -65,7 +65,8 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
     protected String pageLabel;
     protected String newLineCharacter;
     protected DateTimeService dateTimeService;
-
+    protected boolean aggregationModeOn;
+    
     /**
      * A map of BO classes to {@link BusinessObjectReportHelper} bean names, to configure which BO's will be rendered by which
      * BusinessObjectReportHelper. This property should be configured via the spring bean definition
@@ -108,7 +109,6 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
         }
 
         page = initialPageNumber;
-
         initializeBusinessObjectReportHelpers();
         // Initial header
         this.writeHeader(title);
@@ -130,7 +130,12 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
     }
 
     protected String generateFullFilePath() {
-        return filePath + File.separator + this.fileNamePrefix + dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate()) + fileNameSuffix;
+        if (aggregationModeOn) {
+            return filePath + File.separator + this.fileNamePrefix + fileNameSuffix;
+        }
+        else {
+            return filePath + File.separator + this.fileNamePrefix + dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate()) + fileNameSuffix;
+        }
     }
 
     /**
@@ -348,6 +353,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      */
     public void pageBreak() {
         // Intentionally not using writeFormattedMessageLine here since it would loop trying to page break ;)
+        // 12 represents the ASCII Form Feed character
         printStream.printf("%c" + newLineCharacter, 12);
         page++;
         line = INITIAL_LINE_NUMBER;
@@ -366,7 +372,12 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
         int reportTitlePadding = pageWidth / 2 - headerText.length() - title.length() / 2;
         headerText = String.format("%s%" + (reportTitlePadding + title.length()) + "s%" + reportTitlePadding + "s", headerText, title, "");
 
-        this.writeFormattedMessageLine("%s%s%,9d", headerText, pageLabel, page);
+        if (aggregationModeOn) {
+            this.writeFormattedMessageLine("%s%s%s", headerText, pageLabel, KFSConstants.REPORT_WRITER_SERVICE_PAGE_NUMBER_PLACEHOLDER);
+        }
+        else {
+            this.writeFormattedMessageLine("%s%s%,9d", headerText, pageLabel, page);
+        }
         this.writeNewLines(1);
     }
 
@@ -784,4 +795,22 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
     public void setParametersLeftPadding(String parametersLeftPadding) {
         this.parametersLeftPadding = parametersLeftPadding;
     }
+
+    /**
+     * Gets the aggregationModeOn attribute. 
+     * @return Returns the aggregationModeOn.
+     */
+    public boolean isAggregationModeOn() {
+        return aggregationModeOn;
+    }
+
+    /**
+     * Sets the aggregationModeOn attribute value.
+     * @param aggregationModeOn The aggregationModeOn to set.
+     */
+    public void setAggregationModeOn(boolean aggregationModeOn) {
+        this.aggregationModeOn = aggregationModeOn;
+    }
+    
+    
 }

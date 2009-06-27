@@ -474,23 +474,24 @@
     </bean> 
     
     <bean id="laborPosterOutputSummaryReportWriterService" parent="laborOutputSummaryReportWriterService">
-        <property name="filePath" value="${reports.directory}/ld"/>
-        <property name="fileNamePrefix" value="labor_poster_output_summary_"/>
+        <property name="filePath" value="${reports.directory}/ld/temp"/>
+        <property name="fileNamePrefix" value="laborPosterJob-05-labor_poster_output_summary"/>
         <property name="title" value="Labor Poster Output Summary"/>
+        <property name="aggregationModeOn" value="true"/>
     </bean>    
     
     <bean id="laborActualBalanceSummaryReportWriterService" parent="laborSummaryReportWriterService">
-        <property name="fileNamePrefix" value="labor_summary_act_"/>
+        <property name="fileNamePrefix" value="laborPosterJob-06-labor_summary_act"/>
         <property name="title" value="Labor Actual Balance Summary"/>
     </bean>
 
     <bean id="laborBudgetBalanceSummaryReportWriterService" parent="laborSummaryReportWriterService">
-        <property name="fileNamePrefix" value="labor_summary_bud_"/>
+        <property name="fileNamePrefix" value="laborPosterJob-07-labor_summary_bud"/>
         <property name="title" value="Labor Budget Balance Summary"/>
     </bean>
     
     <bean id="laborEncumbranceSummaryReportWriterService" parent="laborSummaryReportWriterService">
-        <property name="fileNamePrefix" value="labor_summary_enc_"/>
+        <property name="fileNamePrefix" value="laborPosterJob-08-labor_summary_enc"/>
         <property name="title" value="Labor Encumbrance Summary"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
@@ -500,12 +501,13 @@
     </bean> 
     
     <bean id="laborSummaryReportWriterService" parent="reportWriterService" class="org.kuali.kfs.sys.service.impl.BalanceSummaryReportWriterTextServiceImpl">
-        <property name="filePath" value="${reports.directory}/ld"/>
+        <property name="filePath" value="${reports.directory}/ld/temp"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
                 <entry key="org.kuali.kfs.module.ld.businessobject.LaborBalanceSummary" value="summaryReportHelper"/>
             </map>
         </property>
+        <property name="aggregationModeOn" value="true"/>
     </bean>
 
     <bean id="laborLedgerEntryPoster" class="org.kuali.kfs.module.ld.batch.service.impl.LaborLedgerEntryPoster">
@@ -594,41 +596,44 @@
 	</bean>
 	
 	<bean id="laborPosterReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/ld"/>
-		<property name="fileNamePrefix" value="labor_poster_main_"/>
+		<property name="filePath" value="${reports.directory}/ld/temp"/>
+		<property name="fileNamePrefix" value="laborPosterJob-01-labor_poster_main"/>
         <property name="title" value="Labor Poster Report"/>
 		<property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
         		<entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="laborTransactionReportHelper"/>
         	</map>
        	</property>
+       	<property name="aggregationModeOn" value="true"/>
     </bean>
 	
 	<bean id="laborPosterErrorListingReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/ld"/>
-		<property name="fileNamePrefix" value="labor_poster_main_error_list_"/>
+		<property name="filePath" value="${reports.directory}/ld/temp"/>
+		<property name="fileNamePrefix" value="laborPosterJob-02-labor_poster_main_error_list"/>
         <property name="title" value="Main Labor Poster Error Transaction Listing"/>
 		<property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
         		<entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="laborTransactionListingReportHelper"/>
         	</map>
        	</property>
+       	<property name="aggregationModeOn" value="true"/>
     </bean>
     
     <bean id="laborGlEntryStatisticsReportWriterService" parent="reportWriterService">
-        <property name="filePath" value="${reports.directory}/ld"/>
-        <property name="fileNamePrefix" value="labor_poster_gl_summary_"/>
+        <property name="filePath" value="${reports.directory}/ld/temp"/>
+        <property name="fileNamePrefix" value="laborPosterJob-04-labor_poster_gl_summary"/>
         <property name="title" value="Labor Poster General Ledger Summary"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
                 <entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="laborTransactionReportHelper"/>
             </map>
         </property>
+        <property name="aggregationModeOn" value="true"/>
     </bean>    
 	
     <bean id="laborPosterLedgerSummaryReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/ld"/>
-		<property name="fileNamePrefix" value="labor_poster_main_ledger_"/>
+		<property name="filePath" value="${reports.directory}/ld/temp"/>
+		<property name="fileNamePrefix" value="laborPosterJob-03-labor_poster_main_ledger"/>
         <property name="title" value="Main Labor Poster Input Transactions"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
@@ -637,6 +642,7 @@
         		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
         	</map>
        	</property>
+       	<property name="aggregationModeOn" value="true"/>
     </bean>
     	
 	<bean id="laborPosterStep" class="org.kuali.kfs.module.ld.batch.LaborPosterStep" parent="wrappedStep">
@@ -746,7 +752,7 @@
 				<ref bean="laborScrubberStep"/>
 				<ref bean="laborDemergerSortStep" />
 				<ref bean="laborDemergerStep" />
-				
+				<ref bean="aggregateLaborScrubberReportsStep"/>
 			</list>
 		</property>
 		<property name="dependencies">
@@ -784,6 +790,16 @@
 		<property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
 	</bean>
 	
+	<bean id="aggregateLaborScrubberReportsStep" class="org.kuali.kfs.sys.batch.ReportAggregationStep">
+	    <property name="outputFilePath" value="${reports.directory}/ld"/>
+	    <property name="outputFilePrefix" value="laborScrubberJob_"/>
+	    <property name="outputFileSuffix" value=".txt"/>
+	    <property name="inputFilePath" value="${reports.directory}/ld/temp"/>
+	    <property name="inputFilePrefix" value="laborScrubberJob-"/>
+	    <property name="inputFileSuffix" value=".txt"/>
+	    <property name="reportAggregatorService" ref="reportAggregatorService"/>
+	</bean>
+
 	<bean id="laborPosterJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -791,6 +807,7 @@
 				<ref bean="laborPosterStep"/>
 				<ref bean="laborFileRenameStep"/>
                 <ref bean="laborBalanceSummaryStep"/>
+                <ref bean="aggregateLaborPosterReportsStep"/>
 			</list>
 		</property>
 		<property name="dependencies">
@@ -799,7 +816,17 @@
 			</map>
 		</property>
 	</bean>
-	
+
+	<bean id="aggregateLaborPosterReportsStep" class="org.kuali.kfs.sys.batch.ReportAggregationStep">
+	    <property name="outputFilePath" value="${reports.directory}/ld"/>
+	    <property name="outputFilePrefix" value="laborPosterJob_"/>
+	    <property name="outputFileSuffix" value=".txt"/>
+	    <property name="inputFilePath" value="${reports.directory}/ld/temp"/>
+	    <property name="inputFilePrefix" value="laborPosterJob-"/>
+	    <property name="inputFileSuffix" value=".txt"/>
+	    <property name="reportAggregatorService" ref="reportAggregatorService"/>
+	</bean>
+		
     <bean id="laborBalancingReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/ld"/>
 		<property name="fileNamePrefix" value="laborBalancing_"/>
@@ -1425,36 +1452,39 @@
 	</bean>
 	
 	<bean id="laborMainReportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/ld"/>
-		<property name="fileNamePrefix" value="labor_scrubber_report_"/>
+		<property name="filePath" value="${reports.directory}/ld/temp"/>
+		<property name="fileNamePrefix" value="laborScrubberJob-01-labor_scrubber_report"/>
         <property name="title" value="LABOR SCRUBBER REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
         		<entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="transactionReportHelper"/>
         	</map>
         </property>
+        <property name="aggregationModeOn" value="true"/>
     </bean>	
     
 	<bean id="laborBadBalanceTypeReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/ld"/>
-		<property name="fileNamePrefix" value="labor_scrubber_badbal_"/>
+		<property name="filePath" value="${reports.directory}/ld/temp"/>
+		<property name="fileNamePrefix" value="laborScrubberJob-03-labor_scrubber_badbal"/>
         <property name="title" value="Labor Scrubber Input Transactions with Bad Balance Types" />
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
         		<entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="laborTransactionListingReportHelper"/>
         	</map>
         </property>
+        <property name="aggregationModeOn" value="true"/>
     </bean>	    
 
 	<bean id="laborErrorListingReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/ld"/>
-		<property name="fileNamePrefix" value="labor_scrubber_error_listing_"/>
+		<property name="filePath" value="${reports.directory}/ld/temp"/>
+		<property name="fileNamePrefix" value="laborScrubberJob-05-labor_scrubber_error_listing"/>
         <property name="title" value="Labor Error Listing - Transactions Removed From the Scrubber" />
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
         		<entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="laborTransactionListingReportHelper"/>
         	</map>
         </property>
+        <property name="aggregationModeOn" value="true"/>
     </bean>	    
     
 	<bean id="laborGeneratedTransactionsReportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="reportWriterService">
@@ -1469,8 +1499,8 @@
     </bean>	
     
  	<bean id="laborLedgerReportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/ld"/>
-		<property name="fileNamePrefix" value="labor_scrubber_ledger_"/>
+		<property name="filePath" value="${reports.directory}/ld/temp"/>
+		<property name="fileNamePrefix" value="laborScrubberJob-02-labor_scrubber_ledger"/>
         <property name="title" value="Labor Ledger Report"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
@@ -1479,12 +1509,14 @@
         		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
         	</map>
         </property>
+        <property name="aggregationModeOn" value="true"/>
     </bean> 
     
  	<bean id="laborDemergerReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/ld"/>
-		<property name="fileNamePrefix" value="labor_demerger_report_"/>
+		<property name="filePath" value="${reports.directory}/ld/temp"/>
+		<property name="fileNamePrefix" value="laborScrubberJob-04-labor_demerger_report"/>
         <property name="title" value="LABOR DEMERGER REPORT" />
+        <property name="aggregationModeOn" value="true"/>
     </bean>	  
     
   	<bean id="laborCorrectionReportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="reportWriterService">

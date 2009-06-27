@@ -1240,5 +1240,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String TABLE_CELL_FORMAT_KEY = "tableCellFormat";
         public static final String[] FORMAT_ESCAPE_CHARACTERS = new String[]{"%", "\\"};
     }
+    
+    public static final String REPORT_WRITER_SERVICE_PAGE_NUMBER_PLACEHOLDER = "${pageNumber}";
 }
 

@@ -57,6 +57,11 @@ public class BalanceSummaryReportWriterTextServiceImpl extends ReportWriterTextS
         if (fiscalYear == null) {
             throw new RuntimeException("fiscal year is blank");
         }
-        return filePath + File.separator + this.fileNamePrefix + fiscalYear.toString() + "_" + dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate()) + fileNameSuffix;
+        if (isAggregationModeOn()) {
+            return filePath + File.separator + this.fileNamePrefix + fiscalYear.toString() + fileNameSuffix;            
+        }
+        else {
+            return filePath + File.separator + this.fileNamePrefix + fiscalYear.toString() + "_" + dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate()) + fileNameSuffix;
+        }
     }
 }

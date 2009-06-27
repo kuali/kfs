@@ -55,7 +55,10 @@ public class ScrubberListingReportWriterTextServiceImpl extends ReportWriterText
         if (StringUtils.isNotBlank(documentNumber)) {
             fullFilePath += documentNumber + "_";
         }
-        fullFilePath += dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate()) + fileNameSuffix;
+        if (!isAggregationModeOn()) {
+            fullFilePath += dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate());
+        }
+        fullFilePath += fileNameSuffix;
         
         return fullFilePath;
     }

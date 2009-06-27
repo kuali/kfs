@@ -47,7 +47,6 @@
 				<value>posterJob</value>
 				<value>posterBalancingJob</value>
 				<value>sufficientFundsJob</value>
-				<value>posterSummaryReportJob</value>
 				<value>clearPendingEntriesJob</value>
 				<value>encumbranceForwardJob</value>
 				<value>balanceForwardJob</value>
@@ -1233,7 +1232,7 @@
 				<ref bean="scrubberStep" />
 				<ref bean="demergerSortStep" />
 				<ref bean="demergerStep" />
-				
+				<ref bean="aggregateGlScrubberReportsStep"/>
 			</list>
 		</property>
 		<property name="dependencies">
@@ -1257,6 +1256,8 @@
 				<ref bean="icrSortStep" />
 				<ref bean="posterIndirectCostRecoveryEntriesStep" />
 				<ref bean="fileRenameStep" />
+				<ref bean="posterSummaryReportStep" />
+				<ref bean="aggregateGlPosterReportsStep" />
 			</list>
 		</property>
 		<property name="dependencies">
@@ -1353,19 +1354,6 @@
 		</property>
 	</bean>
 	
-	<bean id="posterSummaryReportJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="posterSummaryReportStep" />
-			</list>
-		</property>
-		<property name="dependencies">
-			<map>
-				<entry key="posterJob" value="hardDependency" />
-			</map>
-		</property>
-	</bean>
-	
 	<bean id="clearPendingEntriesJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -1374,7 +1362,7 @@
 		</property>
 		<property name="dependencies">
 			<map>
-				<entry key="posterSummaryReportJob" value="hardDependency" />
+				<entry key="posterJob" value="hardDependency" />
 			</map>
 		</property>
 	</bean>
@@ -1542,6 +1530,26 @@
 		</property>
 	</bean>
 	
+	<bean id="aggregateGlScrubberReportsStep" class="org.kuali.kfs.sys.batch.ReportAggregationStep">
+	    <property name="outputFilePath" value="${reports.directory}/gl"/>
+	    <property name="outputFilePrefix" value="scrubberJob_"/>
+	    <property name="outputFileSuffix" value=".txt"/>
+	    <property name="inputFilePath" value="${reports.directory}/gl/temp"/>
+	    <property name="inputFilePrefix" value="scrubberJobReport-"/>
+	    <property name="inputFileSuffix" value=".txt"/>
+	    <property name="reportAggregatorService" ref="reportAggregatorService"/>
+	</bean>
+	
+	<bean id="aggregateGlPosterReportsStep" class="org.kuali.kfs.sys.batch.ReportAggregationStep">
+	    <property name="outputFilePath" value="${reports.directory}/gl"/>
+	    <property name="outputFilePrefix" value="posterJob_"/>
+	    <property name="outputFileSuffix" value=".txt"/>
+	    <property name="inputFilePath" value="${reports.directory}/gl/temp"/>
+	    <property name="inputFilePrefix" value="posterJob_"/>
+	    <property name="inputFileSuffix" value=".txt"/>
+	    <property name="reportAggregatorService" ref="reportAggregatorService"/>
+	</bean>
+	
 	<bean id="scrubberSortStep" class="org.kuali.kfs.gl.batch.ScrubberSortStep" parent="step">
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
@@ -1563,26 +1571,28 @@
 	</bean>
 	
 	<bean id="demergerReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/gl"/>
-		<property name="fileNamePrefix" value="demerger_report_"/>
+		<property name="filePath" value="${reports.directory}/gl/temp"/>
+		<property name="fileNamePrefix" value="scrubberJobReport-04-demerger_report"/>
         <property name="title" value="GL DEMERGER REPORT"/>
+        <property name="aggregationModeOn" value="true"/>
         <!-- the report does not print out BO's, therefore classToBusinessObjectReportHelperBeanNames not needed-->
     </bean>
     
     <bean id="scrubberReportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/gl"/>
-		<property name="fileNamePrefix" value="scrubber_"/>
+		<property name="filePath" value="${reports.directory}/gl/temp"/>
+		<property name="fileNamePrefix" value="scrubberJobReport-01-scrubber"/>
         <property name="title" value="GL SCRUBBER REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
         		<entry key="org.kuali.kfs.gl.businessobject.OriginEntryFull" value="transactionReportHelper"/>
         	</map>
         </property>
+        <property name="aggregationModeOn" value="true"/>
     </bean>
     
     <bean id="scrubberLedgerReportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/gl"/>
-		<property name="fileNamePrefix" value="scrubber_ledger_"/>
+		<property name="filePath" value="${reports.directory}/gl/temp"/>
+		<property name="fileNamePrefix" value="scrubberJobReport-02-scrubber_ledger"/>
         <property name="title" value="Ledger Report"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
@@ -1591,6 +1601,7 @@
         		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
         	</map>
         </property>
+        <property name="aggregationModeOn" value="true"/>
     </bean>
 
     <bean id="scrubberReportOnlyWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="reportWriterService">
@@ -1629,8 +1640,8 @@
 	</bean>
 
 	<bean id="posterReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/gl"/>
-		<property name="fileNamePrefix" value="poster_main_"/>
+		<property name="filePath" value="${reports.directory}/gl/temp"/>
+		<property name="fileNamePrefix" value="posterJob_01_poster_main"/>
         <property name="title" value="GL POSTER REPORT (MAIN)"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
@@ -1638,22 +1649,24 @@
         		<entry key="org.kuali.kfs.gl.businessobject.Reversal" value="transactionReportHelper"/>
         	</map>
        	</property>
+       	<property name="aggregationModeOn" value="true"/>
     </bean>
 
 	<bean id="posterErrorListingReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/gl"/>
-		<property name="fileNamePrefix" value="poster_main_error_list_"/>
+		<property name="filePath" value="${reports.directory}/gl/temp"/>
+		<property name="fileNamePrefix" value="posterJob_02_poster_main_error_list"/>
         <property name="title" value="Main Poster Error Transaction Listing"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
         		<entry key="org.kuali.kfs.gl.businessobject.OriginEntryFull" value="transactionListingReportHelper"/>
         	</map>
        	</property>
+       	<property name="aggregationModeOn" value="true"/>
     </bean>
     
     <bean id="posterLedgerSummaryReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/gl"/>
-		<property name="fileNamePrefix" value="poster_main_ledger_"/>
+		<property name="filePath" value="${reports.directory}/gl/temp"/>
+		<property name="fileNamePrefix" value="posterJob_03_poster_main_ledger"/>
         <property name="title" value="Main Poster Input Transactions"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
@@ -1662,6 +1675,7 @@
         		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
         	</map>
        	</property>
+       	<property name="aggregationModeOn" value="true"/>
     </bean>
     
 	<bean id="posterEntriesStep" class="org.kuali.kfs.gl.batch.PosterEntriesStep" parent="wrappedStep">
@@ -1677,8 +1691,8 @@
 	</bean>
 
 	<bean id="posterIndirectCostRecoveryEntriesReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/gl"/>
-		<property name="fileNamePrefix" value="poster_icr_"/>
+		<property name="filePath" value="${reports.directory}/gl/temp"/>
+		<property name="fileNamePrefix" value="posterJob_09_poster_icr"/>
         <property name="title" value="GL POSTER REPORT (ICR)"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
@@ -1686,22 +1700,24 @@
         		<entry key="org.kuali.kfs.gl.businessobject.Reversal" value="transactionReportHelper"/>
         	</map>
        	</property>
+       	<property name="aggregationModeOn" value="true"/>
     </bean>
 
 	<bean id="posterIndirectCostRecoveryEntriesErrorListingReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/gl"/>
-		<property name="fileNamePrefix" value="poster_icr_error_list_"/>
+		<property name="filePath" value="${reports.directory}/gl/temp"/>
+		<property name="fileNamePrefix" value="posterJob_10_poster_icr_error_list"/>
         <property name="title" value="ICR Poster Error Transaction Listing"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
         		<entry key="org.kuali.kfs.gl.businessobject.OriginEntryFull" value="transactionListingReportHelper"/>
         	</map>
        	</property>
+       	<property name="aggregationModeOn" value="true"/>
     </bean>
 
     <bean id="posterIndirectCostRecoveryEntriesLedgerSummaryReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/gl"/>
-		<property name="fileNamePrefix" value="poster_icr_ledger_"/>
+		<property name="filePath" value="${reports.directory}/gl/temp"/>
+		<property name="fileNamePrefix" value="posterJob_11_poster_icr_ledger"/>
         <property name="title" value="ICR Poster Input Transactions"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
@@ -1710,6 +1726,7 @@
         		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
         	</map>
        	</property>
+       	<property name="aggregationModeOn" value="true"/>
     </bean>
 
 	<bean id="posterIndirectCostRecoveryEntriesStep" class="org.kuali.kfs.gl.batch.PosterIndirectCostRecoveryEntriesStep" parent="wrappedStep">
@@ -1725,41 +1742,44 @@
 	</bean>
 
 	<bean id="posterReversalReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/gl"/>
-		<property name="fileNamePrefix" value="poster_reversal_"/>
+		<property name="filePath" value="${reports.directory}/gl/temp"/>
+		<property name="fileNamePrefix" value="posterJob_04_poster_reversal"/>
         <property name="title" value="GL POSTER REPORT (REVERSAL)"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
         		<entry key="org.kuali.kfs.gl.businessobject.Reversal" value="transactionReportHelper"/>
         	</map>
        	</property>
+       	<property name="aggregationModeOn" value="true"/>
     </bean>
 
 	<bean id="posterReversalErrorListingReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/gl"/>
-		<property name="fileNamePrefix" value="poster_reversal_error_list_"/>
+		<property name="filePath" value="${reports.directory}/gl/temp"/>
+		<property name="fileNamePrefix" value="posterJob_06_poster_reversal_error_list"/>
         <property name="title" value="Reversal Poster Error Transaction Listing"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
         		<entry key="org.kuali.kfs.gl.businessobject.Reversal" value="transactionListingReportHelper"/>
         	</map>
        	</property>
+       	<property name="aggregationModeOn" value="true"/>
     </bean>
     
     <bean id="posterReversalListingReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/gl"/>
-		<property name="fileNamePrefix" value="poster_reversal_list_"/>
+		<property name="filePath" value="${reports.directory}/gl/temp"/>
+		<property name="fileNamePrefix" value="posterJob_05_poster_reversal_list"/>
         <property name="title" value="Reversal Poster Transaction Listing"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
         		<entry key="org.kuali.kfs.gl.businessobject.Reversal" value="transactionListingReportHelper"/>
         	</map>
        	</property>
+       	<property name="aggregationModeOn" value="true"/>
     </bean>
 
     <bean id="posterReversalLedgerSummaryReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/gl"/>
-		<property name="fileNamePrefix" value="poster_reversal_ledger_"/>
+		<property name="filePath" value="${reports.directory}/gl/temp"/>
+		<property name="fileNamePrefix" value="posterJob_07_poster_reversal_ledger"/>
         <property name="title" value="Reversal Poster Input Transactions"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
@@ -1768,6 +1788,7 @@
         		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
         	</map>
        	</property>
+       	<property name="aggregationModeOn" value="true"/>
     </bean>
 
 	<bean id="posterReversalStep" class="org.kuali.kfs.gl.batch.PosterReversalStep" parent="wrappedStep">
@@ -1784,8 +1805,8 @@
 	</bean>
 
 	<bean id="posterIndirectCostRecoveryGenerationReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/gl"/>
-		<property name="fileNamePrefix" value="icr_generation_"/>
+		<property name="filePath" value="${reports.directory}/gl/temp"/>
+		<property name="fileNamePrefix" value="posterJob_08_icr_generation"/>
         <property name="title" value="ICR GENERATION REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
@@ -1793,6 +1814,7 @@
         		<entry key="org.kuali.kfs.gl.businessobject.ExpenditureTransaction" value="expenditureTransactionReportHelper"/>
         	</map>
        	</property>
+       	<property name="aggregationModeOn" value="true"/>
     </bean>
 
 	<bean id="posterIndirectCostRecoveryGenerationStep" class="org.kuali.kfs.gl.batch.PosterIcrGenerationStep" parent="wrappedStep">
@@ -1806,8 +1828,8 @@
 	</bean>
 	
 	<bean id="posterOutputSummaryReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/gl"/>
-		<property name="fileNamePrefix" value="poster_output_summary_"/>
+		<property name="filePath" value="${reports.directory}/gl/temp"/>
+		<property name="fileNamePrefix" value="posterJob_12_poster_output_summary"/>
         <property name="title" value="Poster Output Summary"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
@@ -1818,39 +1840,43 @@
         		<entry key="org.kuali.kfs.gl.businessobject.PosterOutputSummaryTotal" value="posterOutputSummaryTotal"/>
         	</map>
        	</property>
+       	<property name="aggregationModeOn" value="true"/>
     </bean>
     
     <bean id="posterActualBalanceSummaryReportWriterService" parent="reportWriterService" class="org.kuali.kfs.sys.service.impl.BalanceSummaryReportWriterTextServiceImpl">
-        <property name="filePath" value="${reports.directory}/gl"/>
-        <property name="fileNamePrefix" value="gl_summary_act_"/>
+        <property name="filePath" value="${reports.directory}/gl/temp"/>
+        <property name="fileNamePrefix" value="posterJob_13_gl_summary_act"/>
         <property name="title" value="GL Actual Balance Summary"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
                 <entry key="org.kuali.kfs.gl.businessobject.GlSummary" value="summaryReportHelper"/>
             </map>
         </property>
+        <property name="aggregationModeOn" value="true"/>
     </bean>
 
     <bean id="posterBudgetBalanceSummaryReportWriterService" parent="reportWriterService" class="org.kuali.kfs.sys.service.impl.BalanceSummaryReportWriterTextServiceImpl">
-        <property name="filePath" value="${reports.directory}/gl"/>
-        <property name="fileNamePrefix" value="gl_summary_bud_"/>
+        <property name="filePath" value="${reports.directory}/gl/temp"/>
+        <property name="fileNamePrefix" value="posterJob_14_gl_summary_bud"/>
         <property name="title" value="GL Budget Balance Summary"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
                 <entry key="org.kuali.kfs.gl.businessobject.GlSummary" value="summaryReportHelper"/>
             </map>
         </property>
+        <property name="aggregationModeOn" value="true"/>
     </bean>
     
     <bean id="posterEncumbranceSummaryReportWriterService" parent="reportWriterService" class="org.kuali.kfs.sys.service.impl.BalanceSummaryReportWriterTextServiceImpl">
-        <property name="filePath" value="${reports.directory}/gl"/>
-        <property name="fileNamePrefix" value="gl_summary_enc_"/>
+        <property name="filePath" value="${reports.directory}/gl/temp"/>
+        <property name="fileNamePrefix" value="posterJob_15_gl_summary_enc"/>
         <property name="title" value="GL Encumbrance Summary"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
                 <entry key="org.kuali.kfs.gl.businessobject.GlSummary" value="yearToDaySummaryReportHelper"/>
             </map>
         </property>
+        <property name="aggregationModeOn" value="true"/>
     </bean>
     	
 	<bean id="generalLegerPendingEntryListReportWriterService" parent="reportWriterService">
@@ -2517,25 +2543,27 @@
     </bean>
     
     <bean id="scrubberBadBalanceListingReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/gl"/>
-		<property name="fileNamePrefix" value="scrubber_badbal_"/>
+		<property name="filePath" value="${reports.directory}/gl/temp"/>
+		<property name="fileNamePrefix" value="scrubberJobReport-03-scrubber_badbal"/>
         <property name="title" value="Scrubber Input Transactions with Blank Balance Types"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
         		<entry key="org.kuali.kfs.gl.businessobject.OriginEntryFull" value="transactionListingReportHelper"/>
         	</map>
        	</property>
+       	<property name="aggregationModeOn" value="true"/>
     </bean>
     
     <bean id="demergerRemovedTransactionsListingReportWriterService" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/gl"/>
-		<property name="fileNamePrefix" value="scrubber_errors_"/>
+		<property name="filePath" value="${reports.directory}/gl/temp"/>
+		<property name="fileNamePrefix" value="scrubberJobReport-05-scrubber_errors"/>
         <property name="title" value="Error Listing - Transactions Removed From the Scrubber"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
         		<entry key="org.kuali.kfs.gl.businessobject.OriginEntryFull" value="transactionListingReportHelper"/>
         	</map>
        	</property>
+       	<property name="aggregationModeOn" value="true"/>
     </bean>
     
    	<bean id="generalLedgerCorrectionReportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="reportWriterService">

@@ -546,6 +546,10 @@
         </property>
     </bean>
     
+    <bean id="reportAggregatorService" class="org.kuali.kfs.sys.service.impl.ReportAggregatorServiceTextImpl">
+    	<property name="newLineCharacter" value="${report.writer.service.new.line.characters}"/>
+	</bean>
+	
     <bean id="accountingLineAuthorizationTransformer" class="org.kuali.kfs.sys.document.service.impl.AccountingLineAuthorizationTransformerImpl" />
     
     <bean id="allReadOnlyNoActionsAccountingLineRenderingTransformation" class="org.kuali.kfs.sys.document.service.impl.AllReadOnlyNoActionsAccountingLineRenderingTransformationImpl" />
@@ -719,8 +723,7 @@
         <property name="parametersLabel" value="                                    P A R A M E T E R S                                    " />
         <property name="parametersLeftPadding" value="                             " />
         <property name="pageLabel" value="PAGE:" />
-        <!-- Next line in a java \n newline character in XML notation since we're injecting it via Spring. -->
-        <property name="newLineCharacter" value="&#xA;" />
+        <property name="newLineCharacter" value="${report.writer.service.new.line.characters}" />
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>

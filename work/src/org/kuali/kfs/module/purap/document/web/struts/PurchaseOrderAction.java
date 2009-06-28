@@ -124,7 +124,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             PurchaseOrderQuoteList poQuoteList = new PurchaseOrderQuoteList();
             poQuoteList.setPurchaseOrderQuoteListIdentifier(poQuoteListIdentifier);
             poQuoteList = (PurchaseOrderQuoteList) businessObjectService.retrieve(poQuoteList);
-            if (poQuoteList.isActiveIndicator()) {
+            if (poQuoteList.isActive()) {
                 for (PurchaseOrderQuoteListVendor poQuoteListVendor : poQuoteList.getQuoteListVendors()) {
                     VendorDetail newVendor = poQuoteListVendor.getVendorDetail();
                     if (newVendor.isActiveIndicator() && !newVendor.isVendorDebarred()) {

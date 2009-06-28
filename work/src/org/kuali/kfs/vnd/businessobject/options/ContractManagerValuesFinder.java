@@ -43,7 +43,7 @@ public class ContractManagerValuesFinder extends KeyValuesBase {
 
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Map fieldValues = new HashMap();
-        fieldValues.put(KNSPropertyConstants.ACTIVE_INDICATOR, true);
+        fieldValues.put(KNSPropertyConstants.ACTIVE, true);
         Collection codes = boService.findMatching(ContractManager.class, fieldValues);
         List labels = new ArrayList();
         labels.add(new KeyLabelPair("", ""));

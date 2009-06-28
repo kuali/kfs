@@ -47,7 +47,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="purchasingDepartmentStateCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="purchasingDepartmentZipCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="purchasingDepartmentCountryCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="activeIndicator" p:defaultValue="true"/>              
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>              
       </list>
     </property>
   </bean>

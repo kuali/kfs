@@ -25,7 +25,7 @@
         <ref bean="PurchaseOrderQuoteList-purchaseOrderQuoteListName" />
         <ref bean="PurchaseOrderQuoteList-contractManagerCode" />
         <ref bean="PurchaseOrderQuoteList-contractManagerName" />
-        <ref bean="PurchaseOrderQuoteList-activeIndicator" />
+        <ref bean="PurchaseOrderQuoteList-active" />
       </list>
     </property>
   </bean>
@@ -81,11 +81,12 @@
   <bean id="PurchaseOrderQuoteList-contractManagerName-parentBean" abstract="true" parent="ContractManager-contractManagerName">
   </bean>
   
-  <bean id="PurchaseOrderQuoteList-activeIndicator" parent="PurchaseOrderQuoteList-activeIndicator-parentBean" />
+  <bean id="PurchaseOrderQuoteList-active" parent="PurchaseOrderQuoteList-active-parentBean" />
   
-  <bean id="PurchaseOrderQuoteList-activeIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" >
-	<property name="name" value="active" />
+  <bean id="PurchaseOrderQuoteList-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+      <property name="name" value="active" />
   </bean>
+
 
   
 

@@ -26,7 +26,7 @@
         <ref bean="ContractManager-contractManagerFaxNumber" />
         <ref bean="ContractManager-contractManagerName" />
         <ref bean="ContractManager-contractManagerPhoneNumber" />
-        <ref bean="ContractManager-activeIndicator" />
+        <ref bean="ContractManager-active" />
       </list>
     </property>
   </bean>
@@ -119,10 +119,10 @@
     </property>
   </bean>
   
-  <bean id="ContractManager-activeIndicator"  parent="ContractManager-activeIndicator-parentBean" />
+  <bean id="ContractManager-active"  parent="ContractManager-active-parentBean" />
   
-  <bean id="ContractManager-activeIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" >
-	<property name="name" value="active" />
+  <bean id="ContractManager-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+      <property name="name" value="active" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

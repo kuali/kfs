@@ -33,7 +33,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="CampusParameter-purchasingDepartmentStateCode" />
         <ref bean="CampusParameter-purchasingDepartmentZipCode" />
         <ref bean="CampusParameter-purchasingDepartmentCountryCode" />
-        <ref bean="CampusParameter-activeIndicator" />
+        <ref bean="CampusParameter-active" />
       </list>
     </property>
     <property name="relationships" >
@@ -185,12 +185,16 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="required" value="false" />
   </bean>
   
-  <bean id="CampusParameter-activeIndicator" parent="CampusParameter-activeIndicator-parentBean" />
+  <!--  bean id="CampusParameter-active" parent="CampusParameter-active-parentBean" />
   
-  <bean id="CampusParameter-activeIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" >
-	<property name="name" value="active" />
-  </bean>
+  <bean id="CampusParameter-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" /-->
 
+  <bean id="CampusParameter-active"  parent="CampusParameter-active-parentBean" />
+  
+  <bean id="CampusParameter-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+      <property name="name" value="active" />
+  </bean>
+  
 <!-- Business Object Inquiry Definition -->
 
 

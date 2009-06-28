@@ -45,7 +45,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="organizationCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="accountNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="negativePaymentRequestApprovalLimitAmount" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="activeIndicator" p:required="true" p:defaultValue="true"/>              
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true"/>              
       </list>
     </property>
   </bean>

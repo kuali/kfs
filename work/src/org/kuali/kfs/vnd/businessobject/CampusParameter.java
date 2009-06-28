@@ -45,7 +45,6 @@ public class CampusParameter extends PersistableBusinessObjectBase implements In
     private String purchasingDepartmentStateCode;
     private String purchasingDepartmentZipCode;
     private String purchasingDepartmentCountryCode;
-    private boolean activeIndicator;
     private boolean active;
 
     private Campus campus;
@@ -197,14 +196,6 @@ public class CampusParameter extends PersistableBusinessObjectBase implements In
         LinkedHashMap m = new LinkedHashMap();
         m.put("campusCode", this.campusCode);
         return m;
-    }
-
-    public boolean isActiveIndicator() {
-        return activeIndicator;
-    }
-
-    public void setActiveIndicator(boolean activeIndicator) {
-        this.activeIndicator = activeIndicator;
     }
 
     public boolean isActive() {

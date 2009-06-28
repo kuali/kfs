@@ -39,7 +39,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="purchaseOrderQuoteListIdentifier"/>
         <bean parent="MaintainableFieldDefinition" p:name="purchaseOrderQuoteListName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="contractManagerCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="activeIndicator" p:required="true" p:defaultValue="true"/>              
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true"/>              
       </list>
     </property>
   </bean>

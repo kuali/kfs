@@ -39,7 +39,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="contractManagerPhoneNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="contractManagerFaxNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="contractManagerDelegationDollarLimit" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="activeIndicator" p:required="true" p:defaultValue="true"/>                 
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true"/>                 
       </list>
     </property>
   </bean>

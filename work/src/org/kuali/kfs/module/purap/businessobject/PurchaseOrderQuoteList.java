@@ -33,7 +33,6 @@ public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase implem
     private String purchaseOrderQuoteListName;
     private Integer contractManagerCode;
     private String contractManagerName;
-    private boolean activeIndicator;
     private boolean active;
     
     private ContractManager contractManager;
@@ -108,14 +107,6 @@ public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase implem
             m.put("purchaseOrderQuoteListIdentifier", this.purchaseOrderQuoteListIdentifier.toString());
         }
         return m;
-    }
-    
-    public boolean isActiveIndicator() {
-        return activeIndicator;
-    }
-
-    public void setActiveIndicator(boolean activeIndicator) {
-        this.activeIndicator = activeIndicator;
     }
 
     public boolean isActive() {

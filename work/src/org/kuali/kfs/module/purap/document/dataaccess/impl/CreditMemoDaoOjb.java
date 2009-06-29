@@ -74,7 +74,7 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
         criteria.addEqualTo( "vendorHeaderGeneratedIdentifier", vendor.getVendorHeaderGeneratedIdentifier() );
         criteria.addEqualTo( "vendorDetailAssignedIdentifier", vendor.getVendorDetailAssignedIdentifier() );
         criteria.addEqualTo( "vendorCountryCode", vendor.getVendorCountry() );
-        criteria.addEqualTo( "vendorPostalCode", vendor.getVendorPostalCode() );
+        criteria.addLike( "vendorPostalCode", vendor.getVendorPostalCode() + "%" );
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(VendorCreditMemoDocument.class, criteria));
     }

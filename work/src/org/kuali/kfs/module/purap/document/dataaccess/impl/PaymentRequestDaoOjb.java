@@ -224,7 +224,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         criteria.addEqualTo( "vendorHeaderGeneratedIdentifier", vendor.getVendorHeaderGeneratedIdentifier() );
         criteria.addEqualTo( "vendorDetailAssignedIdentifier", vendor.getVendorDetailAssignedIdentifier() );
         criteria.addEqualTo( "vendorCountryCode", vendor.getVendorCountry() );
-        criteria.addEqualTo( "vendorPostalCode", vendor.getVendorPostalCode() );
+        criteria.addLike( "vendorPostalCode", vendor.getVendorPostalCode() + "%" );
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
     }

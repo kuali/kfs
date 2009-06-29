@@ -193,9 +193,6 @@
 
 				<bean parent="PurchasingAccountsPayable-newProcessItemValidation-parentBean" scope="prototype"/>
 				
-				<bean parent="PurchasingAccountsPayable-processAccountSummaryValidation" scope="prototype">								
-					<property name="quitOnFail" value="false" />
-				</bean>  																
 				<bean parent="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  												
@@ -371,9 +368,6 @@
 				</bean>
 				<bean parent="PurchasingAccountsPayable-newProcessItemValidation-parentBean" scope="prototype"/>
 								
-				<bean parent="PurchasingAccountsPayable-processAccountSummaryValidation" scope="prototype">								
-					<property name="quitOnFail" value="false" />
-				</bean>  																
 				<bean parent="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  												
@@ -382,7 +376,9 @@
 				</bean>  				
 				<bean parent="VendorCreditMemo-totalOverZeroValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
-				</bean>  															
+				</bean>
+
+				<bean parent="PurchasingAccountsPayable-checkNegativeAccountsValidation" scope="prototype"/>
 			</list>
 		</property>
   	</bean>

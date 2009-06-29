@@ -52,10 +52,6 @@
         <property name="dataDictionaryService" ref="dataDictionaryService" />
     </bean>
 
-    <bean id="PurchasingAccountsPayable-processAccountSummaryValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableProcessAccountSummaryValidation" abstract="true">
-        <property name="purapAccountingService" ref="purapAccountingService" />
-    </bean>
-
     <bean id="PurchasingAccountsPayable-extendedPriceNonZeroBranchingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableExtendedPriceNonZeroBranchingValidation" abstract="true"/>
 
     <bean id="PurchasingAccountsPayable-lineItemIndicatorBranchingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableLineItemIndicatorBranchingValidation" abstract="true"/>

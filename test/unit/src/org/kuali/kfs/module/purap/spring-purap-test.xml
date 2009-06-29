@@ -69,8 +69,8 @@
 	<bean id="PurchaseOrder-assignSensitiveDataValidation-test"
 		parent="PurchaseOrder-assignSensitiveDataValidation" scope="prototype" />
 
-	<bean id="PurchasingAccountsPayable-processAccountSummaryValidation-test"
-		parent="PurchasingAccountsPayable-processAccountSummaryValidation" scope="prototype" />
+	<bean id="PurchasingAccountsPayable-checkNegativeAccountsValidation-test"
+		parent="PurchasingAccountsPayable-checkNegativeAccountsValidation" scope="prototype" />
 
 	<bean id="Requisition-processAdditionalValidation-test"
 		parent="Requisition-processAdditionalValidation" scope="prototype" />

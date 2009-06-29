@@ -68,19 +68,19 @@ public class PurchasingAccountsPayableDocumentRuleTest extends
         super.tearDown();
     }
 
-    // Tests of processAccountSummaryValidation
+    // Tests of checkNegativeAccountsValidation
     
-    public void testProcessAccountSummaryValidation_PositiveAmount() {
+    public void testCheckNegativeAccountsValidation_PositiveAmount() {
         RequisitionDocument doc = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
         
-        PurchasingAccountsPayableProcessAccountSummaryValidation validation = (PurchasingAccountsPayableProcessAccountSummaryValidation)validations.get("PurchasingAccountsPayable-processAccountSummaryValidation-test");                
+        PurchasingAccountsPayableCheckNegativeAccountsValidation validation = (PurchasingAccountsPayableCheckNegativeAccountsValidation)validations.get("PurchasingAccountsPayable-checkNegativeAccountsValidation-test");                
         assertTrue( validation.validate(new AttributedDocumentEventBase("","", doc)) );        
     }
     
-    public void testProcessAccountSummaryValidation_NegativeAmount() {
+    public void testCheckNegativeAccountsValidation_NegativeAmount() {
         RequisitionDocument doc = RequisitionDocumentFixture.REQ_WITH_NEGATIVE_AMOUNT.createRequisitionDocument();
 
-        PurchasingAccountsPayableProcessAccountSummaryValidation validation = (PurchasingAccountsPayableProcessAccountSummaryValidation)validations.get("PurchasingAccountsPayable-processAccountSummaryValidation-test");                
+        PurchasingAccountsPayableCheckNegativeAccountsValidation validation = (PurchasingAccountsPayableCheckNegativeAccountsValidation)validations.get("PurchasingAccountsPayable-checkNegativeAccountsValidation-test");                
         assertFalse( validation.validate(new AttributedDocumentEventBase("","", doc)) );        
     }   
     

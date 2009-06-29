@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -39,7 +41,12 @@ public class PurchasingAccountsPayableCheckNegativeAccountsValidation extends Ge
         //GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         // if this was set somewhere on the doc(for later use) in prepare for save we could avoid this call
-        List<SourceAccountingLine> sourceLines = purapAccountingService.generateSummary(document.getItems());
+        purapAccountingService.updateAccountAmounts(document);
+
+        //be sure to exclude trade in values from the negative check as they're allowed to be negative
+        Set excludedItemTypeCodes = new HashSet();
+        excludedItemTypeCodes.add(PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE);
+        List<SourceAccountingLine> sourceLines = purapAccountingService.generateSummaryExcludeItemTypes(document.getItems(), excludedItemTypeCodes);
 
         for (SourceAccountingLine sourceAccountingLine : sourceLines) {
             // check if the summary account is for tax withholding

@@ -82,10 +82,6 @@
 						</map>
 					</property>
 				</bean>	 	
-
-				<bean parent="PurchasingAccountsPayable-processAccountSummaryValidation" scope="prototype">								
-					<property name="quitOnFail" value="false" />
-				</bean>  				
 																
 				<bean parent="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
@@ -172,10 +168,6 @@
 						</map>
 					</property>
 				</bean>	 	
-
-				<bean parent="PurchasingAccountsPayable-processAccountSummaryValidation" scope="prototype">								
-					<property name="quitOnFail" value="false" />
-				</bean>  									
 											
 				<bean parent="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
@@ -215,6 +207,8 @@
 				<bean parent="PaymentRequest-payDateNotPastValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  								
+				
+				<bean parent="PurchasingAccountsPayable-checkNegativeAccountsValidation" scope="prototype"/>	
 				
 				<bean parent="PaymentRequest-invoiceImageAttachmentValidation" scope="prototype"/>							
 			</list>
@@ -662,9 +656,6 @@
 					</property>
 				</bean>	 	
 
-				<bean parent="PurchasingAccountsPayable-processAccountSummaryValidation" scope="prototype">								
-					<property name="quitOnFail" value="false" />
-				</bean>  																
 				<bean parent="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  												

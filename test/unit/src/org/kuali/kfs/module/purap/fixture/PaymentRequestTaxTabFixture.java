@@ -41,7 +41,7 @@ public enum PaymentRequestTaxTabFixture {
     
     INCOME_R_TAX_VALID("R", new BigDecimal(10), new BigDecimal(0), "US", "1234567890", null, null, null, null, null, null, "ATAX"), // S
     INCOME_R_FED_INVALID("R", new BigDecimal(14), new BigDecimal(0), "US", "1234567890", null, null, null, null, null, null, "ATAX"), // F
-    INCOME_R_ST_INVALID("R", new BigDecimal(5), new BigDecimal(1), "US", "1234567890", null, null, null, null, null, null, "ATAX"), // F
+    INCOME_R_ST_INVALID("R", new BigDecimal(10), new BigDecimal(1), "US", "1234567890", null, null, null, null, null, null, "ATAX"), // F
 
     INCOME_A_TAX_VALID("A", new BigDecimal(30), new BigDecimal("3.4"), "US", "1234567890", null, null, null, null, null, null, "ATAX"), // S
     INCOME_A_FED_INVALID("A", new BigDecimal(5), new BigDecimal("3.4"), "US", "1234567890", null, null, null, null, null, null, "ATAX"), // F

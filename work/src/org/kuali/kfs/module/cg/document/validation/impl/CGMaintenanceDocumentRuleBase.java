@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.cg.document.validation.impl;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -131,11 +132,15 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         final String personUserPropertyName = KFSPropertyConstants.PROJECT_DIRECTOR + "." + KFSPropertyConstants.PERSON_USER_IDENTIFIER;
         String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(elementClass, personUserPropertyName);
         RoleManagementService roleService = SpringContext.getBean(RoleManagementService.class);
+        
+        List<String> roleId = new ArrayList<String>();
+        roleId.add(roleService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR));
+        
         int i = 0;
         for (T pd : projectDirectors) {
             String propertyName = collectionName + "[" + (i++) + "]." + personUserPropertyName;
-            String id = pd.getProjectDirector().getName();
-            if (!roleService.principalHasRole(id, Collections.singletonList(KFSConstants.SysKimConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR), null)) {
+            String id = pd.getProjectDirector().getPrincipalId();
+            if (!roleService.principalHasRole(id, roleId, null)) {
                 putFieldError(propertyName, KFSKeyConstants.ERROR_NOT_A_PROJECT_DIRECTOR, id);
                 success = false;
             }

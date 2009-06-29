@@ -35,7 +35,7 @@ public class CustomerInvoiceCustomerNumberValidation extends GenericValidation {
         customerInvoiceDocument.getAccountsReceivableDocumentHeader().refreshReferenceObject(ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER);
         Customer customer = customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomer();
         if (ObjectUtils.isNull(customer) || !customer.isActive()) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_NUMBER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_CUSTOMER_NUMBER);
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_NUMBER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_CUSTOMER_NUMBER);
             return false;
         }
 

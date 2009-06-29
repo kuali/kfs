@@ -73,7 +73,7 @@ public class JournalVoucherAccountingLineExternalEncumbranceReferenceValidation 
      */
     protected void putRequiredPropertyError(BusinessObjectEntry boe, String propertyName) {
         String label = boe.getAttributeDefinition(propertyName).getShortLabel();
-        GlobalVariables.getErrorMap().putError(propertyName, KFSKeyConstants.ERROR_REQUIRED, label);
+        GlobalVariables.getMessageMap().putError(propertyName, KFSKeyConstants.ERROR_REQUIRED, label);
     }
 
     /**

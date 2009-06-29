@@ -33,17 +33,17 @@ public class PaymentRequestDateForContinueValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         PaymentRequestDocument document = (PaymentRequestDocument)event.getDocument();
-        GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        GlobalVariables.getMessageMap().clearErrorPath();
+        GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         
         // invoice date validation
         java.sql.Date invoiceDate = document.getInvoiceDate();
         if (ObjectUtils.isNotNull(invoiceDate) && paymentRequestService.isInvoiceDateAfterToday(invoiceDate)) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.INVOICE_DATE, PurapKeyConstants.ERROR_INVALID_INVOICE_DATE);
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.INVOICE_DATE, PurapKeyConstants.ERROR_INVALID_INVOICE_DATE);
             valid &= false;
         }
         
-        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getMessageMap().clearErrorPath();
         
         return valid;
     }

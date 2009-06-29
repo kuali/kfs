@@ -29,7 +29,7 @@ public class VendorCreditMemoTotalOverZeroValidation extends GenericValidation {
         boolean valid = true;
 
         if (!((VendorCreditMemoDocument)event.getDocument()).getGrandTotal().isPositive()) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM, PurapKeyConstants.ERROR_CREDIT_MEMO_TOTAL_ZERO);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM, PurapKeyConstants.ERROR_CREDIT_MEMO_TOTAL_ZERO);
             valid = false;
         }
 

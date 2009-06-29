@@ -45,7 +45,7 @@ public class CustomerInvoiceDetailItemCodeValidation extends GenericValidation {
         CustomerInvoiceItemCode customerInvoiceItemCode = (CustomerInvoiceItemCode) businessObjectService.findByPrimaryKey(CustomerInvoiceItemCode.class, criteria);
 
         if (ObjectUtils.isNull(customerInvoiceItemCode)) {
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_CODE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_INVALID_ITEM_CODE);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_CODE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_INVALID_ITEM_CODE);
             return false;
         }
 

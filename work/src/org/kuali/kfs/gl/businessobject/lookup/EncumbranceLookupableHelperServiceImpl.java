@@ -71,13 +71,13 @@ public class EncumbranceLookupableHelperServiceImpl extends AbstractGeneralLedge
                 int year = Integer.parseInt(valueFiscalYear);
             }
             catch (NumberFormatException e) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, KFSKeyConstants.ERROR_CUSTOM, new String[] { KFSKeyConstants.PendingEntryLookupableImpl.FISCAL_YEAR_FOUR_DIGIT });
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, KFSKeyConstants.ERROR_CUSTOM, new String[] { KFSKeyConstants.PendingEntryLookupableImpl.FISCAL_YEAR_FOUR_DIGIT });
                 throw new ValidationException("errors in search criteria");
             }
         }
         
         if (!allRequiredsForAccountSearch(fieldValues) && !allRequiredsForDocumentSearch(fieldValues)) {
-            GlobalVariables.getErrorMap().putError("universityFiscalYear", KFSKeyConstants.ERROR_GL_LOOKUP_ENCUMBRANCE_NON_MATCHING_REQUIRED_FIELDS, new String[] {});
+            GlobalVariables.getMessageMap().putError("universityFiscalYear", KFSKeyConstants.ERROR_GL_LOOKUP_ENCUMBRANCE_NON_MATCHING_REQUIRED_FIELDS, new String[] {});
             throw new ValidationException("errors in search criteria");
         }
     }

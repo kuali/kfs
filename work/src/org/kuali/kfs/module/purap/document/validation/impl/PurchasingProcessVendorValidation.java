@@ -34,8 +34,8 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.PhoneNumberValidationPattern;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurchasingProcessVendorValidation extends PurchasingAccountsPayableProcessVendorValidation {
@@ -46,7 +46,7 @@ public class PurchasingProcessVendorValidation extends PurchasingAccountsPayable
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         PurchasingDocument purDocument = (PurchasingDocument) event.getDocument();
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         errorMap.clearErrorPath();
         errorMap.addToErrorPath(PurapConstants.VENDOR_ERRORS);
         

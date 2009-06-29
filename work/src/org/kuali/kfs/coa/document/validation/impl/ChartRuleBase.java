@@ -122,7 +122,7 @@ public class ChartRuleBase implements RouteDocumentRule, SaveDocumentRule {
 
         String documentHeaderId = document.getDocumentNumber();
         if (documentHeaderId == null) {
-            GlobalVariables.getErrorMap().putError("documentHeaderId", KFSKeyConstants.ERROR_REQUIRED);
+            GlobalVariables.getMessageMap().putError("documentHeaderId", KFSKeyConstants.ERROR_REQUIRED);
             success = false;
         }
 
@@ -133,36 +133,36 @@ public class ChartRuleBase implements RouteDocumentRule, SaveDocumentRule {
     private boolean validateMaintenanceDocument(MaintenanceDocument maintenanceDocument) {
         boolean success = true;
 
-        GlobalVariables.getErrorMap().addToErrorPath("newMaintainableObject");
+        GlobalVariables.getMessageMap().addToErrorPath("newMaintainableObject");
         Maintainable newMaintainable = maintenanceDocument.getNewMaintainableObject();
         if (newMaintainable == null) {
-            GlobalVariables.getErrorMap().putError("", KFSKeyConstants.ERROR_REQUIRED, "Account");
+            GlobalVariables.getMessageMap().putError("", KFSKeyConstants.ERROR_REQUIRED, "Account");
             success = false;
         }
         else {
             Account newAccount = (Account) newMaintainable.getBusinessObject();
             if (StringUtils.isBlank(newAccount.getAccountName())) {
-                GlobalVariables.getErrorMap().putError("accountNumber", KFSKeyConstants.ERROR_REQUIRED, "Account Number");
+                GlobalVariables.getMessageMap().putError("accountNumber", KFSKeyConstants.ERROR_REQUIRED, "Account Number");
                 success = false;
             }
         }
-        GlobalVariables.getErrorMap().removeFromErrorPath("newMaintainableObject");
+        GlobalVariables.getMessageMap().removeFromErrorPath("newMaintainableObject");
 
         if (maintenanceDocument.isOldBusinessObjectInDocument()) {
-            GlobalVariables.getErrorMap().addToErrorPath("oldMaintainableObject");
+            GlobalVariables.getMessageMap().addToErrorPath("oldMaintainableObject");
             Maintainable oldMaintainable = maintenanceDocument.getOldMaintainableObject();
             if (oldMaintainable == null) {
-                GlobalVariables.getErrorMap().putError("", KFSKeyConstants.ERROR_REQUIRED, "Account");
+                GlobalVariables.getMessageMap().putError("", KFSKeyConstants.ERROR_REQUIRED, "Account");
                 success = false;
             }
             else {
                 Account oldAccount = (Account) oldMaintainable.getBusinessObject();
                 if (StringUtils.isBlank(oldAccount.getAccountName())) {
-                    GlobalVariables.getErrorMap().putError("accountNumber", KFSKeyConstants.ERROR_REQUIRED, "Account Number");
+                    GlobalVariables.getMessageMap().putError("accountNumber", KFSKeyConstants.ERROR_REQUIRED, "Account Number");
                     success = false;
                 }
             }
-            GlobalVariables.getErrorMap().removeFromErrorPath("oldMaintainableObject");
+            GlobalVariables.getMessageMap().removeFromErrorPath("oldMaintainableObject");
         }
 
         return success;

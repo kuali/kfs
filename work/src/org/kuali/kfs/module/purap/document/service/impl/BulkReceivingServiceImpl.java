@@ -269,7 +269,7 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
         if (ObjectUtils.isNotNull(errors)) {
             for (String error : errors) {
                 LOG.error("Adding error message using error key '" + errorKey + "' with text '" + error + "'");
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, errorKey, error);
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, errorKey, error);
             }
         }
         

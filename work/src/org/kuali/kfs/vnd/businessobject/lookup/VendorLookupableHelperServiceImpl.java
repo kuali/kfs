@@ -263,7 +263,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         validateVendorNumber(fieldValues);
         validateTaxNumber(fieldValues);
 
-        if (!GlobalVariables.getErrorMap().isEmpty()) {
+        if (!GlobalVariables.getMessageMap().isEmpty()) {
             throw new ValidationException("Error(s) in search criteria");
         }
     }
@@ -281,10 +281,10 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
             int dashPos1 = vendorNumber.indexOf(VendorConstants.DASH);
             if (dashPos1 > -1) { // There's a dash in the number.
                 if (vendorNumber.indexOf(VendorConstants.DASH, dashPos1 + 1) > -1) { // There can't be more than one.
-                    GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_NUMBER, VendorKeyConstants.ERROR_VENDOR_LOOKUP_VNDR_NUM_TOO_MANY_DASHES);
+                    GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_NUMBER, VendorKeyConstants.ERROR_VENDOR_LOOKUP_VNDR_NUM_TOO_MANY_DASHES);
                 }
                 if (vendorNumber.matches("\\-*")) {
-                    GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_NUMBER, VendorKeyConstants.ERROR_VENDOR_LOOKUP_VNDR_NUM_DASHES_ONLY);
+                    GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_NUMBER, VendorKeyConstants.ERROR_VENDOR_LOOKUP_VNDR_NUM_DASHES_ONLY);
                 }
             }
             extractVendorNumberToVendorIds(fieldValues, vendorNumber);
@@ -324,7 +324,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
             fieldValues.put(VendorPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, vendorDetailAssignedIdentifier);
         }
         catch (NumberFormatException headerExc) {
-            GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_NUMBER, VendorKeyConstants.ERROR_VENDOR_LOOKUP_VNDR_NUM_NUMERIC_DASH_SEPARATED);
+            GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_NUMBER, VendorKeyConstants.ERROR_VENDOR_LOOKUP_VNDR_NUM_NUMERIC_DASH_SEPARATED);
         }
     }
 
@@ -336,7 +336,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     private void validateTaxNumber(Map fieldValues) {
         String taxNumber = (String) fieldValues.get(VendorPropertyConstants.VENDOR_TAX_NUMBER);
         if (StringUtils.isNotBlank(taxNumber) && (!StringUtils.isNumeric(taxNumber) || taxNumber.length() != 9)) {
-            GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_TAX_NUMBER, VendorKeyConstants.ERROR_VENDOR_LOOKUP_TAX_NUM_INVALID);
+            GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_TAX_NUMBER, VendorKeyConstants.ERROR_VENDOR_LOOKUP_TAX_NUM_INVALID);
         }
     }
 

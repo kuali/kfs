@@ -81,7 +81,7 @@ public class LaborExpenseTransferValidAccountValidation extends GenericValidatio
         for (Object sourceAccountingLine : expenseTransferDocument.getSourceAccountingLines()) {
             AccountingLine line = (AccountingLine) sourceAccountingLine;
             if (ObjectUtils.isNull(line.getAccount())) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT, new String[] { line.getChartOfAccountsCode(), line.getAccountNumber() });
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT, new String[] { line.getChartOfAccountsCode(), line.getAccountNumber() });
                 return false;
             }
         }
@@ -89,7 +89,7 @@ public class LaborExpenseTransferValidAccountValidation extends GenericValidatio
         for (Object targetAccountingLine : expenseTransferDocument.getTargetAccountingLines()) {
             AccountingLine line = (AccountingLine) targetAccountingLine;
             if (ObjectUtils.isNull(line.getAccount())) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT, new String[] { line.getChartOfAccountsCode(), line.getAccountNumber() });
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT, new String[] { line.getChartOfAccountsCode(), line.getAccountNumber() });
                 return false;
             }
         }

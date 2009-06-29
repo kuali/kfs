@@ -153,9 +153,9 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
             int index = 0;
             for (AccountGlobalDetail dtl : details) {
                 String errorPath = MAINTAINABLE_ERROR_PREFIX + "accountGlobalDetails[" + index + "]";
-                GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+                GlobalVariables.getMessageMap().addToErrorPath(errorPath);
                 success &= checkAccountDetails(dtl);
-                GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+                GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
                 index++;
             }
             success &= checkOnlyOneChartErrorWrapper(details);
@@ -172,15 +172,15 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
      */
     public boolean checkAccountDetails(AccountGlobalDetail dtl) {
         boolean success = true;
-        int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
+        int originalErrorCount = GlobalVariables.getMessageMap().getErrorCount();
         getDictionaryValidationService().validateBusinessObject(dtl);
         if (StringUtils.isNotBlank(dtl.getAccountNumber()) && StringUtils.isNotBlank(dtl.getChartOfAccountsCode())) {
             dtl.refreshReferenceObject("account");
             if (ObjectUtils.isNull(dtl.getAccount())) {
-                GlobalVariables.getErrorMap().putError("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT, new String[] { dtl.getChartOfAccountsCode(), dtl.getAccountNumber() });
+                GlobalVariables.getMessageMap().putError("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT, new String[] { dtl.getChartOfAccountsCode(), dtl.getAccountNumber() });
             }
         }
-        success &= GlobalVariables.getErrorMap().getErrorCount() == originalErrorCount;
+        success &= GlobalVariables.getMessageMap().getErrorCount() == originalErrorCount;
 
         return success;
     }

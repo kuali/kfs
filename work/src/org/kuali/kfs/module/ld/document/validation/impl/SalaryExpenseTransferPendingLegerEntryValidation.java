@@ -85,7 +85,7 @@ public class SalaryExpenseTransferPendingLegerEntryValidation extends GenericVal
             fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, KFSConstants.NOT_LOGICAL_OPERATOR + documentNumber);
             
             if (SpringContext.getBean(LaborLedgerPendingEntryService.class).hasPendingLaborLedgerEntry(fieldValues)) {
-                GlobalVariables.getErrorMap().putError(LaborConstants.EMPLOYEE_LOOKUP_ERRORS, LaborKeyConstants.PENDING_SALARY_TRANSFER_ERROR, emplId, payPeriodCode, accountNumber, objectCode);
+                GlobalVariables.getMessageMap().putError(LaborConstants.EMPLOYEE_LOOKUP_ERRORS, LaborKeyConstants.PENDING_SALARY_TRANSFER_ERROR, emplId, payPeriodCode, accountNumber, objectCode);
                 return true;
             }                        
         }

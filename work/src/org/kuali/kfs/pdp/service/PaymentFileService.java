@@ -15,12 +15,10 @@
  */
 package org.kuali.kfs.pdp.service;
 
-import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.LoadPaymentStatus;
 import org.kuali.kfs.pdp.businessobject.PaymentFileLoad;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * Handles processing (validation, loading, and reporting) of incoming payment files.
@@ -40,7 +38,7 @@ public interface PaymentFileService {
      * @param paymentFile <code>PaymentFileLoad</code> containing parsed file contents
      * @param errorMap <code>Map</code> that will hold errors encountered
      */
-    public void doPaymentFileValidation(PaymentFileLoad paymentFile, ErrorMap errorMap);
+    public void doPaymentFileValidation(PaymentFileLoad paymentFile, MessageMap errorMap);
 
     /**
      * Performs soft edits of payment file data and loads records into database

@@ -68,7 +68,7 @@ public class AssetPaymentPostingDateValidation extends GenericValidation {
             // check if date is after today
             java.util.Date today = dateTimeService.getCurrentDate();
             if (expenditureFinancialDocumentPostedDate.after(today)) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, CamsKeyConstants.Payment.ERROR_POSTING_DATE_FUTURE_NOT_ALLOWED);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, CamsKeyConstants.Payment.ERROR_POSTING_DATE_FUTURE_NOT_ALLOWED);
                 return false;
             }
             Map<String, Object> keyToFind = new HashMap<String, Object>();
@@ -77,14 +77,14 @@ public class AssetPaymentPostingDateValidation extends GenericValidation {
 
             if (universityDate == null) {
                 String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE).getLabel();
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, KFSKeyConstants.ERROR_EXISTENCE, label);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, KFSKeyConstants.ERROR_EXISTENCE, label);
                 return false;
             }
             
             // Validating the fiscal year extracted from posted document date is not greater than the current fiscal year.
             Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
             if (universityDate.getUniversityFiscalYear().compareTo(currentFiscalYear) > 0) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, CamsKeyConstants.Payment.ERROR_INVALID_DOC_POST_DATE);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, CamsKeyConstants.Payment.ERROR_INVALID_DOC_POST_DATE);
                 valid = false;
             }
             if (valid) {
@@ -93,7 +93,7 @@ public class AssetPaymentPostingDateValidation extends GenericValidation {
         }
         else {
             String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE).getLabel();
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, KFSKeyConstants.ERROR_REQUIRED, label);
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, KFSKeyConstants.ERROR_REQUIRED, label);
             valid = false;
         }
         return valid;

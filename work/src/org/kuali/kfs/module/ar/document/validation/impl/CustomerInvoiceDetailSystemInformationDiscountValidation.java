@@ -54,7 +54,7 @@ public class CustomerInvoiceDetailSystemInformationDiscountValidation extends Ge
 
         SystemInformation systemInformation = (SystemInformation) businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
         if (ObjectUtils.isNull(systemInformation) || StringUtils.isEmpty(systemInformation.getDiscountObjectCode())){
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_INVOICE_DETAILS, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_SYSTEM_INFORMATION_DISCOUNT_DOES_NOT_EXIST, new String[]{processingChartOfAccountsCode, processingOrganizationCode,universityFiscalYear.toString()});
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_INVOICE_DETAILS, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_SYSTEM_INFORMATION_DISCOUNT_DOES_NOT_EXIST, new String[]{processingChartOfAccountsCode, processingOrganizationCode,universityFiscalYear.toString()});
             return false;
         }
         return true;

@@ -318,9 +318,9 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                 
                 //  generate and validate the paidApplied, and always add it to the list, even if 
                 // it fails validation.  Validation failures will stop routing.
-                GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB);
+                GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB);
                 InvoicePaidApplied invoicePaidApplied = generateAndValidateNewPaidApplied(detailApplication, fieldName, paymentApplicationDocument.getTotalFromControl());
-                GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB);
+                GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB);
                 invoicePaidApplieds.add(invoicePaidApplied);
                 paidAppliedsGenerated++;
             }
@@ -780,9 +780,9 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * @param errorKey
      */
     private void addFieldError(String errorPathToAdd, String propertyName, String errorKey) {
-        GlobalVariables.getErrorMap().addToErrorPath(errorPathToAdd);
-        GlobalVariables.getErrorMap().putError(propertyName, errorKey);
-        GlobalVariables.getErrorMap().removeFromErrorPath(errorPathToAdd);
+        GlobalVariables.getMessageMap().addToErrorPath(errorPathToAdd);
+        GlobalVariables.getMessageMap().putError(propertyName, errorKey);
+        GlobalVariables.getMessageMap().removeFromErrorPath(errorPathToAdd);
     }
 
     /**
@@ -791,7 +791,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * @param errorKey
      */
     private void addGlobalError(String errorKey) {
-        GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(KNSConstants.DOCUMENT_ERRORS, errorKey, "document.hiddenFieldForErrors");
+        GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.DOCUMENT_ERRORS, errorKey, "document.hiddenFieldForErrors");
     }
 
 }

@@ -73,10 +73,10 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
         for( CustomerInvoiceWriteoffLookupResult customerInvoiceWriteoffLookupResult : lookupResults ){
             customerNote = customerInvoiceWriteoffLookupResult.getCustomerNote();
             if (StringUtils.isEmpty(customerNote)) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.CUSTOMER_INVOICE_WRITEOFF_LOOKUP_RESULT_ERRORS + "[" + ind +"]." + ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NOTE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_CUSTOMER_NOTE_REQUIRED);
+                GlobalVariables.getMessageMap().putError(KFSConstants.CUSTOMER_INVOICE_WRITEOFF_LOOKUP_RESULT_ERRORS + "[" + ind +"]." + ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NOTE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_CUSTOMER_NOTE_REQUIRED);
                 customerNoteMissingOrInvalid = true;
             }else if (customerNote.trim().length() < 5) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.CUSTOMER_INVOICE_WRITEOFF_LOOKUP_RESULT_ERRORS + "[" + ind +"]." + ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NOTE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_CUSTOMER_NOTE_INVALID);
+                GlobalVariables.getMessageMap().putError(KFSConstants.CUSTOMER_INVOICE_WRITEOFF_LOOKUP_RESULT_ERRORS + "[" + ind +"]." + ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NOTE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_CUSTOMER_NOTE_INVALID);
                 customerNoteMissingOrInvalid = true;
             }
 
@@ -91,7 +91,7 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
         if (customerNoteMissingOrInvalid || !anyFound) {
             // only submit this if there's at least one invoiceNumber in the stack
             if (!anyFound)
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_NO_INVOICES_SELECTED);
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_NO_INVOICES_SELECTED);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         

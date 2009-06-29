@@ -51,7 +51,7 @@ public class BenefitExpenseTransferSameFringeBenefitObjectCodeValidation extends
         // benefit transfers cannot be made between two different fringe benefit labor object codes.
         boolean sameFringeBenefitObjectCodes = hasSameFringeBenefitObjectCodes(accountingDocument);
         if (!sameFringeBenefitObjectCodes) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.DISTINCT_OBJECT_CODE_ERROR);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.DISTINCT_OBJECT_CODE_ERROR);
             result = false;
         }
 

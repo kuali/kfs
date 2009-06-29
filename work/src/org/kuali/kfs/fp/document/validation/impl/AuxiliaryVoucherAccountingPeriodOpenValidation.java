@@ -41,7 +41,7 @@ public class AuxiliaryVoucherAccountingPeriodOpenValidation extends GenericValid
         
         //  can't post into a closed period
         if (acctPeriod == null || acctPeriod.isActive()) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED);
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED);
             return false;
         }
         

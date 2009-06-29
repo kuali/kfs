@@ -46,7 +46,7 @@ public class AuxiliaryVoucherAccountingLineObjectSubTypeAndLevelValidation exten
         StringBuffer combinedCodes = new StringBuffer(objectType.getCode()).append(',').append(accountingLineForValidation.getObjectCode().getFinancialObjectSubType().getCode()).append(',').append(accountingLineForValidation.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode());
         if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(AuxiliaryVoucherDocument.class, RESTRICTED_COMBINED_CODES, combinedCodes.toString()).evaluationSucceeds()) {
             String errorObjects[] = { accountingLineForValidation.getObjectCode().getFinancialObjectCode(), accountingLineForValidation.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode(), accountingLineForValidation.getObjectCode().getFinancialObjectSubType().getCode(), objectType.getCode() };
-            GlobalVariables.getErrorMap().putError(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE_OBJ_LEVEL_AND_OBJ_TYPE, errorObjects);
+            GlobalVariables.getMessageMap().putError(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE_OBJ_LEVEL_AND_OBJ_TYPE, errorObjects);
             return false;
         }
         return true;

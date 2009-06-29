@@ -34,7 +34,7 @@ public class PurchasingCapitalAssetValidation extends GenericValidation {
     PurchasingService purchasingService;
     
     public boolean validate(AttributedDocumentEvent event) {
-        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getMessageMap().clearErrorPath();
         boolean valid = true;
         PurchasingDocument purchasingDocument = (PurchasingDocument)event.getDocument();
         
@@ -44,7 +44,7 @@ public class PurchasingCapitalAssetValidation extends GenericValidation {
         if (!isPurchasingObjectSubType && !isAllFieldRequirementsByChart){
             if (StringUtils.isBlank(purchasingDocument.getCapitalAssetSystemTypeCode()) || 
                     StringUtils.isBlank(purchasingDocument.getCapitalAssetSystemStateCode())){
-                GlobalVariables.getErrorMap().putError("newPurchasingItemCapitalAssetLine", PurapKeyConstants.ERROR_CAPITAL_ASSET_REQD_FOR_PUR_OBJ_SUB_TYPE);
+                GlobalVariables.getMessageMap().putError("newPurchasingItemCapitalAssetLine", PurapKeyConstants.ERROR_CAPITAL_ASSET_REQD_FOR_PUR_OBJ_SUB_TYPE);
                 return false;
             }
         }

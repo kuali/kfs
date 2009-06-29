@@ -41,7 +41,7 @@ public class VendorCreditMemoItemExtendedPriceValidation extends GenericValidati
         if (itemForValidation.getExtendedPrice() != null) {
             if (itemForValidation.getExtendedPrice().isNegative()) {
                 String label = dataDictionaryService.getAttributeErrorLabel(CreditMemoItem.class, PurapPropertyConstants.EXTENDED_PRICE);
-                GlobalVariables.getErrorMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_AMOUNT_NONPOSITIVE, label);
+                GlobalVariables.getMessageMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_AMOUNT_NONPOSITIVE, label);
                 valid = false;
             }
             if (!cmDocument.isSourceVendor()) {
@@ -59,7 +59,7 @@ public class VendorCreditMemoItemExtendedPriceValidation extends GenericValidati
                 }
 
                 if (itemForValidation.getTotalAmount().isGreaterThan(invoicedAmount)) {
-                    GlobalVariables.getErrorMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_EXTENDEDPRICE_TOOMUCH);
+                    GlobalVariables.getMessageMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_EXTENDEDPRICE_TOOMUCH);
                     valid = false;
                 }
             }

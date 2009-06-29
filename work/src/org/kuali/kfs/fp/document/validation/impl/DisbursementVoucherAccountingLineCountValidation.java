@@ -21,8 +21,8 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 
 public class DisbursementVoucherAccountingLineCountValidation extends GenericValidation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAccountingLineCountValidation.class);
@@ -36,7 +36,7 @@ public class DisbursementVoucherAccountingLineCountValidation extends GenericVal
         LOG.debug("validate start");
         boolean isValid = true;
         
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         if (accountingDocumentForValidation.getSourceAccountingLines().size() < 1) {

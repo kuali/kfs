@@ -42,13 +42,13 @@ public class CustomerInvoiceReceivableAccountNumberValidation extends GenericVal
 
     public boolean validate(AttributedDocumentEvent event) {
         if (StringUtils.isEmpty(customerInvoiceDocument.getPaymentAccountNumber())) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_ACCOUNT_NUMBER, OrganizationAccountingDefaultErrors.ERROR_PAYMENT_ACCOUNT_NUMBER_REQUIRED);
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_ACCOUNT_NUMBER, OrganizationAccountingDefaultErrors.ERROR_PAYMENT_ACCOUNT_NUMBER_REQUIRED);
             return false;
         }
         else {
             customerInvoiceDocument.refreshReferenceObject(ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_ACCOUNT);
             if (ObjectUtils.isNull(customerInvoiceDocument.getPaymentAccount())) {
-                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_ACCOUNT_NUMBER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_ACCOUNT_NUMBER);
+                GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_ACCOUNT_NUMBER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_ACCOUNT_NUMBER);
                 return false;
             }
         }

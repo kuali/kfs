@@ -77,7 +77,7 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
             
         //Validating the file type is the correct one before saving.
         if (!StringUtils.isBlank(fileName) && !fileName.endsWith(fileTypeExtension)) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FILE_TYPE);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, CamsKeyConstants.BarcodeInventory.ERROR_INVALID_FILE_TYPE);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }            
         
@@ -87,12 +87,12 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
 
         boolean requiredValuesForFilesMissing = false;
         if (StringUtils.isBlank(batchUpload.getFileUserIdentifer())) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SET_IDENTIFIER_SELECTED, new String[] {});
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SET_IDENTIFIER_SELECTED, new String[] {});
             requiredValuesForFilesMissing = true;
         }
 
         if (StringUtils.isBlank(uploadDescription)) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_NO_DESCRIPTION);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_NO_DESCRIPTION);
             requiredValuesForFilesMissing = true;
         }
         
@@ -101,7 +101,7 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
         AssetBarcodeInventoryInputFileService batchInputFileSetService = SpringContext.getBean(AssetBarcodeInventoryInputFileService.class);
         
         if (!batchInputFileSetService.isFileUserIdentifierProperlyFormatted(batchUpload.getFileUserIdentifer())) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_SET_IDENTIFIER_BAD_FORMAT);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_SET_IDENTIFIER_BAD_FORMAT);
             requiredValuesForFilesMissing = true;
         }
 
@@ -110,7 +110,7 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
         for (String fileType : uploadedFiles.keySet()) {
             FormFile uploadedFile = uploadedFiles.get(fileType);
             if (uploadedFile == null || uploadedFile.getInputStream() == null || uploadedFile.getInputStream().available() == 0) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_SAVE_FOR_FILE_TYPE, new String[] { batchType.getFileTypeDescription().get(fileType) });
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_SAVE_FOR_FILE_TYPE, new String[] { batchType.getFileTypeDescription().get(fileType) });
                 requiredValuesForFilesMissing = true;
             }
             else {
@@ -128,12 +128,12 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
         }
         catch (FileStorageException e) {
             LOG.error("Error occured while trying to save file set (probably tried to save a file that already exists).", e);
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_SAVE_ERROR, new String[] { e.getMessage() });
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_SAVE_ERROR, new String[] { e.getMessage() });
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         catch (ValidationException e) {
             LOG.error("Error occured while trying to validate file set.", e);
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_VALIDATION_ERROR);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_VALIDATION_ERROR);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_BATCH_UPLOAD_SAVE_SUCCESSFUL);

@@ -37,7 +37,7 @@ public class AssetPaymentAccountingLineCountValidation extends GenericValidation
         boolean valid = true;
         AccountingDocument accountingDocument = (AccountingDocument) event.getDocument();
         if (0 == accountingDocument.getSourceAccountingLines().size()) {
-            GlobalVariables.getErrorMap().putError(SOURCE_ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_SOURCE_SECTION_NO_ACCOUNTING_LINES, new String[] { accountingDocument.getSourceAccountingLinesSectionTitle() });
+            GlobalVariables.getMessageMap().putError(SOURCE_ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_SOURCE_SECTION_NO_ACCOUNTING_LINES, new String[] { accountingDocument.getSourceAccountingLinesSectionTitle() });
             valid = false;
         }
         else {

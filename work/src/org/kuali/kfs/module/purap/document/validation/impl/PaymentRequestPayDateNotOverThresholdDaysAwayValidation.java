@@ -40,8 +40,8 @@ public class PaymentRequestPayDateNotOverThresholdDaysAwayValidation extends Gen
      */
     public boolean validate(AttributedDocumentEvent event) {
         PaymentRequestDocument document = (PaymentRequestDocument)event.getDocument();
-        GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        GlobalVariables.getMessageMap().clearErrorPath();
+        GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         
         int thresholdDays = PurapConstants.PREQ_PAY_DATE_DAYS_BEFORE_WARNING;
         if ((document.getPaymentRequestPayDate() != null) && purapService.isDateMoreThanANumberOfDaysAway(document.getPaymentRequestPayDate(), thresholdDays)) {
@@ -53,7 +53,7 @@ public class PaymentRequestPayDateNotOverThresholdDaysAwayValidation extends Gen
             }            
         }
         
-        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getMessageMap().clearErrorPath();
         
         //always returns true, as this is a warning, not an error
         return true;

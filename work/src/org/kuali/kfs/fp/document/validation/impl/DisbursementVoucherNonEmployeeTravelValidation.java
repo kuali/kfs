@@ -31,9 +31,9 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class DisbursementVoucherNonEmployeeTravelValidation extends GenericValidation {
@@ -57,7 +57,7 @@ public class DisbursementVoucherNonEmployeeTravelValidation extends GenericValid
             return true;
         }
         
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
         errors.addToErrorPath(KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
         
@@ -151,7 +151,7 @@ public class DisbursementVoucherNonEmployeeTravelValidation extends GenericValid
      * @param errors map containing any generated errors 
      * @return true if per diem section is used by user and that all fields contain values.
      */
-    private boolean validatePerDiemSection(DisbursementVoucherDocument document, ErrorMap errors) {
+    private boolean validatePerDiemSection(DisbursementVoucherDocument document, MessageMap errors) {
         boolean perDiemSectionComplete = true;
 
         // Checks to see if any per diem fields are filled in
@@ -188,7 +188,7 @@ public class DisbursementVoucherNonEmployeeTravelValidation extends GenericValid
      * @param errors map containing any generated errors 
      * @return true if per diem section is used by user and that all fields contain values.
      */
-    private boolean validatePersonalVehicleSection(DisbursementVoucherDocument document, ErrorMap errors) {
+    private boolean validatePersonalVehicleSection(DisbursementVoucherDocument document, MessageMap errors) {
         boolean personalVehicleSectionComplete = true;
 
         // Checks to see if any per diem fields are filled in

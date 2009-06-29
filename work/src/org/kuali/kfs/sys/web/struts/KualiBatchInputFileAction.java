@@ -111,12 +111,12 @@ public class KualiBatchInputFileAction extends KualiAction {
         FormFile uploadedFile = ((KualiBatchInputFileForm) form).getUploadFile();
 
         if (uploadedFile == null || uploadedFile.getInputStream() == null || uploadedFile.getInputStream().available() == 0) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_SAVE, new String[] {});
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_SAVE, new String[] {});
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         if (!batchInputFileService.isFileUserIdentifierProperlyFormatted(batchUpload.getFileUserIdentifer())) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_USER_IDENTIFIER_BAD_FORMAT, new String[] {});
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_USER_IDENTIFIER_BAD_FORMAT, new String[] {});
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
@@ -129,13 +129,13 @@ public class KualiBatchInputFileAction extends KualiAction {
         }
         catch (XMLParseException e) {
             LOG.error("errors parsing xml " + e.getMessage(), e);
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML, new String[] { e.getMessage() });
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML, new String[] { e.getMessage() });
         }
 
-        if (parsedObject != null && GlobalVariables.getErrorMap().isEmpty()) {
+        if (parsedObject != null && GlobalVariables.getMessageMap().isEmpty()) {
             boolean validateSuccessful = batchInputFileService.validate(batchType, parsedObject);
 
-            if (validateSuccessful && GlobalVariables.getErrorMap().isEmpty()) {
+            if (validateSuccessful && GlobalVariables.getMessageMap().isEmpty()) {
                 try {
                     InputStream saveStream = new ByteArrayInputStream(fileByteContent);
 
@@ -144,7 +144,7 @@ public class KualiBatchInputFileAction extends KualiAction {
                 }
                 catch (FileStorageException e1) {
                     LOG.error("errors saving xml " + e1.getMessage(), e1);
-                    GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_SAVE, new String[] { e1.getMessage() });
+                    GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_SAVE, new String[] { e1.getMessage() });
                 }
             }
         }

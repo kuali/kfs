@@ -77,7 +77,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
         boolean isAuthorized = form.isAllowElectronicFundsTransferAdministration();
         if (isAuthorized) {
             claims = handlePreClaimedRecords(claims, generatePreClaimedByCheckboxSet(form.getClaimedByCheckboxHelpers()), form.getAvailableClaimingDocumentStrategies());
-            if (GlobalVariables.getErrorMap().size() > 0) {
+            if (GlobalVariables.getMessageMap().size() > 0) {
                 // if there were any errors, we'll need to redirect to the page again
                 return mapping.findForward(ElectronicFundTransferClaimActionHelper.BASIC_FORWARD);
             }
@@ -110,7 +110,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
     private boolean checkChosenDocumentType(String chosenDoc) {
         boolean result = true;
         if (StringUtils.isBlank(chosenDoc)) {
-            GlobalVariables.getErrorMap().putError(ElectronicFundTransferClaimActionHelper.CHOSEN_DOCUMENT_PROPERTY, KFSKeyConstants.ElectronicPaymentClaim.ERROR_EFT_NO_CHOSEN_CLAIMING_DOCTYPE, new String[]{});
+            GlobalVariables.getMessageMap().putError(ElectronicFundTransferClaimActionHelper.CHOSEN_DOCUMENT_PROPERTY, KFSKeyConstants.ElectronicPaymentClaim.ERROR_EFT_NO_CHOSEN_CLAIMING_DOCTYPE, new String[]{});
             result = false;
         }
         return result;
@@ -164,7 +164,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
                         stratCount += 1;
                     }
                     if (!isValidDocRef) {
-                        GlobalVariables.getErrorMap().putError(ElectronicFundTransferClaimActionHelper.CLAIM_PROPERTY+"["+count+"]", KFSKeyConstants.ElectronicPaymentClaim.ERROR_PRE_CLAIMING_DOCUMENT_DOES_NOT_EXIST, new String[] { claim.getReferenceFinancialDocumentNumber() });
+                        GlobalVariables.getMessageMap().putError(ElectronicFundTransferClaimActionHelper.CLAIM_PROPERTY+"["+count+"]", KFSKeyConstants.ElectronicPaymentClaim.ERROR_PRE_CLAIMING_DOCUMENT_DOES_NOT_EXIST, new String[] { claim.getReferenceFinancialDocumentNumber() });
                         savePreClaimed = false;
                     }
                 }
@@ -200,7 +200,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
     private boolean handleDocumentationForClaim(String hasDocumentation) {
         boolean success = true;
         if (StringUtils.isBlank(hasDocumentation) || !hasDocumentation.equalsIgnoreCase("yep")) {
-            GlobalVariables.getErrorMap().putError(ElectronicFundTransferClaimActionHelper.HAS_DOCUMENTATION_PROPERTY, KFSKeyConstants.ElectronicPaymentClaim.ERROR_NO_DOCUMENTATION, new String[] {});
+            GlobalVariables.getMessageMap().putError(ElectronicFundTransferClaimActionHelper.HAS_DOCUMENTATION_PROPERTY, KFSKeyConstants.ElectronicPaymentClaim.ERROR_NO_DOCUMENTATION, new String[] {});
             success = false;
         }
         

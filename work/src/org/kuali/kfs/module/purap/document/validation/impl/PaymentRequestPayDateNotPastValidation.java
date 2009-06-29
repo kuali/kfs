@@ -44,8 +44,8 @@ public class PaymentRequestPayDateNotPastValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         PaymentRequestDocument document = (PaymentRequestDocument)event.getDocument();
-        GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        GlobalVariables.getMessageMap().clearErrorPath();
+        GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         java.sql.Date paymentRequestPayDate = document.getPaymentRequestPayDate();
         if (ObjectUtils.isNotNull(paymentRequestPayDate) && purapService.isDateInPast(paymentRequestPayDate)) {
@@ -55,7 +55,7 @@ public class PaymentRequestPayDateNotPastValidation extends GenericValidation {
                 // past pay dates are not allowed if the document has never been routed (i.e. in saved or initiated state)
                 // (note that this block will be run when a document is being routed, or re-saved after being routed
                 valid &= false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, PurapKeyConstants.ERROR_INVALID_PAY_DATE);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, PurapKeyConstants.ERROR_INVALID_PAY_DATE);
             } else {
                 // otherwise, this document has already been routed
                 // it's an error if the pay date has been changed from the pay date in the database and the new pay date is in the past
@@ -70,12 +70,12 @@ public class PaymentRequestPayDateNotPastValidation extends GenericValidation {
                 java.sql.Date paymentRequestPayDateFromDatabase = paymentRequestDocumentFromDatabase.getPaymentRequestPayDate();
                 if (ObjectUtils.isNull(paymentRequestPayDateFromDatabase) || !paymentRequestPayDateFromDatabase.equals(paymentRequestPayDate)) {
                     valid &= false;
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, PurapKeyConstants.ERROR_INVALID_PAY_DATE);
+                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, PurapKeyConstants.ERROR_INVALID_PAY_DATE);
                 }
             }
         }
         
-        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getMessageMap().clearErrorPath();
         
         return valid;
     }

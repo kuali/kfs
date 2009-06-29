@@ -63,7 +63,7 @@ public class CashReceiptAccountAndObjectCodeValidation extends GenericValidation
 
         }
         if (!isValid) {
-            GlobalVariables.getErrorMap().putError("accountNumber", ERROR_DOCUMENT_ACCOUNTING_LINE_INVALID_ACCT_OBJ_CD, account, objCd);
+            GlobalVariables.getMessageMap().putError("accountNumber", ERROR_DOCUMENT_ACCOUNTING_LINE_INVALID_ACCT_OBJ_CD, account, objCd);
         }
         return isValid;
     }

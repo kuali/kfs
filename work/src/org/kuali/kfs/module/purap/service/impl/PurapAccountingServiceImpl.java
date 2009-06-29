@@ -805,7 +805,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                         LOG.debug("convertMoneyToPercent() Rounding error on " + account);
                         String param1 = identifier + "." + accountIdentifier;
                         String param2 = calcAmount.bigDecimalValue().subtract(accountAmount.bigDecimalValue()).toString();
-                        GlobalVariables.getErrorMap().putError(item.getItemIdentifierString(), PurapKeyConstants.ERROR_ITEM_ACCOUNTING_ROUNDING, param1, param2);
+                        GlobalVariables.getMessageMap().putError(item.getItemIdentifierString(), PurapKeyConstants.ERROR_ITEM_ACCOUNTING_ROUNDING, param1, param2);
                         account.setAmount(calcAmount);
                     }
 

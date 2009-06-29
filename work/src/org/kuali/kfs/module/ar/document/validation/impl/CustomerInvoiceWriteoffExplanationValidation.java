@@ -35,10 +35,10 @@ public class CustomerInvoiceWriteoffExplanationValidation extends GenericValidat
     
         String explanation = customerInvoiceWriteoffDocument.getDocumentHeader().getExplanation();
         if (ObjectUtils.isNull(explanation) || StringUtils.isEmpty(explanation.trim())) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_WRITEOFF_EXPLANATION, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_EMPTY_EXPLANATION);
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_WRITEOFF_EXPLANATION, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_EMPTY_EXPLANATION);
             return false;
         } else if (explanation.trim().length() < 10) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_WRITEOFF_EXPLANATION, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_INVALID_EXPLANATION);
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_WRITEOFF_EXPLANATION, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_INVALID_EXPLANATION);
         }
         return true;
     }

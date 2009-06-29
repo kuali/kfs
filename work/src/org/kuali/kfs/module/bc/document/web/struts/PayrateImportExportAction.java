@@ -43,6 +43,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.WebUtils;
 
 public class PayrateImportExportAction extends BudgetExpansionAction {
@@ -96,7 +97,7 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         HumanResourcesPayrollService payrollPerimeterService = SpringContext.getBean(HumanResourcesPayrollService.class);
         Integer budgetYear = payrateImportExportForm.getUniversityFiscalYear();
         String positionUnionCode = payrateImportExportForm.getPositionUnionCode();
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
         
         //form validation
@@ -134,7 +135,7 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
     public boolean validateImportFormData(PayrateImportExportForm form) {
         boolean isValid = true;
         PayrateImportExportForm importForm = (PayrateImportExportForm) form;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         
         FiscalYearFunctionControlService fiscalYearFunctionControlService = SpringContext.getBean(FiscalYearFunctionControlService.class);
         boolean budgetUpdatesAllowed = fiscalYearFunctionControlService.isBudgetUpdateAllowed(form.getUniversityFiscalYear());
@@ -169,7 +170,7 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
     public boolean validateExportFormData(PayrateImportExportForm form) {
         boolean isValid = true;
         PayrateImportExportForm importForm = (PayrateImportExportForm) form;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         PayrateExportService payrateExportService = SpringContext.getBean(PayrateExportService.class);
         
         if (StringUtils.isBlank(importForm.getPositionUnionCode()) ) {

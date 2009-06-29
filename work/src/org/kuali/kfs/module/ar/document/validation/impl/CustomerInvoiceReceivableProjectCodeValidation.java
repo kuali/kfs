@@ -34,7 +34,7 @@ public class CustomerInvoiceReceivableProjectCodeValidation extends GenericValid
         if (StringUtils.isNotEmpty(customerInvoiceDocument.getPaymentProjectCode())) {
             customerInvoiceDocument.refreshReferenceObject(ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_PROJECT);
             if (ObjectUtils.isNull(customerInvoiceDocument.getPaymentProject())) {
-                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_PROJECT_CODE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_PROJECT_CODE);
+                GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_PROJECT_CODE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_PROJECT_CODE);
                 return false;
             }
         }

@@ -49,7 +49,7 @@ public class CabActionBase extends KualiAction {
             Throwable cause = ooe.getCause();
             if (cause instanceof OptimisticLockException) {
                 OptimisticLockException ole = (OptimisticLockException) cause;
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CabKeyConstants.DATA_EDIT_LOCK_ERROR);
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, CabKeyConstants.DATA_EDIT_LOCK_ERROR);
             }
             else {
                 // if exceptions are from 'save'

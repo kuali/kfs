@@ -280,7 +280,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         }
         else {
             String[] errorParams = new String[] { "target", Integer.toString(deleteIndex + 1) };
-            GlobalVariables.getErrorMap().putError(errorPath, KFSKeyConstants.ERROR_ACCOUNTINGLINE_DELETERULE_INVALIDACCOUNT, errorParams);
+            GlobalVariables.getMessageMap().putError(errorPath, KFSKeyConstants.ERROR_ACCOUNTINGLINE_DELETERULE_INVALIDACCOUNT, errorParams);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -310,7 +310,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         }
         else {
             String[] errorParams = new String[] { "source", Integer.toString(deleteIndex + 1) };
-            GlobalVariables.getErrorMap().putError(errorPath, KFSKeyConstants.ERROR_ACCOUNTINGLINE_DELETERULE_INVALIDACCOUNT, errorParams);
+            GlobalVariables.getMessageMap().putError(errorPath, KFSKeyConstants.ERROR_ACCOUNTINGLINE_DELETERULE_INVALIDACCOUNT, errorParams);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -418,7 +418,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
             }
         }
         catch (AccountingLineParserException e) {
-            GlobalVariables.getErrorMap().putError(errorPathPrefix, e.getErrorKey(), e.getErrorParameters());
+            GlobalVariables.getMessageMap().putError(errorPathPrefix, e.getErrorKey(), e.getErrorParameters());
         }
 
         // add line to list for those lines which were successfully imported
@@ -874,46 +874,46 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         else if (!source && newLine) {
             pathPrefix = KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME;
         }
-        GlobalVariables.getErrorMap().addToErrorPath(pathPrefix);
+        GlobalVariables.getMessageMap().addToErrorPath(pathPrefix);
         if (ObjectUtils.isNull(salesTax)) {
             valid &= false;
-            GlobalVariables.getErrorMap().putError("salesTax.chartOfAccountsCode", ERROR_DOCUMENT_ACCOUNTING_LINE_SALES_TAX_REQUIRED, account, objCd);
+            GlobalVariables.getMessageMap().putError("salesTax.chartOfAccountsCode", ERROR_DOCUMENT_ACCOUNTING_LINE_SALES_TAX_REQUIRED, account, objCd);
         }
         else {
 
             if (StringUtils.isBlank(salesTax.getChartOfAccountsCode())) {
                 valid &= false;
-                GlobalVariables.getErrorMap().putError("salesTax.chartOfAccountsCode", ERROR_REQUIRED, "Chart of Accounts");
+                GlobalVariables.getMessageMap().putError("salesTax.chartOfAccountsCode", ERROR_REQUIRED, "Chart of Accounts");
             }
             if (StringUtils.isBlank(salesTax.getAccountNumber())) {
                 valid &= false;
-                GlobalVariables.getErrorMap().putError("salesTax.accountNumber", ERROR_REQUIRED, "Account Number");
+                GlobalVariables.getMessageMap().putError("salesTax.accountNumber", ERROR_REQUIRED, "Account Number");
             }
             if (salesTax.getFinancialDocumentGrossSalesAmount() == null) {
                 valid &= false;
-                GlobalVariables.getErrorMap().putError("salesTax.financialDocumentGrossSalesAmount", ERROR_REQUIRED, "Gross Sales Amount");
+                GlobalVariables.getMessageMap().putError("salesTax.financialDocumentGrossSalesAmount", ERROR_REQUIRED, "Gross Sales Amount");
             }
             if (salesTax.getFinancialDocumentTaxableSalesAmount() == null) {
                 valid &= false;
-                GlobalVariables.getErrorMap().putError("salesTax.financialDocumentTaxableSalesAmount", ERROR_REQUIRED, "Taxable Sales Amount");
+                GlobalVariables.getMessageMap().putError("salesTax.financialDocumentTaxableSalesAmount", ERROR_REQUIRED, "Taxable Sales Amount");
             }
             if (salesTax.getFinancialDocumentSaleDate() == null) {
                 valid &= false;
-                GlobalVariables.getErrorMap().putError("salesTax.financialDocumentSaleDate", ERROR_REQUIRED, "Sale Date");
+                GlobalVariables.getMessageMap().putError("salesTax.financialDocumentSaleDate", ERROR_REQUIRED, "Sale Date");
             }
             if (StringUtils.isNotBlank(salesTax.getChartOfAccountsCode()) && StringUtils.isNotBlank(salesTax.getAccountNumber())) {
 
                 if (boService.getReferenceIfExists(salesTax, "account") == null) {
                     valid &= false;
-                    GlobalVariables.getErrorMap().putError("salesTax.accountNumber", ERROR_DOCUMENT_ACCOUNTING_LINE_SALES_TAX_INVALID_ACCOUNT, salesTax.getChartOfAccountsCode(), salesTax.getAccountNumber());
+                    GlobalVariables.getMessageMap().putError("salesTax.accountNumber", ERROR_DOCUMENT_ACCOUNTING_LINE_SALES_TAX_INVALID_ACCOUNT, salesTax.getChartOfAccountsCode(), salesTax.getAccountNumber());
 
                 }
             }
             if (!valid) {
-                GlobalVariables.getErrorMap().putError("salesTax.chartOfAccountsCode", ERROR_DOCUMENT_ACCOUNTING_LINE_SALES_TAX_REQUIRED, account, objCd);
+                GlobalVariables.getMessageMap().putError("salesTax.chartOfAccountsCode", ERROR_DOCUMENT_ACCOUNTING_LINE_SALES_TAX_REQUIRED, account, objCd);
             }
         }
-        GlobalVariables.getErrorMap().removeFromErrorPath(pathPrefix);
+        GlobalVariables.getMessageMap().removeFromErrorPath(pathPrefix);
         return valid;
     }
 
@@ -1166,7 +1166,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         Integer quantity = capitalAssetInformation.getCapitalAssetQuantity();
         if (quantity == null || quantity <= 0) {
             String errorPath = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION;
-            GlobalVariables.getErrorMap().putError(errorPath, KFSKeyConstants.ERROR_INVALID_CAPITAL_ASSET_QUANTITY);
+            GlobalVariables.getMessageMap().putError(errorPath, KFSKeyConstants.ERROR_INVALID_CAPITAL_ASSET_QUANTITY);
             return;
         }
 

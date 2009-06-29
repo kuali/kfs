@@ -115,7 +115,7 @@ public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBa
         String namespaceCode = attributes.get(KfsKimAttributes.NAMESPACE_CODE);
         if(StringUtils.isEmpty(chartCode) && StringUtils.isEmpty(organizationCode)){
             //remove chartofAccountCode, organizationCode and namespaceCode errors
-            //Object results = GlobalVariables.getErrorMap().getErrorMessagesForProperty(attributeName);
+            //Object results = GlobalVariables.getMessageMap().getErrorMessagesForProperty(attributeName);
             //RiceKeyConstants.ERROR_REQUIRED
             errorMap.remove(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
             errorMap.remove(KfsKimAttributes.ORGANIZATION_CODE);

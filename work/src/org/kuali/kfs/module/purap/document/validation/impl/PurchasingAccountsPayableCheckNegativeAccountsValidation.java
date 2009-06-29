@@ -35,8 +35,8 @@ public class PurchasingAccountsPayableCheckNegativeAccountsValidation extends Ge
         boolean valid = true;
         PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument)event.getDocument();
         
-        GlobalVariables.getErrorMap().clearErrorPath();
-        //GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        GlobalVariables.getMessageMap().clearErrorPath();
+        //GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         // if this was set somewhere on the doc(for later use) in prepare for save we could avoid this call
         List<SourceAccountingLine> sourceLines = purapAccountingService.generateSummary(document.getItems());
@@ -54,12 +54,12 @@ public class PurchasingAccountsPayableCheckNegativeAccountsValidation extends Ge
                 String orgRefId = (sourceAccountingLine.getOrganizationReferenceId() == null) ? "" : sourceAccountingLine.getOrganizationReferenceId();
                 
                 String accountString = sourceAccountingLine.getChartOfAccountsCode() + " - " + subAccountNumber + " - " + sourceAccountingLine.getAccountNumber() + " - " + sourceAccountingLine.getFinancialObjectCode() + " - " + subObjectCode + " - " + projCode + " - " + orgRefId;
-                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ACCOUNT_AMOUNT_TOTAL, accountString, sourceAccountingLine.getAmount() + "");
+                GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ACCOUNT_AMOUNT_TOTAL, accountString, sourceAccountingLine.getAmount() + "");
                 valid &= false;
             }
         }
         
-        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getMessageMap().clearErrorPath();
         return valid;
     }
 

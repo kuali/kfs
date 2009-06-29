@@ -77,7 +77,7 @@ public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
 //    protected boolean checkAuthorizationRestrictions(MaintenanceDocument document) {
 //        boolean success = super.checkAuthorizationRestrictions(document);
 //
-//        ErrorMap map = GlobalVariables.getErrorMap();
+//        ErrorMap map = GlobalVariables.getMessageMap();
 //        
 //        if(map.containsMessageKey(KFSKeyConstants.ERROR_DOCUMENT_AUTHORIZATION_RESTRICTED_FIELD_CHANGED)) {
 //            removeRestrictedFieldChangedErrors(map, KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE);

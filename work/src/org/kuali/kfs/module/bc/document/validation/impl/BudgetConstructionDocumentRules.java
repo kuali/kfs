@@ -68,6 +68,7 @@ import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypeUtils;
 
@@ -103,7 +104,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
     public boolean processAddBudgetConstructionDocumentRules(BudgetConstructionDocument budgetConstructionDocument) {
         LOG.debug("processAddBudgetConstructionDocumentRules(Document) - start");
 
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
         boolean isValid = true;
 
         // validate primitives for required field and formatting checks
@@ -202,7 +203,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      */
     public boolean processSaveBudgetDocumentRules(BudgetConstructionDocument budgetConstructionDocument, MonthSpreadDeleteType monthSpreadDeleteType) {
 
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
         boolean doRevMonthRICheck = true;
         boolean doExpMonthRICheck = true;
         boolean isValid = true;
@@ -249,7 +250,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         LOG.debug("processAddPendingBudgetGeneralLedgerLineRules() start");
 
         // List refreshFields;
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
         boolean isValid = true;
 
         int originalErrorCount = errors.getErrorCount();
@@ -296,7 +297,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
     public boolean processDeletePendingBudgetGeneralLedgerLineRules(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, boolean isRevenue) {
         LOG.debug("processDeletePendingBudgetGeneralLedgerLineRules() start");
 
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
         boolean isValid = true;
 
         // no delete allowed if base exists, the delete button shouldn't even exist in this case, but checking anyway
@@ -306,7 +307,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         else {
             isValid &= false;
             String pkeyVal = pendingBudgetConstructionGeneralLedger.getFinancialObjectCode() + "," + pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode();
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT, BCKeyConstants.ERROR_NO_DELETE_ALLOWED_WITH_BASE, pkeyVal);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT, BCKeyConstants.ERROR_NO_DELETE_ALLOWED_WITH_BASE, pkeyVal);
         }
 
         if (!isRevenue) {
@@ -323,7 +324,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
                         if (pendingBudgetConstructionGeneralLedger.isPendingBudgetConstructionAppointmentFundingExists()) {
                             isValid &= false;
                             String pkeyVal = pendingBudgetConstructionGeneralLedger.getFinancialObjectCode() + "," + pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode();
-                            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT, BCKeyConstants.ERROR_NO_DELETE_ALLOWED_SALARY_DETAIL, pkeyVal);
+                            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT, BCKeyConstants.ERROR_NO_DELETE_ALLOWED_SALARY_DETAIL, pkeyVal);
                         }
                     }
                 }
@@ -357,7 +358,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
         budgetConstructionMonthly.refreshReferenceObject("pendingBudgetConstructionGeneralLedger");
         PendingBudgetConstructionGeneralLedger pbgl = budgetConstructionMonthly.getPendingBudgetConstructionGeneralLedger();
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
         boolean isValid = true;
 
         int originalErrorCount = errors.getErrorCount();
@@ -427,7 +428,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * @param isRevenue
      * @return
      */
-    private boolean checkPendingBudgetConstructionGeneralLedgerLines(BudgetConstructionDocument budgetConstructionDocument, ErrorMap errors, boolean isRevenue, boolean doMonthRICheck) {
+    private boolean checkPendingBudgetConstructionGeneralLedgerLines(BudgetConstructionDocument budgetConstructionDocument, MessageMap errors, boolean isRevenue, boolean doMonthRICheck) {
 
         boolean isValid = true;
         boolean isReqAmountValid;
@@ -525,7 +526,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
                             if (!monthSum.equals(element.getAccountLineAnnualBalanceAmount())) {
                                 isValid &= false;
                                 String pkeyVal = element.getFinancialObjectCode() + "," + element.getFinancialSubObjectCode();
-                                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT, BCKeyConstants.ERROR_MONTHLY_SUM_REQUEST_NOT_EQUAL, pkeyVal, monthSum.toString(), element.getAccountLineAnnualBalanceAmount().toString());
+                                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT, BCKeyConstants.ERROR_MONTHLY_SUM_REQUEST_NOT_EQUAL, pkeyVal, monthSum.toString(), element.getAccountLineAnnualBalanceAmount().toString());
                             }
                         }
                     }
@@ -551,7 +552,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
                             if (!salarySum.equals(element.getAccountLineAnnualBalanceAmount())) {
                                 isValid &= false;
                                 String pkeyVal = element.getFinancialObjectCode() + "," + element.getFinancialSubObjectCode();
-                                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT, BCKeyConstants.ERROR_SALARY_SUM_REQUEST_NOT_EQUAL, pkeyVal, salarySum.toString(), element.getAccountLineAnnualBalanceAmount().toString());
+                                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT, BCKeyConstants.ERROR_SALARY_SUM_REQUEST_NOT_EQUAL, pkeyVal, salarySum.toString(), element.getAccountLineAnnualBalanceAmount().toString());
                             }
                         }
                     }
@@ -588,7 +589,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * @param pendingBudgetConstructionGeneralLedger
      * @return
      */
-    private boolean checkPendingBudgetConstructionGeneralLedgerLine(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, ErrorMap errors, boolean isRevenue, boolean isAdd) {
+    private boolean checkPendingBudgetConstructionGeneralLedgerLine(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, MessageMap errors, boolean isRevenue, boolean isAdd) {
         LOG.debug("checkPendingBudgetConstructionGeneralLedgerLine() start");
 
         boolean isValid = true;
@@ -738,7 +739,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         }
     }
 
-    private boolean isObjectTypeAllowed(List paramValues, PendingBudgetConstructionGeneralLedger accountingLine, ErrorMap errors, boolean isRevenue, boolean isAdd) {
+    private boolean isObjectTypeAllowed(List paramValues, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isRevenue, boolean isAdd) {
         boolean isAllowed = true;
 
         if (paramValues != null) {
@@ -768,7 +769,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         return isAllowed;
     }
 
-    private boolean isBudgetAggregationAllowed(List paramValues, PendingBudgetConstructionGeneralLedger accountingLine, ErrorMap errors, boolean isAdd) {
+    private boolean isBudgetAggregationAllowed(List paramValues, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isAdd) {
         boolean isAllowed = true;
 
         if (paramValues != null) {
@@ -785,7 +786,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         return isAllowed;
     }
 
-    private boolean isNewLineUnique(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger newLine, ErrorMap errors, boolean isRevenue) {
+    private boolean isNewLineUnique(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger newLine, MessageMap errors, boolean isRevenue) {
         boolean isUnique = true;
         List<PendingBudgetConstructionGeneralLedger> existingLines;
 
@@ -804,7 +805,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         return isUnique;
     }
 
-    private boolean isNonWagesAccountNotLaborObject(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger accountingLine, ErrorMap errors, boolean isAdd) {
+    private boolean isNonWagesAccountNotLaborObject(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isAdd) {
         boolean isAllowed = true;
 
         if (budgetConstructionDocument.getAccount().getSubFundGroup() == null || !budgetConstructionDocument.getAccount().getSubFundGroup().isSubFundGroupWagesIndicator()) {
@@ -816,7 +817,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         return isAllowed;
     }
 
-    private boolean isNotFringeBenefitObject(List paramValues, PendingBudgetConstructionGeneralLedger accountingLine, ErrorMap errors, boolean isAdd) {
+    private boolean isNotFringeBenefitObject(List paramValues, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isAdd) {
         boolean isAllowed = true;
 
         if (paramValues != null) {
@@ -834,7 +835,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         return isAllowed;
     }
 
-    private boolean isNotSalarySettingOnly(List fundGroupParamValues, List subfundGroupParamValues, BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger accountingLine, ErrorMap errors, boolean isRevenue, boolean isAdd) {
+    private boolean isNotSalarySettingOnly(List fundGroupParamValues, List subfundGroupParamValues, BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isRevenue, boolean isAdd) {
         boolean isAllowed = true;
 
         // check if account belongs to a fund or subfund that only allows salary setting lines
@@ -876,7 +877,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * @param isDocumentAdd
      * @return
      */
-    private boolean isBudgetAllowed(BudgetConstructionDocument budgetConstructionDocument, String propertyName, ErrorMap errors, boolean isAdd, boolean isDocumentAdd) {
+    private boolean isBudgetAllowed(BudgetConstructionDocument budgetConstructionDocument, String propertyName, MessageMap errors, boolean isAdd, boolean isDocumentAdd) {
         boolean isAllowed = true;
         SimpleDateFormat tdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
 
@@ -946,7 +947,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
         // make sure it exists
         if (ObjectUtils.isNull(account)) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label + ":" + value);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label + ":" + value);
             return false;
         }
 
@@ -958,13 +959,13 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
         // make sure it exists
         if (ObjectUtils.isNull(subAccount)) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label + ":" + value);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label + ":" + value);
             return false;
         }
 
         // check to make sure it is active
         if (!subAccount.isActive()) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_SUB_ACCOUNT_INACTIVE, label + ":" + value);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_SUB_ACCOUNT_INACTIVE, label + ":" + value);
             return false;
         }
 
@@ -987,13 +988,13 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
         // make sure it exists
         if (ObjectUtils.isNull(subObjectCode)) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label + ":" + value);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label + ":" + value);
             return false;
         }
 
         // check active flag
         if (!subObjectCode.isActive()) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label + ":" + value);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label + ":" + value);
             return false;
         }
         return true;
@@ -1015,13 +1016,13 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
         // make sure it exists
         if (ObjectUtils.isNull(objectCode)) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label + ":" + value);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label + ":" + value);
             return false;
         }
 
         // check active status
         if (!objectCode.isFinancialObjectActiveCode()) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label + ":" + value);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label + ":" + value);
             return false;
         }
 
@@ -1037,7 +1038,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * @param isAdd
      * @param errorParameters
      */
-    private void putError(ErrorMap errors, String propertyName, String errorKey, boolean isAdd, String... errorParameters) {
+    private void putError(MessageMap errors, String propertyName, String errorKey, boolean isAdd, String... errorParameters) {
 
         if (isAdd) {
             errors.putError(propertyName, errorKey, errorParameters);

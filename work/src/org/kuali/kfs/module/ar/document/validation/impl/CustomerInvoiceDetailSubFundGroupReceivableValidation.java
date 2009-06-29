@@ -50,7 +50,7 @@ public class CustomerInvoiceDetailSubFundGroupReceivableValidation extends Gener
             String receivableObjectCode = parameterService.getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND, account.getSubFundGroupCode());
 
             if (StringUtils.isEmpty(receivableObjectCode)) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.SUB_FUND_GROUP_CODE_PROPERTY_NAME, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SUBFUND_WITH_NO_AR_OBJ_CD, account.getSubFundGroupCode(), account.getAccountNumber());
+                GlobalVariables.getMessageMap().putError(KFSConstants.SUB_FUND_GROUP_CODE_PROPERTY_NAME, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SUBFUND_WITH_NO_AR_OBJ_CD, account.getSubFundGroupCode(), account.getAccountNumber());
                 return false;
             }
             else {
@@ -58,7 +58,7 @@ public class CustomerInvoiceDetailSubFundGroupReceivableValidation extends Gener
                 customerInvoiceDetail.refreshReferenceObject("accountsReceivableObject");
 
                 if (ObjectUtils.isNull(customerInvoiceDetail.getAccountsReceivableObject())) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.SUB_FUND_GROUP_CODE_PROPERTY_NAME, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SUBFUND_AR_OBJ_CD_IN_PARM, receivableObjectCode, account.getSubFundGroupCode(), account.getAccountNumber());
+                    GlobalVariables.getMessageMap().putError(KFSConstants.SUB_FUND_GROUP_CODE_PROPERTY_NAME, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SUBFUND_AR_OBJ_CD_IN_PARM, receivableObjectCode, account.getSubFundGroupCode(), account.getAccountNumber());
                     return false;
                 }
             }

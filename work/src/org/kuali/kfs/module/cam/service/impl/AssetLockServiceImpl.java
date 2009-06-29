@@ -233,10 +233,10 @@ public class AssetLockServiceImpl implements AssetLockService {
             String[] errorParameters = { blockingUrl, blockingDocId };
             if (FINANCIAL_DOC_TYPE_MAP.containsKey(documentTypeName)) {
                 // display a different error message for lock request from FP document.
-                GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, CamsKeyConstants.AssetLock.ERROR_ASSET_LOCKED, errorParameters);
+                GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, CamsKeyConstants.AssetLock.ERROR_ASSET_LOCKED, errorParameters);
             }
             else {
-                GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, CamsKeyConstants.AssetLock.ERROR_ASSET_MAINTENANCE_LOCKED, errorParameters);
+                GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, CamsKeyConstants.AssetLock.ERROR_ASSET_MAINTENANCE_LOCKED, errorParameters);
             }
         }
     }

@@ -85,8 +85,8 @@ public class ItemParserTest extends KualiTestBase {
         assertEquals(e.getErrorKey(), ERROR_ITEMPARSER_ITEM_PROPERTY);
         String errorPath = PurapConstants.ITEM_TAB_ERRORS;
         String errorKey = ERROR_ITEMPARSER_EMPTY_PROPERTY_VALUE;
-        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(errorKey));
-        TypedArrayList params = GlobalVariables.getErrorMap().getMessages(errorPath);
+        assertTrue(GlobalVariables.getMessageMap().containsMessageKey(errorKey));
+        TypedArrayList params = GlobalVariables.getMessageMap().getMessages(errorPath);
         for (int i=0; i<params.size(); i++) {
             ErrorMessage errmsg = (ErrorMessage)params.get(i);
             if (errmsg.getErrorKey().equals(errorKey)) {
@@ -108,8 +108,8 @@ public class ItemParserTest extends KualiTestBase {
         assertEquals(e.getErrorKey(), ERROR_ITEMPARSER_ITEM_PROPERTY);
         String errorPath = PurapConstants.ITEM_TAB_ERRORS;
         String errorKey = ERROR_ITEMPARSER_INVALID_NUMERIC_VALUE;
-        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(errorKey));
-        TypedArrayList params = GlobalVariables.getErrorMap().getMessages(errorPath);
+        assertTrue(GlobalVariables.getMessageMap().containsMessageKey(errorKey));
+        TypedArrayList params = GlobalVariables.getMessageMap().getMessages(errorPath);
         for (int i=0; i<params.size(); i++) {
             ErrorMessage errmsg = (ErrorMessage)params.get(i);
             if (errmsg.getErrorKey().equals(errorKey)) {

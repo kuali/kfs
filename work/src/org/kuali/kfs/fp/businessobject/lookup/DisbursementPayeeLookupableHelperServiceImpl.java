@@ -121,7 +121,7 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
             String vendorNumberLabel = this.getAttribueLabel(KFSPropertyConstants.VENDOR_NUMBER);
             String employeeIdLabel = this.getAttribueLabel(KIMPropertyConstants.Person.EMPLOYEE_ID);
 
-            GlobalVariables.getErrorMap().putError(KIMPropertyConstants.Person.EMPLOYEE_ID, messageKey, employeeIdLabel, vendorNameLabel, vendorNumberLabel);
+            GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.EMPLOYEE_ID, messageKey, employeeIdLabel, vendorNameLabel, vendorNumberLabel);
         }
 
         String firstName = (String) fieldValues.get(KIMPropertyConstants.Person.FIRST_NAME);
@@ -136,10 +136,10 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
             String firstNameLabel = this.getAttribueLabel(KIMPropertyConstants.Person.FIRST_NAME);
             String lastNameLabel = this.getAttribueLabel(KIMPropertyConstants.Person.LAST_NAME);
 
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.VENDOR_NAME, messageKey, vendorNameLabel, firstNameLabel, lastNameLabel);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.VENDOR_NAME, messageKey, vendorNameLabel, firstNameLabel, lastNameLabel);
         }
 
-        if (GlobalVariables.getErrorMap().hasErrors()) {
+        if (GlobalVariables.getMessageMap().hasErrors()) {
             throw new ValidationException("errors in search criteria");
         }
     }

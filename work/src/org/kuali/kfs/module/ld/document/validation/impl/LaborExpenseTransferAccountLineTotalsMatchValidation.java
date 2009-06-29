@@ -68,7 +68,7 @@ public class LaborExpenseTransferAccountLineTotalsMatchValidation extends Generi
 
         // check to ensure totals of accounting lines in source and target sections match
         if (!isAccountingLineTotalsMatch(sourceLines, targetLines)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, LaborKeyConstants.ACCOUNTING_LINE_TOTALS_MISMATCH_ERROR);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, LaborKeyConstants.ACCOUNTING_LINE_TOTALS_MISMATCH_ERROR);
             return false;
         }
 

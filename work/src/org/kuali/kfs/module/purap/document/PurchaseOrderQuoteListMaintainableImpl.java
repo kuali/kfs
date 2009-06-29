@@ -37,7 +37,7 @@ public class PurchaseOrderQuoteListMaintainableImpl extends FinancialSystemMaint
         String vendorNumber = (String)fieldValues.get(collName);
         if (StringUtils.isNotBlank(vendorNumber)) {
             if (!VendorUtils.validVendorNumberFormat(vendorNumber)) {
-                GlobalVariables.getErrorMap().putError(KNSConstants.MAINTENANCE_ADD_PREFIX + collName , PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_LIST_NON_EXISTENCE_VENDOR);
+                GlobalVariables.getMessageMap().putError(KNSConstants.MAINTENANCE_ADD_PREFIX + collName , PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_LIST_NON_EXISTENCE_VENDOR);
                 return fieldValues;
             }
             else {

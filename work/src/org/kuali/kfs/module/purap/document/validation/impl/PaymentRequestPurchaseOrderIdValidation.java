@@ -36,22 +36,22 @@ public class PaymentRequestPurchaseOrderIdValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         PaymentRequestDocument document = (PaymentRequestDocument)event.getDocument();
-        GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        GlobalVariables.getMessageMap().clearErrorPath();
+        GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         Integer POID = document.getPurchaseOrderIdentifier();
 
         PurchaseOrderDocument purchaseOrderDocument = document.getPurchaseOrderDocument();
         if (ObjectUtils.isNull(purchaseOrderDocument)) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_EXIST);
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_EXIST);
             valid &= false;
         }
         else if (purchaseOrderDocument.isPendingActionIndicator()) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_PENDING_ACTION);
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_PENDING_ACTION);
             valid &= false;
         }
         else if (!StringUtils.equals(purchaseOrderDocument.getStatusCode(), PurapConstants.PurchaseOrderStatuses.OPEN)) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_OPEN);
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_OPEN);
             valid &= false;
             // if the PO is pending and it is not a Retransmit, we cannot generate a Payment Request for it
         }
@@ -59,7 +59,7 @@ public class PaymentRequestPurchaseOrderIdValidation extends GenericValidation {
             // Verify that there exists at least 1 item left to be invoiced
             //valid &= encumberedItemExistsForInvoicing(purchaseOrderDocument);
         }
-        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getMessageMap().clearErrorPath();
         return valid;
     }
 
@@ -72,8 +72,8 @@ public class PaymentRequestPurchaseOrderIdValidation extends GenericValidation {
      */
     private boolean encumberedItemExistsForInvoicing(PurchaseOrderDocument document) {
         boolean zeroDollar = true;
-        GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        GlobalVariables.getMessageMap().clearErrorPath();
+        GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         for (PurchaseOrderItem poi : (List<PurchaseOrderItem>) document.getItems()) {
             // Quantity-based items
             if (poi.getItemType().isLineItemIndicator() && poi.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
@@ -93,9 +93,9 @@ public class PaymentRequestPurchaseOrderIdValidation extends GenericValidation {
             }
         }
         if (zeroDollar) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_NO_ITEMS_TO_INVOICE);
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_NO_ITEMS_TO_INVOICE);
         }
-        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getMessageMap().clearErrorPath();
         return !zeroDollar;
     }
 

@@ -76,7 +76,7 @@ public class LaborJournalVoucherPositionCodeExistenceCheckValidation extends Gen
         Collection<PositionData> positionNumberMatches = SpringContext.getBean(BusinessObjectService.class).findMatching(PositionData.class, criteria);
         if (positionNumberMatches == null || positionNumberMatches.isEmpty()) {
             String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(PositionData.class.getName()).getAttributeDefinition(KFSPropertyConstants.POSITION_NUMBER).getLabel();
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.POSITION_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.POSITION_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, label);
             positionNumberExists = false;
         }
 

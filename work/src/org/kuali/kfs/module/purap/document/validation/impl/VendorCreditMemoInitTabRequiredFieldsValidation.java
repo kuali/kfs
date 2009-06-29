@@ -50,7 +50,7 @@ public class VendorCreditMemoInitTabRequiredFieldsValidation extends GenericVali
         if (creditMemoDateExist) {
             if (paymentRequestService.isInvoiceDateAfterToday(cmDocument.getCreditMemoDate())) {
                 String label = dataDictionaryService.getAttributeErrorLabel(VendorCreditMemoDocument.class, PurapPropertyConstants.CREDIT_MEMO_DATE);
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.CREDIT_MEMO_DATE, PurapKeyConstants.ERROR_INVALID_INVOICE_DATE, label);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.CREDIT_MEMO_DATE, PurapKeyConstants.ERROR_INVALID_INVOICE_DATE, label);
                 valid = false;
             }
         }
@@ -73,7 +73,7 @@ public class VendorCreditMemoInitTabRequiredFieldsValidation extends GenericVali
         Object fieldValue = ObjectUtils.getPropertyValue(businessObject, fieldName);
         if (fieldValue == null || (fieldValue instanceof String && StringUtils.isBlank(fieldName))) {
             String label = dataDictionaryService.getAttributeErrorLabel(businessObject.getClass(), fieldName);
-            GlobalVariables.getErrorMap().putError(fieldName, KFSKeyConstants.ERROR_REQUIRED, label);
+            GlobalVariables.getMessageMap().putError(fieldName, KFSKeyConstants.ERROR_REQUIRED, label);
             valid = false;
         }
 

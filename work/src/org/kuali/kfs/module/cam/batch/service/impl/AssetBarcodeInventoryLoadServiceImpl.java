@@ -210,7 +210,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
                 }
                 if (!StringUtils.isBlank(errorMsg)) {
                     errorMsg = "Error on record number " + recordCount + ": " + errorMsg.substring(2) + "\n";
-                    GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, errorMsg);
+                    GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, errorMsg);
                     errorMessage += errorMsg;
                     LOG.error(errorMsg);
                 }

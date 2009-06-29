@@ -37,7 +37,7 @@ public class VendorCreditMemoAccountingLineRuleHelperServiceImpl extends PurapAc
 
         // make sure it exists
         if (ObjectUtils.isNull(account)) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
             return false;
         }
 

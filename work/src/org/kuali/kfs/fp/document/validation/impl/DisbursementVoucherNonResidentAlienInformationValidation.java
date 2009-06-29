@@ -38,9 +38,9 @@ import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 
 public class DisbursementVoucherNonResidentAlienInformationValidation extends GenericValidation implements DisbursementVoucherConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherNonResidentAlienInformationValidation.class);
@@ -65,7 +65,7 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
             return true;
         }
 
-        ErrorMap errors = GlobalVariables.getErrorMap();        
+        MessageMap errors = GlobalVariables.getMessageMap();        
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
         errors.addToErrorPath(KFSPropertyConstants.DV_NON_RESIDENT_ALIEN_TAX);
 

@@ -48,7 +48,7 @@ public class CashControlPaymentMediumValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         
         boolean isValid = true;
-        GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         String paymentMediumCode = cashControlDocument.getCustomerPaymentMediumCode();
 
         Map<String, String> criteria = new HashMap<String, String>();
@@ -57,11 +57,11 @@ public class CashControlPaymentMediumValidation extends GenericValidation {
         PaymentMedium paymentMedium = (PaymentMedium) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PaymentMedium.class, criteria);
 
         if (paymentMedium == null) {
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.CUSTOMER_PAYMENT_MEDIUM_CODE, ArKeyConstants.ERROR_PAYMENT_MEDIUM_IS_NOT_VALID);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.CUSTOMER_PAYMENT_MEDIUM_CODE, ArKeyConstants.ERROR_PAYMENT_MEDIUM_IS_NOT_VALID);
             isValid = false;
         }
 
-        GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         return isValid;
     }
 

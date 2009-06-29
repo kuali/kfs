@@ -31,8 +31,8 @@ public class BulkReceivingInitScreenFieldValidation extends GenericValidation {
         
         BulkReceivingDocument bulkReceivingDocument = (BulkReceivingDocument)event.getDocument();
         
-        GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        GlobalVariables.getMessageMap().clearErrorPath();
+        GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         
         dictionaryValidationService.validateAttributeFormat("BulkReceivingDocument","shipmentPackingSlipNumber",bulkReceivingDocument.getShipmentPackingSlipNumber(),KFSKeyConstants.ERROR_INVALID_FORMAT);
         dictionaryValidationService.validateAttributeFormat("BulkReceivingDocument","shipmentBillOfLadingNumber",bulkReceivingDocument.getShipmentBillOfLadingNumber(),KFSKeyConstants.ERROR_INVALID_FORMAT);

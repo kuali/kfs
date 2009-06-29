@@ -43,9 +43,9 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -159,7 +159,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         // some date in the past
         Date yesterday = getDateFromOffsetFromToday(-1);
         
-        assertTrue("Something is wrong with the test.  Error map was not empty before document saving called", GlobalVariables.getErrorMap().isEmpty());
+        assertTrue("Something is wrong with the test.  Error map was not empty before document saving called", GlobalVariables.getMessageMap().isEmpty());
         
         // rule 1: past pay dates are NOT allowed if the document has not been successfully saved or submitted yet
         PaymentRequestDocument document1 = (PaymentRequestDocument) documentService.getNewDocument(PaymentRequestDocument.class);
@@ -167,7 +167,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         
         PaymentRequestPayDateNotPastValidation validation = (PaymentRequestPayDateNotPastValidation)validations.get("PaymentRequest-payDateNotPastValidation-test");        
         assertFalse( validation.validate(new AttributedDocumentEventBase("","", document1)) );                
-        TypedArrayList l = (TypedArrayList) GlobalVariables.getErrorMap().get("document.paymentRequestPayDate");
+        TypedArrayList l = (TypedArrayList) GlobalVariables.getMessageMap().get("document.paymentRequestPayDate");
         boolean correctError = false;
         for (Iterator i = l.iterator(); i.hasNext(); ) {
             ErrorMessage m = (ErrorMessage) i.next();
@@ -177,7 +177,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         }
         assertTrue("Unable to find error message key 'errors.invalid.pay.date'", correctError);
         
-        GlobalVariables.getErrorMap().clear();
+        GlobalVariables.getMessageMap().clear();
     }
     
     public void testValidatePaymentRequestDates_PastAndPersistedDocument() throws Exception {
@@ -249,16 +249,16 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         document2.getDocumentHeader().setWorkflowDocument(workflowDocument);
         document2.setPaymentRequestPayDate(yesterday);
         assertTrue("Didn't change past pay date, so doucment should validate successfully.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
-        assertTrue("Error map should be empty", GlobalVariables.getErrorMap().isEmpty());
+        assertTrue("Error map should be empty", GlobalVariables.getMessageMap().isEmpty());
         
         document2.setPaymentRequestPayDate(getDateFromOffsetFromToday(-2));
         assertFalse("changed past pay date to another past pay date, so document should fail.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
-        assertFalse("Error map should not be empty", GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertFalse("Error map should not be empty", GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
         
         document2.setPaymentRequestPayDate(getDateFromOffsetFromToday(3));
         assertTrue("Changed past pay date to future, so doucment should validate successfully.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
-        assertTrue("Error map should be empty", GlobalVariables.getErrorMap().isEmpty());
+        assertTrue("Error map should be empty", GlobalVariables.getMessageMap().isEmpty());
         
     }
 
@@ -332,16 +332,16 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         document2.getDocumentHeader().setWorkflowDocument(workflowDocument);
         document2.setPaymentRequestPayDate(tomorrow);
         assertTrue("Didn't change future pay date, so doucment should validate successfully.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
-        assertTrue("Error map should be empty", GlobalVariables.getErrorMap().isEmpty());
+        assertTrue("Error map should be empty", GlobalVariables.getMessageMap().isEmpty());
         
         document2.setPaymentRequestPayDate(getDateFromOffsetFromToday(-2));
         assertFalse("changed future pay date to  past pay date, so document should fail.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
-        assertFalse("Error map should not be empty", GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertFalse("Error map should not be empty", GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
         
         document2.setPaymentRequestPayDate(getDateFromOffsetFromToday(3));
         assertTrue("Changed future pay date to another future date, so doucment should validate successfully.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
-        assertTrue("Error map should be empty", GlobalVariables.getErrorMap().isEmpty());
+        assertTrue("Error map should be empty", GlobalVariables.getMessageMap().isEmpty());
     }
     
     public void testValidatePaymentRequestDates_Today() {
@@ -379,7 +379,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
      */
     @RelatesTo(JiraIssue.KULPURAP3396)
     public void testProcessPreCalculateTaxAreaBusinessRules() {
-        ErrorMap errMap = GlobalVariables.getErrorMap();        
+        MessageMap errMap = GlobalVariables.getMessageMap();        
         String pre = PurapConstants.PAYMENT_REQUEST_TAX_TAB_ERRORS + ".";
         
         // testing tax income class

@@ -219,9 +219,9 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
             int index = 0;
             for (PretagDetail dtl : details) {
                 String errorPath = MAINTAINABLE_ERROR_PREFIX + "pretagDetails[" + index + "]";
-                GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+                GlobalVariables.getMessageMap().addToErrorPath(errorPath);
                 success &= isCampusBuildingRoomValid(dtl);
-                GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+                GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
                 index++;
             }
         }
@@ -268,7 +268,7 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
 
         for (PretagDetail dtl : pretag.getPretagDetails()) {
             if (dtl.getCampusTagNumber().equals(tagNumber) && dtl.isActive()) {
-                GlobalVariables.getErrorMap().putError(CabPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_TAG_NUMBER_DUPLICATE, new String[] { tagNumber });
+                GlobalVariables.getMessageMap().putError(CabPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_TAG_NUMBER_DUPLICATE, new String[] { tagNumber });
                 success &= false;
             }
         }
@@ -289,7 +289,7 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
             KualiDecimal totalNumerOfDetails = new KualiDecimal(totalActiveDetails);
 
             if (pretag.getQuantityInvoiced().compareTo(totalNumerOfDetails) < 0) {
-                GlobalVariables.getErrorMap().putError(CabPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.PreTag.ERROR_PRE_TAG_DETAIL_EXCESS, new String[] { pretag.getQuantityInvoiced().toString() + "" + " Total number of detail lines " + totalNumerOfDetails.toString() });
+                GlobalVariables.getMessageMap().putError(CabPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.PreTag.ERROR_PRE_TAG_DETAIL_EXCESS, new String[] { pretag.getQuantityInvoiced().toString() + "" + " Total number of detail lines " + totalNumerOfDetails.toString() });
                 success &= false;
             }
         }
@@ -328,7 +328,7 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
             tagMap.put(CabPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, dtl.getCampusTagNumber());
             int matchDetailCount = getMatchDetailCount(tagMap);
             if ((getBoService().countMatching(Asset.class, tagMap) != 0) || (matchDetailCount > 0)) {
-                GlobalVariables.getErrorMap().putError(CabPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.PreTag.ERROR_PRE_TAG_NUMBER, new String[] { dtl.getCampusTagNumber() });
+                GlobalVariables.getMessageMap().putError(CabPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.PreTag.ERROR_PRE_TAG_NUMBER, new String[] { dtl.getCampusTagNumber() });
                 success &= false;
             }
         }
@@ -345,7 +345,7 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
     public boolean isCampusBuildingRoomValid(PretagDetail dtl) {
         boolean success = true;
 
-        int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
+        int originalErrorCount = GlobalVariables.getMessageMap().getErrorCount();
         getDictionaryValidationService().validateBusinessObject(dtl);
 
         if (StringUtils.isNotBlank(dtl.getCampusCode()) && StringUtils.isNotBlank(dtl.getBuildingCode())) {
@@ -355,18 +355,18 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
 
             bo = (Building) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Building.class, preTagMap);
             if (bo == null) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.BUILDING_CODE, CamsKeyConstants.ERROR_INVALID_BUILDING_CODE, new String[] { dtl.getCampusCode(), dtl.getBuildingCode() });
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.BUILDING_CODE, CamsKeyConstants.ERROR_INVALID_BUILDING_CODE, new String[] { dtl.getCampusCode(), dtl.getBuildingCode() });
             }
 
             if (StringUtils.isNotBlank(dtl.getBuildingRoomNumber())) {
                 preTagMap.put(KFSPropertyConstants.BUILDING_ROOM_NUMBER, dtl.getBuildingRoomNumber());
                 bo = (Room) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Room.class, preTagMap);
                 if (bo == null) {
-                    GlobalVariables.getErrorMap().putError(KFSPropertyConstants.BUILDING_ROOM_NUMBER, CamsKeyConstants.ERROR_INVALID_ROOM_NUMBER, new String[] { dtl.getCampusCode(), dtl.getBuildingCode(), dtl.getBuildingRoomNumber() });
+                    GlobalVariables.getMessageMap().putError(KFSPropertyConstants.BUILDING_ROOM_NUMBER, CamsKeyConstants.ERROR_INVALID_ROOM_NUMBER, new String[] { dtl.getCampusCode(), dtl.getBuildingCode(), dtl.getBuildingRoomNumber() });
                 }
             }
         }
-        success &= GlobalVariables.getErrorMap().getErrorCount() == originalErrorCount;
+        success &= GlobalVariables.getMessageMap().getErrorCount() == originalErrorCount;
 
         return success;
     }

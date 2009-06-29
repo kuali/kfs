@@ -99,7 +99,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
             if (paymentGroupList == null || paymentGroupList.isEmpty()) {
                 LOG.debug("cancelPendingBatch() Pending payment groups not found for batchId; throw exception.");
                 
-                GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND);
+                GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND);
                 
                 return false;
             }
@@ -115,7 +115,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
         else {
             LOG.debug("cancelPendingBatch() Not all payment groups are open; cannot cancel batch.");
 
-            GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_CANCEL);
+            GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_CANCEL);
             
             return false;
         }
@@ -139,7 +139,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
             if (paymentGroupList == null || paymentGroupList.isEmpty()) {
                 LOG.debug("holdPendingBatch() Pending payment groups not found for batchId; throw exception.");
                 
-                GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND);
+                GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND);
                 
                 return false;
             }
@@ -155,7 +155,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
         else {
             LOG.debug("holdPendingBatch() Not all payment groups are open; cannot hold batch.");
             
-            GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_HOLD);
+            GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_HOLD);
             
             return false;
         }
@@ -179,7 +179,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
             if (paymentGroupList == null || paymentGroupList.isEmpty()) {
                 LOG.debug("removeBatchHold() Pending payment groups not found for batchId; throw exception.");
                 
-                GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND);
+                GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND);
                 
                 return false;
             }
@@ -195,7 +195,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
         else {
             LOG.debug("removeBatchHold() Not all payment groups are open; cannot remove hold on batch.");
             
-            GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_REMOVE_HOLD);
+            GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_REMOVE_HOLD);
             
             return false;
         }

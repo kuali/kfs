@@ -31,9 +31,9 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 
 public class DisbursementVoucherPaymentReasonValidation extends GenericValidation implements DisbursementVoucherConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherPaymentReasonValidation.class);
@@ -61,7 +61,7 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
         boolean isVendor = dvPayeeDetail.isVendor();
         boolean isEmployee = dvPayeeDetail.isEmployee();
 
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
         int initialErrorCount = errors.getErrorCount();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 

@@ -33,7 +33,7 @@ public class PurchasingBelowTheLineItemNoUnitCostValidation extends GenericValid
      */
     public boolean validate(AttributedDocumentEvent event) {
         if (ObjectUtils.isNull(itemForValidation.getItemUnitPrice()) && ObjectUtils.isNotNull(itemForValidation.getSourceAccountingLines()) && !itemForValidation.getSourceAccountingLines().isEmpty()) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE_NO_UNIT_COST, itemForValidation.getItemIdentifierString());
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE_NO_UNIT_COST, itemForValidation.getItemIdentifierString());
 
             return false;
         }

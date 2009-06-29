@@ -44,10 +44,10 @@ public class PurchaseOrderAddQuoteToVendorValidation extends GenericValidation {
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
-        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getMessageMap().clearErrorPath();
         valid &= isVendorQuoteActiveNotDebarredVendor(vendorQuote.getVendorHeaderGeneratedIdentifier(), vendorQuote.getVendorDetailAssignedIdentifier());
         valid &= vendorQuoteHasRequiredFields(vendorQuote);
-        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getMessageMap().clearErrorPath();
         return valid;
     }
 
@@ -55,11 +55,11 @@ public class PurchaseOrderAddQuoteToVendorValidation extends GenericValidation {
         VendorDetail vendorDetail = vendorService.getVendorDetail(vendorHeaderGeneratedIdentifier, vendorDetailAssignedIdentifer);    
         if (vendorDetail != null) {
             if (!vendorDetail.isActiveIndicator()) {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_NAME, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_INACTIVE_VENDOR);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_NAME, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_INACTIVE_VENDOR);
                 return false;
             }
             else if (vendorDetail.isVendorDebarred()) {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_NAME, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_DEBARRED_VENDOR);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_NAME, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_DEBARRED_VENDOR);
                 return false;
             }
         }
@@ -69,15 +69,15 @@ public class PurchaseOrderAddQuoteToVendorValidation extends GenericValidation {
     private boolean vendorQuoteHasRequiredFields (PurchaseOrderVendorQuote vendorQuote) {
         boolean valid = true;
         if ( StringUtils.isBlank(vendorQuote.getVendorName()) ) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_NAME, KFSKeyConstants.ERROR_REQUIRED, "Vendor Name");
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_NAME, KFSKeyConstants.ERROR_REQUIRED, "Vendor Name");
             valid = false;
         }
         if (StringUtils.isBlank(vendorQuote.getVendorLine1Address())) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_LINE_1_ADDR, KFSKeyConstants.ERROR_REQUIRED, "Vendor Line 1 Address");
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_LINE_1_ADDR, KFSKeyConstants.ERROR_REQUIRED, "Vendor Line 1 Address");
             valid = false;
         }
         if (StringUtils.isBlank(vendorQuote.getVendorCityName())) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_CITY_NAME, KFSKeyConstants.ERROR_REQUIRED, "Vendor City Name");
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_CITY_NAME, KFSKeyConstants.ERROR_REQUIRED, "Vendor City Name");
             valid = false;
         }
         return valid;

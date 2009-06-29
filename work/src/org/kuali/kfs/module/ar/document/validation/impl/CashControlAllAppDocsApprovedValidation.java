@@ -55,17 +55,17 @@ public class CashControlAllAppDocsApprovedValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         
         boolean allAppDocsApproved = true;
-        GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 
         PaymentApplicationDocument applicationDocument = cashControlDetail.getReferenceFinancialDocument();
         KualiWorkflowDocument workflowDocument = applicationDocument.getDocumentHeader().getWorkflowDocument();
 
         if (!(workflowDocument.stateIsApproved() || workflowDocument.stateIsFinal())) {
-            GlobalVariables.getErrorMap().put(ArPropertyConstants.CashControlDocumentFields.APPLICATION_DOC_STATUS, ArKeyConstants.ERROR_ALL_APPLICATION_DOCS_MUST_BE_APPROVED);
+            GlobalVariables.getMessageMap().put(ArPropertyConstants.CashControlDocumentFields.APPLICATION_DOC_STATUS, ArKeyConstants.ERROR_ALL_APPLICATION_DOCS_MUST_BE_APPROVED);
             allAppDocsApproved = false;
         }
 
-        GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         return allAppDocsApproved;
     }
 

@@ -50,7 +50,7 @@ public class CustomerInvoiceDetailDiscountGreaterThanParentValidation extends Ge
 
             // return true if abs(discount line amount) IS NOT greater than parent line
             if (discountCustomerInvoiceDetail.getAmount().abs().isGreaterThan(copyOfParentCustomerInvoiceDetail.getAmount().abs())) {
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_DISCOUNT_AMOUNT_GREATER_THAN_PARENT_AMOUNT);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_DISCOUNT_AMOUNT_GREATER_THAN_PARENT_AMOUNT);
                 success = false;
             }
         }

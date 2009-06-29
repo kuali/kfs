@@ -183,7 +183,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
             } else if (!KFSConstants.DocumentStatusCodes.APPROVED.equals(applicationDocument.getDocumentHeader().getFinancialDocumentStatusCode())) {
                 documentService.cancelDocument(applicationDocument, ArKeyConstants.DOCUMENT_DELETED_FROM_CASH_CTRL_DOC);
             } else {
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDetailFields.CASH_CONTROL_DETAILS_TAB, ArKeyConstants.ERROR_CANT_CANCEL_CASH_CONTROL_DOC_WITH_ASSOCIATED_APPROVED_PAYMENT_APPLICATION);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDetailFields.CASH_CONTROL_DETAILS_TAB, ArKeyConstants.ERROR_CANT_CANCEL_CASH_CONTROL_DOC_WITH_ASSOCIATED_APPROVED_PAYMENT_APPLICATION);
                 success = false;;
             }
         }
@@ -340,7 +340,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         }
         
         if (!success) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArKeyConstants.ERROR_GLPES_NOT_CREATED);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArKeyConstants.ERROR_GLPES_NOT_CREATED);
         }
         // approve the GLPEs
         cashControlDocument.changeGeneralLedgerPendingEntriesApprovedStatusCode();

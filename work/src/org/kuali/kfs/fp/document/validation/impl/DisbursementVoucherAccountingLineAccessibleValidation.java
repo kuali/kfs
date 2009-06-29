@@ -81,7 +81,7 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
             String principalName = GlobalVariables.getUserSession().getPerson().getPrincipalName();
             String errorKey = this.convertEventToMessage(event);
 
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, errorKey, accountNumber, principalName);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, errorKey, accountNumber, principalName);
         }
 
         return isAccessible;

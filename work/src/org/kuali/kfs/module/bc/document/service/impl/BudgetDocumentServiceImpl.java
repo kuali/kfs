@@ -130,7 +130,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         // this is a hack to get around the problem where messageLists gets cleared
         // that is PostProcessorServiceImpl.doActionTaken(ActionTakenEventDTO), establishGlobalVariables(), which does
         // GlobalVariables.clear()
-        // not sure why this doesn't trash the GlobalVariables.getErrorMap()
+        // not sure why this doesn't trash the GlobalVariables.getMessageMap()
         MessageList messagesSoFar = GlobalVariables.getMessageList();
 
         budgetConstructionDocument.getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Updated");

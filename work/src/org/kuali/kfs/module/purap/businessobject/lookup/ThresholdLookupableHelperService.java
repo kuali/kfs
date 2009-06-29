@@ -59,10 +59,10 @@ public class ThresholdLookupableHelperService extends AbstractLookupableHelperSe
             int dashPos1 = vendorNumber.indexOf(VendorConstants.DASH);
             if (dashPos1 > -1) { // There's a dash in the number.
                 if (vendorNumber.indexOf(VendorConstants.DASH, dashPos1 + 1) > -1) { // There can't be more than one.
-                    GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_NUMBER, VendorKeyConstants.ERROR_VENDOR_LOOKUP_VNDR_NUM_TOO_MANY_DASHES);
+                    GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_NUMBER, VendorKeyConstants.ERROR_VENDOR_LOOKUP_VNDR_NUM_TOO_MANY_DASHES);
                 }
                 if (vendorNumber.matches("\\-*")) {
-                    GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_NUMBER, VendorKeyConstants.ERROR_VENDOR_LOOKUP_VNDR_NUM_DASHES_ONLY);
+                    GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_NUMBER, VendorKeyConstants.ERROR_VENDOR_LOOKUP_VNDR_NUM_DASHES_ONLY);
                 }
             }
             extractVendorNumberToVendorIds(fieldValues, vendorNumber);
@@ -102,7 +102,7 @@ public class ThresholdLookupableHelperService extends AbstractLookupableHelperSe
             fieldValues.put(VendorPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, vendorDetailAssignedIdentifier);
         }
         catch (NumberFormatException headerExc) {
-            GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_NUMBER, VendorKeyConstants.ERROR_VENDOR_LOOKUP_VNDR_NUM_NUMERIC_DASH_SEPARATED);
+            GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_NUMBER, VendorKeyConstants.ERROR_VENDOR_LOOKUP_VNDR_NUM_NUMERIC_DASH_SEPARATED);
         }
     }
     

@@ -94,7 +94,7 @@ public class LedgerBalanceForSalaryExpenseTransferLookupableHelperServiceImpl ex
             DataDictionaryService dictionaryService = SpringContext.getBean(DataDictionaryService.class);
             String label = dictionaryService.getAttributeLabel(LedgerBalance.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
             
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, KFSKeyConstants.ERROR_EXISTENCE, label);
         }
     }
 

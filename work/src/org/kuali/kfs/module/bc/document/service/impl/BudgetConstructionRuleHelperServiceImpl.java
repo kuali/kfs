@@ -36,7 +36,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -53,7 +53,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService#hasDetailPositionRequiredObjectCode(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap)
      */
-    public boolean hasDetailPositionRequiredObjectCode(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean hasDetailPositionRequiredObjectCode(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         String objectCode = appointmentFunding.getFinancialObjectCode();
         ObjectCode financialObject = appointmentFunding.getFinancialObject();
 
@@ -64,7 +64,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService#hasValidAccount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap)
      */
-    public boolean hasValidAccount(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean hasValidAccount(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         String accountNumber = appointmentFunding.getAccountNumber();
         Account account = appointmentFunding.getAccount();
         return this.isValidAccount(account, accountNumber, errorMap, KFSPropertyConstants.ACCOUNT_NAME);
@@ -74,7 +74,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService#hasValidChart(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap)
      */
-    public boolean hasValidChart(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean hasValidChart(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         String chartOfAccountsCode = appointmentFunding.getChartOfAccountsCode();
         Chart chart = appointmentFunding.getChartOfAccounts();
 
@@ -85,7 +85,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService#hasValidIncumbent(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap)
      */
-    public boolean hasValidIncumbent(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean hasValidIncumbent(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         String emplid = appointmentFunding.getEmplid();
 
         // VACANT emplid value is valid, don't do lookup in this case
@@ -102,7 +102,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService#hasValidObjectCode(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap)
      */
-    public boolean hasValidObjectCode(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean hasValidObjectCode(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         String objectCode = appointmentFunding.getFinancialObjectCode();
         ObjectCode financialObject = appointmentFunding.getFinancialObject();
 
@@ -113,7 +113,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService#hasValidPosition(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap)
      */
-    public boolean hasValidPosition(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean hasValidPosition(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         String positionNumber = appointmentFunding.getPositionNumber();
         BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
 
@@ -124,7 +124,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService#hasValidSubAccount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap)
      */
-    public boolean hasValidSubAccount(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean hasValidSubAccount(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         String subAccountNumber = appointmentFunding.getSubAccountNumber();
         
         // ok when dashes, no lookup
@@ -141,7 +141,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService#hasValidSubObjectCode(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap)
      */
-    public boolean hasValidSubObjectCode(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean hasValidSubObjectCode(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         String subObjectCode = appointmentFunding.getFinancialSubObjectCode();
 
         // ok when dashes, no lookup
@@ -158,7 +158,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      * @see org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionRuleHelperService#isAssociatedWithValidDocument(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap, java.lang.String)
      */
-    public boolean isAssociatedWithValidDocument(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap, String errorPropertyName) {
+    public boolean isAssociatedWithValidDocument(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap, String errorPropertyName) {
         BudgetConstructionDocument budgetConstructionDocument = budgetDocumentService.getBudgetConstructionDocument(appointmentFunding);
 
         if (ObjectUtils.isNull(budgetConstructionDocument)) {
@@ -173,7 +173,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      * @see org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionRuleHelperService#isBudgetableDocument(org.kuali.kfs.module.bc.document.BudgetConstructionDocument,
      *      org.kuali.core.util.ErrorMap, java.lang.String)
      */
-    public boolean isBudgetableDocument(BudgetConstructionDocument budgetConstructionDocument, ErrorMap errorMap, String errorPropertyName) {
+    public boolean isBudgetableDocument(BudgetConstructionDocument budgetConstructionDocument, MessageMap errorMap, String errorPropertyName) {
         boolean isBudgetAllowed = budgetDocumentService.isBudgetableDocument(budgetConstructionDocument);
 
         if (!isBudgetAllowed) {
@@ -187,7 +187,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService#isDetailPositionRequiredObjectCode(org.kuali.kfs.coa.businessobject.ObjectCode,
      *      java.lang.String, org.kuali.core.util.ErrorMap, java.lang.String)
      */
-    public boolean isDetailPositionRequiredObjectCode(ObjectCode financialObject, String currentValue, ErrorMap errorMap, String errorPropertyName) {
+    public boolean isDetailPositionRequiredObjectCode(ObjectCode financialObject, String currentValue, MessageMap errorMap, String errorPropertyName) {
         if (ObjectUtils.isNull(financialObject)) {
             String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, currentValue);
             errorMap.putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, errorMessage);
@@ -206,7 +206,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService#isFieldFormatValid(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap)
      */
-    public boolean isFieldFormatValid(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean isFieldFormatValid(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         return dictionaryValidationService.isBusinessObjectValid(appointmentFunding);
     }
 
@@ -214,7 +214,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      * @see org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionRuleHelperService#isValidAccount(org.kuali.kfs.coa.businessobject.Account,
      *      java.lang.String, org.kuali.core.util.ErrorMap, java.lang.String)
      */
-    public boolean isValidAccount(Account account, String currentValue, ErrorMap errorMap, String errorPropertyName) {
+    public boolean isValidAccount(Account account, String currentValue, MessageMap errorMap, String errorPropertyName) {
         if (ObjectUtils.isNull(account)) {
             String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(Account.class, KFSPropertyConstants.ACCOUNT_NAME, currentValue);
             errorMap.putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, errorMessage);
@@ -233,7 +233,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      * @see org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionRuleHelperService#isValidChart(org.kuali.kfs.coa.businessobject.Chart,
      *      java.lang.String, org.kuali.core.util.ErrorMap, java.lang.String)
      */
-    public boolean isValidChart(Chart chart, String currentValue, ErrorMap errorMap, String errorPropertyName) {
+    public boolean isValidChart(Chart chart, String currentValue, MessageMap errorMap, String errorPropertyName) {
         if (ObjectUtils.isNull(chart)) {
             String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, currentValue);
             errorMap.putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, errorMessage);
@@ -253,7 +253,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      * @see org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionRuleHelperService#isValidIncumbent(org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent,
      *      java.lang.String, org.kuali.core.util.ErrorMap, java.lang.String)
      */
-    public boolean isValidIncumbent(BudgetConstructionIntendedIncumbent intendedIncumbent, String currentValue, ErrorMap errorMap, String errorPropertyName) {
+    public boolean isValidIncumbent(BudgetConstructionIntendedIncumbent intendedIncumbent, String currentValue, MessageMap errorMap, String errorPropertyName) {
         // if (BCConstants.VACANT_EMPLID.equalsIgnoreCase(currentValue)) {
         // return true;
         // }
@@ -271,7 +271,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      * @see org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionRuleHelperService#isValidObjectCode(org.kuali.kfs.coa.businessobject.ObjectCode,
      *      java.lang.String, org.kuali.core.util.ErrorMap, java.lang.String)
      */
-    public boolean isValidObjectCode(ObjectCode objectCode, String currentValue, ErrorMap errorMap, String errorPropertyName) {
+    public boolean isValidObjectCode(ObjectCode objectCode, String currentValue, MessageMap errorMap, String errorPropertyName) {
         if (ObjectUtils.isNull(objectCode)) {
             String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, currentValue);
             errorMap.putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, errorMessage);
@@ -291,7 +291,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      * @see org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionRuleHelperService#isValidPosition(org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition,
      *      java.lang.String, org.kuali.core.util.ErrorMap, java.lang.String)
      */
-    public boolean isValidPosition(BudgetConstructionPosition position, String currentValue, ErrorMap errorMap, String errorPropertyName) {
+    public boolean isValidPosition(BudgetConstructionPosition position, String currentValue, MessageMap errorMap, String errorPropertyName) {
         if (ObjectUtils.isNull(position)) {
             String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(BudgetConstructionPosition.class, KFSPropertyConstants.POSITION_NUMBER, currentValue);
             errorMap.putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, errorMessage);
@@ -317,7 +317,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      * @see org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionRuleHelperService#isValidSubAccount(org.kuali.kfs.coa.businessobject.SubAccount,
      *      java.lang.String, org.kuali.core.util.ErrorMap, java.lang.String)
      */
-    public boolean isValidSubAccount(SubAccount subAccount, String currentValue, ErrorMap errorMap, String errorPropertyName) {
+    public boolean isValidSubAccount(SubAccount subAccount, String currentValue, MessageMap errorMap, String errorPropertyName) {
 //        if (KFSConstants.getDashSubAccountNumber().equals(currentValue)) {
 //            return true;
 //        }
@@ -341,7 +341,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      * @see org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionRuleHelperService#isValidSubObjectCode(org.kuali.kfs.coa.businessobject.SubObjCd,
      *      java.lang.String, org.kuali.core.util.ErrorMap, java.lang.String)
      */
-    public boolean isValidSubObjectCode(SubObjectCode subObjectCode, String currentValue, ErrorMap errorMap, String errorPropertyName) {
+    public boolean isValidSubObjectCode(SubObjectCode subObjectCode, String currentValue, MessageMap errorMap, String errorPropertyName) {
 //        if (KFSConstants.getDashFinancialSubObjectCode().equals(currentValue)) {
 //            return true;
 //        }

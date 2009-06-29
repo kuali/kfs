@@ -45,7 +45,7 @@ public class AssetPaymentZeroAmountValidation extends GenericValidation {
         
         KualiDecimal amount = accountingLineForValidation.getAmount();
         if (amount.isZero()) {
-            GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");
+            GlobalVariables.getMessageMap().putError(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");
             return false;
         }
         return true;

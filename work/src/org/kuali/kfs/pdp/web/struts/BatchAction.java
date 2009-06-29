@@ -38,10 +38,10 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
@@ -94,7 +94,7 @@ public class BatchAction extends KualiAction {
             return batchMaintenanceService.cancelPendingBatch(batchId, cancelNote, user);
         }
         catch (NumberFormatException e) {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.BatchConstants.BATCH_ID, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_ID_IS_NOT_NUMERIC);
+            GlobalVariables.getMessageMap().putError(PdpPropertyConstants.BatchConstants.BATCH_ID, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_ID_IS_NOT_NUMERIC);
             return false;
         }
 
@@ -134,7 +134,7 @@ public class BatchAction extends KualiAction {
             return batchMaintenanceService.holdPendingBatch(batchId, holdNote, user);
         }
         catch (NumberFormatException e) {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.BatchConstants.BATCH_ID, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_ID_IS_NOT_NUMERIC);
+            GlobalVariables.getMessageMap().putError(PdpPropertyConstants.BatchConstants.BATCH_ID, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_ID_IS_NOT_NUMERIC);
             return false;
         }
 
@@ -173,7 +173,7 @@ public class BatchAction extends KualiAction {
             return batchMaintenanceService.removeBatchHold(batchId, changeText, user);
         }
         catch (NumberFormatException e) {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.BatchConstants.BATCH_ID, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_ID_IS_NOT_NUMERIC);
+            GlobalVariables.getMessageMap().putError(PdpPropertyConstants.BatchConstants.BATCH_ID, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_ID_IS_NOT_NUMERIC);
             return false;
         }
 
@@ -287,7 +287,7 @@ public class BatchAction extends KualiAction {
      * @return a String representing the list of error message keys
      */
     private String buildErrorMesageKeyList() {
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         StringBuffer errorList = new StringBuffer();
 
         for (String errorKey : (List<String>) errorMap.getPropertiesWithErrors()) {

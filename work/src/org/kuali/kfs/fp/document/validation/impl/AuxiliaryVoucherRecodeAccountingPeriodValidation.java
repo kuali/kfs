@@ -65,23 +65,23 @@ public class AuxiliaryVoucherRecodeAccountingPeriodValidation extends GenericVal
             // can't post into a previous fiscal year
             Integer currFiscalYear = currPeriod.getUniversityFiscalYear();
             if (currFiscalYear > year) {
-                GlobalVariables.getErrorMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_AV_INCORRECT_FISCAL_YEAR_AVRC);
+                GlobalVariables.getMessageMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_AV_INCORRECT_FISCAL_YEAR_AVRC);
                 return false;
             }
             if (numericPeriod) {
                 // check the posting period, throw out if period 13
                 if (period > 12) {
-                    GlobalVariables.getErrorMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_AV_INCORRECT_POST_PERIOD_AVRC);
+                    GlobalVariables.getMessageMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_AV_INCORRECT_POST_PERIOD_AVRC);
                     return false;
                 }
                 else if (period < 1) {
-                    GlobalVariables.getErrorMap().putError(DOCUMENT_ERRORS, ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE);
+                    GlobalVariables.getMessageMap().putError(DOCUMENT_ERRORS, ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE);
                     return false;
                 }
             }
             else {
                 // not a numeric period and this is a recode? Then we won't allow it; ref KULRNE-6001
-                GlobalVariables.getErrorMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_AV_INCORRECT_POST_PERIOD_AVRC);
+                GlobalVariables.getMessageMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_AV_INCORRECT_POST_PERIOD_AVRC);
                 return false;
             }
         }

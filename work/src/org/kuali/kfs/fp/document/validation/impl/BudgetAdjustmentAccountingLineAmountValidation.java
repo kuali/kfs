@@ -43,7 +43,7 @@ public class BudgetAdjustmentAccountingLineAmountValidation extends GenericValid
 
         // check amounts both current and base amounts are not zero
         if (getAccountingLineForValidation().getCurrentBudgetAdjustmentAmount().isZero() && getAccountingLineForValidation().getBaseBudgetAdjustmentAmount().isZero()) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.BASE_BUDGET_ADJUSTMENT_AMOUNT, KFSKeyConstants.ERROR_BA_AMOUNT_ZERO);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.BASE_BUDGET_ADJUSTMENT_AMOUNT, KFSKeyConstants.ERROR_BA_AMOUNT_ZERO);
             amountValid = false;
         }
 
@@ -80,7 +80,7 @@ public class BudgetAdjustmentAccountingLineAmountValidation extends GenericValid
         boolean correctSign = true;
 
         if (amount.isNegative()) {
-            GlobalVariables.getErrorMap().putError(propertyName, KFSKeyConstants.ERROR_BA_AMOUNT_NEGATIVE, label);
+            GlobalVariables.getMessageMap().putError(propertyName, KFSKeyConstants.ERROR_BA_AMOUNT_NEGATIVE, label);
             correctSign = false;
         }
 

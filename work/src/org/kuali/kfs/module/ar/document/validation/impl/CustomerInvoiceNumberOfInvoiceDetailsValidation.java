@@ -31,7 +31,7 @@ public class CustomerInvoiceNumberOfInvoiceDetailsValidation extends GenericVali
     
     public boolean validate(AttributedDocumentEvent event) {
         if (customerInvoiceDocument.getSourceAccountingLines().isEmpty()) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_INVOICE_DETAILS, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_NO_CUSTOMER_INVOICE_DETAILS);
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_INVOICE_DETAILS, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_NO_CUSTOMER_INVOICE_DETAILS);
             return false;
         }
 

@@ -42,7 +42,7 @@ public class PaymentRequestInvoiceImageAttachmentValidation extends GenericValid
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         PaymentRequestDocument document = (PaymentRequestDocument)event.getDocument();
-        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getMessageMap().clearErrorPath();
         
         if(isDocumentStoppedInRouteNode(document, "ImageAttachment")){
             //assume false if we're in the correct node
@@ -63,11 +63,11 @@ public class PaymentRequestInvoiceImageAttachmentValidation extends GenericValid
             }
             
             if(valid == false){
-                GlobalVariables.getErrorMap().putError(KNSConstants.NEW_DOCUMENT_NOTE_PROPERTY_NAME, PurapKeyConstants.ERROR_PAYMENT_REQUEST_INVOICE_REQUIRED);
+                GlobalVariables.getMessageMap().putError(KNSConstants.NEW_DOCUMENT_NOTE_PROPERTY_NAME, PurapKeyConstants.ERROR_PAYMENT_REQUEST_INVOICE_REQUIRED);
             }
         }
         
-        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getMessageMap().clearErrorPath();
                 
         return valid;
     }

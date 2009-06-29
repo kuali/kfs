@@ -239,7 +239,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
     public void testRouteBrokenDocument_ItemQuantityBased_NoQuantity() {
         requisitionDocument = RequisitionDocumentFixture.REQ_INVALID_ITEM_QUANTITY_BASED_NO_QUANTITY.createRequisitionDocument();
         SpringContext.getBean(KualiRuleService.class).applyRules(new RouteDocumentEvent(requisitionDocument));
-        assertFalse(GlobalVariables.getErrorMap().isEmpty());
+        assertFalse(GlobalVariables.getMessageMap().isEmpty());
     }
     
     private UserNameFixture getInitialUserName() {

@@ -101,7 +101,7 @@ public class FormatAction extends KualiAction {
 
         // no data for format because another format process is already running
         if (formatSelection.getStartDate() != null) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ERROR_PDP_FORMAT_PROCESS_ALREADY_RUNNING, dateTimeService.toDateTimeString(formatSelection.getStartDate()));
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ERROR_PDP_FORMAT_PROCESS_ALREADY_RUNNING, dateTimeService.toDateTimeString(formatSelection.getStartDate()));
         }
         else {
             List<CustomerProfile> customers = formatSelection.getCustomerList();

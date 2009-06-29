@@ -68,13 +68,13 @@ public class EntryLookupableHelperServiceImpl extends AbstractGeneralLedgerLooku
                 int year = Integer.parseInt(valueFiscalYear);
             }
             catch (NumberFormatException e) {
-                GlobalVariables.getErrorMap().putError("universityFiscalYear", KFSKeyConstants.ERROR_CUSTOM, new String[] { "Fiscal Year must be a four-digit number" });
+                GlobalVariables.getMessageMap().putError("universityFiscalYear", KFSKeyConstants.ERROR_CUSTOM, new String[] { "Fiscal Year must be a four-digit number" });
                 throw new ValidationException("errors in search criteria");
             }
         }
         
         if (!allRequiredsForAccountSearch(fieldValues) && !allRequiredsForDocumentSearch(fieldValues)) {
-            GlobalVariables.getErrorMap().putError("universityFiscalYear", KFSKeyConstants.ERROR_GL_LOOKUP_ENTRY_NON_MATCHING_REQUIRED_FIELDS, new String[] {});
+            GlobalVariables.getMessageMap().putError("universityFiscalYear", KFSKeyConstants.ERROR_GL_LOOKUP_ENTRY_NON_MATCHING_REQUIRED_FIELDS, new String[] {});
             throw new ValidationException("errors in search criteria");
         }
     }

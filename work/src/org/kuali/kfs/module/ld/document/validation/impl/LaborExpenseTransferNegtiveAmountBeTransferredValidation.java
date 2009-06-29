@@ -78,7 +78,7 @@ public class LaborExpenseTransferNegtiveAmountBeTransferredValidation extends Ge
         if (result) {
             boolean canNegtiveAmountBeTransferred = canNegtiveAmountBeTransferred(accountingLineGroupMap);
             if (!canNegtiveAmountBeTransferred) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, LaborKeyConstants.ERROR_CANNOT_TRANSFER_NEGATIVE_AMOUNT);
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, LaborKeyConstants.ERROR_CANNOT_TRANSFER_NEGATIVE_AMOUNT);
                 result = false;
             }
         }

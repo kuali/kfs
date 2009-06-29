@@ -22,9 +22,9 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 
 public class DisbursementVoucherDocumentAmountValidation extends GenericValidation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherDocumentAmountValidation.class);
@@ -40,7 +40,7 @@ public class DisbursementVoucherDocumentAmountValidation extends GenericValidati
         boolean isValid = true;
         DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) accountingDocumentForValidation;
         
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         /* check total cannot be negative or zero */

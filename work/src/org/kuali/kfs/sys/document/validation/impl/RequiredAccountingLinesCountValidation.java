@@ -46,7 +46,7 @@ public class RequiredAccountingLinesCountValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         List accountingLineGroup = (List)ObjectUtils.getPropertyValue(accountingDocumentForValidation, accountingLineGroupPropertyName);
         if (accountingLineGroup.size() < minimumNumber) {
-            GlobalVariables.getErrorMap().putError(accountingLineGroupPropertyName, errorMessageName, new String[] { discoverGroupTitle(accountingDocumentForValidation) });
+            GlobalVariables.getMessageMap().putError(accountingLineGroupPropertyName, errorMessageName, new String[] { discoverGroupTitle(accountingDocumentForValidation) });
             return false;
         }
         return true;

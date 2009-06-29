@@ -39,7 +39,7 @@ public class OneSidedRequiredAccountingLinesCountValidation extends GenericValid
      */
     public boolean validate(AttributedDocumentEvent event) {
         if (getAccountingDocumentForValidation().getSourceAccountingLines().size() < getRequiredMinimumCount()) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES);
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES);
             return false;
         }
         return true;

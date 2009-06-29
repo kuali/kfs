@@ -37,7 +37,7 @@ public class AdvanceDepositMinimumAdvanceDepositValidation extends GenericValida
     public boolean validate(AttributedDocumentEvent event) {
         AdvanceDepositDocument ad = getAccountingDocumentForValidation();
         if (ad.getAdvanceDeposits().size() < requiredMinimumCount) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX, KFSKeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_REQ_NUMBER_DEPOSITS_NOT_MET);
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX, KFSKeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_REQ_NUMBER_DEPOSITS_NOT_MET);
             return false;
         }
         return true;

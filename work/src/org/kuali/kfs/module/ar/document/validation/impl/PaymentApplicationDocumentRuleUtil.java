@@ -77,21 +77,21 @@ public class PaymentApplicationDocumentRuleUtil {
         // Can't pay more than you owe.
         if(!amountPaid.isLessEqual(amountOwed)) {
             isValid = false;
-            GlobalVariables.getErrorMap().putError(
+            GlobalVariables.getMessageMap().putError(
                 fieldName, ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_EXCEEDS_AMOUNT_OUTSTANDING);
         }
         
         // Can't apply more than the amount received via the related CashControlDocument
         if (amountPaid.isGreaterThan(totalFromControl)) {
             isValid = false;
-            GlobalVariables.getErrorMap().putError(
+            GlobalVariables.getMessageMap().putError(
                 fieldName,ArKeyConstants.PaymentApplicationDocumentErrors.CANNOT_APPLY_MORE_THAN_CASH_CONTROL_TOTAL_AMOUNT);
         }
         
         //  cant apply negative amounts
         if (amountPaid.isNegative()) {
             isValid = false;
-            GlobalVariables.getErrorMap().putError(
+            GlobalVariables.getMessageMap().putError(
                     fieldName,ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_MUST_BE_POSTIIVE);
         }
         return isValid;
@@ -185,7 +185,7 @@ public class PaymentApplicationDocumentRuleUtil {
      * @return
      */
     public static boolean validateNonInvoiced(NonInvoiced nonInvoiced, PaymentApplicationDocument paymentApplicationDocument, KualiDecimal totalFromControl) throws WorkflowException {
-        MessageMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         int originalErrorCount = errorMap.getErrorCount();
         
         //  validate the NonInvoiced BO
@@ -244,7 +244,7 @@ public class PaymentApplicationDocumentRuleUtil {
      * @return True if the value provided is valid and exists, false otherwise.
      */
     private static boolean validateNonInvoicedLineItem(String attributeName, String value, Class boClass, String errorPropertyName, String errorMessageKey) {
-        MessageMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         boolean isValid = true;
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put(attributeName, value);
@@ -265,7 +265,7 @@ public class PaymentApplicationDocumentRuleUtil {
      * @return
      */
     private static boolean validateNonInvoicedLineAmount(NonInvoiced nonInvoiced, PaymentApplicationDocument paymentApplicationDocument, KualiDecimal totalFromControl) {
-        MessageMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         KualiDecimal nonArLineAmount = nonInvoiced.getFinancialDocumentLineAmount();
         // check that dollar amount is not zero before continuing
         if(ObjectUtils.isNull(nonArLineAmount)) {
@@ -345,13 +345,13 @@ public class PaymentApplicationDocumentRuleUtil {
         // Can't apply more than the total amount of the detail
         if(!totalAppliedAmount.isLessEqual(totalFromControl)) {
             isValid = false;
-            GlobalVariables.getErrorMap().putError(propertyName, ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_EXCEEDS_AMOUNT_OUTSTANDING);
+            GlobalVariables.getMessageMap().putError(propertyName, ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_EXCEEDS_AMOUNT_OUTSTANDING);
         }
         
         // Can't apply a negative amount.
         if(KualiDecimal.ZERO.isGreaterThan(amountAppliedByThisDocument)) {
             isValid = false;
-            GlobalVariables.getErrorMap().putError(propertyName, ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_MUST_BE_GREATER_THAN_ZERO);
+            GlobalVariables.getMessageMap().putError(propertyName, ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_MUST_BE_GREATER_THAN_ZERO);
         }
         
         // Can't apply more than the total amount outstanding on the cash control document.
@@ -359,7 +359,7 @@ public class PaymentApplicationDocumentRuleUtil {
         if(ObjectUtils.isNotNull(cashControlDocument)) {
             if(cashControlDocument.getCashControlTotalAmount().isLessThan(amountAppliedByThisDocument)) {
                 isValid = false;
-                GlobalVariables.getErrorMap().putError(propertyName, ArKeyConstants.PaymentApplicationDocumentErrors.CANNOT_APPLY_MORE_THAN_BALANCE_TO_BE_APPLIED);
+                GlobalVariables.getMessageMap().putError(propertyName, ArKeyConstants.PaymentApplicationDocumentErrors.CANNOT_APPLY_MORE_THAN_BALANCE_TO_BE_APPLIED);
             }
         }
         
@@ -383,7 +383,7 @@ public class PaymentApplicationDocumentRuleUtil {
             if(!isValid) {
                 String propertyName = ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_AMOUNT;
                 String errorKey = ArKeyConstants.PaymentApplicationDocumentErrors.UNAPPLIED_AMOUNT_CANNOT_EXCEED_AVAILABLE_AMOUNT;
-                GlobalVariables.getErrorMap().putError(propertyName, errorKey);
+                GlobalVariables.getMessageMap().putError(propertyName, errorKey);
             }
             // The amount of the unapplied can't exceed the remaining balance to be applied 
             KualiDecimal totalBalanceToBeApplied = applicationDocument.getUnallocatedBalance();
@@ -391,7 +391,7 @@ public class PaymentApplicationDocumentRuleUtil {
             if(!isValid) {
                 String propertyName = ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_AMOUNT;
                 String errorKey = ArKeyConstants.PaymentApplicationDocumentErrors.UNAPPLIED_AMOUNT_CANNOT_EXCEED_BALANCE_TO_BE_APPLIED;
-                GlobalVariables.getErrorMap().putError(propertyName, errorKey);
+                GlobalVariables.getMessageMap().putError(propertyName, errorKey);
             }
             
             //  the unapplied amount cannot be negative
@@ -399,7 +399,7 @@ public class PaymentApplicationDocumentRuleUtil {
             if (!isValid) {
                 String propertyName = ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_AMOUNT;
                 String errorKey = ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_MUST_BE_POSTIIVE;
-                GlobalVariables.getErrorMap().putError(propertyName, errorKey);
+                GlobalVariables.getMessageMap().putError(propertyName, errorKey);
             }
             return isValid;
         } else {
@@ -410,7 +410,7 @@ public class PaymentApplicationDocumentRuleUtil {
                 // Error. Customer number is empty but amount wasn't.
                 String propertyName = ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_CUSTOMER_NUMBER;
                 String errorKey = ArKeyConstants.PaymentApplicationDocumentErrors.UNAPPLIED_AMOUNT_CANNOT_BE_EMPTY_OR_ZERO;
-                GlobalVariables.getErrorMap().putError(propertyName, errorKey);
+                GlobalVariables.getMessageMap().putError(propertyName, errorKey);
                 return false;
             }
         }

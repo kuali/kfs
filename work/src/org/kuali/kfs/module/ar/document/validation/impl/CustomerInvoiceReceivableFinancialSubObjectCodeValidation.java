@@ -34,7 +34,7 @@ public class CustomerInvoiceReceivableFinancialSubObjectCodeValidation extends G
         if (StringUtils.isNotEmpty(customerInvoiceDocument.getPaymentFinancialSubObjectCode())) {
             customerInvoiceDocument.refreshReferenceObject(ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_SUB_OBJECT);
             if (ObjectUtils.isNull(customerInvoiceDocument.getPaymentFinancialSubObject())) {
-                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_SUB_OBJECT_CODE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_SUB_OBJECT_CODE);
+                GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_SUB_OBJECT_CODE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_SUB_OBJECT_CODE);
                 return false;
             }
         }

@@ -34,8 +34,8 @@ import org.kuali.rice.kim.util.KimConstants.PersonExternalIdentifierTypes;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 
 public class DisbursementVoucherVendorInformationValidation extends GenericValidation implements DisbursementVoucherConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherPaymentReasonValidation.class);
@@ -65,7 +65,7 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
 
         VendorDetail vendor = retrieveVendorDetail(payeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger(), payeeDetail.getDisbVchrVendorDetailAssignedIdNumberAsInteger());
 
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         /* Retrieve Vendor */

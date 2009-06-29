@@ -68,7 +68,7 @@ public class AuxiliaryVoucherGeneralLedgerPendingEntriesBalanceValdiation extend
         boolean balanced = debitAmount.equals(creditAmount);
         if (!balanced) {
             String errorParams[] = { creditAmount.toString(), debitAmount.toString() };
-            GlobalVariables.getErrorMap().putError(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_BALANCE, errorParams);
+            GlobalVariables.getMessageMap().putError(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_BALANCE, errorParams);
         }
         return balanced;
     }

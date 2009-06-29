@@ -126,7 +126,7 @@ public class ReceivingAddressPreRules extends MaintenancePreRulesBase {
      * 
      */
     protected void putFieldError(String propertyName, String errorConstant) {
-        GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(MaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX+propertyName, errorConstant);
+        GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(MaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX+propertyName, errorConstant);
     }
     
 }

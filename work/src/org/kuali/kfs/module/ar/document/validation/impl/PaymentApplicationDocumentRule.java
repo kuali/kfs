@@ -25,10 +25,10 @@ import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRu
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 
 public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocumentRuleBase {
     
@@ -153,7 +153,7 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
         if (!isValid) return false;
         
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) document;
 
         // this rules is only applicable to CashControl generated Application document

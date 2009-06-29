@@ -312,19 +312,19 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             String errorLabel = dds.getAttributeLabel(documentEntryName, propertyName);
 
             if (totalAmount.isNegative()) {
-                GlobalVariables.getErrorMap().putError(errorProperty, CashReceipt.ERROR_NEGATIVE_TOTAL, errorLabel);
+                GlobalVariables.getMessageMap().putError(errorProperty, CashReceipt.ERROR_NEGATIVE_TOTAL, errorLabel);
 
                 isInvalid = true;
             }
             else {
-                int precount = GlobalVariables.getErrorMap().size();
+                int precount = GlobalVariables.getMessageMap().size();
 
                 getDictionaryValidationService().validateDocumentAttribute(cashReceiptDocument, propertyName, DOCUMENT_ERROR_PREFIX);
 
                 // replace generic error message, if any, with something more readable
-                GlobalVariables.getErrorMap().replaceError(errorProperty, KFSKeyConstants.ERROR_MAX_LENGTH, CashReceipt.ERROR_EXCESSIVE_TOTAL, errorLabel);
+                GlobalVariables.getMessageMap().replaceError(errorProperty, KFSKeyConstants.ERROR_MAX_LENGTH, CashReceipt.ERROR_EXCESSIVE_TOTAL, errorLabel);
 
-                int postcount = GlobalVariables.getErrorMap().size();
+                int postcount = GlobalVariables.getMessageMap().size();
                 isInvalid = (postcount > precount);
             }
         }

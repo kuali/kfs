@@ -76,7 +76,7 @@ public class LaborJournalVoucherEmployeeIDExistenceCheckValidation extends Gener
         Collection emplidMatches = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).findPeople(criteria);
         if (emplidMatches == null || emplidMatches.isEmpty()) {
             String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(LaborJournalVoucherDetail.class.getName()).getAttributeDefinition(KFSPropertyConstants.EMPLID).getLabel();
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.EMPLID, KFSKeyConstants.ERROR_EXISTENCE, label) ;
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.EMPLID, KFSKeyConstants.ERROR_EXISTENCE, label) ;
             employeeIDExists = false ;
         }
             

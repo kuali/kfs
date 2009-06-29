@@ -158,7 +158,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         assertEquals(false, result);
         assertGlobalErrorMapSize(1);
         assertGlobalErrorExists(KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_RPTCODE_ALL_FIELDS_IF_ANY_FIELDS);
-        GlobalVariables.getErrorMap().clear();
+        GlobalVariables.getMessageMap().clear();
     }
 
     public void testCheckForPartiallyEnteredReportingFields_notAllFinReportCodesEntered() {

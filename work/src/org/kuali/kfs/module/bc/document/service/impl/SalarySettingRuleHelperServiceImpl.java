@@ -34,10 +34,9 @@ import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.service.HumanResourcesPayrollService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.spring.Logged;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * provide a set of rule elements for salary setting.
@@ -51,7 +50,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#canBeAdjusted(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding, org.kuali.rice.kns.util.ErrorMap)
      */
-    public boolean canBeAdjusted(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean canBeAdjusted(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         if (appointmentFunding.getEffectiveCSFTracker() == null) {
             errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_CANNOT_ADJUST_FUNDING_WITHOUT_EFFECTIVE_CSF_TRACKER);
             return false;
@@ -69,7 +68,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasActiveJob(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.rice.kns.util.ErrorMap)
      */
-    public boolean hasActiveJob(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean hasActiveJob(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
         String emplid = appointmentFunding.getEmplid();
         String positionNumber = appointmentFunding.getPositionNumber();
@@ -87,7 +86,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasObjectCodeMatchingDefaultOfPosition(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap)
      */
-    public boolean hasObjectCodeMatchingDefaultOfPosition(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean hasObjectCodeMatchingDefaultOfPosition(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         String defaultObjectCode = appointmentFunding.getBudgetConstructionPosition().getIuDefaultObjectCode();
         String objectCode = appointmentFunding.getFinancialObjectCode();
 
@@ -103,7 +102,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasRequestedAmountZeroWhenFullYearLeave(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap)
      */
-    public boolean hasRequestedAmountZeroWhenFullYearLeave(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean hasRequestedAmountZeroWhenFullYearLeave(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         String leaveDurationCode = appointmentFunding.getAppointmentFundingDurationCode();
 
         // Request Salary Amount must be zero because these leave codes are for full year leave without pay.
@@ -123,7 +122,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasRequestedFteQuantityZeroWhenFullYearLeave(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap)
      */
-    public boolean hasRequestedFteQuantityZeroWhenFullYearLeave(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean hasRequestedFteQuantityZeroWhenFullYearLeave(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         String leaveDurationCode = appointmentFunding.getAppointmentFundingDurationCode();
 
         // Request Salary Amount must be zero because these leave codes are for full year leave without pay.
@@ -145,7 +144,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasNoExistingLine(java.util.List,
      *      org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding, org.kuali.rice.kns.util.ErrorMap)
      */
-    public boolean hasNoExistingLine(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean hasNoExistingLine(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         boolean hasNoExistingLine = salarySettingService.findAppointmentFunding(appointmentFundings, appointmentFunding) == null;
         if (!hasNoExistingLine) {
             errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_DUPLICATE_FUNDING_LINE);
@@ -159,7 +158,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasValidRequestedAmount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap)
      */
-    public boolean hasValidRequestedAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean hasValidRequestedAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         KualiInteger requestedAmount = appointmentFunding.getAppointmentRequestedAmount();
         if (requestedAmount == null || requestedAmount.isNegative()) {
             errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_REQUESTED_AMOUNT_NONNEGATIVE_REQUIRED);
@@ -169,7 +168,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
         return true;
     }
 
-    public boolean hasValidRequestedAmountQuickSalarySetting(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean hasValidRequestedAmountQuickSalarySetting(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
 
         if (this.hasValidRequestedAmount(appointmentFunding, errorMap)){
             KualiInteger requestedAmount = appointmentFunding.getAppointmentRequestedAmount();
@@ -187,7 +186,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasValidRequestedCsfAmount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap)
      */
-    public boolean hasValidRequestedCsfAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean hasValidRequestedCsfAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         KualiInteger csfAmount = appointmentFunding.getAppointmentRequestedCsfAmount();
         String leaveDurationCode = appointmentFunding.getAppointmentFundingDurationCode();
 
@@ -208,7 +207,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasValidRequestedCsfTimePercent(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap)
      */
-    public boolean hasValidRequestedCsfTimePercent(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean hasValidRequestedCsfTimePercent(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         BigDecimal csfTimePercent = appointmentFunding.getAppointmentRequestedCsfTimePercent();
         String leaveDurationCode = appointmentFunding.getAppointmentFundingDurationCode();
 
@@ -229,7 +228,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasValidRequestedFteQuantity(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap)
      */
-    public boolean hasValidRequestedFteQuantity(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean hasValidRequestedFteQuantity(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         BigDecimal requestedFteQuantity = appointmentFunding.getAppointmentRequestedFteQuantity();
         if (requestedFteQuantity == null || requestedFteQuantity.compareTo(BigDecimal.ZERO) < 0 || requestedFteQuantity.compareTo(BigDecimal.ONE) > 0) {
             errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_FTE_QUANTITY, BCKeyConstants.ERROR_FTE_QUANTITY_NOT_IN_RANGE, BigDecimal.ZERO.toPlainString(), BigDecimal.ONE.toPlainString());
@@ -243,7 +242,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasValidRequestedFundingMonth(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap)
      */
-    public boolean hasValidRequestedFundingMonth(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean hasValidRequestedFundingMonth(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         Integer fundingMonths = appointmentFunding.getAppointmentFundingMonth();
         if (fundingMonths == null) {
             errorMap.putError(BCPropertyConstants.APPOINTMENT_FUNDING_MONTH, BCKeyConstants.ERROR_EMPTY_FUNDIN_MONTH);
@@ -275,7 +274,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasValidRequestedTimePercent(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.ErrorMap)
      */
-    public boolean hasValidRequestedTimePercent(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean hasValidRequestedTimePercent(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         KualiInteger requestedAmount = appointmentFunding.getAppointmentRequestedAmount();
         BigDecimal requestedTimePercent = appointmentFunding.getAppointmentRequestedTimePercent();
 
@@ -301,7 +300,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasValidAdjustmentAmount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.rice.kns.util.ErrorMap)
      */
-    public boolean hasValidAdjustmentAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean hasValidAdjustmentAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         KualiDecimal adjustmentAmount = appointmentFunding.getAdjustmentAmount();
 
         if (adjustmentAmount == null) {
@@ -316,7 +315,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#hasValidAdjustmentAmount(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.rice.kns.util.ErrorMap)
      */
-    public boolean hasValidPayRateOrAnnualAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean hasValidPayRateOrAnnualAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         BigDecimal payRate = appointmentFunding.getAppointmentRequestedPayRate();
         KualiInteger requestedAmount = appointmentFunding.getAppointmentRequestedAmount();
 

@@ -35,7 +35,7 @@ public class AuxiliaryVoucherReversalDateValidation extends GenericValidation {
      */
     public boolean validate(AttributedDocumentEvent event) {
         if (getAuxiliaryVoucherDocumentForValidation().isAccrualType() && getAuxiliaryVoucherDocumentForValidation().getReversalDate() == null) {
-            GlobalVariables.getErrorMap().putError(REVERSAL_DATE, ERROR_INVALID_ACCRUAL_REVERSAL_DATE);
+            GlobalVariables.getMessageMap().putError(REVERSAL_DATE, ERROR_INVALID_ACCRUAL_REVERSAL_DATE);
             return false;
         }
 

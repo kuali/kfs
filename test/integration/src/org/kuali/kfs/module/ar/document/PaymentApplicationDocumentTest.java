@@ -35,7 +35,6 @@ import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -48,9 +47,9 @@ import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 
 @ConfigureContext(session = khuntley)
 public class PaymentApplicationDocumentTest extends KualiTestBase {
@@ -237,7 +236,7 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
         arDocumentHeader.setProcessingChartOfAccountCode(organization.getChartOfAccountsCode());
         arDocumentHeader.setProcessingOrganizationCode(organization.getOrganizationCode());
         
-        ErrorMap e = GlobalVariables.getErrorMap();
+        MessageMap e = GlobalVariables.getMessageMap();
         int errorCount = e.size();
         try {
             documentService.saveDocument(cashControlDocument);

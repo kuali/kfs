@@ -40,7 +40,7 @@ public class AssetPaymentAssetCountValidation extends GenericValidation {
 
         //IF no assets found in document, then....
         if (assetPaymentDocument.getAssetPaymentAssetDetail().size() == 0) {
-            GlobalVariables.getErrorMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID,CamsKeyConstants.Payment.ERROR_NON_ASSETS_IN_DOCUMENT);
+            GlobalVariables.getMessageMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID,CamsKeyConstants.Payment.ERROR_NON_ASSETS_IN_DOCUMENT);
             valid = false;
         }
         

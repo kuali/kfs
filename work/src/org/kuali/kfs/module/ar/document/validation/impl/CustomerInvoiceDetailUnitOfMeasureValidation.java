@@ -42,7 +42,7 @@ public class CustomerInvoiceDetailUnitOfMeasureValidation extends GenericValidat
             Map<String,String> criteria = new HashMap<String,String>();
             criteria.put("itemUnitOfMeasureCode", customerInvoiceDetail.getInvoiceItemUnitOfMeasureCode());
             if (ObjectUtils.isNull(SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(UnitOfMeasure.class, criteria))) {
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceDocumentFields.UNIT_OF_MEASURE_CODE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_UNIT_OF_MEASURE_CD);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerInvoiceDocumentFields.UNIT_OF_MEASURE_CODE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_UNIT_OF_MEASURE_CD);
                 return false;
             }
         }

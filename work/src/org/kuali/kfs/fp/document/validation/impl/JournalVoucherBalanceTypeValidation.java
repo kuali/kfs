@@ -46,12 +46,12 @@ public class JournalVoucherBalanceTypeValidation extends GenericValidation {
         getJournalVoucherForValidation().refreshReferenceObject(KFSPropertyConstants.BALANCE_TYPE);
         BalanceType balanceType = getJournalVoucherForValidation().getBalanceType();
         if (ObjectUtils.isNull(balanceType)) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + BALANCE_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + BALANCE_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
             return false;
         }
         // make sure it's active for usage
         if (!balanceType.isActive()) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + BALANCE_TYPE_CODE, KFSKeyConstants.ERROR_INACTIVE, label);
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + BALANCE_TYPE_CODE, KFSKeyConstants.ERROR_INACTIVE, label);
             return false;
         }
         return true;

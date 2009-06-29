@@ -27,8 +27,8 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * Validation for Budget Adjustment document that checks that the fund groups are correctly adjusted.
@@ -43,7 +43,7 @@ public class BudgetAdjustmentFundGroupAdjustmentRestrictionValidation extends Ge
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
 
         boolean isAdjustmentAllowed = true;
 

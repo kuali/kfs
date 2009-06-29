@@ -38,8 +38,8 @@ public class CorrectionReceivingDocumentRule extends DocumentRuleBase {
         boolean valid = true;
         CorrectionReceivingDocument correctionReceivingDocument = (CorrectionReceivingDocument)document;
         
-        GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        GlobalVariables.getMessageMap().clearErrorPath();
+        GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         
         valid &= super.processCustomRouteDocumentBusinessRules(document);
         valid &= canCreateCorrectionReceivingDocument(correctionReceivingDocument);
@@ -63,7 +63,7 @@ public class CorrectionReceivingDocumentRule extends DocumentRuleBase {
             }
         }
         //if no items are entered return false
-        GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_LINEITEM_REQUIRED);
+        GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_LINEITEM_REQUIRED);
         return false;
         
     }    
@@ -80,7 +80,7 @@ public class CorrectionReceivingDocumentRule extends DocumentRuleBase {
         
         if( SpringContext.getBean(ReceivingService.class).canCreateCorrectionReceivingDocument(correctionReceivingDocument.getLineItemReceivingDocument(), correctionReceivingDocument.getDocumentNumber()) == false){
             valid &= false;
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.LINE_ITEM_RECEIVING_DOCUMENT_NUMBER, PurapKeyConstants.ERROR_RECEIVING_CORRECTION_DOCUMENT_ACTIVE_FOR_RCV_LINE, correctionReceivingDocument.getDocumentNumber(), correctionReceivingDocument.getLineItemReceivingDocumentNumber());
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.LINE_ITEM_RECEIVING_DOCUMENT_NUMBER, PurapKeyConstants.ERROR_RECEIVING_CORRECTION_DOCUMENT_ACTIVE_FOR_RCV_LINE, correctionReceivingDocument.getDocumentNumber(), correctionReceivingDocument.getLineItemReceivingDocumentNumber());
         }
          
         return valid;

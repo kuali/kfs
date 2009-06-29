@@ -46,7 +46,7 @@ public class AuxiliaryVoucherAccountingPeriodAllowedByParameterValidation extend
 
         valid = getParameterService().getParameterEvaluator(AuxiliaryVoucherDocument.class, RESTRICTED_PERIOD_CODES, auxiliaryVoucherDocumentForValidation.getPostingPeriodCode()).evaluationSucceeds();
         if (!valid) {
-            GlobalVariables.getErrorMap().putError(ACCOUNTING_PERIOD_ACTIVE_INDICATOR_FIELD, ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE);
+            GlobalVariables.getMessageMap().putError(ACCOUNTING_PERIOD_ACTIVE_INDICATOR_FIELD, ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE);
         }
         
         return valid;

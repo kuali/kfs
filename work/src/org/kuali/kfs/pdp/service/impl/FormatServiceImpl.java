@@ -357,7 +357,7 @@ public class FormatServiceImpl implements FormatService {
 
             if (ObjectUtils.isNull(paymentGroup.getBank())) {
                 LOG.error("performFormat() A bank is needed for CHCK for customer: " + customer);
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_BANK_MISSING, customer.getCustomerShortName());
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_BANK_MISSING, customer.getCustomerShortName());
                 successful = false;
                 return successful;
                // throw new FormatException("A bank is needed for CHCK for customer: " + customer.getChartCode() + "-" + customer.getUnitCode() + "-" + customer.getSubUnitCode());
@@ -384,7 +384,7 @@ public class FormatServiceImpl implements FormatService {
 
             if (ObjectUtils.isNull(paymentGroup.getBank())) {
                 LOG.error("performFormat() A bank is needed for ACH for customer: " + customer);
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_BANK_MISSING, customer.getCustomerShortName());
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_BANK_MISSING, customer.getCustomerShortName());
                 successful = false;
                 return successful;
             //    throw new FormatException("A bank is needed for ACH for customer: " + customer.getChartCode() + "-" + customer.getUnitCode() + "-" + customer.getSubUnitCode());
@@ -425,7 +425,7 @@ public class FormatServiceImpl implements FormatService {
             DisbursementNumberRange range = getRange(disbursementRanges, paymentGroup.getBank(), paymentGroup.getDisbursementType().getCode());
 
             if (range == null) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_DISBURSEMENT_MISSING, campus, paymentGroup.getBank().getBankCode(), paymentGroup.getDisbursementType().getCode());
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_DISBURSEMENT_MISSING, campus, paymentGroup.getBank().getBankCode(), paymentGroup.getDisbursementType().getCode());
                 successful = false;
                 return successful;
                // throw new FormatException("No disbursement range for bank code " + paymentGroup.getBank().getBankCode() + " and disbursement type code " + paymentGroup.getDisbursementType().getCode());
@@ -517,7 +517,7 @@ public class FormatServiceImpl implements FormatService {
         KualiInteger disbursementNumber = new KualiInteger(1 + range.getLastAssignedDisbNbr().intValue());
 
         if (disbursementNumber.isGreaterThan(range.getEndDisbursementNbr())) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_DISBURSEMENT_EXHAUSTED, campus, paymentGroup.getBank().getBankCode(), paymentGroup.getDisbursementType().getCode());
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_DISBURSEMENT_EXHAUSTED, campus, paymentGroup.getBank().getBankCode(), paymentGroup.getDisbursementType().getCode());
 
             throw new FormatException("No more disbursement numbers for bank code " + paymentGroup.getBank().getBankCode() + " and disbursement type code " + paymentGroup.getDisbursementType().getCode());
         }

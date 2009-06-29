@@ -64,18 +64,18 @@ public class JournalVoucherAccountingLineAmountValidation extends GenericValidat
         if (getJournalVoucherForValidation().getBalanceType().isFinancialOffsetGenerationIndicator()) {
             // check for negative or zero amounts
             if (amount.isZero()) { // if 0
-                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
-                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
 
                 return false;
             }
             else if (amount.isNegative()) { // entered a negative number
                 String debitCreditCode = getAccountingLineForValidation().getDebitCreditCode();
                 if (StringUtils.isNotBlank(debitCreditCode) && GL_DEBIT_CODE.equals(debitCreditCode)) {
-                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
                 }
                 else {
-                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
                 }
 
                 return false;
@@ -84,12 +84,12 @@ public class JournalVoucherAccountingLineAmountValidation extends GenericValidat
         else {
             // Check for zero amounts
             if (amount.isZero()) { // amount == 0
-                GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");
+                GlobalVariables.getMessageMap().putError(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");
                 return false;
             }
             else if (amount.isNegative()) {
                 if (!getAccountingLineForValidation().getBalanceTypeCode().equals(BALANCE_TYPE_BASE_BUDGET) && !getAccountingLineForValidation().getBalanceTypeCode().equals(BALANCE_TYPE_CURRENT_BUDGET) && !getAccountingLineForValidation().getBalanceTypeCode().equals(BALANCE_TYPE_MONTHLY_BUDGET)) {
-                    GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_NEGATIVE_NON_BUDGET_AMOUNTS);
+                    GlobalVariables.getMessageMap().putError(AMOUNT_PROPERTY_NAME, ERROR_NEGATIVE_NON_BUDGET_AMOUNTS);
                 }
             }
         }
@@ -111,14 +111,14 @@ public class JournalVoucherAccountingLineAmountValidation extends GenericValidat
      */
     private String buildErrorMapKeyPathForDebitCreditAmount(boolean isDebit) {
         // determine if we are looking at a new line add or an update
-        boolean isNewLineAdd = GlobalVariables.getErrorMap().getErrorPath().contains(NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
-        isNewLineAdd |= GlobalVariables.getErrorMap().getErrorPath().contains(NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
+        boolean isNewLineAdd = GlobalVariables.getMessageMap().getErrorPath().contains(NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
+        isNewLineAdd |= GlobalVariables.getMessageMap().getErrorPath().contains(NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
 
         if (isNewLineAdd) {
             return isDebit ? DEBIT_AMOUNT_PROPERTY_NAME : CREDIT_AMOUNT_PROPERTY_NAME;
         }
         else {
-            String index = StringUtils.substringBetween(GlobalVariables.getErrorMap().getKeyPath("", true), SQUARE_BRACKET_LEFT, SQUARE_BRACKET_RIGHT);
+            String index = StringUtils.substringBetween(GlobalVariables.getMessageMap().getKeyPath("", true), SQUARE_BRACKET_LEFT, SQUARE_BRACKET_RIGHT);
             String indexWithParams = SQUARE_BRACKET_LEFT + index + SQUARE_BRACKET_RIGHT;
             return isDebit ? (JOURNAL_LINE_HELPER_PROPERTY_NAME + indexWithParams + VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME) : (JOURNAL_LINE_HELPER_PROPERTY_NAME + indexWithParams + VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME);
         }

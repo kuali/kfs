@@ -42,7 +42,7 @@ public class CashReceiptFamilyAccountingLineTotalValidation extends GenericValid
             String errorProperty = DOCUMENT_ERROR_PREFIX + KFSPropertyConstants.SOURCE_ACCOUNTING_LINES;
 
             isValid = false;
-            GlobalVariables.getErrorMap().putError(errorProperty, CashReceipt.ERROR_ZERO_TOTAL, "Accounting Line Total");
+            GlobalVariables.getMessageMap().putError(errorProperty, CashReceipt.ERROR_ZERO_TOTAL, "Accounting Line Total");
         }
 
         return isValid;

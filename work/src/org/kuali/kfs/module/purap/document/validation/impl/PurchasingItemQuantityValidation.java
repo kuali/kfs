@@ -42,13 +42,13 @@ public class PurchasingItemQuantityValidation extends GenericValidation {
             valid = false;
             String attributeLabel = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(purItem.getClass().getName()).
                                     getAttributeDefinition(PurapPropertyConstants.ITEM_QUANTITY).getLabel();            
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + purItem.getItemIdentifierString());
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.QUANTITY, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + purItem.getItemIdentifierString());
         }
         else if (purItem.getItemType().isAmountBasedGeneralLedgerIndicator() && ObjectUtils.isNotNull(purItem.getItemQuantity())) {
             valid = false;
             String attributeLabel = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(purItem.getClass().getName()).
                                     getAttributeDefinition(PurapPropertyConstants.ITEM_QUANTITY).getLabel(); 
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ALLOWED, attributeLabel + " in " + purItem.getItemIdentifierString());
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.QUANTITY, PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ALLOWED, attributeLabel + " in " + purItem.getItemIdentifierString());
         }
 
         return valid;

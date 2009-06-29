@@ -1271,7 +1271,7 @@ public class PurapServiceImpl implements PurapService {
 
             if (summaryAccounts.size() == 0) {
                 if (purDoc.shouldGiveErrorForEmptyAccountsProration()) {
-                    GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_SUMMARY_ACCOUNTS_LIST_EMPTY, "full order discount");
+                    GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_SUMMARY_ACCOUNTS_LIST_EMPTY, "full order discount");
                 }
             } else {                
                 //prorate accounts
@@ -1336,7 +1336,7 @@ public class PurapServiceImpl implements PurapService {
             summaryAccounts = purapAccountingService.generateSummary(clonedTradeInItems);
             if (summaryAccounts.size() == 0) {
                 if (purDoc.shouldGiveErrorForEmptyAccountsProration()) {
-                    GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_SUMMARY_ACCOUNTS_LIST_EMPTY, "trade in");    
+                    GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_SUMMARY_ACCOUNTS_LIST_EMPTY, "trade in");    
                 }
             }
             else {

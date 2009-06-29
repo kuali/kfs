@@ -52,7 +52,7 @@ public class BenefitExpenseTransferSameAccountValidation extends GenericValidati
         boolean isTargetLine = accountingLine.isTargetAccountingLine();
         if (!isTargetLine) {
             if (!hasSameAccount(documentForValidation, accountingLine)) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_ACCOUNT_NOT_SAME);
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_ACCOUNT_NOT_SAME);
                 result = false;
             }
         }

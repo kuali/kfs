@@ -51,7 +51,7 @@ public class PurchasingUnitOfMeasureValidation extends GenericValidation {
                 String attributeLabel = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(purItem.getClass().getName()).
                                         getAttributeDefinition(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE).
                                         getLabel();
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + purItem.getItemIdentifierString());
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + purItem.getItemIdentifierString());
             }
             else {
                 //Find out whether the unit of measure code has existed in the database
@@ -60,7 +60,7 @@ public class PurchasingUnitOfMeasureValidation extends GenericValidation {
                 if (businessObjectService.countMatching(UnitOfMeasure.class, fieldValues) != 1) {
                     //This is the case where the unit of measure code on the item does not exist in the database.
                     valid = false;
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, PurapKeyConstants.PUR_ITEM_UNIT_OF_MEASURE_CODE_INVALID,  " in " + purItem.getItemIdentifierString());
+                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, PurapKeyConstants.PUR_ITEM_UNIT_OF_MEASURE_CODE_INVALID,  " in " + purItem.getItemIdentifierString());
                 }
             }            
         }

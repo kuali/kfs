@@ -51,27 +51,27 @@ public class PurchaseOrderAssignSensitiveDataValidation extends GenericValidatio
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
-        GlobalVariables.getErrorMap().clearErrorPath();        
+        GlobalVariables.getMessageMap().clearErrorPath();        
         HashSet<String> sdset = new HashSet<String>();
         
         if (StringUtils.isEmpty(sensitiveDataAssignmentReason)) {
-            GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_SENSITIVE_DATA_TAB_ERRORS, PurapKeyConstants.ERROR_ASSIGN_SENSITIVE_DATA_REASON_EMPTY);
+            GlobalVariables.getMessageMap().putError(PurapConstants.ASSIGN_SENSITIVE_DATA_TAB_ERRORS, PurapKeyConstants.ERROR_ASSIGN_SENSITIVE_DATA_REASON_EMPTY);
             valid = false;                            
         }
         
         for (Object sdobj : sensitiveDatasAssigned) {
             SensitiveData sd = (SensitiveData)sdobj;
             if (!sd.isActive()) {
-                GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_SENSITIVE_DATA_TAB_ERRORS, PurapKeyConstants.ERROR_ASSIGN_SENSITIVE_DATA_INACTIVE, sd.getSensitiveDataDescription());
+                GlobalVariables.getMessageMap().putError(PurapConstants.ASSIGN_SENSITIVE_DATA_TAB_ERRORS, PurapKeyConstants.ERROR_ASSIGN_SENSITIVE_DATA_INACTIVE, sd.getSensitiveDataDescription());
                 valid = false;                
             }
             else if (!sdset.add(sd.getSensitiveDataCode())) {
-                GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_SENSITIVE_DATA_TAB_ERRORS, PurapKeyConstants.ERROR_ASSIGN_SENSITIVE_DATA_REDUNDANT, sd.getSensitiveDataDescription());
+                GlobalVariables.getMessageMap().putError(PurapConstants.ASSIGN_SENSITIVE_DATA_TAB_ERRORS, PurapKeyConstants.ERROR_ASSIGN_SENSITIVE_DATA_REDUNDANT, sd.getSensitiveDataDescription());
                 valid = false;                                    
             }            
         }
 
-        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getMessageMap().clearErrorPath();
         return valid;
     }
  

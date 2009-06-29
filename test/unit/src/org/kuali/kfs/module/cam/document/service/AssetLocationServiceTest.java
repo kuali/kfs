@@ -78,29 +78,29 @@ public class AssetLocationServiceTest extends KualiTestBase {
         assetType.setMovingIndicator(true);
         // when conditions are valid
         this.assetLocationService.validateLocation(fieldMap, onCampusObject, true, assetType);
-        assertTrue(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertTrue(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
 
         // when building code is null
         onCampusObject.setBuildingCode(null);
         this.assetLocationService.validateLocation(fieldMap, onCampusObject, true, assetType);
-        assertFalse(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertFalse(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
 
         // when room number is null
         onCampusObject.setBuildingCode("BL001");
         onCampusObject.setBuildingRoomNumber(null);
         this.assetLocationService.validateLocation(fieldMap, onCampusObject, true, assetType);
-        assertFalse(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertFalse(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
 
 
         // when sub room number is optional
         onCampusObject.setBuildingRoomNumber("B034F");
         onCampusObject.setBuildingSubRoomNumber(null);
         this.assetLocationService.validateLocation(fieldMap, onCampusObject, true, assetType);
-        assertTrue(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertTrue(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
 
         // test condition when building required indicator is true
         assetType.setMovingIndicator(false);
@@ -108,29 +108,29 @@ public class AssetLocationServiceTest extends KualiTestBase {
         onCampusObject.setBuildingRoomNumber(null);
         onCampusObject.setBuildingSubRoomNumber(null);
         this.assetLocationService.validateLocation(fieldMap, onCampusObject, true, assetType);
-        assertTrue(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertTrue(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
 
         // when building code is null
         onCampusObject.setBuildingCode(null);
         this.assetLocationService.validateLocation(fieldMap, onCampusObject, true, assetType);
-        assertFalse(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertFalse(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
 
         // when room number is not null
         onCampusObject.setBuildingCode("BL001");
         onCampusObject.setBuildingRoomNumber("YYGBJGJH");
         this.assetLocationService.validateLocation(fieldMap, onCampusObject, true, assetType);
-        assertFalse(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertFalse(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
 
 
         // when sub room number is not null
         onCampusObject.setBuildingRoomNumber(null);
         onCampusObject.setBuildingSubRoomNumber("HGBJHNGBJH");
         this.assetLocationService.validateLocation(fieldMap, onCampusObject, true, assetType);
-        assertFalse(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertFalse(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
     }
 
     public void testValidateLocation_OffCampus() throws Exception {
@@ -139,49 +139,49 @@ public class AssetLocationServiceTest extends KualiTestBase {
         assetType.setRequiredBuildingIndicator(false);
         // when conditions are valid
         this.assetLocationService.validateLocation(fieldMap, offcampusObject, true, assetType);
-        assertTrue(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertTrue(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
 
         // when contact name is null
         this.offcampusObject.setOffCampusName(null);
         this.assetLocationService.validateLocation(fieldMap, offcampusObject, true, assetType);
-        assertFalse(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertFalse(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
 
         // when street address is null
         this.offcampusObject.setOffCampusName("me");
         this.offcampusObject.setOffCampusAddress(null);
         this.assetLocationService.validateLocation(fieldMap, offcampusObject, true, assetType);
-        assertFalse(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertFalse(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
 
         // when city name is null
         this.offcampusObject.setOffCampusAddress("Street");
         this.offcampusObject.setOffCampusCityName(null);
         this.assetLocationService.validateLocation(fieldMap, offcampusObject, true, assetType);
-        assertFalse(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertFalse(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
 
         // when state code is null
         this.offcampusObject.setOffCampusCityName("City");
         this.offcampusObject.setOffCampusStateCode(null);
         this.assetLocationService.validateLocation(fieldMap, offcampusObject, true, assetType);
-        assertFalse(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertFalse(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
 
         // when zip code is null
         this.offcampusObject.setOffCampusStateCode("MI");
         this.offcampusObject.setOffCampusZipCode(null);
         this.assetLocationService.validateLocation(fieldMap, offcampusObject, true, assetType);
-        assertFalse(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertFalse(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
 
         // when country code is null
         this.offcampusObject.setOffCampusZipCode("34343");
         this.offcampusObject.setOffCampusCountryCode(null);
         this.assetLocationService.validateLocation(fieldMap, offcampusObject, true, assetType);
-        assertFalse(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertFalse(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
 
     }
 
@@ -190,61 +190,61 @@ public class AssetLocationServiceTest extends KualiTestBase {
         // when asset type is not defined
         AssetType assetType = null;
         this.assetLocationService.validateLocation(fieldMap, onCampusObject, true, assetType);
-        assertFalse(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertFalse(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
 
         // required building and offcampus
         assetType = new AssetType();
         assetType.setRequiredBuildingIndicator(true);
         assetType.setMovingIndicator(false);
         this.assetLocationService.validateLocation(fieldMap, offcampusObject, true, assetType);
-        assertFalse(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertFalse(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
 
         // req bldg and moving indicators value false, oncampus not allowed
         assetType.setRequiredBuildingIndicator(false);
         assetType.setMovingIndicator(false);
         this.assetLocationService.validateLocation(fieldMap, onCampusObject, true, assetType);
-        assertFalse(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertFalse(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
 
         // when no information is available for capital asset
         assetType.setRequiredBuildingIndicator(true);
         AssetGlobalDetail blankObject = new AssetGlobalDetail();
         this.assetLocationService.validateLocation(fieldMap, blankObject, true, assetType);
-        assertFalse(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertFalse(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
 
         // when both are available
         this.onCampusObject.setOffCampusAddress("Street");
         this.assetLocationService.validateLocation(fieldMap, onCampusObject, true, assetType);
-        assertFalse(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertFalse(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
     }
 
     public void testValidateLocation_NonCapitalAsset() throws Exception {
         // when no information is available for capital asset
         AssetGlobalDetail blankObject = new AssetGlobalDetail();
         this.assetLocationService.validateLocation(fieldMap, blankObject, false, null);
-        assertTrue(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertTrue(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
 
         // when on-campus, all fields are optional
         this.onCampusObject.setBuildingCode(null);
         this.assetLocationService.validateLocation(fieldMap, onCampusObject, false, null);
-        assertTrue(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertTrue(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
 
         // when off-campus, validate location
         this.assetLocationService.validateLocation(fieldMap, offcampusObject, false, null);
-        assertTrue(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertTrue(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
 
         // when off-campus, validate location
         this.offcampusObject.setOffCampusCountryCode(null);
         this.assetLocationService.validateLocation(fieldMap, offcampusObject, false, null);
-        assertFalse(GlobalVariables.getErrorMap().isEmpty());
-        GlobalVariables.getErrorMap().clear();
+        assertFalse(GlobalVariables.getMessageMap().isEmpty());
+        GlobalVariables.getMessageMap().clear();
 
     }
 }

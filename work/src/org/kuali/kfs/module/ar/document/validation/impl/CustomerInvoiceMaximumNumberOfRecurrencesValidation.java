@@ -55,7 +55,7 @@ public class CustomerInvoiceMaximumNumberOfRecurrencesValidation extends Generic
             if (maximumRecurrences.size() > 0 && StringUtils.isNotBlank(maximumRecurrences.get(0))) {
                 maximumRecurrencesByInterval = Integer.valueOf(maximumRecurrences.get(0));
                 if (customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber() > maximumRecurrencesByInterval) {
-                    GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_RECURRENCE_TOTAL_RECURRENCE_NUMBER, ArKeyConstants.ERROR_TOTAL_NUMBER_OF_RECURRENCES_GREATER_THAN_ALLOWED, maximumRecurrences.get(0));
+                    GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_RECURRENCE_TOTAL_RECURRENCE_NUMBER, ArKeyConstants.ERROR_TOTAL_NUMBER_OF_RECURRENCES_GREATER_THAN_ALLOWED, maximumRecurrences.get(0));
                     return false;
                 }
             }

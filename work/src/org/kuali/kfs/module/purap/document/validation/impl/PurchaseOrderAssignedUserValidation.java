@@ -25,8 +25,8 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurchaseOrderAssignedUserValidation extends GenericValidation {
@@ -38,7 +38,7 @@ public class PurchaseOrderAssignedUserValidation extends GenericValidation {
      */
     public boolean validate(AttributedDocumentEvent event) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)event.getDocument();
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         errorMap.clearErrorPath();
         errorMap.addToErrorPath(KFSConstants.DOCUMENT_DOCUMENT_ERRORS);
         boolean valid = true;

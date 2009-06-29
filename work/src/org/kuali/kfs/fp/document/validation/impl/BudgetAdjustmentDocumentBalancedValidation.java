@@ -23,10 +23,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * A validation which checks if a Budget Adjustment document is balanced before heading to routing
@@ -40,7 +40,7 @@ public class BudgetAdjustmentDocumentBalancedValidation extends GenericValidatio
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
 
         boolean balanced = true;
 
@@ -49,7 +49,7 @@ public class BudgetAdjustmentDocumentBalancedValidation extends GenericValidatio
         KualiInteger sourceBaseBudgetTotal = getAccountingDocumentForValidation().getSourceBaseBudgetIncomeTotal().subtract( getAccountingDocumentForValidation().getSourceBaseBudgetExpenseTotal());
         KualiInteger targetBaseBudgetTotal = getAccountingDocumentForValidation().getTargetBaseBudgetIncomeTotal().subtract( getAccountingDocumentForValidation().getTargetBaseBudgetExpenseTotal());
         if (sourceBaseBudgetTotal.compareTo(targetBaseBudgetTotal) != 0) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_BA_BASE_AMOUNTS_BALANCED);
+            GlobalVariables.getMessageMap().putError(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_BA_BASE_AMOUNTS_BALANCED);
             balanced = false;
         }
 
@@ -62,7 +62,7 @@ public class BudgetAdjustmentDocumentBalancedValidation extends GenericValidatio
         }
 
         if (totalCurrentAmount.isNonZero()) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_BA_CURRENT_AMOUNTS_BALANCED);
+            GlobalVariables.getMessageMap().putError(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_BA_CURRENT_AMOUNTS_BALANCED);
             balanced = false;
         }
 

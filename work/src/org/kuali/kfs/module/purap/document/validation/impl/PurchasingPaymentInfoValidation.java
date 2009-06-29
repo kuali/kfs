@@ -38,29 +38,29 @@ public class PurchasingPaymentInfoValidation extends GenericValidation {
         boolean valid = true;
         PurchasingDocument purDocument = (PurchasingDocument)event.getDocument();
         
-        GlobalVariables.getErrorMap().addToErrorPath(PurapConstants.PAYMENT_INFO_ERRORS);
+        GlobalVariables.getMessageMap().addToErrorPath(PurapConstants.PAYMENT_INFO_ERRORS);
         valid &= checkBeginDateBeforeEndDate(purDocument);
         if (valid && (ObjectUtils.isNotNull(purDocument.getPurchaseOrderBeginDate()) || ObjectUtils.isNotNull(purDocument.getPurchaseOrderEndDate()))) {
             if (ObjectUtils.isNotNull(purDocument.getPurchaseOrderBeginDate()) && ObjectUtils.isNull(purDocument.getPurchaseOrderEndDate())) {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_END_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_NO_END_DATE);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_END_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_NO_END_DATE);
                 valid &= false;
             }
             else {
                 if (ObjectUtils.isNull(purDocument.getPurchaseOrderBeginDate()) && ObjectUtils.isNotNull(purDocument.getPurchaseOrderEndDate())) {
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_END_DATE_NO_BEGIN_DATE);
+                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_END_DATE_NO_BEGIN_DATE);
                     valid &= false;
                 }
             }
         }
         if (valid && ObjectUtils.isNotNull(purDocument.getPurchaseOrderBeginDate()) && ObjectUtils.isNotNull(purDocument.getPurchaseOrderEndDate())) {
             if (ObjectUtils.isNull(purDocument.getRecurringPaymentTypeCode())) {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.RECURRING_PAYMENT_TYPE_CODE, PurapKeyConstants.ERROR_RECURRING_DATE_NO_TYPE);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.RECURRING_PAYMENT_TYPE_CODE, PurapKeyConstants.ERROR_RECURRING_DATE_NO_TYPE);
 
                 valid &= false;
             }
         }
         else if (valid && ObjectUtils.isNotNull(purDocument.getRecurringPaymentTypeCode())) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_RECURRING_TYPE_NO_DATE);
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_RECURRING_TYPE_NO_DATE);
             valid &= false;
         }
 
@@ -73,12 +73,12 @@ public class PurchasingPaymentInfoValidation extends GenericValidation {
             if (ObjectUtils.isNotNull(purDocument.getPurchaseOrderBeginDate()) &&
                    (purDocument.getPurchaseOrderBeginDate().before(closingDate) ||
                     purDocument.getPurchaseOrderBeginDate().equals(closingDate))) {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_NEXT_FY_BEGIN_DATE_INVALID);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_NEXT_FY_BEGIN_DATE_INVALID);
                 valid &= false;
             }
         }
 
-        GlobalVariables.getErrorMap().removeFromErrorPath(PurapConstants.PAYMENT_INFO_ERRORS);
+        GlobalVariables.getMessageMap().removeFromErrorPath(PurapConstants.PAYMENT_INFO_ERRORS);
         return valid;
     }
 
@@ -98,7 +98,7 @@ public class PurchasingPaymentInfoValidation extends GenericValidation {
         if (ObjectUtils.isNotNull(beginDate) && ObjectUtils.isNotNull(endDate)) {
             if (dateTimeService.dateDiff(beginDate, endDate, false) <= 0) {
                 valid &= false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_END_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_AFTER_END);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_END_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_AFTER_END);
             }
         }
 

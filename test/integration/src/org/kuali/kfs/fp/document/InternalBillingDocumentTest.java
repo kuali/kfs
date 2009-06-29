@@ -301,7 +301,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
             approveDocument(retrieved, SpringContext.getBean(DocumentService.class));
         }
         catch (ValidationException e) {
-            failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE);
+            failedAsExpected = GlobalVariables.getMessageMap().containsMessageKey(KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE);
         }
         catch (DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
@@ -338,7 +338,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
             approveDocument(retrieved, SpringContext.getBean(DocumentService.class));
         }
         catch (ValidationException e) {
-            failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE);
+            failedAsExpected = GlobalVariables.getMessageMap().containsMessageKey(KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE);
         }
         catch (DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is

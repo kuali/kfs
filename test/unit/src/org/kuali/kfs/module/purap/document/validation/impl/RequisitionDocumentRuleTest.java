@@ -78,7 +78,7 @@ public class RequisitionDocumentRuleTest extends PurapRuleTestBase {
                 
         PurchasingProcessVendorValidation validation = (PurchasingProcessVendorValidation)validations.get("Purchasing-processVendorValidation-test");        
         assertFalse( validation.validate(new AttributedDocumentEventBase("","", req)) );
-        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.ERROR_DEBARRED_VENDOR));
+        assertTrue(GlobalVariables.getMessageMap().containsMessageKey(PurapKeyConstants.ERROR_DEBARRED_VENDOR));
     }
     
     //Inactive Vendor should fail the vendor validation.
@@ -87,7 +87,7 @@ public class RequisitionDocumentRuleTest extends PurapRuleTestBase {
 
         PurchasingProcessVendorValidation validation = (PurchasingProcessVendorValidation)validations.get("Purchasing-processVendorValidation-test");        
         assertFalse( validation.validate(new AttributedDocumentEventBase("","", req)) );
-        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.ERROR_INACTIVE_VENDOR));
+        assertTrue(GlobalVariables.getMessageMap().containsMessageKey(PurapKeyConstants.ERROR_INACTIVE_VENDOR));
     }
     
     //Vendor Type PO is currently the valid vendor type in the system parameter. DV is not a valid type.
@@ -98,7 +98,7 @@ public class RequisitionDocumentRuleTest extends PurapRuleTestBase {
 
         PurchasingProcessVendorValidation validation = (PurchasingProcessVendorValidation)validations.get("Purchasing-processVendorValidation-test");        
         assertFalse( validation.validate(new AttributedDocumentEventBase("","", req)) );
-        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.ERROR_INVALID_VENDOR_TYPE));
+        assertTrue(GlobalVariables.getMessageMap().containsMessageKey(PurapKeyConstants.ERROR_INVALID_VENDOR_TYPE));
     }
     
     //Vendor Fax Number should not contain letter. It should be in ###-###-#### format.
@@ -107,7 +107,7 @@ public class RequisitionDocumentRuleTest extends PurapRuleTestBase {
 
         PurchasingProcessVendorValidation validation = (PurchasingProcessVendorValidation)validations.get("Purchasing-processVendorValidation-test");        
         assertFalse( validation.validate(new AttributedDocumentEventBase("","", req)) );
-        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.ERROR_FAX_NUMBER_INVALID));
+        assertTrue(GlobalVariables.getMessageMap().containsMessageKey(PurapKeyConstants.ERROR_FAX_NUMBER_INVALID));
     }
     
     //Vendor Fax Number should be in ###-###-#### format.
@@ -116,7 +116,7 @@ public class RequisitionDocumentRuleTest extends PurapRuleTestBase {
 
         PurchasingProcessVendorValidation validation = (PurchasingProcessVendorValidation)validations.get("Purchasing-processVendorValidation-test");        
         assertFalse( validation.validate(new AttributedDocumentEventBase("","", req)) );
-        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.ERROR_FAX_NUMBER_INVALID));
+        assertTrue(GlobalVariables.getMessageMap().containsMessageKey(PurapKeyConstants.ERROR_FAX_NUMBER_INVALID));
     }
     
     //The vendor fax number when the value is correct (in ###-###-#### format).
@@ -151,7 +151,7 @@ public class RequisitionDocumentRuleTest extends PurapRuleTestBase {
 
         PurchasingPaymentInfoValidation validation = (PurchasingPaymentInfoValidation)validations.get("Purchasing-paymentInfoValidation-test");        
         assertFalse( validation.validate(new AttributedDocumentEventBase("","", req)) );
-        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_AFTER_END));
+        assertTrue(GlobalVariables.getMessageMap().containsMessageKey(PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_AFTER_END));
     }
     //If the begin date is not null, the end date must not be null.
     public void testCheckBeginDateNoEndDate() {
@@ -159,7 +159,7 @@ public class RequisitionDocumentRuleTest extends PurapRuleTestBase {
 
         PurchasingPaymentInfoValidation validation = (PurchasingPaymentInfoValidation)validations.get("Purchasing-paymentInfoValidation-test");        
         assertFalse( validation.validate(new AttributedDocumentEventBase("","", req)) );
-        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_NO_END_DATE));
+        assertTrue(GlobalVariables.getMessageMap().containsMessageKey(PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_NO_END_DATE));
     }
     
     //If the end date is not null, the begin date must not be null.
@@ -168,7 +168,7 @@ public class RequisitionDocumentRuleTest extends PurapRuleTestBase {
 
         PurchasingPaymentInfoValidation validation = (PurchasingPaymentInfoValidation)validations.get("Purchasing-paymentInfoValidation-test");        
         assertFalse( validation.validate(new AttributedDocumentEventBase("","", req)) );
-        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.ERROR_PURCHASE_ORDER_END_DATE_NO_BEGIN_DATE));
+        assertTrue(GlobalVariables.getMessageMap().containsMessageKey(PurapKeyConstants.ERROR_PURCHASE_ORDER_END_DATE_NO_BEGIN_DATE));
     }
     
     //If the begin and end dates are both entered, the recurring payment type must not be null.
@@ -177,7 +177,7 @@ public class RequisitionDocumentRuleTest extends PurapRuleTestBase {
         
         PurchasingPaymentInfoValidation validation = (PurchasingPaymentInfoValidation)validations.get("Purchasing-paymentInfoValidation-test");        
         assertFalse( validation.validate(new AttributedDocumentEventBase("","", req)) );
-        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.ERROR_RECURRING_DATE_NO_TYPE));
+        assertTrue(GlobalVariables.getMessageMap().containsMessageKey(PurapKeyConstants.ERROR_RECURRING_DATE_NO_TYPE));
     }
     
     //If the recurring payment type is entered, the begin and end dates must not be null.
@@ -186,7 +186,7 @@ public class RequisitionDocumentRuleTest extends PurapRuleTestBase {
 
         PurchasingPaymentInfoValidation validation = (PurchasingPaymentInfoValidation)validations.get("Purchasing-paymentInfoValidation-test");        
         assertFalse( validation.validate(new AttributedDocumentEventBase("","", req)) );
-        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(PurapKeyConstants.ERROR_RECURRING_TYPE_NO_DATE));
+        assertTrue(GlobalVariables.getMessageMap().containsMessageKey(PurapKeyConstants.ERROR_RECURRING_TYPE_NO_DATE));
     }
 
     //If the recurring payment type, begin and end dates are all entered, it should pass the validation.

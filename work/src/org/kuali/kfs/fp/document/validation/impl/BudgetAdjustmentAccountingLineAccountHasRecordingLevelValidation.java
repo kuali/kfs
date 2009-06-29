@@ -42,7 +42,7 @@ public class BudgetAdjustmentAccountingLineAccountHasRecordingLevelValidation ex
                 (StringUtils.isBlank(getAccountingLineForValidation().getAccount().getBudgetRecordingLevelCode()) 
                  || 
                 ACCOUNT_NUMBER.BUDGET_LEVEL_NO_BUDGET.equals(getAccountingLineForValidation().getAccount().getBudgetRecordingLevelCode()))) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_DOCUMENT_BA_NON_BUDGETED_ACCOUNT, getAccountingLineForValidation().getAccountNumber());
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_DOCUMENT_BA_NON_BUDGETED_ACCOUNT, getAccountingLineForValidation().getAccountNumber());
             accountNumberAllowed = false;
         }
         return accountNumberAllowed;

@@ -34,8 +34,8 @@ public class PaymentRequestTotalsValidation extends GenericValidation {
 
     public boolean validate(AttributedDocumentEvent event) {
         PaymentRequestDocument document = (PaymentRequestDocument)event.getDocument();
-        GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        GlobalVariables.getMessageMap().clearErrorPath();
+        GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         List excludeDiscount = new ArrayList();
         excludeDiscount.add(PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE);
@@ -47,7 +47,7 @@ public class PaymentRequestTotalsValidation extends GenericValidation {
         
         flagLineItemTotals(document.getItems());
         
-        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getMessageMap().clearErrorPath();
         
         //always returns true, as this is a warning, not an error
         return true;
@@ -89,7 +89,7 @@ public class PaymentRequestTotalsValidation extends GenericValidation {
             PaymentRequestItem item = (PaymentRequestItem) purApItem;
             if (item.getItemQuantity() != null && item.getExtendedPrice() !=null) {
                 if (item.calculateExtendedPrice().compareTo(item.getExtendedPrice()) != 0) {
-                    GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL, item.getItemIdentifierString());
+                    GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL, item.getItemIdentifierString());
                 }
             }
         }

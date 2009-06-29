@@ -112,7 +112,7 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         KimTypeAttributeInfo attributeInfo;
         if(isLesserNumber(fromAmountDelegationMember, fromAmountRoleMember)){
             attributeInfo = kimType.getAttributeDefinitionByName(KfsKimAttributes.FROM_AMOUNT);
-            GlobalVariables.getErrorMap().putError(
+            GlobalVariables.getMessageMap().putError(
                     KfsKimAttributes.FROM_AMOUNT, RiceKeyConstants.ERROR_DELEGATION_FROM_AMOUNT_LESSER, 
                     getDataDictionaryService().getAttributeLabel(attributeInfo.getComponentName(), KfsKimAttributes.FROM_AMOUNT));
             attributeErrors = extractErrorsFromGlobalVariablesErrorMap(KfsKimAttributes.FROM_AMOUNT);
@@ -128,7 +128,7 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         String toAmountDelegationMember = getAttributeValue(newAttributeSet, KfsKimAttributes.TO_AMOUNT);
         if(StringUtils.isNotEmpty(toAmountRoleMember) && isGreaterNumber(toAmountDelegationMember, toAmountRoleMember)){
             attributeInfo = kimType.getAttributeDefinitionByName(KfsKimAttributes.TO_AMOUNT);
-            GlobalVariables.getErrorMap().putError(
+            GlobalVariables.getMessageMap().putError(
                     KfsKimAttributes.TO_AMOUNT, RiceKeyConstants.ERROR_DELEGATION_TO_AMOUNT_GREATER, 
                     getDataDictionaryService().getAttributeLabel(attributeInfo.getComponentName(), KfsKimAttributes.TO_AMOUNT));
             attributeErrors = extractErrorsFromGlobalVariablesErrorMap(KfsKimAttributes.TO_AMOUNT);

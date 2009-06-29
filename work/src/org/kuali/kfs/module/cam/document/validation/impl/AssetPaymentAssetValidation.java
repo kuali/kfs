@@ -62,7 +62,7 @@ public class AssetPaymentAssetValidation extends GenericValidation {
         }
 
         if (zeroCostAssetCount > 0 && (nonZeroCostAssetCount > 0)) {
-            GlobalVariables.getErrorMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID,CamsKeyConstants.Payment.ERROR_NON_ZERO_COST_ASSETS_ALLOWED);
+            GlobalVariables.getMessageMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID,CamsKeyConstants.Payment.ERROR_NON_ZERO_COST_ASSETS_ALLOWED);
             valid &= false;          
         }        
         return valid;

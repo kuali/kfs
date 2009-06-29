@@ -104,7 +104,7 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
             Date currentDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
             int comparison = taxRegionRate.getEffectiveDate().compareTo(currentDate);
             if (comparison == 0 || comparison < 0) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_EFFECTIVE_DATE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_CANT_ADD_PAST_OR_CURRENT_DATE_FOR_TAX_DISTRICT);
+                GlobalVariables.getMessageMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_EFFECTIVE_DATE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_CANT_ADD_PAST_OR_CURRENT_DATE_FOR_TAX_DISTRICT);
                 success = false;
             }
         }
@@ -121,7 +121,7 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
         boolean success = true;
         if (taxRegionRate.getTaxRate() != null) {
             if (taxRegionRate.getTaxRate().intValue() > 1 || taxRegionRate.getTaxRate().intValue() < 0) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_TAX_RATE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_TAX_RATE_BETWEEN0AND1);
+                GlobalVariables.getMessageMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_TAX_RATE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_TAX_RATE_BETWEEN0AND1);
                 success = false;
             }
         }
@@ -140,7 +140,7 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
 
         State state = SpringContext.getBean(StateService.class).getByPrimaryId(taxRegionState.getStateCode());
         if (ObjectUtils.isNull(state) || !state.isActive()) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_STATE_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_STATE, taxRegionState.getStateCode());
+            GlobalVariables.getMessageMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_STATE_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_STATE, taxRegionState.getStateCode());
             success = false;
         }
 
@@ -158,7 +158,7 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
 
         County county = SpringContext.getBean(CountyService.class).getByPrimaryId(taxRegionCounty.getStateCode(), taxRegionCounty.getCountyCode());
         if (ObjectUtils.isNull(county) || !county.isActive()) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_COUNTY_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_COUNTY, new String[] { taxRegionCounty.getCountyCode(), taxRegionCounty.getStateCode() });
+            GlobalVariables.getMessageMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_COUNTY_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_COUNTY, new String[] { taxRegionCounty.getCountyCode(), taxRegionCounty.getStateCode() });
             success = false;
         }
 
@@ -176,7 +176,7 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
 
         PostalCode postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountry(taxRegionPostalCode.getPostalCode());
         if (ObjectUtils.isNull(postalZipCode) || !postalZipCode.isActive()) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_POSTAL_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_POSTAL_CODE, taxRegionPostalCode.getPostalCode());
+            GlobalVariables.getMessageMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_POSTAL_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_POSTAL_CODE, taxRegionPostalCode.getPostalCode());
             success = false;
         }
 

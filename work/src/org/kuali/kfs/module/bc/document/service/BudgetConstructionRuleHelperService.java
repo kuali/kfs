@@ -25,6 +25,7 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * define a set of validations methods for buddget construction
@@ -38,7 +39,7 @@ public interface BudgetConstructionRuleHelperService {
      * @param errorMap the error map that contains errors if any
      * @return true if the given appointment funding is associted with a labor detail allowed object; otherwise, false
      */
-    public boolean hasDetailPositionRequiredObjectCode(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap);
+    public boolean hasDetailPositionRequiredObjectCode(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap);
 
     /**
      * test if the given appointment funding is associted with a valid account
@@ -47,7 +48,7 @@ public interface BudgetConstructionRuleHelperService {
      * @param errorMap the error map that contains errors if any
      * @return true if the given appointment funding is associted with a valid account; otherwise, false
      */
-    public boolean hasValidAccount(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap);
+    public boolean hasValidAccount(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap);
 
     /**
      * test if the given appointment funding is associted with a valid chart of accounts
@@ -56,7 +57,7 @@ public interface BudgetConstructionRuleHelperService {
      * @param errorMap the error map that contains errors if any
      * @return true if the given appointment funding is associted with a valid chart of accounts; otherwise, false
      */
-    public boolean hasValidChart(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap);
+    public boolean hasValidChart(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap);
 
     /**
      * test if the given appointment funding is associted with a valid incumbent
@@ -65,7 +66,7 @@ public interface BudgetConstructionRuleHelperService {
      * @param errorMap the error map that contains errors if any
      * @return true if the given appointment funding is associted with a valid incumbent; otherwise, false
      */
-    public boolean hasValidIncumbent(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap);
+    public boolean hasValidIncumbent(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap);
 
     /**
      * test if the given appointment funding is associted with a valid financial object
@@ -74,7 +75,7 @@ public interface BudgetConstructionRuleHelperService {
      * @param errorMap the error map that contains errors if any
      * @return true if the given appointment funding is associted with a valid financial object; otherwise, false
      */
-    public boolean hasValidObjectCode(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap);
+    public boolean hasValidObjectCode(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap);
 
     /**
      * test if the given appointment funding is associted with a valid budget position
@@ -83,7 +84,7 @@ public interface BudgetConstructionRuleHelperService {
      * @param errorMap the error map that contains errors if any
      * @return true if the given appointment funding is associted with a valid budget position; otherwise, false
      */
-    public boolean hasValidPosition(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap);
+    public boolean hasValidPosition(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap);
 
     /**
      * test if the given appointment funding is associted with a valid sub account
@@ -92,7 +93,7 @@ public interface BudgetConstructionRuleHelperService {
      * @param errorMap the error map that contains errors if any
      * @return true if the given appointment funding is associted with a valid sub account; otherwise, false
      */
-    public boolean hasValidSubAccount(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap);
+    public boolean hasValidSubAccount(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap);
 
     /**
      * test if the given appointment funding is associted with a valid sub object
@@ -101,7 +102,7 @@ public interface BudgetConstructionRuleHelperService {
      * @param errorMap the error map that contains errors if any
      * @return true if the given appointment funding is associted with a valid sub object; otherwise, false
      */
-    public boolean hasValidSubObjectCode(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap);
+    public boolean hasValidSubObjectCode(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap);
 
     /**
      * determine whether the given appoinment funding can be associated with a valid budget contruction document
@@ -111,7 +112,7 @@ public interface BudgetConstructionRuleHelperService {
      * @param errorPropertyName the specified property name that is tested
      * @return true if the given appoinment funding can be associated with a valid budget contruction document; otherwise, false
      */
-    public boolean isAssociatedWithValidDocument(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap, String errorPropertyName);
+    public boolean isAssociatedWithValidDocument(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap, String errorPropertyName);
 
     /**
      * determine wether the given budget document is allowed to be budgeted
@@ -121,7 +122,7 @@ public interface BudgetConstructionRuleHelperService {
      * @param errorPropertyName the specified property name that is tested
      * @return true if the given budget document can be budgeted; otherwise, false
      */
-    public boolean isBudgetableDocument(BudgetConstructionDocument budgetConstructionDocument, ErrorMap errorMap, String errorPropertyName);
+    public boolean isBudgetableDocument(BudgetConstructionDocument budgetConstructionDocument, MessageMap errorMap, String errorPropertyName);
 
     /**
      * determine whether the given object requires a detail position
@@ -132,7 +133,7 @@ public interface BudgetConstructionRuleHelperService {
      * @param errorPropertyName the specified property name that is tested
      * @return true if the given object requires a detail position; otherwise, false
      */
-    public boolean isDetailPositionRequiredObjectCode(ObjectCode financialObject, String currentValue, ErrorMap errorMap, String errorPropertyName);
+    public boolean isDetailPositionRequiredObjectCode(ObjectCode financialObject, String currentValue, MessageMap errorMap, String errorPropertyName);
 
     /**
      * determine if the fields in the given appointment funding line are in the correct formats defined in the data dictionary
@@ -142,7 +143,7 @@ public interface BudgetConstructionRuleHelperService {
      * @return true if the fields in the given appointment funding line are in the correct formats defined in the data dictionary;
      *         otherwise, false
      */
-    public boolean isFieldFormatValid(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap);
+    public boolean isFieldFormatValid(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap);
 
     /**
      * determine whether the given account is valid
@@ -153,7 +154,7 @@ public interface BudgetConstructionRuleHelperService {
      * @param errorPropertyName the specified property name that is tested
      * @return true if the given account is valid; otherwise, false
      */
-    public boolean isValidAccount(Account account, String currentValue, ErrorMap errorMap, String errorPropertyName);
+    public boolean isValidAccount(Account account, String currentValue, MessageMap errorMap, String errorPropertyName);
 
     /**
      * determine whether the given chart is valid
@@ -164,7 +165,7 @@ public interface BudgetConstructionRuleHelperService {
      * @param errorPropertyName the specified property name that is tested
      * @return true if the given chart is valid; otherwise, false
      */
-    public boolean isValidChart(Chart chart, String currentValue, ErrorMap errorMap, String errorPropertyName);
+    public boolean isValidChart(Chart chart, String currentValue, MessageMap errorMap, String errorPropertyName);
 
     /**
      * determine whether the given budget contruction intended incumbent is valid
@@ -175,7 +176,7 @@ public interface BudgetConstructionRuleHelperService {
      * @param errorPropertyName the specified property name that is tested
      * @return true if the given budget contruction intended incumbent is valid; otherwise, false
      */
-    public boolean isValidIncumbent(BudgetConstructionIntendedIncumbent intendedIncumbent, String currentValue, ErrorMap errorMap, String errorPropertyName);
+    public boolean isValidIncumbent(BudgetConstructionIntendedIncumbent intendedIncumbent, String currentValue, MessageMap errorMap, String errorPropertyName);
 
     /**
      * Runs existence and active tests on the ObjectCode reference This method is differenct than the one in
@@ -188,7 +189,7 @@ public interface BudgetConstructionRuleHelperService {
      * @param errorPropertyName the specified property name that is tested
      * @return true if the given object code is valid; otherwise, false
      */
-    public boolean isValidObjectCode(ObjectCode objectCode, String currentValue, ErrorMap errorMap, String errorPropertyName);
+    public boolean isValidObjectCode(ObjectCode objectCode, String currentValue, MessageMap errorMap, String errorPropertyName);
 
     /**
      * determine whether the given budget contruction position is valid
@@ -199,7 +200,7 @@ public interface BudgetConstructionRuleHelperService {
      * @param errorPropertyName the specified property name that is tested
      * @return true if the given budget contruction position is valid; otherwise, false
      */
-    public boolean isValidPosition(BudgetConstructionPosition position, String currentValue, ErrorMap errorMap, String errorPropertyName);
+    public boolean isValidPosition(BudgetConstructionPosition position, String currentValue, MessageMap errorMap, String errorPropertyName);
 
     /**
      * determine whether the given sub account is valid
@@ -210,7 +211,7 @@ public interface BudgetConstructionRuleHelperService {
      * @param errorPropertyName the specified property name that is tested
      * @return true if the given sub account is valid; otherwise, false
      */
-    public boolean isValidSubAccount(SubAccount subAccount, String currentValue, ErrorMap errorMap, String errorPropertyName);
+    public boolean isValidSubAccount(SubAccount subAccount, String currentValue, MessageMap errorMap, String errorPropertyName);
 
     /**
      * Runs existence and active tests on the SubObjectCode reference This method is differenct than the one in
@@ -223,5 +224,5 @@ public interface BudgetConstructionRuleHelperService {
      * @param errorPropertyName the specified property name that is tested
      * @return true if the given sub object is valid; otherwise, false
      */
-    public boolean isValidSubObjectCode(SubObjectCode subObjectCode, String currentValue, ErrorMap errorMap, String errorPropertyName);
+    public boolean isValidSubObjectCode(SubObjectCode subObjectCode, String currentValue, MessageMap errorMap, String errorPropertyName);
 }

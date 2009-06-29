@@ -68,9 +68,9 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
         
-        GlobalVariables.getErrorMap().addToErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().addToErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
         isValid &= processRecalculateCustomerCreditMemoDocumentRules((TransactionalDocument)document, true);
-        GlobalVariables.getErrorMap().removeFromErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().removeFromErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
 
         return isValid;
     }
@@ -134,14 +134,14 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
     public boolean isValueGreaterThanZero(BigDecimal value) {
         boolean validValue = (value.compareTo(BigDecimal.ZERO) == 1 ?true:false);
         if (!validValue)
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_QUANTITY_LESS_THAN_OR_EQUAL_TO_ZERO); 
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_QUANTITY_LESS_THAN_OR_EQUAL_TO_ZERO); 
         return validValue;
     }
     
     public boolean isValueGreaterThanZero(KualiDecimal value) {
         boolean validValue = value.isPositive();
         if (!validValue)
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO); 
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO); 
         return validValue;
     }
 
@@ -152,7 +152,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         
         boolean validItemAmount = creditMemoItemAmount.isLessEqual(invoiceOpenItemAmount);
         if (!validItemAmount)
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_AMOUNT_GREATER_THAN_INVOICE_ITEM_AMOUNT);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_AMOUNT_GREATER_THAN_INVOICE_ITEM_AMOUNT);
             
         return validItemAmount;
     }
@@ -164,7 +164,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         // customer credit memo quantity must not be greater than invoice open item quantity
         boolean validQuantity = (customerCreditMemoItemQty.compareTo(invoiceOpenItemQty) < 1?true:false);
         if (!validQuantity)
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_QUANTITY_GREATER_THAN_INVOICE_ITEM_QUANTITY);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_QUANTITY_GREATER_THAN_INVOICE_ITEM_QUANTITY);
         
         return validQuantity; 
     }
@@ -183,8 +183,8 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         boolean validFlag = (deviationPercentage.isLessEqual(ALLOWED_QTY_DEVIATION));
         
         if (!validFlag){
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);
         }
         return validFlag;
     }
@@ -202,14 +202,14 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         
         for (CustomerCreditMemoDetail customerCreditMemoDetail:customerCreditMemoDetails) {
             propertyName = KFSConstants.CUSTOMER_CREDIT_MEMO_DETAIL_PROPERTY_NAME + "[" + i +"]";
-            GlobalVariables.getErrorMap().addToErrorPath(propertyName);
+            GlobalVariables.getMessageMap().addToErrorPath(propertyName);
             
             // validate only if there is input data
             if (!isQtyOrItemAmountEntered(customerCreditMemoDetail).equals(StringUtils.EMPTY)) {
                 crmDataEnteredFlag = true;
                 success &= processRecalculateCustomerCreditMemoDetailRules(customerCreditMemoDocument,customerCreditMemoDetail);
             }
-            GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
+            GlobalVariables.getMessageMap().removeFromErrorPath(propertyName);
             i++;
         }
         
@@ -217,7 +217,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         
         // print error message if 'Submit'/'Save'/'Blanket Approved' button is pressed and there is no CRM data entered
         if (!crmDataEnteredFlag && printErrMsgFlag)
-            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_NO_DATA_TO_SUBMIT);
+            GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_NO_DATA_TO_SUBMIT);
         
         return success;
     }
@@ -243,14 +243,14 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         
         if (ObjectUtils.isNull(invDocumentNumber) || StringUtils.isBlank(invDocumentNumber)) {
             success = false;
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT__INVOICE_DOCUMENT_NUMBER_IS_REQUIRED);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT__INVOICE_DOCUMENT_NUMBER_IS_REQUIRED);
         } else {    
             CustomerInvoiceDocumentService service = SpringContext.getBean(CustomerInvoiceDocumentService.class);
             CustomerInvoiceDocument customerInvoiceDocument = service.getInvoiceByInvoiceDocumentNumber(invDocumentNumber);
         
             if (ObjectUtils.isNull(customerInvoiceDocument)) {
                 success = false;
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_INVALID_INVOICE_DOCUMENT_NUMBER);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_INVALID_INVOICE_DOCUMENT_NUMBER);
             }
         }
         return success;
@@ -289,7 +289,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
             }
             
             if (!(workflowDocument.stateIsApproved() || workflowDocument.stateIsProcessed() || workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved())) {
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_ONE_CRM_IN_ROUTE_PER_INVOICE);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_ONE_CRM_IN_ROUTE_PER_INVOICE);
                 success = false;
                 break;
             }
@@ -313,13 +313,13 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         // invoice has been corrected
         if (ObjectUtils.isNotNull(documentHeader)) {
             if (StringUtils.isNotBlank(documentHeader.getDocumentNumber())) {
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_CORRECTED_INVOICE);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_CORRECTED_INVOICE);
                 return false;
             }
         }
         // this is a correcting invoice
         if (customerInvoiceDocument.isInvoiceReversal()) {
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_CORRECTING_INVOICE);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_CORRECTING_INVOICE);
             return false;
         }
         return true;  

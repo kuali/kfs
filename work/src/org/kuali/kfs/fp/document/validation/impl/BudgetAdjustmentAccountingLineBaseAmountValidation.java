@@ -39,7 +39,7 @@ public class BudgetAdjustmentAccountingLineBaseAmountValidation extends GenericV
     public boolean validate(AttributedDocumentEvent event) {
         boolean allow = true;
         if (getAccountingLineForValidation().getBaseBudgetAdjustmentAmount().isNonZero() && !fiscalYearFunctionControlService.isBaseAmountChangeAllowed(getAccountingDocumentForValidation().getPostingYear())) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.BASE_BUDGET_ADJUSTMENT_AMOUNT, KFSKeyConstants.ERROR_DOCUMENT_BA_BASE_AMOUNT_CHANGE_NOT_ALLOWED);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.BASE_BUDGET_ADJUSTMENT_AMOUNT, KFSKeyConstants.ERROR_DOCUMENT_BA_BASE_AMOUNT_CHANGE_NOT_ALLOWED);
             allow = false;
         }
         return allow;

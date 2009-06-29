@@ -35,7 +35,7 @@ public class CustomerInvoiceDetailChartCodeReceivableValidation extends GenericV
         customerInvoiceDetail.refreshReferenceObject(KFSPropertyConstants.CHART);
         Chart chart = customerInvoiceDetail.getChart();
         if (StringUtils.isEmpty(chart.getFinAccountsReceivableObjCode())) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_CHART_WITH_NO_AR_OBJ_CD, chart.getChartOfAccountsCode());
+            GlobalVariables.getMessageMap().putError(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_CHART_WITH_NO_AR_OBJ_CD, chart.getChartOfAccountsCode());
             return false;
         }
 

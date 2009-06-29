@@ -84,7 +84,7 @@ public class PurchaseOrderRemoveHoldDocumentRule extends TransactionalDocumentRu
             // Check the PO status
             if (!StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.PAYMENT_HOLD) && !StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.PENDING_REMOVE_HOLD)) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_NOT_REQUIRED_STATUS, PurchaseOrderStatuses.PAYMENT_HOLD);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_NOT_REQUIRED_STATUS, PurchaseOrderStatuses.PAYMENT_HOLD);
             }
 
             // Check that the user is in purchasing workgroup.

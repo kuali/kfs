@@ -65,7 +65,7 @@ public class LaborExpenseTransferExpiredAccountBeUsedValidation extends GenericV
         
         // not allow the duplicate source accounting line in the document
         if (!canExpiredAccountBeUsed) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED );
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED );
             return false;
         }
         

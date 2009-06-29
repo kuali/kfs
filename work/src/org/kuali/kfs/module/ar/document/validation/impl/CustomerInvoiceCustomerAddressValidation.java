@@ -63,10 +63,10 @@ public class CustomerInvoiceCustomerAddressValidation extends GenericValidation 
 
         if (!customerAddressService.customerAddressExists(customerNumber, customerAddressIdentifier)) {
             if (isShipToAddress) {
-                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.SHIP_TO_ADDRESS_IDENTIFIER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SHIP_TO_ADDRESS_IDENTIFIER);
+                GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.SHIP_TO_ADDRESS_IDENTIFIER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SHIP_TO_ADDRESS_IDENTIFIER);
             }
             else {
-                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.BILL_TO_ADDRESS_IDENTIFIER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_BILL_TO_ADDRESS_IDENTIFIER);
+                GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.BILL_TO_ADDRESS_IDENTIFIER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_BILL_TO_ADDRESS_IDENTIFIER);
             }
             return false;
 
@@ -85,10 +85,10 @@ public class CustomerInvoiceCustomerAddressValidation extends GenericValidation 
 
         if (!customerAddressService.customerAddressActive(customerNumber, customerAddressIdentifier)) {
             if (isShipToAddress) {
-                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.SHIP_TO_ADDRESS_IDENTIFIER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INACTIVE_SHIP_TO_ADDRESS_IDENTIFIER);
+                GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.SHIP_TO_ADDRESS_IDENTIFIER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INACTIVE_SHIP_TO_ADDRESS_IDENTIFIER);
             }
             else {
-                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.BILL_TO_ADDRESS_IDENTIFIER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INACTIVE_BILL_TO_ADDRESS_IDENTIFIER);
+                GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.BILL_TO_ADDRESS_IDENTIFIER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INACTIVE_BILL_TO_ADDRESS_IDENTIFIER);
             }
             return false;
         }

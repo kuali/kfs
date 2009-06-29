@@ -47,6 +47,7 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * This is the default implementation of the DisbursementVoucherExtractService interface.
@@ -408,7 +409,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
      * @see org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentRule#validateNonResidentAlienInformation(DisbursementVoucherDocument)
      */
     private boolean validateNRATaxInformation(DisbursementVoucherDocument document) {
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
 
         // set nulls to 0
         if (document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent() == null) {
@@ -421,7 +422,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
 
         validateNonResidentAlienInformation(document);
 
-        if (!GlobalVariables.getErrorMap().isEmpty()) {
+        if (!GlobalVariables.getMessageMap().isEmpty()) {
             return false;
         }
 
@@ -535,7 +536,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
      * @param document submitted disbursement voucher document
      */
     public void validateNonResidentAlienInformation(DisbursementVoucherDocument document) {
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
 
         errors.addToErrorPath(KFSPropertyConstants.DV_NON_RESIDENT_ALIEN_TAX);
 

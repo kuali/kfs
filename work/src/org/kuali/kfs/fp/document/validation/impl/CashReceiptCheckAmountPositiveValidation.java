@@ -34,7 +34,7 @@ public class CashReceiptCheckAmountPositiveValidation extends GenericValidation 
      */
     public boolean validate(AttributedDocumentEvent event) {
         if (getCheckForValidation().getAmount().isNegative()) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHECK_AMOUNT, KFSKeyConstants.CashReceipt.ERROR_NEGATIVE_CHECK_AMOUNT, KFSPropertyConstants.CHECKS);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CHECK_AMOUNT, KFSKeyConstants.CashReceipt.ERROR_NEGATIVE_CHECK_AMOUNT, KFSPropertyConstants.CHECKS);
             return false;
         }
         return true;

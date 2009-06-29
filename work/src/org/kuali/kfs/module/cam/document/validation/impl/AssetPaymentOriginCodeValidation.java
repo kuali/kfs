@@ -55,7 +55,7 @@ public class AssetPaymentOriginCodeValidation extends GenericValidation {
         if (!StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialSystemOriginationCode())) {
             if (originationCodeService.getByPrimaryKey(assetPaymentDetail.getExpenditureFinancialSystemOriginationCode()) == null) {
                 String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(OriginationCode.class.getName()).getAttributeDefinition(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE).getLabel();
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
                 result = false;
             }
         }

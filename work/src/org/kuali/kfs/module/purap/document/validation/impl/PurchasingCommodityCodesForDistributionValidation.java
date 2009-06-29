@@ -46,13 +46,13 @@ public class PurchasingCommodityCodesForDistributionValidation extends GenericVa
             if (!commodityCode.isActive()) {
                 //This is the case where the commodity code on the item is not active.
                 valid = false;
-                GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PUR_COMMODITY_CODE_INACTIVE, " in distribute commodity code" );
+                GlobalVariables.getMessageMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PUR_COMMODITY_CODE_INACTIVE, " in distribute commodity code" );
             }
         }
         else {
             //This is the case where the commodity code on the item does not exist in the database.
             valid = false;
-            GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PUR_COMMODITY_CODE_INVALID,  " in distribute commodity code" );
+            GlobalVariables.getMessageMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PUR_COMMODITY_CODE_INVALID,  " in distribute commodity code" );
         }
         return valid;
     }

@@ -232,11 +232,11 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
             // Validating the asset number field is not empty
             if (ObjectUtils.isNull(sCapitalAssetNumber) || StringUtils.isBlank(sCapitalAssetNumber)) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentAssetDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER).getLabel();
-                GlobalVariables.getErrorMap().putError(errorPath, KFSKeyConstants.ERROR_REQUIRED, label);
+                GlobalVariables.getMessageMap().putError(errorPath, KFSKeyConstants.ERROR_REQUIRED, label);
             }
             else {
                 // it is not empty but has an invalid value.
-                GlobalVariables.getErrorMap().putError(errorPath, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_CAPITAL_ASSET_NUMBER, sCapitalAssetNumber);
+                GlobalVariables.getMessageMap().putError(errorPath, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_CAPITAL_ASSET_NUMBER, sCapitalAssetNumber);
             }
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }

@@ -63,10 +63,10 @@ public class FaxBatchDocumentsServiceImpl implements FaxBatchDocumentsService {
              }
          }
          
-         GlobalVariables.getErrorMap().clear();
+         GlobalVariables.getMessageMap().clear();
          faxService.faxPurchaseOrderPdf(po,false);
        
-         if (GlobalVariables.getErrorMap().isEmpty()){
+         if (GlobalVariables.getMessageMap().isEmpty()){
              po.setStatusCode(PurapConstants.PurchaseOrderStatuses.OPEN);
              po.setPurchaseOrderInitialOpenTimestamp(dateTimeService.getCurrentTimestamp());
              po.setPurchaseOrderLastTransmitTimestamp(dateTimeService.getCurrentTimestamp());

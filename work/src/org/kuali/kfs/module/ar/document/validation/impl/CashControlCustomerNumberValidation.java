@@ -56,7 +56,7 @@ public class CashControlCustomerNumberValidation extends GenericValidation {
             Customer customer = (Customer) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Customer.class, criteria);
 
             if (customer == null) {
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.CUSTOMER_NUMBER, ArKeyConstants.ERROR_CUSTOMER_NUMBER_IS_NOT_VALID);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.CUSTOMER_NUMBER, ArKeyConstants.ERROR_CUSTOMER_NUMBER_IS_NOT_VALID);
                 isValid = false;
             }
         }

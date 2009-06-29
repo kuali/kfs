@@ -112,18 +112,18 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
 
         if (StringUtils.equals(KFSPropertyConstants.PROPOSAL, (String) fieldValues.get(KFSConstants.REFERENCES_TO_REFRESH))) {
             String pathToMaintainable = DOCUMENT + "." + NEW_MAINTAINABLE_OBJECT;
-            GlobalVariables.getErrorMap().addToErrorPath(pathToMaintainable);
+            GlobalVariables.getMessageMap().addToErrorPath(pathToMaintainable);
 
             boolean awarded = AwardRuleUtil.isProposalAwarded(getAward());
             if (awarded) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_AWARD_PROPOSAL_AWARDED, new String[] { getAward().getProposalNumber().toString() });
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_AWARD_PROPOSAL_AWARDED, new String[] { getAward().getProposalNumber().toString() });
             }
             // SEE KULCG-315 for details on why this code is commented out.
             // if (AwardRuleUtil.isProposalInactive(getAward())) {
-            // GlobalVariables.getErrorMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER,
+            // GlobalVariables.getMessageMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER,
             // KFSKeyConstants.ERROR_AWARD_PROPOSAL_INACTIVE, new String[] { getAward().getProposalNumber().toString() });
             // }
-            GlobalVariables.getErrorMap().removeFromErrorPath(pathToMaintainable);
+            GlobalVariables.getMessageMap().removeFromErrorPath(pathToMaintainable);
 
             // copy over proposal values after refresh
             if (!awarded) {

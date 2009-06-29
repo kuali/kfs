@@ -46,7 +46,7 @@ public class VendorCreditMemoInitTabReferenceNumberValidation extends GenericVal
         VendorCreditMemoDocument cmDocument = (VendorCreditMemoDocument) event.getDocument();
 
         if (!(ObjectUtils.isNotNull(cmDocument.getPaymentRequestIdentifier()) ^ StringUtils.isNotEmpty(cmDocument.getVendorNumber()) ^ ObjectUtils.isNotNull(cmDocument.getPurchaseOrderIdentifier())) || (ObjectUtils.isNotNull(cmDocument.getPaymentRequestIdentifier()) && StringUtils.isNotEmpty(cmDocument.getVendorNumber()) && ObjectUtils.isNotNull(cmDocument.getPurchaseOrderIdentifier()))) {
-            GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_CREDIT_MEMO_REQUIRED_FIELDS);
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_CREDIT_MEMO_REQUIRED_FIELDS);
             valid = false;
         }
         else {
@@ -55,11 +55,11 @@ public class VendorCreditMemoInitTabReferenceNumberValidation extends GenericVal
             if (ObjectUtils.isNotNull(preqNumber)) {
                 PaymentRequestDocument preq = paymentRequestService.getPaymentRequestById(preqNumber);
                 if (ObjectUtils.isNull(preq)) {
-                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(PurapPropertyConstants.PAYMENT_REQUEST_ID, PurapKeyConstants.ERROR_CREDIT_MEMO_PAYMENT_REQEUEST_INVALID, preqNumber.toString());
+                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(PurapPropertyConstants.PAYMENT_REQUEST_ID, PurapKeyConstants.ERROR_CREDIT_MEMO_PAYMENT_REQEUEST_INVALID, preqNumber.toString());
                     valid = false;
                 }
                 else if ((PurapConstants.PaymentRequestStatuses.IN_PROCESS.equals(preq.getStatusCode())) || (PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(preq.getStatusCode()))) {
-                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(PurapPropertyConstants.PAYMENT_REQUEST_ID, PurapKeyConstants.ERROR_CREDIT_MEMO_PAYMENT_REQEUEST_INVALID_SATATUS, preqNumber.toString());
+                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(PurapPropertyConstants.PAYMENT_REQUEST_ID, PurapKeyConstants.ERROR_CREDIT_MEMO_PAYMENT_REQEUEST_INVALID_SATATUS, preqNumber.toString());
                     valid = false;
                 }
             }
@@ -69,15 +69,15 @@ public class VendorCreditMemoInitTabReferenceNumberValidation extends GenericVal
             if (ObjectUtils.isNotNull(purchaseOrderID)) {
                 PurchaseOrderDocument purchaseOrder = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderID);
                 if (ObjectUtils.isNull(purchaseOrder)) {
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_CREDIT_MEMO_PURCHASE_ORDER_INVALID, purchaseOrderID.toString());
+                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_CREDIT_MEMO_PURCHASE_ORDER_INVALID, purchaseOrderID.toString());
                     valid = false;
                 }
                 else if (purchaseOrder.isPendingActionIndicator()) {
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_PENDING_ACTION);
+                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_PENDING_ACTION);
                     valid &= false;
                 }
                 else if (!(StringUtils.equals(purchaseOrder.getStatusCode(), PurapConstants.PurchaseOrderStatuses.OPEN) || StringUtils.equals(purchaseOrder.getStatusCode(), PurapConstants.PurchaseOrderStatuses.CLOSED))) {
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_CREDIT_MEMO_PURCAHSE_ORDER_INVALID_STATUS, purchaseOrderID.toString());
+                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_CREDIT_MEMO_PURCAHSE_ORDER_INVALID_STATUS, purchaseOrderID.toString());
                     valid = false;
                 }
             }
@@ -87,7 +87,7 @@ public class VendorCreditMemoInitTabReferenceNumberValidation extends GenericVal
             if (StringUtils.isNotEmpty(vendorNumber)) {
                 VendorDetail vendor = vendorService.getVendorDetail(VendorUtils.getVendorHeaderId(vendorNumber), VendorUtils.getVendorDetailId(vendorNumber));
                 if (ObjectUtils.isNull(vendor)) {
-                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(PurapPropertyConstants.VENDOR_NUMBER, PurapKeyConstants.ERROR_CREDIT_MEMO_VENDOR_NUMBER_INVALID, vendorNumber);
+                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(PurapPropertyConstants.VENDOR_NUMBER, PurapKeyConstants.ERROR_CREDIT_MEMO_VENDOR_NUMBER_INVALID, vendorNumber);
                     valid = false;
                 }
             }

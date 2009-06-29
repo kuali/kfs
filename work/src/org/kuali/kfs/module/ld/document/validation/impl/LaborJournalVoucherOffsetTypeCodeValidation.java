@@ -37,7 +37,7 @@ public class LaborJournalVoucherOffsetTypeCodeValidation extends GenericValidati
     public boolean validate(AttributedDocumentEvent event) {
         final String offsetTypeCode = getLaborJournalVoucherDocumentForValidation().getOffsetTypeCode();
         if (!getFinancialSystemDocumentTypeService().isCurrentActiveAccountingDocumentType(offsetTypeCode)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.OFFSET_TYPE_CODE, KFSKeyConstants.ERROR_DOCUMENT_LABOR_JOURNAL_VOUCHER_OFFSET_TYPE_CODE_NON_ACTIVE_CURRENT_ACCOUNTING_DOCUMENT_TYPE, offsetTypeCode);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.OFFSET_TYPE_CODE, KFSKeyConstants.ERROR_DOCUMENT_LABOR_JOURNAL_VOUCHER_OFFSET_TYPE_CODE_NON_ACTIVE_CURRENT_ACCOUNTING_DOCUMENT_TYPE, offsetTypeCode);
             return false;
         }
         return true;

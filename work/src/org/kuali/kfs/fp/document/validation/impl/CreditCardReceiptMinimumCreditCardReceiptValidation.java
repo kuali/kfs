@@ -35,7 +35,7 @@ public class CreditCardReceiptMinimumCreditCardReceiptValidation extends Generic
     public boolean validate(AttributedDocumentEvent event) {
         CreditCardReceiptDocument ccr = (CreditCardReceiptDocument)getAccountingDocumentForValidation();
         if (ccr.getCreditCardReceipts().size() < requiredMinimumCount) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.NEW_CREDIT_CARD_RECEIPT, KFSKeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_REQ_NUMBER_RECEIPTS_NOT_MET);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.NEW_CREDIT_CARD_RECEIPT, KFSKeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_REQ_NUMBER_RECEIPTS_NOT_MET);
             return false;
         }
         return true;

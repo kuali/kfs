@@ -48,7 +48,7 @@ public class PurchasingAccountsPayableProcessAccountSummaryValidation extends Ge
                 // exclude tax withholding accounts from non-negative requirement
                 if (!isTaxAccount && summaryAccount.getAccount().getAmount().isNegative()) {
                     valid = false;
-                    GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_SUMMARY_TAB_ERRORS, PurapKeyConstants.ERROR_ITEM_ACCOUNT_NEGATIVE,summaryAccount.getAccount().getAccountNumber());
+                    GlobalVariables.getMessageMap().putError(PurapConstants.ACCOUNT_SUMMARY_TAB_ERRORS, PurapKeyConstants.ERROR_ITEM_ACCOUNT_NEGATIVE,summaryAccount.getAccount().getAccountNumber());
                 }
             }
         }

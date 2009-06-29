@@ -168,7 +168,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         SalarySettingExpansion salarySettingExpansion = (SalarySettingExpansion) businessObjectService.findByPrimaryKey(SalarySettingExpansion.class, keyMap);
 
         if (salarySettingExpansion == null) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_SALARY_SETTING_EXPANSION_NOT_FOUND);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_SALARY_SETTING_EXPANSION_NOT_FOUND);
             return this.returnToCaller(mapping, form, request, response);
         }
 
@@ -227,18 +227,18 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
 
         // the adjustment measurement and amount must be provided
         if (StringUtils.isBlank(adjustmentMeasurement)) {
-            GlobalVariables.getErrorMap().putError(BCPropertyConstants.ADJUSTMENT_MEASUREMENT, BCKeyConstants.ERROR_ADJUSTMENT_PERCENT_REQUIRED);
+            GlobalVariables.getMessageMap().putError(BCPropertyConstants.ADJUSTMENT_MEASUREMENT, BCKeyConstants.ERROR_ADJUSTMENT_PERCENT_REQUIRED);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         if (ObjectUtils.isNull(adjustmentAmount)) {
-            GlobalVariables.getErrorMap().putError(BCPropertyConstants.ADJUSTMENT_AMOUNT, BCKeyConstants.ERROR_ADJUSTMENT_AMOUNT_REQUIRED);
+            GlobalVariables.getMessageMap().putError(BCPropertyConstants.ADJUSTMENT_AMOUNT, BCKeyConstants.ERROR_ADJUSTMENT_AMOUNT_REQUIRED);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         // retrieve corresponding document in advance in order to use the rule framework
         BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(salarySettingExpansion);
         if (document == null) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, salarySettingExpansion.getSalarySettingExpansionString());
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, salarySettingExpansion.getSalarySettingExpansionString());
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
@@ -306,7 +306,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
 
         BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(salarySettingExpansion);
         if (document == null) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, salarySettingExpansion.getSalarySettingExpansionString());
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, salarySettingExpansion.getSalarySettingExpansionString());
             return false;
         }
 
@@ -329,8 +329,8 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
 
             // any other update must be against a budget allowed document
             if (!isBudgetAllowed) {
-                GlobalVariables.getErrorMap().addToErrorPath(errorKeyPrefix);
-                GlobalVariables.getErrorMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_BUDGETABLE, salarySettingExpansion.getSalarySettingExpansionString());
+                GlobalVariables.getMessageMap().addToErrorPath(errorKeyPrefix);
+                GlobalVariables.getMessageMap().putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_BUDGETABLE, salarySettingExpansion.getSalarySettingExpansionString());
                 return false;
             }
 

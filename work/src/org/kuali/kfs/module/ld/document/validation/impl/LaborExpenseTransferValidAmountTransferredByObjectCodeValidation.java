@@ -49,7 +49,7 @@ public class LaborExpenseTransferValidAmountTransferredByObjectCodeValidation ex
 
         // check to ensure totals of accounting lines in source and target sections match
         if (!isValidAmountTransferredByObjectCode(expenseTransferDocument)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_TRANSFER_AMOUNT_NOT_BALANCED_BY_OBJECT);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_TRANSFER_AMOUNT_NOT_BALANCED_BY_OBJECT);
             return false;
         }
 

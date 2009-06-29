@@ -29,8 +29,8 @@ import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class DisbursementVoucherDocumentLocationValidation extends GenericValidation implements DisbursementVoucherConstants {
@@ -50,7 +50,7 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
         String documentationLocationCode = document.getDisbursementVoucherDocumentationLocationCode();
 
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
         int initialErrorCount = errors.getErrorCount();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 

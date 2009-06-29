@@ -100,7 +100,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
             poTest = poService.getPurchaseOrderByDocumentNumber(poTest.getDocumentNumber());
         }
         catch (ValidationException ve) {
-            throw new ValidationException(GlobalVariables.getErrorMap().toString() + ve);
+            throw new ValidationException(GlobalVariables.getMessageMap().toString() + ve);
         }
     }
     
@@ -122,7 +122,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
             poTest = poService.getPurchaseOrderByDocumentNumber(poTest.getDocumentNumber());
         }
         catch (ValidationException ve) {
-            throw new ValidationException(GlobalVariables.getErrorMap().toString() + ve);
+            throw new ValidationException(GlobalVariables.getMessageMap().toString() + ve);
         }
     }    
     
@@ -134,7 +134,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
             poTest = poService.getPurchaseOrderByDocumentNumber(poTest.getDocumentNumber());            
         }
         catch (ValidationException ve) {
-            throw new ValidationException(GlobalVariables.getErrorMap().toString() + ve);
+            throw new ValidationException(GlobalVariables.getMessageMap().toString() + ve);
         }
     }
 

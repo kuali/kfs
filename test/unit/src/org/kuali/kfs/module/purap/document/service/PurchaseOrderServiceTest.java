@@ -95,7 +95,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
             po = poService.getPurchaseOrderByDocumentNumber(po.getDocumentNumber());
         }
         catch (ValidationException ve) {
-            throw new ValidationException(GlobalVariables.getErrorMap().toString() + ve);
+            throw new ValidationException(GlobalVariables.getMessageMap().toString() + ve);
         }      
         assertMatchRetransmit(po, poRetrans); 
         ((PurchaseOrderItem)poRetrans.getItem(0)).setItemSelectedForRetransmitIndicator(true);

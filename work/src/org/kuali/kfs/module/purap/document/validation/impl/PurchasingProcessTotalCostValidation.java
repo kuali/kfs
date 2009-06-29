@@ -39,7 +39,7 @@ public class PurchasingProcessTotalCostValidation extends GenericValidation {
         boolean valid = true;
         if (((PurchasingDocument)event.getDocument()).getTotalDollarAmount().isLessThan(new KualiDecimal(BigDecimal.ZERO))) {
             valid = false;
-            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_TOTAL_NEGATIVE);
+            GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_TOTAL_NEGATIVE);
         }
 
         return valid;

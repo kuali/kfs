@@ -74,7 +74,7 @@ public class DebitsAndCreditsBalanceValidation extends GenericValidation {
         boolean isValid = debitAmount.compareTo(creditAmount) == 0;
 
         if (!isValid) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_BALANCE);
+            GlobalVariables.getMessageMap().putError(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_BALANCE);
         }
         
         return isValid;

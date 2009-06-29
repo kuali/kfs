@@ -47,7 +47,7 @@ import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * the base struts form for the detail salary setting: by position or by incumbent
@@ -117,7 +117,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     /**
      * acquire position and funding locks for all appointment fundings
      */
-    public boolean acquirePositionAndFundingLocks(ErrorMap errorMap) {
+    public boolean acquirePositionAndFundingLocks(MessageMap errorMap) {
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
             boolean gotLocks = this.acquirePositionAndFundingLocks(appointmentFunding, errorMap);
@@ -135,7 +135,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * @param appointmentFunding the given appointment funding
      * @return true if the position and funding locks for the given appointment funding are acquired successfully, otherwise, false
      */
-    public boolean acquirePositionAndFundingLocks(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean acquirePositionAndFundingLocks(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         LOG.info("acquirePositionAndFundingLocks() started");
 
         try {
@@ -202,7 +202,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     /**
      * update the access modes of all appointment fundings
      */
-    public boolean updateAccessMode(ErrorMap errorMap) {
+    public boolean updateAccessMode(MessageMap errorMap) {
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = this.getAppointmentFundings();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : appointmentFundings) {
             boolean accessModeUpdated = this.updateAccessMode(appointmentFunding, errorMap);
@@ -220,7 +220,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * @param appointmentFunding the given appointment funding
      * @return true if the access mode of the given appointment funding are updated successfully, otherwise, false
      */
-    public boolean updateAccessMode(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    public boolean updateAccessMode(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         LOG.info("updateAccessMode() started");
 
         try {
@@ -247,7 +247,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * 
      * @return true if the transaction locks for all savable appointment fundings are acquired successfully, otherwise, false
      */
-    public boolean acquireTransactionLocks(ErrorMap errorMap) {
+    public boolean acquireTransactionLocks(MessageMap messageMap) {
         LOG.info("acquireTransactionLocks() started");
 
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : this.getSavableAppointmentFundings()) {
@@ -258,7 +258,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
                 }
 
                 if (!LockStatus.SUCCESS.equals(transactionLockStatus.getLockStatus())) {
-                    errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_ACQUIRE_TRANSACTION_LOCK, appointmentFunding.getAppointmentFundingString());
+                    messageMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_ACQUIRE_TRANSACTION_LOCK, appointmentFunding.getAppointmentFundingString());
 
                     this.releaseTransactionLocks();
                     return false;

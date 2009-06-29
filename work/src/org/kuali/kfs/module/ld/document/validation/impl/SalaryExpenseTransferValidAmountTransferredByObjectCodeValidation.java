@@ -63,13 +63,13 @@ public class SalaryExpenseTransferValidAmountTransferredByObjectCodeValidation e
         boolean isValid = true;
         if (workflowDocument.isApprovalRequested()) {
             if (!isObjectCodeBalancesUnchanged(expenseTransferDocument)) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_TRANSFER_AMOUNT_BY_OBJECT_APPROVAL_CHANGE);
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_TRANSFER_AMOUNT_BY_OBJECT_APPROVAL_CHANGE);
                 isValid = false;
             }
         }
         else {
             if (!expenseTransferDocument.getUnbalancedObjectCodes().isEmpty()) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_TRANSFER_AMOUNT_NOT_BALANCED_BY_OBJECT);
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_TRANSFER_AMOUNT_NOT_BALANCED_BY_OBJECT);
                 isValid = false;
             }
         }

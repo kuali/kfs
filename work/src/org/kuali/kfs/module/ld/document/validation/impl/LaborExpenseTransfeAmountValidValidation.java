@@ -65,7 +65,7 @@ public class LaborExpenseTransfeAmountValidValidation extends GenericValidation 
       
         // not allow the zero amount on the account lines.
         if (!isAmountValid(accountingDocumentForValidation,accountingLine)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.AMOUNT, KFSKeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.AMOUNT, KFSKeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
             return false;
         }
         
@@ -84,7 +84,7 @@ public class LaborExpenseTransfeAmountValidValidation extends GenericValidation 
 
         // Check for zero amount
         if (amount.isZero()) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.AMOUNT, KFSKeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.AMOUNT, KFSKeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
             return false;
         }
         return true;

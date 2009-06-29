@@ -62,7 +62,7 @@ public class LaborExpenseTransferAccountAcceptFringeBenefitValidation extends Ge
           
         // verify if the accounts in target accounting lines accept fringe benefits
         if (!isAccountAcceptFringeBenefit(accountingLine)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_ACCOUNT_NOT_ACCEPT_FRINGES, accountingLine.getAccount().getReportsToChartOfAccountsCode(), accountingLine.getAccount().getReportsToAccountNumber());
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_ACCOUNT_NOT_ACCEPT_FRINGES, accountingLine.getAccount().getReportsToChartOfAccountsCode(), accountingLine.getAccount().getReportsToAccountNumber());
             return false;
         }
                         

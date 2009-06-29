@@ -82,7 +82,7 @@ public class IndirectCostAdjustmentChartOfAccountsValidation extends GenericVali
     protected void reportError(String propertyName, String errorKey, String... errorParams) {
         LOG.debug("reportError(String, String, String) - start");
 
-        GlobalVariables.getErrorMap().putError(propertyName, errorKey, errorParams);
+        GlobalVariables.getMessageMap().putError(propertyName, errorKey, errorParams);
         if (LOG.isDebugEnabled()) {
             LOG.debug("rule failure at " + ExceptionUtils.describeStackLevels(1, 2));
         }

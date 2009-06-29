@@ -44,7 +44,7 @@ public class BenefitExpenseTransferFringeBenefitObjectCodeValidation extends Gen
         
         AccountingLine accountingLine = getAccountingLineForValidation();
         if (!isFringeBenefitObjectCode(accountingLine)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, LaborKeyConstants.INVALID_FRINGE_OBJECT_CODE_ERROR );
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, LaborKeyConstants.INVALID_FRINGE_OBJECT_CODE_ERROR );
             result = false;
         }
         return result;

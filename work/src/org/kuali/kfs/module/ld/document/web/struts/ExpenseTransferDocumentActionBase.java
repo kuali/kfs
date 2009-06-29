@@ -246,7 +246,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
 
                                 // Notice that user tried to import an accounting line which has Zero amount
                                 if (KualiDecimal.ZERO.compareTo(lineAmount) == 0) {
-                                    GlobalVariables.getErrorMap().putError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, ERROR_ZERO_AMOUNT, "an accounting line");
+                                    GlobalVariables.getMessageMap().putError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, ERROR_ZERO_AMOUNT, "an accounting line");
                                 }
                                 else {
                                     buildAccountingLineFromLedgerBalance((LedgerBalance) bo, line, lineAmount, periodCode);

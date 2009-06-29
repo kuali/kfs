@@ -21,7 +21,6 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail;
-import org.kuali.kfs.fp.document.InternalBillingDocument;
 import org.kuali.kfs.fp.document.ProcurementCardDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -32,8 +31,8 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -52,7 +51,7 @@ public class ProcurementCardObjectCodeValidation extends GenericValidation {
         AccountingLine accountingLine = getAccountingLineForValidation();
         if (!accountingLine.isTargetAccountingLine()) return true;
         
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
         String errorKey = KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
         boolean objectCodeAllowed = true;
 

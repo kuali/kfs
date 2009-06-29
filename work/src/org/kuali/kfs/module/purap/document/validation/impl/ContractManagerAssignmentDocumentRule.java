@@ -94,12 +94,12 @@ public class ContractManagerAssignmentDocumentRule extends TransactionalDocument
                 fieldValues.put(PurapPropertyConstants.CONTRACT_MANAGER_CODE, detail.getContractManagerCode());
                 fieldValues.put(KNSPropertyConstants.ACTIVE, true);
                 if (SpringContext.getBean(BusinessObjectService.class).countMatching(ContractManager.class, fieldValues) != 1) {
-                    GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS, PurapKeyConstants.INVALID_CONTRACT_MANAGER_CODE, detail.getContractManagerCode().toString());
+                    GlobalVariables.getMessageMap().putError(PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS, PurapKeyConstants.INVALID_CONTRACT_MANAGER_CODE, detail.getContractManagerCode().toString());
                     isValid = false;
                 }
                 else count++;
                 if (detail.getContractManagerCode().equals(PurapConstants.APO_CONTRACT_MANAGER)) {
-                    GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS, PurapKeyConstants.ERROR_APO_CONTRACT_MANAGER_CODE_CHOSEN, detail.getContractManagerCode().toString());
+                    GlobalVariables.getMessageMap().putError(PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS, PurapKeyConstants.ERROR_APO_CONTRACT_MANAGER_CODE_CHOSEN, detail.getContractManagerCode().toString());
                     isValid = false;
                 }
             }
@@ -107,7 +107,7 @@ public class ContractManagerAssignmentDocumentRule extends TransactionalDocument
         
         // check if at least one row has a valid CM code assigned
         if (count < 1) {
-            GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS, PurapKeyConstants.NO_CONTRACT_MANAGER_ASSIGNED);
+            GlobalVariables.getMessageMap().putError(PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS, PurapKeyConstants.NO_CONTRACT_MANAGER_ASSIGNED);
             isValid = false;
         }
         

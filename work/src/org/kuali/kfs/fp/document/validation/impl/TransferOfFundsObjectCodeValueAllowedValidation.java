@@ -37,7 +37,7 @@ public class TransferOfFundsObjectCodeValueAllowedValidation extends AccountingL
         boolean isObjectCodeAllowed = super.validate(event);
 
         if (!debitDeterminerService.isIncome(getAccountingLineForValidation()) && !debitDeterminerService.isExpense(getAccountingLineForValidation())) {
-            GlobalVariables.getErrorMap().putError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_TOF_INVALID_OBJECT_TYPE_CODES, new String[] { getAccountingLineForValidation().getObjectCode().getFinancialObjectTypeCode(), getAccountingLineForValidation().getObjectCode().getFinancialObjectSubTypeCode() });
+            GlobalVariables.getMessageMap().putError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_TOF_INVALID_OBJECT_TYPE_CODES, new String[] { getAccountingLineForValidation().getObjectCode().getFinancialObjectTypeCode(), getAccountingLineForValidation().getObjectCode().getFinancialObjectSubTypeCode() });
             isObjectCodeAllowed = false;
         }
 

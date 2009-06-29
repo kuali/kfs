@@ -34,7 +34,7 @@ public class CustomerInvoiceDetailItemQuantityValidation extends GenericValidati
         BigDecimal quantity = customerInvoiceDetail.getInvoiceItemQuantity();
 
         if (ObjectUtils.isNull(quantity) || BigDecimal.ZERO.compareTo(quantity) == 0 || BigDecimal.ZERO.compareTo(quantity) > 0) {
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_QUANTITY, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_QUANTITY_LESS_THAN_OR_EQUAL_TO_ZERO);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_QUANTITY, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_QUANTITY_LESS_THAN_OR_EQUAL_TO_ZERO);
             return false;
         }
         return true;

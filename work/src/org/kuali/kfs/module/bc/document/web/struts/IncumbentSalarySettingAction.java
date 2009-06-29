@@ -35,9 +35,9 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * the struts action for the salary setting for incumbent
@@ -55,12 +55,12 @@ public class IncumbentSalarySettingAction extends DetailSalarySettingAction {
     @Override
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         IncumbentSalarySettingForm incumbentSalarySettingForm = (IncumbentSalarySettingForm) form;
-        ErrorMap errorMap;
+        MessageMap errorMap;
         if (incumbentSalarySettingForm.isBudgetByAccountMode()){
             errorMap = incumbentSalarySettingForm.getCallBackErrors();
         }
         else {
-            errorMap = GlobalVariables.getErrorMap();
+            errorMap = GlobalVariables.getMessageMap();
         }
 
         // update incumbent record if required

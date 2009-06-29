@@ -76,7 +76,7 @@ public class AddAccountingLineEvent extends AttributedDocumentEventBase implemen
         linePatterns.addAll(Arrays.asList(StringUtils.replace(KFSConstants.TARGET_ACCOUNTING_LINE_ERROR_PATTERN, "*", "").split(",")));
 
         // see if any lines have errors
-        for (Iterator i = GlobalVariables.getErrorMap().getPropertiesWithErrors().iterator(); i.hasNext();) {
+        for (Iterator i = GlobalVariables.getMessageMap().getPropertiesWithErrors().iterator(); i.hasNext();) {
             String property = (String) i.next();
             // only concerned about amount field errors
             if (property.endsWith("." + KFSConstants.AMOUNT_PROPERTY_NAME)) {
@@ -87,7 +87,7 @@ public class AddAccountingLineEvent extends AttributedDocumentEventBase implemen
                 }
                 if (isLineProperty) {
                     // find the specific error messages for the property
-                    for (ListIterator errors = GlobalVariables.getErrorMap().getMessages(property).listIterator(); errors.hasNext();) {
+                    for (ListIterator errors = GlobalVariables.getMessageMap().getMessages(property).listIterator(); errors.hasNext();) {
                         ErrorMessage error = (ErrorMessage) errors.next();
                         String errorKey = null;
                         String[] params = new String[2];

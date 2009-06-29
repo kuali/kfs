@@ -151,7 +151,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         PaymentGroup paymentGroup = this.paymentGroupService.get(paymentGroupId);
         if (paymentGroup == null) {
             LOG.debug("cancelPendingPayment() Pending payment not found; throw exception.");
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
             return false;
         }
 
@@ -185,7 +185,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                         LOG.debug("cancelPendingPayment() Payment status is " + paymentStatus + "; user does not have rights to cancel");
                     }
 
-                    GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_CANCEL);
+                    GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_CANCEL);
                     return false;
                 }
             }
@@ -216,7 +216,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                         LOG.debug("cancelPendingPayment() Payment status is " + paymentStatus + "; user does not have rights to cancel");
                     }
 
-                    GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_CANCEL);
+                    GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_CANCEL);
                     return false;
                 }
             }
@@ -225,7 +225,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     LOG.debug("cancelPendingPayment() Payment status is " + paymentStatus + "; cannot cancel payment in this status");
                 }
 
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_CANCEL);
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_CANCEL);
                 return false;
             }
         }
@@ -247,7 +247,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         PaymentGroup paymentGroup = this.paymentGroupService.get(paymentGroupId);
         if (paymentGroup == null) {
             LOG.debug("holdPendingPayment() Pending payment not found; throw exception.");
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
             return false;
         }
 
@@ -268,7 +268,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     LOG.debug("holdPendingPayment() Payment status is " + paymentStatus + "; cannot hold payment in this status");
                 }
 
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_HOLD);
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_HOLD);
                 return false;
             }
         }
@@ -291,7 +291,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         if (paymentGroup == null) {
             LOG.debug("removeHoldPendingPayment() Payment not found; throw exception.");
 
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
             return false;
         }
 
@@ -313,7 +313,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                         LOG.debug("removeHoldPendingPayment() Payment status is " + paymentStatus + "; user does not have rights to cancel");
                     }
 
-                    GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_REMOVE_HOLD);
+                    GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_REMOVE_HOLD);
                     return false;
                 }
             }
@@ -329,7 +329,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                         LOG.debug("removeHoldPendingPayment() Payment status is " + paymentStatus + "; user does not have rights to cancel");
                     }
 
-                    GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_REMOVE_HOLD);
+                    GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_REMOVE_HOLD);
                     return false;
                 }
             }
@@ -338,7 +338,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     LOG.debug("removeHoldPendingPayment() Payment status is " + paymentStatus + "; cannot remove hold on payment in this status");
                 }
 
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_REMOVE_HOLD);
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_REMOVE_HOLD);
                 return false;
             }
         }
@@ -386,7 +386,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
         if (paymentGroup == null) {
             LOG.debug("cancelDisbursement() Disbursement not found; throw exception.");
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_DISBURSEMENT_NOT_FOUND);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_DISBURSEMENT_NOT_FOUND);
             return false;
         }
 
@@ -431,7 +431,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     LOG.debug("cancelDisbursement() Payment status is " + paymentStatus + " and disbursement date is " + paymentGroup.getDisbursementDate() + "; cannot cancel payment in this status");
                 }
 
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_DISBURSEMENT_INVALID_TO_CANCEL);
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_DISBURSEMENT_INVALID_TO_CANCEL);
                 return false;
             }
         }
@@ -453,7 +453,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         PaymentGroup paymentGroup = this.paymentGroupService.get(paymentGroupId);
         if (paymentGroup == null) {
             LOG.debug("cancelReissueDisbursement() Disbursement not found; throw exception.");
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_DISBURSEMENT_NOT_FOUND);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_DISBURSEMENT_NOT_FOUND);
             return false;
         }
 
@@ -523,7 +523,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     LOG.debug("cancelReissueDisbursement() Payment status is " + paymentStatus + " and disbursement date is " + paymentGroup.getDisbursementDate() + "; cannot cancel payment");
                 }
 
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_DISBURSEMENT_INVALID_TO_CANCEL_AND_REISSUE);
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_DISBURSEMENT_INVALID_TO_CANCEL_AND_REISSUE);
                 return false;
             }
         }

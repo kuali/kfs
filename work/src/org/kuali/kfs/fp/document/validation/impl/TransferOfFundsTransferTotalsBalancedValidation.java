@@ -83,12 +83,12 @@ public class TransferOfFundsTransferTotalsBalancedValidation extends GenericVali
 
         if (mandatoryTransferFromAmount.compareTo(mandatoryTransferToAmount) != 0) {
             isValid = false;
-            GlobalVariables.getErrorMap().putError("document.sourceAccountingLines", KFSKeyConstants.ERROR_DOCUMENT_TOF_MANDATORY_TRANSFERS_DO_NOT_BALANCE);
+            GlobalVariables.getMessageMap().putError("document.sourceAccountingLines", KFSKeyConstants.ERROR_DOCUMENT_TOF_MANDATORY_TRANSFERS_DO_NOT_BALANCE);
         }
 
         if (nonMandatoryTransferFromAmount.compareTo(nonMandatoryTransferToAmount) != 0) {
             isValid = false;
-            GlobalVariables.getErrorMap().putError("document.sourceAccountingLines", KFSKeyConstants.ERROR_DOCUMENT_TOF_NON_MANDATORY_TRANSFERS_DO_NOT_BALANCE);
+            GlobalVariables.getMessageMap().putError("document.sourceAccountingLines", KFSKeyConstants.ERROR_DOCUMENT_TOF_NON_MANDATORY_TRANSFERS_DO_NOT_BALANCE);
         }
 
         return isValid;

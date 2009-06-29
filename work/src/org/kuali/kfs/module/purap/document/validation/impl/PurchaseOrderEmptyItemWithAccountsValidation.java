@@ -34,7 +34,7 @@ public class PurchaseOrderEmptyItemWithAccountsValidation extends GenericValidat
         boolean valid = true;
         if (itemForValidation.getItemType().isLineItemIndicator() && itemForValidation.isItemDetailEmpty() && !itemForValidation.isAccountListEmpty()) {
             valid = false;
-            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_ALLOWED, getItemForValidation().getItemIdentifierString());
+            GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_ALLOWED, getItemForValidation().getItemIdentifierString());
         }
 
         return valid;

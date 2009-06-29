@@ -96,7 +96,7 @@ public class TransferOfFundsFundGroupsBalancedValidation extends GenericValidati
 
             // creating an evaluator to just format the fund codes into a nice string
             ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(componentClass, parameterName, "");
-            GlobalVariables.getErrorMap().putError("document.sourceAccountingLines", ERROR_DOCUMENT_FUND_GROUP_SET_DOES_NOT_BALANCE, new String[] { tranDoc.getSourceAccountingLinesSectionTitle(), tranDoc.getTargetAccountingLinesSectionTitle(), evaluator.getParameterValuesForMessage() });
+            GlobalVariables.getMessageMap().putError("document.sourceAccountingLines", ERROR_DOCUMENT_FUND_GROUP_SET_DOES_NOT_BALANCE, new String[] { tranDoc.getSourceAccountingLinesSectionTitle(), tranDoc.getTargetAccountingLinesSectionTitle(), evaluator.getParameterValuesForMessage() });
         }
 
         return isValid;

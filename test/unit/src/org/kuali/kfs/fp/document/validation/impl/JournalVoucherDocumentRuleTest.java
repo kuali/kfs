@@ -114,7 +114,7 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
         assertGlobalErrorMapEmpty();
         boolean wasValid = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(expectedErrorKey, createDocumentUnbalanced(), line));
         if (LOG.isDebugEnabled()) {
-            LOG.debug(StringUtils.join(GlobalVariables.getErrorMap().keySet(),", ")+"; "+StringUtils.join(GlobalVariables.getErrorMap().getPropertiesWithErrors(), ", "));
+            LOG.debug(StringUtils.join(GlobalVariables.getMessageMap().keySet(),", ")+"; "+StringUtils.join(GlobalVariables.getMessageMap().getPropertiesWithErrors(), ", "));
         }
         if (expectedErrorFieldName == null) {
             assertGlobalErrorMapEmpty(line.toString()); // fail printing error map for debugging before failing on simple result

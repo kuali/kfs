@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -31,8 +30,8 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 
 public class DisbursementVoucherDocumentFieldValidation extends GenericValidation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherDocumentFieldValidation.class);
@@ -48,7 +47,7 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
 
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
 
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
 
         // validate document required fields
         SpringContext.getBean(DictionaryValidationService.class).validateDocument(document);

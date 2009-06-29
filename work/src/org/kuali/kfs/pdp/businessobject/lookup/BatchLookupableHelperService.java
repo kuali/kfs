@@ -77,7 +77,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
                             String[] errorMsgs = StringUtils.split(errorList, PdpParameterConstants.ERROR_KEY_LIST_SEPARATOR);
                             for (String error : errorMsgs) {
                                 if (StringUtils.isNotEmpty(error)) {
-                                    GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, error);
+                                    GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, error);
                                 }
                             }
                         }
@@ -205,22 +205,22 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
 
         // check if there is any search criteria entered
         if (StringUtils.isBlank(batchIdValue) && StringUtils.isBlank(chartCodeValue) && StringUtils.isBlank(orgCodeValue) && StringUtils.isBlank(subUnitCodeValue) && StringUtils.isBlank(paymentCountValue) && StringUtils.isBlank(paymentTotalAmountValue) && StringUtils.isBlank(fileCreationTimeValueLower) && StringUtils.isBlank(fileCreationTimeValueUpper)) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_HEADER_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_CRITERIA_NONE_ENTERED);
+            GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_HEADER_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_CRITERIA_NONE_ENTERED);
         }
         else if (StringUtils.isBlank(batchIdValue) && StringUtils.isBlank(paymentCountValue) && StringUtils.isBlank(paymentTotalAmountValue)) {
             // If batchId, paymentCount, and paymentTotalAmount are empty then at least creation date is required
             if (StringUtils.isBlank(fileCreationTimeValueLower) && StringUtils.isBlank(fileCreationTimeValueUpper) ) {
-                GlobalVariables.getErrorMap().putError(PdpPropertyConstants.BatchConstants.FILE_CREATION_TIME, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_CRITERIA_NO_DATE);
+                GlobalVariables.getMessageMap().putError(PdpPropertyConstants.BatchConstants.FILE_CREATION_TIME, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_CRITERIA_NO_DATE);
             }
             else if (StringUtils.isBlank(fileCreationTimeValueLower) || StringUtils.isBlank(fileCreationTimeValueUpper)) {
                 // If we have one (but not both) dates the user must enter either the chartCode, orgCode, or subUnitCode
                 if (StringUtils.isBlank(chartCodeValue) && StringUtils.isBlank(orgCodeValue) && StringUtils.isBlank(subUnitCodeValue)) {
-                    GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_CRITERIA_SOURCE_MISSING);
+                    GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_CRITERIA_SOURCE_MISSING);
                 }
             }
         }
 
-        if (!GlobalVariables.getErrorMap().isEmpty()) {
+        if (!GlobalVariables.getMessageMap().isEmpty()) {
             throw new ValidationException("errors in search criteria");
         }
     }

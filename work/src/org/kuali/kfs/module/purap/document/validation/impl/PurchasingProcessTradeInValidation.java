@@ -49,7 +49,7 @@ public class PurchasingProcessTradeInValidation extends GenericValidation {
         if (!isAssignedToTradeInItemFound) {
             PurApItem tradeInItem = purapDocument.getTradeInItem();
             if (tradeInItem != null && tradeInItem.getItemUnitPrice() != null) {
-                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_TRADE_IN_NEEDS_TO_BE_ASSIGNED);
+                GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_TRADE_IN_NEEDS_TO_BE_ASSIGNED);
                 return false;
             }
         }

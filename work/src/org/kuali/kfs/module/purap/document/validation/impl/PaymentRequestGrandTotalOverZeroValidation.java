@@ -29,16 +29,16 @@ public class PaymentRequestGrandTotalOverZeroValidation extends GenericValidatio
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         PaymentRequestDocument document = (PaymentRequestDocument)event.getDocument();
-        GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        GlobalVariables.getMessageMap().clearErrorPath();
+        GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         
         // The Grand Total Amount must be greater than zero.
         if (document.getGrandTotal().compareTo(KualiDecimal.ZERO) <= 0) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.GRAND_TOTAL, PurapKeyConstants.ERROR_PAYMENT_REQUEST_GRAND_TOTAL_NOT_POSITIVE);
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.GRAND_TOTAL, PurapKeyConstants.ERROR_PAYMENT_REQUEST_GRAND_TOTAL_NOT_POSITIVE);
             valid &= false;
         }
 
-        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getMessageMap().clearErrorPath();
         
         //always returns true, as this is a warning, not an error
         return valid;

@@ -139,7 +139,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
      * save the information in the current form into underlying data store
      */
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Save For Salary Setting by Incumbent");
+        GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Save For Salary Setting by Incumbent");
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -256,7 +256,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         // retrieve corresponding document in advance in order to use the rule framework
         BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(appointmentFunding);
         if (document == null) {
-            GlobalVariables.getErrorMap().putError(errorKeyPrefix, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, appointmentFunding.getAppointmentFundingString());
+            GlobalVariables.getMessageMap().putError(errorKeyPrefix, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, appointmentFunding.getAppointmentFundingString());
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
@@ -305,7 +305,7 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
         // retrieve corresponding document in advance in order to use the rule framework
         BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(appointmentFunding);
         if (document == null) {
-            GlobalVariables.getErrorMap().putError(errorKeyPrefix, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, appointmentFunding.getAppointmentFundingString());
+            GlobalVariables.getMessageMap().putError(errorKeyPrefix, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, appointmentFunding.getAppointmentFundingString());
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 

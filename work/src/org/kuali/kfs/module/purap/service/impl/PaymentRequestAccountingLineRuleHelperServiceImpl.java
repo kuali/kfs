@@ -69,7 +69,7 @@ public class PaymentRequestAccountingLineRuleHelperServiceImpl extends PurapAcco
 
                 //if account is expired, c&g and past 90 days, add error
                 if(account.isExpired() && account.isForContractsAndGrants() && (SpringContext.getBean(DateTimeService.class).dateDiff(account.getAccountExpirationDate(), SpringContext.getBean(DateTimeService.class).getCurrentDate(), true) > expirationExtensionDaysInt)){
-                    GlobalVariables.getErrorMap().putError(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, PurapKeyConstants.ERROR_ITEM_ACCOUNT_EXPIRED_REPLACE, account.getAccountNumber());
+                    GlobalVariables.getMessageMap().putError(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, PurapKeyConstants.ERROR_ITEM_ACCOUNT_EXPIRED_REPLACE, account.getAccountNumber());
                     hasOverrides = false;
                 }
             }
@@ -86,7 +86,7 @@ public class PaymentRequestAccountingLineRuleHelperServiceImpl extends PurapAcco
 
         // make sure it exists
         if (ObjectUtils.isNull(objectCode)) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
             return false;
         }
         
@@ -95,7 +95,7 @@ public class PaymentRequestAccountingLineRuleHelperServiceImpl extends PurapAcco
 
         // check active status
         if (!objectCodeForValidation.isFinancialObjectActiveCode()) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
             return false;
         }
 
@@ -109,7 +109,7 @@ public class PaymentRequestAccountingLineRuleHelperServiceImpl extends PurapAcco
 
         // make sure it exists
         if (ObjectUtils.isNull(subObjectCode)) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
             return false;
         }
         
@@ -119,7 +119,7 @@ public class PaymentRequestAccountingLineRuleHelperServiceImpl extends PurapAcco
  
         // check active flag
         if (!subObjectCodeForValidation.isActive()) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
             return false;
         }
 

@@ -73,7 +73,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
                             String[] errorMsgs = StringUtils.split(errorList, PdpParameterConstants.ERROR_KEY_LIST_SEPARATOR);
                             for (String error : errorMsgs) {
                                 if (StringUtils.isNotEmpty(error)) {
-                                    GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, error);
+                                    GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, error);
                                 }
                             }
                         }
@@ -153,47 +153,47 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
                 (StringUtils.isEmpty(disbursementDateValueLower)) && (StringUtils.isEmpty(disbursementDateValueUpper)) && (StringUtils.isEmpty(paymentDateValue)) && (StringUtils.isEmpty(disbursementNbrValue)) && (StringUtils.isEmpty(chartCodeValue)) && (StringUtils.isEmpty(orgCodeValue)) && (StringUtils.isEmpty(subUnitCodeValue)) && (StringUtils.isEmpty(requisitionNbrValue)) && (StringUtils.isEmpty(customerInstitutionNumberValue)) && (StringUtils.isEmpty(pymtAttachmentValue)) && (StringUtils.isEmpty(processImmediateValue))
                 && (StringUtils.isEmpty(pymtSpecialHandlingValue)) && (StringUtils.isEmpty(batchIdValue)) && (StringUtils.isEmpty(paymentGroupIdValue))) {
 
-            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_HEADER_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_CRITERIA_NOT_ENTERED);
+            GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_HEADER_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_CRITERIA_NOT_ENTERED);
         }
         else {
 
             if ((StringUtils.isNotEmpty(payeeIdValue)) && (StringUtils.isEmpty(payeeIdTypeCdValue))) {
-                GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_PAYEE_ID_TYPE_CODE, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_PAYEE_ID_TYPE_CODE_NULL_WITH_PAYEE_ID);
+                GlobalVariables.getMessageMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_PAYEE_ID_TYPE_CODE, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_PAYEE_ID_TYPE_CODE_NULL_WITH_PAYEE_ID);
             }
             if ((StringUtils.isEmpty(payeeIdValue)) && (StringUtils.isNotEmpty(payeeIdTypeCdValue))) {
-                GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_PAYEE_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_PAYEE_ID_NULL_WITH_PAYEE_ID_TYPE_CODE);
+                GlobalVariables.getMessageMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_PAYEE_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_PAYEE_ID_NULL_WITH_PAYEE_ID_TYPE_CODE);
             }
 
             if (StringUtils.isNotEmpty(custPaymentDocNbrValue)) {
                 if (custPaymentDocNbrValue.length() < 2) {
-                    GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_CUSTOMER_DOC_NUMBER, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_CUST_DOC_NBR_LESS_THAN_2_CHARS);
+                    GlobalVariables.getMessageMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_CUSTOMER_DOC_NUMBER, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_CUST_DOC_NBR_LESS_THAN_2_CHARS);
                 }
             }
             if (StringUtils.isNotEmpty(invoiceNbrValue)) {
                 if (invoiceNbrValue.length() < 2) {
 
-                    GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_INVOICE_NUMBER, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_INVOICE_NBR_LESS_THAN_2_CHARS);
+                    GlobalVariables.getMessageMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_INVOICE_NUMBER, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_INVOICE_NBR_LESS_THAN_2_CHARS);
                 }
             }
             if (StringUtils.isNotEmpty(requisitionNbrValue)) {
                 if (requisitionNbrValue.length() < 2) {
-                    GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_REQUISITION_NUMBER, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_REQUISITION_NBR_LESS_THAN_2_CHARS);
+                    GlobalVariables.getMessageMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_REQUISITION_NUMBER, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_REQUISITION_NBR_LESS_THAN_2_CHARS);
                 }
             }
             if (StringUtils.isNotEmpty(purchaseOrderNbrValue)) {
                 if (purchaseOrderNbrValue.length() < 2) {
-                    GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_PURCHASE_ORDER_NUMBER, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_PURCHASE_ORDER_NBR_LESS_THAN_2_CHARS);
+                    GlobalVariables.getMessageMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_PURCHASE_ORDER_NUMBER, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_PURCHASE_ORDER_NBR_LESS_THAN_2_CHARS);
                 }
             }
             if (StringUtils.isNotEmpty(payeeNameValue)) {
                 if (payeeNameValue.length() < 2) {
-                    GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_PAYEE_NAME, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_PAYEE_NAME_LESS_THAN_2_CHARS);
+                    GlobalVariables.getMessageMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_PAYEE_NAME, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_PAYEE_NAME_LESS_THAN_2_CHARS);
 
                 }
             }
         }
 
-        if (GlobalVariables.getErrorMap().hasErrors()) {
+        if (GlobalVariables.getMessageMap().hasErrors()) {
             throw new ValidationException("errors in search criteria");
         }
 

@@ -201,7 +201,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
 
         }
         else {
-            GlobalVariables.getErrorMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID, CamsKeyConstants.BarcodeInventory.ERROR_CHECKBOX_MUST_BE_CHECKED);
+            GlobalVariables.getMessageMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID, CamsKeyConstants.BarcodeInventory.ERROR_CHECKBOX_MUST_BE_CHECKED);
         }
 
         // Saving data
@@ -250,7 +250,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
             }
         }
         else {
-            GlobalVariables.getErrorMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID, CamsKeyConstants.BarcodeInventory.ERROR_CHECKBOX_MUST_BE_CHECKED);
+            GlobalVariables.getMessageMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID, CamsKeyConstants.BarcodeInventory.ERROR_CHECKBOX_MUST_BE_CHECKED);
         }
 
         // Saving data
@@ -267,7 +267,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
     private boolean validateGlobalReplaceFields(BarcodeInventoryErrorDocument document) {
         if (StringUtils.isBlank(document.getCurrentScanCode()) && StringUtils.isBlank(document.getCurrentCampusCode()) && StringUtils.isBlank(document.getCurrentBuildingNumber()) && StringUtils.isBlank(document.getCurrentRoom()) && StringUtils.isBlank(document.getCurrentSubroom()) && StringUtils.isBlank(document.getCurrentConditionCode()) && StringUtils.isBlank(document.getCurrentTagNumber())) {
 
-            GlobalVariables.getErrorMap().putErrorForSectionId(CamsPropertyConstants.BCIE_GLOBAL_REPLACE_ERROR_SECTION_ID, CamsKeyConstants.BarcodeInventory.ERROR_GLOBAL_REPLACE_SEARCH_CRITERIA);
+            GlobalVariables.getMessageMap().putErrorForSectionId(CamsPropertyConstants.BCIE_GLOBAL_REPLACE_ERROR_SECTION_ID, CamsKeyConstants.BarcodeInventory.ERROR_GLOBAL_REPLACE_SEARCH_CRITERIA);
             return false;
         }
         return true;

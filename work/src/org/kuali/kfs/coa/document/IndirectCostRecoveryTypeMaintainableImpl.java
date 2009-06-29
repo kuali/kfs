@@ -58,7 +58,7 @@ public class IndirectCostRecoveryTypeMaintainableImpl extends FinancialSystemMai
         try {
             int collectionItemNumber = 0; // is there a better way to do this? ie- old school i=0;i<rawValues.size();i++ and rawValues.get(i)?
             boolean isValid = true;
-            GlobalVariables.getErrorMap().addToErrorPath(DETAIL_ERROR_PATH);
+            GlobalVariables.getMessageMap().addToErrorPath(DETAIL_ERROR_PATH);
             for (PersistableBusinessObject nextBo : rawValues) {
                 IndirectCostRecoveryExclusionType templatedBo = (IndirectCostRecoveryExclusionType) ObjectUtils.createHybridBusinessObject(collectionClass, nextBo, template);
                 templatedBo.setNewCollectionRecord(true);
@@ -67,14 +67,14 @@ public class IndirectCostRecoveryTypeMaintainableImpl extends FinancialSystemMai
                     if(templatedBo.getChartOfAccountsCode().equals(SpringContext.getBean(ChartService.class).getUniversityChart().getChartOfAccountsCode())) {
                         maintCollection.add(templatedBo);
                     } else {
-                        GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_CHART_NOT_UNIVERSITY_CHART, templatedBo.getChartOfAccountsCode(), SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), SpringContext.getBean(ChartService.class).getUniversityChart().getChartOfAccountsCode());
+                        GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_CHART_NOT_UNIVERSITY_CHART, templatedBo.getChartOfAccountsCode(), SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), SpringContext.getBean(ChartService.class).getUniversityChart().getChartOfAccountsCode());
                         isValid = false;
                     }
                 }
                 collectionItemNumber++;
                 templatedBo.setActive(true); // TODO remove after active indicator work is complete
             }
-            GlobalVariables.getErrorMap().removeFromErrorPath(DETAIL_ERROR_PATH);
+            GlobalVariables.getMessageMap().removeFromErrorPath(DETAIL_ERROR_PATH);
             // putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_DOCTYPE);
         } 
         catch (Exception e) {

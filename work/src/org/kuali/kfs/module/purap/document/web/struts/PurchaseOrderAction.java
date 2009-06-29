@@ -300,7 +300,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                         }
                         po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), newStatus);
                     }
-                    if (!GlobalVariables.getErrorMap().isEmpty()) {
+                    if (!GlobalVariables.getMessageMap().isEmpty()) {
                         throw new ValidationException("errors occurred during new PO creation");
                     }
                     
@@ -1033,16 +1033,16 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
         else if (PurapConstants.QuoteTransmitTypes.FAX.equals(vendorQuote.getPurchaseOrderQuoteTransmitTypeCode())) {
             // call fax service
-            GlobalVariables.getErrorMap().clear();
+            GlobalVariables.getMessageMap().clear();
             FaxService faxService = SpringContext.getBean(FaxService.class);
             faxService.faxPurchaseOrderPdf(po, false);
-            if (GlobalVariables.getErrorMap().size() == 0) {
+            if (GlobalVariables.getMessageMap().size() == 0) {
                 vendorQuote.setPurchaseOrderQuoteTransmitTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
                 SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
             }
         }
         else {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_TRANSMIT_TYPE_NOT_SELECTED);
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_TRANSMIT_TYPE_NOT_SELECTED);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -1117,7 +1117,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         boolean success;
         if (po.isPendingActionIndicator()) {
             success = false;
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_IS_PENDING);
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_IS_PENDING);
         }
         else {
             po = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(kualiDocumentFormBase.getDocument().getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), PurchaseOrderStatuses.PENDING_RETRANSMIT);
@@ -1364,7 +1364,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
 
         if (StringUtils.isBlank(poForm.getNewPurchaseOrderVendorStipulationLine().getVendorStipulationDescription())) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + PurapPropertyConstants.VENDOR_STIPULATION, PurapKeyConstants.ERROR_STIPULATION_DESCRIPTION);
+            GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + PurapPropertyConstants.VENDOR_STIPULATION, PurapKeyConstants.ERROR_STIPULATION_DESCRIPTION);
         }
         else {
             PurchaseOrderVendorStipulation newStipulation = poForm.getAndResetNewPurchaseOrderVendorStipulationLine();
@@ -1428,7 +1428,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
         if (!PurchaseOrderStatuses.IN_PROCESS.equals(document.getStatusCode())) {
             // PO must be "in process" in order to initiate a quote
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_NOT_IN_PROCESS);
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_NOT_IN_PROCESS);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         Calendar currentCalendar = dateTimeService.getCurrentCalendar();
@@ -1512,7 +1512,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         boolean dictionaryValid = true;
         for (PurchaseOrderVendorQuote poQuote : document.getPurchaseOrderVendorQuotes()) {
             if (poQuote.getPurchaseOrderQuoteStatusCode() == null) {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_STATUS_NOT_SELECTED);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_STATUS_NOT_SELECTED);
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             } 
             else {
@@ -1526,21 +1526,21 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         
         // verify quote status fields
         if (poForm.getAwardedVendorNumber() == null) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_NO_VENDOR_AWARDED);
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_NO_VENDOR_AWARDED);
 
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         else {
             awardedQuote = document.getPurchaseOrderVendorQuote(poForm.getAwardedVendorNumber().intValue());
             if (awardedQuote.getPurchaseOrderQuoteStatusCode() == null) {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_NOT_TRANSMITTED);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_NOT_TRANSMITTED);
 
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
             else {
                 VendorDetail awardedVendor = SpringContext.getBean(VendorService.class).getVendorDetail(awardedQuote.getVendorHeaderGeneratedIdentifier(), awardedQuote.getVendorDetailAssignedIdentifier());
                 if (!awardedVendor.getVendorHeader().getVendorTypeCode().equals("PO")) {
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_AWARD_NON_PO);
+                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_AWARD_NON_PO);
                     
                     return mapping.findForward(KFSConstants.MAPPING_BASIC);
                 }
@@ -1685,7 +1685,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
         for (PurchaseOrderVendorQuote quotedVendors : document.getPurchaseOrderVendorQuotes()) {
             if (quotedVendors.getPurchaseOrderQuoteTransmitTimestamp() != null) {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_ALREADY_TRASNMITTED);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_ALREADY_TRASNMITTED);
 
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }

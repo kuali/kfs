@@ -42,7 +42,7 @@ public class PurchasingAddItemValidation extends PurchasingAccountsPayableAddIte
     
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid=true;        
-        GlobalVariables.getErrorMap().addToErrorPath(PurapPropertyConstants.NEW_PURCHASING_ITEM_LINE);
+        GlobalVariables.getMessageMap().addToErrorPath(PurapPropertyConstants.NEW_PURCHASING_ITEM_LINE);
         //refresh itemType
         PurApItem refreshedItem = getItemForValidation();
         refreshedItem.refreshReferenceObject("itemType");
@@ -56,7 +56,7 @@ public class PurchasingAddItemValidation extends PurchasingAccountsPayableAddIte
             valid &= validateItemQuantity(getItemForValidation());
             valid &= validateCommodityCodes(getItemForValidation(), commodityCodeIsRequired());
         }
-        GlobalVariables.getErrorMap().removeFromErrorPath(PurapPropertyConstants.NEW_PURCHASING_ITEM_LINE);
+        GlobalVariables.getMessageMap().removeFromErrorPath(PurapPropertyConstants.NEW_PURCHASING_ITEM_LINE);
 
         return valid;
     }
@@ -81,7 +81,7 @@ public class PurchasingAddItemValidation extends PurchasingAccountsPayableAddIte
             String attributeLabel = dataDictionaryService.
                                     getDataDictionary().getBusinessObjectEntry(CommodityCode.class.getName()).
                                     getAttributeDefinition(PurapPropertyConstants.ITEM_COMMODITY_CODE).getLabel();
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + identifierString);
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + identifierString);
         }
         else if (StringUtils.isNotBlank(purItem.getPurchasingCommodityCode())) {
             //Find out whether the commodity code has existed in the database
@@ -90,7 +90,7 @@ public class PurchasingAddItemValidation extends PurchasingAccountsPayableAddIte
             if (businessObjectService.countMatching(CommodityCode.class, fieldValues) != 1) {
                 //This is the case where the commodity code on the item does not exist in the database.
                 valid = false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INVALID,  " in " + identifierString);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INVALID,  " in " + identifierString);
             }
             else {
                 valid &= validateThatCommodityCodeIsActive(item);
@@ -115,19 +115,19 @@ public class PurchasingAddItemValidation extends PurchasingAccountsPayableAddIte
                 String attributeLabel = dataDictionaryService.
                                         getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
                                         getAttributeDefinition(PurapPropertyConstants.ITEM_UNIT_PRICE).getLabel();
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
             }
         }    
 
         if (ObjectUtils.isNotNull(item.getItemUnitPrice())) {
             if ((BigDecimal.ZERO.compareTo(item.getItemUnitPrice()) > 0) && ((!item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) && (!item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)))) {
                 // If the item type is not full order discount or trade in items, don't allow negative unit price.
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_AMOUNT_BELOW_ZERO, ItemFields.UNIT_COST, item.getItemIdentifierString());
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_AMOUNT_BELOW_ZERO, ItemFields.UNIT_COST, item.getItemIdentifierString());
                 valid = false;
             }
             else if ((BigDecimal.ZERO.compareTo(item.getItemUnitPrice()) < 0) && ((item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) || (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)))) {
                 // If the item type is full order discount or trade in items, its unit price must be negative.
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_AMOUNT_NOT_BELOW_ZERO, ItemFields.UNIT_COST, item.getItemIdentifierString());
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_AMOUNT_NOT_BELOW_ZERO, ItemFields.UNIT_COST, item.getItemIdentifierString());
                 valid = false;
             }
         }
@@ -153,7 +153,7 @@ public class PurchasingAddItemValidation extends PurchasingAccountsPayableAddIte
                                         getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
                                         getAttributeDefinition(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE).
                                         getLabel();
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
             }
             else {
                 //Find out whether the unit of measure code has existed in the database
@@ -162,7 +162,7 @@ public class PurchasingAddItemValidation extends PurchasingAccountsPayableAddIte
                 if (businessObjectService.countMatching(UnitOfMeasure.class, fieldValues) != 1) {
                     //This is the case where the unit of measure code on the item does not exist in the database.
                     valid = false;
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, PurapKeyConstants.PUR_ITEM_UNIT_OF_MEASURE_CODE_INVALID,  " in " + item.getItemIdentifierString());
+                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, PurapKeyConstants.PUR_ITEM_UNIT_OF_MEASURE_CODE_INVALID,  " in " + item.getItemIdentifierString());
                 }
             }
         }
@@ -183,7 +183,7 @@ public class PurchasingAddItemValidation extends PurchasingAccountsPayableAddIte
             String attributeLabel = dataDictionaryService.
                                     getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
                                     getAttributeDefinition(PurapPropertyConstants.ITEM_DESCRIPTION).getLabel();
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
         }
         return valid;
     }
@@ -203,14 +203,14 @@ public class PurchasingAddItemValidation extends PurchasingAccountsPayableAddIte
             String attributeLabel = dataDictionaryService.
                                     getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
                                     getAttributeDefinition(PurapPropertyConstants.ITEM_QUANTITY).getLabel();            
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.QUANTITY, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + item.getItemIdentifierString());
         }
         else if (purItem.getItemType().isAmountBasedGeneralLedgerIndicator() && ObjectUtils.isNotNull(purItem.getItemQuantity())) {
             valid = false;
             String attributeLabel = dataDictionaryService.
                                     getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
                                     getAttributeDefinition(PurapPropertyConstants.ITEM_QUANTITY).getLabel(); 
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ALLOWED, attributeLabel + " in " + item.getItemIdentifierString());
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.QUANTITY, PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ALLOWED, attributeLabel + " in " + item.getItemIdentifierString());
         }
 
         return valid;
@@ -229,7 +229,7 @@ public class PurchasingAddItemValidation extends PurchasingAccountsPayableAddIte
     protected boolean validateThatCommodityCodeIsActive(PurApItem item) {
         if (!((PurchasingItemBase)item).getCommodityCode().isActive()) {
             //This is the case where the commodity code on the item is not active.
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INACTIVE, " in " + item.getItemIdentifierString());
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INACTIVE, " in " + item.getItemIdentifierString());
             return false;
         }
         return true;

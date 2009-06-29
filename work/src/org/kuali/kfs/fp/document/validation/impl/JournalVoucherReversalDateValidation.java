@@ -39,7 +39,7 @@ public class JournalVoucherReversalDateValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         java.sql.Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
         if (null != getJournalVoucherForValidation().getReversalDate() && getJournalVoucherForValidation().getReversalDate().before(today)) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + REVERSAL_DATE, KFSKeyConstants.ERROR_DOCUMENT_INCORRECT_REVERSAL_DATE);
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + REVERSAL_DATE, KFSKeyConstants.ERROR_DOCUMENT_INCORRECT_REVERSAL_DATE);
             return false;
         }
         return true;

@@ -75,19 +75,19 @@ public class LineItemReceivingAction extends ReceivingBaseAction {
         LineItemReceivingForm rlf = (LineItemReceivingForm)form;
         LineItemReceivingDocument rlDoc = (LineItemReceivingDocument)rlf.getDocument();
         
-        GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        GlobalVariables.getMessageMap().clearErrorPath();
+        GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         boolean valid = true;
         boolean poNotNull = true;
         
         //check for a po id
         if (ObjectUtils.isNull(rlDoc.getPurchaseOrderIdentifier())) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.PURCHASE_ORDER_ID);
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.PURCHASE_ORDER_ID);
             poNotNull = false;
         }
 
         if (ObjectUtils.isNull(rlDoc.getShipmentReceivedDate())) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.SHIPMENT_RECEIVED_DATE, KFSKeyConstants.ERROR_REQUIRED, PurapConstants.LineItemReceivingDocumentStrings.VENDOR_DATE);            
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.SHIPMENT_RECEIVED_DATE, KFSKeyConstants.ERROR_REQUIRED, PurapConstants.LineItemReceivingDocumentStrings.VENDOR_DATE);            
         }
 
         //exit early as the po is null, no need to proceed further until this is taken care of
@@ -105,7 +105,7 @@ public class LineItemReceivingAction extends ReceivingBaseAction {
                 throw buildAuthorizationException("initiate document", rlDoc);
             }
         }else{
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_EXIST);
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_EXIST);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         
@@ -116,12 +116,12 @@ public class LineItemReceivingAction extends ReceivingBaseAction {
         }
                 
         if (!SpringContext.getBean(ReceivingService.class).isPurchaseOrderActiveForLineItemReceivingDocumentCreation(rlDoc.getPurchaseOrderIdentifier())){
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_RECEIVING_LINE_DOCUMENT_PO_NOT_ACTIVE, rlDoc.getPurchaseOrderIdentifier().toString());
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_RECEIVING_LINE_DOCUMENT_PO_NOT_ACTIVE, rlDoc.getPurchaseOrderIdentifier().toString());
             valid &= false;
         }
 
         if( SpringContext.getBean(ReceivingService.class).canCreateLineItemReceivingDocument(rlDoc.getPurchaseOrderIdentifier(), rlDoc.getDocumentNumber()) == false){            
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_RECEIVING_LINE_DOCUMENT_ACTIVE_FOR_PO, rlDoc.getDocumentNumber(), rlDoc.getPurchaseOrderIdentifier().toString());
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_RECEIVING_LINE_DOCUMENT_ACTIVE_FOR_PO, rlDoc.getDocumentNumber(), rlDoc.getPurchaseOrderIdentifier().toString());
             valid &= false;
         }
         

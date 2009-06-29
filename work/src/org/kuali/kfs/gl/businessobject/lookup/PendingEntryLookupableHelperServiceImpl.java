@@ -92,13 +92,13 @@ public class PendingEntryLookupableHelperServiceImpl extends AbstractLookupableH
                 int year = Integer.parseInt(valueFiscalYear);
             }
             catch (NumberFormatException e) {
-                GlobalVariables.getErrorMap().putError(UNIVERSITY_FISCAL_YEAR, KFSKeyConstants.ERROR_CUSTOM, new String[] { KFSKeyConstants.PendingEntryLookupableImpl.FISCAL_YEAR_FOUR_DIGIT });
+                GlobalVariables.getMessageMap().putError(UNIVERSITY_FISCAL_YEAR, KFSKeyConstants.ERROR_CUSTOM, new String[] { KFSKeyConstants.PendingEntryLookupableImpl.FISCAL_YEAR_FOUR_DIGIT });
                 throw new ValidationException("errors in search criteria");
             }
         }
         
         if (!allRequiredsForAccountSearch(fieldValues) && !allRequiredsForDocumentSearch(fieldValues)) {
-            GlobalVariables.getErrorMap().putError("universityFiscalYear", KFSKeyConstants.ERROR_GL_LOOKUP_PENDING_ENTRY_NON_MATCHING_REQUIRED_FIELDS, new String[] {});
+            GlobalVariables.getMessageMap().putError("universityFiscalYear", KFSKeyConstants.ERROR_GL_LOOKUP_PENDING_ENTRY_NON_MATCHING_REQUIRED_FIELDS, new String[] {});
             throw new ValidationException("errors in search criteria");
         }
     }

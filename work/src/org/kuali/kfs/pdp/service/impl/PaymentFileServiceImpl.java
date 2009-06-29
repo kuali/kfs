@@ -34,9 +34,9 @@ import org.kuali.kfs.pdp.businessobject.LoadPaymentStatus;
 import org.kuali.kfs.pdp.businessobject.PaymentFileLoad;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.service.CustomerProfileService;
-import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.pdp.service.PaymentFileValidationService;
+import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
@@ -50,6 +50,7 @@ import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.MessageMap;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -112,7 +113,7 @@ public class PaymentFileServiceImpl implements PaymentFileService {
      * @param errorMap <code>Map</code> of errors
      * @return <code>LoadPaymentStatus</code> containing status data for load
      */
-    private PaymentFileLoad processPaymentFile(BatchInputFileType paymentInputFileType, String incomingFileName, ErrorMap errorMap) {
+    private PaymentFileLoad processPaymentFile(BatchInputFileType paymentInputFileType, String incomingFileName, MessageMap errorMap) {
         // parse xml, if errors found return with failure
         PaymentFileLoad paymentFile = parsePaymentFile(paymentInputFileType, incomingFileName, errorMap);
 
@@ -128,7 +129,7 @@ public class PaymentFileServiceImpl implements PaymentFileService {
      * @see org.kuali.kfs.pdp.service.PaymentFileService#doPaymentFileValidation(org.kuali.kfs.pdp.businessobject.PaymentFileLoad,
      *      org.kuali.rice.kns.util.ErrorMap)
      */
-    public void doPaymentFileValidation(PaymentFileLoad paymentFile, ErrorMap errorMap) {
+    public void doPaymentFileValidation(PaymentFileLoad paymentFile, MessageMap errorMap) {
         paymentFileValidationService.doHardEdits(paymentFile, errorMap);
 
         if (!errorMap.isEmpty()) {
@@ -185,7 +186,7 @@ public class PaymentFileServiceImpl implements PaymentFileService {
      * @param errorMap any errors encountered while parsing are adding to
      * @return <code>PaymentFile</code> containing the parsed values
      */
-    protected PaymentFileLoad parsePaymentFile(BatchInputFileType paymentInputFileType, String incomingFileName, ErrorMap errorMap) {
+    protected PaymentFileLoad parsePaymentFile(BatchInputFileType paymentInputFileType, String incomingFileName, MessageMap errorMap) {
         FileInputStream fileContents;
         try {
             fileContents = new FileInputStream(incomingFileName);

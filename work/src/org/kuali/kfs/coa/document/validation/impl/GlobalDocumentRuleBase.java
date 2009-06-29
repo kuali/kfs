@@ -153,7 +153,7 @@ public class GlobalDocumentRuleBase extends KfsMaintenanceDocumentRuleBase {
             // KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY);
 
             // added to prevent error from showing at the top of the document, but rather in the Account Detail Edit section
-            GlobalVariables.getErrorMap().putError("chartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY_ADDNEW);
+            GlobalVariables.getMessageMap().putError("chartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY_ADDNEW);
         }
         return success;
     }

@@ -34,7 +34,7 @@ public class PurchasingAccountsPayableHasAccountsValidation extends GenericValid
         
         if (itemForValidation.getSourceAccountingLines().isEmpty()) {
             valid = false;
-            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_INCOMPLETE, itemForValidation.getItemIdentifierString());
+            GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_INCOMPLETE, itemForValidation.getItemIdentifierString());
         }
 
         return valid;

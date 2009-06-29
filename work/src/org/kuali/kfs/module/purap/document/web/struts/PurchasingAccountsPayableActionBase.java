@@ -139,13 +139,13 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         try {
              FormFile sourceFile = purapForm.getSourceFile();
              checkUploadFile(sourceFile);
-             GlobalVariables.getErrorMap().clearErrorPath();
-             GlobalVariables.getErrorMap().addToErrorPath(errorPathPrefix);                
+             GlobalVariables.getMessageMap().clearErrorPath();
+             GlobalVariables.getMessageMap().addToErrorPath(errorPathPrefix);                
              importedLines = accountingLineParser.importSourceAccountingLines(sourceFile.getFileName(), sourceFile.getInputStream(), purapDocument);
-             GlobalVariables.getErrorMap().removeFromErrorPath(errorPathPrefix);            
+             GlobalVariables.getMessageMap().removeFromErrorPath(errorPathPrefix);            
         }
         catch (AccountingLineParserException e) {
-            GlobalVariables.getErrorMap().putError(errorPathPrefix, e.getErrorKey(), e.getErrorParameters());
+            GlobalVariables.getMessageMap().putError(errorPathPrefix, e.getErrorKey(), e.getErrorParameters());
         }
 
         // add to list those lines successfully imported

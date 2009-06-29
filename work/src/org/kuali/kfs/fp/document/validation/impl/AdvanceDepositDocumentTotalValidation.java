@@ -39,7 +39,7 @@ public class AdvanceDepositDocumentTotalValidation extends GenericValidation {
         boolean isValid = advanceDepositDocumentForValidation.getSourceTotal().equals(advanceDepositDocumentForValidation.getTotalDollarAmount());
 
         if (!isValid) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.NEW_ADVANCE_DEPOSIT, KFSKeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_OUT_OF_BALANCE);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.NEW_ADVANCE_DEPOSIT, KFSKeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_OUT_OF_BALANCE);
         }
 
         return isValid;

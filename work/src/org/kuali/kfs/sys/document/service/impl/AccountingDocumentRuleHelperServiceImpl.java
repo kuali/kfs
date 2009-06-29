@@ -114,12 +114,12 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
     public boolean isValidBalanceType(BalanceType balanceType, Class entryClass, String attributeName, String errorPropertyName) {
         String label = getLabelFromDataDictionary(entryClass, attributeName);
         if (ObjectUtils.isNull(balanceType)) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
             return false;
         }
         // make sure it's active for usage
         if (!balanceType.isActive()) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
             return false;
         }
         return true;
@@ -133,13 +133,13 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
         // retrieve from system to make sure it exists
         String label = getLabelFromDataDictionary(entryClass, attribueName);
         if (ObjectUtils.isNull(accountingPeriod)) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
             return false;
         }
 
         // make sure it's open for use
         if (!accountingPeriod.isActive()) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED);
             return false;
         }
 
@@ -153,7 +153,7 @@ public class AccountingDocumentRuleHelperServiceImpl implements AccountingDocume
     public boolean isValidReversalDate(Date reversalDate, String errorPropertyName) {
         java.sql.Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
         if (null != reversalDate && reversalDate.before(today)) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_INCORRECT_REVERSAL_DATE);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_INCORRECT_REVERSAL_DATE);
             return false;
         }
         else {

@@ -18,8 +18,8 @@ package org.kuali.kfs.module.bc.document.web.struts;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 
 public class BudgetConstructionImportExportAction extends BudgetExpansionAction {
 
@@ -31,7 +31,7 @@ public class BudgetConstructionImportExportAction extends BudgetExpansionAction 
      */
     public boolean validateFormData(BudgetConstructionImportExportForm form) {
         boolean isValid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
 
         if (form.getUniversityFiscalYear() == null) {
             throw new RuntimeException(BCKeyConstants.ERROR_BUDGET_YEAR_REQUIRED);

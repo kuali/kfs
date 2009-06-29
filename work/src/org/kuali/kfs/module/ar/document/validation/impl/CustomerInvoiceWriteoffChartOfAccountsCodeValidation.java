@@ -56,11 +56,11 @@ public class CustomerInvoiceWriteoffChartOfAccountsCodeValidation extends Generi
         OrganizationAccountingDefault organizationAccountingDefault = (OrganizationAccountingDefault)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
         
         if (ObjectUtils.isNull(organizationAccountingDefault)){
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_MUST_EXIST,new String[]{currentFiscalYear.toString(),billByChartOfAccountCode,billedByOrganizationCode});
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_MUST_EXIST,new String[]{currentFiscalYear.toString(),billByChartOfAccountCode,billedByOrganizationCode});
             return false;
         } else {
             if (StringUtils.isEmpty(organizationAccountingDefault.getWriteoffChartOfAccountsCode())) {
-                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_CHART_MUST_EXIST, new String[] { organizationAccountingDefault.getUniversityFiscalYear().toString(), organizationAccountingDefault.getChartOfAccountsCode(), organizationAccountingDefault.getOrganizationCode() });
+                GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_CHART_MUST_EXIST, new String[] { organizationAccountingDefault.getUniversityFiscalYear().toString(), organizationAccountingDefault.getChartOfAccountsCode(), organizationAccountingDefault.getOrganizationCode() });
                 return false;
             }
         }

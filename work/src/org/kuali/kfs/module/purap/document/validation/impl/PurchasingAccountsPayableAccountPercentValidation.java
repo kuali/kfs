@@ -47,7 +47,7 @@ public class PurchasingAccountsPayableAccountPercentValidation extends GenericVa
             }
         }
         if (desiredPercent.compareTo(totalPercent) != 0) {
-            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_TOTAL, itemForValidation.getItemIdentifierString());
+            GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_TOTAL, itemForValidation.getItemIdentifierString());
             valid = false;
         }
 

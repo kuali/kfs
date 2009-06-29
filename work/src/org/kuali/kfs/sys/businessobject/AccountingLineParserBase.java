@@ -177,7 +177,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
                 catch (FormatException e) {
                     String[] errorParameters = { entry.getValue().toString(), retrieveAttributeLabel(accountingLine.getClass(), entry.getKey()), accountingLineAsString };
                     // KULLAB-408
-                    GlobalVariables.getErrorMap().putError(KFSConstants.ACCOUNTING_LINE_ERRORS, ERROR_INVALID_PROPERTY_VALUE, entry.getValue().toString(), entry.getKey(), accountingLineAsString + "  : Line Number " + lineNo.toString());
+                    GlobalVariables.getMessageMap().putError(KFSConstants.ACCOUNTING_LINE_ERRORS, ERROR_INVALID_PROPERTY_VALUE, entry.getValue().toString(), entry.getKey(), accountingLineAsString + "  : Line Number " + lineNo.toString());
                     throw new AccountingLineParserException("invalid '" + entry.getKey() + "=" + entry.getValue() + "for " + accountingLineAsString, ERROR_INVALID_PROPERTY_VALUE, errorParameters);
 
                 }

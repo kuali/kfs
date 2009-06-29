@@ -40,7 +40,7 @@ public class CustomerInvoiceRecurrenceActiveIndicatorValidation extends GenericV
             return true;
         
         if (!customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().isActive()) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_RECURRENCE_ACTIVE, ArKeyConstants.ERROR_INVOICE_RECURRENCE_ACTIVE_MUST_BE_TRUE);
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_RECURRENCE_ACTIVE, ArKeyConstants.ERROR_INVOICE_RECURRENCE_ACTIVE_MUST_BE_TRUE);
             return false;
         }
         

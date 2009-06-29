@@ -255,7 +255,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
             Bank offsetBank = getOffsetBank();
             if (ObjectUtils.isNull(offsetBank)) {
                 success = false;
-                GlobalVariables.getErrorMap().putError("newCreditCardReceipt.financialDocumentCreditCardTypeCode", KFSKeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_BANK_MUST_EXIST_WHEN_BANK_ENHANCEMENT_ENABLED, new String[] { KFSParameterKeyConstants.ENABLE_BANK_SPECIFICATION_IND, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE });
+                GlobalVariables.getMessageMap().putError("newCreditCardReceipt.financialDocumentCreditCardTypeCode", KFSKeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_BANK_MUST_EXIST_WHEN_BANK_ENHANCEMENT_ENABLED, new String[] { KFSParameterKeyConstants.ENABLE_BANK_SPECIFICATION_IND, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE });
             }
             else {
                 success &= glpeService.populateBankOffsetGeneralLedgerPendingEntry(offsetBank, depositTotal, this, getPostingYear(), sequenceHelper, bankOffsetEntry, KFSConstants.CREDIT_CARD_RECEIPTS_LINE_ERRORS);

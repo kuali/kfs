@@ -224,14 +224,14 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        if (!super.processCustomRouteDocumentBusinessRules(document) || GlobalVariables.getErrorMap().hasErrors())
+        if (!super.processCustomRouteDocumentBusinessRules(document) || GlobalVariables.getMessageMap().hasErrors())
             return false;
 
         Asset asset = ((AssetTransferDocument)document).getAsset();
         boolean valid = true;
         if (SpringContext.getBean(AssetService.class).isAssetRetired(asset)) {
             valid &= false;
-            GlobalVariables.getErrorMap().putError(CamsConstants.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_RETIRED_NOTRANSFER, asset.getCapitalAssetNumber().toString(), asset.getRetirementReason().getRetirementReasonName());
+            GlobalVariables.getMessageMap().putError(CamsConstants.DOC_HEADER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_RETIRED_NOTRANSFER, asset.getCapitalAssetNumber().toString(), asset.getRetirementReason().getRetirementReasonName());
         }
 
         if (valid) {
@@ -283,12 +283,12 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
      * @return true is location information is valid for the asset type
      */
     protected boolean validateLocation(AssetTransferDocument assetTransferDocument) {
-        GlobalVariables.getErrorMap().addToErrorPath(CamsConstants.DOCUMENT_PATH);
+        GlobalVariables.getMessageMap().addToErrorPath(CamsConstants.DOCUMENT_PATH);
         Asset asset = assetTransferDocument.getAsset();
         asset.refreshReferenceObject(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE);
         boolean isCapitalAsset = this.getAssetService().isCapitalAsset(asset);
         boolean valid = SpringContext.getBean(AssetLocationService.class).validateLocation(LOCATION_FIELD_MAP, assetTransferDocument, isCapitalAsset, asset.getCapitalAssetType());
-        GlobalVariables.getErrorMap().removeFromErrorPath(CamsConstants.DOCUMENT_PATH);
+        GlobalVariables.getMessageMap().removeFromErrorPath(CamsConstants.DOCUMENT_PATH);
         return valid;
     }
 
@@ -390,7 +390,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         boolean isAuthorizedTransferMovable = documentAuthorizer.isAuthorized(assetTransferDocument, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.TRANSFER_NON_MOVABLE_ASSETS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
         if (!assetMovable && !isAuthorizedTransferMovable) {
-            GlobalVariables.getErrorMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID, CamsKeyConstants.Transfer.ERROR_INVALID_USER_GROUP_FOR_TRANSFER_NONMOVABLE_ASSET, asset.getCapitalAssetNumber().toString());
+            GlobalVariables.getMessageMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID, CamsKeyConstants.Transfer.ERROR_INVALID_USER_GROUP_FOR_TRANSFER_NONMOVABLE_ASSET, asset.getCapitalAssetNumber().toString());
             valid &= false;
         }
 
@@ -447,7 +447,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
      * Convenience method to append the path prefix
      */
     public TypedArrayList putError(String propertyName, String errorKey, String... errorParameters) {
-        return GlobalVariables.getErrorMap().putError(CamsConstants.DOCUMENT_PATH + "." + propertyName, errorKey, errorParameters);
+        return GlobalVariables.getMessageMap().putError(CamsConstants.DOCUMENT_PATH + "." + propertyName, errorKey, errorParameters);
     }
 
     public UniversityDateService getUniversityDateService() {

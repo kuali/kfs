@@ -48,7 +48,7 @@ public class ElectronicInvoiceRejectDocumentRule extends DocumentRuleBase {
 
         // check to see if the document is being researched
         if (eirDocument.isInvoiceResearchIndicator()) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapConstants.REJECT_DOCUMENT_RESEARCH_INCOMPETE);
+            GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapConstants.REJECT_DOCUMENT_RESEARCH_INCOMPETE);
             isValid = false;
         }
         

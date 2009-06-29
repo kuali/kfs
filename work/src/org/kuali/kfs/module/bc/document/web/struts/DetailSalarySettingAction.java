@@ -51,6 +51,7 @@ import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * the base struts action for the detail salary setting
@@ -153,7 +154,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         for (PendingBudgetConstructionAppointmentFunding savableFunding : savableAppointmentFundings) {
             String errorKeyPrefix = this.getErrorKeyPrefixOfAppointmentFundingLine(appointmentFundings, savableFunding);
 
@@ -179,7 +180,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         }
 
         // acquire transaction locks for all funding lines
-        boolean transactionLocked = salarySettingForm.acquireTransactionLocks(GlobalVariables.getErrorMap());
+        boolean transactionLocked = salarySettingForm.acquireTransactionLocks(GlobalVariables.getMessageMap());
         if (!transactionLocked) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
@@ -219,7 +220,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         ObjectUtil.buildObject(workingAppointmentFunding, newAppointmentFunding);
         this.applyDefaultValuesIfEmpty(workingAppointmentFunding);
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
 
         // retrieve corresponding document in advance in order to use the rule framework
         BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(workingAppointmentFunding);

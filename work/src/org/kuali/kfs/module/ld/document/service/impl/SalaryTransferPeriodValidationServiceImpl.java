@@ -113,7 +113,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
             KualiDecimal transfer = accountPeriodTransfer.get(transferKey);
             if (transfer.isNonZero()) {
                 String[] keyFields = StringUtils.split(transferKey, ",");
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, LaborKeyConstants.ERROR_EFFORT_OPEN_PERIOD_ACCOUNTS_NOT_BALANCED, new String[] { keyFields[4], keyFields[0], keyFields[1] });
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, LaborKeyConstants.ERROR_EFFORT_OPEN_PERIOD_ACCOUNTS_NOT_BALANCED, new String[] { keyFields[4], keyFields[0], keyFields[1] });
                 return false;
             }
         }
@@ -304,7 +304,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
         errorParameters[1] = transferLine.getPayrollEndDateFiscalYear().toString();
         errorParameters[2] = transferLine.getPayrollEndDateFiscalPeriodCode();
 
-        GlobalVariables.getErrorMap().putError(errorLines, errorKey, errorParameters);
+        GlobalVariables.getMessageMap().putError(errorLines, errorKey, errorParameters);
     }
 
     /**

@@ -293,7 +293,7 @@ public class AccountingLineGroupTag extends TagSupport {
      * @return true if there are errors on the line, false otherwise
      */
     protected boolean isErrorMapContainingErrorsOnLine(String accountingLinePropertyName) {
-        for (Object errorKeyAsObject : GlobalVariables.getErrorMap().keySet()) {
+        for (Object errorKeyAsObject : GlobalVariables.getMessageMap().keySet()) {
             if (((String)errorKeyAsObject).startsWith(accountingLinePropertyName)) return true;
         }
         return false;

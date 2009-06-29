@@ -22,8 +22,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.BankCodeValidation;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * Common Advance Deposit Document rule utilities.
@@ -38,7 +38,7 @@ public class AdvanceDepositDocumentRuleUtil {
      * @return boolean returns true if dollar amount is not 0 and bank-related references (i.e. bank and bank account) are valid
      */
     public static boolean validateAdvanceDeposit(AdvanceDepositDetail advanceDeposit) {
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         int originalErrorCount = errorMap.getErrorCount();
 
         // call the DD validation which checks basic data integrity

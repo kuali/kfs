@@ -177,15 +177,15 @@ public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBa
 
             // build question text (contains error messages found)
             String message = "";
-            if (GlobalVariables.getErrorMap().containsKey(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES)) {
-                for (Object errorMessage : GlobalVariables.getErrorMap().getMessages(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES)) {
+            if (GlobalVariables.getMessageMap().containsKey(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES)) {
+                for (Object errorMessage : GlobalVariables.getMessageMap().getMessages(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES)) {
                     String errorMsg = kualiConfigurationService.getPropertyString(((ErrorMessage) errorMessage).getErrorKey());
                     message += MessageFormat.format(errorMsg, (Object[]) ((ErrorMessage) errorMessage).getMessageParameters());
                 }
             }
             
-            if (GlobalVariables.getErrorMap().containsKey(KFSPropertyConstants.TARGET_ACCOUNTING_LINES)) {
-                for (Object errorMessage : GlobalVariables.getErrorMap().getMessages(KFSPropertyConstants.TARGET_ACCOUNTING_LINES)) {
+            if (GlobalVariables.getMessageMap().containsKey(KFSPropertyConstants.TARGET_ACCOUNTING_LINES)) {
+                for (Object errorMessage : GlobalVariables.getMessageMap().getMessages(KFSPropertyConstants.TARGET_ACCOUNTING_LINES)) {
                     String errorMsg = kualiConfigurationService.getPropertyString(((ErrorMessage) errorMessage).getErrorKey());
                     message += MessageFormat.format(errorMsg, (Object[]) ((ErrorMessage) errorMessage).getMessageParameters());
                 }

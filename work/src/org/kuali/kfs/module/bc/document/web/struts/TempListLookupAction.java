@@ -321,7 +321,7 @@ public class TempListLookupAction extends KualiLookupAction {
         // verify a position number to retrieve was given
         String positionNumber = (String) tempListLookupForm.getFieldsForLookup().get(BCPropertyConstants.POSITION_NUMBER);
         if (StringUtils.isBlank(positionNumber)) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_REQUIRED_FOR_GET_NEW_POSITION);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_REQUIRED_FOR_GET_NEW_POSITION);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
@@ -330,10 +330,10 @@ public class TempListLookupAction extends KualiLookupAction {
             SpringContext.getBean(BudgetConstructionPositionService.class).pullNewPositionFromExternal(tempListLookupForm.getUniversityFiscalYear(), positionNumber);
         }
         catch (PositionNotFoundException e) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, e.getMessageKey(), e.getMessageParameters());
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, e.getMessageKey(), e.getMessageParameters());
         }
         catch (BudgetPositionAlreadyExistsException e1) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, e1.getMessageKey(), e1.getMessageParameters());
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, e1.getMessageKey(), e1.getMessageParameters());
         }
 
         // perform search which should return the new budget position
@@ -395,7 +395,7 @@ public class TempListLookupAction extends KualiLookupAction {
         // verify an emplid to retrieve was given
         String emplid = (String) tempListLookupForm.getFieldsForLookup().get(KFSPropertyConstants.EMPLID);
         if (StringUtils.isBlank(emplid)) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_REQUIRED_FOR_GET_NEW_INCUMBENT);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_REQUIRED_FOR_GET_NEW_INCUMBENT);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
@@ -404,10 +404,10 @@ public class TempListLookupAction extends KualiLookupAction {
             SpringContext.getBean(BudgetConstructionIntendedIncumbentService.class).pullNewIncumbentFromExternal(emplid);
         }
         catch (IncumbentNotFoundException e) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, e.getMessageKey(), e.getMessageParameters());
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, e.getMessageKey(), e.getMessageParameters());
         }
         catch (BudgetIncumbentAlreadyExistsException e1) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, e1.getMessageKey(), e1.getMessageParameters());
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, e1.getMessageKey(), e1.getMessageParameters());
         }
 
         // perform search which should return the new incumbent
@@ -468,7 +468,7 @@ public class TempListLookupAction extends KualiLookupAction {
         // verify lock for user still exists, if not give warning message
         boolean lockExists = SpringContext.getBean(LockService.class).checkLockExists(lockSummary);
         if (!lockExists) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.MSG_LOCK_NOTEXIST, lockSummary.getLockType(), lockKeyMessage);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.MSG_LOCK_NOTEXIST, lockSummary.getLockType(), lockKeyMessage);
         }
         else {
             // do the unlock
@@ -478,7 +478,7 @@ public class TempListLookupAction extends KualiLookupAction {
                 tempListLookupForm.addMessage(MessageFormat.format(successMessage, lockSummary.getLockType(), lockKeyMessage));
             }
             else {
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.MSG_UNLOCK_NOTSUCCESSFUL, lockSummary.getLockType(), lockKeyMessage);
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.MSG_UNLOCK_NOTSUCCESSFUL, lockSummary.getLockType(), lockKeyMessage);
             }
         }
 

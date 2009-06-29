@@ -49,12 +49,12 @@ public class CustomerLoadBusinessRulesTest extends KualiTestBase {
         boolean result = false;
         List<MaintenanceDocument> customerMaintDocs = new ArrayList<MaintenanceDocument>();
         
-        assertTrue("GlobalVariables ErrorMap should be empty.", GlobalVariables.getErrorMap().isEmpty());
+        assertTrue("GlobalVariables ErrorMap should be empty.", GlobalVariables.getMessageMap().isEmpty());
         
         result = customerLoadService.validateAndPrepare(customerVOs, customerMaintDocs, true);
         showErrorMap();
         
-        assertTrue("The Validation should have produced no error messages.", GlobalVariables.getErrorMap().isEmpty());
+        assertTrue("The Validation should have produced no error messages.", GlobalVariables.getMessageMap().isEmpty());
         
     }
     
@@ -66,14 +66,14 @@ public class CustomerLoadBusinessRulesTest extends KualiTestBase {
      */
     private void showErrorMap() {
 
-        if (GlobalVariables.getErrorMap().isEmpty()) {
+        if (GlobalVariables.getMessageMap().isEmpty()) {
             return;
         }
 
-        Set<String> errorMapKeys = GlobalVariables.getErrorMap().keySet();
+        Set<String> errorMapKeys = GlobalVariables.getMessageMap().keySet();
         ArrayList<ErrorMessage> errorMapEntry;
         for (String errorMapKey : errorMapKeys) {
-            errorMapEntry = (ArrayList<ErrorMessage>) GlobalVariables.getErrorMap().get(errorMapKey);
+            errorMapEntry = (ArrayList<ErrorMessage>) GlobalVariables.getMessageMap().get(errorMapKey);
             for (ErrorMessage errorMessage : errorMapEntry) {
                 
                 if (errorMessage.getMessageParameters() == null) {

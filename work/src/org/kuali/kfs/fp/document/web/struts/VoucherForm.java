@@ -466,13 +466,13 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
             if (creditAmount.isNonZero() && debitAmount.isNonZero()) {
                 // there's a value in both fields
                 if (KFSConstants.NEGATIVE_ONE == index) { // it's a new line
-                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(KFSConstants.DEBIT_AMOUNT_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
-                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(KFSConstants.CREDIT_AMOUNT_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
+                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KFSConstants.DEBIT_AMOUNT_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
+                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KFSConstants.CREDIT_AMOUNT_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
                 }
                 else {
                     String errorKeyPath = KFSConstants.JOURNAL_LINE_HELPER_PROPERTY_NAME + KFSConstants.SQUARE_BRACKET_LEFT + Integer.toString(index) + KFSConstants.SQUARE_BRACKET_RIGHT;
-                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorKeyPath + VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
-                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorKeyPath + VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
+                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorKeyPath + VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
+                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorKeyPath + VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
                 }
             }
             else {

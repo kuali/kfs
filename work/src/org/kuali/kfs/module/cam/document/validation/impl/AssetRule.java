@@ -207,7 +207,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         if (!incidentDateSet.add(assetRepairHistory.getIncidentDate())) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetRepairHistory.INCIDENT_DATE, CamsKeyConstants.AssetRepairHistory.ERROR_DUPLICATE_INCIDENT_DATE);
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetRepairHistory.INCIDENT_DATE, CamsKeyConstants.AssetRepairHistory.ERROR_DUPLICATE_INCIDENT_DATE);
             success &= false;
         }
 
@@ -371,9 +371,9 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         }
         else {
             // validate inventory status change per system parameter.
-            GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH);
+            GlobalVariables.getMessageMap().addToErrorPath(MAINTAINABLE_ERROR_PATH);
             valid &= parameterService.getParameterEvaluator(Asset.class, CamsConstants.Parameters.VALID_INVENTROY_STATUS_CODE_CHANGE, CamsConstants.Parameters.INVALID_INVENTROY_STATUS_CODE_CHANGE, oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode()).evaluateAndAddError(newAsset.getClass(), CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS);
-            GlobalVariables.getErrorMap().removeFromErrorPath(MAINTAINABLE_ERROR_PATH);
+            GlobalVariables.getMessageMap().removeFromErrorPath(MAINTAINABLE_ERROR_PATH);
         }
         return valid;
     }
@@ -443,10 +443,10 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @return
      */
     private boolean validateLocation() {
-        GlobalVariables.getErrorMap().addToErrorPath("document.newMaintainableObject");
+        GlobalVariables.getMessageMap().addToErrorPath("document.newMaintainableObject");
         boolean isCapitalAsset = assetService.isCapitalAsset(newAsset);
         boolean valid = assetLocationService.validateLocation(LOCATION_FIELD_MAP, newAsset, isCapitalAsset, newAsset.getCapitalAssetType());
-        GlobalVariables.getErrorMap().removeFromErrorPath("document.newMaintainableObject");
+        GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject");
 
         if (valid && (this.isFabrication || isOffCampusLocationChanged())) {
             assetLocationService.updateOffCampusLocation(newAsset);
@@ -512,7 +512,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
         KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
         // adding asset locks for asset edit only
-        if (newAsset instanceof Asset && !(newAsset instanceof AssetFabrication) && !GlobalVariables.getErrorMap().hasErrors() && (workflowDoc.stateIsInitiated() || workflowDoc.stateIsSaved())) {
+        if (newAsset instanceof Asset && !(newAsset instanceof AssetFabrication) && !GlobalVariables.getMessageMap().hasErrors() && (workflowDoc.stateIsInitiated() || workflowDoc.stateIsSaved())) {
             valid &= setAssetLock(document);
         }
         return valid;
@@ -537,7 +537,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * Convenience method to append the path prefix
      */
     public TypedArrayList putError(String propertyName, String errorKey, String... errorParameters) {
-        return GlobalVariables.getErrorMap().putError(CamsConstants.DOCUMENT_PATH + "." + propertyName, errorKey, errorParameters);
+        return GlobalVariables.getMessageMap().putError(CamsConstants.DOCUMENT_PATH + "." + propertyName, errorKey, errorParameters);
     }
 
 }

@@ -334,13 +334,13 @@ public class CashManagementAction extends KualiTransactionalDocumentActionBase {
         CashManagementService cms = SpringContext.getBean(CashManagementService.class);
 
         if (cmDoc.hasFinalDeposit()) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS, CashManagement.ERROR_DOCUMENT_ALREADY_HAS_FINAL_DEPOSIT, new String[] {});
+            GlobalVariables.getMessageMap().putError(KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS, CashManagement.ERROR_DOCUMENT_ALREADY_HAS_FINAL_DEPOSIT, new String[] {});
         }
         else if (cmDoc.getDeposits().size() == 0) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS, CashManagement.ERROR_DOCUMENT_NO_DEPOSITS_TO_MAKE_FINAL, new String[] {});
+            GlobalVariables.getMessageMap().putError(KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS, CashManagement.ERROR_DOCUMENT_NO_DEPOSITS_TO_MAKE_FINAL, new String[] {});
         }
         else if (!cms.allVerifiedCashReceiptsAreDeposited(cmDoc)) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS, CashManagement.ERROR_NON_DEPOSITED_VERIFIED_CASH_RECEIPTS, new String[] {});
+            GlobalVariables.getMessageMap().putError(KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS, CashManagement.ERROR_NON_DEPOSITED_VERIFIED_CASH_RECEIPTS, new String[] {});
         }
 
         cms.finalizeLastInterimDeposit(cmDoc);
@@ -462,7 +462,7 @@ public class CashManagementAction extends KualiTransactionalDocumentActionBase {
 
         }
         else {
-            GlobalVariables.getErrorMap().putError("document.currentTransaction.check[" + deleteIndex + "]", KFSKeyConstants.Check.ERROR_CHECK_DELETERULE, Integer.toString(deleteIndex));
+            GlobalVariables.getMessageMap().putError("document.currentTransaction.check[" + deleteIndex + "]", KFSKeyConstants.Check.ERROR_CHECK_DELETERULE, Integer.toString(deleteIndex));
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

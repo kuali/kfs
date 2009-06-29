@@ -66,7 +66,7 @@ public class CollectionValidation extends CompositeValidation {
     protected boolean validateEachObject(AttributedDocumentEvent event, Object objectToValidate, int count) {
         boolean result = true;
         String errorPath = buildPropertyName(count);
-        GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+        GlobalVariables.getMessageMap().addToErrorPath(errorPath);
         boolean currentResult = true;
         event.setIterationSubject(objectToValidate);
         for (Validation validation: getValidations()) {
@@ -76,7 +76,7 @@ public class CollectionValidation extends CompositeValidation {
                 break;
             }
         }
-        GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+        GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
         return result;
     }
     

@@ -45,7 +45,7 @@ public class JournalVoucherAccountingLineObjectTypeValueAllowedValidation extend
         }
         else {
             String label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(ObjectType.class.getName()).getAttributeDefinition(GENERIC_CODE_PROPERTY_NAME).getLabel();
-            GlobalVariables.getErrorMap().putError(OBJECT_TYPE_CODE_PROPERTY_NAME, ERROR_REQUIRED, label);
+            GlobalVariables.getMessageMap().putError(OBJECT_TYPE_CODE_PROPERTY_NAME, ERROR_REQUIRED, label);
             return false;
         }
     }

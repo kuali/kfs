@@ -930,7 +930,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
         int j = vendorDetail.getVendorAddresses().indexOf(vendorAddress);
         String errorPath = MAINTAINABLE_ERROR_PREFIX + VendorPropertyConstants.VENDOR_ADDRESS + "[" + j + "]";
-        GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+        GlobalVariables.getMessageMap().addToErrorPath(errorPath);
 
         // Retrieving the Default Address Indicator for this Address Type:
         boolean allowDefaultAddressIndicator = findAllowDefaultAddressIndicatorHelper(vendorAddress);
@@ -941,7 +941,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         // select the default indicator or add any campuses to the address
         if (allowDefaultAddressIndicator == false) {
             String[] parameters = new String[] { addedAddressTypeCode };
-            GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS + "[" + 0 + "]." + VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS_CAMPUS, VendorKeyConstants.ERROR_ADDRESS_DEFAULT_CAMPUS_NOT_ALLOWED, parameters);
+            GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS + "[" + 0 + "]." + VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS_CAMPUS, VendorKeyConstants.ERROR_ADDRESS_DEFAULT_CAMPUS_NOT_ALLOWED, parameters);
             return false;
         }
 
@@ -950,7 +950,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             VendorDefaultAddress vendorDefaultAddress = vendorDefaultAddresses.get(i);
             if (vendorDefaultAddress.getVendorCampusCode().equalsIgnoreCase(addedAddressCampusCode)) {
                 String[] parameters = new String[] { addedAddressCampusCode, addedAddressTypeCode };
-                GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS + "[" + i + "]." + VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS_CAMPUS, VendorKeyConstants.ERROR_ADDRESS_DEFAULT_CAMPUS, parameters);
+                GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS + "[" + i + "]." + VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS_CAMPUS, VendorKeyConstants.ERROR_ADDRESS_DEFAULT_CAMPUS, parameters);
                 return false;
             }
         }
@@ -987,7 +987,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         for (VendorAddress address : vendorAddresses) {
             addressTypeCode = address.getVendorAddressTypeCode();
             String errorPath = MAINTAINABLE_ERROR_PREFIX + VendorPropertyConstants.VENDOR_ADDRESS + "[" + i + "]";
-            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+            GlobalVariables.getMessageMap().addToErrorPath(errorPath);
             String[] parameters = new String[] { addressTypeCode };
 
             // If "allow default indicator" is set to true/yes for address type, one address must have the default indicator set (no
@@ -1005,7 +1005,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                 }
 
                 if (addressTypeCodeDefaultIndicator.put(addressTypeCode, address.isVendorDefaultAddressIndicator()) != null && previousValue && address.isVendorDefaultAddressIndicator()) {
-                    GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS_INDICATOR, VendorKeyConstants.ERROR_ADDRESS_DEFAULT_INDICATOR, parameters);
+                    GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS_INDICATOR, VendorKeyConstants.ERROR_ADDRESS_DEFAULT_INDICATOR, parameters);
                     valid = false;
                 }
 
@@ -1013,7 +1013,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             // If "allow default indicator" is set to false/no for address type, the default indicator cannot be set to true/yes.
             else {
                 if (address.isVendorDefaultAddressIndicator()) {
-                    GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS_INDICATOR, VendorKeyConstants.ERROR_ADDRESS_DEFAULT_ADDRESS_NOT_ALLOWED, parameters);
+                    GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS_INDICATOR, VendorKeyConstants.ERROR_ADDRESS_DEFAULT_ADDRESS_NOT_ALLOWED, parameters);
                     valid = false;
                 }
 
@@ -1030,13 +1030,13 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                 campusCode = (String) addressTypeDefaultCampus.put(addressTypeCode, defaultAddress.getVendorCampusCode());
                 if (StringUtils.isNotBlank(campusCode) && campusCode.equalsIgnoreCase(defaultAddress.getVendorCampusCode())) {
                     String[] newParameters = new String[] { defaultAddress.getVendorCampusCode(), addressTypeCode };
-                    GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS + "[" + j + "]." + VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS_CAMPUS, VendorKeyConstants.ERROR_ADDRESS_DEFAULT_CAMPUS, newParameters);
+                    GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS + "[" + j + "]." + VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS_CAMPUS, VendorKeyConstants.ERROR_ADDRESS_DEFAULT_CAMPUS, newParameters);
                     valid = false;
                 }
                 j++;
             }
             i++;
-            GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+            GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
         }
 
         // If "allow default indicator" is set to true/yes for address type, one address must have the default indicator set to true
@@ -1075,7 +1075,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         String faxNumber = address.getVendorFaxNumber();
         if (StringUtils.isNotEmpty(faxNumber) && !SpringContext.getBean(PhoneNumberService.class).isValidPhoneNumber(faxNumber)) {
-            GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_FAX_NUMBER, VendorKeyConstants.ERROR_FAX_NUMBER);
+            GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_FAX_NUMBER, VendorKeyConstants.ERROR_FAX_NUMBER);
             valid &= false;
         }
         return valid;
@@ -1092,14 +1092,14 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         int i = 0;
         for (VendorContact contact : newVendor.getVendorContacts()) {
             String errorPath = MAINTAINABLE_ERROR_PREFIX + VendorPropertyConstants.VENDOR_CONTACT + "[" + i + "]";
-            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+            GlobalVariables.getMessageMap().addToErrorPath(errorPath);
 
             this.getDictionaryValidationService().validateBusinessObject(contact);
-            if (!GlobalVariables.getErrorMap().isEmpty()) {
+            if (!GlobalVariables.getMessageMap().isEmpty()) {
                 valid = false;
             }
             i++;
-            GlobalVariables.getErrorMap().clearErrorPath();
+            GlobalVariables.getMessageMap().clearErrorPath();
         }
         return valid;
     }
@@ -1136,12 +1136,12 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             Map chartOrgMap = new HashMap();
             chartOrgMap.put("chartOfAccountsCode", chartOfAccountsCode);
             if (SpringContext.getBean(BusinessObjectService.class).countMatching(Chart.class, chartOrgMap) < 1) {
-                GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_CUSTOMER_NUMBER_CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_EXISTENCE, chartOfAccountsCode);
+                GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_CUSTOMER_NUMBER_CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_EXISTENCE, chartOfAccountsCode);
                 valid &= false;
             }
             chartOrgMap.put("organizationCode", orgCode);
             if (SpringContext.getBean(BusinessObjectService.class).countMatching(Organization.class, chartOrgMap) < 1) {
-                GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_CUSTOMER_NUMBER_ORGANIZATION_CODE, KFSKeyConstants.ERROR_EXISTENCE, orgCode);
+                GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_CUSTOMER_NUMBER_ORGANIZATION_CODE, KFSKeyConstants.ERROR_EXISTENCE, orgCode);
                 valid &= false;
             }
         }
@@ -1165,9 +1165,9 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         if (contracts.size() > 0 && !newVendor.getVendorHeader().getVendorType().isVendorContractAllowedIndicator()) {
             valid = false;
             String errorPath = MAINTAINABLE_ERROR_PREFIX + VendorPropertyConstants.VENDOR_CONTRACT + "[0]";
-            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
-            GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_NAME, VendorKeyConstants.ERROR_VENDOR_CONTRACT_NOT_ALLOWED);
-            GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+            GlobalVariables.getMessageMap().addToErrorPath(errorPath);
+            GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_NAME, VendorKeyConstants.ERROR_VENDOR_CONTRACT_NOT_ALLOWED);
+            GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
             return valid;
         }
 
@@ -1175,12 +1175,12 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             VendorContract contract = contracts.get(i);
 
             String errorPath = MAINTAINABLE_ERROR_PREFIX + VendorPropertyConstants.VENDOR_CONTRACT + "[" + i + "]";
-            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+            GlobalVariables.getMessageMap().addToErrorPath(errorPath);
 
             valid &= validateVendorContractPOLimitAndExcludeFlagCombination(contract);
             valid &= validateVendorContractBeginEndDates(contract);
 
-            GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+            GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
         }
         return valid;
     }
@@ -1212,7 +1212,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         }
         if (NoOrgHasApoLimit && ObjectUtils.isNull(contract.getOrganizationAutomaticPurchaseOrderLimit())) {
             // Rule #1 in the above java doc has been violated.
-            GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_DEFAULT_APO_LIMIT, VendorKeyConstants.ERROR_VENDOR_CONTRACT_NO_APO_LIMIT);
+            GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_DEFAULT_APO_LIMIT, VendorKeyConstants.ERROR_VENDOR_CONTRACT_NO_APO_LIMIT);
             valid &= false;
         }
         return valid;
@@ -1231,18 +1231,18 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
 
         if (ObjectUtils.isNotNull(contract.getVendorContractBeginningDate()) && ObjectUtils.isNull(contract.getVendorContractEndDate())) {
-            GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_END_DATE, VendorKeyConstants.ERROR_VENDOR_CONTRACT_BEGIN_DATE_NO_END_DATE);
+            GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_END_DATE, VendorKeyConstants.ERROR_VENDOR_CONTRACT_BEGIN_DATE_NO_END_DATE);
             valid &= false;
         }
         else {
             if (ObjectUtils.isNull(contract.getVendorContractBeginningDate()) && ObjectUtils.isNotNull(contract.getVendorContractEndDate())) {
-                GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_BEGIN_DATE, VendorKeyConstants.ERROR_VENDOR_CONTRACT_END_DATE_NO_BEGIN_DATE);
+                GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_BEGIN_DATE, VendorKeyConstants.ERROR_VENDOR_CONTRACT_END_DATE_NO_BEGIN_DATE);
                 valid &= false;
             }
         }
         if (valid && ObjectUtils.isNotNull(contract.getVendorContractBeginningDate()) && ObjectUtils.isNotNull(contract.getVendorContractEndDate())) {
             if (contract.getVendorContractBeginningDate().after(contract.getVendorContractEndDate())) {
-                GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_BEGIN_DATE, VendorKeyConstants.ERROR_VENDOR_CONTRACT_BEGIN_DATE_AFTER_END);
+                GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_BEGIN_DATE, VendorKeyConstants.ERROR_VENDOR_CONTRACT_BEGIN_DATE_AFTER_END);
                 valid &= false;
             }
         }
@@ -1265,14 +1265,14 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         if (isExcluded) {
             if (ObjectUtils.isNotNull(organization.getVendorContractPurchaseOrderLimitAmount())) {
                 // Rule #2 in the above java doc has been violated.
-                GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION_APO_LIMIT, VendorKeyConstants.ERROR_VENDOR_CONTRACT_ORG_EXCLUDED_WITH_APO_LIMIT);
+                GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION_APO_LIMIT, VendorKeyConstants.ERROR_VENDOR_CONTRACT_ORG_EXCLUDED_WITH_APO_LIMIT);
                 valid &= false;
             }
         }
         else { // isExcluded = false
             if (ObjectUtils.isNull(organization.getVendorContractPurchaseOrderLimitAmount())) {
                 // Rule #1 in the above java doc has been violated.
-                GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION_APO_LIMIT, VendorKeyConstants.ERROR_VENDOR_CONTRACT_ORG_NOT_EXCLUDED_NO_APO_LIMIT);
+                GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION_APO_LIMIT, VendorKeyConstants.ERROR_VENDOR_CONTRACT_ORG_NOT_EXCLUDED_NO_APO_LIMIT);
                 valid &= false;
             }
         }
@@ -1284,12 +1284,12 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             Map chartOrgMap = new HashMap();
             chartOrgMap.put("chartOfAccountsCode", chartOfAccountsCode);
             if (SpringContext.getBean(BusinessObjectService.class).countMatching(Chart.class, chartOrgMap) < 1) {
-                GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_EXISTENCE, chartOfAccountsCode);
+                GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_EXISTENCE, chartOfAccountsCode);
                 valid &= false;
             }
             chartOrgMap.put("organizationCode", orgCode);
             if (SpringContext.getBean(BusinessObjectService.class).countMatching(Organization.class, chartOrgMap) < 1) {
-                GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION_CODE, KFSKeyConstants.ERROR_EXISTENCE, orgCode);
+                GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION_CODE, KFSKeyConstants.ERROR_EXISTENCE, orgCode);
                 valid &= false;
             }
         }

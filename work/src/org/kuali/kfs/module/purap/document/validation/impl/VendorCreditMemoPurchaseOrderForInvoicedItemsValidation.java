@@ -43,18 +43,18 @@ public class VendorCreditMemoPurchaseOrderForInvoicedItemsValidation extends Gen
         VendorCreditMemoDocument cmDocument = (VendorCreditMemoDocument) event.getDocument();
         
         if(cmDocument.isSourceDocumentPurchaseOrder()){
-            GlobalVariables.getErrorMap().clearErrorPath();
-            GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+            GlobalVariables.getMessageMap().clearErrorPath();
+            GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
     
             PurchaseOrderDocument poDocument = purchaseOrderService.getCurrentPurchaseOrder(cmDocument.getPurchaseOrderIdentifier());
             List<PurchaseOrderItem> invoicedItems = creditMemoService.getPOInvoicedItems(poDocument);
     
             if (invoicedItems == null || invoicedItems.isEmpty()) {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_CREDIT_MEMO_PURCAHSE_ORDER_NOITEMS);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_CREDIT_MEMO_PURCAHSE_ORDER_NOITEMS);
                 hasInvoicedItems = false;
             }
     
-            GlobalVariables.getErrorMap().clearErrorPath();
+            GlobalVariables.getMessageMap().clearErrorPath();
         }
         
         return hasInvoicedItems;

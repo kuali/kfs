@@ -30,7 +30,7 @@ public class VendorCreditMemoFlagLineItemTotalsValidation extends GenericValidat
     public boolean validate(AttributedDocumentEvent event) {        
         if (itemForValidation.getItemQuantity() != null && itemForValidation.getExtendedPrice()!=null && itemForValidation.calculateExtendedPrice().compareTo(itemForValidation.getExtendedPrice()) != 0) {
             String errorKey = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + (itemForValidation.getItemLineNumber() - 1) + "]." + PurapPropertyConstants.EXTENDED_PRICE;
-            GlobalVariables.getErrorMap().putError(errorKey, PurapKeyConstants.ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL);
+            GlobalVariables.getMessageMap().putError(errorKey, PurapKeyConstants.ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL);
         }
         
         return true;

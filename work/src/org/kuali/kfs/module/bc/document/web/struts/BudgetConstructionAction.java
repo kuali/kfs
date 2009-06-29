@@ -155,10 +155,10 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
 
             budgetConstructionForm.setSecurityNoAccess(true);
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Due to one of the problems listed below: " + e.getMessage());
-            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
-            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_BELOW_DOCLEVEL);
-            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_IN_HIERARCHY);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Due to one of the problems listed below: " + e.getMessage());
+            GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
+            GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_BELOW_DOCLEVEL);
+            GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_IN_HIERARCHY);
             budgetConstructionForm.getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_CLOSE, Boolean.TRUE);
 
         }
@@ -167,15 +167,15 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // handle any security no access cases
         // if (budgetConstructionForm.getEditingMode().containsKey(BCConstants.EditModes.USER_NOT_ORG_APPROVER)) {
         // budgetConstructionForm.setSecurityNoAccess(true);
-        // GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
+        // GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
         // }
         // if (budgetConstructionForm.getEditingMode().containsKey(BCConstants.EditModes.USER_BELOW_DOC_LEVEL)) {
         // budgetConstructionForm.setSecurityNoAccess(true);
-        // GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_BELOW_DOCLEVEL);
+        // GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_BELOW_DOCLEVEL);
         // }
         // if (budgetConstructionForm.getEditingMode().containsKey(BCConstants.EditModes.USER_NOT_IN_ACCOUNT_HIER)) {
         // budgetConstructionForm.setSecurityNoAccess(true);
-        // GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_IN_HIERARCHY);
+        // GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_IN_HIERARCHY);
         // }
 
         // apprise user of granted access
@@ -233,18 +233,18 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                             if (bcLockStatus.getLockStatus() == LockStatus.BY_OTHER) {
                                 String lockerName = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(bcLockStatus.getAccountLockOwner()).getName();
                                 this.cleanupForLockError(budgetConstructionForm);
-                                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_DOCUMENT_LOCKED, lockerName);
+                                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_DOCUMENT_LOCKED, lockerName);
                                 return forward;
                             }
                             else {
                                 if (bcLockStatus.getLockStatus() == LockStatus.FLOCK_FOUND) {
                                     this.cleanupForLockError(budgetConstructionForm);
-                                    GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_FUNDING_LOCKED);
+                                    GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_FUNDING_LOCKED);
                                     return forward;
                                 }
                                 else {
                                     this.cleanupForLockError(budgetConstructionForm);
-                                    GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_DOCUMENT_OTHER);
+                                    GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_DOCUMENT_OTHER);
                                     return forward;
                                 }
                             }
@@ -1034,7 +1034,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             else {
                 errorKey = KNSConstants.DOCUMENT_PROPERTY_NAME + "." + BCPropertyConstants.PENDING_BUDGET_CONSTRUCTION_GENERAL_LEDGER_EXPENDITURE_LINES + "[" + insertPoint  + "]." + KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT;
             }
-            GlobalVariables.getErrorMap().putError(errorKey, BCKeyConstants.ERROR_BUDGET_LINE_REINSTATED, dbLine.getFinancialObjectCode() + "," + dbLine.getFinancialSubObjectCode());
+            GlobalVariables.getMessageMap().putError(errorKey, BCKeyConstants.ERROR_BUDGET_LINE_REINSTATED, dbLine.getFinancialObjectCode() + "," + dbLine.getFinancialSubObjectCode());
         }
 
         // adjust totals
@@ -1433,7 +1433,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
                 // document has been moved above the desired level - let populate through an authorization exception
                 if (tForm.getBudgetConstructionDocument().getOrganizationLevelCode() > Integer.parseInt(tForm.getPullupKeyCode())) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Document has already been moved above the selected level.");
+                    GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Document has already been moved above the selected level.");
                 }
             }
         }
@@ -1452,7 +1452,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, tForm.getDocument().getDocumentNumber());
             BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
             if (budgetConstructionHeader == null) {
-                GlobalVariables.getErrorMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Fatal, Document not found.");
+                GlobalVariables.getMessageMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Fatal, Document not found.");
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
 
@@ -1469,13 +1469,13 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                         break;
                     case BY_OTHER:
                         String lockerName = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(bcLockStatus.getAccountLockOwner()).getName();
-                        GlobalVariables.getErrorMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Locked by " + lockerName);
+                        GlobalVariables.getMessageMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Locked by " + lockerName);
                         break;
                     case FLOCK_FOUND:
-                        GlobalVariables.getErrorMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Funding lock found.");
+                        GlobalVariables.getMessageMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Funding lock found.");
                         break;
                     default:
-                        GlobalVariables.getErrorMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Optimistic lock or other failure during lock attempt.");
+                        GlobalVariables.getMessageMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Optimistic lock or other failure during lock attempt.");
                         break;
                 }
             }
@@ -1565,7 +1565,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             }
             else {
                 // document has moved
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_PUSHDOWN_DOCUMENT, "Full Access Control Lost.");
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_MESSAGES, BCKeyConstants.ERROR_BUDGET_PUSHDOWN_DOCUMENT, "Full Access Control Lost.");
             }
         }
 
@@ -1699,7 +1699,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     public ActionForward performPercentChange(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Percent Change");
+        GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Percent Change");
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

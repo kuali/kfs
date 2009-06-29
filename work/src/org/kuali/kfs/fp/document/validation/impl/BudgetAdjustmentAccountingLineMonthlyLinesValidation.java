@@ -40,7 +40,7 @@ public class BudgetAdjustmentAccountingLineMonthlyLinesValidation extends Generi
 
         KualiDecimal monthlyTotal = getAccountingLineForValidation().getMonthlyLinesTotal();
         if (monthlyTotal.isNonZero() && monthlyTotal.compareTo(getAccountingLineForValidation().getCurrentBudgetAdjustmentAmount()) != 0) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CURRENT_BUDGET_ADJUSTMENT_AMOUNT, KFSKeyConstants.ERROR_DOCUMENT_BA_MONTH_TOTAL_NOT_EQUAL_CURRENT);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CURRENT_BUDGET_ADJUSTMENT_AMOUNT, KFSKeyConstants.ERROR_DOCUMENT_BA_MONTH_TOTAL_NOT_EQUAL_CURRENT);
             validMonthlyLines = false;
         }
 

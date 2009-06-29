@@ -70,8 +70,8 @@ public class DisbursementVoucherTaxServiceTest extends KualiTestBase {
         SpringContext.getBean(DisbursementVoucherTaxService.class).processNonResidentAlienTax(dvDocument);
         List newTaxNumbers = SpringContext.getBean(DisbursementVoucherTaxService.class).getNRATaxLineNumbers(dvDocument.getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText());
         assertTrue(newTaxNumbers.isEmpty());
-        assertTrue(GlobalVariables.getErrorMap().size() == 1);
-        GlobalVariables.getErrorMap().clear();
+        assertTrue(GlobalVariables.getMessageMap().size() == 1);
+        GlobalVariables.getMessageMap().clear();
 
         // should not be generated for foreign source
         dvDocument.getDvNonResidentAlienTax().setIncomeClassCode("F");
@@ -79,8 +79,8 @@ public class DisbursementVoucherTaxServiceTest extends KualiTestBase {
         SpringContext.getBean(DisbursementVoucherTaxService.class).processNonResidentAlienTax(dvDocument);
         newTaxNumbers = SpringContext.getBean(DisbursementVoucherTaxService.class).getNRATaxLineNumbers(dvDocument.getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText());
         assertTrue(newTaxNumbers.isEmpty());
-        assertTrue(GlobalVariables.getErrorMap().size() == 1);
-        GlobalVariables.getErrorMap().clear();
+        assertTrue(GlobalVariables.getMessageMap().size() == 1);
+        GlobalVariables.getMessageMap().clear();
 
         // should not be generated for treaty exempt
         dvDocument.getDvNonResidentAlienTax().setIncomeClassCode("F");
@@ -89,8 +89,8 @@ public class DisbursementVoucherTaxServiceTest extends KualiTestBase {
         SpringContext.getBean(DisbursementVoucherTaxService.class).processNonResidentAlienTax(dvDocument);
         newTaxNumbers = SpringContext.getBean(DisbursementVoucherTaxService.class).getNRATaxLineNumbers(dvDocument.getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText());
         assertTrue(newTaxNumbers.isEmpty());
-        assertTrue(GlobalVariables.getErrorMap().size() == 1);
-        GlobalVariables.getErrorMap().clear();
+        assertTrue(GlobalVariables.getMessageMap().size() == 1);
+        GlobalVariables.getMessageMap().clear();
 
         // should not be generated for doc reference is given
         dvDocument.getDvNonResidentAlienTax().setIncomeClassCode("F");
@@ -100,8 +100,8 @@ public class DisbursementVoucherTaxServiceTest extends KualiTestBase {
         SpringContext.getBean(DisbursementVoucherTaxService.class).processNonResidentAlienTax(dvDocument);
         newTaxNumbers = SpringContext.getBean(DisbursementVoucherTaxService.class).getNRATaxLineNumbers(dvDocument.getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText());
         assertTrue(newTaxNumbers.isEmpty());
-        assertTrue(GlobalVariables.getErrorMap().size() == 1);
-        GlobalVariables.getErrorMap().clear();
+        assertTrue(GlobalVariables.getMessageMap().size() == 1);
+        GlobalVariables.getMessageMap().clear();
 
         // should not be generated if check amount is 0
         dvDocument.setDisbVchrCheckTotalAmount(KualiDecimal.ZERO);
@@ -112,8 +112,8 @@ public class DisbursementVoucherTaxServiceTest extends KualiTestBase {
         SpringContext.getBean(DisbursementVoucherTaxService.class).processNonResidentAlienTax(dvDocument);
         newTaxNumbers = SpringContext.getBean(DisbursementVoucherTaxService.class).getNRATaxLineNumbers(dvDocument.getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText());
         assertTrue(newTaxNumbers.isEmpty());
-        assertTrue(GlobalVariables.getErrorMap().size() == 1);
-        GlobalVariables.getErrorMap().clear();
+        assertTrue(GlobalVariables.getMessageMap().size() == 1);
+        GlobalVariables.getMessageMap().clear();
 
     }
 

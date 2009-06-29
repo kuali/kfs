@@ -114,13 +114,13 @@ public class KualiBatchInputFileSetAction extends KualiAction {
 
         boolean requiredValuesForFilesMissing = false;
         if (StringUtils.isBlank(batchUpload.getFileUserIdentifer())) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SET_IDENTIFIER_SELECTED, new String[] {});
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SET_IDENTIFIER_SELECTED, new String[] {});
             requiredValuesForFilesMissing = true;
         }
 
         BatchInputFileSetService batchInputFileSetService = SpringContext.getBean(BatchInputFileSetService.class);
         if (!batchInputFileSetService.isFileUserIdentifierProperlyFormatted(batchUpload.getFileUserIdentifer())) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_SET_IDENTIFIER_BAD_FORMAT);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_SET_IDENTIFIER_BAD_FORMAT);
             requiredValuesForFilesMissing = true;
         }
 
@@ -130,7 +130,7 @@ public class KualiBatchInputFileSetAction extends KualiAction {
         for (String fileType : uploadedFiles.keySet()) {
             FormFile uploadedFile = uploadedFiles.get(fileType);
             if (uploadedFile == null || uploadedFile.getInputStream() == null || uploadedFile.getInputStream().available() == 0) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_SAVE_FOR_FILE_TYPE, new String[] { batchType.getFileTypeDescription().get(fileType) });
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_SAVE_FOR_FILE_TYPE, new String[] { batchType.getFileTypeDescription().get(fileType) });
                 requiredValuesForFilesMissing = true;
             }
             else {
@@ -147,12 +147,12 @@ public class KualiBatchInputFileSetAction extends KualiAction {
         }
         catch (FileStorageException e) {
             LOG.error("Error occured while trying to save file set (probably tried to save a file that already exists).", e);
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_SAVE_ERROR, new String[] { e.getMessage() });
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_SAVE_ERROR, new String[] { e.getMessage() });
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         catch (ValidationException e) {
             LOG.error("Error occured while trying to validate file set.", e);
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_VALIDATION_ERROR);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_VALIDATION_ERROR);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_BATCH_UPLOAD_SAVE_SUCCESSFUL);

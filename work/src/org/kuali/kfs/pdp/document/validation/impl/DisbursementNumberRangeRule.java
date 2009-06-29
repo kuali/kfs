@@ -36,7 +36,7 @@ public class DisbursementNumberRangeRule extends MaintenanceDocumentRuleBase {
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("processCustomRouteDocumentBusinessRules() start");
         
-        if (GlobalVariables.getErrorMap().hasErrors()) {
+        if (GlobalVariables.getMessageMap().hasErrors()) {
             return false;
         }
         

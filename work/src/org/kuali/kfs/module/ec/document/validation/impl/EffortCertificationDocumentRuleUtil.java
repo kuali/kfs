@@ -207,9 +207,9 @@ public class EffortCertificationDocumentRuleUtil {
      * @return true if the fields in the detail line are in the correct formats defined in the data dictionary; otherwise, false
      */
     public static boolean hasValidFormat(EffortCertificationDetail detailLine) {
-        int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
+        int originalErrorCount = GlobalVariables.getMessageMap().getErrorCount();
         SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(detailLine);
-        int currentErrorCount = GlobalVariables.getErrorMap().getErrorCount();
+        int currentErrorCount = GlobalVariables.getMessageMap().getErrorCount();
 
         return currentErrorCount == originalErrorCount;
     }

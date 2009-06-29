@@ -80,7 +80,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @return true if there are errors on the line, false otherwise
      */
     protected boolean isErrorMapContainingErrorsOnLine(String accountingLinePropertyName) {
-        for (Object errorKeyAsObject : GlobalVariables.getErrorMap().getPropertiesWithErrors()) {
+        for (Object errorKeyAsObject : GlobalVariables.getMessageMap().getPropertiesWithErrors()) {
             if (((String)errorKeyAsObject).startsWith(accountingLinePropertyName)) return true;
         }
         return false;

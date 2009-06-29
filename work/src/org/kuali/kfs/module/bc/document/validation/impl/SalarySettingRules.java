@@ -26,6 +26,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * the rule implementation for the actions of salary setting component
@@ -35,7 +36,7 @@ public class SalarySettingRules implements SalarySettingRule {
 
     private BudgetConstructionRuleHelperService budgetConstructionRuleHelperService = SpringContext.getBean(BudgetConstructionRuleHelperService.class);
     private SalarySettingRuleHelperService salarySettingRuleHelperService = SpringContext.getBean(SalarySettingRuleHelperService.class);
-    private ErrorMap errorMap = GlobalVariables.getErrorMap();
+    private MessageMap errorMap = GlobalVariables.getMessageMap();
 
     /**
      * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processQuickSaveAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
@@ -168,7 +169,7 @@ public class SalarySettingRules implements SalarySettingRule {
     }
 
     // test if all references of the given appointment funding are valid
-    private boolean hasValidRefences(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    private boolean hasValidRefences(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         boolean hasValidReference = budgetConstructionRuleHelperService.hasValidChart(appointmentFunding, errorMap);
         hasValidReference &= budgetConstructionRuleHelperService.hasValidAccount(appointmentFunding, errorMap);
         hasValidReference &= budgetConstructionRuleHelperService.hasValidObjectCode(appointmentFunding, errorMap);
@@ -182,7 +183,7 @@ public class SalarySettingRules implements SalarySettingRule {
     }
 
     // test if all amounts are legal
-    private boolean hasValidAmounts(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    private boolean hasValidAmounts(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         boolean hasValidAmounts = salarySettingRuleHelperService.hasValidRequestedAmount(appointmentFunding, errorMap);
         hasValidAmounts &= salarySettingRuleHelperService.hasValidRequestedFteQuantity(appointmentFunding, errorMap);
         hasValidAmounts &= salarySettingRuleHelperService.hasValidRequestedFundingMonth(appointmentFunding, errorMap);
@@ -196,7 +197,7 @@ public class SalarySettingRules implements SalarySettingRule {
     }
 
     // test if request amount and FTE interaction is legal
-    private boolean hasValidAmountsQuickSalarySetting(PendingBudgetConstructionAppointmentFunding appointmentFunding, ErrorMap errorMap) {
+    private boolean hasValidAmountsQuickSalarySetting(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         boolean hasValidAmounts = salarySettingRuleHelperService.hasValidRequestedAmountQuickSalarySetting(appointmentFunding, errorMap);
 
         return hasValidAmounts;

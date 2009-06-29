@@ -49,7 +49,7 @@ public class BankCodeValidation {
 
         // required check
         if (StringUtils.isBlank(bankCode)) {
-            GlobalVariables.getErrorMap().putError(bankCodeProperty, KFSKeyConstants.ERROR_REQUIRED, bankCodeLabel);
+            GlobalVariables.getMessageMap().putError(bankCodeProperty, KFSKeyConstants.ERROR_REQUIRED, bankCodeLabel);
 
             return false;
         }
@@ -58,14 +58,14 @@ public class BankCodeValidation {
  
         // validate deposit
         if (requireDeposit && !bank.isBankDepositIndicator()) {
-            GlobalVariables.getErrorMap().putError(bankCodeProperty, KFSKeyConstants.Bank.ERROR_DEPOSIT_NOT_SUPPORTED);
+            GlobalVariables.getMessageMap().putError(bankCodeProperty, KFSKeyConstants.Bank.ERROR_DEPOSIT_NOT_SUPPORTED);
 
             return false;
         }
 
         // validate disbursement
         if (requireDisbursement && !bank.isBankDisbursementIndicator()) {
-            GlobalVariables.getErrorMap().putError(bankCodeProperty, KFSKeyConstants.Bank.ERROR_DISBURSEMENT_NOT_SUPPORTED);
+            GlobalVariables.getMessageMap().putError(bankCodeProperty, KFSKeyConstants.Bank.ERROR_DISBURSEMENT_NOT_SUPPORTED);
 
             return false;
         }

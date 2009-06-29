@@ -180,7 +180,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
 
 
         /*
-         * GlobalVariables.getErrorMap().put("document.newMaintainableObject.accountEffectiveDate" ,
+         * GlobalVariables.getMessageMap().put("document.newMaintainableObject.accountEffectiveDate" ,
          * "error.document.accountMaintenance.emptyAccountEffectiveDate", "Account Effective Date");
          */
 

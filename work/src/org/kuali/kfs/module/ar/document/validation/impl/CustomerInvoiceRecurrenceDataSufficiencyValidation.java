@@ -39,7 +39,7 @@ public class CustomerInvoiceRecurrenceDataSufficiencyValidation extends GenericV
             return true;
         
         if (!customerInvoiceDocument.getProcessRecurrenceFlag()) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_RECURRENCE, ArKeyConstants.ERROR_INVOICE_RECURRENCE_DATA_SUFFICIENCY);
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_RECURRENCE, ArKeyConstants.ERROR_INVOICE_RECURRENCE_DATA_SUFFICIENCY);
             return false;
         }
         

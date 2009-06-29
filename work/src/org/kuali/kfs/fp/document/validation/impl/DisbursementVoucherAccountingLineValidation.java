@@ -31,8 +31,8 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class DisbursementVoucherAccountingLineValidation extends GenericValidation {
@@ -54,7 +54,7 @@ public class DisbursementVoucherAccountingLineValidation extends GenericValidati
 
         boolean valid = true;
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) accountingDocumentForValidation;
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
 
         // don't validate generated tax lines
         if (dvDocument.getDvNonResidentAlienTax() != null) {
@@ -105,7 +105,7 @@ public class DisbursementVoucherAccountingLineValidation extends GenericValidati
         LOG.debug("beginning object code validation ");
 
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) financialDocument;
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
 
         boolean objectCodeAllowed = true;
 
@@ -148,7 +148,7 @@ public class DisbursementVoucherAccountingLineValidation extends GenericValidati
         LOG.debug("beginning account number validation ");
 
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) financialDocument;
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
 
         String errorKey = KFSPropertyConstants.ACCOUNT_NUMBER;
         boolean accountNumberAllowed = true;

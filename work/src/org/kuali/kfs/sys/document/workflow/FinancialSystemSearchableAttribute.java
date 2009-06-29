@@ -140,30 +140,30 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             docSearchRows.add(new Row(fieldList));
         }
         
-        boolean displayedLedgerPostingDoc = false;
-        if (LaborLedgerPostingDocumentForSearching.class.isAssignableFrom(docClass)) {
-            Class boClass = GeneralLedgerPendingEntry.class;
-            
-            Field searchField = FieldUtils.getPropertyField(boClass, "financialDocumentTypeCode", true);
-            searchField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
-
-            List<Field> fieldList = new ArrayList<Field>();
-            fieldList.add(searchField);
-            docSearchRows.add(new Row(fieldList));
-            displayedLedgerPostingDoc = true;
-        }
-        
-        if (GeneralLedgerPostingDocument.class.isAssignableFrom(docClass) && !displayedLedgerPostingDoc) {
-            Class boClass = GeneralLedgerPendingEntry.class;
-            
-            Field searchField = FieldUtils.getPropertyField(boClass, "financialDocumentTypeCode", true);
-            searchField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
-
-            List<Field> fieldList = new ArrayList<Field>();
-            fieldList.add(searchField);
-            docSearchRows.add(new Row(fieldList));
-            
-        }
+//        boolean displayedLedgerPostingDoc = false;
+//        if (LaborLedgerPostingDocumentForSearching.class.isAssignableFrom(docClass)) {
+//            Class boClass = GeneralLedgerPendingEntry.class;
+//            
+//            Field searchField = FieldUtils.getPropertyField(boClass, "financialDocumentTypeCode", true);
+//            searchField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
+//
+//            List<Field> fieldList = new ArrayList<Field>();
+//            fieldList.add(searchField);
+//            docSearchRows.add(new Row(fieldList));
+//            displayedLedgerPostingDoc = true;
+//        }
+//        
+//        if (GeneralLedgerPostingDocument.class.isAssignableFrom(docClass) && !displayedLedgerPostingDoc) {
+//            Class boClass = GeneralLedgerPendingEntry.class;
+//            
+//            Field searchField = FieldUtils.getPropertyField(boClass, "financialDocumentTypeCode", true);
+//            searchField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
+//
+//            List<Field> fieldList = new ArrayList<Field>();
+//            fieldList.add(searchField);
+//            docSearchRows.add(new Row(fieldList));
+//            
+//        }
         
         if (AmountTotaling.class.isAssignableFrom( docClass)) {
               Class boClass = FinancialSystemDocumentHeader.class;
@@ -219,7 +219,6 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             GeneralLedgerPostingDocument GLPostingDoc = (GeneralLedgerPostingDocument)doc;
             searchAttrValues.addAll(harvestGLPDocumentSearchableAttributes(GLPostingDoc));
         }
-        
         
        
         return searchAttrValues;

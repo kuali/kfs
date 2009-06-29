@@ -58,7 +58,7 @@ public class LaborExpenseTransferDuplicateSourceAccountingLineValidation extends
                
         // not allow the duplicate source accounting line in the document
         if (isDuplicateSourceAccountingLine(accountingDocument, accountingLine)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, LaborKeyConstants.ERROR_DUPLICATE_SOURCE_ACCOUNTING_LINE );
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, LaborKeyConstants.ERROR_DUPLICATE_SOURCE_ACCOUNTING_LINE );
             return false;
         }
         

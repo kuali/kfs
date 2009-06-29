@@ -1202,7 +1202,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the accountsSupervisorySystemsIdentifier.
      */
     public String getAccountsSupervisorySystemsIdentifierForSearching() {
-        return getAccountsSupervisorySystemsIdentifier();
+        return accountsSupervisorySystemsIdentifier;
     }
 
     /**

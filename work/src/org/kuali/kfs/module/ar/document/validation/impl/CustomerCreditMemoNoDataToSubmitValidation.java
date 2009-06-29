@@ -39,7 +39,7 @@ public class CustomerCreditMemoNoDataToSubmitValidation extends GenericValidatio
     public boolean validate(AttributedDocumentEvent event) {
     
         if (customerCreditMemoDocumentService.isThereNoDataToSubmit(customerCreditMemoDocument)) {
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_NO_DATA_TO_SUBMIT);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_NO_DATA_TO_SUBMIT);
             return false;
         }
         return true;

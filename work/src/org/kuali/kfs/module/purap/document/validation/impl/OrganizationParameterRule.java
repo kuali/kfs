@@ -26,8 +26,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -92,7 +92,7 @@ public class OrganizationParameterRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean checkChartOfAccountsCode() {
         LOG.info("checkChartOfAccountsCode called");
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         boolean success = true;
         Chart chart = SpringContext.getBean(ChartService.class).getByPrimaryId(newOrganizationParameter.getChartOfAccountsCode());
         if (ObjectUtils.isNull(chart)) {
@@ -109,7 +109,7 @@ public class OrganizationParameterRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean checkOrganizationCode() {
         LOG.info("checkOrganizationCode called");
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         boolean success = true;
         Organization org = SpringContext.getBean(OrganizationService.class).getByPrimaryId(newOrganizationParameter.getChartOfAccountsCode(), newOrganizationParameter.getOrganizationCode());
         if (ObjectUtils.isNull(org)) {

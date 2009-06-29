@@ -61,7 +61,7 @@ public class AuxiliaryVoucherAccountingPeriodWithinGracePeriodValidation extends
 
                 // are we in the grace period for this accounting period?
                 if (!getAuxiliaryVoucherDocumentForValidation().calculateIfWithinGracePeriod(new Date(ts.getTime()), acctPeriod)) {
-                    GlobalVariables.getErrorMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
+                    GlobalVariables.getMessageMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
                     return false;
                 }
             }
@@ -70,7 +70,7 @@ public class AuxiliaryVoucherAccountingPeriodWithinGracePeriodValidation extends
             // it's not the same fiscal year, so we need to test whether we are currently
             // in the grace period of the acctPeriod
             if (!getAuxiliaryVoucherDocumentForValidation().calculateIfWithinGracePeriod(new Date(ts.getTime()), acctPeriod) && getAuxiliaryVoucherDocumentForValidation().isEndOfPreviousFiscalYear(acctPeriod)) {
-                GlobalVariables.getErrorMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
+                GlobalVariables.getMessageMap().putError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
                 return false;
             }
         }

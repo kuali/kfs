@@ -26,9 +26,9 @@ import org.kuali.kfs.sys.KFSKeyConstants.CashReceipt;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * Common Credit Card Receipt Document rule utilities.
@@ -43,7 +43,7 @@ public class CreditCardReceiptDocumentRuleUtil {
      * @return true if credit card detail amount is non zero and credit card vendor and type references exist
      */
     public static boolean validateCreditCardReceipt(CreditCardDetail creditCardReceipt) {
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         int originalErrorCount = errorMap.getErrorCount();
 
         // call the DD validation which checks basic data integrity
@@ -109,20 +109,20 @@ public class CreditCardReceiptDocumentRuleUtil {
         DataDictionaryService dds = SpringContext.getBean(DataDictionaryService.class);
         String errorLabel = dds.getAttributeLabel(documentEntryName, propertyName);
         if ((totalAmount == null) || totalAmount.isZero()) {
-            GlobalVariables.getErrorMap().putError(errorProperty, CashReceipt.ERROR_ZERO_TOTAL, errorLabel);
+            GlobalVariables.getMessageMap().putError(errorProperty, CashReceipt.ERROR_ZERO_TOTAL, errorLabel);
 
             isInvalid = true;
         }
         else {
-            int precount = GlobalVariables.getErrorMap().size();
+            int precount = GlobalVariables.getMessageMap().size();
 
             DictionaryValidationService dvs = SpringContext.getBean(DictionaryValidationService.class);
             dvs.validateDocumentAttribute(ccrDocument, propertyName, DOCUMENT_ERROR_PREFIX);
 
             // replace generic error message, if any, with something more readable
-            GlobalVariables.getErrorMap().replaceError(errorProperty, KFSKeyConstants.ERROR_MAX_LENGTH, CashReceipt.ERROR_EXCESSIVE_TOTAL, errorLabel);
+            GlobalVariables.getMessageMap().replaceError(errorProperty, KFSKeyConstants.ERROR_MAX_LENGTH, CashReceipt.ERROR_EXCESSIVE_TOTAL, errorLabel);
 
-            int postcount = GlobalVariables.getErrorMap().size();
+            int postcount = GlobalVariables.getMessageMap().size();
             isInvalid = (postcount > precount);
         }
 

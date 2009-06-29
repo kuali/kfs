@@ -102,24 +102,24 @@ public class FaxServiceImpl implements FaxService {
         LOG.debug("Getting images. key is " + key + ". campusCode is " + campusCode);
         String logoImage;
         if ((logoImage = imageDao.getLogo(key, campusCode, imageTempLocation)) == null) {
-            GlobalVariables.getErrorMap().putError("errors", "pdf.error", "logoImage is null.");
+            GlobalVariables.getMessageMap().putError("errors", "pdf.error", "logoImage is null.");
             LOG.debug("faxPurchaseOrderPdf() ended");
         }
         String directorSignatureImage;
         if ((directorSignatureImage = imageDao.getPurchasingDirectorImage(key, campusCode, imageTempLocation)) == null) {
-            GlobalVariables.getErrorMap().putError("errors", "pdf.error", "directorSignatureImage is null." );
+            GlobalVariables.getMessageMap().putError("errors", "pdf.error", "directorSignatureImage is null." );
             LOG.debug("faxPurchaseOrderPdf() ended");
         }
         String contractManagerSignatureImage;
         if ((contractManagerSignatureImage = imageDao.getContractManagerImage(key, po.getContractManager().getContractManagerCode(), imageTempLocation)) == null) {
-            GlobalVariables.getErrorMap().putError("errors", "pdf.error", "contractManagerSignatureImage is null.");
+            GlobalVariables.getMessageMap().putError("errors", "pdf.error", "contractManagerSignatureImage is null.");
             LOG.debug("faxPurchaseOrderPdf() ended");
         }
 
         CampusParameter deliveryCampus = pdfParameters.getCampusParameter();
 
         if (deliveryCampus == null) {
-            GlobalVariables.getErrorMap().putError("errors", "pdf.error", "delivery campus is null.");
+            GlobalVariables.getMessageMap().putError("errors", "pdf.error", "delivery campus is null.");
             LOG.debug("faxPurchaseOrderPdf() ended");
         }
         String campusName = deliveryCampus.getCampus().getCampusName();
@@ -170,13 +170,13 @@ public class FaxServiceImpl implements FaxService {
             poPdf.savePdf(po, pdfParameters, isRetransmit, environment);
         }
         catch (PurError e) {
-            GlobalVariables.getErrorMap().putError("errors", "error.blank");
+            GlobalVariables.getMessageMap().putError("errors", "error.blank");
                                                                                                   // only need to call once.
             LOG.debug("faxPurchaseOrderPdf() ended");
         }
         catch (Throwable e) {
             LOG.error("faxPurchaseOrderPdf() Faxing Failed on PDF creation - Exception was " + e.getMessage(), e);
-            GlobalVariables.getErrorMap().putError("errors", "error.blank", "Faxing Error.  Unable to save pdf file. Please Contact Purchasing");
+            GlobalVariables.getMessageMap().putError("errors", "error.blank", "Faxing Error.  Unable to save pdf file. Please Contact Purchasing");
                                                                                                   // only need to call once.
             LOG.debug("faxPurchaseOrderPdf() ended");
         }
@@ -193,17 +193,17 @@ public class FaxServiceImpl implements FaxService {
             this.faxPDF(files, pdfFileLocation, po.getVendorFaxNumber(), po.getVendorName(), faxDescription);
         }
         catch (FaxSubmissionError e) {
-            GlobalVariables.getErrorMap().putError("errors", "error.blank");
+            GlobalVariables.getMessageMap().putError("errors", "error.blank");
         }
         catch (FaxServerUnavailableError e) {
-            GlobalVariables.getErrorMap().putError("errors", "error.blank");
+            GlobalVariables.getMessageMap().putError("errors", "error.blank");
         }
         catch (PurError e) {
-            GlobalVariables.getErrorMap().putError("errors", "error.blank");
+            GlobalVariables.getMessageMap().putError("errors", "error.blank");
         }
         catch (Throwable e) {
             LOG.error("faxPurchaseOrderPdf() Faxing Failed Exception was " + e.getMessage(), e);
-            GlobalVariables.getErrorMap().putError("errors", "error.blank", "Faxing Error.  Please Contact Purchasing");
+            GlobalVariables.getMessageMap().putError("errors", "error.blank", "Faxing Error.  Please Contact Purchasing");
         }
         finally {
             try {
@@ -216,7 +216,7 @@ public class FaxServiceImpl implements FaxService {
             }
             catch (Throwable e) {
                 LOG.error("faxPurchaseOrderPdf() Error deleting PDF" + pdfFilename + " - Exception was " + e.getMessage(), e);
-                GlobalVariables.getErrorMap().putError("errors", "error.blank","Your fax was sent successfully but an error occurred that is unrelated to faxing. Please report this problem to Purchasing");
+                GlobalVariables.getMessageMap().putError("errors", "error.blank","Your fax was sent successfully but an error occurred that is unrelated to faxing. Please report this problem to Purchasing");
             }
         }
 

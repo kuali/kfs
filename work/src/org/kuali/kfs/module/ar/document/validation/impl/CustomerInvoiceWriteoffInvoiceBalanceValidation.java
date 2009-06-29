@@ -38,7 +38,7 @@ public class CustomerInvoiceWriteoffInvoiceBalanceValidation extends GenericVali
     public boolean validate(AttributedDocumentEvent event) {
     
         if (KualiDecimal.ZERO.isGreaterEqual(customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getOpenAmount())){
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_INVOICE_HAS_CREDIT_BALANCE);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_INVOICE_HAS_CREDIT_BALANCE);
             return false;
         }
         return true;

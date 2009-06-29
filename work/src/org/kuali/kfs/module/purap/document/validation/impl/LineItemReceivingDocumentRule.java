@@ -52,8 +52,8 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
         boolean valid = true;
         LineItemReceivingDocument lineItemReceivingDocument = (LineItemReceivingDocument)document;
         
-        GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        GlobalVariables.getMessageMap().clearErrorPath();
+        GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         
         valid &= super.processCustomRouteDocumentBusinessRules(document);
         valid &= canCreateLineItemReceivingDocument(lineItemReceivingDocument);
@@ -80,7 +80,7 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
             }
         }
         //if no items are entered return false
-        GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_LINEITEM_REQUIRED);
+        GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_LINEITEM_REQUIRED);
         return false;
         
     }    
@@ -90,8 +90,8 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
         boolean valid = true;
         LineItemReceivingDocument lineItemReceivingDocument = (LineItemReceivingDocument)document;
         
-        GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        GlobalVariables.getMessageMap().clearErrorPath();
+        GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         
         valid &= hasRequiredFieldsForContinue(lineItemReceivingDocument);
         //only do this if valid
@@ -113,12 +113,12 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
         boolean valid = true;
         
         if (ObjectUtils.isNull(lineItemReceivingDocument.getPurchaseOrderIdentifier())) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.PURCHASE_ORDER_ID);
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.PURCHASE_ORDER_ID);
             valid &= false;
         }
 
         if (ObjectUtils.isNull(lineItemReceivingDocument.getShipmentReceivedDate())) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.SHIPMENT_RECEIVED_DATE, KFSKeyConstants.ERROR_REQUIRED, PurapConstants.LineItemReceivingDocumentStrings.VENDOR_DATE);
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.SHIPMENT_RECEIVED_DATE, KFSKeyConstants.ERROR_REQUIRED, PurapConstants.LineItemReceivingDocumentStrings.VENDOR_DATE);
             valid &= false;
         }
 
@@ -138,7 +138,7 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
         
         if( SpringContext.getBean(ReceivingService.class).canCreateLineItemReceivingDocument(lineItemReceivingDocument.getPurchaseOrderIdentifier(), lineItemReceivingDocument.getDocumentNumber()) == false){
             valid &= false;
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_RECEIVING_LINE_DOCUMENT_ACTIVE_FOR_PO, lineItemReceivingDocument.getDocumentNumber(), lineItemReceivingDocument.getPurchaseOrderIdentifier().toString());
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_RECEIVING_LINE_DOCUMENT_ACTIVE_FOR_PO, lineItemReceivingDocument.getDocumentNumber(), lineItemReceivingDocument.getPurchaseOrderIdentifier().toString());
         }
          
         return valid;
@@ -156,7 +156,7 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
                 if (StringUtils.isEmpty(uomCode)) {
                     valid = false;
                     String attributeLabel = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).getAttributeDefinition(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE).getLabel();
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + item.getItemUnitOfMeasureCode());
+                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + item.getItemUnitOfMeasureCode());
                 }
                 else {
                     // Find out whether the unit of measure code has existed in the database
@@ -165,7 +165,7 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
                     if (SpringContext.getBean(BusinessObjectService.class).countMatching(UnitOfMeasure.class, fieldValues) != 1) {
                         // This is the case where the unit of measure code on the item does not exist in the database.
                         valid = false;
-                        GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, PurapKeyConstants.PUR_ITEM_UNIT_OF_MEASURE_CODE_INVALID, item.getItemUnitOfMeasureCode());
+                        GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, PurapKeyConstants.PUR_ITEM_UNIT_OF_MEASURE_CODE_INVALID, item.getItemUnitOfMeasureCode());
                     }
                 }
             }
@@ -193,7 +193,7 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
     private boolean validateQuantityReturnedNotMoreThanReceived(ReceivingDocument document, LineItemReceivingItem item, String errorPathPrefix, Integer lineNumber) {
         if (item.getItemReturnedTotalQuantity() != null && item.getItemReceivedTotalQuantity() != null) {
             if (item.getItemReturnedTotalQuantity().isGreaterThan(item.getItemReceivedTotalQuantity())) {
-                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_LINE_QTYRETURNED_GT_QTYRECEIVED, (lineNumber.intValue() == 0 ? "Add Line" : lineNumber.toString()));
+                GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_LINE_QTYRETURNED_GT_QTYRECEIVED, (lineNumber.intValue() == 0 ? "Add Line" : lineNumber.toString()));
                 return false;
             }
         }
@@ -203,7 +203,7 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
     private boolean validateQuantityDamagedNotMoreThanReceived(ReceivingDocument document, LineItemReceivingItem item, String errorPathPrefix, Integer lineNumber) {
         if (item.getItemDamagedTotalQuantity() != null && item.getItemReceivedTotalQuantity() != null) {
             if (item.getItemDamagedTotalQuantity().isGreaterThan(item.getItemReceivedTotalQuantity())) {
-                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_LINE_QTYDAMAGED_GT_QTYRECEIVED, (lineNumber.intValue() == 0 ? "Add Line" : lineNumber.toString()));
+                GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_LINE_QTYDAMAGED_GT_QTYRECEIVED, (lineNumber.intValue() == 0 ? "Add Line" : lineNumber.toString()));
                 return false;
             }
         }
@@ -211,7 +211,7 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
     }
     
     private boolean validateAllReceivingLinesHaveSaneQuantities(ReceivingDocument document) {
-        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getMessageMap().clearErrorPath();
         boolean valid = true;
         for (int i = 0; i < document.getItems().size(); i++) {
             LineItemReceivingItem item = (LineItemReceivingItem) document.getItems().get(i);

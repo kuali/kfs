@@ -62,10 +62,9 @@ import org.kuali.rice.kns.bo.KualiCodeBase;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
-import org.kuali.rice.kns.workflow.service.impl.KualiWorkflowInfoImpl;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -92,7 +91,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      * @see org.kuali.kfs.pdp.batch.service.PaymentFileValidationService#doHardEdits(org.kuali.kfs.pdp.businessobject.PaymentFile,
      *      org.kuali.rice.kns.util.ErrorMap)
      */
-    public void doHardEdits(PaymentFileLoad paymentFile, ErrorMap errorMap) {
+    public void doHardEdits(PaymentFileLoad paymentFile, MessageMap errorMap) {
         processHeaderValidation(paymentFile, errorMap);
 
         if (errorMap.hasNoErrors()) {
@@ -110,7 +109,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      * @param paymentFile payment file object
      * @param errorMap map in which errors will be added to
      */
-    protected void processHeaderValidation(PaymentFileLoad paymentFile, ErrorMap errorMap) {
+    protected void processHeaderValidation(PaymentFileLoad paymentFile, MessageMap errorMap) {
         CustomerProfile customer = customerProfileService.get(paymentFile.getChart(), paymentFile.getUnit(), paymentFile.getSubUnit());
         if (customer == null) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_CUSTOMER, paymentFile.getChart(), paymentFile.getUnit(), paymentFile.getSubUnit());
@@ -132,7 +131,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      * @param paymentFile payment file object
      * @param errorMap map in which errors will be added to
      */
-    protected void processTrailerValidation(PaymentFileLoad paymentFile, ErrorMap errorMap) {
+    protected void processTrailerValidation(PaymentFileLoad paymentFile, MessageMap errorMap) {
         // compare trailer payment count to actual count loaded
         if (paymentFile.getActualPaymentCount() != paymentFile.getPaymentCount()) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_PAYMENT_COUNT_MISMATCH, Integer.toString(paymentFile.getPaymentCount()), Integer.toString(paymentFile.getActualPaymentCount()));
@@ -158,7 +157,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      * @param paymentFile payment file object
      * @param errorMap map in which errors will be added to
      */
-    protected void processGroupValidation(PaymentFileLoad paymentFile, ErrorMap errorMap) {
+    protected void processGroupValidation(PaymentFileLoad paymentFile, MessageMap errorMap) {
         int groupCount = 0;
         for (PaymentGroup paymentGroup : paymentFile.getPaymentGroups()) {
             groupCount++;

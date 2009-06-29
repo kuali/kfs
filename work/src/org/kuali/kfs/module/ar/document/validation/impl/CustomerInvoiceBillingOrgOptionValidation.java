@@ -46,13 +46,13 @@ public class CustomerInvoiceBillingOrgOptionValidation extends GenericValidation
         OrganizationOptions organizationOptions = (OrganizationOptions) businessObjectService.findByPrimaryKey(OrganizationOptions.class, criteria);
 
         if (ObjectUtils.isNull(organizationOptions)) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.BILLED_BY_ORGANIZATION_CODE, ArKeyConstants.InvoiceItemCode.ORG_OPTIONS_DOES_NOT_EXIST_FOR_CHART_AND_ORG, new String[]{customerInvoiceDocument.getBillByChartOfAccountCode(), customerInvoiceDocument.getBilledByOrganizationCode()});
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.BILLED_BY_ORGANIZATION_CODE, ArKeyConstants.InvoiceItemCode.ORG_OPTIONS_DOES_NOT_EXIST_FOR_CHART_AND_ORG, new String[]{customerInvoiceDocument.getBillByChartOfAccountCode(), customerInvoiceDocument.getBilledByOrganizationCode()});
             return false;
         }
         else {
             if (!(customerInvoiceDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode().equalsIgnoreCase(organizationOptions.getProcessingChartOfAccountCode()) &&
                   customerInvoiceDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode().equalsIgnoreCase(organizationOptions.getProcessingOrganizationCode()))) {
-                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.BILLED_BY_ORGANIZATION_CODE, 
+                GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.BILLED_BY_ORGANIZATION_CODE, 
                         ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_BILLING_PROCESSING_ORGANIZATION_IN_ORG_OPTIONS, 
                         new String[]{customerInvoiceDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccCodeAndOrgCode(),
                         customerInvoiceDocument.getBilledByChartOfAccCodeAndOrgCode()});

@@ -39,7 +39,7 @@ public class CreditCardReceiptDocumentTotalValidation extends GenericValidation 
         boolean isValid = creditCardReceiptDocumentForValidation.getSourceTotal().equals(creditCardReceiptDocumentForValidation.getTotalDollarAmount());
 
         if (!isValid) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.NEW_CREDIT_CARD_RECEIPT, KFSKeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_OUT_OF_BALANCE);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.NEW_CREDIT_CARD_RECEIPT, KFSKeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_OUT_OF_BALANCE);
         }
 
         return isValid;

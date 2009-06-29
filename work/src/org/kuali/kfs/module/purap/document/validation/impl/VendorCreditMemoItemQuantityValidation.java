@@ -42,14 +42,14 @@ public class VendorCreditMemoItemQuantityValidation extends GenericValidation {
         if (itemForValidation.getItemQuantity() != null) {
             if (itemForValidation.getItemQuantity().isNegative()) {
                 String label = dataDictionaryService.getAttributeErrorLabel(CreditMemoItem.class, PurapPropertyConstants.QUANTITY);
-                GlobalVariables.getErrorMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_AMOUNT_NONPOSITIVE, label);
+                GlobalVariables.getMessageMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_AMOUNT_NONPOSITIVE, label);
                 valid = false;
             }
 
             // check cm quantity is not greater than invoiced quantity
             KualiDecimal invoicedQuantity = getSourceTotalInvoiceQuantity(cmDocument, itemForValidation);
             if (itemForValidation.getItemQuantity().isGreaterThan(invoicedQuantity)) {
-                GlobalVariables.getErrorMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_QUANTITY_TOOMUCH);
+                GlobalVariables.getMessageMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_QUANTITY_TOOMUCH);
                 valid = false;
             }
         }
@@ -58,7 +58,7 @@ public class VendorCreditMemoItemQuantityValidation extends GenericValidation {
             KualiDecimal invoicedQuantity = getSourceTotalInvoiceQuantity(cmDocument, itemForValidation);
             if (itemForValidation.getItemType().isQuantityBasedGeneralLedgerIndicator() && (invoicedQuantity != null && invoicedQuantity.isGreaterThan(KualiDecimal.ZERO)) && (itemForValidation.getExtendedPrice() != null && itemForValidation.getExtendedPrice().isGreaterThan(KualiDecimal.ZERO))) {
                 String label = dataDictionaryService.getAttributeErrorLabel(CreditMemoItem.class, PurapPropertyConstants.QUANTITY);
-                GlobalVariables.getErrorMap().putError(errorKey, KFSKeyConstants.ERROR_REQUIRED, label);
+                GlobalVariables.getMessageMap().putError(errorKey, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
         }

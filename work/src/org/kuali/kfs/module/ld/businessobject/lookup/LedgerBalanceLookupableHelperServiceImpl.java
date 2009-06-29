@@ -92,7 +92,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
             // != 0) {
             List emptySearchResults = new ArrayList();
             Long actualCountIfTruncated = new Long(0);
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.EMPLID, KFSConstants.WILDCARD_NOT_ALLOWED_ON_FIELD, "Employee ID field ");
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.EMPLID, KFSConstants.WILDCARD_NOT_ALLOWED_ON_FIELD, "Employee ID field ");
             return new CollectionIncomplete(emptySearchResults, actualCountIfTruncated);
         }
 

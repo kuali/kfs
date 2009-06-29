@@ -42,7 +42,7 @@ public class AuxiliaryVoucherAccountingLinesBalanceValidation extends GenericVal
         boolean balanced = debitAmount.equals(creditAmount);
         if (!balanced) {
             String errorParams[] = { creditAmount.toString(), debitAmount.toString() };
-            GlobalVariables.getErrorMap().putError(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_BALANCE_CONSIDERING_CREDIT_AND_DEBIT_AMOUNTS, errorParams);
+            GlobalVariables.getMessageMap().putError(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_BALANCE_CONSIDERING_CREDIT_AND_DEBIT_AMOUNTS, errorParams);
         }
         return balanced;
     }

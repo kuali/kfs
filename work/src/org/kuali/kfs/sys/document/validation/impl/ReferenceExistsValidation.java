@@ -40,7 +40,7 @@ public class ReferenceExistsValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
         if (dictionaryValidationService.validateReferenceExists(businessObjectToValidate, referenceName)) {
-            GlobalVariables.getErrorMap().putError(responsibleProperty, KFSKeyConstants.ERROR_EXISTENCE, new String[] { dataDictionaryService.getAttributeLabel(businessObjectToValidate.getClass(), responsibleProperty) });
+            GlobalVariables.getMessageMap().putError(responsibleProperty, KFSKeyConstants.ERROR_EXISTENCE, new String[] { dataDictionaryService.getAttributeLabel(businessObjectToValidate.getClass(), responsibleProperty) });
             result = false;
         }
         return result;

@@ -50,12 +50,12 @@ public class CashControlLineAmountValidation extends GenericValidation {
 
         // line amount cannot be zero
         if (cashControlDetail.getFinancialDocumentLineAmount().isZero()) {
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.FINANCIAL_DOCUMENT_LINE_AMOUNT, ArKeyConstants.ERROR_LINE_AMOUNT_CANNOT_BE_ZERO);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.FINANCIAL_DOCUMENT_LINE_AMOUNT, ArKeyConstants.ERROR_LINE_AMOUNT_CANNOT_BE_ZERO);
             isValid = false;
         }
         // line amount cannot be negative
         if (cashControlDetail.getFinancialDocumentLineAmount().isNegative()) {
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.FINANCIAL_DOCUMENT_LINE_AMOUNT, ArKeyConstants.ERROR_LINE_AMOUNT_CANNOT_BE_NEGATIVE);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.FINANCIAL_DOCUMENT_LINE_AMOUNT, ArKeyConstants.ERROR_LINE_AMOUNT_CANNOT_BE_NEGATIVE);
             isValid = false;
         }
         return isValid;

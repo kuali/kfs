@@ -35,16 +35,16 @@ public class AccountsPayableProcessApprovalAtAccountsPayableReviewAllowedValidat
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
-        GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        GlobalVariables.getMessageMap().clearErrorPath();
+        GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         if (((AccountsPayableDocument)event.getDocument()).isDocumentStoppedInRouteNode(NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW)) {
             if (!((AccountsPayableDocument)event.getDocument()).approvalAtAccountsPayableReviewAllowed()) {
                 valid &= false;
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_AP_REQUIRES_ATTACHMENT);
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_AP_REQUIRES_ATTACHMENT);
             }
         }
-        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getMessageMap().clearErrorPath();
         return valid;
     }
 

@@ -349,6 +349,6 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
 
     // record the error into the global error map
     private void reportError(String propertyName, String errorKey, String... errorParameters) {
-        GlobalVariables.getErrorMap().putError(propertyName, errorKey, errorParameters);
+        GlobalVariables.getMessageMap().putError(propertyName, errorKey, errorParameters);
     }
 }

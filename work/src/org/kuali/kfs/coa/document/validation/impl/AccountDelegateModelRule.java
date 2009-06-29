@@ -129,9 +129,9 @@ public class AccountDelegateModelRule extends MaintenanceDocumentRuleBase {
         int line = 0;
         final FinancialSystemDocumentTypeService documentService = SpringContext.getBean(FinancialSystemDocumentTypeService.class);
         for (AccountDelegateModelDetail delegateModel : globalDelegateTemplate.getAccountDelegateModelDetails()) {
-            GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH + ".accountDelegateModelDetails[" + line + "].");
+            GlobalVariables.getMessageMap().addToErrorPath(MAINTAINABLE_ERROR_PATH + ".accountDelegateModelDetails[" + line + "].");
             success &= checkSimpleRulesForOrganizationRoutingModel(document, globalDelegateTemplate, delegateModel, documentService);
-            GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH + ".accountDelegateModelDetails[" + line + "].");
+            GlobalVariables.getMessageMap().addToErrorPath(MAINTAINABLE_ERROR_PATH + ".accountDelegateModelDetails[" + line + "].");
             line++;
         }
         return success;
@@ -167,7 +167,7 @@ public class AccountDelegateModelRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         if (globalDelegateTemplate.getAccountDelegateModelDetails().size() == 0) {
             success = false;
-            GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + "add.accountDelegateModelDetails.financialDocumentTypeCode", KFSKeyConstants.ERROR_DOCUMENT_DELEGATE_CHANGE_NO_DELEGATE, new String[0]);
+            GlobalVariables.getMessageMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + "add.accountDelegateModelDetails.financialDocumentTypeCode", KFSKeyConstants.ERROR_DOCUMENT_DELEGATE_CHANGE_NO_DELEGATE, new String[0]);
         }
         return success;
     }
@@ -192,10 +192,10 @@ public class AccountDelegateModelRule extends MaintenanceDocumentRuleBase {
         if (activeModelCount == 0) {
             success = false;
             if (globalDelegateTemplate.getAccountDelegateModelDetails().size() == 0) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + "add.accountDelegateModelDetails.active", KFSKeyConstants.ERROR_DOCUMENT_DELEGATE_CHANGE_NO_ACTIVE_DELEGATE, new String[0]);
+                GlobalVariables.getMessageMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + "add.accountDelegateModelDetails.active", KFSKeyConstants.ERROR_DOCUMENT_DELEGATE_CHANGE_NO_ACTIVE_DELEGATE, new String[0]);
             }
             else {
-                GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + "accountDelegateModelDetails[0].active", KFSKeyConstants.ERROR_DOCUMENT_DELEGATE_CHANGE_NO_ACTIVE_DELEGATE, new String[0]);
+                GlobalVariables.getMessageMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + "accountDelegateModelDetails[0].active", KFSKeyConstants.ERROR_DOCUMENT_DELEGATE_CHANGE_NO_ACTIVE_DELEGATE, new String[0]);
             }
         }
         return success;
@@ -211,7 +211,7 @@ public class AccountDelegateModelRule extends MaintenanceDocumentRuleBase {
         boolean result = true;
         if (!ObjectUtils.isNull(delegateModel.getApprovalFromThisAmount())) {
             if (delegateModel.getApprovalFromThisAmount().isLessThan(KualiDecimal.ZERO)) {
-                GlobalVariables.getErrorMap().putError("approvalFromThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_FROM_AMOUNT_NONNEGATIVE, new String[0]);
+                GlobalVariables.getMessageMap().putError("approvalFromThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_FROM_AMOUNT_NONNEGATIVE, new String[0]);
                 result = false;
             }
         }
@@ -230,13 +230,13 @@ public class AccountDelegateModelRule extends MaintenanceDocumentRuleBase {
         if (!ObjectUtils.isNull(delegateModel.getApprovalFromThisAmount())) {
             if (!ObjectUtils.isNull(delegateModel.getApprovalToThisAmount())) {
                 if (delegateModel.getApprovalToThisAmount().isLessThan(delegateModel.getApprovalFromThisAmount())) {
-                    GlobalVariables.getErrorMap().putError("approvalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO, new String[0]);
+                    GlobalVariables.getMessageMap().putError("approvalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO, new String[0]);
                     result = false;
                 }
             }
         }
         if (!ObjectUtils.isNull(delegateModel.getApprovalToThisAmount()) && delegateModel.getApprovalToThisAmount().isLessThan(KualiDecimal.ZERO)) {
-            GlobalVariables.getErrorMap().putError("approvalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO, new String[0]);
+            GlobalVariables.getMessageMap().putError("approvalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO, new String[0]);
             result = false;
         }
         return result;
@@ -263,7 +263,7 @@ public class AccountDelegateModelRule extends MaintenanceDocumentRuleBase {
 
         // user must exist
         if (delegateModel.getAccountDelegate() == null) {
-            GlobalVariables.getErrorMap().putError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_DOESNT_EXIST, new String[0]);
+            GlobalVariables.getMessageMap().putError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_DOESNT_EXIST, new String[0]);
             success = false;
         }
 
@@ -308,7 +308,7 @@ public class AccountDelegateModelRule extends MaintenanceDocumentRuleBase {
         for (AccountDelegateModelDetail currDelegateModel : globalDelegateTemplate.getAccountDelegateModelDetails()) {
             if (currDelegateModel.isActive() && !delegateModel.equals(currDelegateModel) && currDelegateModel.getAccountDelegatePrimaryRoutingIndicator() && delegateModel.getFinancialDocumentTypeCode().equals(currDelegateModel.getFinancialDocumentTypeCode())) {
                 success = false;
-                GlobalVariables.getErrorMap().putError("accountDelegatePrimaryRoutingIndicator", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_DELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_DOCTYPE, new String[0]);
+                GlobalVariables.getMessageMap().putError("accountDelegatePrimaryRoutingIndicator", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_DELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_DOCTYPE, new String[0]);
             }
         }
 

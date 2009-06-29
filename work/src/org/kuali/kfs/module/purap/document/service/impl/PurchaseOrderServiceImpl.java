@@ -108,9 +108,9 @@ import org.kuali.rice.kns.service.MaintenanceDocumentService;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -252,13 +252,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param document The purchase order document to be saved.
      */
     private void saveDocumentNoValidationUsingClearErrorMap(PurchaseOrderDocument document) {
-        ErrorMap errorHolder = GlobalVariables.getErrorMap();
-        GlobalVariables.setErrorMap(new ErrorMap());
+        MessageMap errorHolder = GlobalVariables.getMessageMap();
+        GlobalVariables.setMessageMap(new MessageMap());
         try {
             purapService.saveDocumentNoValidation(document);
         }
         finally {
-            GlobalVariables.setErrorMap(errorHolder);
+            GlobalVariables.setMessageMap(errorHolder);
         }
     }
 
@@ -453,7 +453,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         if (ObjectUtils.isNotNull(errors)) {
             for (String error : errors) {
                 LOG.error("Adding error message using error key '" + errorKey + "' with text '" + error + "'");
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, errorKey, error);
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, errorKey, error);
             }
         }
     }
@@ -927,7 +927,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             GlobalVariables.getMessageList().add(PurapKeyConstants.B2B_PO_RETRANSMIT_SUCCESS);            
         }
         else {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PurapKeyConstants.B2B_PO_RETRANSMIT_FAILED);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PurapKeyConstants.B2B_PO_RETRANSMIT_FAILED);
         }
     }
     
@@ -1756,7 +1756,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 else {
                     //If it was unsuccessful, we have to clear the error map in the GlobalVariables so that the previous
                     //error would not still be lingering around and the next PO in the list can be validated.
-                    GlobalVariables.getErrorMap().clear();
+                    GlobalVariables.getMessageMap().clear();
                 }
             }
         }

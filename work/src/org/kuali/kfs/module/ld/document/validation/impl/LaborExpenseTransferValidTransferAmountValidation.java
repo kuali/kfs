@@ -70,7 +70,7 @@ public class LaborExpenseTransferValidTransferAmountValidation extends GenericVa
 
         boolean isValidTransferAmount = isValidTransferAmount(accountingLineGroupMap);
         if (!isValidTransferAmount) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, LaborKeyConstants.ERROR_TRANSFER_AMOUNT_EXCEED_MAXIMUM);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, LaborKeyConstants.ERROR_TRANSFER_AMOUNT_EXCEED_MAXIMUM);
             return false;
         }
                 

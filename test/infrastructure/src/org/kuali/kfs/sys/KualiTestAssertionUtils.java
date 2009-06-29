@@ -32,6 +32,7 @@ import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -132,7 +133,7 @@ public class KualiTestAssertionUtils {
 
     private static void assertGlobalErrorMapContains(String message, String expectedFieldName, String expectedErrorKey, String[] expectedErrorParameters, boolean contains) {
         String header = message.length() == 0 ? "" : message + ": ";
-        ErrorMap map = GlobalVariables.getErrorMap();
+        MessageMap map = GlobalVariables.getMessageMap();
         assertEquals(header + "no error path (global error map path size)", 0, map.getErrorPath().size());
         assertEquals(header + "error property '" + expectedFieldName + "' has message key " + expectedErrorKey + ": " + map, contains, map.fieldHasMessage(expectedFieldName, expectedErrorKey));
 
@@ -180,7 +181,7 @@ public class KualiTestAssertionUtils {
 
     public static void assertGlobalErrorMapSize(String message, int expectedSize) {
         String header = message.length() == 0 ? "" : message + ": ";
-        ErrorMap map = GlobalVariables.getErrorMap();
+        MessageMap map = GlobalVariables.getMessageMap();
         assertEquals(header + "ThreadLocal ErrorMap size: " + map, expectedSize, map.size());
     }
 

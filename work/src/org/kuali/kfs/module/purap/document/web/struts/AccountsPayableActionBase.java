@@ -200,7 +200,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         
         // if form is not yet calculated, return and prompt user to calculate
         if (requiresCaculate(apForm)) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);
+            GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);
 
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
@@ -248,7 +248,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
             return super.save(mapping, form, request, response);
         }
-        GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_SAVE_REQUIRES_CALCULATE);
+        GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_SAVE_REQUIRES_CALCULATE);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
 

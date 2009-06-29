@@ -19,10 +19,10 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 
 public class PaymentApplicationIsFullBalanceAppliedValidation extends GenericValidation {
 
@@ -32,7 +32,7 @@ public class PaymentApplicationIsFullBalanceAppliedValidation extends GenericVal
     public boolean validate(AttributedDocumentEvent event) {
         
         boolean isValid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         PaymentApplicationDocument paymentApplicationDocument = getDocument();
 
         //  dont let PayApp docs started from CashControl docs through if not all funds are applied

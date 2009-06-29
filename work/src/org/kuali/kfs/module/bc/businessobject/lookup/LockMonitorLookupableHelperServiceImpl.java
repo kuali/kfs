@@ -235,7 +235,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
             if (user != null) {
                 universalId = user.getPrincipalId();
             } else {
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_LOCK_INVALID_USER, networkID);
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_LOCK_INVALID_USER, networkID);
             }
         }
         

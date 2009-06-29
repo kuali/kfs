@@ -16,33 +16,23 @@
 package org.kuali.kfs.pdp.web.struts;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
-import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
-import org.kuali.kfs.pdp.businessobject.PaymentGroup;
-import org.kuali.kfs.pdp.service.PaymentDetailService;
-import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.PaymentMaintenanceService;
-import org.kuali.kfs.pdp.util.PdpBatchQuestionCallback;
 import org.kuali.kfs.pdp.util.PdpPaymentDetailQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -51,10 +41,10 @@ import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
@@ -114,7 +104,7 @@ public class PaymentDetailAction extends KualiAction {
             return paymentMaintenanceService.cancelPendingPayment(paymentGroupId, paymentDetailId, changeText, user);
         }
         else {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
+            GlobalVariables.getMessageMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
             return false;
         }
     }
@@ -159,7 +149,7 @@ public class PaymentDetailAction extends KualiAction {
             return paymentMaintenanceService.holdPendingPayment(paymentGroupId, changeText, user);
         }
         else {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
+            GlobalVariables.getMessageMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
             return false;
         }
     }
@@ -201,7 +191,7 @@ public class PaymentDetailAction extends KualiAction {
             return paymentMaintenanceService.removeHoldPendingPayment(paymentGroupId, changeText, user);
         }
         else {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
+            GlobalVariables.getMessageMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
             return false;
         }
     }
@@ -244,7 +234,7 @@ public class PaymentDetailAction extends KualiAction {
             return true;
         }
         else {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
+            GlobalVariables.getMessageMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
             return false;
         }
        
@@ -304,7 +294,7 @@ public class PaymentDetailAction extends KualiAction {
             return paymentMaintenanceService.cancelDisbursement(paymentGroupId, paymentDetailId, changeText, user);
         }
         else {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
+            GlobalVariables.getMessageMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
             return false;
         }
     }
@@ -344,7 +334,7 @@ public class PaymentDetailAction extends KualiAction {
             return paymentMaintenanceService.cancelReissueDisbursement(paymentGroupId, changeText, user);
         }
         else {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
+            GlobalVariables.getMessageMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
             return false;
         }
     }
@@ -458,7 +448,7 @@ public class PaymentDetailAction extends KualiAction {
      * @return a String representing the list of error message keys
      */
     private String buildErrorMesageKeyList() {
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         StringBuffer errorList = new StringBuffer();
 
         for (String errorKey : (List<String>) errorMap.getPropertiesWithErrors()) {

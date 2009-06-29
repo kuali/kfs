@@ -15,19 +15,16 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import java.util.List;
-
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -58,7 +55,7 @@ public class CapitalAssetInformationValidation extends GenericValidation {
         CapitalAssetInformation capitalAssetInformation = capitalAssetEditable.getCapitalAssetInformation();
 
         if (ObjectUtils.isNotNull(capitalAssetInformation)) {
-            ErrorMap errors = GlobalVariables.getErrorMap();
+            MessageMap errors = GlobalVariables.getMessageMap();
             errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
             errors.addToErrorPath(KFSPropertyConstants.CAPITAL_ASSET_INFORMATION);
             

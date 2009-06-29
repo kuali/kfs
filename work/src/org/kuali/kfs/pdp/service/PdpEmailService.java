@@ -25,8 +25,8 @@ import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentFileLoad;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * Defines methods for sending PDP emails.
@@ -39,7 +39,7 @@ public interface PdpEmailService {
      * @param paymentFile parsed payment file object (might not be populated completely due to errors)
      * @param errors <code>ErrorMap</code> containing <code>ErrorMessage</code> entries
      */
-    public void sendErrorEmail(PaymentFileLoad paymentFile, ErrorMap errors);
+    public void sendErrorEmail(PaymentFileLoad paymentFile, MessageMap errors);
 
     /**
      * Sends email for a successful payment load. Warnings encountered will be printed out in message

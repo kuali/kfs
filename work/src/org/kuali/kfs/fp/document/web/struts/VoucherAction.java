@@ -89,7 +89,7 @@ public class VoucherAction extends KualiAccountingDocumentActionBase {
         // call the super's method
         ActionForward actionForward = super.insertSourceLine(mapping, form, request, response);
 
-        if (GlobalVariables.getErrorMap().getErrorCount() == 0) {
+        if (GlobalVariables.getMessageMap().getErrorCount() == 0) {
             // since no exceptions were thrown, the add succeeded, so we have to re-init the new credit and debit
             // attributes, and add a new instance of a helperLine to the helperLines list
             VoucherAccountingLineHelper helperLine = populateNewVoucherAccountingLineHelper(voucherForm);

@@ -30,8 +30,8 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 
 public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidation implements DisbursementVoucherConstants{
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherPayeeInitiatorValidation.class);
@@ -50,7 +50,7 @@ public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidati
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
         
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         String uuid = null;

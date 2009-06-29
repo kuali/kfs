@@ -369,7 +369,7 @@ public class DepositWizardAction extends KualiAction {
         // validate Bank
         String bankCode = dform.getBankCode();
         if (StringUtils.isBlank(bankCode)) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_MISSING_BANK);
+            GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_MISSING_BANK);
         }
         else {
             Map keyMap = new HashMap();
@@ -377,7 +377,7 @@ public class DepositWizardAction extends KualiAction {
 
             Bank bank = (Bank) boService.findByPrimaryKey(Bank.class, keyMap);
             if (bank == null) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_UNKNOWN_BANK, bankCode);
+                GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_UNKNOWN_BANK, bankCode);
             }
             else {
                 dform.setBank(bank);
@@ -419,12 +419,12 @@ public class DepositWizardAction extends KualiAction {
         }
 
         if (selectedIds.isEmpty() && selectedCashieringChecks.isEmpty()) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_CASHRECEIPT_ERROR, KFSKeyConstants.Deposit.ERROR_NO_CASH_RECEIPTS_SELECTED);
+            GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_CASHRECEIPT_ERROR, KFSKeyConstants.Deposit.ERROR_NO_CASH_RECEIPTS_SELECTED);
         }
 
         //
         // proceed, if possible
-        if (GlobalVariables.getErrorMap().hasNoErrors()) {
+        if (GlobalVariables.getMessageMap().hasNoErrors()) {
             try {
                 // retrieve selected receipts
                 List selectedReceipts = new ArrayList();
@@ -438,14 +438,14 @@ public class DepositWizardAction extends KualiAction {
                     for (Object o : verifiedReceipts) {
                         CashReceiptDocument crDoc = (CashReceiptDocument) o;
                         if (!selectedReceipts.contains(crDoc)) {
-                            GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NON_DEPOSITED_VERIFIED_CASH_RECEIPT, new String[] { crDoc.getDocumentNumber() });
+                            GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NON_DEPOSITED_VERIFIED_CASH_RECEIPT, new String[] { crDoc.getDocumentNumber() });
                         }
                     }
                     KualiDecimal toBeDepositedChecksTotal = KualiDecimal.ZERO;
                     // have we selected the rest of the undeposited checks?
                     for (Check check : cashManagementService.selectUndepositedCashieringChecks(dform.getCashManagementDocId())) {
                         if (!selectedCashieringChecks.contains(check.getSequenceId())) {
-                            GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_CASHIERING_CHECK_MUST_BE_DEPOSITED, new String[] { check.getCheckNumber() });
+                            GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_CASHIERING_CHECK_MUST_BE_DEPOSITED, new String[] { check.getCheckNumber() });
                         }
                         else {
                             toBeDepositedChecksTotal = toBeDepositedChecksTotal.add(check.getAmount());
@@ -477,12 +477,12 @@ public class DepositWizardAction extends KualiAction {
                     cashReceiptCashTotal = cashReceiptCashTotal.subtract(depositedCashieringChecksTotal).subtract(toBeDepositedChecksTotal);
                     KualiDecimal depositedCashTotal = dform.getCurrencyDetail().getTotalAmount().add(dform.getCoinDetail().getTotalAmount());
                     if (!cashReceiptCashTotal.equals(depositedCashTotal)) {
-                        GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_CASH_DEPOSIT_DID_NOT_BALANCE, new String[] { formatter.format(depositedCashTotal).toString(), formatter.format(cashReceiptCashTotal).toString() });
+                        GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_CASH_DEPOSIT_DID_NOT_BALANCE, new String[] { formatter.format(depositedCashTotal).toString(), formatter.format(cashReceiptCashTotal).toString() });
                     }
                 }
 
                 // proceed again...if possible
-                if (GlobalVariables.getErrorMap().hasNoErrors()) {
+                if (GlobalVariables.getMessageMap().hasNoErrors()) {
                     // retrieve CashManagementDocument
                     String cashManagementDocId = dform.getCashManagementDocId();
                     CashManagementDocument cashManagementDoc = null;
@@ -565,49 +565,49 @@ public class DepositWizardAction extends KualiAction {
             CurrencyFormatter formatter = new CurrencyFormatter();
             if (detail.getFinancialDocumentHundredDollarAmount() != null && detail.getFinancialDocumentHundredDollarAmount().isGreaterThan(KualiDecimal.ZERO)) {
                 if (drawer.getFinancialDocumentHundredDollarAmount() == null || drawer.getFinancialDocumentHundredDollarAmount().isLessThan(detail.getFinancialDocumentHundredDollarAmount())) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "hundred dollar amount", formatter.format(detail.getFinancialDocumentHundredDollarAmount()).toString(), formatter.format(drawer.getFinancialDocumentHundredDollarAmount()).toString() });
+                    GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "hundred dollar amount", formatter.format(detail.getFinancialDocumentHundredDollarAmount()).toString(), formatter.format(drawer.getFinancialDocumentHundredDollarAmount()).toString() });
                     success = false;
                 }
             }
             if (detail.getFinancialDocumentFiftyDollarAmount() != null && detail.getFinancialDocumentFiftyDollarAmount().isGreaterThan(KualiDecimal.ZERO)) {
                 if (drawer.getFinancialDocumentFiftyDollarAmount() == null || drawer.getFinancialDocumentFiftyDollarAmount().isLessThan(detail.getFinancialDocumentFiftyDollarAmount())) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "fifty dollar amount", formatter.format(detail.getFinancialDocumentFiftyDollarAmount()).toString(), formatter.format(drawer.getFinancialDocumentFiftyDollarAmount()).toString() });
+                    GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "fifty dollar amount", formatter.format(detail.getFinancialDocumentFiftyDollarAmount()).toString(), formatter.format(drawer.getFinancialDocumentFiftyDollarAmount()).toString() });
                     success = false;
                 }
             }
             if (detail.getFinancialDocumentTwentyDollarAmount() != null && detail.getFinancialDocumentTwentyDollarAmount().isGreaterThan(KualiDecimal.ZERO)) {
                 if (drawer.getFinancialDocumentTwentyDollarAmount() == null || drawer.getFinancialDocumentTwentyDollarAmount().isLessThan(detail.getFinancialDocumentTwentyDollarAmount())) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "twenty dollar amount", formatter.format(detail.getFinancialDocumentTwentyDollarAmount()).toString(), formatter.format(drawer.getFinancialDocumentTwentyDollarAmount()).toString() });
+                    GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "twenty dollar amount", formatter.format(detail.getFinancialDocumentTwentyDollarAmount()).toString(), formatter.format(drawer.getFinancialDocumentTwentyDollarAmount()).toString() });
                     success = false;
                 }
             }
             if (detail.getFinancialDocumentTenDollarAmount() != null && detail.getFinancialDocumentTenDollarAmount().isGreaterThan(KualiDecimal.ZERO)) {
                 if (drawer.getFinancialDocumentTenDollarAmount() == null || drawer.getFinancialDocumentTenDollarAmount().isLessThan(detail.getFinancialDocumentTenDollarAmount())) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "ten dollar amount", formatter.format(detail.getFinancialDocumentTenDollarAmount()).toString(), formatter.format(drawer.getFinancialDocumentTenDollarAmount()).toString() });
+                    GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "ten dollar amount", formatter.format(detail.getFinancialDocumentTenDollarAmount()).toString(), formatter.format(drawer.getFinancialDocumentTenDollarAmount()).toString() });
                     success = false;
                 }
             }
             if (detail.getFinancialDocumentFiveDollarAmount() != null && detail.getFinancialDocumentFiveDollarAmount().isGreaterThan(KualiDecimal.ZERO)) {
                 if (drawer.getFinancialDocumentFiveDollarAmount() == null || drawer.getFinancialDocumentFiveDollarAmount().isLessThan(detail.getFinancialDocumentFiveDollarAmount())) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "five dollar amount", formatter.format(detail.getFinancialDocumentFiveDollarAmount()).toString(), formatter.format(drawer.getFinancialDocumentFiveDollarAmount()).toString() });
+                    GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "five dollar amount", formatter.format(detail.getFinancialDocumentFiveDollarAmount()).toString(), formatter.format(drawer.getFinancialDocumentFiveDollarAmount()).toString() });
                     success = false;
                 }
             }
             if (detail.getFinancialDocumentTwoDollarAmount() != null && detail.getFinancialDocumentTwoDollarAmount().isGreaterThan(KualiDecimal.ZERO)) {
                 if (drawer.getFinancialDocumentTwoDollarAmount() == null || drawer.getFinancialDocumentTwoDollarAmount().isLessThan(detail.getFinancialDocumentTwoDollarAmount())) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "two dollar amount", formatter.format(detail.getFinancialDocumentTwoDollarAmount()).toString(), formatter.format(drawer.getFinancialDocumentTwoDollarAmount()).toString() });
+                    GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "two dollar amount", formatter.format(detail.getFinancialDocumentTwoDollarAmount()).toString(), formatter.format(drawer.getFinancialDocumentTwoDollarAmount()).toString() });
                     success = false;
                 }
             }
             if (detail.getFinancialDocumentOneDollarAmount() != null && detail.getFinancialDocumentOneDollarAmount().isGreaterThan(KualiDecimal.ZERO)) {
                 if (drawer.getFinancialDocumentOneDollarAmount() == null || drawer.getFinancialDocumentOneDollarAmount().isLessThan(detail.getFinancialDocumentOneDollarAmount())) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "one dollar amount", formatter.format(detail.getFinancialDocumentOneDollarAmount()).toString(), formatter.format(drawer.getFinancialDocumentOneDollarAmount()).toString() });
+                    GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "one dollar amount", formatter.format(detail.getFinancialDocumentOneDollarAmount()).toString(), formatter.format(drawer.getFinancialDocumentOneDollarAmount()).toString() });
                     success = false;
                 }
             }
             if (detail.getFinancialDocumentOtherDollarAmount() != null && detail.getFinancialDocumentOtherDollarAmount().isGreaterThan(KualiDecimal.ZERO)) {
                 if (drawer.getFinancialDocumentOtherDollarAmount() == null || drawer.getFinancialDocumentOtherDollarAmount().isLessThan(detail.getFinancialDocumentOtherDollarAmount())) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "other dollar amount", formatter.format(detail.getFinancialDocumentOtherDollarAmount()).toString(), formatter.format(drawer.getFinancialDocumentOtherDollarAmount()).toString() });
+                    GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "other dollar amount", formatter.format(detail.getFinancialDocumentOtherDollarAmount()).toString(), formatter.format(drawer.getFinancialDocumentOtherDollarAmount()).toString() });
                     success = false;
                 }
             }
@@ -635,43 +635,43 @@ public class DepositWizardAction extends KualiAction {
             CurrencyFormatter formatter = new CurrencyFormatter();
             if (detail.getFinancialDocumentHundredCentAmount() != null && detail.getFinancialDocumentHundredCentAmount().isGreaterThan(KualiDecimal.ZERO)) {
                 if (drawer.getFinancialDocumentHundredCentAmount() == null || drawer.getFinancialDocumentHundredCentAmount().isLessThan(detail.getFinancialDocumentHundredCentAmount())) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "hundred cent amount", formatter.format(detail.getFinancialDocumentHundredCentAmount()).toString(), formatter.format(drawer.getFinancialDocumentHundredCentAmount()).toString() });
+                    GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "hundred cent amount", formatter.format(detail.getFinancialDocumentHundredCentAmount()).toString(), formatter.format(drawer.getFinancialDocumentHundredCentAmount()).toString() });
                     success = false;
                 }
             }
             if (detail.getFinancialDocumentFiftyCentAmount() != null && detail.getFinancialDocumentFiftyCentAmount().isGreaterThan(KualiDecimal.ZERO)) {
                 if (drawer.getFinancialDocumentFiftyCentAmount() == null || drawer.getFinancialDocumentFiftyCentAmount().isLessThan(detail.getFinancialDocumentFiftyCentAmount())) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "fifty cent amount", formatter.format(detail.getFinancialDocumentFiftyCentAmount()).toString(), formatter.format(drawer.getFinancialDocumentFiftyCentAmount()).toString() });
+                    GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "fifty cent amount", formatter.format(detail.getFinancialDocumentFiftyCentAmount()).toString(), formatter.format(drawer.getFinancialDocumentFiftyCentAmount()).toString() });
                     success = false;
                 }
             }
             if (detail.getFinancialDocumentTwentyFiveCentAmount() != null && detail.getFinancialDocumentTwentyFiveCentAmount().isGreaterThan(KualiDecimal.ZERO)) {
                 if (drawer.getFinancialDocumentTwentyFiveCentAmount() == null || drawer.getFinancialDocumentTwentyFiveCentAmount().isLessThan(detail.getFinancialDocumentTwentyFiveCentAmount())) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "twenty five cent amount", formatter.format(detail.getFinancialDocumentTwentyFiveCentAmount()).toString(), formatter.format(drawer.getFinancialDocumentTwentyFiveCentAmount()).toString() });
+                    GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "twenty five cent amount", formatter.format(detail.getFinancialDocumentTwentyFiveCentAmount()).toString(), formatter.format(drawer.getFinancialDocumentTwentyFiveCentAmount()).toString() });
                     success = false;
                 }
             }
             if (detail.getFinancialDocumentTenCentAmount() != null && detail.getFinancialDocumentTenCentAmount().isGreaterThan(KualiDecimal.ZERO)) {
                 if (drawer.getFinancialDocumentTenCentAmount() == null || drawer.getFinancialDocumentTenCentAmount().isLessThan(detail.getFinancialDocumentTenCentAmount())) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "ten cent amount", formatter.format(detail.getFinancialDocumentTenCentAmount()).toString(), formatter.format(drawer.getFinancialDocumentTenCentAmount()).toString() });
+                    GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "ten cent amount", formatter.format(detail.getFinancialDocumentTenCentAmount()).toString(), formatter.format(drawer.getFinancialDocumentTenCentAmount()).toString() });
                     success = false;
                 }
             }
             if (detail.getFinancialDocumentFiveCentAmount() != null && detail.getFinancialDocumentFiveCentAmount().isGreaterThan(KualiDecimal.ZERO)) {
                 if (drawer.getFinancialDocumentFiveCentAmount() == null || drawer.getFinancialDocumentFiveCentAmount().isLessThan(detail.getFinancialDocumentFiveCentAmount())) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "five cent amount", formatter.format(detail.getFinancialDocumentFiveCentAmount()).toString(), formatter.format(drawer.getFinancialDocumentFiveCentAmount()).toString() });
+                    GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "five cent amount", formatter.format(detail.getFinancialDocumentFiveCentAmount()).toString(), formatter.format(drawer.getFinancialDocumentFiveCentAmount()).toString() });
                     success = false;
                 }
             }
             if (detail.getFinancialDocumentOneCentAmount() != null && detail.getFinancialDocumentOneCentAmount().isGreaterThan(KualiDecimal.ZERO)) {
                 if (drawer.getFinancialDocumentOneCentAmount() == null || drawer.getFinancialDocumentOneCentAmount().isLessThan(detail.getFinancialDocumentOneCentAmount())) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "one cent amount", formatter.format(detail.getFinancialDocumentOneCentAmount()).toString(), formatter.format(drawer.getFinancialDocumentOneCentAmount()).toString() });
+                    GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "one cent amount", formatter.format(detail.getFinancialDocumentOneCentAmount()).toString(), formatter.format(drawer.getFinancialDocumentOneCentAmount()).toString() });
                     success = false;
                 }
             }
             if (detail.getFinancialDocumentOtherCentAmount() != null && detail.getFinancialDocumentOtherCentAmount().isGreaterThan(KualiDecimal.ZERO)) {
                 if (drawer.getFinancialDocumentOtherCentAmount() == null || drawer.getFinancialDocumentOtherCentAmount().isLessThan(detail.getFinancialDocumentOtherCentAmount())) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "other cent amount", formatter.format(detail.getFinancialDocumentOtherCentAmount()).toString(), formatter.format(drawer.getFinancialDocumentOtherCentAmount()).toString() });
+                    GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NOT_ENOUGH_CASH_TO_COMPLETE_DEPOSIT, new String[] { "other cent amount", formatter.format(detail.getFinancialDocumentOtherCentAmount()).toString(), formatter.format(drawer.getFinancialDocumentOtherCentAmount()).toString() });
                     success = false;
                 }
             }

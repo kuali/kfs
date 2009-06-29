@@ -104,11 +104,21 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeLine1Addr-parentBean" abstract="true" parent="VendorAddress-vendorLine1Address">
     <property name="name" value="disbVchrPayeeLine1Addr" />
+    <property name="maxLength" value="40" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeLine2Addr" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeLine2Addr-parentBean" />
 
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeLine2Addr-parentBean" abstract="true" parent="VendorAddress-vendorLine2Address">
     <property name="name" value="disbVchrPayeeLine2Addr" />
+    <property name="maxLength" value="40" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeCityName" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeCityName-parentBean" />
 

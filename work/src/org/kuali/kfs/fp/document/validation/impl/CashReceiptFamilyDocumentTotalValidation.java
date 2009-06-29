@@ -41,7 +41,7 @@ public class CashReceiptFamilyDocumentTotalValidation extends GenericValidation 
         // make sure that cash reconciliation total is greater than zero
         boolean isValid = getCashReceiptFamilyDocumentForValidation().getTotalDollarAmount().compareTo(KualiDecimal.ZERO) > 0;
         if (!isValid) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + KFSPropertyConstants.SUM_TOTAL_AMOUNT, KFSKeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_NO_CASH_RECONCILIATION_TOTAL);
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + KFSPropertyConstants.SUM_TOTAL_AMOUNT, KFSKeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_NO_CASH_RECONCILIATION_TOTAL);
         }
 
         if (isValid) {
@@ -49,7 +49,7 @@ public class CashReceiptFamilyDocumentTotalValidation extends GenericValidation 
             isValid = getCashReceiptFamilyDocumentForValidation().getSourceTotal().compareTo(getCashReceiptFamilyDocumentForValidation().getTotalDollarAmount()) == 0;
 
             if (!isValid) {
-                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + KFSPropertyConstants.SUM_TOTAL_AMOUNT, KFSKeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_BALANCE);
+                GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + KFSPropertyConstants.SUM_TOTAL_AMOUNT, KFSKeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_BALANCE);
             }
         }
 

@@ -27,8 +27,8 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 
 public class DisbursementVoucherEmployeeInformationValidation extends GenericValidation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherEmployeeInformationValidation.class);
@@ -54,7 +54,7 @@ public class DisbursementVoucherEmployeeInformationValidation extends GenericVal
         String employeeId = payeeDetail.getDisbVchrPayeeIdNumber();
         Person employee = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(employeeId);
         
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         // check existence of employee

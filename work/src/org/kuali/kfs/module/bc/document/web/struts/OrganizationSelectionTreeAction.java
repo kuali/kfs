@@ -151,7 +151,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
             return performBuildPointOfView(mapping, form, request, response);
         }
         if (pointOfViewOrgs.isEmpty()) {
-            GlobalVariables.getErrorMap().putError("pointOfViewOrg", BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
+            GlobalVariables.getMessageMap().putError("pointOfViewOrg", BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -447,7 +447,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
             SpringContext.getBean(BusinessObjectService.class).save(selectionSubTreeOrgs);
         }
         else {
-            GlobalVariables.getErrorMap().putError(BCConstants.SELECTION_SUB_TREE_ORGS, BCKeyConstants.ERROR_BUDGET_ORG_NOT_SELECTED);
+            GlobalVariables.getMessageMap().putError(BCConstants.SELECTION_SUB_TREE_ORGS, BCKeyConstants.ERROR_BUDGET_ORG_NOT_SELECTED);
         }
 
 

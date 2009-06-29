@@ -116,7 +116,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
             LaborLedgerObject foundObjectCode = (LaborLedgerObject) businessObjectService.findByPrimaryKey(LaborObject.class, objectCodeFieldValues);
 
             if (foundObjectCode == null) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, LaborKeyConstants.ERROR_INVALID_LABOR_OBJECT_CODE, "2");
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, LaborKeyConstants.ERROR_INVALID_LABOR_OBJECT_CODE, "2");
                 return new CollectionIncomplete(new ArrayList(), actualCountIfTruncated);
             }
         }

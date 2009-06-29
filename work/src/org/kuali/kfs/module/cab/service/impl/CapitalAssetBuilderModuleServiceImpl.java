@@ -123,7 +123,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 // non capital object code, disallow the capital information entered.
                 if (!isNewAssetBlank || !isUpdateAssetBlank) {
                     // give error if data was entered
-                    GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_DO_NOT_ENTER_ANY_DATA);
+                    GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_DO_NOT_ENTER_ANY_DATA);
                     valid = false;
                 }
 
@@ -143,7 +143,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     }
                     // Capital on the FROM side and non-capital on the TO side, we only allow modify an asset.
                     else if (!isNewAssetBlank || isUpdateAssetBlank) {
-                        GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_UPDATE_ALLOW_ONLY);
+                        GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_UPDATE_ALLOW_ONLY);
                         valid = false;
                     }
                 }
@@ -172,7 +172,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     // When Non-capital asset object on the FROM side & Capital asset on the TO side, we only allow create a new
                     // asset.
                     else if (!isUpdateAssetBlank || isNewAssetBlank) {
-                        GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_QUANTITY, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_CREATE_NEW_ALLOW_ONLY);
+                        GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CAPITAL_ASSET_QUANTITY, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_CREATE_NEW_ALLOW_ONLY);
                         valid = false;
                     }
                 }
@@ -216,7 +216,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             boolean valid = true;
             // can modify existing or create new. Required to enter one of each type.
             if (isNewAssetBlank && isUpdateAssetBlank) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_REQUIRE_DATA_ENTRY);
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_REQUIRE_DATA_ENTRY);
                 valid = false;
             }
             return valid;
@@ -233,7 +233,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             boolean valid = true;
             if (!isNewAssetBlank && !isUpdateAssetBlank) {
                 // Data exists on both crate new asset and update asset, give error
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_NEW_OR_UPDATE_ONLY);
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_NEW_OR_UPDATE_ONLY);
                 valid = false;
             }
             return valid;
@@ -340,7 +340,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     PurchasingCapitalAssetItem camsItem = ((PurchasingItem) purapItem).getPurchasingCapitalAssetItem();
                     if (camsItem != null && !camsItem.isEmpty()) {
                         valid = false;
-                        GlobalVariables.getErrorMap().putError("newPurchasingItemCapitalAssetLine", PurapKeyConstants.ERROR_CAPITAL_ASSET_ITEM_NOT_CAMS_ELIGIBLE, "in line item # " + purapItem.getItemLineNumber());
+                        GlobalVariables.getMessageMap().putError("newPurchasingItemCapitalAssetLine", PurapKeyConstants.ERROR_CAPITAL_ASSET_ITEM_NOT_CAMS_ELIGIBLE, "in line item # " + purapItem.getItemLineNumber());
                     }
                 }
             }
@@ -359,7 +359,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         if (!valid) {
             String propertyName = "newPurchasingItemCapitalAssetLine." + PurapPropertyConstants.CAPITAL_ASSET_NUMBER;
             String errorKey = PurapKeyConstants.ERROR_CAPITAL_ASSET_ASSET_NUMBER_MUST_BE_LONG_NOT_NULL;
-            GlobalVariables.getErrorMap().putError(propertyName, errorKey);
+            GlobalVariables.getMessageMap().putError(propertyName, errorKey);
         }
 
         return valid;
@@ -689,7 +689,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             if (itemNumber != null) {
                 fieldName = fieldName + " in Item " + itemNumber;
             }
-            GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, fieldName);
+            GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, fieldName);
             return false;
         }
         else if (value instanceof Collection) {
@@ -710,7 +710,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 List<AttributeDefinition> offendingAttributes = boe.getAttributes();
                 AttributeDefinition offendingAttribute = offendingAttributes.get(0);
                 String fieldName = SpringContext.getBean(DataDictionaryService.class).getAttributeShortLabel(offendingClass, offendingAttribute.getName());
-                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, fieldName);
+                GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, fieldName);
                 return false;
             }
             int count = 0;
@@ -723,7 +723,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         else if (StringUtils.isBlank(value.toString())) {
             errorKey.append(mappedNames[0]);
-            GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, (String) mappedNames[0]);
+            GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, (String) mappedNames[0]);
             return false;
         }
         else if (mappedNames.length > 1) {
@@ -775,7 +775,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     valid = false;
                     String errorKey = PurapKeyConstants.ERROR_CAPITAL_ASSET_LOCATIONS_QUANTITY_MUST_EQUAL_ITEM_QUANTITY;
                     String propertyName = "document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS + "[" + count + "]." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_SYSTEM + ".newPurchasingCapitalAssetLocationLine." + PurapPropertyConstants.QUANTITY;
-                    GlobalVariables.getErrorMap().putError(propertyName, errorKey, Integer.toString(count + 1));
+                    GlobalVariables.getMessageMap().putError(propertyName, errorKey, Integer.toString(count + 1));
                 }
             }
             count++;
@@ -826,7 +826,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             for (ItemCapitalAsset asset : capitalAssetSystem.getItemCapitalAssets()) {
                 if (asset.getCapitalAssetNumber() != null) {
                     String propertyName = prefix + PurapPropertyConstants.CAPITAL_ASSET_TRANSACTION_TYPE_CODE;
-                    GlobalVariables.getErrorMap().putError(propertyName, PurapKeyConstants.ERROR_CAPITAL_ASSET_ASSET_NUMBERS_NOT_ALLOWED_TRANS_TYPE, capitalAssetTransactionType);
+                    GlobalVariables.getMessageMap().putError(propertyName, PurapKeyConstants.ERROR_CAPITAL_ASSET_ASSET_NUMBERS_NOT_ALLOWED_TRANS_TYPE, capitalAssetTransactionType);
                     return false;
                 }
             }
@@ -852,7 +852,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 if (!capitalAssetItem.getCapitalAssetTransactionType().getCapitalAssetNonquantityDrivenAllowIndicator()) {
                     if (!capitalAssetItem.getPurchasingItem().getItemType().isQuantityBasedGeneralLedgerIndicator()) {
                         String propertyName = prefix + PurapPropertyConstants.CAPITAL_ASSET_TRANSACTION_TYPE_CODE;
-                        GlobalVariables.getErrorMap().putError(propertyName, PurapKeyConstants.ERROR_CAPITAL_ASSET_TRANS_TYPE_NOT_ALLOWING_NON_QUANTITY_ITEMS, capitalAssetItem.getCapitalAssetTransactionTypeCode());
+                        GlobalVariables.getMessageMap().putError(propertyName, PurapKeyConstants.ERROR_CAPITAL_ASSET_TRANS_TYPE_NOT_ALLOWING_NON_QUANTITY_ITEMS, capitalAssetItem.getCapitalAssetTransactionTypeCode());
                         valid &= false;
                     }
                 }
@@ -874,11 +874,11 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     public boolean validateItemCapitalAssetWithErrors(String recurringPaymentTypeCode, ExternalPurApItem item, boolean apoCheck) {
         PurchasingItemBase purchasingItem = (PurchasingItemBase) item;
-        List<String> previousErrorPath = GlobalVariables.getErrorMap().getErrorPath();
-        GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(PurapConstants.CAPITAL_ASSET_TAB_ERRORS);
+        List<String> previousErrorPath = GlobalVariables.getMessageMap().getErrorPath();
+        GlobalVariables.getMessageMap().clearErrorPath();
+        GlobalVariables.getMessageMap().addToErrorPath(PurapConstants.CAPITAL_ASSET_TAB_ERRORS);
         boolean result = validatePurchasingItemCapitalAsset(recurringPaymentTypeCode, purchasingItem);
-        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getMessageMap().clearErrorPath();
         return result;
     }
 
@@ -968,7 +968,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         boolean valid = true;
         // If the set contains more than one distinct string, fail.
         if (capitalOrExpenseSet.size() > 1) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.FINANCIAL_OBJECT_LEVEL_CODE_PROPERTY_NAME, CabKeyConstants.ERROR_ITEM_CAPITAL_AND_EXPENSE, itemIdentifier, objectCode.getFinancialObjectCodeName());
+            GlobalVariables.getMessageMap().putError(KFSConstants.FINANCIAL_OBJECT_LEVEL_CODE_PROPERTY_NAME, CabKeyConstants.ERROR_ITEM_CAPITAL_AND_EXPENSE, itemIdentifier, objectCode.getFinancialObjectCodeName());
             valid &= false;
         }
         return valid;
@@ -1036,7 +1036,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
 
         if (!found) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, CabKeyConstants.ERROR_ITEM_TRAN_TYPE_OBJECT_CODE_SUBTYPE, itemIdentifier, capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(), objectCode.getFinancialObjectCodeName(), objectCode.getFinancialObjectSubType().getFinancialObjectSubTypeName());
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, CabKeyConstants.ERROR_ITEM_TRAN_TYPE_OBJECT_CODE_SUBTYPE, itemIdentifier, capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(), objectCode.getFinancialObjectCodeName(), objectCode.getFinancialObjectSubType().getFinancialObjectSubTypeName());
 
             valid &= false;
         }
@@ -1065,14 +1065,14 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             if (StringUtils.isNotEmpty(recurringPaymentTypeCode)) { // If there is a recurring payment type ...
                 if (!StringUtils.contains(recurringTransactionTypeCodes, capitalAssetTransactionType.getCapitalAssetTransactionTypeCode())) {
                     // There should be a recurring tran type code.
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, CabKeyConstants.ERROR_ITEM_WRONG_TRAN_TYPE, itemIdentifier, capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(), CabConstants.ValidationStrings.RECURRING);
+                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, CabKeyConstants.ERROR_ITEM_WRONG_TRAN_TYPE, itemIdentifier, capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(), CabConstants.ValidationStrings.RECURRING);
                     valid &= false;
                 }
             }
             else { // If the payment type is not recurring ...
                 // There should not be a recurring transaction type code.
                 if (StringUtils.contains(recurringTransactionTypeCodes, capitalAssetTransactionType.getCapitalAssetTransactionTypeCode())) {
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, CabKeyConstants.ERROR_ITEM_WRONG_TRAN_TYPE, itemIdentifier, capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(), CabConstants.ValidationStrings.NON_RECURRING);
+                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, CabKeyConstants.ERROR_ITEM_WRONG_TRAN_TYPE, itemIdentifier, capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(), CabConstants.ValidationStrings.NON_RECURRING);
 
                     valid &= false;
                 }
@@ -1080,11 +1080,11 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         else { // If there is no transaction type ...
             if (StringUtils.isNotEmpty(recurringPaymentTypeCode)) { // If there is a recurring payment type ...
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, CabKeyConstants.ERROR_ITEM_NO_TRAN_TYPE, itemIdentifier, CabConstants.ValidationStrings.RECURRING);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, CabKeyConstants.ERROR_ITEM_NO_TRAN_TYPE, itemIdentifier, CabConstants.ValidationStrings.RECURRING);
                 valid &= false;
             }
             else { // If the payment type is not recurring ...
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, CabKeyConstants.ERROR_ITEM_NO_TRAN_TYPE, itemIdentifier, CabConstants.ValidationStrings.NON_RECURRING);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, CabKeyConstants.ERROR_ITEM_NO_TRAN_TYPE, itemIdentifier, CabConstants.ValidationStrings.NON_RECURRING);
                 valid &= false;
             }
         }
@@ -1150,38 +1150,38 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     protected boolean validateCapitalAssetLocationAddressFields(CapitalAssetLocation location, StringBuffer errorKey) {
         boolean valid = true;
         if (StringUtils.isBlank(location.getCapitalAssetLine1Address())) {
-            GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ADDRESS_LINE1);
+            GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ADDRESS_LINE1);
             valid &= false;
         }
         if (StringUtils.isBlank(location.getCapitalAssetCityName())) {
-            GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_CITY);
+            GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_CITY);
             valid &= false;
         }
         if (StringUtils.isBlank(location.getCapitalAssetCountryCode())) {
-            GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_COUNTRY);
+            GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_COUNTRY);
             valid &= false;
         }
         else if (location.getCapitalAssetCountryCode().equals(KFSConstants.COUNTRY_CODE_UNITED_STATES)) {
             if (StringUtils.isBlank(location.getCapitalAssetStateCode())) {
-                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_STATE);
+                GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_STATE);
                 valid &= false;
             }
             if (StringUtils.isBlank(location.getCapitalAssetPostalCode())) {
-                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_POSTAL_CODE);
+                GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_POSTAL_CODE);
                 valid &= false;
             }
         }
         if (!location.isOffCampusIndicator()) {
             if (StringUtils.isBlank(location.getCampusCode())) {
-                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_CAMPUS);
+                GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_CAMPUS);
                 valid &= false;
             }
             if (StringUtils.isBlank(location.getBuildingCode())) {
-                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_BUILDING);
+                GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_BUILDING);
                 valid &= false;
             }
             if (StringUtils.isBlank(location.getBuildingRoomNumber())) {
-                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ROOM);
+                GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ROOM);
                 valid &= false;
             }
         }
@@ -1337,12 +1337,12 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         if (ObjectUtils.isNull(asset)) {
             valid = false;
             String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_NUMBER);
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, label);
         }
         else if (!(this.getAssetService().isCapitalAsset(asset) && !this.getAssetService().isAssetRetired(asset))) {
             // check asset status must be capital asset active.
             valid = false;
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_ACTIVE_CAPITAL_ASSET_REQUIRED);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_ACTIVE_CAPITAL_ASSET_REQUIRED);
         }
         else {
             String documentNumber = accountingDocument.getDocumentNumber();
@@ -1366,32 +1366,32 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetTypeCode())) {
             String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE);
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
             valid = false;
         }
 
         if (capitalAssetInformation.getCapitalAssetQuantity() == null || capitalAssetInformation.getCapitalAssetQuantity() <= 0) {
             String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_QUANTITY);
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_QUANTITY, KFSKeyConstants.ERROR_REQUIRED, label);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CAPITAL_ASSET_QUANTITY, KFSKeyConstants.ERROR_REQUIRED, label);
             valid = false;
         }
 
         // skip vendor name required validation for procurement card document
         if (!(accountingDocument instanceof ProcurementCardDocument) && StringUtils.isBlank(capitalAssetInformation.getVendorName())) {
             String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.VENDOR_NAME);
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.VENDOR_NAME, KFSKeyConstants.ERROR_REQUIRED, label);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.VENDOR_NAME, KFSKeyConstants.ERROR_REQUIRED, label);
             valid = false;
         }
 
         if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetManufacturerName())) {
             String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_MANUFACTURE_NAME);
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_MANUFACTURE_NAME, KFSKeyConstants.ERROR_REQUIRED, label);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CAPITAL_ASSET_MANUFACTURE_NAME, KFSKeyConstants.ERROR_REQUIRED, label);
             valid = false;
         }
 
         if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetDescription())) {
             String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, CamsPropertyConstants.Asset.CAPITAL_ASSET_DESCRIPTION);
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_DESCRIPTION, KFSKeyConstants.ERROR_REQUIRED, label);
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_DESCRIPTION, KFSKeyConstants.ERROR_REQUIRED, label);
             valid = false;
         }
 
@@ -1402,19 +1402,19 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
             if (StringUtils.isBlank(dtl.getCampusCode())) {
                 String label = this.getDataDictionaryService().getAttributeLabel(Campus.class, KFSPropertyConstants.CAMPUS_CODE);
-                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.CAMPUS_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.CAMPUS_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
 
             if (StringUtils.isBlank(dtl.getBuildingCode())) {
                 String label = this.getDataDictionaryService().getAttributeLabel(Building.class, KFSPropertyConstants.BUILDING_CODE);
-                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
 
             if (StringUtils.isBlank(dtl.getBuildingRoomNumber())) {
                 String label = this.getDataDictionaryService().getAttributeLabel(Room.class, KFSPropertyConstants.BUILDING_ROOM_NUMBER);
-                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_ROOM_NUMBER, KFSKeyConstants.ERROR_REQUIRED, label);
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_ROOM_NUMBER, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
             index++;
@@ -1439,7 +1439,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         if (ObjectUtils.isNull(assetType)) {
             valid = false;
             String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE);
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
         }
 
         valid &= validateTotalNumberOfAssetTagLines(capitalAssetInformation);
@@ -1454,7 +1454,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
             if (StringUtils.isNotBlank(dtl.getCapitalAssetTagNumber()) && !dtl.getCapitalAssetTagNumber().equalsIgnoreCase(CamsConstants.Asset.NON_TAGGABLE_ASSET)) {
                 if (isTagNumberDuplicate(capitalAssetInformationDetails, dtl)) {
-                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, dtl.getCapitalAssetTagNumber());
+                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, dtl.getCapitalAssetTagNumber());
                     valid = false;
                 }
             }
@@ -1465,7 +1465,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             if (ObjectUtils.isNull(campus)) {
                 valid = false;
                 String label = this.getDataDictionaryService().getAttributeLabel(Campus.class, KFSPropertyConstants.CAMPUS_CODE);
-                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.CAMPUS_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.CAMPUS_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
             }
 
             params = new HashMap<String, String>();
@@ -1474,7 +1474,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             Building building = (Building) this.getBusinessObjectService().findByPrimaryKey(Building.class, params);
             if (ObjectUtils.isNull(building)) {
                 valid = false;
-                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_CODE, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_BUILDING_CODE, dtl.getBuildingCode(), dtl.getCampusCode());
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_CODE, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_BUILDING_CODE, dtl.getBuildingCode(), dtl.getCampusCode());
             }
 
             params = new HashMap<String, String>();
@@ -1484,7 +1484,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             Room room = (Room) this.getBusinessObjectService().findByPrimaryKey(Room.class, params);
             if (ObjectUtils.isNull(room)) {
                 valid = false;
-                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_ROOM_NUMBER, dtl.getBuildingRoomNumber(), dtl.getBuildingCode(), dtl.getCampusCode());
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_ROOM_NUMBER, dtl.getBuildingRoomNumber(), dtl.getBuildingCode(), dtl.getCampusCode());
             }
             index++;
         }
@@ -1502,11 +1502,11 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         boolean valid = true;
         Integer userInputAssetQuantity = capitalAssetInformation.getCapitalAssetQuantity();
         if (userInputAssetQuantity != null && (ObjectUtils.isNull(capitalAssetInformation.getCapitalAssetInformationDetails()) || capitalAssetInformation.getCapitalAssetInformationDetails().isEmpty())) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_QUANTITY, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_TAG_LINE_REQUIRED);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CAPITAL_ASSET_QUANTITY, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_TAG_LINE_REQUIRED);
             valid = false;
         }
         else if (userInputAssetQuantity != null && userInputAssetQuantity.intValue() != capitalAssetInformation.getCapitalAssetInformationDetails().size()) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_QUANTITY, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_QUANTITY_NOT_MATCHING_TAG_LINES);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CAPITAL_ASSET_QUANTITY, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_QUANTITY_NOT_MATCHING_TAG_LINES);
             valid = false;
         }
 

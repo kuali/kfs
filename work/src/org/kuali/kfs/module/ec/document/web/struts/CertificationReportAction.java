@@ -275,7 +275,7 @@ public class CertificationReportAction extends EffortCertificationAction {
     public ActionForward addSummarizedDetailLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = this.add(mapping, form, request, response);
 
-        if (GlobalVariables.getErrorMap().getErrorCount() >= 0) {
+        if (GlobalVariables.getMessageMap().getErrorCount() >= 0) {
             CertificationReportForm certificationReportForm = (CertificationReportForm) form;
             this.refreshDetailLineGroupMap(certificationReportForm);
         }

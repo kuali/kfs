@@ -93,6 +93,6 @@ public class BudgetAdjustmentAccountingLineTotalsUnchangedValidation extends Acc
         String persistedTotal = (String) new CurrencyFormatter().format(persistedSourceLineTotal);
         String currentTotal = (String) new CurrencyFormatter().format(currentSourceLineTotal);
 
-        GlobalVariables.getErrorMap().putError(propertyName, ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED, new String[] { sectionTitle, persistedTotal, currentTotal });
+        GlobalVariables.getMessageMap().putError(propertyName, ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED, new String[] { sectionTitle, persistedTotal, currentTotal });
     }
 }

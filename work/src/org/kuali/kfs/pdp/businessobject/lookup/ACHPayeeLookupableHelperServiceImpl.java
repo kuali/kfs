@@ -53,7 +53,7 @@ public class ACHPayeeLookupableHelperServiceImpl extends DisbursementPayeeLookup
 
         String payeeTypeCode = fieldValues.get(KFSPropertyConstants.PAYEE_TYPE_CODE);
         if (StringUtils.isBlank(payeeTypeCode)) {
-            GlobalVariables.getErrorMap().putInfo(KFSPropertyConstants.PAYEE_TYPE_CODE, PdpKeyConstants.MESSAGE_PDP_ACH_PAYEE_LOOKUP_NO_PAYEE_TYPE);
+            GlobalVariables.getMessageMap().putInfo(KFSPropertyConstants.PAYEE_TYPE_CODE, PdpKeyConstants.MESSAGE_PDP_ACH_PAYEE_LOOKUP_NO_PAYEE_TYPE);
         }
         
         if (StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.VENDOR_NUMBER)) || StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.VENDOR_NAME)) || (StringUtils.isNotBlank(payeeTypeCode) && PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(payeeTypeCode))) {
@@ -156,7 +156,7 @@ public class ACHPayeeLookupableHelperServiceImpl extends DisbursementPayeeLookup
             String vendorNumberLabel = this.getAttribueLabel(KFSPropertyConstants.VENDOR_NUMBER);
             String entityIdLabel = this.getAttribueLabel(KIMPropertyConstants.Person.ENTITY_ID);
 
-            GlobalVariables.getErrorMap().putError(KIMPropertyConstants.Person.ENTITY_ID, messageKey, entityIdLabel, vendorNameLabel, vendorNumberLabel);
+            GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.ENTITY_ID, messageKey, entityIdLabel, vendorNameLabel, vendorNumberLabel);
         }
 
         boolean isEmployeeInfoEntered = StringUtils.isNotBlank(employeeId) || StringUtils.isNotBlank(entityId);
@@ -169,7 +169,7 @@ public class ACHPayeeLookupableHelperServiceImpl extends DisbursementPayeeLookup
             String entityIdLabel = this.getAttribueLabel(KIMPropertyConstants.Person.ENTITY_ID);
             String payeeTypeLabel = this.getAttribueLabel(KFSPropertyConstants.PAYEE_TYPE_CODE);
 
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.PAYEE_TYPE_CODE, messageKey, payeeTypeLabel, payeeTypeCode, employeeIdLabel, entityIdLabel);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.PAYEE_TYPE_CODE, messageKey, payeeTypeLabel, payeeTypeCode, employeeIdLabel, entityIdLabel);
         }
         else if (payeeTypeEntered && (PdpConstants.PayeeIdTypeCodes.EMPLOYEE.equals(payeeTypeCode) || PdpConstants.PayeeIdTypeCodes.ENTITY.equals(payeeTypeCode)) && isVendorInfoEntered) {
             String messageKey = PdpKeyConstants.ERROR_PAYEE_LOOKUP_VENDOR_EMPLOYEE_CONFUSION;
@@ -178,10 +178,10 @@ public class ACHPayeeLookupableHelperServiceImpl extends DisbursementPayeeLookup
             String vendorNumberLabel = this.getAttribueLabel(KFSPropertyConstants.VENDOR_NUMBER);
             String payeeTypeLabel = this.getAttribueLabel(KFSPropertyConstants.PAYEE_TYPE_CODE);
 
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.PAYEE_TYPE_CODE, messageKey, payeeTypeLabel, payeeTypeCode, vendorNameLabel, vendorNumberLabel);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.PAYEE_TYPE_CODE, messageKey, payeeTypeLabel, payeeTypeCode, vendorNameLabel, vendorNumberLabel);
         }
 
-        if (GlobalVariables.getErrorMap().hasErrors()) {
+        if (GlobalVariables.getMessageMap().hasErrors()) {
             throw new ValidationException("errors in search criteria");
         }
     }

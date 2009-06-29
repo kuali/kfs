@@ -51,7 +51,7 @@ public class CustomerInvoiceDetailParentLessThanDiscountValidation extends Gener
 
             // return true if parent line amount is less THAN abs(discount line amount)
             if (parentCustomerInvoiceDetail.getAmount().abs().isLessThan(copyOfDiscountCustomerInvoiceDetail.getAmount().abs())) {
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_DISCOUNT_AMOUNT_GREATER_THAN_PARENT_AMOUNT);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_DISCOUNT_AMOUNT_GREATER_THAN_PARENT_AMOUNT);
                 success = false;
             }
 

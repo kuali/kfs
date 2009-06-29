@@ -88,7 +88,7 @@ public class CollectorServiceTest extends KualiTestBase {
 
         boolean isValid = collectorHelperService.performValidation(collectorBatch);
         assertFalse("returned batch was valid but there were multiple document types", isValid);
-        assertTrue("error message for mixed document types does not exist", GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.Collector.MIXED_DOCUMENT_TYPES));
+        assertTrue("error message for mixed document types does not exist", GlobalVariables.getMessageMap().containsMessageKey(KFSKeyConstants.Collector.MIXED_DOCUMENT_TYPES));
     }
 
     /**
@@ -113,7 +113,7 @@ public class CollectorServiceTest extends KualiTestBase {
 
         boolean isValid = collectorHelperService.performValidation(collectorBatch);
         assertFalse("returned batch was valid but there was detail record without a matching gl entry", isValid);
-        assertTrue("error message for unmatched detail key does not exist", GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.Collector.NONMATCHING_DETAIL_KEY));
+        assertTrue("error message for unmatched detail key does not exist", GlobalVariables.getMessageMap().containsMessageKey(KFSKeyConstants.Collector.NONMATCHING_DETAIL_KEY));
     }
 
     /**
@@ -134,6 +134,6 @@ public class CollectorServiceTest extends KualiTestBase {
 
         boolean isValid = collectorHelperService.performValidation(collectorBatch);
         assertFalse("returned batch was valid but there were multiple balance types", isValid);
-        assertTrue("error message for mixed balance types does not exist", GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.Collector.MIXED_BALANCE_TYPES));
+        assertTrue("error message for mixed balance types does not exist", GlobalVariables.getMessageMap().containsMessageKey(KFSKeyConstants.Collector.MIXED_BALANCE_TYPES));
     }
 }

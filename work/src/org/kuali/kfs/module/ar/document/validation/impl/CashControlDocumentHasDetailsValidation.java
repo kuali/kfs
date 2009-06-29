@@ -45,13 +45,13 @@ public class CashControlDocumentHasDetailsValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         
         boolean isValid = true;
-        GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 
         if (cashControlDocument.getCashControlDetails().isEmpty()) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CASH_CONTROL_DETAILS, ArKeyConstants.ERROR_NO_LINES_TO_PROCESS);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CASH_CONTROL_DETAILS, ArKeyConstants.ERROR_NO_LINES_TO_PROCESS);
         }
 
-        GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 
         return isValid;
     }

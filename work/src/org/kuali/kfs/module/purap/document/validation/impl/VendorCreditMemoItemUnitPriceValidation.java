@@ -39,7 +39,7 @@ public class VendorCreditMemoItemUnitPriceValidation extends GenericValidation {
             // verify unit price is not negative
             if (itemForValidation.getItemUnitPrice().signum() == -1) {
                 String label = dataDictionaryService.getAttributeErrorLabel(CreditMemoItem.class, PurapPropertyConstants.ITEM_UNIT_PRICE);
-                GlobalVariables.getErrorMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_AMOUNT_NONPOSITIVE, label);
+                GlobalVariables.getMessageMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_AMOUNT_NONPOSITIVE, label);
                 valid = false;
             }
         }

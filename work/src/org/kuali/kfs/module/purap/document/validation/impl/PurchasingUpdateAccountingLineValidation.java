@@ -44,7 +44,7 @@ public class PurchasingUpdateAccountingLineValidation extends GenericValidation 
     private boolean verifyAccountingLinePercent(PurApAccountingLine purapAccountingLine) {
         // make sure it's a whole number
         if (purapAccountingLine.getAccountLinePercent().stripTrailingZeros().scale() > 0) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ACCOUNTS, PurapKeyConstants.ERROR_PURCHASING_PERCENT_NOT_WHOLE, purapAccountingLine.getAccountLinePercent().toPlainString());
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ACCOUNTS, PurapKeyConstants.ERROR_PURCHASING_PERCENT_NOT_WHOLE, purapAccountingLine.getAccountLinePercent().toPlainString());
 
             return false;
         }

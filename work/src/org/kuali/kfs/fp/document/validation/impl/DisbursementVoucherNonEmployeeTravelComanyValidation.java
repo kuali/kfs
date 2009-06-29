@@ -29,8 +29,8 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class DisbursementVoucherNonEmployeeTravelComanyValidation extends GenericValidation {
@@ -51,7 +51,7 @@ public class DisbursementVoucherNonEmployeeTravelComanyValidation extends Generi
         DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherNonEmployeeTravel nonEmployeeTravel = disbursementVoucherDocument.getDvNonEmployeeTravel();
         
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         // check non employee travel company exists

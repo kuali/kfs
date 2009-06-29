@@ -51,20 +51,20 @@ public class CreditCardReceiptCashTotalsValidation extends GenericValidation {
         DataDictionaryService dds = SpringContext.getBean(DataDictionaryService.class);
         String errorLabel = dds.getAttributeLabel(documentEntryName, propertyName);
         if ((totalAmount == null) || totalAmount.isZero()) {
-            GlobalVariables.getErrorMap().putError(errorProperty, CashReceipt.ERROR_ZERO_TOTAL, errorLabel);
+            GlobalVariables.getMessageMap().putError(errorProperty, CashReceipt.ERROR_ZERO_TOTAL, errorLabel);
 
             isValid = false;
         }
         else {
-            int precount = GlobalVariables.getErrorMap().size();
+            int precount = GlobalVariables.getMessageMap().size();
 
             DictionaryValidationService dvs = SpringContext.getBean(DictionaryValidationService.class);
             dvs.validateDocumentAttribute(ccrDocument, propertyName, DOCUMENT_ERROR_PREFIX);
 
             // replace generic error message, if any, with something more readable
-            GlobalVariables.getErrorMap().replaceError(errorProperty, KFSKeyConstants.ERROR_MAX_LENGTH, CashReceipt.ERROR_EXCESSIVE_TOTAL, errorLabel);
+            GlobalVariables.getMessageMap().replaceError(errorProperty, KFSKeyConstants.ERROR_MAX_LENGTH, CashReceipt.ERROR_EXCESSIVE_TOTAL, errorLabel);
 
-            int postcount = GlobalVariables.getErrorMap().size();
+            int postcount = GlobalVariables.getMessageMap().size();
             isValid = (postcount == precount);
         }
 

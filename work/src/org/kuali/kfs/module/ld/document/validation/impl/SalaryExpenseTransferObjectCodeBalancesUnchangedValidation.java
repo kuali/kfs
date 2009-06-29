@@ -54,7 +54,7 @@ public class SalaryExpenseTransferObjectCodeBalancesUnchangedValidation extends 
         unBalanced &= (unbalancedObjectCodes ==null || !unbalancedObjectCodes.isEmpty());
         
         if (unBalanced || !isObjectCodeBalancesUnchanged(salaryExpenseTransferDocument)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_TRANSFER_AMOUNT_BY_OBJECT_APPROVAL_CHANGE);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_TRANSFER_AMOUNT_BY_OBJECT_APPROVAL_CHANGE);
             result = false;
         }
 

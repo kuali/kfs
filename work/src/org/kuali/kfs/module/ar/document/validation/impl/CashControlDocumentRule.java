@@ -46,8 +46,8 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -70,7 +70,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         ccDocument.refreshReferenceObject("customerPaymentMedium");
         ccDocument.refreshReferenceObject("generalLedgerPendingEntries");
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
 
         if (errorMap.isEmpty()) {
             isValid &= checkRefDocNumber(ccDocument);
@@ -134,12 +134,12 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         // line amount cannot be zero
         if (detail.getFinancialDocumentLineAmount().isZero()) {
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.FINANCIAL_DOCUMENT_LINE_AMOUNT, ArKeyConstants.ERROR_LINE_AMOUNT_CANNOT_BE_ZERO);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.FINANCIAL_DOCUMENT_LINE_AMOUNT, ArKeyConstants.ERROR_LINE_AMOUNT_CANNOT_BE_ZERO);
             isValid = false;
         }
         // line amount cannot be negative
         if (detail.getFinancialDocumentLineAmount().isNegative()) {
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.FINANCIAL_DOCUMENT_LINE_AMOUNT, ArKeyConstants.ERROR_LINE_AMOUNT_CANNOT_BE_NEGATIVE);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.FINANCIAL_DOCUMENT_LINE_AMOUNT, ArKeyConstants.ERROR_LINE_AMOUNT_CANNOT_BE_NEGATIVE);
             isValid = false;
         }
         return isValid;
@@ -155,13 +155,13 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     public boolean checkCashControlDocumentHasDetails(CashControlDocument cashControlDocument) {
 
         boolean isValid = true;
-        GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 
         if (cashControlDocument.getCashControlDetails().isEmpty()) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CASH_CONTROL_DETAILS, ArKeyConstants.ERROR_NO_LINES_TO_PROCESS);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CASH_CONTROL_DETAILS, ArKeyConstants.ERROR_NO_LINES_TO_PROCESS);
         }
 
-        GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 
         return isValid;
 
@@ -176,7 +176,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     public boolean checkPaymentMedium(CashControlDocument document) {
 
         boolean isValid = true;
-        GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         String paymentMediumCode = document.getCustomerPaymentMediumCode();
 
         Map<String, String> criteria = new HashMap<String, String>();
@@ -185,11 +185,11 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         PaymentMedium paymentMedium = (PaymentMedium) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PaymentMedium.class, criteria);
 
         if (paymentMedium == null) {
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.CUSTOMER_PAYMENT_MEDIUM_CODE, ArKeyConstants.ERROR_PAYMENT_MEDIUM_IS_NOT_VALID);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.CUSTOMER_PAYMENT_MEDIUM_CODE, ArKeyConstants.ERROR_PAYMENT_MEDIUM_IS_NOT_VALID);
             isValid = false;
         }
 
-        GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         return isValid;
 
     }
@@ -203,31 +203,31 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     public boolean checkRefDocNumber(CashControlDocument document) {
 
         boolean isValid = true;
-        GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         String paymentMedium = document.getCustomerPaymentMediumCode();
         if (ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(paymentMedium)) {
             String refDocNumber = document.getReferenceFinancialDocumentNumber();
             try {
                 Long.parseLong(refDocNumber);
                 if (StringUtils.isBlank(refDocNumber)) {
-                    GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArKeyConstants.ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH);
+                    GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArKeyConstants.ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH);
                     isValid = false;
                 }
                 else {
                     boolean docExists = SpringContext.getBean(DocumentService.class).documentExists(refDocNumber);
                     if (!docExists) {
-                        GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArKeyConstants.ERROR_REFERENCE_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH);
+                        GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArKeyConstants.ERROR_REFERENCE_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH);
                         isValid = false;
                     }
                 }
             }
             catch (NumberFormatException nfe) {
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArKeyConstants.ERROR_REFERENCE_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArKeyConstants.ERROR_REFERENCE_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH);
                 isValid = false;
             }
 
         }
-        GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         return isValid;
 
     }
@@ -247,7 +247,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         // Receipt Document must be created prior to creating the Cash Control document and it's number should be set in Reference
         // Document number
         if (!ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(cashControlDocument.getCustomerPaymentMediumCode()) && (glpes == null || glpes.isEmpty())) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArKeyConstants.ERROR_GLPES_NOT_CREATED);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArKeyConstants.ERROR_GLPES_NOT_CREATED);
             isValid = false;
         }
 
@@ -265,9 +265,9 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         
         success &= checkGLPEsNotGenerated(transactionalDocument);
         if (success) {
-            GlobalVariables.getErrorMap().removeFromErrorPath(ArConstants.NEW_CASH_CONTROL_DETAIL_ERROR_PATH_PREFIX);
+            GlobalVariables.getMessageMap().removeFromErrorPath(ArConstants.NEW_CASH_CONTROL_DETAIL_ERROR_PATH_PREFIX);
             success &= validateBankCode(transactionalDocument);
-            GlobalVariables.getErrorMap().addToErrorPath(ArConstants.NEW_CASH_CONTROL_DETAIL_ERROR_PATH_PREFIX);
+            GlobalVariables.getMessageMap().addToErrorPath(ArConstants.NEW_CASH_CONTROL_DETAIL_ERROR_PATH_PREFIX);
             
             success &= validateCashControlDetail(transactionalDocument, cashControlDetail);
         }
@@ -284,7 +284,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      */
     private boolean validateCashControlDetail(CashControlDocument document, CashControlDetail cashControlDetail) {
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
 
         boolean isValid = true;
 
@@ -316,21 +316,21 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      */
     public boolean validateCashControlDetails(CashControlDocument cashControlDocument) {
 
-        GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         boolean isValid = true;
 
         for (int i = 0; i < cashControlDocument.getCashControlDetails().size(); i++) {
 
             CashControlDetail cashControlDetail = cashControlDocument.getCashControlDetail(i);
             String propertyName = KFSPropertyConstants.CASH_CONTROL_DETAIL + "[" + i + "]";
-            GlobalVariables.getErrorMap().addToErrorPath(propertyName);
+            GlobalVariables.getMessageMap().addToErrorPath(propertyName);
 
             isValid &= validateCashControlDetail(cashControlDocument, cashControlDetail);
 
-            GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
+            GlobalVariables.getMessageMap().removeFromErrorPath(propertyName);
         }
 
-        GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         return isValid;
 
     }
@@ -352,7 +352,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
             Customer customer = (Customer) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Customer.class, criteria);
 
             if (customer == null) {
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.CUSTOMER_NUMBER, ArKeyConstants.ERROR_CUSTOMER_NUMBER_IS_NOT_VALID);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.CUSTOMER_NUMBER, ArKeyConstants.ERROR_CUSTOMER_NUMBER_IS_NOT_VALID);
                 isValid = false;
             }
         }
@@ -373,7 +373,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         if (glpes != null && !glpes.isEmpty()) {
             success = false;
-            GlobalVariables.getErrorMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArKeyConstants.ERROR_DELETE_ADD_APP_DOCS_NOT_ALLOWED_AFTER_GLPES_GEN);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArKeyConstants.ERROR_DELETE_ADD_APP_DOCS_NOT_ALLOWED_AFTER_GLPES_GEN);
         }
         return success;
 
@@ -399,11 +399,11 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
                 allAppDocsApproved = false;
 
                 String propertyName = KFSPropertyConstants.CASH_CONTROL_DETAIL + "[" + i + "]";
-                GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
-                GlobalVariables.getErrorMap().addToErrorPath(propertyName);
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.APPLICATION_DOC_STATUS, ArKeyConstants.ERROR_ALL_APPLICATION_DOCS_MUST_BE_APPROVED);
-                GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
-                GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+                GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+                GlobalVariables.getMessageMap().addToErrorPath(propertyName);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.APPLICATION_DOC_STATUS, ArKeyConstants.ERROR_ALL_APPLICATION_DOCS_MUST_BE_APPROVED);
+                GlobalVariables.getMessageMap().removeFromErrorPath(propertyName);
+                GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 
                 break;
             }
@@ -456,17 +456,17 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
             Bank bank = SpringContext.getBean(BankService.class).getByPrimaryId(bankCode);
             if (ObjectUtils.isNull(bank)) {
                 isValid = false;
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.BANK_CODE,ArKeyConstants.ERROR_INVALID_BANK_CODE);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.BANK_CODE,ArKeyConstants.ERROR_INVALID_BANK_CODE);
             } else {
                 // make sure the bank is eligible for deposit activity
                 if (!bank.isBankDepositIndicator()) {
                     isValid = false;
-                    GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.BANK_CODE,ArKeyConstants.ERROR_BANK_NOT_ELIGIBLE_FOR_DEPOSIT_ACTIVITY);
+                    GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.BANK_CODE,ArKeyConstants.ERROR_BANK_NOT_ELIGIBLE_FOR_DEPOSIT_ACTIVITY);
                 }
             }
         } else {
             isValid = false;
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.BANK_CODE,ArKeyConstants.ERROR_BANK_CODE_REQUIRED);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.BANK_CODE,ArKeyConstants.ERROR_BANK_CODE_REQUIRED);
         }
             
         return isValid;

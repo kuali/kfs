@@ -41,9 +41,9 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * the struts action for the salary setting for position
@@ -62,12 +62,12 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
     @Override
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PositionSalarySettingForm positionSalarySettingForm = (PositionSalarySettingForm) form;
-        ErrorMap errorMap;
+        MessageMap errorMap;
         if (positionSalarySettingForm.isBudgetByAccountMode()) {
             errorMap = positionSalarySettingForm.getCallBackErrors();
         }
         else {
-            errorMap = GlobalVariables.getErrorMap();
+            errorMap = GlobalVariables.getMessageMap();
         }
 
         // update the position record if required
@@ -301,7 +301,7 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
         // attempt to lock position and associated funding
         BudgetConstructionLockStatus bcLockStatus = SpringContext.getBean(LockService.class).lockPositionAndActiveFunding(universityFiscalYear, positionNumber, principalId);
         if (!bcLockStatus.getLockStatus().equals(BCConstants.LockStatus.SUCCESS)) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_POSITION_LOCK_NOT_OBTAINED, new String[] { universityFiscalYear.toString(), positionNumber });
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_POSITION_LOCK_NOT_OBTAINED, new String[] { universityFiscalYear.toString(), positionNumber });
             return this.returnToCaller(mapping, form, request, response);
         }
 

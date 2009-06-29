@@ -46,12 +46,12 @@ public class AccountingLineAmountPositiveValidation extends GenericValidation {
         String correctsDocumentId = accountingDocumentForValidation.getDocumentHeader().getFinancialDocumentInErrorNumber();
         
         if (KualiDecimal.ZERO.compareTo(amount) == 0) { // amount == 0
-            GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");
+            GlobalVariables.getMessageMap().putError(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");
             return false;
         }
         else {
             if (null == correctsDocumentId && KualiDecimal.ZERO.compareTo(amount) == 1) { // amount < 0
-                GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_INVALID_NEGATIVE_AMOUNT_NON_CORRECTION);
+                GlobalVariables.getMessageMap().putError(AMOUNT_PROPERTY_NAME, ERROR_INVALID_NEGATIVE_AMOUNT_NON_CORRECTION);
                 return false;
             }
         }

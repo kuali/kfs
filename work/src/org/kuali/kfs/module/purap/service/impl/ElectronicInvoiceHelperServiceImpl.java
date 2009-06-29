@@ -419,7 +419,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                      * This is required. If there is anything in the error map, then it's not possible to route the doc since the rice
                      * is throwing error if errormap is not empty before routing the doc. 
                      */
-                    GlobalVariables.getErrorMap().clear();
+                    GlobalVariables.getMessageMap().clear();
                     
                     ElectronicInvoiceRejectDocument rejectDocument = createRejectDocument(eInvoice, order,eInvoiceLoad);
                     
@@ -1106,11 +1106,11 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         //PaymentRequestDocumentRule.processRouteDocumentBusinessRules
         SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedPaymentRequestForEInvoiceEvent(preqDoc));
         
-        if(GlobalVariables.getErrorMap().size() > 0){
+        if(GlobalVariables.getMessageMap().size() > 0){
             if (LOG.isInfoEnabled()){
-                LOG.info("***************Error in rules processing - " + GlobalVariables.getErrorMap());
+                LOG.info("***************Error in rules processing - " + GlobalVariables.getMessageMap());
             }
-            ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(PurapConstants.ElectronicInvoice.PREQ_ROUTING_VALIDATION_ERROR, GlobalVariables.getErrorMap().toString(), orderHolder.getFileName());
+            ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(PurapConstants.ElectronicInvoice.PREQ_ROUTING_VALIDATION_ERROR, GlobalVariables.getMessageMap().toString(), orderHolder.getFileName());
             orderHolder.addInvoiceOrderRejectReason(rejectReason);
             return null;
         }
@@ -1140,7 +1140,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             orderHolder.addInvoiceOrderRejectReason(rejectReason);
             return null;
         }catch(ValidationException e){
-            String extraDescription = GlobalVariables.getErrorMap().toString();
+            String extraDescription = GlobalVariables.getMessageMap().toString();
             ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(PurapConstants.ElectronicInvoice.PREQ_ROUTING_VALIDATION_ERROR, extraDescription, orderHolder.getFileName());
             orderHolder.addInvoiceOrderRejectReason(rejectReason);
             return null;

@@ -52,31 +52,31 @@ public class CashControlRefDocNumberValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         
         boolean isValid = true;
-        GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         String paymentMedium = cashControlDocument.getCustomerPaymentMediumCode();
         if (ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(paymentMedium)) {
             String refDocNumber = cashControlDocument.getReferenceFinancialDocumentNumber();
             try {
                 Long.parseLong(refDocNumber);
                 if (StringUtils.isBlank(refDocNumber)) {
-                    GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArKeyConstants.ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH);
+                    GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArKeyConstants.ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH);
                     isValid = false;
                 }
                 else {
                     boolean docExists = SpringContext.getBean(DocumentService.class).documentExists(refDocNumber);
                     if (!docExists) {
-                        GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArKeyConstants.ERROR_REFERENCE_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH);
+                        GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArKeyConstants.ERROR_REFERENCE_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH);
                         isValid = false;
                     }
                 }
             }
             catch (NumberFormatException nfe) {
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArKeyConstants.ERROR_REFERENCE_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArKeyConstants.ERROR_REFERENCE_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH);
                 isValid = false;
             }
 
         }
-        GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         return isValid;
     }
 

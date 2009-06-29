@@ -86,7 +86,7 @@ public class ProposalRule extends CGMaintenanceDocumentRuleBase {
             if (StringUtils.isBlank(subc.getSubcontractorNumber())) {
                 String propertyName = KFSPropertyConstants.SUBCONTRACTOR_NUMBER;
                 String errorKey = KFSKeyConstants.ERROR_PROPOSAL_SUBCONTRACTOR_NUMBER_REQUIRED_FOR_ADD;
-                GlobalVariables.getErrorMap().putError(propertyName, errorKey);
+                GlobalVariables.getMessageMap().putError(propertyName, errorKey);
                 success = false;
             }
         }

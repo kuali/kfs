@@ -155,7 +155,7 @@ public class ItemParserBase implements ItemParser {
         String[] attributeValues = StringUtils.splitPreserveAllTokens(itemLine, ',');
         if ( attributeNames.length != attributeValues.length ) {
             String[] errorParams = { "" + attributeNames.length, "" + attributeValues.length, "" + lineNo };
-            GlobalVariables.getErrorMap().putError( PurapConstants.ITEM_TAB_ERRORS, ERROR_ITEMPARSER_WRONG_PROPERTY_NUMBER, errorParams );
+            GlobalVariables.getMessageMap().putError( PurapConstants.ITEM_TAB_ERRORS, ERROR_ITEMPARSER_WRONG_PROPERTY_NUMBER, errorParams );
             throw new ItemParserException("wrong number of item properties: " + attributeValues.length + " exist, " + attributeNames.length + " expected (line " + lineNo + ")", ERROR_ITEMPARSER_WRONG_PROPERTY_NUMBER, errorParams); 
         }
 
@@ -209,7 +209,7 @@ public class ItemParserBase implements ItemParser {
             }
             catch (ItemParserException e) {
                 // continue to parse the rest of the item properties after the current property fails
-                GlobalVariables.getErrorMap().putError( PurapConstants.ITEM_TAB_ERRORS, e.getErrorKey(), e.getErrorParameters() );
+                GlobalVariables.getMessageMap().putError( PurapConstants.ITEM_TAB_ERRORS, e.getErrorKey(), e.getErrorParameters() );
                 failed = true;
             }
             catch (IllegalAccessException e) {

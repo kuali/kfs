@@ -38,7 +38,7 @@ public class PurchasingAccountsPayableUniqueAccountingStringsValidation extends 
                 existingAccounts.add(acct.toString());
             }
             else {
-                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_UNIQUE, itemForValidation.getItemIdentifierString());
+                GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_UNIQUE, itemForValidation.getItemIdentifierString());
                 return false;
             }
         }

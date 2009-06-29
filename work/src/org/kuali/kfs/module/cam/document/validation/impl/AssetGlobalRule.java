@@ -116,7 +116,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                 assetPaymentDetail.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
                 if (ObjectUtils.isNull(assetPaymentDetail.getObjectCode())) {
                     String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE).getLabel();
-                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);
+                    GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);
                     valid &= false;
                 }
             }
@@ -129,12 +129,12 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
         if (StringUtils.isBlank(assetGlobal.getInventoryStatusCode())) {
             putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_INVENTORY_STATUS_REQUIRED_FOR_PAYMENT);
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.SEQUENCE_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_ASSET_PAYMENT_DEPENDENCY);
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.SEQUENCE_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_ASSET_PAYMENT_DEPENDENCY);
             valid &= false;
         }
         if (StringUtils.isBlank(assetGlobal.getCapitalAssetTypeCode())) {
             putFieldError(CamsPropertyConstants.AssetGlobal.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_ASSET_TYPE_REQUIRED);
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.SEQUENCE_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_ASSET_PAYMENT_DEPENDENCY);
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.SEQUENCE_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_ASSET_PAYMENT_DEPENDENCY);
             valid &= false;
         }
 
@@ -144,84 +144,84 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         if (!getAssetGlobalService().isAssetSeparate(assetGlobal)) {
             assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT);
             if (StringUtils.isBlank(assetPaymentDetail.getAccountNumber()) || isAccountInvalid(assetPaymentDetail.getAccount())) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_PAYMENT_ACCT_NOT_VALID, new String[] { assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getAccountNumber() });
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_PAYMENT_ACCT_NOT_VALID, new String[] { assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getAccountNumber() });
                 valid &= false;
             }
             else if (!StringUtils.isBlank(assetPaymentDetail.getAccountNumber()) && !assetPaymentDetail.getAccount().isActive()) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT_NUMBER).getLabel();
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT_NUMBER, RiceKeyConstants.ERROR_INACTIVE, label);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT_NUMBER, RiceKeyConstants.ERROR_INACTIVE, label);
                 valid &= false;
             }
 
             assetPaymentDetail.refreshReferenceObject(KFSPropertyConstants.SUB_ACCOUNT);
             if (!StringUtils.isBlank(assetPaymentDetail.getSubAccountNumber()) && ObjectUtils.isNull(assetPaymentDetail.getSubAccount())) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.SUB_ACCOUNT_NUMBER).getLabel();
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.SUB_ACCOUNT_NUMBER, RiceKeyConstants.ERROR_EXISTENCE, label);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.SUB_ACCOUNT_NUMBER, RiceKeyConstants.ERROR_EXISTENCE, label);
                 valid &= false;
             }
             else if (!StringUtils.isBlank(assetPaymentDetail.getSubAccountNumber()) && !assetPaymentDetail.getSubAccount().isActive()) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.SUB_ACCOUNT_NUMBER).getLabel();
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.SUB_ACCOUNT_NUMBER, RiceKeyConstants.ERROR_INACTIVE, label);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.SUB_ACCOUNT_NUMBER, RiceKeyConstants.ERROR_INACTIVE, label);
                 valid &= false;
             }
 
             assetPaymentDetail.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
             if (!StringUtils.isBlank(assetPaymentDetail.getFinancialObjectCode()) && ObjectUtils.isNull(assetPaymentDetail.getObjectCode())) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE).getLabel();
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);
                 valid &= false;
             }
             else if (!StringUtils.isBlank(assetPaymentDetail.getFinancialObjectCode()) && !assetPaymentDetail.getObjectCode().isActive()) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE).getLabel();
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, RiceKeyConstants.ERROR_INACTIVE, label);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, RiceKeyConstants.ERROR_INACTIVE, label);
                 valid &= false;
             }
 
             assetPaymentDetail.refreshReferenceObject(KFSPropertyConstants.SUB_OBJECT_CODE);
             if (!StringUtils.isBlank(assetPaymentDetail.getFinancialSubObjectCode()) && ObjectUtils.isNull(assetPaymentDetail.getSubObjectCode())) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.SUB_OBJECT_CODE).getLabel();
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.SUB_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.SUB_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);
                 valid &= false;
             }
             else if (!StringUtils.isBlank(assetPaymentDetail.getFinancialSubObjectCode()) && !assetPaymentDetail.getSubObjectCode().isActive()) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.SUB_OBJECT_CODE).getLabel();
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.SUB_OBJECT_CODE, RiceKeyConstants.ERROR_INACTIVE, label);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.SUB_OBJECT_CODE, RiceKeyConstants.ERROR_INACTIVE, label);
                 valid &= false;
             }
 
             assetPaymentDetail.refreshReferenceObject(KFSPropertyConstants.PROJECT);
             if (!StringUtils.isBlank(assetPaymentDetail.getProjectCode()) && ObjectUtils.isNull(assetPaymentDetail.getProject())) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.PROJECT_CODE).getLabel();
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.PROJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.PROJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);
                 valid &= false;
             }
             else if (!StringUtils.isBlank(assetPaymentDetail.getProjectCode()) && !assetPaymentDetail.getProject().isActive()) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.PROJECT_CODE).getLabel();
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.PROJECT_CODE, RiceKeyConstants.ERROR_INACTIVE, label);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.PROJECT_CODE, RiceKeyConstants.ERROR_INACTIVE, label);
                 valid &= false;
             }
 
             assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.ORIGINATION);
             if (!StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialSystemOriginationCode()) && ObjectUtils.isNull(assetPaymentDetail.getExpenditureFinancialSystemOrigination())) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE).getLabel();
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);
                 valid &= false;
             }
             else if (!StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialSystemOriginationCode()) && !assetPaymentDetail.getExpenditureFinancialSystemOrigination().isActive()) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE).getLabel();
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE, RiceKeyConstants.ERROR_INACTIVE, label);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE, RiceKeyConstants.ERROR_INACTIVE, label);
                 valid &= false;
             }
 
             if (!StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode()) && ObjectUtils.isNull(assetPaymentDetail.getExpenditureFinancialSystemDocumentTypeCode())) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE).getLabel();
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);
                 valid &= false;
                 return valid;
             }
             if (!StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode()) && !assetPaymentDetail.getExpenditureFinancialSystemDocumentTypeCode().isActive()) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE).getLabel();
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, RiceKeyConstants.ERROR_INACTIVE, label);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, RiceKeyConstants.ERROR_INACTIVE, label);
                 valid &= false;
             }
         }
@@ -242,12 +242,12 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             Campus campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
 
             if (ObjectUtils.isNull(campus)) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_CAMPUS_CODE, assetGlobalDetail.getCampusCode());
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_CAMPUS_CODE, assetGlobalDetail.getCampusCode());
                 valid &= false;
             }
             else if (!campus.isActive()) {
                 String label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(Campus.class.getName()).getAttributeDefinition(KFSPropertyConstants.CAMPUS_CODE).getLabel();
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, RiceKeyConstants.ERROR_INACTIVE, label);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, RiceKeyConstants.ERROR_INACTIVE, label);
                 valid &= false;
             }
         }
@@ -259,12 +259,12 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             Building building = (Building) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Building.class, objectKeys);
 
             if (ObjectUtils.isNull(building)) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_BUILDING_CODE, assetGlobalDetail.getBuildingCode(), assetGlobalDetail.getCampusCode());
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_BUILDING_CODE, assetGlobalDetail.getBuildingCode(), assetGlobalDetail.getCampusCode());
                 valid &= false;
             }
             else if (!building.isActive()) {
                 String label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(Building.class.getName()).getAttributeDefinition(KFSPropertyConstants.BUILDING_CODE).getLabel();
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, RiceKeyConstants.ERROR_INACTIVE, label);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, RiceKeyConstants.ERROR_INACTIVE, label);
                 valid &= false;
             }
         }
@@ -277,12 +277,12 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             Room room = (Room) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Room.class, objectKeys);
 
             if (ObjectUtils.isNull(room)) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocation.ERROR_INVALID_ROOM_NUMBER, assetGlobalDetail.getBuildingCode(), assetGlobalDetail.getBuildingRoomNumber(), assetGlobalDetail.getCampusCode());
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocation.ERROR_INVALID_ROOM_NUMBER, assetGlobalDetail.getBuildingCode(), assetGlobalDetail.getBuildingRoomNumber(), assetGlobalDetail.getCampusCode());
                 valid &= false;
             }
             else if (!room.isActive()) {
                 String label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(Room.class.getName()).getAttributeDefinition(KFSPropertyConstants.BUILDING_ROOM_NUMBER).getLabel();
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.BUILDING_ROOM_NUMBER, RiceKeyConstants.ERROR_INACTIVE, label);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.BUILDING_ROOM_NUMBER, RiceKeyConstants.ERROR_INACTIVE, label);
                 valid &= false;
             }
         }
@@ -301,7 +301,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
         boolean success = super.processCustomAddCollectionLineBusinessRules(document, collectionName, line);
-        if (GlobalVariables.getErrorMap().hasErrors()) {
+        if (GlobalVariables.getMessageMap().hasErrors()) {
             return false;
         }
 
@@ -352,7 +352,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         AssetGlobalDetail assetGlobalDetail = (AssetGlobalDetail) line;
         if (assetGlobalDetail.getLocationQuantity() <= 0) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.LOCATION_QUANTITY, CamsKeyConstants.AssetSeparate.ERROR_ZERO_OR_NEGATIVE_LOCATION_QUANTITY, assetGlobalDetail.getLocationQuantity().toString());
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.LOCATION_QUANTITY, CamsKeyConstants.AssetSeparate.ERROR_ZERO_OR_NEGATIVE_LOCATION_QUANTITY, assetGlobalDetail.getLocationQuantity().toString());
             success &= false;
         }
         return success;
@@ -366,14 +366,14 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                 for (AssetGlobalDetail assetSharedUniqueDetail : assetGlobalUniqueDetails) {
                     if (campusTagNumber.equalsIgnoreCase(assetSharedUniqueDetail.getCampusTagNumber())) {
                         success &= false;
-                        GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, campusTagNumber);
+                        GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, campusTagNumber);
                     }
                 }
             }
             if (success) {
                 List<Asset> tagMatches = getAssetService().findActiveAssetsMatchingTagNumber(campusTagNumber);
                 if (!tagMatches.isEmpty()) {
-                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, campusTagNumber);
+                    GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, campusTagNumber);
                     success &= false;
                 }
             }
@@ -395,9 +395,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                 if (StringUtils.isNotBlank(campusTagNumber) && !assetTags.add(campusTagNumber) && !campusTagNumber.equalsIgnoreCase(CamsConstants.Asset.NON_TAGGABLE_ASSET)) {
                     success &= false;
                     String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + parentIndex + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[" + childIndex + "]";
-                    GlobalVariables.getErrorMap().addToErrorPath(errorPath);
-                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, campusTagNumber);
-                    GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+                    GlobalVariables.getMessageMap().addToErrorPath(errorPath);
+                    GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, campusTagNumber);
+                    GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
 
                 }
             }
@@ -410,9 +410,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                     if (!tagMatches.isEmpty()) {
                         success &= false;
                         String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + parentIndex + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[" + childIndex + "]";
-                        GlobalVariables.getErrorMap().addToErrorPath(errorPath);
-                        GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, campusTagNumber);
-                        GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+                        GlobalVariables.getMessageMap().addToErrorPath(errorPath);
+                        GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, campusTagNumber);
+                        GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
                     }
                 }
             }
@@ -452,13 +452,13 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         boolean isAuthorized = documentAuthorizer.isAuthorized(maintenanceDocument, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.ADD_NEGATIVE_PAYMENTS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
         if (!isAuthorized && assetPaymentDetail.getAmount() != null && assetPaymentDetail.getAmount().isNegative()) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.AMOUNT, CamsKeyConstants.AssetGlobal.ERROR_INVALID_PAYMENT_AMOUNT);
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.AMOUNT, CamsKeyConstants.AssetGlobal.ERROR_INVALID_PAYMENT_AMOUNT);
             success = false;
         }
 
         // amount can not be zero for any user
         if (assetPaymentDetail.getAmount().isZero()) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.AMOUNT, CamsKeyConstants.AssetGlobal.ERROR_INVALID_PAYMENT_AMOUNT);
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.AMOUNT, CamsKeyConstants.AssetGlobal.ERROR_INVALID_PAYMENT_AMOUNT);
             success = false;
         }
         return success;
@@ -474,15 +474,15 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
 
         if (StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialDocumentNumber())) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_EXPENDITURE_FINANCIAL_DOCUMENT_NUMBER_REQUIRED);
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_EXPENDITURE_FINANCIAL_DOCUMENT_NUMBER_REQUIRED);
             valid &= false;
         }
         if (assetPaymentDetail.getExpenditureFinancialDocumentPostedDate() == null) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, CamsKeyConstants.AssetGlobal.ERROR_DOCUMENT_POSTING_DATE_REQUIRED);
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, CamsKeyConstants.AssetGlobal.ERROR_DOCUMENT_POSTING_DATE_REQUIRED);
             valid &= false;
         }
         if (StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode())) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_EXPENDITURE_FINANCIAL_DOCUMENT_TYPE_CODE_REQUIRED);
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_EXPENDITURE_FINANCIAL_DOCUMENT_TYPE_CODE_REQUIRED);
             valid &= false;
         }
         return valid;
@@ -499,11 +499,11 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         Date currentDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
 
         if (!getAssetPaymentService().extractPostedDatePeriod(assetPaymentDetail)) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, CamsKeyConstants.AssetGlobal.ERROR_UNIVERSITY_NOT_DEFINED_FOR_DATE, new String[] { assetPaymentDetail.getExpenditureFinancialDocumentPostedDate().toString() });
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR, CamsKeyConstants.AssetGlobal.ERROR_UNIVERSITY_NOT_DEFINED_FOR_DATE, new String[] { assetPaymentDetail.getExpenditureFinancialDocumentPostedDate().toString() });
             valid &= false;
         }
         else if (assetPaymentDetail.getExpenditureFinancialDocumentPostedDate().compareTo(currentDate) > 0) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, CamsKeyConstants.Payment.ERROR_INVALID_DOC_POST_DATE);
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE, CamsKeyConstants.Payment.ERROR_INVALID_DOC_POST_DATE);
             valid = false;
         }
         return valid;
@@ -523,7 +523,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         if (StringUtils.isNotBlank(acquisitionTypeCode) && getAssetGlobalService().existsInGroup(CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_CODE_GROUP, acquisitionTypeCode)) {
 
             if (StringUtils.isNotBlank(documentTypeCode) && !CamsConstants.DocumentTypeName.ASSET_ADD_GLOBAL.equalsIgnoreCase(documentTypeCode)) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_DOCUMENT_TYPE_CODE_NOT_ALLOWED, documentTypeCode);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_DOCUMENT_TYPE_CODE_NOT_ALLOWED, documentTypeCode);
                 valid = false;
             }
             else {
@@ -561,7 +561,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
         List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
         boolean success = super.processCustomRouteDocumentBusinessRules(document);
-        if (GlobalVariables.getErrorMap().hasErrors()) {
+        if (GlobalVariables.getMessageMap().hasErrors()) {
             return false;
         }
 
@@ -600,7 +600,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET);
             if (ObjectUtils.isNotNull(assetGlobal.getSeparateSourceCapitalAsset())) {
                 if (!getAssetService().isCapitalAsset(assetGlobal.getSeparateSourceCapitalAsset())) {
-                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetSeparate.ERROR_NON_CAPITAL_ASSET_SEPARATE_REQUIRED, assetGlobal.getSeparateSourceCapitalAssetNumber().toString());
+                    GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetSeparate.ERROR_NON_CAPITAL_ASSET_SEPARATE_REQUIRED, assetGlobal.getSeparateSourceCapitalAssetNumber().toString());
                     success &= false;
                 }
             }
@@ -611,12 +611,12 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                 int uniqueIndex = 0;
                 for (AssetGlobalDetail assetGlobalUniqueDetail : addLocationDetail.getAssetGlobalUniqueDetails()) {
                     String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + sharedIndex + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_GLOBAL_UNIQUE_DETAILS + "[" + uniqueIndex + "]";
-                    GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+                    GlobalVariables.getMessageMap().addToErrorPath(errorPath);
                     success &= validateCapitalAssetTypeCode(assetGlobalUniqueDetail);
                     success &= validateAssetDescription(assetGlobalUniqueDetail);
                     success &= validateManufacturer(assetGlobalUniqueDetail);
                     success &= validateSeparateSourceAmount(assetGlobalUniqueDetail, document);
-                    GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+                    GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
                     uniqueIndex++;
                 }
                 sharedIndex++;
@@ -650,7 +650,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         KualiDecimal separateAmount = assetGlobalUniqueDetail.getSeparateSourceAmount();
         // check for the minimal amount only among all separate source amount. if it's above the threshold, safe...
         if (separateAmount != null && !getAssetService().isDocumentEnrouting(document) && !validateCapitalAssetAmountAboveThreshhold(document, separateAmount, capitalizationThresholdAmount)) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.SEPARATE_SOURCE_AMOUNT, CamsKeyConstants.AssetSeparate.ERROR_SEPARATE_ASSET_BELOW_THRESHOLD, new String[] { assetGlobalUniqueDetail.getCapitalAssetNumber().toString(), capitalizationThresholdAmount });
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.SEPARATE_SOURCE_AMOUNT, CamsKeyConstants.AssetSeparate.ERROR_SEPARATE_ASSET_BELOW_THRESHOLD, new String[] { assetGlobalUniqueDetail.getCapitalAssetNumber().toString(), capitalizationThresholdAmount });
             success = false;
         }
         return success;
@@ -756,7 +756,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean validateTotalCostAmount(AssetGlobal assetGlobal) {
         boolean success = true;
         if (!assetGlobal.getTotalCostAmount().isGreaterThan(KualiDecimal.ZERO)) {
-            GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.AssetGlobal.SECTION_ID_ASSET_INFORMATION, CamsKeyConstants.AssetSeparate.ERROR_ZERO_OR_NEGATIVE_DOLLAR_AMOUNT);
+            GlobalVariables.getMessageMap().putErrorForSectionId(CamsConstants.AssetGlobal.SECTION_ID_ASSET_INFORMATION, CamsKeyConstants.AssetSeparate.ERROR_ZERO_OR_NEGATIVE_DOLLAR_AMOUNT);
             success &= false;
         }
         return success;
@@ -771,7 +771,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean validateCapitalAssetTypeCode(AssetGlobalDetail uniqueLocationDetails) {
         boolean success = true;
         if (StringUtils.isEmpty(uniqueLocationDetails.getCapitalAssetTypeCode())) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.AssetSeparate.ERROR_CAPITAL_ASSET_TYPE_CODE_REQUIRED, uniqueLocationDetails.getCapitalAssetTypeCode());
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.AssetSeparate.ERROR_CAPITAL_ASSET_TYPE_CODE_REQUIRED, uniqueLocationDetails.getCapitalAssetTypeCode());
             success &= false;
         }
         return success;
@@ -786,7 +786,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean validateAssetDescription(AssetGlobalDetail uniqueLocationDetails) {
         boolean success = true;
         if (StringUtils.isEmpty(uniqueLocationDetails.getCapitalAssetDescription())) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAPITAL_ASSET_DESCRIPTION, CamsKeyConstants.AssetSeparate.ERROR_ASSET_DESCRIPTION_REQUIRED, uniqueLocationDetails.getCapitalAssetTypeCode());
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAPITAL_ASSET_DESCRIPTION, CamsKeyConstants.AssetSeparate.ERROR_ASSET_DESCRIPTION_REQUIRED, uniqueLocationDetails.getCapitalAssetTypeCode());
             success &= false;
         }
         return success;
@@ -801,7 +801,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean validateManufacturer(AssetGlobalDetail uniqueLocationDetails) {
         boolean success = true;
         if (StringUtils.isEmpty(uniqueLocationDetails.getManufacturerName())) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.MANUFACTURER_NAME, CamsKeyConstants.AssetSeparate.ERROR_MANUFACTURER_REQUIRED, uniqueLocationDetails.getCapitalAssetTypeCode());
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.MANUFACTURER_NAME, CamsKeyConstants.AssetSeparate.ERROR_MANUFACTURER_REQUIRED, uniqueLocationDetails.getCapitalAssetTypeCode());
             success &= false;
         }
         return success;
@@ -817,7 +817,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         KualiDecimal separateSourceAmount = uniqueLocationDetail.getSeparateSourceAmount();
         if (separateSourceAmount == null || separateSourceAmount.isLessEqual(KualiDecimal.ZERO)) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.SEPARATE_SOURCE_AMOUNT, CamsKeyConstants.AssetSeparate.ERROR_TOTAL_SEPARATE_SOURCE_AMOUNT_REQUIRED);
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.SEPARATE_SOURCE_AMOUNT, CamsKeyConstants.AssetSeparate.ERROR_TOTAL_SEPARATE_SOURCE_AMOUNT_REQUIRED);
             success &= false;
         }
         else {
@@ -834,9 +834,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         int index = 0;
         for (AssetGlobalDetail assetLocationDetail : assetSharedDetails) {
             String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + index + "]";
-            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+            GlobalVariables.getMessageMap().addToErrorPath(errorPath);
             success &= SpringContext.getBean(AssetLocationService.class).validateLocation(LOCATION_FIELD_MAP, assetLocationDetail, isCapitalAsset, assetGlobal.getCapitalAssetType());
-            GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+            GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
             index++;
         }
         return success;
@@ -847,7 +847,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
         boolean success = true;
         success &= super.processCustomSaveDocumentBusinessRules(document);
-        if (GlobalVariables.getErrorMap().hasErrors()) {
+        if (GlobalVariables.getMessageMap().hasErrors()) {
             return false;
         }
 
@@ -941,9 +941,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         int index = 0;
         for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
             String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "[" + index + "]";
-            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+            GlobalVariables.getMessageMap().addToErrorPath(errorPath);
             success &= validatePaymentLine(maintenanceDocument, assetGlobal, assetPaymentDetail);
-            GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+            GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
             index++;
         }
         return success;
@@ -972,9 +972,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         int index = 0;
         for (AssetGlobalDetail assetLocationDetail : assetSharedDetails) {
             String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + index + "]";
-            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+            GlobalVariables.getMessageMap().addToErrorPath(errorPath);
             valid &= checkReferenceExists(assetLocationDetail);
-            GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+            GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
             index++;
         }
 
@@ -1088,7 +1088,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         KualiDecimal assetTotalCost = ObjectUtils.isNull(assetGlobal.getSeparateSourceCapitalAsset().getTotalCostAmount()) ? new KualiDecimal(0) : assetGlobal.getSeparateSourceCapitalAsset().getTotalCostAmount();
         KualiDecimal paymentTotalCost = paymentSummaryService.calculatePaymentTotalCost(assetGlobal.getSeparateSourceCapitalAsset());
         if (!paymentTotalCost.equals(assetTotalCost)) {
-            GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_SEPARATE_ASSET_TOTAL_COST_NOT_MATCH_PAYMENT_TOTAL_COST);
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_SEPARATE_ASSET_TOTAL_COST_NOT_MATCH_PAYMENT_TOTAL_COST);
 
             return false;
         }
@@ -1108,7 +1108,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         List<String> documentNumbers = assetService.getDocumentNumbersThatSeparatedThisAsset(separateSourceCapitalAssetNumber);
 
         if (!documentNumbers.isEmpty()) {
-            GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_SEPARATE_ASSET_ALREADY_SEPARATED, new String[] { documentNumbers.toString() });
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_SEPARATE_ASSET_ALREADY_SEPARATED, new String[] { documentNumbers.toString() });
 
             return false;
         }

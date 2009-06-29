@@ -3,7 +3,6 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -15,17 +14,14 @@ import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.vnd.VendorPropertyConstants;
-import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CustomerRule extends MaintenanceDocumentRuleBase {
@@ -56,7 +52,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
 
         boolean isValid = true;
         isValid &= super.processCustomRouteDocumentBusinessRules(document);
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         isValid &= errorMap.isEmpty();
         if (isValid) {
             initializeAttributes(document);
@@ -107,7 +103,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
         catch (StringIndexOutOfBoundsException sibe) {
             // It is expected that if a StringIndexOutOfBoundsException occurs, it is due to the customer name being less than three
             // characters
-            GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_NAME, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_NAME_LESS_THAN_THREE_CHARACTERS);
+            GlobalVariables.getMessageMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_NAME, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_NAME_LESS_THAN_THREE_CHARACTERS);
             success = false;
         }
         return success;
@@ -123,7 +119,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         if (newCustomer.getCustomerAddresses().isEmpty()) {
             success = false;
-            GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES, ArKeyConstants.CustomerConstants.ERROR_AT_LEAST_ONE_ADDRESS);
+            GlobalVariables.getMessageMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES, ArKeyConstants.CustomerConstants.ERROR_AT_LEAST_ONE_ADDRESS);
         }
         return success;
 
@@ -137,7 +133,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
         boolean isValid = true;
         isValid &= super.processCustomAddCollectionLineBusinessRules(document, collectionName, line);
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         isValid &= errorMap.isEmpty();
 
         if (collectionName.equals(ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES)) {
@@ -265,12 +261,12 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         if (customerName.length() < 3) {
             success = false;
-            GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_NAME, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_NAME_LESS_THAN_THREE_CHARACTERS);
+            GlobalVariables.getMessageMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_NAME, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_NAME_LESS_THAN_THREE_CHARACTERS);
         }
 
         if (customerName.indexOf(' ') > -1 && customerName.indexOf(' ') < 3) {
             success = false;
-            GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_NAME, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_NAME_NO_SPACES_IN_FIRST_THREE_CHARACTERS);
+            GlobalVariables.getMessageMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_NAME, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_NAME_NO_SPACES_IN_FIRST_THREE_CHARACTERS);
         }
         return success;
     }
@@ -299,13 +295,13 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
         else {
             if (customerAddress.getCustomerInternationalMailCode() == null || "".equalsIgnoreCase(customerAddress.getCustomerInternationalMailCode())) {
                 isValid = false;
-                // GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE,
+                // GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE,
                 // ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE_REQUIRED_WHEN_COUNTTRY_NON_US);
                 putFieldError(propertyName + ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE_REQUIRED_WHEN_COUNTTRY_NON_US);
             }
             if (customerAddress.getCustomerAddressInternationalProvinceName() == null || "".equalsIgnoreCase(customerAddress.getCustomerAddressInternationalProvinceName())) {
                 isValid = false;
-                // GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME,
+                // GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME,
                 // ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME_REQUIRED_WHEN_COUNTTRY_NON_US);
                 putFieldError(propertyName + ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME_REQUIRED_WHEN_COUNTTRY_NON_US);
             }
@@ -320,21 +316,21 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
 
             if (customerAddress.getCustomerZipCode() == null || "".equalsIgnoreCase(customerAddress.getCustomerZipCode())) {
                 isValid = false;
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_ZIP_CODE, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_ZIP_CODE_REQUIRED_WHEN_COUNTTRY_US);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_ZIP_CODE, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_ZIP_CODE_REQUIRED_WHEN_COUNTTRY_US);
             }
             if (customerAddress.getCustomerStateCode() == null || "".equalsIgnoreCase(customerAddress.getCustomerStateCode())) {
                 isValid = false;
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_STATE_CODE, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_STATE_CODE_REQUIRED_WHEN_COUNTTRY_US);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_STATE_CODE, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_STATE_CODE_REQUIRED_WHEN_COUNTTRY_US);
             }
         }
         else {
             if (customerAddress.getCustomerInternationalMailCode() == null || "".equalsIgnoreCase(customerAddress.getCustomerInternationalMailCode())) {
                 isValid = false;
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE_REQUIRED_WHEN_COUNTTRY_NON_US);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_MAIL_CODE_REQUIRED_WHEN_COUNTTRY_NON_US);
             }
             if (customerAddress.getCustomerAddressInternationalProvinceName() == null || "".equalsIgnoreCase(customerAddress.getCustomerAddressInternationalProvinceName())) {
                 isValid = false;
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME_REQUIRED_WHEN_COUNTTRY_NON_US);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME, ArKeyConstants.CustomerConstants.ERROR_CUSTOMER_ADDRESS_INTERNATIONAL_PROVINCE_NAME_REQUIRED_WHEN_COUNTTRY_NON_US);
             }
         }
         return isValid;
@@ -353,7 +349,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
             if (customerAddress.getCustomerAddressTypeCode().equalsIgnoreCase(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY)) {
                 if (hasPrimaryAddress) {
                     isValid = false;
-                    GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES, ArKeyConstants.CustomerConstants.ERROR_ONLY_ONE_PRIMARY_ADDRESS);
+                    GlobalVariables.getMessageMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES, ArKeyConstants.CustomerConstants.ERROR_ONLY_ONE_PRIMARY_ADDRESS);
                 }
                 else {
                     hasPrimaryAddress = true;
@@ -364,7 +360,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
         // customer must have at least one primary address
         if (!hasPrimaryAddress) {
             isValid = false;
-            GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES, ArKeyConstants.CustomerConstants.ERROR_ONLY_ONE_PRIMARY_ADDRESS);
+            GlobalVariables.getMessageMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES, ArKeyConstants.CustomerConstants.ERROR_ONLY_ONE_PRIMARY_ADDRESS);
         }
         return isValid;
     }
@@ -376,10 +372,10 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
         for (CustomerAddress customerAddress : customer.getCustomerAddresses()) {
             if (ObjectUtils.isNotNull(customerAddress.getCustomerEmailAddress())) {
                 String errorPath = KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES + "[" + i + "]";
-                GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+                GlobalVariables.getMessageMap().addToErrorPath(errorPath);
 
                 this.getDictionaryValidationService().validateBusinessObject(customerAddress);
-                GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+                GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
             }
             i++;
         }
@@ -389,7 +385,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
             isValid &= validateEndDateForExistingCustomerAddress(customerAddress.getCustomerAddressEndDate(), i);
             i++;
         }
-        if (GlobalVariables.getErrorMap().getErrorCount() > 0)
+        if (GlobalVariables.getMessageMap().getErrorCount() > 0)
             isValid = false;
 
         if (isValid) {
@@ -429,7 +425,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
             boolean noTaxNumber = (customer.getCustomerTaxNbr() == null || customer.getCustomerTaxNbr().equalsIgnoreCase(""));
             if (noTaxNumber) {
                 isValid = false;
-                GlobalVariables.getErrorMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_SOCIAL_SECURITY_NUMBER, ArKeyConstants.CustomerConstants.ERROR_TAX_NUMBER_IS_REQUIRED);
+                GlobalVariables.getMessageMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_SOCIAL_SECURITY_NUMBER, ArKeyConstants.CustomerConstants.ERROR_TAX_NUMBER_IS_REQUIRED);
             }
         }
         return isValid;

@@ -51,7 +51,7 @@ public class AuxiliaryVoucherSingleChartUsedValidation extends GenericValidation
             else {
                 String currentChartCode = line.getChartOfAccountsCode();
                 if (!currentChartCode.equals(baseChartCode)) {
-                    GlobalVariables.getErrorMap().putError(ACCOUNTING_LINE_ERRORS, ERROR_DIFFERENT_CHARTS, new String[] {});
+                    GlobalVariables.getMessageMap().putError(ACCOUNTING_LINE_ERRORS, ERROR_DIFFERENT_CHARTS, new String[] {});
                     return false;
                 }
             }

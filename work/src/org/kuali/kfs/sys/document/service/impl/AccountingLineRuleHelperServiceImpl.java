@@ -145,10 +145,10 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
         if (AccountingLineOverride.needsExpiredAccountOverride(account) && !override.hasComponent(AccountingLineOverride.COMPONENT.EXPIRED_ACCOUNT)) {
             Account continuation = getUnexpiredContinuationAccountOrNull(account);
             if (continuation == null) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED_NO_CONTINUATION, new String[] { account.getAccountNumber() });
+                GlobalVariables.getMessageMap().putError(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED_NO_CONTINUATION, new String[] { account.getAccountNumber() });
             }
             else {
-                GlobalVariables.getErrorMap().putError(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, new String[] { account.getAccountNumber(), continuation.getChartOfAccountsCode(), continuation.getAccountNumber() });
+                GlobalVariables.getMessageMap().putError(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, new String[] { account.getAccountNumber(), continuation.getChartOfAccountsCode(), continuation.getAccountNumber() });
                 // todo: ... args in JDK 1.5
             }
             retVal = false;
@@ -162,7 +162,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
         AccountingLineOverride override = AccountingLineOverride.valueOf(overrideCode);
         Account account = line.getAccount();
         if (AccountingLineOverride.needsObjectBudgetOverride(account, objectCode) && !override.hasComponent(AccountingLineOverride.COMPONENT.NON_BUDGETED_OBJECT)) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_PRESENCE_NON_BUDGETED_OBJECT_CODE, new String[] { account.getAccountNumber(), objectCode.getFinancialObjectCode() });
+            GlobalVariables.getMessageMap().putError(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_PRESENCE_NON_BUDGETED_OBJECT_CODE, new String[] { account.getAccountNumber(), objectCode.getFinancialObjectCode() });
             retVal = false;
         }
         return retVal;
@@ -207,13 +207,13 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
 
         // make sure it exists
         if (ObjectUtils.isNull(account)) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
             return false;
         }
 
         // make sure it's active for usage
         if (!account.isActive()) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_CLOSED, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_CLOSED, label);
             return false;
         }
 
@@ -235,13 +235,13 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
 
         // make sure it exists
         if (ObjectUtils.isNull(chart)) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
             return false;
         }
 
         // make sure it's active for usage
         if (!chart.isActive()) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
             return false;
         }
 
@@ -263,13 +263,13 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
 
         // make sure it exists
         if (ObjectUtils.isNull(objectCode)) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
             return false;
         }
 
         // check active status
         if (!objectCode.isFinancialObjectActiveCode()) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
             return false;
         }
 
@@ -292,13 +292,13 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
 
         // make sure it exists
         if (ObjectUtils.isNull(objectTypeCode)) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
             return false;
         }
 
         // check activity
         if (!objectTypeCode.isActive()) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
             return false;
         }
 
@@ -321,13 +321,13 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
 
         // make sure it exists
         if (ObjectUtils.isNull(projectCode)) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
             return false;
         }
 
         // check activity
         if (!projectCode.isActive()) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
             return false;
         }
 
@@ -349,13 +349,13 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
 
         // make sure it exists
         if (ObjectUtils.isNull(subAccount)) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
             return false;
         }
 
         // check to make sure it is active
         if (!subAccount.isActive()) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_SUB_ACCOUNT_INACTIVE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_SUB_ACCOUNT_INACTIVE, label);
             return false;
         }
 
@@ -377,13 +377,13 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
 
         // make sure it exists
         if (ObjectUtils.isNull(subObjectCode)) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
             return false;
         }
 
         // check active flag
         if (!subObjectCode.isActive()) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
             return false;
         }
         return true;
@@ -466,7 +466,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
      */
     protected boolean isValidReferenceTypeCode(String documentTypeCode, DocumentTypeEBO referenceType, BusinessObjectEntry accountingLineEntry) {
         if (!StringUtils.isBlank(documentTypeCode) && !getFinancialSystemDocumentTypeService().isCurrentActiveAccountingDocumentType(documentTypeCode)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_NON_ACTIVE_CURRENT_ACCOUNTING_DOCUMENT_TYPE, documentTypeCode);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_NON_ACTIVE_CURRENT_ACCOUNTING_DOCUMENT_TYPE, documentTypeCode);
             return false;
         }
         return checkExistence(referenceType, accountingLineEntry, KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSPropertyConstants.REFERENCE_TYPE_CODE);
@@ -485,7 +485,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     private boolean checkExistence(Object toCheck, BusinessObjectEntry accountingLineEntry, String attributeName, String propertyName) {
         String label = accountingLineEntry.getAttributeDefinition(attributeName).getShortLabel();
         if (ObjectUtils.isNull(toCheck)) {
-            GlobalVariables.getErrorMap().putError(propertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(propertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
             return false;
         }
         return true;

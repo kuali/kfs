@@ -44,7 +44,7 @@ public class CustomerCreditMemoDetailItemQuantityValidation extends GenericValid
             // customer credit memo quantity must be greater than zero
             validValue = (quantity.compareTo(BigDecimal.ZERO) == 1 ?true:false);
             if (!validValue) {
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_QUANTITY_LESS_THAN_OR_EQUAL_TO_ZERO);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_QUANTITY_LESS_THAN_OR_EQUAL_TO_ZERO);
                 return false;
             }
         
@@ -54,7 +54,7 @@ public class CustomerCreditMemoDetailItemQuantityValidation extends GenericValid
             // customer credit memo quantity must not be greater than invoice open item quantity
             validValue = (customerCreditMemoItemQty.compareTo(invoiceOpenItemQty) < 1?true:false);
             if (!validValue) {
-                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + KFSConstants.CUSTOMER_CREDIT_MEMO_DETAIL_PROPERTY_NAME + "." + ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_QUANTITY_GREATER_THAN_INVOICE_ITEM_QUANTITY);
+                GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + KFSConstants.CUSTOMER_CREDIT_MEMO_DETAIL_PROPERTY_NAME + "." + ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_QUANTITY_GREATER_THAN_INVOICE_ITEM_QUANTITY);
                 return false;
             }
         }

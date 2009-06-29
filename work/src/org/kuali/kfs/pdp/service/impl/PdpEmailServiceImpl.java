@@ -47,9 +47,9 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.MailService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
 import org.kuali.rice.kns.web.format.Formatter;
 
@@ -70,7 +70,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
      * @see org.kuali.kfs.pdp.service.PdpEmailService#sendErrorEmail(org.kuali.kfs.pdp.businessobject.PaymentFileLoad,
      *      org.kuali.rice.kns.util.ErrorMap)
      */
-    public void sendErrorEmail(PaymentFileLoad paymentFile, ErrorMap errors) {
+    public void sendErrorEmail(PaymentFileLoad paymentFile, MessageMap errors) {
         LOG.debug("sendErrorEmail() starting");
 
         // check email configuration

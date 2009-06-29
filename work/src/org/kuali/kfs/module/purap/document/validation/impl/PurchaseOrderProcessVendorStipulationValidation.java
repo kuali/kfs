@@ -41,7 +41,7 @@ public class PurchaseOrderProcessVendorStipulationValidation extends GenericVali
         for (int i = 0; i < stipulations.size(); i++) {
             PurchaseOrderVendorStipulation stipulation = stipulations.get(i);
             if (StringUtils.isBlank(stipulation.getVendorStipulationDescription())) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + PurapPropertyConstants.VENDOR_STIPULATION + "[" + i + "]." + PurapPropertyConstants.VENDOR_STIPULATION_DESCRIPTION, PurapKeyConstants.ERROR_STIPULATION_DESCRIPTION);
+                GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + PurapPropertyConstants.VENDOR_STIPULATION + "[" + i + "]." + PurapPropertyConstants.VENDOR_STIPULATION_DESCRIPTION, PurapKeyConstants.ERROR_STIPULATION_DESCRIPTION);
                 valid = false;
             }
         }

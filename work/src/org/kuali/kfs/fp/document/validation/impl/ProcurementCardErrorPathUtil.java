@@ -24,8 +24,8 @@ import org.kuali.kfs.fp.document.ProcurementCardDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * This class...
@@ -76,7 +76,7 @@ public class ProcurementCardErrorPathUtil {
             // Clearing the error path is not a universal solution but should work for PCDO. In this case it's the only choice
             // because KualiRuleService.applyRules will miss to remove the previous transaction added error path (only this
             // method knows how it is called).
-            ErrorMap errorMap = GlobalVariables.getErrorMap();
+            MessageMap errorMap = GlobalVariables.getMessageMap();
             errorMap.clearErrorPath();
             errorMap.addToErrorPath(errorPath);
         }

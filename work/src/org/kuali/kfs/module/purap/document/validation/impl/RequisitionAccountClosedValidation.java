@@ -32,7 +32,7 @@ public class RequisitionAccountClosedValidation extends GenericValidation {
         
         accountingLine.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
         if (accountingLine.getAccount() != null && !accountingLine.getAccount().isActive()) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ACCOUNT_NUMBER, PurapKeyConstants.ERROR_REQUISITION_ACCOUNT_CLOSED, accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber());
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ACCOUNT_NUMBER, PurapKeyConstants.ERROR_REQUISITION_ACCOUNT_CLOSED, accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber());
 
             valid &= false;
         }

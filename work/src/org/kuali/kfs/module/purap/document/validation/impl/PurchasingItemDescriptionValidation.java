@@ -38,7 +38,7 @@ public class PurchasingItemDescriptionValidation extends GenericValidation {
             valid = false;
             String attributeLabel = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(itemForValidation.getClass().getName()).
                                     getAttributeDefinition(PurapPropertyConstants.ITEM_DESCRIPTION).getLabel();
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + itemForValidation.getItemIdentifierString());
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + itemForValidation.getItemIdentifierString());
         }
         return valid;
     }

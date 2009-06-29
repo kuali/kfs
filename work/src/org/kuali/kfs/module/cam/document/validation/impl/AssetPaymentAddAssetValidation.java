@@ -44,7 +44,7 @@ public class AssetPaymentAddAssetValidation extends GenericValidation {
         
         //Validating the asset exists in the asset table.
         if (ObjectUtils.isNull(this.getAssetPaymentAssetDetailForValidation().getAsset())) {
-            GlobalVariables.getErrorMap().putError(errorPath, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_CAPITAL_ASSET_NUMBER, this.getAssetPaymentAssetDetailForValidation().getCapitalAssetNumber().toString());
+            GlobalVariables.getMessageMap().putError(errorPath, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_CAPITAL_ASSET_NUMBER, this.getAssetPaymentAssetDetailForValidation().getCapitalAssetNumber().toString());
             return false;
         }
         return this.getAssetPaymentService().validateAssets(errorPath, this.getAssetPaymentAssetDetailForValidation().getAsset());

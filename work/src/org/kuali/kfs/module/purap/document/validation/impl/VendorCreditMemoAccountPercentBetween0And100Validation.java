@@ -40,7 +40,7 @@ public class VendorCreditMemoAccountPercentBetween0And100Validation extends Gene
         if (validateRequiredField(account, PurapPropertyConstants.ACCOUNT_LINE_PERCENT)) {
             double pct = account.getAccountLinePercent().doubleValue();
             if (pct <= 0 || pct > 100) {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ACCOUNT_LINE_PERCENT, PurapKeyConstants.ERROR_CREDIT_MEMO_LINE_PERCENT);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ACCOUNT_LINE_PERCENT, PurapKeyConstants.ERROR_CREDIT_MEMO_LINE_PERCENT);
                 isValid = false;
             }
         }
@@ -65,7 +65,7 @@ public class VendorCreditMemoAccountPercentBetween0And100Validation extends Gene
         Object fieldValue = ObjectUtils.getPropertyValue(businessObject, fieldName);
         if (fieldValue == null || (fieldValue instanceof String && StringUtils.isBlank(fieldName))) {
             String label = dataDictionaryService.getAttributeErrorLabel(businessObject.getClass(), fieldName);
-            GlobalVariables.getErrorMap().putError(fieldName, KFSKeyConstants.ERROR_REQUIRED, label);
+            GlobalVariables.getMessageMap().putError(fieldName, KFSKeyConstants.ERROR_REQUIRED, label);
             valid = false;
         }
 

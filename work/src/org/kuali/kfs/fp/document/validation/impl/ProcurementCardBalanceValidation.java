@@ -50,7 +50,7 @@ public class ProcurementCardBalanceValidation extends GenericValidation {
         boolean isValid = targetTotal.compareTo(sourceTotal) == 0;
 
         if (!isValid) {
-            GlobalVariables.getErrorMap().putError(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_BALANCE_CONSIDERING_SOURCE_AND_TARGET_AMOUNTS, new String[] { sourceTotal.toString(), targetTotal.toString() });
+            GlobalVariables.getMessageMap().putError(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_BALANCE_CONSIDERING_SOURCE_AND_TARGET_AMOUNTS, new String[] { sourceTotal.toString(), targetTotal.toString() });
         }
 
         List<ProcurementCardTransactionDetail> pcTransactionEntries = pcDocument.getTransactionEntries();
@@ -86,7 +86,7 @@ public class ProcurementCardBalanceValidation extends GenericValidation {
         inBalance = transAmount.abs().equals(targetLineTotal.abs());
 
         if (!inBalance) {
-            GlobalVariables.getErrorMap().putError(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_PC_TRANSACTION_TOTAL_ACCTING_LINE_TOTAL_NOT_EQUAL, new String[] { transAmount.toString(), targetLineTotal.toString() });
+            GlobalVariables.getMessageMap().putError(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_PC_TRANSACTION_TOTAL_ACCTING_LINE_TOTAL_NOT_EQUAL, new String[] { transAmount.toString(), targetLineTotal.toString() });
         }
 
         return inBalance;

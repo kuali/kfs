@@ -18,16 +18,14 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
-import org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * Utility class to set error path for Payment Request validations
@@ -76,7 +74,7 @@ public class PurchasingAccountsPayableErrorPathUtil {
             // Clearing the error path is not a universal solution but should work. In this case it's the only choice
             // because KualiRuleService.applyRules will miss to remove the previous transaction added error path (only this
             // method knows how it is called).
-            ErrorMap errorMap = GlobalVariables.getErrorMap();
+            MessageMap errorMap = GlobalVariables.getMessageMap();
             errorMap.clearErrorPath();
             errorMap.addToErrorPath(errorPath);
         }

@@ -34,7 +34,7 @@ public class CustomerInvoiceReceivableSubAccountNumberValidation extends Generic
         if (StringUtils.isNotEmpty(customerInvoiceDocument.getPaymentSubAccountNumber())) {
             customerInvoiceDocument.refreshReferenceObject(ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_SUB_ACCOUNT);
             if (ObjectUtils.isNull(customerInvoiceDocument.getPaymentSubAccount())) {
-                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_SUB_ACCOUNT_NUMBER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_SUB_ACCOUNT_NUMBER);
+                GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_SUB_ACCOUNT_NUMBER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_SUB_ACCOUNT_NUMBER);
                 return false;
             }
         }

@@ -111,7 +111,7 @@ public class AccountingLineGroupTotalsUnchangedValidation extends GenericValidat
     protected void buildTotalChangeErrorMessage(String propertyName, KualiDecimal persistedSourceLineTotal, KualiDecimal currentSourceLineTotal) {
         String persistedTotal = (String) new CurrencyFormatter().format(persistedSourceLineTotal);
         String currentTotal = (String) new CurrencyFormatter().format(currentSourceLineTotal);
-        GlobalVariables.getErrorMap().putError(propertyName, KFSKeyConstants.ERROR_DOCUMENT_SINGLE_ACCOUNTING_LINE_SECTION_TOTAL_CHANGED, new String[] { persistedTotal, currentTotal });
+        GlobalVariables.getMessageMap().putError(propertyName, KFSKeyConstants.ERROR_DOCUMENT_SINGLE_ACCOUNTING_LINE_SECTION_TOTAL_CHANGED, new String[] { persistedTotal, currentTotal });
     }
 
     /**

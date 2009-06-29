@@ -37,7 +37,7 @@ public class BudgetAdjustmentAccountingLinesRequiredForRoutingValidation extends
     public boolean validate(AttributedDocumentEvent event) {
         // check that both source and target are not empty, in which case is an error
         if (getAccountingDocumentForValidation().getSourceAccountingLines().isEmpty() && getAccountingDocumentForValidation().getTargetAccountingLines().isEmpty()) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_NO_ACCOUNTING_LINES);
+            GlobalVariables.getMessageMap().putError(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_NO_ACCOUNTING_LINES);
             return false;
         }
 

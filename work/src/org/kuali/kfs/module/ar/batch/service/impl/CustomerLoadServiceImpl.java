@@ -62,10 +62,10 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.MessageMap;
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -296,7 +296,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     private void addBatchErrorsToGlobalVariables(CustomerLoadBatchErrors batchErrors) {
         Set<String> errorMessages = batchErrors.getErrorStrings();
         for (String errorMessage : errorMessages) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, 
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, 
                     KFSKeyConstants.ERROR_BATCH_UPLOAD_SAVE, errorMessage);
         }
     }
@@ -344,13 +344,13 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
      * The execution of this method may have 3 possible outcomes:
      * 
      * 1. returns true, meaning that everything has succeeded, and dependent steps can continue running. No 
-     * errors should be added to GlobalVariables.getErrorMap().
+     * errors should be added to GlobalVariables.getMessageMap().
      * 
      * 2. returns false, meaning that some (but not necessarily all) steps have succeeded, and dependent 
-     * steps can continue running.  Details can be found in the GlobalVariables.getErrorMap().
+     * steps can continue running.  Details can be found in the GlobalVariables.getMessageMap().
      * 
      * 3. throws an exception, meaning that the step has failed, that the rest of the steps in a job should 
-     * not be run, and that the job has failed.  There may be errors in the GlobalVariables.getErrorMap().
+     * not be run, and that the job has failed.  There may be errors in the GlobalVariables.getMessageMap().
      * 
      * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#validate(java.util.List)
      */
@@ -372,7 +372,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         if (customerUploads.isEmpty()) {
             reporter.addFileErrorMessage("An empty list of Customer uploads was passed in for validation.  As a result, no validation can be done.");
             if (useGlobalErrorMap) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_SAVE, new String[] { "An empty list of Customer uploads was passed in for validation.  As a result, no validation was done." });
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_SAVE, new String[] { "An empty list of Customer uploads was passed in for validation.  As a result, no validation was done." });
             }
             return false;
         }
@@ -391,7 +391,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
             LOG.error("Too many records passed in for this file.  " + customerUploads.size() + " were passed in, and the limit is " + maxRecords + ".  As a result, no validation was done.");
             reporter.addFileErrorMessage("Too many records passed in for this file.  " + customerUploads.size() + " were passed in, and the limit is " + maxRecords + ".  As a result, no validation was done.");
             if (useGlobalErrorMap) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_SAVE, new String[] { "Too many records passed in for this file.  " + customerUploads.size() + " were passed in, and the limit is " + maxRecords + ".  As a result, no validation was done." });
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_SAVE, new String[] { "Too many records passed in for this file.  " + customerUploads.size() + " were passed in, and the limit is " + maxRecords + ".  As a result, no validation was done." });
             }
             return false;
         }
@@ -745,7 +745,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     private boolean extractGlobalVariableErrors(CustomerLoadBatchErrors batchErrors, String customerName) {
         boolean result = true;
         
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
 
         Set<String> errorKeys = errorMap.keySet();
         List<ErrorMessage> errorMessages = null;
@@ -776,7 +776,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         }
         
         //  clear the stuff out of globalvars, as we need to reformat it and put it back
-        GlobalVariables.getErrorMap().clear();
+        GlobalVariables.getMessageMap().clear();
         return result;
     }
     

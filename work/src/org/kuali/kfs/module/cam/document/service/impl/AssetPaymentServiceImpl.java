@@ -387,13 +387,13 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
 
         // Validating the asset is a capital asset
         if (!this.getAssetService().isCapitalAsset(asset)) {
-            GlobalVariables.getErrorMap().putError(errorPath, CamsKeyConstants.Payment.ERROR_NON_CAPITAL_ASSET, asset.getCapitalAssetNumber().toString());
+            GlobalVariables.getMessageMap().putError(errorPath, CamsKeyConstants.Payment.ERROR_NON_CAPITAL_ASSET, asset.getCapitalAssetNumber().toString());
             valid &= false;
         }
 
         // Validating the asset hasn't been retired
         if (this.getAssetService().isAssetRetired(asset)) {
-            GlobalVariables.getErrorMap().putError(errorPath, CamsKeyConstants.Retirement.ERROR_NON_ACTIVE_ASSET_RETIREMENT, asset.getCapitalAssetNumber().toString());
+            GlobalVariables.getMessageMap().putError(errorPath, CamsKeyConstants.Retirement.ERROR_NON_ACTIVE_ASSET_RETIREMENT, asset.getCapitalAssetNumber().toString());
             valid &= false;
         }
         return valid;

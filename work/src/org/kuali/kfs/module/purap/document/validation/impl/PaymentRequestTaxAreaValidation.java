@@ -17,14 +17,12 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent;
-import org.kuali.kfs.fp.businessobject.TaxIncomeClassCode;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
@@ -36,6 +34,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PaymentRequestTaxAreaValidation extends GenericValidation {
@@ -99,7 +98,7 @@ public class PaymentRequestTaxAreaValidation extends GenericValidation {
         if (!preq.getStatusCode().equals(PaymentRequestStatuses.AWAITING_TAX_REVIEW)) 
             return true;
         
-        ErrorMap errorMap = GlobalVariables.getErrorMap();        
+        MessageMap errorMap = GlobalVariables.getMessageMap();        
         errorMap.clearErrorPath();
         //errorMap.addToErrorPath(KFSPropertyConstants.DOCUMENT);
         errorMap.addToErrorPath(PurapConstants.PAYMENT_REQUEST_TAX_TAB_ERRORS);
@@ -122,7 +121,7 @@ public class PaymentRequestTaxAreaValidation extends GenericValidation {
      */
     protected boolean validateTaxIncomeClass(PaymentRequestDocument preq) {
         boolean valid = true;
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
 
         // TaxClassificationCode is required field
         if (StringUtils.isEmpty(preq.getTaxClassificationCode())) {
@@ -202,7 +201,7 @@ public class PaymentRequestTaxAreaValidation extends GenericValidation {
         String code = preq.getTaxClassificationCode();
         BigDecimal fedrate = preq.getTaxFederalPercent();
         BigDecimal strate = preq.getTaxStatePercent();
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
 
         // only test the cases when income class and tax rates aren't empty/N
         if (StringUtils.isEmpty(code) || StringUtils.equalsIgnoreCase(code, "N") || fedrate == null || strate == null)
@@ -241,7 +240,7 @@ public class PaymentRequestTaxAreaValidation extends GenericValidation {
      */
     protected boolean validateTaxIndicators(PaymentRequestDocument preq) {
         boolean valid = true;     
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
 
         // if choose tax treaty, cannot choose any of the other above 
         if (ObjectUtils.nullSafeEquals(preq.getTaxExemptTreatyIndicator(), true)) {

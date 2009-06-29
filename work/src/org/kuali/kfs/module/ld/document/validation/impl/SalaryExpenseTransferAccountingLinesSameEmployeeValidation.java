@@ -52,7 +52,7 @@ public class SalaryExpenseTransferAccountingLinesSameEmployeeValidation extends 
         String employeeID = salaryExpenseTransferDocument.getEmplid() ;
         
         if (StringUtils.isBlank(employeeID)) {
-            GlobalVariables.getErrorMap().putError(LaborConstants.DOCUMENT_EMPLOYEE_ID_ERRORS, LaborKeyConstants.MISSING_EMPLOYEE_ID) ;
+            GlobalVariables.getMessageMap().putError(LaborConstants.DOCUMENT_EMPLOYEE_ID_ERRORS, LaborKeyConstants.MISSING_EMPLOYEE_ID) ;
             result = false ;
         }
         
@@ -96,11 +96,11 @@ public class SalaryExpenseTransferAccountingLinesSameEmployeeValidation extends 
         }
 
         if (!sourceAccountingLinesValidationResult) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, LaborKeyConstants.ERROR_EMPLOYEE_ID_NOT_SAME);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, LaborKeyConstants.ERROR_EMPLOYEE_ID_NOT_SAME);
         }
 
         if (!targetAccountingLinesValidationResult) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_EMPLOYEE_ID_NOT_SAME_IN_TARGET);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, LaborKeyConstants.ERROR_EMPLOYEE_ID_NOT_SAME_IN_TARGET);
         }
 
         return (sourceAccountingLinesValidationResult && targetAccountingLinesValidationResult);

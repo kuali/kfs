@@ -45,7 +45,7 @@ public class PurchaseOrderReopenSaveValidation extends GenericValidation {
             PurchaseOrderDocument currentPO = purchaseOrderService.getCurrentPurchaseOrder(document.getPurapDocumentIdentifier());
             if (!StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurapConstants.PurchaseOrderStatuses.CLOSED) && !StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurapConstants.PurchaseOrderStatuses.PENDING_REOPEN)) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_INCORRECT, PurapConstants.PurchaseOrderStatuses.CLOSED);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_INCORRECT, PurapConstants.PurchaseOrderStatuses.CLOSED);
             }
 
             // Check that the user is in purchasing workgroup.

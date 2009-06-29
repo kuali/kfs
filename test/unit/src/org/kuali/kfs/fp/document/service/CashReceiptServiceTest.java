@@ -396,7 +396,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         }
         catch (ValidationException e) {
             // If the business rule evaluation fails then give us more info for debugging this test.
-            fail(e.getMessage() + ", " + GlobalVariables.getErrorMap());
+            fail(e.getMessage() + ", " + GlobalVariables.getMessageMap());
         }
         return crDoc;
     }

@@ -38,7 +38,7 @@ public class AccountingLineAmountNonZeroValidation extends GenericValidation {
         KualiDecimal amount = accountingLineForValidation.getAmount();
 
         if (KualiDecimal.ZERO.compareTo(amount) == 0) { // amount == 0
-            GlobalVariables.getErrorMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, KFSKeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
+            GlobalVariables.getMessageMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, KFSKeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
             return false;
         }
 

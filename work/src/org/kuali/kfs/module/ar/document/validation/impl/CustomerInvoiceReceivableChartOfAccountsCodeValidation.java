@@ -34,13 +34,13 @@ public class CustomerInvoiceReceivableChartOfAccountsCodeValidation extends Gene
     
     public boolean validate(AttributedDocumentEvent event) {
         if (StringUtils.isEmpty(customerInvoiceDocument.getPaymentChartOfAccountsCode())) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_CHART_OF_ACCOUNTS_CODE, OrganizationAccountingDefaultErrors.ERROR_PAYMENT_CHART_OF_ACCOUNTS_CODE_REQUIRED);
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_CHART_OF_ACCOUNTS_CODE, OrganizationAccountingDefaultErrors.ERROR_PAYMENT_CHART_OF_ACCOUNTS_CODE_REQUIRED);
             return false;
         }
         else {
             customerInvoiceDocument.refreshReferenceObject(ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_CHART_OF_ACCOUNTS);
             if (ObjectUtils.isNull(customerInvoiceDocument.getPaymentChartOfAccounts())) {
-                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_CHART_OF_ACCOUNTS_CODE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_CHART_OF_ACCOUNTS_CODE);
+                GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_CHART_OF_ACCOUNTS_CODE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_CHART_OF_ACCOUNTS_CODE);
                 return false;
             }
         }

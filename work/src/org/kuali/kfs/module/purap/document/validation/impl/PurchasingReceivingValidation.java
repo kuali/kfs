@@ -44,8 +44,8 @@ public class PurchasingReceivingValidation extends GenericValidation {
             return true;
         }
         
-        GlobalVariables.getErrorMap().clearErrorPath();
-        //GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        GlobalVariables.getMessageMap().clearErrorPath();
+        //GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         
         List<PurApItem> items = purDoc.getItems();
         
@@ -58,11 +58,11 @@ public class PurchasingReceivingValidation extends GenericValidation {
         }
         
         if (!containsQtyTypeItem){
-            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_REQUIRED);
+            GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_REQUIRED);
             valid &= false;
         }
 
-        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getMessageMap().clearErrorPath();
 
         return valid;
     }

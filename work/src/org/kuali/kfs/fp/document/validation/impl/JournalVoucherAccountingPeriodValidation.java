@@ -48,13 +48,13 @@ public class JournalVoucherAccountingPeriodValidation extends GenericValidation 
         getJournalVoucherForValidation().refreshReferenceObject(KFSPropertyConstants.ACCOUNTING_PERIOD);
         AccountingPeriod accountingPeriod = getJournalVoucherForValidation().getAccountingPeriod();
         if (ObjectUtils.isNull(accountingPeriod)) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + SELECTED_ACCOUNTING_PERIOD, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + SELECTED_ACCOUNTING_PERIOD, KFSKeyConstants.ERROR_EXISTENCE, label);
             return false;
         }
 
         // make sure it's open for use
         if (!accountingPeriod.isActive()) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + SELECTED_ACCOUNTING_PERIOD, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED);
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + SELECTED_ACCOUNTING_PERIOD, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED);
             return false;
         }
 

@@ -37,7 +37,7 @@ public class PreEncumbranceRequiredAccountingLinesCountValidation extends Generi
         List sourceAccountingLineList = this.accountingDocumentForValidation.getSourceAccountingLines();
         List targetAccountingLineList = this.accountingDocumentForValidation.getTargetAccountingLines();
         if (sourceAccountingLineList.size() == 0 && targetAccountingLineList.size() == 0 ) {
-            GlobalVariables.getErrorMap().putError("sourceAccountingLines", "error.document.singleSectionNoAccountingLines", new String[] { null });
+            GlobalVariables.getMessageMap().putError("sourceAccountingLines", "error.document.singleSectionNoAccountingLines", new String[] { null });
             return false;
         }
         

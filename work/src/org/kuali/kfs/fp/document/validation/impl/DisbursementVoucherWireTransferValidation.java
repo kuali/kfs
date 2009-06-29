@@ -28,8 +28,8 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 
 public class DisbursementVoucherWireTransferValidation extends GenericValidation implements DisbursementVoucherConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherWireTransferValidation.class);
@@ -51,7 +51,7 @@ public class DisbursementVoucherWireTransferValidation extends GenericValidation
             return isValid;
         }
 
-        ErrorMap errors = GlobalVariables.getErrorMap(); 
+        MessageMap errors = GlobalVariables.getMessageMap(); 
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
         errors.addToErrorPath(KFSPropertyConstants.DV_WIRE_TRANSFER);
         

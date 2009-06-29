@@ -144,10 +144,10 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
         else if (line instanceof OrganizationReversionGlobalOrganization) {
             OrganizationReversionGlobalOrganization org = (OrganizationReversionGlobalOrganization) line;
             if (!checkEmptyValue(org.getChartOfAccountsCode())) {
-                GlobalVariables.getErrorMap().putError("chartOfAccountsCode", KFSKeyConstants.ERROR_REQUIRED, "Chart of Accounts Code");
+                GlobalVariables.getMessageMap().putError("chartOfAccountsCode", KFSKeyConstants.ERROR_REQUIRED, "Chart of Accounts Code");
             }
             if (!checkEmptyValue(org.getOrganizationCode())) {
-                GlobalVariables.getErrorMap().putError("organizationCode", KFSKeyConstants.ERROR_REQUIRED, "Organization Code");
+                GlobalVariables.getMessageMap().putError("organizationCode", KFSKeyConstants.ERROR_REQUIRED, "Organization Code");
             }
             if (success) {
                 success &= checkAllObjectCodesForValidity(globalOrgRev, org);
@@ -194,7 +194,7 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
         boolean success = true;
         if ((!StringUtils.isBlank(globalOrgRev.getBudgetReversionChartOfAccountsCode()) && StringUtils.isBlank(globalOrgRev.getBudgetReversionAccountNumber())) || (StringUtils.isBlank(globalOrgRev.getBudgetReversionChartOfAccountsCode()) && !StringUtils.isBlank(globalOrgRev.getBudgetReversionAccountNumber()))) {
             success = false;
-            GlobalVariables.getErrorMap().putError(MAINTAINABLE_ERROR_PREFIX + "budgetReversionChartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_BUDGET_REVERSION_INCOMPLETE, new String[] {});
+            GlobalVariables.getMessageMap().putError(MAINTAINABLE_ERROR_PREFIX + "budgetReversionChartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_BUDGET_REVERSION_INCOMPLETE, new String[] {});
         }
         return success;
     }
@@ -210,7 +210,7 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
         boolean success = true;
         if ((!StringUtils.isBlank(globalOrgRev.getCashReversionFinancialChartOfAccountsCode()) && StringUtils.isBlank(globalOrgRev.getCashReversionAccountNumber())) || (StringUtils.isBlank(globalOrgRev.getCashReversionFinancialChartOfAccountsCode()) && !StringUtils.isBlank(globalOrgRev.getCashReversionAccountNumber()))) {
             success = false;
-            GlobalVariables.getErrorMap().putError(MAINTAINABLE_ERROR_PREFIX + "cashReversionFinancialChartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_CASH_REVERSION_INCOMPLETE, new String[] {});
+            GlobalVariables.getMessageMap().putError(MAINTAINABLE_ERROR_PREFIX + "cashReversionFinancialChartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_CASH_REVERSION_INCOMPLETE, new String[] {});
         }
         return success;
     }
@@ -228,14 +228,14 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
             OrganizationReversionGlobalDetail detail = globalOrgRev.getOrganizationReversionGlobalDetails().get(i);
             
             String errorPath = MAINTAINABLE_ERROR_PREFIX + "organizationReversionGlobalDetails[" + i + "]";
-            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+            GlobalVariables.getMessageMap().addToErrorPath(errorPath);
 
             if (!StringUtils.isBlank(detail.getOrganizationReversionObjectCode()) && !StringUtils.isBlank(detail.getOrganizationReversionCode())) {
                 success &= this.checkDetailOrgReversionCategoryValidity(detail);
                 success &= this.checkDetailObjectCodeValidity(globalOrgRev, detail);
                 success &= this.checkDetailObjectReversionCodeValidity(detail);
             }
-            GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+            GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
         }
         return success;
     }
@@ -250,13 +250,13 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
         boolean success = true;
         if (StringUtils.isBlank(detail.getOrganizationReversionCategoryCode())) {
             success = false;
-            GlobalVariables.getErrorMap().putError("organizationReversionCategoryCode", KFSKeyConstants.ERROR_REQUIRED, new String[] {});
+            GlobalVariables.getMessageMap().putError("organizationReversionCategoryCode", KFSKeyConstants.ERROR_REQUIRED, new String[] {});
         }
         else {
             detail.refreshReferenceObject("organizationReversionCategory");
             if (detail.getOrganizationReversionCategory() == null || !detail.getOrganizationReversionCategory().isActive()) {
                 success = false;
-                GlobalVariables.getErrorMap().putError("organizationReversionCategoryCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_INVALID_ORG_REVERSION_CATEGORY, new String[] { detail.getOrganizationReversionCategoryCode() });
+                GlobalVariables.getMessageMap().putError("organizationReversionCategoryCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_INVALID_ORG_REVERSION_CATEGORY, new String[] { detail.getOrganizationReversionCategoryCode() });
             }
         }
         return success;
@@ -273,7 +273,7 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
         for (OrganizationReversionGlobalOrganization org : globalOrgRev.getOrganizationReversionGlobalOrganizations()) {
             if (!validObjectCode(globalOrgRev.getUniversityFiscalYear(), org.getChartOfAccountsCode(), detail.getOrganizationReversionObjectCode())) {
                 success = false;
-                GlobalVariables.getErrorMap().putError("organizationReversionObjectCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_OBJECT_CODE_INVALID, new String[] { globalOrgRev.getUniversityFiscalYear().toString(), org.getChartOfAccountsCode(), detail.getOrganizationReversionObjectCode(), org.getChartOfAccountsCode(), org.getOrganizationCode() });
+                GlobalVariables.getMessageMap().putError("organizationReversionObjectCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_OBJECT_CODE_INVALID, new String[] { globalOrgRev.getUniversityFiscalYear().toString(), org.getChartOfAccountsCode(), detail.getOrganizationReversionObjectCode(), org.getChartOfAccountsCode(), org.getOrganizationCode() });
             }
         }
         return success;
@@ -292,7 +292,7 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
         for (OrganizationReversionGlobalDetail detail : globalOrgRev.getOrganizationReversionGlobalDetails()) {
             if (!validObjectCode(globalOrgRev.getUniversityFiscalYear(), org.getChartOfAccountsCode(), detail.getOrganizationReversionObjectCode())) {
                 success = false;
-                GlobalVariables.getErrorMap().putError("organizationCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_OBJECT_CODE_INVALID, new String[] { globalOrgRev.getUniversityFiscalYear().toString(), org.getChartOfAccountsCode(), detail.getOrganizationReversionObjectCode(), org.getChartOfAccountsCode(), org.getOrganizationCode() });
+                GlobalVariables.getMessageMap().putError("organizationCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_OBJECT_CODE_INVALID, new String[] { globalOrgRev.getUniversityFiscalYear().toString(), org.getChartOfAccountsCode(), detail.getOrganizationReversionObjectCode(), org.getChartOfAccountsCode(), org.getOrganizationCode() });
             }
         }
         return success;
@@ -338,7 +338,7 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
             }
             if (!foundInList) {
                 success = false; // we've failed to find the code in the list...FAILED!
-                GlobalVariables.getErrorMap().putError("organizationReversionCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_INVALID_ORG_REVERSION_CODE, new String[] { detail.getOrganizationReversionCode() });
+                GlobalVariables.getMessageMap().putError("organizationReversionCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_INVALID_ORG_REVERSION_CODE, new String[] { detail.getOrganizationReversionCode() });
             }
         }
         return success;
@@ -360,12 +360,12 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
             for (int i = 0; i < globalOrgRev.getOrganizationReversionGlobalOrganizations().size(); i++) {
                 OrganizationReversionGlobalOrganization org = globalOrgRev.getOrganizationReversionGlobalOrganizations().get(i);
                 String errorPath = MAINTAINABLE_ERROR_PREFIX + "organizationReversionGlobalOrganizations[" + i + "]";
-                GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+                GlobalVariables.getMessageMap().addToErrorPath(errorPath);
                 success &= checkAllObjectCodesForValidity(globalOrgRev, org);
                 success &= checkOrganizationValidity(org);
                 success &= checkOrganizationChartValidity(org);
                 success &= checkOrganizationReversionForOrganizationExists(globalOrgRev, org);
-                GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+                GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
             }
         }
         return success;
@@ -384,7 +384,7 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
         if (StringUtils.isBlank(org.getChartOfAccountsCode())) {
             if (!StringUtils.isBlank(org.getOrganizationCode())) {
                 success = false;
-                GlobalVariables.getErrorMap().putError("chartOfAccountsCode", KFSKeyConstants.ERROR_REQUIRED, new String[] {});
+                GlobalVariables.getMessageMap().putError("chartOfAccountsCode", KFSKeyConstants.ERROR_REQUIRED, new String[] {});
             }
         }
         else {
@@ -392,7 +392,7 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
             org.refreshReferenceObject("chartOfAccounts");
             if (org.getChartOfAccounts() == null) {
                 success = false;
-                GlobalVariables.getErrorMap().putError("chartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_INVALID_CHART, new String[] { org.getChartOfAccountsCode() });
+                GlobalVariables.getMessageMap().putError("chartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_INVALID_CHART, new String[] { org.getChartOfAccountsCode() });
             }
         }
         return success;
@@ -409,14 +409,14 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
         if (StringUtils.isBlank(org.getOrganizationCode())) {
             if (!StringUtils.isBlank(org.getChartOfAccountsCode())) {
                 success = false;
-                GlobalVariables.getErrorMap().putError("organizationCode", KFSKeyConstants.ERROR_REQUIRED, new String[] {});
+                GlobalVariables.getMessageMap().putError("organizationCode", KFSKeyConstants.ERROR_REQUIRED, new String[] {});
             }
         }
         else if (!StringUtils.isBlank(org.getChartOfAccountsCode())) {
             org.refreshReferenceObject("organization");
             if (org.getOrganization() == null) {
                 success = false;
-                GlobalVariables.getErrorMap().putError("organizationCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_INVALID_ORGANIZATION, new String[] { org.getChartOfAccountsCode(), org.getOrganizationCode() });
+                GlobalVariables.getMessageMap().putError("organizationCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_INVALID_ORGANIZATION, new String[] { org.getChartOfAccountsCode(), org.getOrganizationCode() });
             }
         }
         return success;
@@ -435,7 +435,7 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
         if (globalOrgRev.getUniversityFiscalYear() != null) {
             if (organizationReversionService.getByPrimaryId(globalOrgRev.getUniversityFiscalYear(), org.getChartOfAccountsCode(), org.getOrganizationCode()) == null) {
                 success = false;
-                GlobalVariables.getErrorMap().putError("organizationCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_NO_ORG_REVERSION, new String[] { globalOrgRev.getUniversityFiscalYear().toString(), org.getChartOfAccountsCode(), org.getOrganizationCode() });
+                GlobalVariables.getMessageMap().putError("organizationCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_NO_ORG_REVERSION, new String[] { globalOrgRev.getUniversityFiscalYear().toString(), org.getChartOfAccountsCode(), org.getOrganizationCode() });
             }
         }
         return success;
@@ -456,7 +456,7 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
             OrganizationReversionGlobalOrganization currOrg = iter.next();
             if (areContainingSameOrganizations(currOrg, orgRevOrg)) {
                 success = false;
-                GlobalVariables.getErrorMap().putError("organizationCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_DUPLICATE_ORGS, new String[] { orgRevOrg.getChartOfAccountsCode(), orgRevOrg.getOrganizationCode() });
+                GlobalVariables.getMessageMap().putError("organizationCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ORG_REVERSION_DUPLICATE_ORGS, new String[] { orgRevOrg.getChartOfAccountsCode(), orgRevOrg.getOrganizationCode() });
             }
         }
         return success;

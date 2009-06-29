@@ -38,14 +38,14 @@ public class PostalCodeValidationServiceImpl implements PostalCodeValidationServ
             if (StringUtils.isBlank(postalStateCode)) {
                 valid &= false;
                 if (StringUtils.isNotBlank(statePropertyConstant)) {
-                    GlobalVariables.getErrorMap().putError(statePropertyConstant, KFSKeyConstants.ERROR_US_REQUIRES_STATE);
+                    GlobalVariables.getMessageMap().putError(statePropertyConstant, KFSKeyConstants.ERROR_US_REQUIRES_STATE);
                 }
             }
 
             if (StringUtils.isBlank(postalCode)) {
                 valid &= false;
                 if (StringUtils.isNotBlank(postalCodePropertyConstant)) {
-                    GlobalVariables.getErrorMap().putError(postalCodePropertyConstant, KFSKeyConstants.ERROR_US_REQUIRES_ZIP);
+                    GlobalVariables.getMessageMap().putError(postalCodePropertyConstant, KFSKeyConstants.ERROR_US_REQUIRES_ZIP);
                 }
             }
             else {
@@ -53,7 +53,7 @@ public class PostalCodeValidationServiceImpl implements PostalCodeValidationServ
                 if (!zipPattern.matches(StringUtils.defaultString(postalCode))) {
                     valid &= false;
                     if (StringUtils.isNotBlank(postalCodePropertyConstant)) {
-                        GlobalVariables.getErrorMap().putError(postalCodePropertyConstant, KFSKeyConstants.ERROR_POSTAL_CODE_INVALID);
+                        GlobalVariables.getMessageMap().putError(postalCodePropertyConstant, KFSKeyConstants.ERROR_POSTAL_CODE_INVALID);
                     }
                 }
             }

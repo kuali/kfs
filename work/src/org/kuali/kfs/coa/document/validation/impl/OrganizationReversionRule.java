@@ -76,19 +76,19 @@ public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
      * @return false if any of the detail objects fail with their validation
      */
     private boolean validateDetailBusinessObjects(OrganizationReversion orgReversion) {
-        GlobalVariables.getErrorMap().addToErrorPath("document.newMaintainableObject");
+        GlobalVariables.getMessageMap().addToErrorPath("document.newMaintainableObject");
         List<OrganizationReversionDetail> details = orgReversion.getOrganizationReversionDetail();
         int index = 0;
-        int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
+        int originalErrorCount = GlobalVariables.getMessageMap().getErrorCount();
         for (OrganizationReversionDetail dtl : details) {
             String errorPath = "organizationReversionDetail[" + index + "]";
-            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+            GlobalVariables.getMessageMap().addToErrorPath(errorPath);
             validateOrganizationReversionDetail(dtl);
-            GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+            GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
             index++;
         }
-        GlobalVariables.getErrorMap().removeFromErrorPath("document.newMaintainableObject");
-        return GlobalVariables.getErrorMap().getErrorCount() == originalErrorCount;
+        GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject");
+        return GlobalVariables.getMessageMap().getErrorCount() == originalErrorCount;
     }
 
     /**
@@ -104,7 +104,7 @@ public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
         LOG.debug("organization reversion finanical object = " + detail.getOrganizationReversionObject().getName());
         if (ObjectUtils.isNull(detail.getOrganizationReversionObject())) {
             result = false;
-            GlobalVariables.getErrorMap().putError("organizationReversionObjectCode", KFSKeyConstants.ERROR_EXISTENCE, new String[] { "Financial Object Code: " + detail.getOrganizationReversionObjectCode() });
+            GlobalVariables.getMessageMap().putError("organizationReversionObjectCode", KFSKeyConstants.ERROR_EXISTENCE, new String[] { "Financial Object Code: " + detail.getOrganizationReversionObjectCode() });
         }
         return result;
     }

@@ -37,7 +37,7 @@ public class CustomerInvoiceDetailUnitPriceValidation extends GenericValidation 
 
         // if amount is = 0
         if (ObjectUtils.isNull(unitPrice) || BigDecimal.ZERO.equals(unitPrice)) {
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO);
             return false;
         }
         else {
@@ -46,18 +46,18 @@ public class CustomerInvoiceDetailUnitPriceValidation extends GenericValidation 
             if (customerInvoiceDocument.isInvoiceReversal()) {
                 // if invoice is reversal, discount should be positive, non-discounts should be negative
                 if (customerInvoiceDetail.isDiscountLine() && unitPrice.compareTo(BigDecimal.ZERO) == -1) {
-                    GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO);
+                    GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO);
                     return false;
                 }
                 else if (!customerInvoiceDetail.isDiscountLine() && unitPrice.compareTo(BigDecimal.ZERO) == 1) {
-                    GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO);
+                    GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO);
                     return false;
                 }
             }
             else {
                 //No need to check for positive because if the line is a discount and the amount is negative, we will negate the line.
                 if (!customerInvoiceDetail.isDiscountLine() && unitPrice.compareTo(BigDecimal.ZERO) == -1) {
-                    GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO);
+                    GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO);
                     return false;
                 }
             }

@@ -77,7 +77,7 @@ public class PaymentInputFileType extends BatchInputFileTypeBase {
      */
     public boolean validate(Object parsedFileContents) {
         PaymentFileLoad paymentFile = (PaymentFileLoad) parsedFileContents;
-        paymentFileService.doPaymentFileValidation(paymentFile, GlobalVariables.getErrorMap());
+        paymentFileService.doPaymentFileValidation(paymentFile, GlobalVariables.getMessageMap());
 
         return paymentFile.isPassedValidation();
     }

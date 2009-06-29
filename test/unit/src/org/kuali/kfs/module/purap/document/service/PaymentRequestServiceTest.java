@@ -128,7 +128,7 @@ public class PaymentRequestServiceTest extends KualiTestBase {
         // //changeCurrentUser(UserNameFixture.khuntley);
         // boolean approved = SpringContext.getBean(PaymentRequestService.class).autoApprovePaymentRequest(document,
         // defaultMinimumLimit);
-        // Map map = GlobalVariables.getErrorMap();
+        // Map map = GlobalVariables.getMessageMap();
         // boolean breakonme = approved;
     }
 

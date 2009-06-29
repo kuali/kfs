@@ -40,11 +40,11 @@ public class PurchaseOrderAmendmentNewIndividualItemValidation extends PurchaseO
         if ((item.getItemInvoicedTotalQuantity() != null) && (!(item.getItemInvoicedTotalQuantity()).isZero())) {
             if (item.getItemQuantity() == null) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMND_NULL, "Item Quantity", identifierString);
+                GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMND_NULL, "Item Quantity", identifierString);
             }
             else if (item.getItemQuantity().compareTo(item.getItemInvoicedTotalQuantity()) < 0) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMND_INVALID, "Item Quantity", identifierString);
+                GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMND_INVALID, "Item Quantity", identifierString);
             }
         }
 
@@ -52,7 +52,7 @@ public class PurchaseOrderAmendmentNewIndividualItemValidation extends PurchaseO
             KualiDecimal total = item.getTotalAmount().abs();
             if ((total == null) || total.compareTo(item.getItemInvoicedTotalAmount().abs()) < 0) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMND_INVALID_AMT, "Item Extended Price", identifierString);
+                GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMND_INVALID_AMT, "Item Extended Price", identifierString);
             }
         }
         
@@ -90,7 +90,7 @@ public class PurchaseOrderAmendmentNewIndividualItemValidation extends PurchaseO
         }
         else {
             if (!((PurchasingItemBase)item).getCommodityCode().isActive()) {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INACTIVE, " in " + item.getItemIdentifierString());
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INACTIVE, " in " + item.getItemIdentifierString());
                 return false;
             }
             return true;

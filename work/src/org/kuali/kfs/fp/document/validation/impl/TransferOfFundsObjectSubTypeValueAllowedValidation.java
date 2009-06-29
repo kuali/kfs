@@ -40,12 +40,12 @@ public class TransferOfFundsObjectSubTypeValueAllowedValidation extends Accounti
 
         // make sure a object sub type code exists for this object code
         if (StringUtils.isBlank(objectSubTypeCode)) {
-            GlobalVariables.getErrorMap().putError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_TOF_OBJECT_SUB_TYPE_IS_NULL, getAccountingLineForValidation().getFinancialObjectCode());
+            GlobalVariables.getMessageMap().putError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_TOF_OBJECT_SUB_TYPE_IS_NULL, getAccountingLineForValidation().getFinancialObjectCode());
             return false;
         }
 
         if (!transferOfFundsService.isMandatoryTransfersSubType(objectSubTypeCode) && !transferOfFundsService.isNonMandatoryTransfersSubType(objectSubTypeCode)) {
-            GlobalVariables.getErrorMap().putError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_TOF_OBJECT_SUB_TYPE_NOT_MANDATORY_OR_NON_MANDATORY_TRANSFER, new String[] { getAccountingLineForValidation().getObjectCode().getFinancialObjectSubType().getFinancialObjectSubTypeName(), getAccountingLineForValidation().getFinancialObjectCode() });
+            GlobalVariables.getMessageMap().putError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_TOF_OBJECT_SUB_TYPE_NOT_MANDATORY_OR_NON_MANDATORY_TRANSFER, new String[] { getAccountingLineForValidation().getObjectCode().getFinancialObjectSubType().getFinancialObjectSubTypeName(), getAccountingLineForValidation().getFinancialObjectCode() });
             return false;
         }
 

@@ -45,18 +45,18 @@ public class CustomerInvoiceRecurrenceInitiatorValidation extends GenericValidat
         
         String initiatorUserIdentifier = customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserIdentifier();
         if (ObjectUtils.isNull(initiatorUserIdentifier)) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_RECURRENCE_INITIATOR, ArKeyConstants.ERROR_INVOICE_RECURRENCE_INITIATOR_IS_REQUIRED);
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_RECURRENCE_INITIATOR, ArKeyConstants.ERROR_INVOICE_RECURRENCE_INITIATOR_IS_REQUIRED);
             return false;
         }
 
         DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer("INVR");
         Person person = org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().getPerson(initiatorUserIdentifier);
         if (person == null) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_RECURRENCE_INITIATOR, ArKeyConstants.ERROR_INVOICE_RECURRENCE_INITIATOR_DOES_NOT_EXIST);
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_RECURRENCE_INITIATOR, ArKeyConstants.ERROR_INVOICE_RECURRENCE_INITIATOR_DOES_NOT_EXIST);
             return false;
         }
         if (!documentAuthorizer.canInitiate("INVR", person)) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_RECURRENCE_INITIATOR, ArKeyConstants.ERROR_INVOICE_RECURRENCE_INITIATOR_IS_NOT_AUTHORIZED);
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_RECURRENCE_INITIATOR, ArKeyConstants.ERROR_INVOICE_RECURRENCE_INITIATOR_IS_NOT_AUTHORIZED);
             return false;
         }
         return true;

@@ -55,12 +55,12 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean success = super.processCustomSaveDocumentBusinessRules(document);
 
-        GlobalVariables.getErrorMap().addToErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().addToErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
 
         CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument) document;
         success &= validateCustomerNote(customerInvoiceWriteoffDocument.getCustomerNote());
         success &= validateWriteoffGLPEGenerationInformation(customerInvoiceWriteoffDocument);
-        GlobalVariables.getErrorMap().removeFromErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().removeFromErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
 
         return success;
     }
@@ -69,14 +69,14 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean success = super.processCustomSaveDocumentBusinessRules(document);
 
-        GlobalVariables.getErrorMap().addToErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().addToErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
 
         CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument) document;
         success &= validateCustomerNote(customerInvoiceWriteoffDocument.getCustomerNote());
         success &= validateWriteoffGLPEGenerationInformation(customerInvoiceWriteoffDocument);
         success &= doesCustomerInvoiceDocumentHaveValidBalance(customerInvoiceWriteoffDocument);
 
-        GlobalVariables.getErrorMap().removeFromErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getMessageMap().removeFromErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
 
         return success;
     }
@@ -84,7 +84,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
     protected boolean validateCustomerNote(String customerNote) {
         boolean success = true;
         if (StringUtils.isNotEmpty(customerNote) && (customerNote.trim().length() < 5)) {
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NOTE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_CUSTOMER_NOTE_INVALID);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NOTE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_CUSTOMER_NOTE_INVALID);
             success = false;
         }
 
@@ -130,7 +130,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
 
         String writeoffObjectCode = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_OBJECT_CODE_BY_CHART, customerInvoiceDetail.getChartOfAccountsCode());
         if (StringUtils.isBlank(writeoffObjectCode)) {
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_CHART_WRITEOFF_OBJECT_DOESNT_EXIST, customerInvoiceDetail.getChartOfAccountsCode());
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_CHART_WRITEOFF_OBJECT_DOESNT_EXIST, customerInvoiceDetail.getChartOfAccountsCode());
             success = false;
         }
 
@@ -156,7 +156,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
             success &= doesWriteoffFinancialObjectCodeExist(organizationAccountingDefault);
         }
         else {
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_MUST_EXIST, new String[] { currentFiscalYear.toString(), billByChartOfAccountCode, billedByOrganizationCode });
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_MUST_EXIST, new String[] { currentFiscalYear.toString(), billByChartOfAccountCode, billedByOrganizationCode });
             success = false;
         }
 
@@ -173,7 +173,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
     protected boolean doesWriteoffAccountNumberExist(OrganizationAccountingDefault organizationAccountingDefault) {
 
         if (StringUtils.isBlank(organizationAccountingDefault.getWriteoffAccountNumber())) {
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_ACCOUNT_MUST_EXIST, new String[] { organizationAccountingDefault.getUniversityFiscalYear().toString(), organizationAccountingDefault.getChartOfAccountsCode(), organizationAccountingDefault.getOrganizationCode() });
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_ACCOUNT_MUST_EXIST, new String[] { organizationAccountingDefault.getUniversityFiscalYear().toString(), organizationAccountingDefault.getChartOfAccountsCode(), organizationAccountingDefault.getOrganizationCode() });
             return false;
         }
 
@@ -189,7 +189,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
     protected boolean doesWriteoffChartOfAccountsCodeExist(OrganizationAccountingDefault organizationAccountingDefault) {
 
         if (StringUtils.isBlank(organizationAccountingDefault.getWriteoffChartOfAccountsCode())) {
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_CHART_MUST_EXIST, new String[] { organizationAccountingDefault.getUniversityFiscalYear().toString(), organizationAccountingDefault.getChartOfAccountsCode(), organizationAccountingDefault.getOrganizationCode() });
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_CHART_MUST_EXIST, new String[] { organizationAccountingDefault.getUniversityFiscalYear().toString(), organizationAccountingDefault.getChartOfAccountsCode(), organizationAccountingDefault.getOrganizationCode() });
             return false;
         }
 
@@ -204,7 +204,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
      */
     protected boolean doesWriteoffFinancialObjectCodeExist(OrganizationAccountingDefault organizationAccountingDefault) {
         if (StringUtils.isBlank(organizationAccountingDefault.getWriteoffFinancialObjectCode())) {
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_OBJECT_CODE_MUST_EXIST, new String[] { organizationAccountingDefault.getUniversityFiscalYear().toString(), organizationAccountingDefault.getChartOfAccountsCode(), organizationAccountingDefault.getOrganizationCode() });
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_OBJECT_CODE_MUST_EXIST, new String[] { organizationAccountingDefault.getUniversityFiscalYear().toString(), organizationAccountingDefault.getChartOfAccountsCode(), organizationAccountingDefault.getOrganizationCode() });
             return false;
         }
 
@@ -220,7 +220,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
      */
     protected boolean doesCustomerInvoiceDocumentHaveValidBalance(CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument) {
         if (KualiDecimal.ZERO.isGreaterEqual(customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getOpenAmount())) {
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_INVOICE_HAS_CREDIT_BALANCE);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_INVOICE_HAS_CREDIT_BALANCE);
             return false;
         }
         return true;
@@ -237,7 +237,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
         CustomerInvoiceWriteoffDocumentService service = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);
         boolean success = service.checkIfThereIsNoAnotherCRMInRouteForTheInvoice(invoiceDocumentNumber);
         if (!success)
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_ONE_CRM_IN_ROUTE_PER_INVOICE);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_ONE_CRM_IN_ROUTE_PER_INVOICE);
 
         return success;
     }
@@ -253,7 +253,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
         CustomerInvoiceWriteoffDocumentService service = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);
         boolean success = service.checkIfThereIsNoAnotherWriteoffInRouteForTheInvoice(invoiceDocumentNumber);
         if (!success)
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_ONE_WRITEOFF_IN_ROUTE_PER_INVOICE);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_ONE_WRITEOFF_IN_ROUTE_PER_INVOICE);
 
         return success;
     }
@@ -282,7 +282,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
 
         if (ObjectUtils.isNull(invDocumentNumber) || StringUtils.isBlank(invDocumentNumber)) {
             success = false;
-            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT__INVOICE_DOCUMENT_NUMBER_IS_REQUIRED);
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT__INVOICE_DOCUMENT_NUMBER_IS_REQUIRED);
         }
         else {
             CustomerInvoiceDocumentService service = SpringContext.getBean(CustomerInvoiceDocumentService.class);
@@ -290,7 +290,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
 
             if (ObjectUtils.isNull(customerInvoiceDocument)) {
                 success = false;
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_INVALID_INVOICE_DOCUMENT_NUMBER);
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_INVALID_INVOICE_DOCUMENT_NUMBER);
             }
         }
         return success;

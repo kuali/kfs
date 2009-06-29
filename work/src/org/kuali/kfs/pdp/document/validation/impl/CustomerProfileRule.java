@@ -24,9 +24,9 @@ import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.MessageMap;
 
 public class CustomerProfileRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(CustomerProfileRule.class);
@@ -38,7 +38,7 @@ public class CustomerProfileRule extends MaintenanceDocumentRuleBase {
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
         boolean isValid = true;
         isValid &= super.processCustomAddCollectionLineBusinessRules(document, collectionName, line);
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         isValid &= errorMap.isEmpty();
 
         if (isValid) {

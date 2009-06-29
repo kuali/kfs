@@ -236,12 +236,12 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
             Room room = (Room) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Room.class, objectKeys);
 
             if (ObjectUtils.isNull(room)) {
-                GlobalVariables.getErrorMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_ROOM_NUMBER, location.getBuildingCode(), location.getBuildingRoomNumber(), location.getCampusCode());
+                GlobalVariables.getMessageMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_ROOM_NUMBER, location.getBuildingCode(), location.getBuildingRoomNumber(), location.getCampusCode());
                 valid &= false;
             }
             else if (!room.isActive()) {
                 String label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(Room.class.getName()).getAttributeDefinition(KFSPropertyConstants.BUILDING_ROOM_NUMBER).getLabel();
-                GlobalVariables.getErrorMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, RiceKeyConstants.ERROR_INACTIVE, label);
+                GlobalVariables.getMessageMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, RiceKeyConstants.ERROR_INACTIVE, label);
                 valid &= false;
             }
         }else if (StringUtils.isBlank(location.getBuildingCode()) && StringUtils.isNotBlank(location.getBuildingRoomNumber())){
@@ -251,12 +251,12 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
             Room room = (Room) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Room.class, objectKeys);
 
             if (ObjectUtils.isNull(room)) {
-                GlobalVariables.getErrorMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_ROOM_NUMBER_FOR_CAMPUS, location.getBuildingRoomNumber(), location.getCampusCode());
+                GlobalVariables.getMessageMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_ROOM_NUMBER_FOR_CAMPUS, location.getBuildingRoomNumber(), location.getCampusCode());
                 valid &= false;
             }
             else if (!room.isActive()) {
                 String label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(Room.class.getName()).getAttributeDefinition(KFSPropertyConstants.BUILDING_ROOM_NUMBER).getLabel();
-                GlobalVariables.getErrorMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, RiceKeyConstants.ERROR_INACTIVE, label);
+                GlobalVariables.getMessageMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, RiceKeyConstants.ERROR_INACTIVE, label);
                 valid &= false;
             }
         }

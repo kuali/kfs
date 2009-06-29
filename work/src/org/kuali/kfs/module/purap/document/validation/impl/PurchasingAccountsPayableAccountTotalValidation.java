@@ -48,7 +48,7 @@ public class PurchasingAccountsPayableAccountTotalValidation extends GenericVali
             }
         }
         if (desiredAmount.compareTo(totalAmount) != 0) {
-            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_TOTAL_AMOUNT, itemForValidation.getItemIdentifierString(),desiredAmount.toString());
+            GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_TOTAL_AMOUNT, itemForValidation.getItemIdentifierString(),desiredAmount.toString());
             valid = false;
         }
 

@@ -32,7 +32,7 @@ public class PurchasingAccountsPayableAccountPercentBetween0And100Validation ext
         double pct = accountingLine.getAccountLinePercent().doubleValue();
         
         if (pct <= 0 || pct > 100) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, PurapKeyConstants.ERROR_ITEM_PERCENT, "%", itemIdentifier);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, PurapKeyConstants.ERROR_ITEM_PERCENT, "%", itemIdentifier);
 
             valid = false;
         }

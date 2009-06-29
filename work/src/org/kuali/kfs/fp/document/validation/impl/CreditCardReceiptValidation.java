@@ -23,8 +23,8 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * This class...
@@ -36,7 +36,7 @@ public class CreditCardReceiptValidation extends GenericValidation {
      */
     public boolean validate(AttributedDocumentEvent event) {
         CreditCardDetail creditCardReceipt = getCreditCardDetailForValidation();
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         int originalErrorCount = errorMap.getErrorCount();
 
         // call the DD validation which checks basic data integrity

@@ -180,7 +180,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
     private boolean validateCapitalAssetLocation(AssetType assetType, Map<LocationField, String> fieldMap, String campusCode, String buildingCode, String roomNumber, String subRoomNumber, String contactName, String streetAddress, String cityName, String stateCode, String zipCode, String countryCode, boolean onCampus, boolean offCampus, DataDictionaryEntryBase businessObjectEntry) {
         boolean valid = true;
         if (ObjectUtils.isNull(assetType)) {
-            GlobalVariables.getErrorMap().putErrorForSectionId(CamsConstants.LOCATION_INFORMATION_SECTION_ID, CamsKeyConstants.AssetLocation.ERROR_CHOOSE_ASSET_TYPE);
+            GlobalVariables.getMessageMap().putErrorForSectionId(CamsConstants.LOCATION_INFORMATION_SECTION_ID, CamsKeyConstants.AssetLocation.ERROR_CHOOSE_ASSET_TYPE);
             valid &= false;
         }
         else {
@@ -269,7 +269,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
      * Convenience method to append the path prefix
      */
     private void putError(Map<LocationField, String> fieldMap, LocationField field, String errorKey, String... errorParameters) {
-        GlobalVariables.getErrorMap().putError(fieldMap.get(field), errorKey, errorParameters);
+        GlobalVariables.getMessageMap().putError(fieldMap.get(field), errorKey, errorParameters);
     }
 
     private boolean validateOnCampusLocation(Map<LocationField, String> fieldMap, AssetType assetType, String campusCode, String buildingCode, String buildingRoomNumber, String subRoomNumber) {

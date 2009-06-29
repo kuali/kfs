@@ -107,27 +107,27 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         
-        GlobalVariables.getErrorMap().clearErrorPath();
-        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        GlobalVariables.getMessageMap().clearErrorPath();
+        GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         
       //check for a po id
         if (ObjectUtils.isNull(paymentRequestDocument.getPurchaseOrderIdentifier())) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.PURCHASE_ORDER_ID);
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.PURCHASE_ORDER_ID);
             poNotNull = false;
         }
 
         if (ObjectUtils.isNull(paymentRequestDocument.getInvoiceDate())) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.INVOICE_DATE, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.INVOICE_DATE);
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.INVOICE_DATE, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.INVOICE_DATE);
             poNotNull = false;
         }
 
         if (ObjectUtils.isNull(paymentRequestDocument.getInvoiceNumber())) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.INVOICE_NUMBER, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.INVOICE_NUMBER);
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.INVOICE_NUMBER, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.INVOICE_NUMBER);
             poNotNull = false;
         }
         
         if (ObjectUtils.isNull(paymentRequestDocument.getVendorInvoiceAmount())) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.VENDOR_INVOICE_AMOUNT, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.VENDOR_INVOICE_AMOUNT);
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.VENDOR_INVOICE_AMOUNT, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.VENDOR_INVOICE_AMOUNT);
             poNotNull = false;
         }
         
@@ -420,7 +420,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(preq);
         // if tax is required but not yet calculated, return and prompt user to calculate
         if (requiresCalculateTax((PaymentRequestForm)form)) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);
+            GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 

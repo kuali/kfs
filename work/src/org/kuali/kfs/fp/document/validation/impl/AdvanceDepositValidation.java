@@ -46,7 +46,7 @@ public class AdvanceDepositValidation extends GenericValidation {
             isValid = !advanceDeposit.getFinancialDocumentAdvanceDepositAmount().isZero();
             if (!isValid) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(AdvanceDepositDetail.class, KFSPropertyConstants.ADVANCE_DEPOSIT_AMOUNT);
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ADVANCE_DEPOSIT_AMOUNT, KFSKeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_ZERO_AMOUNT, label);
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ADVANCE_DEPOSIT_AMOUNT, KFSKeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_ZERO_AMOUNT, label);
             }
         }
 

@@ -88,7 +88,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
             int pos = 0;
             for (AssetLocationGlobalDetail detail : assetLocationGlobal.getAssetLocationGlobalDetails()) {
                 String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetLocationGlobal.ASSET_LOCATION_GLOBAL_DETAILS + "[" + index + "]";
-                GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+                GlobalVariables.getMessageMap().addToErrorPath(errorPath);
                 success &= validateActiveCapitalAsset(detail);
                 success &= validateCampusCode(detail);
                 success &= validateBuildingCode(detail);
@@ -97,7 +97,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
                 success &= validateTagDuplicationWithinDocument(detail, tags);
                 success &= validateTagDuplication(detail.getCapitalAssetNumber(), detail.getCampusTagNumber());
                 success &= checkRequiredFieldsAfterAdd(detail);
-                GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+                GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
                 index++;
             }
         }
@@ -105,7 +105,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
         KualiWorkflowDocument workflowDoc = documentCopy.getDocumentHeader().getWorkflowDocument();
         // adding asset locks
-        if (!GlobalVariables.getErrorMap().hasErrors() && (workflowDoc.stateIsInitiated() || workflowDoc.stateIsSaved())) {
+        if (!GlobalVariables.getMessageMap().hasErrors() && (workflowDoc.stateIsInitiated() || workflowDoc.stateIsSaved())) {
             success &= setAssetLocks(documentCopy);
         }
 
@@ -197,7 +197,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
             permissionDetails.putAll(KimCommonUtils.getNamespaceAndComponentSimpleName(Asset.class));
             if (!SpringContext.getBean(IdentityManagementService.class).isAuthorized(GlobalVariables.getUserSession().getPerson().getPrincipalId(), CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.MAINTAIN_ASSET_LOCATION, permissionDetails, qualification)) {
                 success &= false;
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_ASSET_AUTHORIZATION, new String[] { GlobalVariables.getUserSession().getPerson().getPrincipalName(), assetLocationGlobalDetail.getCapitalAssetNumber().toString() });
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_ASSET_AUTHORIZATION, new String[] { GlobalVariables.getUserSession().getPerson().getPrincipalName(), assetLocationGlobalDetail.getCapitalAssetNumber().toString() });
             }
         }
 
@@ -215,7 +215,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
         if (assetLocationGlobalDetails.size() == 0) {
             success = false;
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_ASSET_LOCATION_GLOBAL_NO_ASSET_DETAIL);
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_ASSET_LOCATION_GLOBAL_NO_ASSET_DETAIL);
         }
 
         return success;
@@ -234,11 +234,11 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
             assetLocationGlobalDetail.refreshReferenceObject(CamsPropertyConstants.AssetLocationGlobalDetail.ASSET);
 
             if (ObjectUtils.isNull(assetLocationGlobalDetail.getAsset())) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_CAPITAL_ASSET_NUMBER, new String[] { assetLocationGlobalDetail.getCapitalAssetNumber().toString() });
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_CAPITAL_ASSET_NUMBER, new String[] { assetLocationGlobalDetail.getCapitalAssetNumber().toString() });
                 success = false;
             }
             else if (assetService.isAssetRetired(assetLocationGlobalDetail.getAsset())) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_NON_ACTIVE_ASSET_RETIREMENT, new String[] { assetLocationGlobalDetail.getCapitalAssetNumber().toString() });
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Retirement.ERROR_NON_ACTIVE_ASSET_RETIREMENT, new String[] { assetLocationGlobalDetail.getCapitalAssetNumber().toString() });
                 success = false;
             }
         }
@@ -259,7 +259,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
             // assetLocationGlobalDetail.refreshReferenceObject("campus");
 
             if (ObjectUtils.isNull(assetLocationGlobalDetail.getCampus())) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAMPUS_CODE, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_CAMPUS_CODE, new String[] { assetLocationGlobalDetail.getCampusCode(), assetLocationGlobalDetail.getCapitalAssetNumber().toString() });
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAMPUS_CODE, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_CAMPUS_CODE, new String[] { assetLocationGlobalDetail.getCampusCode(), assetLocationGlobalDetail.getCapitalAssetNumber().toString() });
                 success = false;
             }
         }
@@ -280,7 +280,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
             assetLocationGlobalDetail.refreshReferenceObject("building");
 
             if (ObjectUtils.isNull(assetLocationGlobalDetail.getBuilding())) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.BUILDING_CODE, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_BUILDING_CODE, new String[] { assetLocationGlobalDetail.getBuildingCode(), assetLocationGlobalDetail.getCampusCode() });
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetLocationGlobal.BUILDING_CODE, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_BUILDING_CODE, new String[] { assetLocationGlobalDetail.getBuildingCode(), assetLocationGlobalDetail.getCampusCode() });
                 success = false;
             }
         }
@@ -301,7 +301,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
             assetLocationGlobalDetail.refreshReferenceObject("buildingRoom");
 
             if (ObjectUtils.isNull(assetLocationGlobalDetail.getBuildingRoom())) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_ROOM_NUMBER, new String[] { assetLocationGlobalDetail.getBuildingCode(), assetLocationGlobalDetail.getBuildingRoomNumber(), assetLocationGlobalDetail.getCampusCode() });
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetLocationGlobal.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_ROOM_NUMBER, new String[] { assetLocationGlobalDetail.getBuildingCode(), assetLocationGlobalDetail.getBuildingRoomNumber(), assetLocationGlobalDetail.getCampusCode() });
                 success = false;
             }
         }
@@ -319,7 +319,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         if (StringUtils.isBlank(assetLocationGlobalDetail.getCampusTagNumber())) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_TAG_NUMBER_REQUIRED);
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_TAG_NUMBER_REQUIRED);
             success = false;
         }
 
@@ -340,7 +340,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
             for (Asset asset : activeAssetsMatchingTagNumber) {
                 // compare asset numbers
                 if (!asset.getCapitalAssetNumber().equals(capitalAssetNumber)) {
-                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_DUPLICATE_TAG_NUMBER_FOUND, new String[] { campusTagNumber, String.valueOf(asset.getCapitalAssetNumber()), capitalAssetNumber.toString() });
+                    GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_DUPLICATE_TAG_NUMBER_FOUND, new String[] { campusTagNumber, String.valueOf(asset.getCapitalAssetNumber()), capitalAssetNumber.toString() });
                     success = false;
                     break;
                 }
@@ -358,7 +358,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
             // if duplicate within list
             if (!tagsList.add(campusTagNumber)) {
                 success &= false;
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_DUPLICATE_TAG_NUMBER_WITHIN_DOCUMENT, new String[] { campusTagNumber, capitalAssetNumber.toString() });
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_DUPLICATE_TAG_NUMBER_WITHIN_DOCUMENT, new String[] { campusTagNumber, capitalAssetNumber.toString() });
             }
         }
         return success;
@@ -374,17 +374,17 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         if (StringUtils.isBlank(assetLocationGlobalDetail.getCampusCode())) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAMPUS_CODE, CamsKeyConstants.AssetLocationGlobal.ERROR_CAMPUS_CODE_REQUIRED);
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAMPUS_CODE, CamsKeyConstants.AssetLocationGlobal.ERROR_CAMPUS_CODE_REQUIRED);
             success = false;
         }
 
         if (StringUtils.isBlank(assetLocationGlobalDetail.getBuildingCode())) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.BUILDING_CODE, CamsKeyConstants.AssetLocationGlobal.ERROR_BUILDING_CODE_REQUIRED);
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetLocationGlobal.BUILDING_CODE, CamsKeyConstants.AssetLocationGlobal.ERROR_BUILDING_CODE_REQUIRED);
             success = false;
         }
 
         if (StringUtils.isBlank(assetLocationGlobalDetail.getBuildingRoomNumber())) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_ROOM_NUMBER_REQUIRED);
+            GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetLocationGlobal.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_ROOM_NUMBER_REQUIRED);
             success = false;
         }
 

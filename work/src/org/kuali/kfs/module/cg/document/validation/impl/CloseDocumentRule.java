@@ -50,24 +50,24 @@ public class CloseDocumentRule extends TransactionalDocumentRuleBase {
         String closeDateLabel = dataDictionaryService.getAttributeLabel(CFDAClose.class, "userInitiatedCloseDate");
         String closeOnOrBeforeDateLabel = dataDictionaryService.getAttributeLabel(CFDAClose.class, "closeOnOrBeforeDate");
 
-        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         if (closeDate == null) {
             closeDateIsNotNull = false;
             String label = dataDictionaryService.getAttributeLabel(CFDAClose.class, "userInitiatedCloseDate");
         } else if (today.getTime() > closeDate.getTime()) {
             closeDateIsTodayOrLater = false;
-            GlobalVariables.getErrorMap().putError("userInitiatedCloseDate", KFSKeyConstants.ContractsAndGrants.USER_INITIATED_DATE_TOO_EARLY, closeDateLabel);
+            GlobalVariables.getMessageMap().putError("userInitiatedCloseDate", KFSKeyConstants.ContractsAndGrants.USER_INITIATED_DATE_TOO_EARLY, closeDateLabel);
         }
         if (closeOnOrBeforeDate == null) {
             closeOnOrBeforeDateIsNotNull = false;
         } else if (today.getTime() > closeOnOrBeforeDate.getTime()) {
             closeOnOrBeforeDateIsTodayOrLater = false;
-            GlobalVariables.getErrorMap().putError("closeOnOrBeforeDate", KFSKeyConstants.ContractsAndGrants.CLOSE_ON_OR_BEFORE_DATE_TOO_EARLY, closeOnOrBeforeDateLabel);
+            GlobalVariables.getMessageMap().putError("closeOnOrBeforeDate", KFSKeyConstants.ContractsAndGrants.CLOSE_ON_OR_BEFORE_DATE_TOO_EARLY, closeOnOrBeforeDateLabel);
         } else if (closeOnOrBeforeDate.getTime() > closeDate.getTime()) {
             closeOnOrBeforeDateIsCloseDateOrEarlier = false;
-            GlobalVariables.getErrorMap().putError("closeOnOrBeforeDate", KFSKeyConstants.ContractsAndGrants.CLOSE_ON_OR_BEFORE_DATE_TOO_LATE, closeOnOrBeforeDateLabel, closeDateLabel);
+            GlobalVariables.getMessageMap().putError("closeOnOrBeforeDate", KFSKeyConstants.ContractsAndGrants.CLOSE_ON_OR_BEFORE_DATE_TOO_LATE, closeOnOrBeforeDateLabel, closeDateLabel);
         }
-        GlobalVariables.getErrorMap().removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
+        GlobalVariables.getMessageMap().removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
         
         isValid = closeDateIsNotNull && closeDateIsTodayOrLater && closeOnOrBeforeDateIsNotNull && closeOnOrBeforeDateIsTodayOrLater && closeOnOrBeforeDateIsCloseDateOrEarlier;
         return isValid;

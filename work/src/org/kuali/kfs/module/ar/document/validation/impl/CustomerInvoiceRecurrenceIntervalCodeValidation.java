@@ -40,7 +40,7 @@ public class CustomerInvoiceRecurrenceIntervalCodeValidation extends GenericVali
             return true;
         
         if (ObjectUtils.isNull(customerInvoiceDocument.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode())) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_RECURRENCE_INTERVAL_CODE, ArKeyConstants.ERROR_INVOICE_RECURRENCE_INTERVAL_CODE_IS_REQUIRED);
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_RECURRENCE_INTERVAL_CODE, ArKeyConstants.ERROR_INVOICE_RECURRENCE_INTERVAL_CODE_IS_REQUIRED);
             return false;
         }
         return true;

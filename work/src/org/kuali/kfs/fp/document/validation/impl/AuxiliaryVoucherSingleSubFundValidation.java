@@ -51,7 +51,7 @@ public class AuxiliaryVoucherSingleSubFundValidation extends GenericValidation {
             else {
                 String currentSubFundGroup = line.getAccount().getSubFundGroupCode();
                 if (!currentSubFundGroup.equals(baseSubFundGroupCode)) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.AuxiliaryVoucher.ERROR_DIFFERENT_SUB_FUND_GROUPS);
+                    GlobalVariables.getMessageMap().putError(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.AuxiliaryVoucher.ERROR_DIFFERENT_SUB_FUND_GROUPS);
                     return false;
                 }
             }

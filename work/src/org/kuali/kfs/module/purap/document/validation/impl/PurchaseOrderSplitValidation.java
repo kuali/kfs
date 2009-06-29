@@ -50,11 +50,11 @@ public class PurchaseOrderSplitValidation extends GenericValidation {
         List<PurchaseOrderItem> movingPOItems = categorizedItems.get(PODocumentsStrings.ITEMS_MOVING_TO_SPLIT);
         List<PurchaseOrderItem> remainingPOLineItems = categorizedItems.get(PODocumentsStrings.LINE_ITEMS_REMAINING);
         if (movingPOItems.isEmpty()) {
-            GlobalVariables.getErrorMap().putError(PurapConstants.SPLIT_PURCHASE_ORDER_TAB_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_SPLIT_ONE_ITEM_MUST_MOVE);
+            GlobalVariables.getMessageMap().putError(PurapConstants.SPLIT_PURCHASE_ORDER_TAB_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_SPLIT_ONE_ITEM_MUST_MOVE);
             valid &= false;
         }
         else if (remainingPOLineItems.isEmpty()) {
-            GlobalVariables.getErrorMap().putError(PurapConstants.SPLIT_PURCHASE_ORDER_TAB_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_SPLIT_ONE_ITEM_MUST_REMAIN);
+            GlobalVariables.getMessageMap().putError(PurapConstants.SPLIT_PURCHASE_ORDER_TAB_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_SPLIT_ONE_ITEM_MUST_REMAIN);
             valid &= false;
         }
         return valid;

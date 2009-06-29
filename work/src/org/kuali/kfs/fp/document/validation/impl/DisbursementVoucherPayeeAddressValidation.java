@@ -25,8 +25,8 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class DisbursementVoucherPayeeAddressValidation extends GenericValidation {
@@ -44,7 +44,7 @@ public class DisbursementVoucherPayeeAddressValidation extends GenericValidation
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
 
-        ErrorMap errors = GlobalVariables.getErrorMap();
+        MessageMap errors = GlobalVariables.getMessageMap();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);

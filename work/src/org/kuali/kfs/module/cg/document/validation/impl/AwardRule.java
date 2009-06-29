@@ -182,7 +182,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
     // check if the given award organization exists
     private boolean checkAwardOrganization(AwardOrganization awardOrganization) {
         boolean success = true;
-        int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
+        int originalErrorCount = GlobalVariables.getMessageMap().getErrorCount();
         String errorPathPrefix = KFSConstants.MAINTENANCE_ADD_PREFIX + KFSPropertyConstants.AWARD_ORGRANIZATIONS + ".";
 
         this.getDictionaryValidationService().validateBusinessObject(awardOrganization);
@@ -197,7 +197,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
             }
         }
 
-        success &= GlobalVariables.getErrorMap().getErrorCount() == originalErrorCount;
+        success &= GlobalVariables.getMessageMap().getErrorCount() == originalErrorCount;
 
         return success;
     }
@@ -205,7 +205,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
     // check if the given award subcontrator exists
     private boolean checkAwardSubcontractor(AwardSubcontractor awardSubcontractor) {
         boolean success = true;
-        int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
+        int originalErrorCount = GlobalVariables.getMessageMap().getErrorCount();
         String errorPathPrefix = KFSConstants.MAINTENANCE_ADD_PREFIX + KFSPropertyConstants.AWARD_SUBCONTRACTORS + ".";
 
         this.getDictionaryValidationService().validateBusinessObject(awardSubcontractor);
@@ -220,7 +220,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
             }
         }
 
-        success &= GlobalVariables.getErrorMap().getErrorCount() == originalErrorCount;
+        success &= GlobalVariables.getMessageMap().getErrorCount() == originalErrorCount;
 
         return success;
     }
@@ -228,7 +228,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
     // check if the given award account exists
     private boolean checkAwardAccount(AwardAccount awardAccount) {
         boolean success = true;
-        int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
+        int originalErrorCount = GlobalVariables.getMessageMap().getErrorCount();
         String errorPathPrefix = KFSConstants.MAINTENANCE_ADD_PREFIX + KFSPropertyConstants.AWARD_ACCOUNTS + ".";
 
         this.getDictionaryValidationService().validateBusinessObject(awardAccount);
@@ -251,7 +251,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
             putFieldError(errorPathPrefix + "projectDirector.principalName", KFSKeyConstants.ERROR_EXISTENCE, message);
         }
 
-        success &= GlobalVariables.getErrorMap().getErrorCount() == originalErrorCount;
+        success &= GlobalVariables.getMessageMap().getErrorCount() == originalErrorCount;
 
         return success;
     }

@@ -49,18 +49,18 @@ public class AuxiliaryVoucherAccountingLineAmountValidation extends GenericValid
 
         // check for negative or zero amounts
         if (KualiDecimal.ZERO.equals(amount)) { // if 0
-            GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
-            GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
 
             retval = false;
         }
         else if (amount.isNegative()) { // entered a negative number
             String debitCreditCode = accountingLineForValidation.getDebitCreditCode();
             if (StringUtils.isNotBlank(debitCreditCode) && GL_DEBIT_CODE.equals(debitCreditCode)) {
-                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
             }
             else {
-                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
             }
 
             retval = false;
@@ -78,8 +78,8 @@ public class AuxiliaryVoucherAccountingLineAmountValidation extends GenericValid
      */
     private String buildErrorMapKeyPathForDebitCreditAmount(boolean isDebit) {
         // determine if we are looking at a new line add or an update
-        boolean isNewLineAdd = GlobalVariables.getErrorMap().getErrorPath().contains(NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
-        isNewLineAdd |= GlobalVariables.getErrorMap().getErrorPath().contains(NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
+        boolean isNewLineAdd = GlobalVariables.getMessageMap().getErrorPath().contains(NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
+        isNewLineAdd |= GlobalVariables.getMessageMap().getErrorPath().contains(NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
 
         if (isNewLineAdd) {
             if (isDebit) {
@@ -90,7 +90,7 @@ public class AuxiliaryVoucherAccountingLineAmountValidation extends GenericValid
             }
         }
         else {
-            String index = StringUtils.substringBetween(GlobalVariables.getErrorMap().getKeyPath("", true), SQUARE_BRACKET_LEFT, SQUARE_BRACKET_RIGHT);
+            String index = StringUtils.substringBetween(GlobalVariables.getMessageMap().getKeyPath("", true), SQUARE_BRACKET_LEFT, SQUARE_BRACKET_RIGHT);
             String indexWithParams = SQUARE_BRACKET_LEFT + index + SQUARE_BRACKET_RIGHT;
             if (isDebit) {
                 return AUXILIARY_LINE_HELPER_PROPERTY_NAME + indexWithParams + VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME;

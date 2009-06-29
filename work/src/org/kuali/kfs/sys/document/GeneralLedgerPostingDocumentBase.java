@@ -173,7 +173,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
             List<SufficientFundsItem> sfItems = checkSufficientFunds();
             if (!sfItems.isEmpty()) {
                 for (SufficientFundsItem sfItem : sfItems) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.SufficientFunds.ERROR_INSUFFICIENT_FUNDS, new String[] { sfItem.getAccount().getChartOfAccountsCode(), sfItem.getAccount().getAccountNumber(), StringUtils.isNotBlank(sfItem.getSufficientFundsObjectCode()) ? sfItem.getSufficientFundsObjectCode() : KFSConstants.NOT_AVAILABLE_STRING, sfItem.getAccountSufficientFundsCode() });
+                    GlobalVariables.getMessageMap().putError(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.SufficientFunds.ERROR_INSUFFICIENT_FUNDS, new String[] { sfItem.getAccount().getChartOfAccountsCode(), sfItem.getAccount().getAccountNumber(), StringUtils.isNotBlank(sfItem.getSufficientFundsObjectCode()) ? sfItem.getSufficientFundsObjectCode() : KFSConstants.NOT_AVAILABLE_STRING, sfItem.getAccountSufficientFundsCode() });
                 }
                 throw new ValidationException("Insufficient Funds on this Document:");
             }

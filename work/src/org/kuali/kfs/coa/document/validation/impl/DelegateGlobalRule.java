@@ -164,9 +164,9 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
             int index = 0;
             for (AccountGlobalDetail dtl : details) {
                 String errorPath = MAINTAINABLE_ERROR_PREFIX + "accountGlobalDetails[" + index + "]";
-                GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+                GlobalVariables.getMessageMap().addToErrorPath(errorPath);
                 success &= checkAccountDetails(dtl);
-                GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+                GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
                 index++;
             }
             success &= checkOnlyOneChartErrorWrapper(details);
@@ -183,15 +183,15 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
      */
     public boolean checkAccountDetails(AccountGlobalDetail dtl) {
         boolean success = true;
-        int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
+        int originalErrorCount = GlobalVariables.getMessageMap().getErrorCount();
         getDictionaryValidationService().validateBusinessObject(dtl);
         if (StringUtils.isNotBlank(dtl.getAccountNumber()) && StringUtils.isNotBlank(dtl.getChartOfAccountsCode())) {
             dtl.refreshReferenceObject("account");
             if (ObjectUtils.isNull(dtl.getAccount())) {
-                GlobalVariables.getErrorMap().putError("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT, new String[] { dtl.getChartOfAccountsCode(), dtl.getAccountNumber() });
+                GlobalVariables.getMessageMap().putError("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT, new String[] { dtl.getChartOfAccountsCode(), dtl.getAccountNumber() });
             }
         }
-        success &= GlobalVariables.getErrorMap().getErrorCount() == originalErrorCount;
+        success &= GlobalVariables.getMessageMap().getErrorCount() == originalErrorCount;
 
         return success;
     }
@@ -492,12 +492,12 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
             // make sure that both primary keys are available for this object
             if (!checkEmptyValue(detail.getAccountNumber())) {
                 // put an error about accountnumber
-                GlobalVariables.getErrorMap().putError("accountNumber", KFSKeyConstants.ERROR_REQUIRED, "Account Number");
+                GlobalVariables.getMessageMap().putError("accountNumber", KFSKeyConstants.ERROR_REQUIRED, "Account Number");
                 success &= false;
             }
             if (!checkEmptyValue(detail.getChartOfAccountsCode())) {
                 // put an error about chart code
-                GlobalVariables.getErrorMap().putError("chartOfAccountsCode", KFSKeyConstants.ERROR_REQUIRED, "Chart of Accounts Code");
+                GlobalVariables.getMessageMap().putError("chartOfAccountsCode", KFSKeyConstants.ERROR_REQUIRED, "Chart of Accounts Code");
                 success &= false;
             }
             success &= checkAccountDetails(detail);

@@ -430,7 +430,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             }
         }
         catch (ItemParserException e) {
-            GlobalVariables.getErrorMap().putError(errorPath, e.getErrorKey(), e.getErrorParameters());
+            GlobalVariables.getMessageMap().putError(errorPath, e.getErrorKey(), e.getErrorParameters());
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -638,7 +638,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             // If the institution's validate account distribution indicator is true and
             // the total percentage in the distribute account list does not equal 100 % then we should display error
             if (institutionNeedsDistributeAccountValidation && needToDistributeAccount && purchasingForm.getTotalPercentageOfAccountDistributionsourceAccountingLines().compareTo(new BigDecimal(100)) != 0) {
-                GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.ERROR_DISTRIBUTE_ACCOUNTS_NOT_100_PERCENT);
+                GlobalVariables.getMessageMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.ERROR_DISTRIBUTE_ACCOUNTS_NOT_100_PERCENT);
                 foundAccountDistributionError = true;
             }
             // if the institution's validate account distribution indicator is true and
@@ -702,14 +702,14 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             }
 
             if ((needToDistributeAccount && !performedAccountDistribution && foundAccountDistributionError)) {
-                GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ITEMS_TO_DISTRIBUTE_TO, "account numbers");
+                GlobalVariables.getMessageMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ITEMS_TO_DISTRIBUTE_TO, "account numbers");
             }
             if (needToDistributeCommodityCode && !performedCommodityCodeDistribution && foundCommodityCodeDistributionError) {
-                GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ITEMS_TO_DISTRIBUTE_TO, "commodity codes");
+                GlobalVariables.getMessageMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ITEMS_TO_DISTRIBUTE_TO, "commodity codes");
             }
         }
         else {
-            GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ACCOUNTS_TO_DISTRIBUTE);
+            GlobalVariables.getMessageMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ACCOUNTS_TO_DISTRIBUTE);
         }
 
 
@@ -999,9 +999,9 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         String errorPath = PurapConstants.CAPITAL_ASSET_TAB_ERRORS;
         // validate entry is selected for each field
         if (StringUtils.isEmpty(document.getCapitalAssetSystemTypeCode())) {
-            GlobalVariables.getErrorMap().putError(errorPath, KFSKeyConstants.ERROR_MISSING, "Capital Assets System Type Code");
+            GlobalVariables.getMessageMap().putError(errorPath, KFSKeyConstants.ERROR_MISSING, "Capital Assets System Type Code");
         } else if (StringUtils.isEmpty(document.getCapitalAssetSystemStateCode())) {
-                GlobalVariables.getErrorMap().putError(errorPath, KFSKeyConstants.ERROR_MISSING, "Capital Assets System State Code");
+                GlobalVariables.getMessageMap().putError(errorPath, KFSKeyConstants.ERROR_MISSING, "Capital Assets System State Code");
         } else {
             SpringContext.getBean(PurchasingService.class).setupCapitalAssetSystem(document);
             SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(document);
@@ -1009,7 +1009,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
             } else {
                 //TODO: extract this and above strings to app resources
-                GlobalVariables.getErrorMap().putError(errorPath, KFSKeyConstants.ERROR_CUSTOM,"No items were found that met the requirements for Capital Asset data collection");
+                GlobalVariables.getMessageMap().putError(errorPath, KFSKeyConstants.ERROR_CUSTOM,"No items were found that met the requirements for Capital Asset data collection");
             }
             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
         }
@@ -1085,7 +1085,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         
         String vendorName = document.getVendorName();
         if (StringUtils.isEmpty(vendorName)) {
-            GlobalVariables.getErrorMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, PurapKeyConstants.ERROR_CAPITAL_ASSET_NO_VENDOR, null);
+            GlobalVariables.getMessageMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, PurapKeyConstants.ERROR_CAPITAL_ASSET_NO_VENDOR, null);
         } else {
             CapitalAssetSystem system = document.getPurchasingCapitalAssetSystems().get(getSelectedLine(request));
             if(system != null) {
@@ -1102,7 +1102,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         
         String vendorName = document.getVendorName();
         if (StringUtils.isEmpty(vendorName)) {
-            GlobalVariables.getErrorMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, PurapKeyConstants.ERROR_CAPITAL_ASSET_NO_VENDOR, null);
+            GlobalVariables.getMessageMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, PurapKeyConstants.ERROR_CAPITAL_ASSET_NO_VENDOR, null);
         } else {
             PurchasingCapitalAssetItem assetItem = document.getPurchasingCapitalAssetItems().get(getSelectedLine(request));
             CapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();

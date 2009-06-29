@@ -33,13 +33,13 @@ public class CustomerInvoiceReceivableFinancialObjectCodeValidation extends Gene
     
     public boolean validate(AttributedDocumentEvent event) {
         if (StringUtils.isEmpty(customerInvoiceDocument.getPaymentFinancialObjectCode())) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_OBJECT_CODE, OrganizationAccountingDefaultErrors.ERROR_PAYMENT_OBJECT_CODE_REQUIRED);
+            GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_OBJECT_CODE, OrganizationAccountingDefaultErrors.ERROR_PAYMENT_OBJECT_CODE_REQUIRED);
             return false;
         }
         else {
             customerInvoiceDocument.refreshReferenceObject(ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_OBJECT);
             if (ObjectUtils.isNull(customerInvoiceDocument.getPaymentFinancialObject())) {
-                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_OBJECT_CODE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_OBJECT_CODE);
+                GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.PAYMENT_FINANCIAL_OBJECT_CODE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_PAYMENT_OBJECT_CODE);
                 return false;
             }
         }

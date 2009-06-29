@@ -131,12 +131,12 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
             // make sure that both primary keys are available for this object
             if (!checkEmptyValue(detail.getAccountNumber())) {
                 // put an error about accountnumber
-                GlobalVariables.getErrorMap().putError("accountNumber", KFSKeyConstants.ERROR_REQUIRED, "Account Number");
+                GlobalVariables.getMessageMap().putError("accountNumber", KFSKeyConstants.ERROR_REQUIRED, "Account Number");
                 success &= false;
             }
             if (!checkEmptyValue(detail.getChartOfAccountsCode())) {
                 // put an error about chart code
-                GlobalVariables.getErrorMap().putError("chartOfAccountsCode", KFSKeyConstants.ERROR_REQUIRED, "Chart of Accounts Code");
+                GlobalVariables.getMessageMap().putError("chartOfAccountsCode", KFSKeyConstants.ERROR_REQUIRED, "Chart of Accounts Code");
                 success &= false;
             }
             success &= checkAccountDetails(detail);
@@ -145,17 +145,17 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
             SubObjectCodeGlobalDetail detail = (SubObjectCodeGlobalDetail) bo;
             if (!checkEmptyValue(detail.getChartOfAccountsCode())) {
                 // put an error about accountnumber
-                GlobalVariables.getErrorMap().putError("chartOfAccountsCode", KFSKeyConstants.ERROR_REQUIRED, "Chart of Accounts Code");
+                GlobalVariables.getMessageMap().putError("chartOfAccountsCode", KFSKeyConstants.ERROR_REQUIRED, "Chart of Accounts Code");
                 success &= false;
             }
             if (!checkEmptyValue(detail.getFinancialObjectCode())) {
                 // put an error about financial object code
-                GlobalVariables.getErrorMap().putError("financialObjectCode", KFSKeyConstants.ERROR_REQUIRED, "Financial Object Code");
+                GlobalVariables.getMessageMap().putError("financialObjectCode", KFSKeyConstants.ERROR_REQUIRED, "Financial Object Code");
                 success &= false;
             }
             if (!checkEmptyValue(detail.getUniversityFiscalYear())) {
                 // put an error about financial object code
-                GlobalVariables.getErrorMap().putError("universityFiscalYear", KFSKeyConstants.ERROR_REQUIRED, "University Fiscal Year");
+                GlobalVariables.getMessageMap().putError("universityFiscalYear", KFSKeyConstants.ERROR_REQUIRED, "University Fiscal Year");
                 success &= false;
             }
             success &= checkSubObjectCodeDetails(detail);
@@ -183,9 +183,9 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
             int index = 0;
             for (AccountGlobalDetail dtl : details) {
                 String errorPath = MAINTAINABLE_ERROR_PREFIX + "accountGlobalDetails[" + index + "]";
-                GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+                GlobalVariables.getMessageMap().addToErrorPath(errorPath);
                 success &= checkAccountDetails(dtl);
-                GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+                GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
                 index++;
             }
             success &= checkOnlyOneChartErrorWrapper(details);
@@ -202,15 +202,15 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
      */
     public boolean checkAccountDetails(AccountGlobalDetail dtl) {
         boolean success = true;
-        int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
+        int originalErrorCount = GlobalVariables.getMessageMap().getErrorCount();
         getDictionaryValidationService().validateBusinessObject(dtl);
         if (StringUtils.isNotBlank(dtl.getAccountNumber()) && StringUtils.isNotBlank(dtl.getChartOfAccountsCode())) {
             dtl.refreshReferenceObject("account");
             if (ObjectUtils.isNull(dtl.getAccount())) {
-                GlobalVariables.getErrorMap().putError("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT, new String[] { dtl.getChartOfAccountsCode(), dtl.getAccountNumber() });
+                GlobalVariables.getMessageMap().putError("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT, new String[] { dtl.getChartOfAccountsCode(), dtl.getAccountNumber() });
             }
         }
-        success &= GlobalVariables.getErrorMap().getErrorCount() == originalErrorCount;
+        success &= GlobalVariables.getMessageMap().getErrorCount() == originalErrorCount;
 
         return success;
     }
@@ -224,17 +224,17 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
      */
     public boolean checkSubObjectCodeDetails(SubObjectCodeGlobalDetail dtl) {
         boolean success = true;
-        int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
+        int originalErrorCount = GlobalVariables.getMessageMap().getErrorCount();
         getDictionaryValidationService().validateBusinessObject(dtl);
         if (StringUtils.isNotBlank(dtl.getFinancialObjectCode()) && StringUtils.isNotBlank(dtl.getChartOfAccountsCode()) && dtl.getUniversityFiscalYear() > 0) {
             dtl.refreshReferenceObject("financialObject");
             dtl.refreshReferenceObject("universityFiscal");
             dtl.refreshReferenceObject("chartOfAccounts");
             if (ObjectUtils.isNull(dtl.getChartOfAccounts()) || ObjectUtils.isNull(dtl.getUniversityFiscal()) || ObjectUtils.isNull(dtl.getFinancialObject())) {
-                GlobalVariables.getErrorMap().putError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_SUBOBJECTMAINT_INVALID_OBJECT_CODE, new String[] { dtl.getFinancialObjectCode(), dtl.getChartOfAccountsCode(), dtl.getUniversityFiscalYear().toString() });
+                GlobalVariables.getMessageMap().putError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_SUBOBJECTMAINT_INVALID_OBJECT_CODE, new String[] { dtl.getFinancialObjectCode(), dtl.getChartOfAccountsCode(), dtl.getUniversityFiscalYear().toString() });
             }
         }
-        success &= GlobalVariables.getErrorMap().getErrorCount() == originalErrorCount;
+        success &= GlobalVariables.getMessageMap().getErrorCount() == originalErrorCount;
 
         return success;
     }

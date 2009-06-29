@@ -1411,7 +1411,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         rule.processCustomRouteDocumentBusinessRules(maintDoc);
-        // System.out.println( GlobalVariables.getErrorMap().entrySet() );
+        // System.out.println( GlobalVariables.getMessageMap().entrySet() );
         assertFieldErrorExists("accountGuideline.accountPurposeText", KFSKeyConstants.ERROR_MAX_LENGTH);
     }
 
@@ -1425,7 +1425,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         rule.processCustomRouteDocumentBusinessRules(maintDoc);
-        System.out.println(GlobalVariables.getErrorMap().entrySet());
+        System.out.println(GlobalVariables.getMessageMap().entrySet());
         assertFieldErrorDoesNotExist("accountGuideline.accountPurposeText", KFSKeyConstants.ERROR_MAX_LENGTH);
     }
 }

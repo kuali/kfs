@@ -52,19 +52,19 @@ public class PurchasingAccountsPayableBelowTheLineValuesValidation extends Gener
             if (ObjectUtils.isNotNull(itemForValidation.getItemUnitPrice()) && (new KualiDecimal(itemForValidation.getItemUnitPrice())).isZero()) {
                 if (parameterService.parameterExists(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.ITEM_ALLOWS_ZERO) && !parameterService.getParameterEvaluator(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.ITEM_ALLOWS_ZERO, itemForValidation.getItemTypeCode()).evaluationSucceeds()) {
                     valid = false;
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, itemForValidation.getItemType().getItemTypeDescription(), "zero");
+                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, itemForValidation.getItemType().getItemTypeDescription(), "zero");
                 }
             }
             else if (ObjectUtils.isNotNull(itemForValidation.getItemUnitPrice()) && (new KualiDecimal(itemForValidation.getItemUnitPrice())).isPositive()) {
                 if (parameterService.parameterExists(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.ITEM_ALLOWS_POSITIVE) && !parameterService.getParameterEvaluator(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.ITEM_ALLOWS_POSITIVE, itemForValidation.getItemTypeCode()).evaluationSucceeds()) {
                     valid = false;
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, itemForValidation.getItemType().getItemTypeDescription(), "positive");
+                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, itemForValidation.getItemType().getItemTypeDescription(), "positive");
                 }
             }
             else if (ObjectUtils.isNotNull(itemForValidation.getItemUnitPrice()) && (new KualiDecimal(itemForValidation.getItemUnitPrice())).isNegative()) {
                 if (parameterService.parameterExists(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.ITEM_ALLOWS_NEGATIVE) && !parameterService.getParameterEvaluator(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.ITEM_ALLOWS_NEGATIVE, itemForValidation.getItemTypeCode()).evaluationSucceeds()) {
                     valid = false;
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, itemForValidation.getItemType().getItemTypeDescription(), "negative");
+                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, itemForValidation.getItemType().getItemTypeDescription(), "negative");
                 }
             }
             if (ObjectUtils.isNotNull(itemForValidation.getItemUnitPrice()) && (new KualiDecimal(itemForValidation.getItemUnitPrice())).isNonZero() && StringUtils.isEmpty(itemForValidation.getItemDescription())) {
@@ -73,7 +73,7 @@ public class PurchasingAccountsPayableBelowTheLineValuesValidation extends Gener
                     // (parameterService.getIndicatorParameter(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)),
                     // PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION)) {
                     valid = false;
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, "The item description of " + itemForValidation.getItemType().getItemTypeDescription(), "empty");
+                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, "The item description of " + itemForValidation.getItemType().getItemTypeDescription(), "empty");
                 }
             }
         }

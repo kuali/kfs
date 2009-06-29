@@ -141,7 +141,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
         rule.setupBaseConvenienceObjects(maintDoc);
 
         // confirm that we're starting with no errors
-        assertEquals(0, GlobalVariables.getErrorMap().size());
+        assertEquals(0, GlobalVariables.getMessageMap().size());
 
         return rule;
     }
@@ -149,13 +149,13 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
     protected void testDefaultExistenceCheck(PersistableBusinessObject bo, String fieldName, boolean shouldFail) {
 
         // init the error path
-        GlobalVariables.getErrorMap().addToErrorPath("document.newMaintainableObject");
+        GlobalVariables.getMessageMap().addToErrorPath("document.newMaintainableObject");
 
         // run the dataDictionary validation
         SpringContext.getBean(DictionaryValidationService.class).validateDefaultExistenceChecks(bo);
 
         // clear the error path
-        GlobalVariables.getErrorMap().removeFromErrorPath("document.newMaintainableObject");
+        GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject");
 
         // assert that the existence of the error is what is expected
         assertFieldErrorExistence(fieldName, KFSKeyConstants.ERROR_EXISTENCE, shouldFail);
@@ -169,7 +169,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
      * @param expectedErrorCount - the number of errors expected
      */
     protected void assertErrorCount(int expectedErrorCount) {
-        assertEquals(expectedErrorCount, GlobalVariables.getErrorMap().getErrorCount());
+        assertEquals(expectedErrorCount, GlobalVariables.getMessageMap().getErrorCount());
     }
 
     /**
@@ -180,7 +180,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
      * @return True if the error exists in the GlobalErrors, false if not.
      */
     protected boolean doesFieldErrorExist(String fieldName, String errorKey) {
-        return GlobalVariables.getErrorMap().fieldHasMessage(MaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX + fieldName, errorKey);
+        return GlobalVariables.getMessageMap().fieldHasMessage(MaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX + fieldName, errorKey);
     }
 
     /**
@@ -193,11 +193,11 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
      */
     protected void assertFieldErrorExistence(String fieldName, String errorKey, boolean expectedResult) {
         boolean result = doesFieldErrorExist(fieldName, errorKey);
-        assertEquals("Existence check for Error on fieldName/errorKey: " + fieldName + "/" + errorKey + ". " + GlobalVariables.getErrorMap(), expectedResult, result);
+        assertEquals("Existence check for Error on fieldName/errorKey: " + fieldName + "/" + errorKey + ". " + GlobalVariables.getMessageMap(), expectedResult, result);
     }
 
     /**
-     * This method tests whether a given combination of fieldName and errorKey does NOT exist in the GlobalVariables.getErrorMap().
+     * This method tests whether a given combination of fieldName and errorKey does NOT exist in the GlobalVariables.getMessageMap().
      * The assert will fail if the fieldName & errorKey combination DOES exist. NOTE that fieldName should NOT include the prefix
      * errorPath.
      * 
@@ -210,7 +210,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
     }
 
     /**
-     * This method tests whether a given combination of fieldName and errorKey exists in the GlobalVariables.getErrorMap(). The
+     * This method tests whether a given combination of fieldName and errorKey exists in the GlobalVariables.getMessageMap(). The
      * assert will fail if the fieldName & errorKey combination doesnt exist. NOTE that fieldName should NOT include the prefix
      * errorPath.
      * 
@@ -218,7 +218,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
      * @param errorKey - errorKey as it would be provided when adding the error
      */
     protected void assertFieldErrorExists(String fieldName, String errorKey) {
-        boolean result = GlobalVariables.getErrorMap().fieldHasMessage(MaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX + fieldName, errorKey);
+        boolean result = GlobalVariables.getMessageMap().fieldHasMessage(MaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX + fieldName, errorKey);
         assertTrue("FieldName (" + fieldName + ") should contain errorKey: " + errorKey, result);
     }
 
@@ -229,7 +229,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
      * @param errorKey - errorKey as it would be provided when adding the error
      */
     protected void assertGlobalErrorExists(String errorKey) {
-        boolean result = GlobalVariables.getErrorMap().fieldHasMessage(KFSConstants.DOCUMENT_ERRORS, errorKey);
+        boolean result = GlobalVariables.getMessageMap().fieldHasMessage(KFSConstants.DOCUMENT_ERRORS, errorKey);
         assertTrue("Document should contain errorKey: " + errorKey, result);
     }
 
@@ -240,11 +240,11 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
      */
     protected void showErrorMap() {
 
-        if (GlobalVariables.getErrorMap().isEmpty()) {
+        if (GlobalVariables.getMessageMap().isEmpty()) {
             return;
         }
 
-        for (Iterator i = GlobalVariables.getErrorMap().entrySet().iterator(); i.hasNext();) {
+        for (Iterator i = GlobalVariables.getMessageMap().entrySet().iterator(); i.hasNext();) {
             Map.Entry e = (Map.Entry) i.next();
 
             TypedArrayList errorList = (TypedArrayList) e.getValue();

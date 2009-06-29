@@ -429,7 +429,7 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
             SpringContext.getBean(BudgetReportsControlListService.class).updateSubFundSelectFlags(subFundPickList);
         }
         else {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_SUBFUND_NOT_SELECTED);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_SUBFUND_NOT_SELECTED);
         }
 
         return foundSelected;
@@ -458,7 +458,7 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
             SpringContext.getBean(BudgetReportsControlListService.class).updateObjectCodeSelectFlags(objectCodePickList);
         }
         else {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_OBJECT_CODE_NOT_SELECTED);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_OBJECT_CODE_NOT_SELECTED);
         }
 
         return foundSelected;
@@ -487,7 +487,7 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
             SpringContext.getBean(BudgetReportsControlListService.class).updateReasonCodeSelectFlags(reasonCodePickList);
         }
         else {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_REASON_CODE_NOT_SELECTED);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_REASON_CODE_NOT_SELECTED);
         }
 
         return foundSelected;
@@ -504,7 +504,7 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
         if (thresholdSettings.isUseThreshold()){
             if (thresholdSettings.getThresholdPercent() == null){
                 thresholdSettingsValid = false;
-                GlobalVariables.getErrorMap().putError(BCPropertyConstants.BUDGET_CONSTRUCTION_REPORT_THRESHOLD_SETTINGS+"."+BCPropertyConstants.THRESHOLD_PERCENT, BCKeyConstants.ERROR_BUDGET_THRESHOLD_PERCENT_NEEDED);
+                GlobalVariables.getMessageMap().putError(BCPropertyConstants.BUDGET_CONSTRUCTION_REPORT_THRESHOLD_SETTINGS+"."+BCPropertyConstants.THRESHOLD_PERCENT, BCKeyConstants.ERROR_BUDGET_THRESHOLD_PERCENT_NEEDED);
             }
         }
         return thresholdSettingsValid;

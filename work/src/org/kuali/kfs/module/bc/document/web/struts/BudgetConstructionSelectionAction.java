@@ -216,7 +216,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
             if (rulePassed) {
                 List<BudgetConstructionAccountOrganizationHierarchy> newAccountOrganizationHierarchy = (List<BudgetConstructionAccountOrganizationHierarchy>) SpringContext.getBean(BudgetDocumentService.class).retrieveOrBuildAccountOrganizationHierarchy(universityFiscalYear, chartOfAccountsCode, accountNumber);
                 if (newAccountOrganizationHierarchy == null || newAccountOrganizationHierarchy.isEmpty()) {
-                    GlobalVariables.getErrorMap().putError("budgetConstructionHeader", BCKeyConstants.ERROR_BUDGET_ACCOUNT_ORGANIZATION_HIERARCHY, chartOfAccountsCode + "-" + accountNumber);
+                    GlobalVariables.getMessageMap().putError("budgetConstructionHeader", BCKeyConstants.ERROR_BUDGET_ACCOUNT_ORGANIZATION_HIERARCHY, chartOfAccountsCode + "-" + accountNumber);
                     return mapping.findForward(KFSConstants.MAPPING_BASIC);
                 }
 
@@ -227,7 +227,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
                 tHeader = (BudgetConstructionHeader) SpringContext.getBean(BudgetDocumentService.class).getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
                 if (tHeader == null) {
 
-                    GlobalVariables.getErrorMap().putError("budgetConstructionHeader", KFSKeyConstants.ERROR_EXISTENCE, "BC Document");
+                    GlobalVariables.getMessageMap().putError("budgetConstructionHeader", KFSKeyConstants.ERROR_EXISTENCE, "BC Document");
                     return mapping.findForward(KFSConstants.MAPPING_BASIC);
                 }
                 else {

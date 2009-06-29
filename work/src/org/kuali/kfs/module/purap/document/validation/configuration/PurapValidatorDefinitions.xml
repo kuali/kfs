@@ -24,6 +24,8 @@
 
 	<bean id="PurchasingAccountsPayable-accountPercentBetween0And100Validation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableAccountPercentBetween0And100Validation" abstract="true"/>
 
+	<bean id="PurchasingAccountsPayable-bankCodeValidation" class="org.kuali.kfs.module.purap.document.validation.impl.AccountsPayableBankCodeValidation" abstract="true"/>
+
 	<bean id="PurchasingAccountsPayable-belowTheLineValuesValidation" parent="PurchasingAccountsPayable-belowTheLineValuesValidation-parentBean" scope="prototype" />
 		
 	<bean id="PurchasingAccountsPayable-belowTheLineValuesValidation-parentBean" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableBelowTheLineValuesValidation" abstract="true">

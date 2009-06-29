@@ -193,8 +193,9 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
             Account account = detailLine.getAccount();
             String accountFiscalOfficerPersonUserId = account.getAccountFiscalOfficerUser().getPrincipalName();
             if (StringUtils.isNotEmpty(accountFiscalOfficerPersonUserId)) {
-                String actionRequestOfOfficer = this.getActionRequest(routeLevelName, KFSConstants.RouteLevelNames.ACCOUNT);
-                AdHocRoutePerson adHocRoutePerson = this.buildAdHocRouteRecipient(accountFiscalOfficerPersonUserId, actionRequestOfOfficer);
+                //KULEFR-206
+                //String actionRequestOfOfficer = this.getActionRequest(routeLevelName, KFSConstants.RouteLevelNames.ACCOUNT);                
+                AdHocRoutePerson adHocRoutePerson = this.buildAdHocRouteRecipient(accountFiscalOfficerPersonUserId, KEWConstants.ACTION_REQUEST_APPROVE_REQ);
 
                 this.addAdHocRoutePerson(adHocRoutePersonList, priorApprovers, adHocRoutePerson);
             }
@@ -202,8 +203,9 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
             Person projectDirector = contractsAndGrantsModuleService.getProjectDirectorForAccount(account);
             if (projectDirector != null) {
                 String accountProjectDirectorPersonUserId = projectDirector.getPrincipalName();
-                String actionRequestOfDirector = this.getActionRequest(routeLevelName, KFSConstants.RouteLevelNames.PROJECT_MANAGEMENT);
-                AdHocRoutePerson adHocRoutePerson = this.buildAdHocRouteRecipient(accountProjectDirectorPersonUserId, actionRequestOfDirector);
+                //KULEFR-206
+                //String actionRequestOfDirector = this.getActionRequest(routeLevelName, KFSConstants.RouteLevelNames.PROJECT_MANAGEMENT);                 
+                AdHocRoutePerson adHocRoutePerson = this.buildAdHocRouteRecipient(accountProjectDirectorPersonUserId, KEWConstants.ACTION_REQUEST_APPROVE_REQ);
 
                 this.addAdHocRoutePerson(adHocRoutePersonList, priorApprovers, adHocRoutePerson);
             }

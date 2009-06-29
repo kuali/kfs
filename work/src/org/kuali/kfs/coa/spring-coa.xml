@@ -645,6 +645,7 @@
             <ref bean="accountDelegateGlobalDao" />
         </property>
         <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
 	

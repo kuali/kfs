@@ -209,17 +209,28 @@ public class AccountDelegateMaintainableImpl extends FinancialSystemMaintainable
         
         return lock;
     }
-    
+
     /**
      * Overridden so that after account delegate is saved, it updates the proper account delegate role
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     * Defers saving to a service to guarantee that the delegate saves in a separate transaction
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#saveBusinessObject()
      */
     @Override
-    public void doRouteStatusChange(DocumentHeader documentHeader) {
-        super.doRouteStatusChange(documentHeader);
-        if (documentHeader.getWorkflowDocument().stateIsProcessed()) {
-            updateDelegationRole();
+    public void saveBusinessObject() {
+        final AccountDelegate accountDelegate = (AccountDelegate)getBusinessObject();
+        final AccountDelegateService accountDelegateService = SpringContext.getBean(AccountDelegateService.class);
+        
+        accountDelegateService.saveForMaintenanceDocument(accountDelegate);
+        
+        // sleep for 45 seconds, so responsibility updating sees the latest
+        try {
+            Thread.sleep(45000L);
         }
+        catch (InterruptedException ie) {
+            LOG.warn("Interrupted exception while waiting to update account delegation role",ie);
+        }
+        
+        updateDelegationRole();
     }
 
     /**
@@ -228,12 +239,7 @@ public class AccountDelegateMaintainableImpl extends FinancialSystemMaintainable
     protected void updateDelegationRole() {
         final AccountDelegate accountDelegate = (AccountDelegate)this.getBusinessObject();
         final RoleManagementService roleManagementService = SpringContext.getBean(RoleManagementService.class);
-        String roleId = null;
-        if (accountDelegate.isAccountsDelegatePrmrtIndicator()) {
-            roleId = roleManagementService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.FISCAL_OFFICER_PRIMARY_DELEGATE_KIM_ROLE_NAME);
-        } else {
-            roleId = roleManagementService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.FISCAL_OFFICER_SECONDARY_DELEGATE_KIM_ROLE_NAME);
-        }
+        final String roleId = roleManagementService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME);
         if (!StringUtils.isBlank(roleId)) {
             roleManagementService.applicationRoleMembershipChanged(roleId);
         }

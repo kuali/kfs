@@ -27,10 +27,13 @@ import org.kuali.kfs.coa.document.AccountDelegateMaintainableImpl;
 import org.kuali.kfs.coa.service.AccountDelegateService;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The default implementation of AccountDelegateService.
@@ -41,6 +44,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
     private AccountDelegateDao accountDelegateDao;
     private AccountDelegateGlobalDao accountDelegateGlobalDao;
     private DataDictionaryService dataDictionaryService;
+    private BusinessObjectService businessObjectService;
 
     /**
      * 
@@ -134,7 +138,38 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
     public boolean isPrincipalInAnyWayShapeOrFormSecondaryAccountDelegate(String principalId) {
         return accountDelegateDao.isPrincipalInAnyWayShapeOrFormSecondaryAccountDelegate(principalId);
     }
-
+    
+    /**
+     * Saves the given account delegate to the persistence store
+     * @param accountDelegate the account delegate to save
+     */
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void saveForMaintenanceDocument(AccountDelegate accountDelegate) {
+        getBusinessObjectService().linkAndSave(accountDelegate);
+    }
+    
+    /**
+     * Persists the given account delegate global maintenance document inactivations
+     * @param delegatesToInactivate the List of delegates to inactivate
+     */
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void saveInactivationsForGlobalMaintenanceDocument(List<PersistableBusinessObject> delegatesToInactivate) {
+        if (delegatesToInactivate != null && !delegatesToInactivate.isEmpty()) {
+            getBusinessObjectService().save(delegatesToInactivate);
+        }
+    }
+    
+    /**
+     * Persists the given account delegate global maintenance document changes
+     * @param delegatesToChange the List of delegates to change
+     */
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void saveChangesForGlobalMaintenanceDocument(List<PersistableBusinessObject> delegatesToChange) {
+        if (delegatesToChange != null && !delegatesToChange.isEmpty()) {
+            getBusinessObjectService().save(delegatesToChange);
+        }
+    }
+    
     /**
      * Gets the accountDelegateDao attribute. 
      * @return Returns the accountDelegateDao.
@@ -181,5 +216,21 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
      */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
+    }
+
+    /**
+     * Gets the businessObjectService attribute. 
+     * @return Returns the businessObjectService.
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

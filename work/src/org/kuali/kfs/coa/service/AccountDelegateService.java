@@ -16,12 +16,14 @@
 package org.kuali.kfs.coa.service;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.document.AccountDelegateGlobalMaintainableImpl;
 import org.kuali.kfs.coa.document.AccountDelegateMaintainableImpl;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 /**
  * An interface of services to support account delegate logic
@@ -76,4 +78,23 @@ public interface AccountDelegateService {
      * @return true if the principal is a secondary account delegate, false otherwise
      */
     public abstract boolean isPrincipalInAnyWayShapeOrFormSecondaryAccountDelegate(String principalId);
+    
+    /**
+     * Saves the given account delegate to the persistence store
+     * @param accountDelegate the account delegate to save
+     */
+    public abstract void saveForMaintenanceDocument(AccountDelegate accountDelegate);
+    
+    /**
+     * Persists the given account delegate global maintenance document inactivations
+     * @param delegatesToInactivate the List of delegates to inactivate
+     */
+    public abstract void saveInactivationsForGlobalMaintenanceDocument(List<PersistableBusinessObject> delegatesToInactivate);
+    
+    /**
+     * Persists the given account delegate global maintenance document changes
+     * @param delegatesToChange the List of delegates to change
+     */
+    public void saveChangesForGlobalMaintenanceDocument(List<PersistableBusinessObject> delegatesToChange);
+    
 }

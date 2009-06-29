@@ -48,6 +48,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * @see OrganizationRoutingModelName
  */
 public class AccountDelegateGlobalMaintainableImpl extends FinancialSystemGlobalMaintainable {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountDelegateGlobalMaintainableImpl.class);
 
     /**
      * This method is used for the creation of a delegate from a {@link OrganizationRoutingModelName}
@@ -201,16 +202,29 @@ public class AccountDelegateGlobalMaintainableImpl extends FinancialSystemGlobal
     public Class<? extends PersistableBusinessObject> getPrimaryEditedBusinessObjectClass() {
         return AccountDelegate.class;
     }
-    
+
     /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     * Overridden to update the delegations for currently routing documents; this also guarantees that the business
+     * objects to change will be saved in a separate transaction
+     * @see org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl#saveBusinessObject()
      */
     @Override
-    public void doRouteStatusChange(DocumentHeader documentHeader) {
-        super.doRouteStatusChange(documentHeader);
-        if (documentHeader.getWorkflowDocument().stateIsProcessed()) {
-            updateDelegationRole();
+    public void saveBusinessObject() {
+        final AccountDelegateGlobal accountDelegateGlobal = (AccountDelegateGlobal)this.getBusinessObject();
+        final AccountDelegateService accountDelegateService = SpringContext.getBean(AccountDelegateService.class);
+        
+        accountDelegateService.saveInactivationsForGlobalMaintenanceDocument(accountDelegateGlobal.generateDeactivationsToPersist());
+        accountDelegateService.saveChangesForGlobalMaintenanceDocument(accountDelegateGlobal.generateGlobalChangesToPersist());
+        
+        // sleep for 45 seconds, so responsibility updating sees the latest
+        try {
+            Thread.sleep(45000L);
         }
+        catch (InterruptedException ie) {
+            LOG.warn("Interrupted exception while waiting to update account delegation role",ie);
+        }
+        
+        updateDelegationRole();
     }
 
     /**
@@ -220,64 +234,9 @@ public class AccountDelegateGlobalMaintainableImpl extends FinancialSystemGlobal
      */
     protected void updateDelegationRole() {
         final RoleManagementService roleManagementService = SpringContext.getBean(RoleManagementService.class);
-        
-        if (affectsPrimaryRole()) {
-            final String roleId = roleManagementService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.FISCAL_OFFICER_PRIMARY_DELEGATE_KIM_ROLE_NAME);
-            if (!StringUtils.isBlank(roleId)) {
-                roleManagementService.applicationRoleMembershipChanged(roleId);
-            }
+        final String roleId = roleManagementService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME);
+        if (!StringUtils.isBlank(roleId)) {
+            roleManagementService.applicationRoleMembershipChanged(roleId);
         }
-        if (affectsSecondaryRole()) {
-            final String roleId = roleManagementService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.FISCAL_OFFICER_SECONDARY_DELEGATE_KIM_ROLE_NAME);
-            if (!StringUtils.isBlank(roleId)) {
-                roleManagementService.applicationRoleMembershipChanged(roleId);
-            }
-        }
-    }
-    
-    /**
-     * Iterates through all the changes which will be brought about by this document, seeing if the account delegate
-     * primary role will be affected
-     * @return true if the account delegate primary role will be affected, false otherwise
-     */
-    protected boolean affectsPrimaryRole() { 
-        final AccountDelegateGlobal accountDelegateGlobal = (AccountDelegateGlobal)this.getBusinessObject();
-        
-        for (PersistableBusinessObject accountDelegateAsPBO : accountDelegateGlobal.generateGlobalChangesToPersist()) {
-            final AccountDelegate accountDelegate = (AccountDelegate)accountDelegateAsPBO;
-            if (accountDelegate.isAccountsDelegatePrmrtIndicator()) {
-                return true;
-            }
-        }
-        for (PersistableBusinessObject accountDelegateAsPBO : accountDelegateGlobal.generateDeactivationsToPersist()) {
-            final AccountDelegate accountDelegate = (AccountDelegate)accountDelegateAsPBO;
-            if (accountDelegate.isAccountsDelegatePrmrtIndicator()) {
-                return true;
-            }
-        }
-        return true;
-    }
-    
-    /**
-     * Iterates through all the changes which will be brought about by this document, seeing if the account delegate
-     * secondary role will be affected
-     * @return true if the account delegate secondary role will be affected, false otherwise
-     */
-    protected boolean affectsSecondaryRole() { 
-        final AccountDelegateGlobal accountDelegateGlobal = (AccountDelegateGlobal)this.getBusinessObject();
-        
-        for (PersistableBusinessObject accountDelegateAsPBO : accountDelegateGlobal.generateGlobalChangesToPersist()) {
-            final AccountDelegate accountDelegate = (AccountDelegate)accountDelegateAsPBO;
-            if (!accountDelegate.isAccountsDelegatePrmrtIndicator()) {
-                return true;
-            }
-        }
-        for (PersistableBusinessObject accountDelegateAsPBO : accountDelegateGlobal.generateDeactivationsToPersist()) {
-            final AccountDelegate accountDelegate = (AccountDelegate)accountDelegateAsPBO;
-            if (!accountDelegate.isAccountsDelegatePrmrtIndicator()) {
-                return true;
-            }
-        }
-        return true;
     }
 }

@@ -45,7 +45,7 @@ public class AccountDelegateGlobalDetail extends GlobalBusinessObjectDetailBase 
     private Date accountDelegateStartDate;
 
     private Person accountDelegate;
-    private DocumentTypeEBO financialSystemDocumentTypeCode;
+    private transient DocumentTypeEBO financialSystemDocumentTypeCode;
 
     /**
      * Default constructor.

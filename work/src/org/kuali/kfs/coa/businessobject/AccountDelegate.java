@@ -53,7 +53,7 @@ public class AccountDelegate extends PersistableBusinessObjectBase implements In
 
     private Chart chart;
     private Account account;
-    private DocumentTypeEBO financialSystemDocumentTypeCode;
+    private transient DocumentTypeEBO financialSystemDocumentTypeCode;
     private Person accountDelegate;
 
     /**

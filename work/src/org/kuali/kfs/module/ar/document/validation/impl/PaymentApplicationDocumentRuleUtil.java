@@ -223,7 +223,7 @@ public class PaymentApplicationDocumentRuleUtil {
                     ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_SUB_OBJECT_CODE_INVALID);
         }
         if(StringUtils.isNotBlank(nonInvoiced.getProjectCode())) {
-            isValid &= validateNonInvoicedLineItem("projectDescription", nonInvoiced.getProjectCode(), ProjectCode.class, 
+            isValid &= validateNonInvoicedLineItem("code", nonInvoiced.getProjectCode(), ProjectCode.class, 
                     ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_PROJECT,
                     ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_PROJECT_CODE_INVALID);
         } 

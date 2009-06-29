@@ -289,6 +289,7 @@
 
   <bean id="GeneralLedgerPendingEntry-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
     <property name="name" value="financialDocumentTypeCode" />
+    <property name="label" value="Ledger Document Type" />
   </bean>
   <bean id="GeneralLedgerPendingEntry-transactionDebitCreditCode" parent="GeneralLedgerPendingEntry-transactionDebitCreditCode-parentBean" />
 

@@ -86,6 +86,8 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         }
         Class<? extends Document> docClass = entry.getDocumentClass();
  
+        List<String> displayedFieldNames = new ArrayList<String>();
+        
         if (AccountingDocument.class.isAssignableFrom(docClass)) {
             Map<String, AccountingLineGroupDefinition> alGroups = ((FinancialSystemTransactionalDocumentEntry)entry).getAccountingLineGroups();
             Class alClass = SourceAccountingLine.class;
@@ -111,7 +113,6 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             
             Field chartField = FieldUtils.getPropertyField(alClass, "chartOfAccountsCode", true);
             chartField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
-            List<String> displayedFieldNames = new ArrayList<String>();
             displayedFieldNames.add("chartOfAccountsCode");
             LookupUtils.setFieldQuickfinder(alBusinessObject, "chartOfAccountsCode", chartField, displayedFieldNames);
             
@@ -140,30 +141,38 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             docSearchRows.add(new Row(fieldList));
         }
         
-//        boolean displayedLedgerPostingDoc = false;
-//        if (LaborLedgerPostingDocumentForSearching.class.isAssignableFrom(docClass)) {
-//            Class boClass = GeneralLedgerPendingEntry.class;
-//            
-//            Field searchField = FieldUtils.getPropertyField(boClass, "financialDocumentTypeCode", true);
-//            searchField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
-//
-//            List<Field> fieldList = new ArrayList<Field>();
-//            fieldList.add(searchField);
-//            docSearchRows.add(new Row(fieldList));
-//            displayedLedgerPostingDoc = true;
-//        }
-//        
-//        if (GeneralLedgerPostingDocument.class.isAssignableFrom(docClass) && !displayedLedgerPostingDoc) {
-//            Class boClass = GeneralLedgerPendingEntry.class;
-//            
-//            Field searchField = FieldUtils.getPropertyField(boClass, "financialDocumentTypeCode", true);
-//            searchField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
-//
-//            List<Field> fieldList = new ArrayList<Field>();
-//            fieldList.add(searchField);
-//            docSearchRows.add(new Row(fieldList));
-//            
-//        }
+        boolean displayedLedgerPostingDoc = false;
+        if (LaborLedgerPostingDocumentForSearching.class.isAssignableFrom(docClass)) {
+            Class boClass = GeneralLedgerPendingEntry.class;
+            
+            Field searchField = FieldUtils.getPropertyField(boClass, "financialDocumentTypeCode", true);
+            searchField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
+          
+            displayedFieldNames.clear();
+            displayedFieldNames.add("financialDocumentTypeCode");
+            LookupUtils.setFieldQuickfinder(new GeneralLedgerPendingEntry(), "financialDocumentTypeCode", searchField, displayedFieldNames);
+
+            List<Field> fieldList = new ArrayList<Field>();
+            fieldList.add(searchField);
+            docSearchRows.add(new Row(fieldList));
+            displayedLedgerPostingDoc = true;
+        }
+        
+        if (GeneralLedgerPostingDocument.class.isAssignableFrom(docClass) && !displayedLedgerPostingDoc) {
+            Class boClass = GeneralLedgerPendingEntry.class;
+            
+            Field searchField = FieldUtils.getPropertyField(boClass, "financialDocumentTypeCode", true);
+            searchField.setFieldDataType(SearchableAttribute.DATA_TYPE_STRING);
+            
+            displayedFieldNames.clear();
+            displayedFieldNames.add("financialDocumentTypeCode");
+            LookupUtils.setFieldQuickfinder(new GeneralLedgerPendingEntry(), "financialDocumentTypeCode", searchField, displayedFieldNames);
+
+            List<Field> fieldList = new ArrayList<Field>();
+            fieldList.add(searchField);
+            docSearchRows.add(new Row(fieldList));
+            
+        }
         
         if (AmountTotaling.class.isAssignableFrom( docClass)) {
               Class boClass = FinancialSystemDocumentHeader.class;

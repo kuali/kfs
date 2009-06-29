@@ -1411,6 +1411,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
 
         ItemType poiType = poi.getItemType();
+        if (ObjectUtils.isNull(poiType)) {
+            return false;
+        }
 
         if (poiType.isQuantityBasedGeneralLedgerIndicator()) {
             if (poi.getItemQuantity().isGreaterThan(poi.getItemInvoicedTotalQuantity())) {

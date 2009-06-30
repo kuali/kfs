@@ -14,5 +14,20 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
+<html:html locale="true">
+<head>
+<script>var jsContextPath = "${pageContext.request.contextPath}";</script>
 
+<c:forEach items="${fn:split(ConfigProperties.javascript.files, ',')}" var="javascriptFile">
+	<c:if test="${fn:length(fn:trim(javascriptFile)) > 0}">
+		<script language="JavaScript" type="text/javascript"
+				src="${pageContext.request.contextPath}/${javascriptFile}">
+		</script>
+	</c:if>
+</c:forEach>
+</head>
+
+<body onload="reload()">
 <portal:iframePortletContainer channelTitle="Shop Catalogs" channelUrl="${KualiForm.shopUrl}" />
+</body>
+</html:html>

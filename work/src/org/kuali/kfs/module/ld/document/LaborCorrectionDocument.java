@@ -81,6 +81,7 @@ public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocum
                 step.setDocumentId(null);
                 
                 laborCorrectionDocumentService.generateCorrectionReport(this);
+                laborCorrectionDocumentService.aggregateCorrectionDocumentReports(this);
             }
             else {
                 LOG.error("LLCP doc " + doc.getDocumentNumber() + " has an unknown correction type code: " + correctionType);

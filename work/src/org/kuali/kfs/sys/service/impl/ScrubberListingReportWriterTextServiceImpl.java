@@ -51,8 +51,12 @@ public class ScrubberListingReportWriterTextServiceImpl extends ReportWriterText
 
     @Override
     protected String generateFullFilePath() {
-        String fullFilePath = filePath + File.separator + this.fileNamePrefix;
-        if (StringUtils.isNotBlank(documentNumber)) {
+        String fullFilePath = filePath + File.separator;
+        if (StringUtils.isNotBlank(documentNumber) && isAggregationModeOn()) {
+            fullFilePath += documentNumber + "_";
+        }
+        fullFilePath += this.fileNamePrefix;
+        if (StringUtils.isNotBlank(documentNumber) && !isAggregationModeOn()) {
             fullFilePath += documentNumber + "_";
         }
         if (!isAggregationModeOn()) {

@@ -211,6 +211,7 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
                 step.setDocumentId(null);
                 
                 correctionDocumentService.generateCorrectionReport(this);
+                correctionDocumentService.aggregateCorrectionDocumentReports(this);
             }
             else {
                 LOG.error("GLCP doc " + doc.getDocumentNumber() + " has an unknown correction type code: " + correctionType);

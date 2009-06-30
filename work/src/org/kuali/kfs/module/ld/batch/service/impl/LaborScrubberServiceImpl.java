@@ -50,7 +50,9 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
     private ScrubberValidator scrubberValidator;
     private LaborAccountingCycleCachingService laborAccountingCycleCachingService;
     private DocumentNumberAwareReportWriterService laborMainReportWriterService;
+    private DocumentNumberAwareReportWriterService llcpMainReportWriterService;
     private DocumentNumberAwareReportWriterService laborLedgerReportWriterService;
+    private DocumentNumberAwareReportWriterService llcpLedgerReportWriterService;
     private ReportWriterService laborBadBalanceTypeReportWriterService;
     private ReportWriterService laborErrorListingReportWriterService;
     private DocumentNumberAwareReportWriterService laborGeneratedTransactionsReportWriterService;
@@ -68,7 +70,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
         // many instance variables which shouldn't be used for Spring services
 
         LaborScrubberProcess sp = new LaborScrubberProcess(flexibleOffsetAccountService, laborAccountingCycleCachingService, laborOriginEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, scrubberValidator, batchFileDirectoryName, 
-                laborMainReportWriterService, laborLedgerReportWriterService, laborBadBalanceTypeReportWriterService, laborErrorListingReportWriterService, laborGeneratedTransactionsReportWriterService, laborDemergerReportWriterService);
+                llcpMainReportWriterService, llcpLedgerReportWriterService, laborBadBalanceTypeReportWriterService, laborErrorListingReportWriterService, laborGeneratedTransactionsReportWriterService, laborDemergerReportWriterService);
         sp.scrubGroupReportOnly(fileName, documentNumber);
     } 
 
@@ -232,6 +234,22 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
      */
     public void setLaborDemergerReportWriterService(ReportWriterService laborDemergerReportWriterService) {
         this.laborDemergerReportWriterService = laborDemergerReportWriterService;
+    }
+
+    /**
+     * Sets the llcpMainReportWriterService attribute value.
+     * @param llcpMainReportWriterService The llcpMainReportWriterService to set.
+     */
+    public void setLlcpMainReportWriterService(DocumentNumberAwareReportWriterService llcpMainReportWriterService) {
+        this.llcpMainReportWriterService = llcpMainReportWriterService;
+    }
+
+    /**
+     * Sets the llcpLedgerReportWriterService attribute value.
+     * @param llcpLedgerReportWriterService The llcpLedgerReportWriterService to set.
+     */
+    public void setLlcpLedgerReportWriterService(DocumentNumberAwareReportWriterService llcpLedgerReportWriterService) {
+        this.llcpLedgerReportWriterService = llcpLedgerReportWriterService;
     }
     
 }

@@ -59,6 +59,7 @@ public class ScrubberServiceImpl implements ScrubberService {
     private ReportWriterService demergerReportWriterService;
     private DocumentNumberAwareReportWriterService scrubberReportWriterService;
     private DocumentNumberAwareReportWriterService scrubberLedgerReportWriterService;
+    private DocumentNumberAwareReportWriterService glcpScrubberLedgerReportWriterService;
     private DocumentNumberAwareReportWriterService scrubberListingReportWriterService;
     private ReportWriterService scrubberBadBalanceListingReportWriterService;
     
@@ -81,7 +82,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, accountingCycleCachingService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, batchFileDirectoryName, scrubberReportOnlyWriterService, scrubberLedgerReportWriterService, scrubberListingReportWriterService, null, null, null);
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, accountingCycleCachingService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, batchFileDirectoryName, scrubberReportOnlyWriterService, glcpScrubberLedgerReportWriterService, scrubberListingReportWriterService, null, null, null);
         sp.scrubGroupReportOnly(fileName, documentNumber);
     }
 
@@ -308,5 +309,13 @@ public class ScrubberServiceImpl implements ScrubberService {
      */
     public void setDemergerRemovedTransactionsListingReportWriterService(ReportWriterService demergerRemovedTransactionsListingReportWriterService) {
         this.demergerRemovedTransactionsListingReportWriterService = demergerRemovedTransactionsListingReportWriterService;
+    }
+
+    /**
+     * Sets the glcpScrubberLedgerReportWriterService attribute value.
+     * @param glcpScrubberLedgerReportWriterService The glcpScrubberLedgerReportWriterService to set.
+     */
+    public void setGlcpScrubberLedgerReportWriterService(DocumentNumberAwareReportWriterService glcpScrubberLedgerReportWriterService) {
+        this.glcpScrubberLedgerReportWriterService = glcpScrubberLedgerReportWriterService;
     }
 }

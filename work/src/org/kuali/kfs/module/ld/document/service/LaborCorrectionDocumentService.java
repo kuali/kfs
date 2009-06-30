@@ -230,4 +230,6 @@ public interface LaborCorrectionDocumentService {
      * @param document LLCP document to report on
      */
     public void generateCorrectionReport(LaborCorrectionDocument document);
+    
+    public void aggregateCorrectionDocumentReports(GeneralLedgerCorrectionProcessDocument document);
 }

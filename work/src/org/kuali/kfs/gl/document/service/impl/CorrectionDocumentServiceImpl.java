@@ -18,6 +18,7 @@ package org.kuali.kfs.gl.document.service.impl;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -27,12 +28,16 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.io.filefilter.FileFilterUtils;
+import org.apache.commons.io.filefilter.PrefixFileFilter;
+import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
@@ -52,8 +57,10 @@ import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.DocumentNumberAwareReportWriterService;
+import org.kuali.kfs.sys.service.ReportAggregatorService;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.dao.DocumentDao;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.comparator.NumericValueComparator;
 import org.kuali.rice.kns.web.comparator.StringValueComparator;
@@ -78,7 +85,16 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     private String glcpDirectoryName;
     protected OriginEntryGroupService originEntryGroupService;
     private DocumentNumberAwareReportWriterService glCorrectionDocumentReportWriterService;
-
+    protected DateTimeService dateTimeService;
+    protected ReportAggregatorService reportAggregatorService;
+    
+    protected String temporaryReportsDirectory;
+    protected String temporaryReportFilenameComponent;
+    protected String temporaryReportFilenameSuffix;
+    protected String reportsDirectory;
+    protected String reportFilenamePrefix;
+    protected String reportFilenameSuffix;
+    
     protected static final String INPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-input.txt";
     protected static final String OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-output.txt";
     protected static final String GLCP_OUTPUT_PREFIX = "glcp_output";
@@ -1030,5 +1046,94 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         this.glCorrectionDocumentReportWriterService = glCorrectionDocumentReportWriterService;
     }
 
+    /**
+     * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#aggregateCorrectionDocumentReports()
+     */
+    public void aggregateCorrectionDocumentReports(GeneralLedgerCorrectionProcessDocument document) {
+        File outputFile = getAggregatedReportFile(document.getDocumentNumber());
+        List<File> inputFiles = getReportsToAggregateIntoReport(document.getDocumentNumber());
+        reportAggregatorService.aggregateReports(outputFile, inputFiles);
+    }
     
+    protected File getAggregatedReportFile(String documentNumber) {
+        String dateTimeStamp = dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate());
+        String outputFilename = reportsDirectory + File.separator + reportFilenamePrefix + documentNumber + "_" + dateTimeStamp + reportFilenameSuffix;
+        return new File(outputFilename);
+    }
+    
+    protected List<File> getReportsToAggregateIntoReport(String documentNumber) {
+        File inputDirectory = new File(temporaryReportsDirectory);
+        if (!inputDirectory.exists() || !inputDirectory.isDirectory()) {
+            LOG.error(temporaryReportsDirectory + " does not exist or is not a directory.");
+            throw new RuntimeException("Unable to locate temporary reports directory");
+        }
+        String filePrefix = documentNumber + "_" + temporaryReportFilenameComponent;
+        FileFilter filter = FileFilterUtils.andFileFilter(
+                new PrefixFileFilter(filePrefix), new SuffixFileFilter(temporaryReportFilenameSuffix));
+        return Arrays.asList(inputDirectory.listFiles(filter));
+    }
+
+    /**
+     * Sets the dateTimeService attribute value.
+     * @param dateTimeService The dateTimeService to set.
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    /**
+     * Sets the reportAggregatorService attribute value.
+     * @param reportAggregatorService The reportAggregatorService to set.
+     */
+    public void setReportAggregatorService(ReportAggregatorService reportAggregatorService) {
+        this.reportAggregatorService = reportAggregatorService;
+    }
+
+    /**
+     * Sets the temporaryReportsDirectory attribute value.
+     * @param temporaryReportsDirectory The temporaryReportsDirectory to set.
+     */
+    public void setTemporaryReportsDirectory(String temporaryReportsDirectory) {
+        this.temporaryReportsDirectory = temporaryReportsDirectory;
+    }
+
+    /**
+     * Sets the temporaryReportFilenameComponent attribute value.
+     * @param temporaryReportFilenameComponent The temporaryReportFilenameComponent to set.
+     */
+    public void setTemporaryReportFilenameComponent(String temporaryReportFilenameComponent) {
+        this.temporaryReportFilenameComponent = temporaryReportFilenameComponent;
+    }
+
+    /**
+     * Sets the temporaryReportFilenameSuffix attribute value.
+     * @param temporaryReportFilenameSuffix The temporaryReportFilenameSuffix to set.
+     */
+    public void setTemporaryReportFilenameSuffix(String temporaryReportFilenameSuffix) {
+        this.temporaryReportFilenameSuffix = temporaryReportFilenameSuffix;
+    }
+
+    /**
+     * Sets the reportsDirectory attribute value.
+     * @param reportsDirectory The reportsDirectory to set.
+     */
+    public void setReportsDirectory(String reportsDirectory) {
+        this.reportsDirectory = reportsDirectory;
+    }
+
+    /**
+     * Sets the reportFilenamePrefix attribute value.
+     * @param reportFilenamePrefix The reportFilenamePrefix to set.
+     */
+    public void setReportFilenamePrefix(String reportFilenamePrefix) {
+        this.reportFilenamePrefix = reportFilenamePrefix;
+    }
+
+    /**
+     * Sets the reportFilenameSuffix attribute value.
+     * @param reportFilenameSuffix The reportFilenameSuffix to set.
+     */
+    public void setReportFilenameSuffix(String reportFilenameSuffix) {
+        this.reportFilenameSuffix = reportFilenameSuffix;
+    }
 }

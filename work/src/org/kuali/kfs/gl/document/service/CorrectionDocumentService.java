@@ -250,5 +250,7 @@ public interface CorrectionDocumentService {
      * @param document GLCP document to report on
      */
     public void generateCorrectionReport(GeneralLedgerCorrectionProcessDocument document);
+    
+    public void aggregateCorrectionDocumentReports(GeneralLedgerCorrectionProcessDocument document);
 
 }

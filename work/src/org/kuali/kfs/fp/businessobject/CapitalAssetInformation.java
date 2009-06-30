@@ -27,12 +27,15 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     private String capitalAssetManufacturerName;
     private String capitalAssetDescription;
     private String capitalAssetManufacturerModelNumber;
+    
 
     private CapitalAssetManagementAsset capitalAssetManagementAsset;
     private CapitalAssetManagementAssetType capitalAssetManagementAssetType;
     private List<CapitalAssetInformationDetail> capitalAssetInformationDetails;
 
     private VendorDetail vendorDetail;
+    // non-persistent field
+    private Integer nextItemLineNumber;
 
     /**
      * Constructs a CapitalAssetInformation.java.
@@ -243,4 +246,22 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     public void setCapitalAssetInformationDetails(List<CapitalAssetInformationDetail> capitalAssetInformationDetails) {
         this.capitalAssetInformationDetails = capitalAssetInformationDetails;
     }
+
+    /**
+     * Gets the nextItemLineNumber attribute. 
+     * @return Returns the nextItemLineNumber.
+     */
+    public Integer getNextItemLineNumber() {
+        return nextItemLineNumber;
+    }
+
+    /**
+     * Sets the nextItemLineNumber attribute value.
+     * @param nextItemLineNumber The nextItemLineNumber to set.
+     */
+    public void setNextItemLineNumber(Integer nextItemLineNumber) {
+        this.nextItemLineNumber = nextItemLineNumber;
+    }
+    
+    
 }

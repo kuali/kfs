@@ -17,6 +17,7 @@ package org.kuali.kfs.fp.document;
 
 import java.sql.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser;
@@ -38,7 +39,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * Abstract class which defines behavior common to CashReceipt-like documents.
  */
-abstract public class CashReceiptFamilyBase extends AccountingDocumentBase implements CapitalAssetEditable{
+abstract public class CashReceiptFamilyBase extends AccountingDocumentBase implements CapitalAssetEditable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashReceiptFamilyBase.class);
     private String campusLocationCode; // TODO Needs to be an actual object - also need to clarify this
     private Date depositDate;
@@ -51,6 +52,18 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase imple
      */
     public CashReceiptFamilyBase() {
         setCampusLocationCode(KFSConstants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE);
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#buildListOfDeletionAwareLists()
+     */
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List<List> managedLists = super.buildListOfDeletionAwareLists();
+        if (ObjectUtils.isNotNull(capitalAssetInformation) && ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetInformationDetails())) {
+            managedLists.add(capitalAssetInformation.getCapitalAssetInformationDetails());
+        }
+        return managedLists;
     }
 
     /**
@@ -210,7 +223,7 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase imple
             explicitEntry.setTransactionLedgerEntryDescription(accountingLineDescription);
         }
     }
-    
+
 
     /**
      * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
@@ -225,9 +238,9 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase imple
     public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
         this.capitalAssetInformation = capitalAssetInformation;
     }
-    
-    
+
+
     protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
         return SpringContext.getBean(CapitalAssetManagementModuleService.class);
-    }  
+    }
 }

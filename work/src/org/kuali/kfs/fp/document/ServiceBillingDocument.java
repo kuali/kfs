@@ -15,20 +15,14 @@
  */
 package org.kuali.kfs.fp.document;
 
-import java.util.ArrayList;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser;
-import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This is the business object that represents the ServiceBillingDocument in Kuali. See
@@ -37,8 +31,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class ServiceBillingDocument extends InternalBillingDocument implements CapitalAssetEditable {
 
-    private CapitalAssetInformation capitalAssetInformation;
-    
     /**
      * @see org.kuali.kfs.fp.document.InternalBillingDocument#getAccountingLineParser()
      */
@@ -46,22 +38,21 @@ public class ServiceBillingDocument extends InternalBillingDocument implements C
     public AccountingLineParser getAccountingLineParser() {
         return new BasicFormatWithLineDescriptionAccountingLineParser();
     }
-    
+
     /**
-     * This method further restricts the valid accounting line types exclusively to those with income or expense 
-     * object type codes only.  This is done by calling isIncome() and isExpense() passing the accounting line.  
+     * This method further restricts the valid accounting line types exclusively to those with income or expense object type codes
+     * only. This is done by calling isIncome() and isExpense() passing the accounting line.
      * 
      * @param financialDocument The document used to determine if the accounting line is a debit line.
      * @param accountingLine The accounting line to be analyzed.
-     * @return True if the accounting line passed in is an expense or income accounting line and meets the rules defined
-     * by super.isDebit() method.
-     * 
+     * @return True if the accounting line passed in is an expense or income accounting line and meets the rules defined by
+     *         super.isDebit() method.
      * @see org.kuali.kfs.fp.document.validation.impl.InternalBillingDocumentRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
      *      org.kuali.rice.kns.bo.AccountingLine)
      */
     @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        AccountingLine accountingLine = (AccountingLine)postable;
+        AccountingLine accountingLine = (AccountingLine) postable;
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
         if (!isDebitUtils.isIncome(accountingLine) && !isDebitUtils.isExpense(accountingLine)) {
             throw new IllegalStateException(isDebitUtils.getDebitCalculationIllegalStateExceptionMessage());
@@ -69,15 +60,14 @@ public class ServiceBillingDocument extends InternalBillingDocument implements C
 
         return super.isDebit(postable);
     }
-    
+
     /**
-     * This method sets extra accounting line fields in explicit general ledger pending entries. Internal billing transactions 
-     * don't have this field.
+     * This method sets extra accounting line fields in explicit general ledger pending entries. Internal billing transactions don't
+     * have this field.
      * 
      * @param financialDocument The accounting document containing the general ledger pending entries being customized.
      * @param accountingLine The accounting line the explicit general ledger pending entry was generated from.
      * @param explicitEntry The explicit general ledger pending entry to be customized.
-     * 
      * @see FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(FinancialDocument, AccountingLine,
      *      GeneralLedgerPendingEntry)
      */
@@ -87,22 +77,5 @@ public class ServiceBillingDocument extends InternalBillingDocument implements C
         if (StringUtils.isNotBlank(description)) {
             explicitEntry.setTransactionLedgerEntryDescription(description);
         }
-    }
-    
-    /**
-     * Gets the capitalAssetInformation attribute. 
-     * @return Returns the capitalAssetInformation.
-     */
-    public CapitalAssetInformation getCapitalAssetInformation() {
-        return ObjectUtils.isNull(capitalAssetInformation)? null : capitalAssetInformation;
-    }
-
-    /**
-     * Sets the capitalAssetInformation attribute value.
-     * @param capitalAssetInformation The capitalAssetInformation to set.
-     */
-    @Deprecated
-    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
-        this.capitalAssetInformation = capitalAssetInformation;
     }
 }

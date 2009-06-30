@@ -59,7 +59,6 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
-import org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.kfs.sys.exception.AccountingLineParserException;
@@ -78,7 +77,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.Timer;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 /**
  * This class handles UI actions for all shared methods of financial documents.
@@ -1118,10 +1116,6 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
 
         int lineToDelete = this.getLineToDelete(request);
         List<CapitalAssetInformationDetail> detailLines = capitalAssetInformation.getCapitalAssetInformationDetails();
-        CapitalAssetInformationDetail detailLine = detailLines.get(lineToDelete);
-
-        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        boService.delete(detailLine);
 
         detailLines.remove(lineToDelete);
 
@@ -1171,20 +1165,55 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         }
 
         List<CapitalAssetInformationDetail> detailLines = capitalAssetInformation.getCapitalAssetInformationDetails();
-
-        int maxItemNumber = 0;
-        for (CapitalAssetInformationDetail detailLine : detailLines) {
-            if (detailLine.getItemLineNumber() > maxItemNumber) {
-                maxItemNumber = detailLine.getItemLineNumber();
-            }
-        }
-        // If details collection has old lines, this loop will add new lines to make the total equal to the quantity. 
+        // If details collection has old lines, this loop will add new lines to make the total equal to the quantity.
         for (int index = 1; detailLines.size() < quantity; index++) {
             CapitalAssetInformationDetail detailLine = new CapitalAssetInformationDetail();
-            detailLine.setItemLineNumber(maxItemNumber + index);
-            detailLine.setVersionNumber(1L);
+            detailLine.setItemLineNumber(getNextItemLineNumberAndIncremented(capitalAssetInformation));
             detailLines.add(detailLine);
         }
+    }
+
+    /**
+     * Get next available item line number. If it's already stored in the session, pick it up and increment by 1. Otherwise get it
+     * from the DB and save it to session.
+     * 
+     * @param capitalAssetInformation
+     * @return
+     */
+    protected Integer getNextItemLineNumberAndIncremented(CapitalAssetInformation capitalAssetInformation) {
+        Integer nextItemLineNumber = capitalAssetInformation.getNextItemLineNumber();
+        if (nextItemLineNumber == null) {
+            nextItemLineNumber = new Integer(getMaxItemLineNumber(capitalAssetInformation) + 1);
+        }
+        capitalAssetInformation.setNextItemLineNumber(new Integer(nextItemLineNumber.intValue() + 1));
+        return nextItemLineNumber;
+    }
+
+    /**
+     * Get the maximum item line number from DB.
+     * 
+     * @param capitalAssetInformation
+     * @return
+     */
+    protected int getMaxItemLineNumber(CapitalAssetInformation capitalAssetInformation) {
+        int maxItemLineNumber = 0;
+        if (ObjectUtils.isNotNull(capitalAssetInformation)) {
+            List<CapitalAssetInformationDetail> detailLines = capitalAssetInformation.getCapitalAssetInformationDetails();
+
+            if (detailLines != null && !detailLines.isEmpty()) {
+                maxItemLineNumber = detailLines.size();
+            }
+
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, capitalAssetInformation.getDocumentNumber());
+            List<CapitalAssetInformationDetail> perisitentDetails = (List<CapitalAssetInformationDetail>) getBusinessObjectService().findMatching(CapitalAssetInformationDetail.class, fieldValues);
+            for (CapitalAssetInformationDetail persistentDetail : perisitentDetails) {
+                if (persistentDetail.getItemLineNumber().intValue() > maxItemLineNumber) {
+                    maxItemLineNumber = persistentDetail.getItemLineNumber().intValue();
+                }
+            }
+        }
+        return maxItemLineNumber;
     }
 
     /**
@@ -1204,7 +1233,8 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
 
             capitalAssetInformation.setVendorDetailAssignedIdentifier(null);
             capitalAssetInformation.setVendorHeaderGeneratedIdentifier(null);
-            // Set the BO to null cause it won't be updated automatically when vendorDetailAssetIdentifier and VendorHeanderGeneratedIndentifier set to null.
+            // Set the BO to null cause it won't be updated automatically when vendorDetailAssetIdentifier and
+            // VendorHeanderGeneratedIndentifier set to null.
             capitalAssetInformation.setVendorDetail(null);
             capitalAssetInformation.setVendorName(null);
 

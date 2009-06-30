@@ -34,13 +34,11 @@ import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
 /**
@@ -52,7 +50,7 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
 
     private List items;
     private Integer nextItemLineNumber;
-    
+
     private transient CapitalAssetInformation capitalAssetInformation;
     private transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
 
@@ -106,6 +104,9 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getItems());
+        if (ObjectUtils.isNotNull(capitalAssetInformation) && ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetInformationDetails())) {
+            managedLists.add(capitalAssetInformation.getCapitalAssetInformationDetails());
+        }
         return managedLists;
     }
 
@@ -171,33 +172,34 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
     public AccountingLineParser getAccountingLineParser() {
         return new AccountingLineParserBase();
     }
-    
+
     /**
      * This method determines if an accounting line is a debit accounting line by calling IsDebitUtils.isDebitConsideringSection().
      * 
      * @param transactionalDocument The document containing the accounting line being analyzed.
      * @param accountingLine The accounting line being reviewed to determine if it is a debit line or not.
      * @return True if the accounting line is a debit accounting line, false otherwise.
-     * 
      * @see IsDebitUtils#isDebitConsideringSection(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
      * @see org.kuali.rice.kns.rule.AccountingLineRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
      *      org.kuali.rice.kns.bo.AccountingLine)
      */
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
-        return isDebitUtils.isDebitConsideringSection(this, (AccountingLine)postable);
+        return isDebitUtils.isDebitConsideringSection(this, (AccountingLine) postable);
     }
-    
+
     /**
-     * Gets the capitalAssetInformation attribute. 
+     * Gets the capitalAssetInformation attribute.
+     * 
      * @return Returns the capitalAssetInformation.
      */
     public CapitalAssetInformation getCapitalAssetInformation() {
-        return ObjectUtils.isNull(capitalAssetInformation)? null : capitalAssetInformation;
+        return ObjectUtils.isNull(capitalAssetInformation) ? null : capitalAssetInformation;
     }
 
     /**
      * Sets the capitalAssetInformation attribute value.
+     * 
      * @param capitalAssetInformation The capitalAssetInformation to set.
      */
     @Deprecated
@@ -207,18 +209,16 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
 
 
     /**
-     * 
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange()
      */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
-        super.doRouteStatusChange(statusChangeEvent);        
-        this.getCapitalAssetManagementModuleService().deleteDocumentAssetLocks(this);        
+        super.doRouteStatusChange(statusChangeEvent);
+        this.getCapitalAssetManagementModuleService().deleteDocumentAssetLocks(this);
     }
 
 
     /**
-     * 
      * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     @Override
@@ -226,12 +226,11 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
         super.postProcessSave(event);
         if (!(event instanceof SaveDocumentEvent)) { // don't lock until they route
             String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(this.getClass());
-            this.getCapitalAssetManagementModuleService().generateCapitalAssetLock(this,documentTypeName);
+            this.getCapitalAssetManagementModuleService().generateCapitalAssetLock(this, documentTypeName);
         }
     }
 
-    
-    
+
     /**
      * @return CapitalAssetManagementModuleService
      */
@@ -240,5 +239,5 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
             capitalAssetManagementModuleService = SpringContext.getBean(CapitalAssetManagementModuleService.class);
         }
         return capitalAssetManagementModuleService;
-    }    
+    }
 }

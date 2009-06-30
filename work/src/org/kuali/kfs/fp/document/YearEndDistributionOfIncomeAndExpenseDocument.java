@@ -39,9 +39,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * version and the non-yearEnd version of a document is the glpe's generation.
  */
 public class YearEndDistributionOfIncomeAndExpenseDocument extends DistributionOfIncomeAndExpenseDocument implements YearEndDocument, AmountTotaling, ElectronicPaymentClaiming, CapitalAssetEditable {
-    private transient CapitalAssetInformation capitalAssetInformation;
-    private transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
-
     /**
      * Constructs a YearEndDistributionOfIncomeAndExpenseDocument.java.
      */

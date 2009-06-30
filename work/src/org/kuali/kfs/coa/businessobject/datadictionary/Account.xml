@@ -669,9 +669,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="accountFiscalOfficerSystemIdentifierForSearching" />
     <property name="label" value="Fiscal Officer Unvl ID" />
     <property name="shortLabel" value="FiscOffId" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" />
-    </property>
     <property name="displayLabelAttribute" value="accountFiscalOfficerUser.principalName" />
   </bean>
 
@@ -711,9 +708,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
      <property name="name" value="accountsSupervisorySystemsIdentifierForSearching" />
     <property name="label" value="Supervisor Unvl ID" />
     <property name="shortLabel" value="SprvsrId" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" />
-    </property>
     <property name="displayLabelAttribute" value="accountSupervisoryUser.principalName" />
   </bean>
 
@@ -757,9 +751,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
    <property name="name" value="accountManagerSystemIdentifierForSearching" />
     <property name="label" value="Manager Unvl ID" />
     <property name="shortLabel" value="MgrId" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" />
-    </property>
     <property name="displayLabelAttribute" value="accountManagerUser.principalName" />
   </bean>
   

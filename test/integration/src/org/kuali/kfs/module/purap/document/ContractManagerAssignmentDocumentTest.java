@@ -205,7 +205,7 @@ public class ContractManagerAssignmentDocumentTest extends KualiTestBase {
      */
     private RequisitionDocument routeRequisitionUntilAwaitingContractManager2(RequisitionDocument requisitionDocument) throws Exception {
         final String docId = requisitionDocument.getDocumentNumber();
-        AccountingDocumentTestUtils.routeDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+        routeDocument(requisitionDocument, "saving copy source document", SpringContext.getBean(DocumentService.class));
         WorkflowTestUtils.waitForNodeChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
 
         // the document should now be routed to sterner as Fiscal Officer

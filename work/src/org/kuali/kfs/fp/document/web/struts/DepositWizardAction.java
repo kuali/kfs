@@ -328,6 +328,7 @@ public class DepositWizardAction extends KualiAction {
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         loadCashReceipts((DepositWizardForm) form);
         loadUndepositedCashieringChecks((DepositWizardForm) form);
+        loadEditModesAndDocumentActions((DepositWizardForm) form);
 
         return super.refresh(mapping, form, request, response);
     }

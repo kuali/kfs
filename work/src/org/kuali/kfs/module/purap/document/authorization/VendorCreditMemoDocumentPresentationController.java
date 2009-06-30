@@ -55,6 +55,10 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
     protected boolean canReload(Document document) {
         VendorCreditMemoDocument vendorCreditMemoDocument = (VendorCreditMemoDocument) document;
 
+        if (StringUtils.equals(vendorCreditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE)) {
+            return false;
+        }
+        
         if (canEditPreExtraction(vendorCreditMemoDocument)) {
             return true;
         }

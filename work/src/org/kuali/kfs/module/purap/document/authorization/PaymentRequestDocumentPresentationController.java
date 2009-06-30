@@ -61,6 +61,10 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     protected boolean canReload(Document document) {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
 
+        if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PaymentRequestStatuses.INITIATE)) {
+            return false;
+        }
+        
         if (canEditPreExtraction(paymentRequestDocument)) {
             return true;
         }

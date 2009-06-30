@@ -1614,7 +1614,7 @@
     </bean>
 
     <bean id="glcpScrubberLedgerReportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="scrubberLedgerReportWriterService">
-		<property name="fileNamePrefix" value="glcp-scrubberReports-03-scrubber_ledger"/>
+		<property name="fileNamePrefix" value="glcp-scrubberReports-04-scrubber_ledger"/>
     </bean>
     
     <bean id="scrubberReportOnlyWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="reportWriterService">
@@ -2547,7 +2547,7 @@
 	
 	<bean id="scrubberListingReportWriterService" parent="reportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl">
 		<property name="filePath" value="${temp.directory}"/>
-		<property name="fileNamePrefix" value="glcp-scrubberReports-04-scrubber_listing"/>
+		<property name="fileNamePrefix" value="glcp-scrubberReports-03-scrubber_listing"/>
         <property name="title" value="Transaction Listing"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>

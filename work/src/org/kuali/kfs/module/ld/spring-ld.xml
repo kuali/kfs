@@ -1507,7 +1507,7 @@
     
 	<bean id="laborGeneratedTransactionsReportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="reportWriterService">
 		<property name="filePath" value="${temp.directory}"/>
-		<property name="fileNamePrefix" value="llcpScrubberReports-04-labor_scrubber_listing"/>
+		<property name="fileNamePrefix" value="llcpScrubberReports-03-labor_scrubber_listing"/>
         <property name="title" value="Labor Transaction Listing"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
@@ -1532,7 +1532,7 @@
     </bean>
     
     <bean id="llcpLedgerReportWriterService" parent="laborLedgerReportWriterService">
-    	<property name="fileNamePrefix" value="llcpScrubberReports-03-labor_scrubber_ledger"/>
+    	<property name="fileNamePrefix" value="llcpScrubberReports-04-labor_scrubber_ledger"/>
     </bean>
     
  	<bean id="laborDemergerReportWriterService" parent="reportWriterService">

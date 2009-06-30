@@ -20,8 +20,8 @@
 <%@ attribute name="deposit" required="true" type="org.kuali.kfs.fp.businessobject.Deposit"%>
 
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
-<c:set var="allowAdditionalDeposits" value="${editingMode[AuthorizationConstants.CashManagementEditMode.ALLOW_ADDITIONAL_DEPOSITS]}" />
-<c:set var="allowCancelDeposits" value="${editingMode[AuthorizationConstants.CashManagementEditMode.ALLOW_CANCEL_DEPOSITS]}" />
+<c:set var="allowAdditionalDeposits" value="${editingMode[KfsAuthorizationConstants.CashManagementEditMode.ALLOW_ADDITIONAL_DEPOSITS]}" />
+<c:set var="allowCancelDeposits" value="${editingMode[KfsAuthorizationConstants.CashManagementEditMode.ALLOW_CANCEL_DEPOSITS]}" />
 
 <c:set var="receiptAttributes" value="${DataDictionary.CashReceiptDocument.attributes}" />
 <c:set var="dummyAttributes" value="${DataDictionary.AttributeReferenceDummy.attributes}" />

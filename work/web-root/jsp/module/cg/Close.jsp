@@ -21,7 +21,7 @@
 <kul:page showDocumentInfo="true"
 	htmlFormAction="cgClose"
     renderMultipart="true"
-	docTitle="CFDA Close"
+	docTitle="Proposal/Award Close"
     transactionalDocument="false">
 
     <sys:hiddenDocumentFields isFinancialDocument="false" />
@@ -38,14 +38,14 @@
                     <tr>
                         <th style="text-align: right;"><kul:htmlAttributeLabel attributeEntry="${closeAttributes.userInitiatedCloseDate}" labelFor="document.userInitiatedCloseDate" useShortLabel="true" /></th>
                        	 <c:if test="${readOnly}">
-                       	 	<td style="width:50%">
+                        <td style="width:50%">
                             	${KualiForm.document.userInitiatedCloseDate}&nbsp;
                         	</td>
 						</c:if>
 						<c:if test="${!readOnly}">
 							<td style="width:50%">
-                            	<kul:dateInputNoAttributeEntry property="document.userInitiatedCloseDate" maxLength="10" size="10" />
-                        	</td>
+                            <kul:dateInputNoAttributeEntry property="document.userInitiatedCloseDate" maxLength="10" size="10" />
+                        </td>
                        	</c:if>
                     </tr>
                     <tr>
@@ -56,9 +56,9 @@
                         		</td>
 							</c:if>
 							<c:if test="${!readOnly}">
-								<td style="width:50%">
-                      	      	<kul:dateInputNoAttributeEntry property="document.closeOnOrBeforeDate" maxLength="10" size="10" />
-                      	  	</td>
+                        <td style="width:50%">
+                            <kul:dateInputNoAttributeEntry property="document.closeOnOrBeforeDate"  maxLength="10" size="10" />
+                        </td>
                      	  	</c:if>
                      
                     </tr>

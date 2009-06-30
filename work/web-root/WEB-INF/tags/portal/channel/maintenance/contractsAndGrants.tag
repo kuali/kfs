@@ -31,11 +31,7 @@
 			<portal:portalLink displayTitle="true" title="Award Status"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.AwardStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
-		<li>
-			<portal:portalLink displayTitle="true"
-				title="CFDA Close"
-				url="cgClose.do?methodToCall=docHandler&command=initiate&docTypeName=CLOS" />
-		</li>		
+				
 		<li>
 			<portal:portalLink displayTitle="true" title="CFDA"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.CFDA&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
@@ -56,7 +52,11 @@
 				title="Letter of Credit Fund Group"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.LetterOfCreditFundGroup&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
-				
+		<li>
+			<portal:portalLink displayTitle="true"
+				title="Proposal/Award Close"
+				url="cgClose.do?methodToCall=docHandler&command=initiate&docTypeName=CLOS" />
+		</li>
 		<li>
 			<portal:portalLink displayTitle="true" title="Proposal Purpose"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.ProposalPurpose&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />

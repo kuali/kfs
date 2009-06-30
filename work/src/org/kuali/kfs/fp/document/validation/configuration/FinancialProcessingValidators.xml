@@ -206,6 +206,8 @@
 	<bean id="ProcurementCard-fixErrorPathValidation" class="org.kuali.kfs.fp.document.validation.impl.ProcurementCardFixErrorPathValidation" abstract="true" />
 
 	<bean id="ProcurementCard-objectCodeValidation" class="org.kuali.kfs.fp.document.validation.impl.ProcurementCardObjectCodeValidation" abstract="true" />
+	
+	<bean id="ProcurementCard-accountingLineAmountNonZeroValidation" class="org.kuali.kfs.fp.document.validation.impl.AccountingLineAmountNonZeroValidation" abstract="true" />
 
 	<bean id="ServiceBilling-accountingLineAmountNonZeroValidation" class="org.kuali.kfs.fp.document.validation.impl.AccountingLineAmountNonZeroValidation" abstract="true" />
 	

@@ -69,6 +69,17 @@ public class YearEndDistributionOfIncomeAndExpenseDocument extends DistributionO
         YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(this, accountingLine, explicitEntry);
     }
     
+    /**
+     * Overridden to populate object code from last year's offset definition
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
+     */
+    @Override
+    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        boolean success = super.customizeOffsetGeneralLedgerPendingEntry(accountingLine, explicitEntry, offsetEntry);
+        success &= YearEndDocumentUtil.customizeOffsetGeneralLedgerPendingEntry(this, accountingLine, explicitEntry, offsetEntry);
+        return success;
+    }
+
     @Override
     public Class<? extends AccountingDocument> getDocumentClassForAccountingLineValueAllowedValidation() {
         return DistributionOfIncomeAndExpenseDocument.class;

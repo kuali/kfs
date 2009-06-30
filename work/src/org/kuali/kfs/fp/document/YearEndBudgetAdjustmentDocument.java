@@ -67,25 +67,13 @@ public class YearEndBudgetAdjustmentDocument extends BudgetAdjustmentDocument im
     }
 
     /**
-     * This method calls the super class's overridden method to perform the general customization actions, then calls the
-     * YearEndDocumentUtil matching method to perform year end specific customization activities.
-     * 
-     * @param accountingDocument The accounting document containing the general ledger pending entries being customized.
-     * @param accountingLine The accounting line the explicit general ledger pending entry was generated from.
-     * @param explicitEntry The explicit general ledger pending entry the offset entry is generated for.
-     * @param offsetEntry The offset general ledger pending entry being customized.
-     * @return True if the customization does not encounter any errors, false otherwise.
-     * 
-     * @see org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRule#customizeOffsetGeneralLedgerPendingEntry(org.kuali.kfs.sys.document.AccountingDocument,
-     *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
-     * @see YearEndDocumentUtil#customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument, AccountingLine,
-     *      GeneralLedgerPendingEntry)
+     * Overridden to populate object code from last year's offset definition
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
      */
     @Override
-    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
-        boolean success = super.customizeOffsetGeneralLedgerPendingEntry(postable, explicitEntry, offsetEntry);
-        AccountingLine accountingLine = (AccountingLine)postable;
-        YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(this, accountingLine, explicitEntry);
+    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        boolean success = super.customizeOffsetGeneralLedgerPendingEntry(accountingLine, explicitEntry, offsetEntry);
+        success &= YearEndDocumentUtil.customizeOffsetGeneralLedgerPendingEntry(this, accountingLine, explicitEntry, offsetEntry);
         return success;
     }
     

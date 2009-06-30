@@ -53,7 +53,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_MONTH, 1);
         c.set(Calendar.MONTH, Calendar.JANUARY);
-        c.set(Calendar.YEAR, 2006);
+        c.set(Calendar.YEAR, TestUtils.getFiscalYearForTesting());
 
         // since the cutoff time is set to 10am (KFSP1/Scrubber+cutoff+time+configuration)
         // we want to ensure that the time is always after that time so the cutoff algorithm is not invoked
@@ -88,97 +88,81 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         setOffsetAccounts();
 
         String[] input = new String[] { 
-                "2007BA9120656-----4190---ACEX02DI  01NOFLEX001     00000TEST FLEXIBLE OFFSET - NO FLEX                    2000.00D2006-01-01          ----------                                       ", 
-                "2007BA6044900-----4190---ACEX02DI  01NOFLEX002     00000TEST FLEXIBLE OFFSET - FLEX                       1000.00D2006-01-01          ----------                                       ", 
-                "2007BL1023200-----4190---ACEX02DI  01NOFLEX003     00000TEST FLEXIBLE OFFSET - FLEX                       3000.00D2006-01-01          ----------                                       ", 
-                "2007BL1023200-----7030---ACEX02DI  01NOFLEX004     00000TEST FLEXIBLE OFFSET - FLEX                       3500.00D2006-01-01          ----------                                       ", 
-                "2007BL2331473-----4190---ACEX02DI  01NOFLEX005     00000TEST FLEXIBLE OFFSET - FLEX                       4000.00D2006-01-01          ----------                                       ", };
+                TestUtils.getFiscalYearForTesting()+"BA9120656-----4190---ACEX02DI  01NOFLEX001     00000TEST FLEXIBLE OFFSET - NO FLEX                       2000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       ", 
+                TestUtils.getFiscalYearForTesting()+"BA6044900-----4190---ACEX02DI  01NOFLEX002     00000TEST FLEXIBLE OFFSET - FLEX                          1000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       ", 
+                TestUtils.getFiscalYearForTesting()+"BL1023200-----4190---ACEX02DI  01NOFLEX003     00000TEST FLEXIBLE OFFSET - FLEX                          3000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       ", 
+                TestUtils.getFiscalYearForTesting()+"BL1023200-----7030---ACEX02DI  01NOFLEX004     00000TEST FLEXIBLE OFFSET - FLEX                          3500.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       ", 
+                TestUtils.getFiscalYearForTesting()+"BL2331473-----4190---ACEX02DI  01NOFLEX005     00000TEST FLEXIBLE OFFSET - FLEX                          4000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       ", };
 
         EntryHolder[] output = new EntryHolder[] { 
-                new EntryHolder(OriginEntrySource.BACKUP, "2007BA9120656-----4190---ACEX02DI  01NOFLEX001     00000TEST FLEXIBLE OFFSET - NO FLEX                    2000.00D2006-01-01          ----------                                       "), 
-                new EntryHolder(OriginEntrySource.BACKUP, "2007BA6044900-----4190---ACEX02DI  01NOFLEX002     00000TEST FLEXIBLE OFFSET - FLEX                       1000.00D2006-01-01          ----------                                       "), 
-                new EntryHolder(OriginEntrySource.BACKUP, "2007BL1023200-----4190---ACEX02DI  01NOFLEX003     00000TEST FLEXIBLE OFFSET - FLEX                       3000.00D2006-01-01          ----------                                       "), 
-                new EntryHolder(OriginEntrySource.BACKUP, "2007BL1023200-----7030---ACEX02DI  01NOFLEX004     00000TEST FLEXIBLE OFFSET - FLEX                       3500.00D2006-01-01          ----------                                       "),
-                new EntryHolder(OriginEntrySource.BACKUP, "2007BL2331473-----4190---ACEX02DI  01NOFLEX005     00000TEST FLEXIBLE OFFSET - FLEX                       4000.00D2006-01-01          ----------                                       "), 
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA9120656-----4190---ACEX02DI  01NOFLEX001     00000TEST FLEXIBLE OFFSET - NO FLEX                    2000.00D2006-01-01          ----------                                       "), 
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA9120656-----8000---ACAS02DI  01NOFLEX001     00000GENERATED OFFSET                                  2000.00C2006-01-01          ----------                                       "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA6044900-----4190---ACEX02DI  01NOFLEX002     00000TEST FLEXIBLE OFFSET - FLEX                       1000.00D2006-01-01          ----------                                       "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA6044900-----8000---ACAS02DI  01NOFLEX002     00000GENERATED OFFSET                                  1000.00C2006-01-01          ----------                                       "), 
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL1023200-----4190---ACEX02DI  01NOFLEX003     00000TEST FLEXIBLE OFFSET - FLEX                       3000.00D2006-01-01          ----------                                       "), 
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL1023200-----8000---ACAS02DI  01NOFLEX003     00000GENERATED OFFSET                                  3000.00C2006-01-01          ----------                                       "), 
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL9520004-----8611---ACAS02DI  01NOFLEX004     00000GENERATED CAPITALIZATION                          3500.00D2006-01-01          ----------                                       "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL9520004-----9899---ACFB02DI  01NOFLEX004     00000GENERATED CAPITALIZATION                          3500.00C2006-01-01          ----------                                       "), 
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL1023200-----7030---ACEX02DI  01NOFLEX004     00000TEST FLEXIBLE OFFSET - FLEX                       3500.00D2006-01-01          ----------                                       "), 
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL1023200-----8000---ACAS02DI  01NOFLEX004     00000GENERATED OFFSET                                  3500.00C2006-01-01          ----------                                       "), 
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL2331473-----4190---ACEX02DI  01NOFLEX005     00000TEST FLEXIBLE OFFSET - FLEX                       4000.00D2006-01-01          ----------                                       "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL2331473-----8000---ACAS02DI  01NOFLEX005     00000GENERATED OFFSET                                  4000.00C2006-01-01          ----------                                       "), };
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        TestUtils.getFiscalYearForTesting()+"BA9120656-----4190---ACEX02DI  01NOFLEX001     00000TEST FLEXIBLE OFFSET - NO FLEX                       2000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        TestUtils.getFiscalYearForTesting()+"BA6044900-----4190---ACEX02DI  01NOFLEX002     00000TEST FLEXIBLE OFFSET - FLEX                          1000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        TestUtils.getFiscalYearForTesting()+"BL1023200-----4190---ACEX02DI  01NOFLEX003     00000TEST FLEXIBLE OFFSET - FLEX                          3000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        TestUtils.getFiscalYearForTesting()+"BL1023200-----7030---ACEX02DI  01NOFLEX004     00000TEST FLEXIBLE OFFSET - FLEX                          3500.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        TestUtils.getFiscalYearForTesting()+"BL2331473-----4190---ACEX02DI  01NOFLEX005     00000TEST FLEXIBLE OFFSET - FLEX                          4000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA9120656-----4190---ACEX02DI  01NOFLEX001     00000TEST FLEXIBLE OFFSET - NO FLEX          +0000000000002000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA9120656-----8000---ACAS02DI  01NOFLEX001     00000GENERATED OFFSET                        +0000000000002000.00C"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA6044900-----4190---ACEX02DI  01NOFLEX002     00000TEST FLEXIBLE OFFSET - FLEX             +0000000000001000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA6044900-----8000---ACAS02DI  01NOFLEX002     00000GENERATED OFFSET                        +0000000000001000.00C"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL1023200-----4190---ACEX02DI  01NOFLEX003     00000TEST FLEXIBLE OFFSET - FLEX             +0000000000003000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL1023200-----8000---ACAS02DI  01NOFLEX003     00000GENERATED OFFSET                        +0000000000003000.00C"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL9520004-----8611---ACAS02DI  01NOFLEX004     00000GENERATED CAPITALIZATION                +0000000000003500.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL9520004-----9899---ACFB02DI  01NOFLEX004     00000GENERATED CAPITALIZATION                +0000000000003500.00C"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL1023200-----7030---ACEX02DI  01NOFLEX004     00000TEST FLEXIBLE OFFSET - FLEX             +0000000000003500.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL1023200-----8000---ACAS02DI  01NOFLEX004     00000GENERATED OFFSET                        +0000000000003500.00C"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL2331473-----4190---ACEX02DI  01NOFLEX005     00000TEST FLEXIBLE OFFSET - FLEX             +0000000000004000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL2331473-----8000---ACAS02DI  01NOFLEX005     00000GENERATED OFFSET                        +0000000000004000.00C"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "), };
 
-        //TODO: Shawn - Need to change it using file
-        //scrub(input);
-        //assertOriginEntries(4, output);
+        scrub(input);
+        assertOriginEntries(4, output);
     }
 
-    ///**
-    // * Test it when the flag is on
-    // * 
-    // * @throws Exception thrown if any exception is encountered for any reason
-    // */
-    // This test works in Eclipse, but not in Anthil
-    // public void testFlexibleOffsetGeneration() throws Exception {
-    //
-    // resetFlexibleOffsetEnableFlag(true);
-    //
-    // updateDocTypeForScrubberOffsetGeneration();
-    // setOffsetAccounts();
-    //
-    // String[] input = new String[] {
-    // "2007BA9120656-----4190---ACEX02DI  01NOFLEX00100000TEST FLEXIBLE OFFSET - NO FLEX 2000.00D2006-01-01 ---------- ",
-    // "2007BA6044900-----4190---ACEX02DI  01NOFLEX00200000TEST FLEXIBLE OFFSET - FLEX 1000.00D2006-01-01 ---------- ",
-    // "2007BL1023200-----4190---ACEX02DI  01NOFLEX00300000TEST FLEXIBLE OFFSET - FLEX 3000.00D2006-01-01 ---------- ",
-    // "2007BL1023200-----7030---ACEX02DI  01NOFLEX00400000TEST FLEXIBLE OFFSET - FLEX 3500.00D2006-01-01 ---------- ",
-    // "2007BL2331473-----4190---ACEX02DI  01NOFLEX00500000TEST FLEXIBLE OFFSET - FLEX 4000.00D2006-01-01 ---------- ",
-    // };
-    //
-    // EntryHolder[] output = new EntryHolder[] {
-    // new EntryHolder(OriginEntrySource.BACKUP, "2007BA9120656-----4190---ACEX02DI  01NOFLEX00100000TEST FLEXIBLE OFFSET - NO FLEX
-    // 2000.00D2006-01-01 ---------- "),
-    // new EntryHolder(OriginEntrySource.BACKUP, "2007BA6044900-----4190---ACEX02DI  01NOFLEX00200000TEST FLEXIBLE OFFSET - FLEX
-    // 1000.00D2006-01-01 ---------- "),
-    // new EntryHolder(OriginEntrySource.BACKUP, "2007BL1023200-----4190---ACEX02DI  01NOFLEX00300000TEST FLEXIBLE OFFSET - FLEX
-    // 3000.00D2006-01-01 ---------- "),
-    // new EntryHolder(OriginEntrySource.BACKUP, "2007BL1023200-----7030---ACEX02DI  01NOFLEX00400000TEST FLEXIBLE OFFSET - FLEX
-    // 3500.00D2006-01-01 ---------- "),
-    // new EntryHolder(OriginEntrySource.BACKUP, "2007BL2331473-----4190---ACEX02DI  01NOFLEX00500000TEST FLEXIBLE OFFSET - FLEX
-    // 4000.00D2006-01-01 ---------- "),
-    // new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA9120656-----4190---ACEX02DI  01NOFLEX00100000TEST FLEXIBLE OFFSET -
-    // NO FLEX 2000.00D2006-01-01 ---------- "),
-    // new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA9120656-----8000---ACAS02DI  01NOFLEX00100000GENERATED OFFSET
-    // 2000.00C2006-01-01 ---------- "),
-    // new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA6044900-----4190---ACEX02DI  01NOFLEX00200000TEST FLEXIBLE OFFSET -
-    // FLEX 1000.00D2006-01-01 ---------- "),
-    // new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL2231402-----8000---ACAS02DI  01NOFLEX00200000GENERATED OFFSET
-    // 1000.00C2006-01-01 ---------- "),
-    // new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL1023200-----4190---ACEX02DI  01NOFLEX00300000TEST FLEXIBLE OFFSET -
-    // FLEX 3000.00D2006-01-01 ---------- "),
-    // new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL1023200-----8000---ACAS02DI  01NOFLEX00300000GENERATED OFFSET
-    // 3000.00C2006-01-01 ---------- "),
-    // new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL9520004-----8611---ACAS02DI  01NOFLEX00400000GENERATED
-    // CAPITALIZATION 3500.00D2006-01-01 ---------- "),
-    // new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL2231419-----9899---ACFB02DI  01NOFLEX00400000GENERATED
-    // CAPITALIZATION 3500.00C2006-01-01 ---------- "),
-    // new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL1023200-----7030---ACEX02DI  01NOFLEX00400000TEST FLEXIBLE OFFSET -
-    // FLEX 3500.00D2006-01-01 ---------- "),
-    // new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL1023200-----8000---ACAS02DI  01NOFLEX00400000GENERATED OFFSET
-    // 3500.00C2006-01-01 ---------- "),
-    // new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL2331473-----4190---ACEX02DI  01NOFLEX00500000TEST FLEXIBLE OFFSET -
-    // FLEX 4000.00D2006-01-01 ---------- "),
-    // new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA9120657-----8000---ACAS02DI  01NOFLEX00500000GENERATED OFFSET
-    // 4000.00C2006-01-01 ---------- "),
-    // };
-    //
-    // scrub(input);
-    // assertOriginEntries(4, output);
-    // }
+    /**
+     * Test it when the flag is on
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
+     public void testFlexibleOffsetGeneration() throws Exception {
+    
+     resetFlexibleOffsetEnableFlag(true);
+    
+     updateDocTypeForScrubberOffsetGeneration();
+     setOffsetAccounts();
+    
+     String[] input = new String[] {
+     TestUtils.getFiscalYearForTesting()+"BA9120656-----4190---ACEX02DI  01NOFLEX001     00000TEST FLEXIBLE OFFSET - NO FLEX                       2000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       ",
+     TestUtils.getFiscalYearForTesting()+"BA6044900-----4190---ACEX02DI  01NOFLEX002     00000TEST FLEXIBLE OFFSET - FLEX                          1000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       ",
+     TestUtils.getFiscalYearForTesting()+"BL1023200-----4190---ACEX02DI  01NOFLEX003     00000TEST FLEXIBLE OFFSET - FLEX                          3000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       ",
+     TestUtils.getFiscalYearForTesting()+"BL1023200-----7030---ACEX02DI  01NOFLEX004     00000TEST FLEXIBLE OFFSET - FLEX                          3500.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       ",
+     TestUtils.getFiscalYearForTesting()+"BL2331473-----4190---ACEX02DI  01NOFLEX005     00000TEST FLEXIBLE OFFSET - FLEX                          4000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       ",
+     };
+    
+     EntryHolder[] output = new EntryHolder[] {
+     new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        TestUtils.getFiscalYearForTesting()+"BA9120656-----4190---ACEX02DI  01NOFLEX001     00000TEST FLEXIBLE OFFSET - NO FLEX                       2000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "),
+     new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        TestUtils.getFiscalYearForTesting()+"BA6044900-----4190---ACEX02DI  01NOFLEX002     00000TEST FLEXIBLE OFFSET - FLEX                          1000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "),
+     new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        TestUtils.getFiscalYearForTesting()+"BL1023200-----4190---ACEX02DI  01NOFLEX003     00000TEST FLEXIBLE OFFSET - FLEX                          3000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "),
+     new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        TestUtils.getFiscalYearForTesting()+"BL1023200-----7030---ACEX02DI  01NOFLEX004     00000TEST FLEXIBLE OFFSET - FLEX                          3500.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "),
+     new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        TestUtils.getFiscalYearForTesting()+"BL2331473-----4190---ACEX02DI  01NOFLEX005     00000TEST FLEXIBLE OFFSET - FLEX                          4000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "),
+     new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA9120656-----4190---ACEX02DI  01NOFLEX001     00000TEST FLEXIBLE OFFSET - NO FLEX          +0000000000002000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "),
+     new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA9120656-----8000---ACAS02DI  01NOFLEX001     00000GENERATED OFFSET                        +0000000000002000.00C"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "),
+     new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA6044900-----4190---ACEX02DI  01NOFLEX002     00000TEST FLEXIBLE OFFSET - FLEX             +0000000000001000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "),
+     new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL2231402-----8000---ACAS02DI  01NOFLEX002     00000GENERATED OFFSET                        +0000000000001000.00C"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "),
+     new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL1023200-----4190---ACEX02DI  01NOFLEX003     00000TEST FLEXIBLE OFFSET - FLEX             +0000000000003000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "),
+     new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL1023200-----8000---ACAS02DI  01NOFLEX003     00000GENERATED OFFSET                        +0000000000003000.00C"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "),
+     new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL9520004-----8611---ACAS02DI  01NOFLEX004     00000GENERATED CAPITALIZATION                +0000000000003500.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "),
+     new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL2231419-----9899---ACFB02DI  01NOFLEX004     00000GENERATED CAPITALIZATION                +0000000000003500.00C"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "),
+     new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL1023200-----7030---ACEX02DI  01NOFLEX004     00000TEST FLEXIBLE OFFSET - FLEX             +0000000000003500.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "),
+     new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL1023200-----8000---ACAS02DI  01NOFLEX004     00000GENERATED OFFSET                        +0000000000003500.00C"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "),
+     new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL2331473-----4190---ACEX02DI  01NOFLEX005     00000TEST FLEXIBLE OFFSET - FLEX             +0000000000004000.00D"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "),
+     new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA9120657-----8000---ACAS02DI  01NOFLEX005     00000GENERATED OFFSET                        +0000000000004000.00C"+TestUtils.getFiscalYearForTesting()+"-01-01          ----------                                       "),
+     };
+    
+     // make sure DI's will generate offsets
+     TestUtils.setSystemParameter(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.DOCUMENT_TYPES_REQUIRING_FLEXIBLE_OFFSET_BALANCING_ENTRIES, "DI");
+     
+     scrub(input);
+     assertOriginEntries(4, output);
+     }
     /**
      * Updates the DI   doc type, so that scrubber offsets are generated
      */
@@ -217,8 +201,16 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
      */
     private void scrub(String[] inputTransactions) {
         this.clearBatchFiles();
-        loadInputTransactions(OriginEntrySource.BACKUP, inputTransactions);
+        loadInputTransactions(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions);
         persistenceService.clearCache();
         scrubberService.scrubEntries();
+    }
+    
+    /**
+     * Resets the parameter which controls flexible offset generation
+     * @param toggle the value to toggle the parameter to
+     */
+    private void resetFlexibleOffsetEnableFlag(boolean toggle) {
+       TestUtils.setSystemParameter(OffsetDefinition.class, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG, (toggle ? "Y" : "N")); 
     }
 }

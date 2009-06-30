@@ -16,13 +16,9 @@
 package org.kuali.kfs.module.purap.document;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.ghatten;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.ferland;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.rorenfro;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.ferland;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.dfogle;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.stroud;
 
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
@@ -35,7 +31,6 @@ import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.suite.RelatesTo;
-import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.impl.DocumentServiceImpl;
@@ -66,6 +61,7 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
     * CM
     * Close PO
      */
+    @RelatesTo(RelatesTo.JiraIssue.KULPURAP4335)
     @ConfigureContext(session = parke, shouldCommitTransactions = true)
     public final void testFullProcess() throws Exception {
         // 1. use the ACM document to create the REQ and PO

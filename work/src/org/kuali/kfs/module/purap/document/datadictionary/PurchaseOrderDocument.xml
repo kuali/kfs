@@ -168,6 +168,7 @@
         <ref bean="PurchaseOrderDocument-documentTitleForResult"/>
         <ref bean="PurchaseOrderDocument-deliveryCampusCodeForSearch"/>
         <ref bean="PurchaseOrderDocument-assignedUserPrincipalName"/>
+        <ref bean="PurchaseOrderDocument-sensitive"/>
       </list>
     </property>
     <property name="validationMap" ref="PurchaseOrderDocument-validations"/>
@@ -228,7 +229,6 @@
   </bean>
 
 <!-- Attribute Definitions -->
-
 
   <bean id="PurchaseOrderDocument-statusDescription" parent="PurchaseOrderDocument-statusDescription-parentBean"/>
 
@@ -1486,6 +1486,12 @@
 				</entry>
 		    </map>
 	    </property>	  
+    </bean>
+
+    <bean id="PurchaseOrderDocument-sensitive" parent="PurchaseOrderDocument-sensitive-parentBean"/>
+
+    <bean id="PurchaseOrderDocument-sensitive-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+    	<property name="name" value="sensitive"/>
     </bean>
     
     <!-- workflow attributes for routing -->

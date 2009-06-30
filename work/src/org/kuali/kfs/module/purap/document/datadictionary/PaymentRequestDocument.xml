@@ -120,6 +120,7 @@
         <ref bean="PaymentRequestDocument-documentChartOfAccountsCodeForSearching"/>
         <ref bean="PaymentRequestDocument-documentOrganizationCodeForSearching"/> 
         <ref bean="PaymentRequestDocument-processingCampusCodeForSearch"/>
+        <ref bean="PaymentRequestDocument-sensitive"/>
       </list>
     </property>
     <property name="validationMap" ref="PaymentRequestDocument-validations"/>    
@@ -180,7 +181,6 @@
   </bean>
 
 <!-- Attribute Definitions -->
-
 
   <bean id="PaymentRequestDocument-statusDescription" parent="PaymentRequestDocument-statusDescription-parentBean"/>
 
@@ -1137,7 +1137,13 @@
 	   	</map>
 		</property>
 	</bean>  
-    
+
+    <bean id="PaymentRequestDocument-sensitive" parent="PaymentRequestDocument-sensitive-parentBean"/>
+
+    <bean id="PaymentRequestDocument-sensitive-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+    	<property name="name" value="sensitive"/>
+    </bean>
+      
     <!-- workflow attributes for routing -->
     <bean id="PaymentRequestDocument-workflowAttributes" parent="PaymentRequestDocument-workflowAttributes-parentBean"/>
 

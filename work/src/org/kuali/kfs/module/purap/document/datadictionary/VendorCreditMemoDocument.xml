@@ -77,6 +77,7 @@
         <ref bean="VendorCreditMemoDocument-documentChartOfAccountsCodeForSearching"/>
         <ref bean="VendorCreditMemoDocument-documentOrganizationCodeForSearching"/> 
         <ref bean="VendorCreditMemoDocument-processingCampusCodeForSearch"/>
+        <ref bean="VendorCreditMemoDocument-sensitive"/>
       </list>
     </property>
     <property name="validationMap" ref="VendorCreditMemoDocument-validations"/>
@@ -715,6 +716,12 @@
 	   	</map>
 		</property>
 	</bean>  
+	
+	<bean id="VendorCreditMemoDocument-sensitive" parent="VendorCreditMemoDocument-sensitive-parentBean"/>
+
+    <bean id="VendorCreditMemoDocument-sensitive-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+  		<property name="name" value="sensitive"/>
+    </bean>
       
     <!-- workflow attributes -->
     <bean id="VendorCreditMemoDocument-workflowAttributes" parent="VendorCreditMemoDocument-workflowAttributes-parentBean"/>

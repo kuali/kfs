@@ -56,6 +56,7 @@
         <ref bean="LineItemReceivingDocument-workflowStatusForResult"/>   
         <ref bean="LineItemReceivingDocument-documentTitleForResult"/>
         <ref bean="LineItemReceivingDocument-createDateForResult"/>
+        <ref bean="LineItemReceivingDocument-sensitive"/>
       </list>
     </property>
 	<property name="relationships">
@@ -417,7 +418,7 @@
   
   <bean id="LineItemReceivingDocument-lineItemReceivingStatusCode" parent="LineItemReceivingDocument-lineItemReceivingStatusCode-parentBean"/>
 
-<bean id="LineItemReceivingDocument-lineItemReceivingStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="LineItemReceivingDocument-lineItemReceivingStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
 	<property name="name" value="lineItemReceivingStatusCode"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Receiving Line Status Code"/>
@@ -470,5 +471,11 @@
     <property name="label" value="Date Created"/>
     <property name="shortLabel" value="Date Created"/>
   </bean>
+
+  <bean id="LineItemReceivingDocument-sensitive" parent="LineItemReceivingDocument-sensitive-parentBean"/>
+
+  <bean id="LineItemReceivingDocument-sensitive-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+  	<property name="name" value="sensitive"/>
+  </bean>  
     
 </beans>

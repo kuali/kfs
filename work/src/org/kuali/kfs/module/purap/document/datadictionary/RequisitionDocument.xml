@@ -140,6 +140,7 @@
         <ref bean="RequisitionDocument-chartAndOrgCodeForResult"/>
         <ref bean="RequisitionDocument-deliveryCampusCodeForSearch"/>
         <ref bean="RequisitionDocument-createDateForResult"/>
+        <ref bean="RequisitionDocument-sensitive"/>
       </list>
     </property>
     <property name="validationMap" ref="RequisitionDocument-validations"/>
@@ -1138,7 +1139,13 @@
 			</entry>																	
     	</map>
     </property>
-  </bean>  
+  </bean> 
+  
+  	<bean id="RequisitionDocument-sensitive" parent="RequisitionDocument-sensitive-parentBean"/>
+
+    <bean id="RequisitionDocument-sensitive-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+  		<property name="name" value="sensitive"/>
+    </bean> 
   	
     <!-- workflow attributes for routing -->
     <bean id="RequisitionDocument-workflowAttributes" parent="RequisitionDocument-workflowAttributes-parentBean"/>

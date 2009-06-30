@@ -916,7 +916,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             <list>
               <dd:field attributeName="contractControlFinCoaCode" />
               <dd:field attributeName="contractControlAccountNumber" />
-              <dd:field attributeName="acctIndirectCostRcvyType.codeAndDescription" />
+              <dd:field attributeName="acctIndirectCostRcvyTypeCd" />
               <dd:field attributeName="financialIcrSeriesIdentifier" />
               <dd:field attributeName="indirectCostRcvyFinCoaCode" />
               <dd:field attributeName="indirectCostRecoveryAcctNbr" />

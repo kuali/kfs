@@ -636,13 +636,7 @@
 	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="taxRegionTypeName" column="TAX_REGION_TYP_NM" jdbc-type="VARCHAR" />
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-	</class-descriptor>
-
-	<!-- this is to fake out the framework -->
- 	<class-descriptor class="org.kuali.kfs.sys.businessobject.DataMappingFieldDefinition" table="FAKE">
- 		<field-descriptor name="componentClass" column="FAKE_CC" jdbc-type="VARCHAR" primarykey="true" />
- 		<field-descriptor name="propertyName" column="FAKE_PN" jdbc-type="VARCHAR" primarykey="true" />
-	</class-descriptor>	  	    
+	</class-descriptor>  	    
 	
 	<class-descriptor class="org.kuali.kfs.sys.businessobject.TaxRegionState" table="FS_TAX_STATE_T" >
 		<field-descriptor name="postalCountryCode" column="POSTAL_CNTRY_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />

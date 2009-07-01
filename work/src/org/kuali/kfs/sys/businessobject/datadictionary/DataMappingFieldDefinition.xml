@@ -19,6 +19,12 @@
 			value="functionalFieldDescription.businessObjectProperty.propertyLabel" />
 		<property name="objectLabel"
 			value="Data Mapping Field Definition" />
+		<property name="primaryKeys">
+		  <list>
+		    <value>componentClass</value>
+		    <value>propertyName</value>
+		  </list>
+		</property> 
 		<property name="attributes">
 			<list>
 				<ref bean="DataMappingFieldDefinition-namespaceCode" />
@@ -366,10 +372,9 @@
 
 	<bean id="DataMappingFieldDefinition-inquiryDefinition-parentBean"
 		abstract="true" parent="InquiryDefinition">
-		<property name="inquirableClass"
-			value="org.kuali.kfs.sys.businessobject.inquiry.DataMappingFieldDefinitionInquirable" />
 		<property name="title"
 			value="Data Mapping Field Definition Inquiry" />
+		<property name="inquirableClass" value="org.kuali.kfs.sys.businessobject.inquiry.DataMappingFieldDefinitionInquirable" />
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">

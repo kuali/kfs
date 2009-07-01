@@ -18,13 +18,11 @@ package org.kuali.kfs.sys.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.dataaccess.FieldMetaData;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.datadictionary.mask.MaskFormatterLiteral;
-import org.kuali.rice.kns.datadictionary.mask.MaskFormatterSubString;
 
-public class DataMappingFieldDefinition extends PersistableBusinessObjectBase {
+public class DataMappingFieldDefinition extends TransientBusinessObjectBase {
     private String namespaceCode;
     private String componentClass;
     private String propertyName;

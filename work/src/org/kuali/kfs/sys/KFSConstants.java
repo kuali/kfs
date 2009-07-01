@@ -1178,7 +1178,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         DEFAULT("Default"), ERROR_CORRECT_DOCUMENT("Error Correct Document"),
         MODIFY_ACCOUNTING_LINES("Modify Accounting Lines"), CLAIM_ELECTRONIC_PAYMENT("Claim Electronic Payment"),
         MODIFY_BATCH_JOB("Modify Batch Job"), EDIT_BANK_CODE("Edit Bank Code"), ADMINISTER_ROUTING_FOR_DOCUMENT("Administer Routing for Document"),
-        VIEW_BATCH_FILES("View Batch File(s)"), UPLOAD_BATCH_INPUT_FILES("Upload Batch Input File(s)");
+        VIEW_BATCH_FILES("Administer Batch File"), UPLOAD_BATCH_INPUT_FILES("Upload Batch Input File(s)");
 
         public final String name;
         private PermissionTemplate(String name) {

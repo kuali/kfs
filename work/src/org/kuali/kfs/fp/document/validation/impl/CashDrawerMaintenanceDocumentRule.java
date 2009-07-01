@@ -103,7 +103,7 @@ public class CashDrawerMaintenanceDocumentRule extends MaintenanceDocumentRuleBa
             putFieldError("oneDollarCount", KFSKeyConstants.CashDrawerMaintenance.ONE_DOLLAR_AMOUNT_NEGATIVE, new String[] { cashDrawer.getOneDollarCount().toString() });
             valid = false;
         }
-        if (cashDrawer.getFinancialDocumentOneDollarAmount() != null && cashDrawer.getFinancialDocumentOtherDollarAmount().compareTo(KualiDecimal.ZERO) < 0) {
+        if (cashDrawer.getFinancialDocumentOtherDollarAmount() != null && cashDrawer.getFinancialDocumentOtherDollarAmount().compareTo(KualiDecimal.ZERO) < 0) {
             putFieldError("financialDocumentOtherDollarAmount", KFSKeyConstants.CashDrawerMaintenance.OTHER_DOLLAR_AMOUNT_NEGATIVE, new String[] { cashDrawer.getFinancialDocumentOtherDollarAmount().toString() });
             valid = false;
         }

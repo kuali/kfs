@@ -41,7 +41,7 @@ public class CampusNoBlankValuesFinder extends KeyValuesBase {
 
         KeyValuesService kvService = SpringContext.getBean(KeyValuesService.class);
         Map fieldValues = new HashMap();
-        fieldValues.put(KNSPropertyConstants.ACTIVE_INDICATOR, true);
+        fieldValues.put(KNSPropertyConstants.ACTIVE, true);
         Collection codes = kvService.findMatching(CampusParameter.class, fieldValues);
         List labels = new ArrayList();
         for (Iterator iter = codes.iterator(); iter.hasNext();) {

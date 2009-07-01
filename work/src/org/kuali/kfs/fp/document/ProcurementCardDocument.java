@@ -65,6 +65,8 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
     public ProcurementCardDocument() {
         super();
         transactionEntries = new TypedArrayList(ProcurementCardTransactionDetail.class);
+        // Save Capital Asset Information for PCard document when created.
+        this.capitalAssetInformation = new CapitalAssetInformation();
     }
 
     /**

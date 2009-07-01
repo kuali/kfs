@@ -66,6 +66,7 @@ import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
@@ -326,6 +327,9 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         try {
             // get new document from doc service
             pcardDocument = (ProcurementCardDocument) documentService.getNewDocument(ProcurementCardDocument.class);
+            if (ObjectUtils.isNotNull(pcardDocument.getCapitalAssetInformation())) {
+                pcardDocument.getCapitalAssetInformation().setDocumentNumber(pcardDocument.getDocumentNumber());
+            }
 
             // set the card holder record on the document from the first transaction
             createCardHolderRecord(pcardDocument, (ProcurementCardTransaction) transactions.get(0));

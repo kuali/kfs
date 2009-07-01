@@ -43,7 +43,6 @@ import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
 import org.kuali.kfs.fp.businessobject.SalesTax;
 import org.kuali.kfs.fp.document.CapitalAssetEditable;
-import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -1261,9 +1260,8 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
 
         CapitalAssetEditable capitalAssetEditableForm = (CapitalAssetEditable) kualiAccountingDocumentFormBase;
         CapitalAssetInformation newCapitalAssetInformation = capitalAssetEditableForm.getCapitalAssetInformation();
-        CapitalAssetBuilderModuleService capitalAssetBuilderModuleService = SpringContext.getBean(CapitalAssetBuilderModuleService.class);
-
-        // apply capitalAsset information if there is at least one movable object code associated with the source accounting lines
+        // apply capitalAsset information if there is at least one movable object code associated with the source accounting
+        // lines
         newCapitalAssetInformation.setDocumentNumber(document.getDocumentNumber());
         capitalAssetEditable.setCapitalAssetInformation(newCapitalAssetInformation);
     }

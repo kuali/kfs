@@ -72,9 +72,9 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
     private static final int NUMBER_OF_INVOICES_TO_CREATE = 5;
     private static final String RUN_INDICATOR_PARAMETER_NAMESPACE_CODE = "KFS-AR";
     private static final String RUN_INDICATOR_PARAMETER_NAMESPACE_STEP = "CustomerInvoiceDocumentBatchStep";
-// ******************* replaced while testing   private static final String RUN_INDICATOR_PARAMETER_VALUE = "N";
-    private static final String RUN_INDICATOR_PARAMETER_VALUE = "Y"; // Tells the job framework whether to run this job or not; set to NO because the GenesisBatchJob needs to only be run once after database initialization.
+    private static final String RUN_INDICATOR_PARAMETER_VALUE = "N"; // Tells the job framework whether to run this job or not; set to NO because the CustomerInvoiceDocumentBatchStep needs to only be run once after database initialization.
     private static final String RUN_INDICATOR_PARAMETER_ALLOWED = "A";
+    private final String RUN_INDICATOR_PARAMETER_DESCRIPTION = "Tells the job framework whether to run this job or not; because the CustomerInvoiceDocumentBatchStep needs to only be run once after database initialization.";
     private static final String RUN_INDICATOR_PARAMETER_TYPE = "CONFG";
     private static final String INITIATOR_PRINCIPAL_NAME = "khuntley";
     
@@ -82,79 +82,84 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
 
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         
-        GlobalVariables.clear();
-        GlobalVariables.setUserSession(new UserSession(INITIATOR_PRINCIPAL_NAME));
-        setDateTimeService(SpringContext.getBean(DateTimeService.class));
-        
-        Date billingDate = getDateTimeService().getCurrentDate();
-        List<String> customernames;
-        
-        if ((jobName.length() <=8 ) && (jobName.length() >= 4)) {
-            setCustomerInvoiceDocumentService(SpringContext.getBean(CustomerInvoiceDocumentService.class));
-            setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
-            setDocumentService(SpringContext.getBean(DocumentService.class));
+        Parameter runIndicatorParameter = (Parameter) businessObjectService.findByPrimaryKey(Parameter.class, this.buildSearchKeyMap());
+        if (ObjectUtils.isNull(runIndicatorParameter) || "Y".equals(runIndicatorParameter.getParameterValue())) {
 
-            customernames = Arrays.asList(jobName);
-        } else {
-            customernames = Arrays.asList("ABB2", "3MC17500","ACE21725","ANT7297","CAR23612", "CON19567", "DEL14448", "EAT17609", "GAP17272");
-        }
+            GlobalVariables.clear();
+            GlobalVariables.setUserSession(new UserSession(INITIATOR_PRINCIPAL_NAME));
+            setDateTimeService(SpringContext.getBean(DateTimeService.class));
+        
+            Date billingDate = getDateTimeService().getCurrentDate();
+            List<String> customernames;
+        
+            if ((jobName.length() <=8 ) && (jobName.length() >= 4)) {
+                setCustomerInvoiceDocumentService(SpringContext.getBean(CustomerInvoiceDocumentService.class));
+                setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
+                setDocumentService(SpringContext.getBean(DocumentService.class));
 
-        // create non-random data
-        if (customernames.size() > 1) {
-            for (int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++) {
+                customernames = Arrays.asList(jobName);
+            } else {
+                customernames = Arrays.asList("ABB2", "3MC17500","ACE21725","ANT7297","CAR23612", "CON19567", "DEL14448", "EAT17609", "GAP17272");
+            }
+
+            // create non-random data
+            if (customernames.size() > 1) {
+                for (int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++) {
     
-                billingDate = DateUtils.addDays(billingDate, -30);
+                    billingDate = DateUtils.addDays(billingDate, -30);
     
-                createCustomerInvoiceDocumentForFunctionalTesting("HIL22195", billingDate, 1, new KualiDecimal(10), new BigDecimal(1), "2336320", "BL", "BUSCF");  // $10 entries
-                createCustomerInvoiceDocumentForFunctionalTesting("IBM2655", billingDate, 2, new KualiDecimal(10), new BigDecimal(1), "2336320", "BL", "IBCE");  // $20 entries
-                createCustomerInvoiceDocumentForFunctionalTesting("JAS19572", billingDate, 3, new KualiDecimal(10), new BigDecimal(1), "2336320", "BL", "WRB");  // $30 entries
+                    createCustomerInvoiceDocumentForFunctionalTesting("HIL22195", billingDate, 1, new KualiDecimal(10), new BigDecimal(1), "2336320", "BL", "BUSCF");  // $10 entries
+                    createCustomerInvoiceDocumentForFunctionalTesting("IBM2655", billingDate, 2, new KualiDecimal(10), new BigDecimal(1), "2336320", "BL", "IBCE");  // $20 entries
+                    createCustomerInvoiceDocumentForFunctionalTesting("JAS19572", billingDate, 3, new KualiDecimal(10), new BigDecimal(1), "2336320", "BL", "WRB");  // $30 entries
     
+                    Thread.sleep(500);
+                }
+            }
+
+            // easy dynamic data creation
+            if (customernames.size() == 1) {
+                billingDate = jobRunDate;
+                createCustomerInvoiceDocumentForFunctionalTesting(customernames.get(0), billingDate, 1, new KualiDecimal(10), new BigDecimal(1), "1111111", "BA", "MATT");  // $10 entries
                 Thread.sleep(500);
             }
-        }
 
-        // easy dynamic data creation
-        if (customernames.size() == 1) {
-            billingDate = jobRunDate;
-            createCustomerInvoiceDocumentForFunctionalTesting(customernames.get(0), billingDate, 1, new KualiDecimal(10), new BigDecimal(1), "1111111", "BA", "MATT");  // $10 entries
-            Thread.sleep(500);
-        }
+            // create lockboxes for the non-random invoices
+            Long seqNbr = findAvailableLockboxBaseSeqNbr();
+            int scenarioNbr =1;
+            for (String createdInvoice : createdInvoices){
+                createLockboxesForFunctionalTesting(createdInvoice, seqNbr, scenarioNbr);
+                Thread.sleep(500);
+                seqNbr++;
+                if (scenarioNbr<=6) {
+                    scenarioNbr++;
+                }
+                else {
+                    scenarioNbr = 1;
+                }
+            }
 
-        // create lockboxes for the non-random invoices
-        Long seqNbr = findAvailableLockboxBaseSeqNbr();
-        int scenarioNbr =1;
-        for (String createdInvoice : createdInvoices){
-          createLockboxesForFunctionalTesting(createdInvoice, seqNbr, scenarioNbr);
-          Thread.sleep(500);
-          seqNbr++;
-          if (scenarioNbr<=6) {
-              scenarioNbr++;
-          }
-          else {
-              scenarioNbr = 1;
-          }
-        }
-
-        // create random data
-//        if (customernames.size() > 1) {
-//        for (String customername : customernames) {
+            // create random data
+//            if (customernames.size() > 1) {
+//                for (String customername : customernames) {
 //
-//            billingDate = getDateTimeService().getCurrentDate();
+//                    billingDate = getDateTimeService().getCurrentDate();
 //
-//            for( int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++ ){
+//                    for( int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++ ){
 //
-//                billingDate = DateUtils.addDays(billingDate, -30);
+//                        billingDate = DateUtils.addDays(billingDate, -30);
 //
-//                createCustomerInvoiceDocumentForFunctionalTesting(customername,billingDate, 0, null, null, "1031400", "BL");
-//                Thread.sleep(500);
+//                        createCustomerInvoiceDocumentForFunctionalTesting(customername,billingDate, 0, null, null, "1031400", "BL");
+//                        Thread.sleep(500);
 //
+//                    }
+//                }
 //            }
-//        }
-//        }
 
 
 
-        setInitiatedParameter();
+            // save runParameter as "N" so that the job won't run until DB has been cleared
+            setInitiatedParameter();
+        }    
         return true;
     }
    
@@ -183,6 +188,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
            runIndicatorParameter.setParameterNamespaceCode(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_NAMESPACE_CODE);
            runIndicatorParameter.setParameterDetailTypeCode(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_NAMESPACE_STEP);
            runIndicatorParameter.setParameterName(Job.STEP_RUN_PARM_NM);
+           runIndicatorParameter.setParameterDescription(RUN_INDICATOR_PARAMETER_DESCRIPTION);
            runIndicatorParameter.setParameterConstraintCode(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_ALLOWED);
            runIndicatorParameter.setParameterTypeCode(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_TYPE);
         }

@@ -2160,7 +2160,7 @@
         </bean>              
               
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Lookup Related Capital Asset Docuemnt(s)" />
+          <property name="title" value="Lookup Related Capital Asset Document(s)" />
 		  <property name="defaultOpen" value="false"/>          
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >

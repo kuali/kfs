@@ -502,8 +502,9 @@
     </bean>
     
     <bean id="financialSystemDocumentTypeService" class="org.kuali.kfs.sys.document.service.impl.FinancialSystemDocumentTypeServiceImpl">
-  	<property name="dataDictionaryService" ref="dataDictionaryService" />
-  </bean>
+  	  <property name="dataDictionaryService" ref="dataDictionaryService" />
+  	  <property name="maintenanceDocumentDictionaryService" ref="maintenanceDocumentDictionaryService" />
+    </bean>
     
     <bean id="electronicPaymentClaimingService" class="org.kuali.kfs.sys.service.impl.ElectronicPaymentClaimingServiceImpl">
     	<property name="documentService"><ref bean="documentService" /></property>

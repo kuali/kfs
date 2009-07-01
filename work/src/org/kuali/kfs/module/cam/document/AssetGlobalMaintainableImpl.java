@@ -47,7 +47,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.FinancialSystemGlobalMaintainable;
+import org.kuali.kfs.sys.document.LedgerPostingMaintainable;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -63,7 +63,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global assets
  */
-public class AssetGlobalMaintainableImpl extends FinancialSystemGlobalMaintainable {
+public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalMaintainableImpl.class);
     private static final String REQUIRES_REVIEW = "RequiresReview";
 

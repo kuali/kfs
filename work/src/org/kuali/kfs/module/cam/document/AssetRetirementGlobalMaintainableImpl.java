@@ -36,7 +36,7 @@ import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.FinancialSystemGlobalMaintainable;
+import org.kuali.kfs.sys.document.LedgerPostingMaintainable;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -53,7 +53,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global location
  * assets
  */
-public class AssetRetirementGlobalMaintainableImpl extends FinancialSystemGlobalMaintainable {
+public class AssetRetirementGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRetirementGlobalMaintainableImpl.class);
     private static final String RETIRED_ASSET_TRANSFERRED_EXTERNALLY = "RetiredAssetTransferredExternally";

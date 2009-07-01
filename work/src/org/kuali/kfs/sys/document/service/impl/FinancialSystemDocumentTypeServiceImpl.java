@@ -18,18 +18,22 @@ package org.kuali.kfs.sys.document.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.LedgerPostingDocument;
+import org.kuali.kfs.sys.document.LedgerPostingMaintainable;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentTypeService;
 import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 
 /**
  * Default implementation of the FinancialSystemDocumentTypeService
  */
 public class FinancialSystemDocumentTypeServiceImpl implements FinancialSystemDocumentTypeService {
     private DataDictionaryService dataDictionaryService;
+    private MaintenanceDocumentDictionaryService maintenanceDocumentDictionaryService;
 
     /**
      * Makes sure the doc type represented by the code either is or is a child of the
@@ -72,14 +76,26 @@ public class FinancialSystemDocumentTypeServiceImpl implements FinancialSystemDo
     }
     
     /**
-     * Determines if the given document type code represents a document whose class is a LedgerPostingDocument
+     * Determines if the given document type code represents a document whose class is a LedgerPostingDocument or a maintainable
+     * whose class is a LedgerPostingMaintainable
      * @param documentTypeCode the document type code to check
      * @return true if the document type code represents a LedgerPostingDocument, false otherwise
      */
-    protected boolean isLedgerPostingDocumentType(String documentTypeCode) {        
+    protected boolean isLedgerPostingDocumentType(String documentTypeCode) {
         final Class<? extends Document> documentClass = getDataDictionaryService().getDocumentClassByTypeName(documentTypeCode);
-        if (documentClass == null) return false; // no class? then we're not ledger posting, are we?
-        return LedgerPostingDocument.class.isAssignableFrom(documentClass); // is the class a child of LedgerPosting?
+        if (documentClass != null) {
+            if (MaintenanceDocument.class.isAssignableFrom(documentClass)) {
+                Class<? extends LedgerPostingMaintainable> maintainableClass = maintenanceDocumentDictionaryService.getMaintainableClass(documentTypeCode);
+                if (maintainableClass != null) {
+                    return LedgerPostingMaintainable.class.isAssignableFrom(maintainableClass);
+                }
+            }
+            else {
+                return LedgerPostingDocument.class.isAssignableFrom(documentClass);
+            }
+        }
+
+        return false;
     }
     
     /**
@@ -105,5 +121,21 @@ public class FinancialSystemDocumentTypeServiceImpl implements FinancialSystemDo
      */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
+    }
+    
+    /**
+     * Gets the maintenanceDocumentDictionaryService attribute. 
+     * @return Returns the maintenanceDocumentDictionaryService.
+     */
+    protected MaintenanceDocumentDictionaryService getMaintenanceDocumentDictionaryService() {
+        return maintenanceDocumentDictionaryService;
+    }
+
+    /**
+     * Sets the maintenanceDocumentDictionaryService attribute value.
+     * @param maintenanceDocumentDictionaryService The maintenanceDocumentDictionaryService to set.
+     */
+    public void setMaintenanceDocumentDictionaryService(MaintenanceDocumentDictionaryService maintenanceDocumentDictionaryService) {
+        this.maintenanceDocumentDictionaryService = maintenanceDocumentDictionaryService;
     }
 }

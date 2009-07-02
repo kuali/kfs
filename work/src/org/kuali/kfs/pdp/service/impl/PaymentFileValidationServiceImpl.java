@@ -54,11 +54,11 @@ import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.OriginationCodeService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.KualiCodeBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -82,10 +82,10 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     private ObjectCodeService objectCodeService;
     private SubObjectCodeService subObjectCodeService;
     private ProjectCodeService projectCodeService;
-    private KualiCodeService kualiCodeService;
     private BankService bankService;
     private OriginationCodeService originationCodeService;
     private KualiWorkflowInfo workflowInfoService;
+    private BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.pdp.batch.service.PaymentFileValidationService#doHardEdits(org.kuali.kfs.pdp.businessobject.PaymentFile,
@@ -176,7 +176,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
             // validate payee id type
             if (StringUtils.isNotBlank(paymentGroup.getPayeeIdTypeCd())) {
-                PayeeType payeeType = (PayeeType) kualiCodeService.getByCode(PayeeType.class, paymentGroup.getPayeeIdTypeCd());
+                PayeeType payeeType = (PayeeType) businessObjectService.findBySinglePrimaryKey(PayeeType.class, paymentGroup.getPayeeIdTypeCd());
                 if (payeeType == null) {
                     errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_PAYEE_ID_TYPE, Integer.toString(groupCount), paymentGroup.getPayeeIdTypeCd());
                 }
@@ -275,7 +275,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      * @param warnings <code>List</code> list of accumulated warning messages
      */
     public void processGroupSoftEdits(PaymentFileLoad paymentFile, CustomerProfile customer, List<String> warnings) {
-        PaymentStatus openStatus = (PaymentStatus) SpringContext.getBean(KualiCodeService.class).getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.OPEN);
+        PaymentStatus openStatus = (PaymentStatus) businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.OPEN);
 
         for (PaymentGroup paymentGroup : paymentFile.getPaymentGroups()) {
             paymentGroup.setBatchId(paymentFile.getBatchId());
@@ -356,7 +356,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
             if (account == null) {
                 addWarningMessage(warnings, PdpKeyConstants.MESSAGE_PAYMENT_LOAD_INVALID_ACCOUNT, paymentAccountDetail.getFinChartCode(), paymentAccountDetail.getAccountNbr());
 
-                KualiCodeBase objChangeCd = (KualiCodeBase) kualiCodeService.getByCode(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_ACCOUNT);
+                KualiCodeBase objChangeCd = (KualiCodeBase) businessObjectService.findBySinglePrimaryKey(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_ACCOUNT);
                 replaceAccountingString(objChangeCd, changeRecords, customer, paymentAccountDetail);
             }
             else {
@@ -366,7 +366,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
                     if (subAccount == null) {
                         addWarningMessage(warnings, PdpKeyConstants.MESSAGE_PAYMENT_LOAD_INVALID_SUB_ACCOUNT, paymentAccountDetail.getFinChartCode(), paymentAccountDetail.getAccountNbr(), paymentAccountDetail.getSubAccountNbr());
 
-                        KualiCodeBase objChangeCd = (KualiCodeBase) kualiCodeService.getByCode(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_SUB_ACCOUNT);
+                        KualiCodeBase objChangeCd = (KualiCodeBase) businessObjectService.findBySinglePrimaryKey(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_SUB_ACCOUNT);
                         changeRecords.add(newAccountHistory(PdpPropertyConstants.SUB_ACCOUNT_DB_COLUMN_NAME, KFSConstants.getDashSubAccountNumber(), paymentAccountDetail.getSubAccountNbr(), objChangeCd));
 
                         paymentAccountDetail.setSubAccountNbr(KFSConstants.getDashSubAccountNumber());
@@ -378,7 +378,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
                 if (objectCode == null) {
                     addWarningMessage(warnings, PdpKeyConstants.MESSAGE_PAYMENT_LOAD_INVALID_OBJECT, paymentAccountDetail.getFinChartCode(), paymentAccountDetail.getFinObjectCode());
 
-                    KualiCodeBase objChangeCd = (KualiCodeBase) kualiCodeService.getByCode(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_OBJECT);
+                    KualiCodeBase objChangeCd = (KualiCodeBase) businessObjectService.findBySinglePrimaryKey(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_OBJECT);
                     replaceAccountingString(objChangeCd, changeRecords, customer, paymentAccountDetail);
                 }
 
@@ -388,7 +388,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
                     if (subObjectCode == null) {
                         addWarningMessage(warnings, PdpKeyConstants.MESSAGE_PAYMENT_LOAD_INVALID_SUB_OBJECT, paymentAccountDetail.getFinChartCode(), paymentAccountDetail.getAccountNbr(), paymentAccountDetail.getFinObjectCode(), paymentAccountDetail.getFinSubObjectCode());
 
-                        KualiCodeBase objChangeCd = (KualiCodeBase) kualiCodeService.getByCode(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_SUB_OBJECT);
+                        KualiCodeBase objChangeCd = (KualiCodeBase) businessObjectService.findBySinglePrimaryKey(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_SUB_OBJECT);
                         changeRecords.add(newAccountHistory(PdpPropertyConstants.SUB_OBJECT_DB_COLUMN_NAME, KFSConstants.getDashFinancialSubObjectCode(), paymentAccountDetail.getFinSubObjectCode(), objChangeCd));
 
                         paymentAccountDetail.setFinSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
@@ -402,7 +402,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
                 if (projectCode == null) {
                     addWarningMessage(warnings, PdpKeyConstants.MESSAGE_PAYMENT_LOAD_INVALID_PROJECT, paymentAccountDetail.getProjectCode());
 
-                    KualiCodeBase objChangeCd = (KualiCodeBase) kualiCodeService.getByCode(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_PROJECT);
+                    KualiCodeBase objChangeCd = (KualiCodeBase) businessObjectService.findBySinglePrimaryKey(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_PROJECT);
                     changeRecords.add(newAccountHistory(PdpPropertyConstants.PROJECT_DB_COLUMN_NAME, KFSConstants.getDashProjectCode(), paymentAccountDetail.getProjectCode(), objChangeCd));
                     paymentAccountDetail.setProjectCode(KFSConstants.getDashProjectCode());
                 }
@@ -564,9 +564,9 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      * @param customer payment customer
      */
     protected void checkForTaxEmailRequired(PaymentFileLoad paymentFile, PaymentGroup paymentGroup, CustomerProfile customer) {
-        PaymentStatus heldForNRAEmployee = (PaymentStatus) SpringContext.getBean(KualiCodeService.class).getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD);
-        PaymentStatus heldForEmployee = (PaymentStatus) SpringContext.getBean(KualiCodeService.class).getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD);
-        PaymentStatus heldForNRA = (PaymentStatus) SpringContext.getBean(KualiCodeService.class).getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD);
+        PaymentStatus heldForNRAEmployee = (PaymentStatus) businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD);
+        PaymentStatus heldForEmployee = (PaymentStatus) businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD);
+        PaymentStatus heldForNRA = (PaymentStatus) businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD);
 
         if (customer.getNraReview() && customer.getEmployeeCheck() && paymentGroup.getEmployeeIndicator().booleanValue() && paymentGroup.getNraPayment().booleanValue()) {
             paymentGroup.setPaymentStatus(heldForNRAEmployee);
@@ -729,15 +729,6 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     }
 
     /**
-     * Sets the kualiCodeService attribute value.
-     * 
-     * @param kualiCodeService The kualiCodeService to set.
-     */
-    public void setKualiCodeService(KualiCodeService kualiCodeService) {
-        this.kualiCodeService = kualiCodeService;
-    }
-
-    /**
      * Sets the kualiConfigurationService attribute value.
      * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
@@ -780,6 +771,24 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      */
     public void setWorkflowInfoService(KualiWorkflowInfo workflowInfoService) {
         this.workflowInfoService = workflowInfoService;
+    }
+
+    /**
+     * Gets the businessObjectService attribute.
+     * 
+     * @return Returns the businessObjectService.
+     */
+    protected BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }

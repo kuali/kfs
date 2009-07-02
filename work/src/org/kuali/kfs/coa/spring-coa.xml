@@ -171,8 +171,8 @@
 	</bean>
 
 	<bean id="balanceTypService" class="org.kuali.kfs.coa.service.impl.BalanceTypeServiceImpl">
-		<property name="kualiCodeService">
-			<ref bean="kualiCodeService" />
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
 		</property>
 		<property name="balanceTypeDao">
 			<ref bean="balanceTypeDao" />

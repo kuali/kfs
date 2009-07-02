@@ -347,9 +347,6 @@
 	</bean>
 
 	<bean id="cashDetailTypeCodeService" class="org.kuali.kfs.fp.service.impl.CashDetailTypeCodeServiceImpl">
-		<property name="kualiCodeService">
-			<ref bean="kualiCodeService" />
-		</property>
 	</bean>
 	
 	<bean id="procurementCardInputFileType" class="org.kuali.kfs.fp.batch.ProcurementCardInputFileType"> 

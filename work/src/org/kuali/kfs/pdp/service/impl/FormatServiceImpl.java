@@ -58,7 +58,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -82,7 +81,6 @@ public class FormatServiceImpl implements FormatService {
     private FormatPaymentDao formatPaymentDao;
     private SchedulerService schedulerService;
     private BusinessObjectService businessObjectService;
-    private KualiCodeService kualiCodeService;
     private PaymentGroupService paymentGroupService;
     private DateTimeService dateTimeService;
     private ExtractPaymentService extractPaymentService;
@@ -220,11 +218,11 @@ public class FormatServiceImpl implements FormatService {
         String campus = paymentProcess.getCampusCode();
 
         //get disbursement types, payment statuses
-        DisbursementType checkDisbursementType = (DisbursementType) kualiCodeService.getByCode(DisbursementType.class, PdpConstants.DisbursementTypeCodes.CHECK);
-        DisbursementType achDisbursementType = (DisbursementType) kualiCodeService.getByCode(DisbursementType.class, PdpConstants.DisbursementTypeCodes.ACH);
+        DisbursementType checkDisbursementType = (DisbursementType) businessObjectService.findBySinglePrimaryKey(DisbursementType.class, PdpConstants.DisbursementTypeCodes.CHECK);
+        DisbursementType achDisbursementType = (DisbursementType) businessObjectService.findBySinglePrimaryKey(DisbursementType.class, PdpConstants.DisbursementTypeCodes.ACH);
 
-        PaymentStatus extractedPaymentStatus = (PaymentStatus) kualiCodeService.getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
-        PaymentStatus pendingPaymentStatus = (PaymentStatus) kualiCodeService.getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.PENDING_ACH);
+        PaymentStatus extractedPaymentStatus = (PaymentStatus) businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
+        PaymentStatus pendingPaymentStatus = (PaymentStatus) businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.PENDING_ACH);
 
         // step 1 get ACH or Check, Bank info, ACH info, sorting
         Iterator paymentGroupIterator = this.paymentGroupService.getByProcess(paymentProcess);
@@ -247,7 +245,7 @@ public class FormatServiceImpl implements FormatService {
             if (StringUtils.isNotBlank(originalBankCode) && !paymentGroup.getBankCode().equals(originalBankCode)) {
                 PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
 
-                PaymentChangeCode paymentChangeCode = (PaymentChangeCode) this.kualiCodeService.getByCode(PaymentChangeCode.class, PdpConstants.PaymentChangeCodes.BANK_CHNG_CD);
+                PaymentChangeCode paymentChangeCode = (PaymentChangeCode) businessObjectService.findBySinglePrimaryKey(PaymentChangeCode.class, PdpConstants.PaymentChangeCodes.BANK_CHNG_CD);
                 paymentGroupHistory.setPaymentChange(paymentChangeCode);
                 paymentGroupHistory.setOrigBankCode(originalBankCode);
                 paymentGroupHistory.setBank(originalBank);
@@ -715,15 +713,6 @@ public class FormatServiceImpl implements FormatService {
      */
     public void setBusinessObjectService(BusinessObjectService bos) {
         this.businessObjectService = bos;
-    }
-
-    /**
-     * This method sets the kualiCodeService
-     * 
-     * @param kualiCodeService
-     */
-    public void setKualiCodeService(KualiCodeService kualiCodeService) {
-        this.kualiCodeService = kualiCodeService;
     }
 
     /**

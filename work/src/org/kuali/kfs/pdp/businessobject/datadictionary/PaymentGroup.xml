@@ -56,10 +56,10 @@
 				<ref bean="PaymentGroup-achBankRoutingNbr" />
 				<ref bean="PaymentGroup-achAccountNumber.achBankAccountNbr" />
 				<ref bean="PaymentGroup-paymentStatus.name" />
+				<ref bean="PaymentGroup-paymentStatusCodeWithHistory" />
 				<ref bean="PaymentGroup-payeeIdTypeDesc" />
 				<ref bean="PaymentGroup-nraPayment" />
 				<ref bean="PaymentGroup-id" />
-				
 			</list>
 		</property>
 		<property name="collections">
@@ -574,6 +574,21 @@
   <bean id="PaymentGroup-paymentStatus.name-parentBean" abstract="true" parent="PaymentStatus-name">
     <property name="name" value="paymentStatus.name" />
   </bean>
+  
+  <bean id="PaymentGroup-paymentStatusCodeWithHistory" parent="PaymentGroup-paymentStatusCodeWithHistory-parentBean" />
+
+  <bean id="PaymentGroup-paymentStatusCodeWithHistory-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="paymentStatusCodeWithHistory" />
+    <property name="label" value="Payment Status" />
+    <property name="shortLabel" value="Status" />
+    <property name="maxLength" value="40" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>    
+  </bean>
+  
   <bean id="PaymentGroup-payeeIdTypeDesc" parent="PaymentGroup-payeeIdTypeDesc-parentBean" />
 
   <bean id="PaymentGroup-payeeIdTypeDesc-parentBean" abstract="true" parent="AttributeDefinition">

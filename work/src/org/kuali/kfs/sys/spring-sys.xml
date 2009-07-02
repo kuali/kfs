@@ -268,14 +268,6 @@
       <property name="dataDictionaryService" ref="dataDictionaryService" />
     </bean>
 
-	<bean id="kualiCodeService" class="org.kuali.kfs.sys.service.impl.KualiCodeServiceImpl">
-		<property name="kualiCodeDao">
-			<ref bean="kualiCodeDao" />
-		</property>
-	</bean>
-		
-	<bean id="kualiCodeDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.KualiCodeDaoOjb" />
-
 	<bean id="universityDateDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.UniversityDateDaoOjb" />
 
 	<bean id="universityDateService" class="org.kuali.kfs.sys.service.impl.UniversityDateServiceImpl">

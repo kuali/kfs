@@ -94,7 +94,7 @@
 	</bean>
 
 	<bean id="pdpFormatPaymentDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.FormatPaymentDaoOjb">
-		<property name="kualiCodeService" ref="kualiCodeService"/>
+		<property name="businessObjectService" ref="businessObjectService"/>
 	</bean>
 
 	<bean id="pdpGlPendingTransactionDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.PendingTransactionDaoOjb"/>
@@ -291,7 +291,6 @@
 		<property name="paymentDetailService" ref="pdpPaymentDetailService"/>
 		<property name="processDao" ref="pdpProcessDao"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
-		<property name="kualiCodeService" ref="kualiCodeService"/>
 		<property name="paymentGroupHistoryDao" ref="pdpPaymentGroupHistoryDao"/>
 		<property name="paymentFileEmailService" ref="pdpEmailService"/>
 		<property name="businessObjectService" ref="businessObjectService" />
@@ -319,7 +318,6 @@
 
 	<bean id="pdpBatchMaintenanceService" class="org.kuali.kfs.pdp.service.impl.BatchMaintenanceServiceImpl">
 		<property name="batchMaintenanceDao" ref="pdpBatchMaintenanceDao"/>
-		<property name="kualiCodeService" ref="kualiCodeService"/>
 		<property name="businessObjectService" ref="businessObjectService"/>
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
 	</bean>
@@ -338,7 +336,6 @@
 		<property name="formatPaymentDao" ref="pdpFormatPaymentDao"/>
 		<property name="schedulerService" ref="schedulerService"/>
 		<property name="businessObjectService" ref="businessObjectService"/>
-		<property name="kualiCodeService" ref="kualiCodeService"/>
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
 		<property name="extractPaymentService" ref="pdpExtractPaymentService" />
@@ -390,7 +387,7 @@
 		<property name="objectCodeService" ref="objectCodeService" />
 		<property name="subObjectCodeService" ref="subObjectCodeService"/>
 		<property name="projectCodeService" ref="projectCodeService" />
-		<property name="kualiCodeService" ref="kualiCodeService" />
+		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="bankService" ref="bankService" />
 		<property name="originationCodeService" ref="originationCodeService" />
 		<property name="workflowInfoService" ref="workflowInfoService" />
@@ -430,7 +427,6 @@
 		<property name="glPendingTransactionService" ref="pdpGlPendingTransactionService"/>
 		<property name="mailService" ref="mailService"/>
 		<property name="parameterService" ref="parameterService"/>
-		<property name="kualiCodeService" ref="kualiCodeService"/>
 		<property name="bankService" ref="bankService"/>
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="paymentGroupService" ref="pdpPaymentGroupService" />

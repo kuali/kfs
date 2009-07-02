@@ -24,6 +24,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
@@ -131,6 +132,33 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
      */
     public String getPaymentStatusCode() {
         return paymentStatusCode;
+    }
+    
+    /**
+     * @return String containing the payment status code and indication or cancel/reissued payments or stale payments
+     */
+    public String getPaymentStatusCodeWithHistory() {
+        if (paymentStatus == null) {
+            this.refreshReferenceObject(PdpPropertyConstants.PAYMENT_STATUS);
+        }
+
+        String paymentStatusWithHistory = "";
+        if (paymentStatus != null) {
+            paymentStatusWithHistory += paymentStatus.getName();
+        }
+
+        boolean isCanceledReissued = false;
+        for (PaymentGroupHistory paymentGroupHistory : getPaymentGroupHistory()) {
+            if (PdpConstants.PaymentChangeCodes.CANCEL_REISSUE_DISBURSEMENT.equals(paymentGroupHistory.getPaymentChangeCode())) {
+                isCanceledReissued = true;
+            }
+        }
+
+        if (isCanceledReissued) {
+            paymentStatusWithHistory += " (Reissued)";
+        }
+
+        return paymentStatusWithHistory;
     }
 
     /**

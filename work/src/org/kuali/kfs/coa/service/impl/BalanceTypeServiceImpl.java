@@ -17,7 +17,6 @@ package org.kuali.kfs.coa.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.BalanceType;
@@ -25,9 +24,9 @@ import org.kuali.kfs.coa.dataaccess.BalanceTypeDao;
 import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.dataaccess.OptionsDao;
-import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.spring.CacheNoCopy;
 
 /**
@@ -41,7 +40,7 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
 
     // balance type constants
 
-    private KualiCodeService kualiCodeService;
+    private BusinessObjectService businessObjectService;
     private BalanceTypeDao balanceTypeDao;
 
     private UniversityDateService universityDateService;
@@ -55,24 +54,22 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
      * @return A fully populated object instance.
      */
     public BalanceType getBalanceTypeByCode(String code) {
-       return (BalanceType)kualiCodeService.getByCode(BalanceType.class, code);
+       return (BalanceType) businessObjectService.findBySinglePrimaryKey(BalanceType.class, code);
     }
 
     /**
      * @see org.kuali.kfs.coa.service.BalanceTypService#getAllBalanceTyps()
      */
     public Collection<BalanceType> getAllBalanceTypes() {
-        return  kualiCodeService.getAll(BalanceType.class);
+        return businessObjectService.findAll(BalanceType.class);
     }
-    
 
     /**
-     * 
-     * This method injects the KualiCodeService
-     * @param kualiCodeService
+     * Sets the businessObjectService attribute value.
+     * @param businessObjectService The businessObjectService to set.
      */
-    public void setKualiCodeService(KualiCodeService kualiCodeService) {
-        this.kualiCodeService = kualiCodeService;
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
     /**

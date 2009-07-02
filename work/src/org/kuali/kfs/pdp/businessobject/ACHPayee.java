@@ -17,9 +17,9 @@ package org.kuali.kfs.pdp.businessobject;
 
 import org.kuali.kfs.fp.businessobject.DisbursementPayee;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.KualiCode;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ACHPayee extends DisbursementPayee implements Inactivateable {
     private String entityId;
@@ -51,7 +51,7 @@ public class ACHPayee extends DisbursementPayee implements Inactivateable {
      */
     @Override
     public String getPayeeTypeDescription() {
-        KualiCode payeeType = SpringContext.getBean(KualiCodeService.class).getByCode(PayeeType.class, this.getPayeeTypeCode());
+        KualiCode payeeType = (KualiCode) SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(PayeeType.class, this.getPayeeTypeCode());
 
         return payeeType.getName();
     }

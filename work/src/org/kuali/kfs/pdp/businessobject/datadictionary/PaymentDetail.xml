@@ -81,6 +81,7 @@
 		<ref bean="PaymentDetail-paymentGroupId" />
 		<ref bean="PaymentDetail-nbrOfPaymentsInPaymentGroup" />
 		<ref bean="PaymentDetail-nbrOfPaymentsInDisbursement" />
+		<ref bean="PaymentDetail-paymentGroup.paymentStatusCodeWithHistory" />
       </list>
     </property>
     <property name="collections" >
@@ -106,6 +107,13 @@
   <bean id="PaymentDetail-paymentGroup.payeeName-parentBean" abstract="true" parent="PaymentGroup-payeeName">
     <property name="name" value="paymentGroup.payeeName" />
   </bean>
+  
+  <bean id="PaymentDetail-paymentGroup.paymentStatusCodeWithHistory" parent="PaymentDetail-paymentGroup.paymentStatusCodeWithHistory-parentBean" />
+
+  <bean id="PaymentDetail-paymentGroup.paymentStatusCodeWithHistory-parentBean" abstract="true" parent="PaymentGroup-paymentStatusCodeWithHistory">
+    <property name="name" value="paymentGroup.paymentStatusCodeWithHistory" />
+  </bean>
+  
   <bean id="PaymentDetail-paymentGroup.batch.customerProfile.chartCode" parent="PaymentDetail-paymentGroup.batch.customerProfile.chartCode-parentBean" />
 
   <bean id="PaymentDetail-paymentGroup.batch.customerProfile.chartCode-parentBean" abstract="true" parent="PaymentGroup-batch.customerProfile.chartCode">
@@ -561,7 +569,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="invoiceNbr" />                         
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.paymentStatus.name" />   
+                    p:attributeName="paymentGroup.paymentStatusCodeWithHistory" />   
               <bean parent="FieldDefinition"
                     p:attributeName="requisitionNbr" />                                      
               <bean parent="FieldDefinition"
@@ -898,7 +906,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.disbursementDate" />  
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.paymentStatusCode" />  
+                    p:attributeName="paymentGroup.paymentStatusCodeWithHistory" />  
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.disbursementType.name" />                                                       
               <bean parent="FieldDefinition"

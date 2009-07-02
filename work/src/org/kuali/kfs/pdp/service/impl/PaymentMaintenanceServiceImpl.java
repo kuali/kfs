@@ -44,7 +44,6 @@ import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.pdp.service.PendingTransactionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.KualiCode;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -68,7 +67,6 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     private EnvironmentService environmentService;
     private MailService mailService;
     private ParameterService parameterService;
-    private KualiCodeService kualiCodeService;
     private BankService bankService;
     private BusinessObjectService businessObjectService;
     private PaymentGroupService paymentGroupService;
@@ -89,7 +87,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         }
 
         PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
-        KualiCode cd = this.kualiCodeService.getByCode(PaymentChangeCode.class, changeStatus);
+        KualiCode cd = businessObjectService.findBySinglePrimaryKey(PaymentChangeCode.class, changeStatus);
         paymentGroupHistory.setPaymentChange((PaymentChangeCode) cd);
         paymentGroupHistory.setOrigPaymentStatus(paymentGroup.getPaymentStatus());
         paymentGroupHistory.setChangeUser(user);
@@ -99,7 +97,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
         this.businessObjectService.save(paymentGroupHistory);
 
-        KualiCode code = this.kualiCodeService.getByCode(PaymentStatus.class, newPaymentStatus);
+        KualiCode code = businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, newPaymentStatus);
         paymentGroup.setPaymentStatus((PaymentStatus) code);
         this.businessObjectService.save(paymentGroup);
         LOG.debug("changeStatus() Status has been changed; exit method.");
@@ -119,7 +117,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
             LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
         }
 
-        KualiCode cd = this.kualiCodeService.getByCode(PaymentChangeCode.class, changeStatus);
+        KualiCode cd = businessObjectService.findBySinglePrimaryKey(PaymentChangeCode.class, changeStatus);
         paymentGroupHistory.setPaymentChange((PaymentChangeCode) cd);
         paymentGroupHistory.setOrigPaymentStatus(paymentGroup.getPaymentStatus());
         paymentGroupHistory.setChangeUser(user);
@@ -129,7 +127,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
         this.businessObjectService.save(paymentGroupHistory);
 
-        KualiCode code = this.kualiCodeService.getByCode(PaymentStatus.class, newPaymentStatus);
+        KualiCode code = businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, newPaymentStatus);
         if (paymentGroup.getPaymentStatus() != ((PaymentStatus) code)) {
             paymentGroup.setPaymentStatus((PaymentStatus) code);
         }
@@ -580,10 +578,6 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
-    }
-
-    public void setKualiCodeService(KualiCodeService kualiCodeService) {
-        this.kualiCodeService = kualiCodeService;
     }
 
     /**

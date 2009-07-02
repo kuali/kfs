@@ -69,6 +69,7 @@ public class PdpPropertyConstants {
     public static final String TRANSACTION_CODE = "transactionCode";
     public static final String TRANSACTION_TYPE = "transactionCode";
     public static final String PAYMENT_STATUS_CODE = "paymentStatusCode";
+    public static final String PAYMENT_STATUS = "paymentStatus";
     public static final String ADVICE_EMAIL_SENT_DATE = "adviceEmailSentDate";
     public static final String CUSTOMER_INSTITUTION_NUMBER = "customerInstitutionNumber";
     public static final String PAYMENT_PROC_IDENTIFIER = "paymentProcIdentifier";

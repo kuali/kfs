@@ -31,7 +31,6 @@ import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.dataaccess.BatchMaintenanceDao;
 import org.kuali.kfs.pdp.service.BatchMaintenanceService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
-import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -46,7 +45,6 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchMaintenanceServiceImpl.class);
 
     private BatchMaintenanceDao batchMaintenanceDao;
-    private KualiCodeService kualiCodeService;
     private BusinessObjectService businessObjectService;
     private PaymentGroupService paymentGroupService;
     
@@ -62,8 +60,8 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
         LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
 
         PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
-        PaymentChangeCode paymentChange = (PaymentChangeCode) kualiCodeService.getByCode(PaymentChangeCode.class, changeStatus);
-
+        PaymentChangeCode paymentChange = (PaymentChangeCode) businessObjectService.findBySinglePrimaryKey(PaymentChangeCode.class, changeStatus);
+        
         paymentGroupHistory.setPaymentChange(paymentChange);
         paymentGroupHistory.setOrigPaymentStatus(paymentGroup.getPaymentStatus());
         paymentGroupHistory.setChangeUser(user);
@@ -73,7 +71,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
         
         this.businessObjectService.save(paymentGroupHistory);
 
-        PaymentStatus paymentStatus = (PaymentStatus) kualiCodeService.getByCode(PaymentStatus.class, newPaymentStatus);
+        PaymentStatus paymentStatus = (PaymentStatus) businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, newPaymentStatus);
 
         paymentGroup.setPaymentStatus(paymentStatus);
 
@@ -242,15 +240,6 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
      */
     public void setBatchMaintenanceDao(BatchMaintenanceDao batchMaintenanceDao) {
         this.batchMaintenanceDao = batchMaintenanceDao;
-    }
-
-    /**
-     * This method sets the kualiCodeService
-     * 
-     * @param kualiCodeService
-     */
-    public void setKualiCodeService(KualiCodeService kualiCodeService) {
-        this.kualiCodeService = kualiCodeService;
     }
 
     /**

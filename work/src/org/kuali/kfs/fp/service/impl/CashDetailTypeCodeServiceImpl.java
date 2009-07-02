@@ -17,15 +17,12 @@ package org.kuali.kfs.fp.service.impl;
 
 import org.kuali.kfs.fp.businessobject.CashDetailTypeCode;
 import org.kuali.kfs.fp.service.CashDetailTypeCodeService;
-import org.kuali.kfs.sys.service.KualiCodeService;
 
 /**
  * This is the default implementation for the CashDetailTypeCodeService interface. This implementation used the KualiCodeService,
  * which in turn uses the KualiCodeDao for retrieving values from the database.
  */
 public class CashDetailTypeCodeServiceImpl implements CashDetailTypeCodeService {
-    private KualiCodeService kualiCodeService;
-
     // KFSConstants for doing the actual lookups
     public final static String CASH_RECEIPT_CHECK = "CRCHK";
     public final static String CASH_RECEIPT_COIN = "CRCOIN";
@@ -36,23 +33,6 @@ public class CashDetailTypeCodeServiceImpl implements CashDetailTypeCodeService 
     public CashDetailTypeCodeServiceImpl() {
     }
 
-    /**
-     * Gets the kualiCodeService attribute.
-     * 
-     * @return Returns the kualiCodeService.
-     */
-    public KualiCodeService getKualiCodeService() {
-        return kualiCodeService;
-    }
-
-    /**
-     * Sets the kualiCodeService attribute value.
-     * 
-     * @param kualiCodeService The kualiCodeService to set.
-     */
-    public void setKualiCodeService(KualiCodeService kualiCodeService) {
-        this.kualiCodeService = kualiCodeService;
-    }
 
     /**
      * Gets the associated check type code for a CashReceipt.

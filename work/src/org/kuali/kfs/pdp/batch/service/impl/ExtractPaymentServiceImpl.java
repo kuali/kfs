@@ -43,7 +43,6 @@ import org.kuali.kfs.pdp.service.PaymentDetailService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.sys.businessobject.Bank;
-import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -65,7 +64,6 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     private PaymentGroupHistoryDao paymentGroupHistoryDao;
     private ProcessDao processDao;
     private PdpEmailService paymentFileEmailService;
-    private KualiCodeService kualiCodeService;
     private BusinessObjectService businessObjectService;
     private KualiConfigurationService kualiConfigurationService;
 
@@ -167,7 +165,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
         Date processDate = dateTimeService.getCurrentDate();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        PaymentStatus extractedStatus = (PaymentStatus) this.kualiCodeService.getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
+        PaymentStatus extractedStatus = (PaymentStatus) this.businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
 
         String achFilePrefix = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.ExtractPayment.ACH_FILENAME);
         achFilePrefix = MessageFormat.format(achFilePrefix, new Object[]{ null });
@@ -580,15 +578,6 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
      */
     public void setPaymentFileEmailService(PdpEmailService paymentFileEmailService) {
         this.paymentFileEmailService = paymentFileEmailService;
-    }
-
-    /**
-     * Sets the kualiCodeService attribute value.
-     * 
-     * @param kualiCodeService The kualiCodeService to set.
-     */
-    public void setKualiCodeService(KualiCodeService kualiCodeService) {
-        this.kualiCodeService = kualiCodeService;
     }
 
     /**

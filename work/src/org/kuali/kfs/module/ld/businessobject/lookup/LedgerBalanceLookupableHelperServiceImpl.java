@@ -46,6 +46,7 @@ import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.BeanPropertyComparator;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -83,8 +84,8 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         String wildCards = "";
-        for (int i = 0; i < KFSConstants.QUERY_CHARACTERS.length; i++) {
-            wildCards += KFSConstants.QUERY_CHARACTERS[i];
+        for (int i = 0; i < KNSConstants.QUERY_CHARACTERS.length; i++) {
+            wildCards += KNSConstants.QUERY_CHARACTERS[i];
         }
 
         if (wildCards.indexOf(fieldValues.get(KFSPropertyConstants.EMPLID).toString().trim()) != -1) {

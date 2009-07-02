@@ -25,6 +25,7 @@
         <ref bean="ElectronicPaymentClaim-paymentClaimStatusCode" />
         <ref bean="ElectronicPaymentClaim-paymentClaimStatus" />
         <ref bean="ElectronicPaymentClaim-generatingAccountingLine.financialDocumentLineDescription" />
+        <ref bean="ElectronicPaymentClaim-generatingAccountingLine.organizationReferenceId" />
         <ref bean="ElectronicPaymentClaim-generatingAccountingLine.amount" />
         <ref bean="ElectronicPaymentClaim-generatingAdvanceDepositDetail.financialDocumentAdvanceDepositDate" />
         <ref bean="ElectronicPaymentClaim-generatingDocument.documentHeader.workflowDocument.routeHeader.docRouteStatus" />
@@ -107,6 +108,13 @@
   <bean id="ElectronicPaymentClaim-generatingAccountingLine.financialDocumentLineDescription-parentBean" abstract="true" parent="SourceAccountingLine-financialDocumentLineDescription">
     <property name="name" value="generatingAccountingLine.financialDocumentLineDescription" />
   </bean>
+  
+  <bean id="ElectronicPaymentClaim-generatingAccountingLine.organizationReferenceId" parent="ElectronicPaymentClaim-generatingAccountingLine.organizationReferenceId-parentBean" />
+
+  <bean id="ElectronicPaymentClaim-generatingAccountingLine.organizationReferenceId-parentBean" abstract="true" parent="SourceAccountingLine-organizationReferenceId">
+    <property name="name" value="generatingAccountingLine.organizationReferenceId" />
+  </bean>
+  
   <bean id="ElectronicPaymentClaim-generatingAccountingLine.amount" parent="ElectronicPaymentClaim-generatingAccountingLine.amount-parentBean" />
 
   <bean id="ElectronicPaymentClaim-generatingAccountingLine.amount-parentBean" abstract="true" parent="SourceAccountingLine-amount">
@@ -188,12 +196,7 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentPostingPeriodCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentPostingYear" />
-        <bean parent="FieldDefinition"
-              p:defaultValue="U"
-              p:attributeName="paymentClaimStatusCode" />
+        	  p:attributeName="generatingAccountingLine.organizationReferenceId" />
       </list>
     </property>
     <property name="resultFields" >
@@ -220,6 +223,8 @@
         	  p:attributeName="generatingDocument.documentHeader.workflowDocument.routeHeader.docRouteStatus" />
         <bean parent="FieldDefinition"
         	  p:attributeName="generatingDocumentHeader.organizationDocumentNumber" />
+        <bean parent="FieldDefinition"
+        	  p:attributeName="generatingAccountingLine.organizationReferenceId" />
       </list>
     </property>
   </bean>

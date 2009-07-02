@@ -498,13 +498,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String BUDGET_CONSTRUCTION_MONTHLY_BUDGET_ERRORS = "document.budgetConstructionMonthlyBudget*";
 
     public static final String CASHIER_CLOSING_DRAWER_ERRORS = "document.bursarControl*";
-    public static final String AND_LOGICAL_OPERATOR = "&&";
-    public static final String OR_LOGICAL_OPERATOR = "|";
-    public static final String NOT_LOGICAL_OPERATOR = "!";
-    // add AND operator to thest if it is uncommented below
-    public static final String[] LOGICAL_OPERATORS = { OR_LOGICAL_OPERATOR, NOT_LOGICAL_OPERATOR };
     public static final String WILDCARD_CHARACTER = "*";
-    public static final String[] QUERY_CHARACTERS = { WILDCARD_CHARACTER, "?", "%", ">", "<", "..", OR_LOGICAL_OPERATOR, NOT_LOGICAL_OPERATOR, "=" };
     public static final String WILDCARD_NOT_ALLOWED_ON_FIELD = "error.fieldDoNotAllowWildcard";
 
     // disbursement voucher error fields

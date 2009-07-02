@@ -87,32 +87,32 @@ public class TaxServiceImpl implements TaxService {
 
         return totalSalesTaxAmount;
     }
-    
+
     /**
-     * 
      * This method returns a preTax amount
+     * 
      * @param dateOfTransaction
      * @param postalCode
      * @param amountWithTax
      * @return
      */
-    
+
     public KualiDecimal getPretaxAmount(Date dateOfTransaction, String postalCode, KualiDecimal amountWithTax) {
         BigDecimal totalTaxRate = BigDecimal.ZERO;
-        
+
         // there is not tax amount
         if (StringUtils.isEmpty(postalCode))
             return amountWithTax;
-            
+
         List<TaxRegion> salesTaxRegions = taxRegionService.getSalesTaxRegions(postalCode);
         if (salesTaxRegions.size() == 0)
             return amountWithTax;
-        
+
         for (TaxRegion taxRegion : salesTaxRegions) {
             if (ObjectUtils.isNotNull((taxRegion.getEffectiveTaxRegionRate(dateOfTransaction))))
                 totalTaxRate = totalTaxRate.add(taxRegion.getEffectiveTaxRegionRate(dateOfTransaction).getTaxRate());
         }
-        
+
         KualiDecimal divisor = new KualiDecimal(totalTaxRate.add(BigDecimal.ONE));
         KualiDecimal pretaxAmount = amountWithTax.divide(divisor);
 
@@ -136,7 +136,9 @@ public class TaxServiceImpl implements TaxService {
         taxDetail.setTypeCode(taxRegion.getTaxRegionTypeCode());
         if (ObjectUtils.isNotNull((taxRegion.getEffectiveTaxRegionRate(dateOfTransaction)))) {
             taxDetail.setTaxRate(taxRegion.getEffectiveTaxRegionRate(dateOfTransaction).getTaxRate());
-            taxDetail.setTaxAmount(new KualiDecimal(amount.bigDecimalValue().multiply(taxDetail.getTaxRate())));
+            if (amount != null) {
+                taxDetail.setTaxAmount(new KualiDecimal(amount.bigDecimalValue().multiply(taxDetail.getTaxRate())));
+            }
         }
         return taxDetail;
     }

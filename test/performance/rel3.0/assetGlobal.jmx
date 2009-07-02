@@ -16,7 +16,7 @@
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">15</stringProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <longProp name="ThreadGroup.start_time">1242765261000</longProp>
         <longProp name="ThreadGroup.end_time">1242765261000</longProp>
@@ -143,7 +143,7 @@
           <boolProp name="UserParameters.per_iteration">true</boolProp>
         </UserParameters>
         <hashTree/>
-        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Loggin in (run once)" enabled="false"/>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Loggin in (run once)" enabled="true"/>
         <hashTree>
           <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
             <boolProp name="ResultCollector.error_logging">false</boolProp>
@@ -515,7 +515,7 @@
             </hashTree>
           </hashTree>
         </hashTree>
-        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Login using central CAS" enabled="true"/>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Login using central CAS" enabled="false"/>
         <hashTree>
           <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/portal.do" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
@@ -974,7 +974,7 @@
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
           <hashTree/>
-          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/kr/maintenance.do" enabled="true">
+          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/kr/maintenance.do initiate" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="acquisitionTypeCode" elementType="HTTPArgument">
@@ -1100,7 +1100,7 @@
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
           <hashTree/>
-          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/kr/maintenance.do" enabled="true">
+          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/kr/maintenance.do add line" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="document.documentNumber" elementType="HTTPArgument">
@@ -1620,7 +1620,7 @@
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
           <hashTree/>
-          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/kr/maintenance.do" enabled="true">
+          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/kr/maintenance.do add payment" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="document.documentNumber" elementType="HTTPArgument">
@@ -2826,7 +2826,7 @@
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
           <hashTree/>
-          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/kr/maintenance.do" enabled="true">
+          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/kr/maintenance.do submit" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="document.documentNumber" elementType="HTTPArgument">
@@ -4019,10 +4019,6 @@
               <intProp name="Assertion.test_type">2</intProp>
             </ResponseAssertion>
             <hashTree/>
-            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="15 sec" enabled="true">
-              <stringProp name="ConstantTimer.delay">15000</stringProp>
-            </ConstantTimer>
-            <hashTree/>
           </hashTree>
           <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/kew/RouteLog.do" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
@@ -4052,7 +4048,12 @@
             <stringProp name="HTTPSampler.monitor">false</stringProp>
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
-          <hashTree/>
+          <hashTree>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="60 sec" enabled="true">
+              <stringProp name="ConstantTimer.delay">60000</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+          </hashTree>
         </hashTree>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Approve Document" enabled="true"/>
         <hashTree>
@@ -4552,7 +4553,7 @@
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
           <hashTree/>
-          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/kr/maintenance.do" enabled="true">
+          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/kr/maintenance.do view for approve" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="methodToCall" elementType="HTTPArgument">
@@ -4641,7 +4642,7 @@
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
           <hashTree/>
-          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/kr/maintenance.do" enabled="true">
+          <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/kr/maintenance.do approve" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="document.documentNumber" elementType="HTTPArgument">
@@ -6606,7 +6607,7 @@
           <hashTree/>
         </hashTree>
         <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
-          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <boolProp name="ResultCollector.error_logging">true</boolProp>
           <objProp>
             <name>saveConfig</name>
             <value class="SampleSaveConfiguration">

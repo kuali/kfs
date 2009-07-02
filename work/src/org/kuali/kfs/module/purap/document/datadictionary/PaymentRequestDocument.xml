@@ -94,7 +94,6 @@
         <ref bean="PaymentRequestDocument-grandPreTaxTotal"/>
         <ref bean="PaymentRequestDocument-grandTaxAmount"/>
         <ref bean="PaymentRequestDocument-closePurchaseOrderIndicator"/>
-        <ref bean="PaymentRequestDocument-awaitingReceiving"/>        
         <ref bean="PaymentRequestDocument-useTaxIndicator"/>
         <ref bean="PaymentRequestDocument-bankCode"/>
     	<ref bean="PaymentRequestDocument-taxClassificationCode"/>
@@ -842,17 +841,6 @@
     <property name="control">
       <bean parent="CheckboxControlDefinition"/>
     </property>
-  </bean>
-  <bean id="PaymentRequestDocument-awaitingReceiving" parent="PaymentRequestDocument-awaitingReceiving-parentBean"/>
-  
-  <bean id="PaymentRequestDocument-awaitingReceiving-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="awaitingReceiving"/>
-    <property name="label" value="Awaiting Receiving"/>
-    <property name="shortLabel" value="Awaiting Receiving"/>
-    <property name="control">
-       <bean parent="CheckboxControlDefinition"/>
-    </property>
-    <property name="maxLength" value="1"/>
   </bean>
 
   <bean id="PaymentRequestDocument-useTaxIndicator" parent="PaymentRequestDocument-useTaxIndicator-parentBean"/>

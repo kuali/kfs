@@ -52,7 +52,6 @@ import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
@@ -63,7 +62,6 @@ import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
-import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent;
 import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
@@ -1602,109 +1600,20 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
     
     public void processPaymentRequestInReceivingStatus() {
-        List<PaymentRequestDocument> docs = paymentRequestDao.getPaymentRequestInReceivingStatus();
-        if (docs != null) {
-            for (PaymentRequestDocument preqDoc : docs) {
-                
-                boolean approveDoc = determineReceivingRequirements(preqDoc);
-                
-                if (approveDoc){
-                    try{
+        List<PaymentRequestDocument> preqsAwaitingReceiving = paymentRequestDao.getPaymentRequestInReceivingStatus();
+        if (ObjectUtils.isNotNull(preqsAwaitingReceiving)) {
+            for (PaymentRequestDocument preqDoc : preqsAwaitingReceiving) {
+                if (preqDoc.isReceivingRequirementMet()) {
+                    try {
                         SpringContext.getBean(DocumentService.class).approveDocument(preqDoc, "Approved by Receiving Required PREQ job", null);
                     }
                     catch (WorkflowException e) {
-                        e.printStackTrace();
+                        LOG.error("processPaymentRequestInReceivingStatus() Error approving payment request document from awaiting receiving", e);
+                        throw new RuntimeException("Error approving payment request document from awaiting receiving", e);
                     }
                 }
             }
         }
-    }
-    
-    /**
-     * Returns true, if it's needed to route the doc to the receiving required route level 
-     */
-    public boolean determineReceivingRequirements(Integer preqDocId) {
-        PaymentRequestDocument preqDoc = getPaymentRequestById(preqDocId);
-        if (preqDoc.isReceivingDocumentRequiredIndicator()){
-            return !determineReceivingRequirements(preqDoc);
-        }else{
-            return false;
-        }
-    }
-    
-    private boolean determineReceivingRequirements(PaymentRequestDocument preqDoc) {
-        
-        boolean changeStatus = false;
-        PurchaseOrderDocument poDoc = preqDoc.getPurchaseOrderDocument();
-
-        List<PaymentRequestItem> preqItems = preqDoc.getItems();
-        for (PaymentRequestItem preqItem : preqItems) {
-            if(StringUtils.equalsIgnoreCase(preqItem.getItemType().getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)){
-                PurchaseOrderItem poItem = preqItem.getPurchaseOrderItem();
-                KualiDecimal preqItemQuantity = preqItem.getItemQuantity() == null ? KualiDecimal.ZERO : preqItem.getItemQuantity();
-                KualiDecimal poItemReceivedQty = poItem.getItemReceivedTotalQuantity() == null ? KualiDecimal.ZERO : poItem.getItemReceivedTotalQuantity();                                
-                KualiDecimal poItemInvoicedQty = poItem.getItemInvoicedTotalQuantity() == null ? KualiDecimal.ZERO : poItem.getItemInvoicedTotalQuantity();
-        
-                if(KualiDecimal.ZERO.isLessEqual(poItemReceivedQty.subtract(poItemInvoicedQty.subtract(preqItemQuantity)))){
-                    changeStatus = true;
-                }else{
-                    changeStatus = false;
-                    break;
-                }
-            }
-        }
-       
-        return changeStatus;
-    }
-    
-    /**
-     * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#isAwaitingReceiving(java.lang.Integer)
-     */
-    public boolean isAwaitingReceiving(Integer paymentRequestIdentifier) {
-        boolean isAwaitingReceiving = false;
-
-        PaymentRequestDocument preq = getPaymentRequestById(paymentRequestIdentifier);
-        boolean hasLineItemReceivingDocument = SpringContext.getBean(ReceivingService.class).isLineItemReceivingDocumentGeneratedForPurchaseOrder(preq.getPurchaseOrderDocument().getPurapDocumentIdentifier());
-
-        // if receiving document required and a receiving line document hasn't been generated
-        // still awaiting receiving
-        if (preq.isReceivingDocumentRequiredIndicator()) {
-            if (hasLineItemReceivingDocument == false) {
-
-                return true;
-            }
-            else {
-                // Have to check that the total quantity received is equal or greater than the total quantity invoiced + current
-                // preq
-                // quantity.
-                // Otherwise, isAwaitingReceiving is true.
-
-                List<LineItemReceivingDocument> lineItemReceivingDocuments = SpringContext.getBean(ReceivingService.class).getLineItemReceivingDocumentsInFinalForPurchaseOrder(preq.getPurchaseOrderDocument().getPurapDocumentIdentifier());
-
-                if (lineItemReceivingDocuments != null) {
-                    for (PaymentRequestItem preqItem : (List<PaymentRequestItem>)preq.getItems()) {
-                        if (!preqItem.getItemType().isAdditionalChargeIndicator()) {
-                            Integer lineNumber = preqItem.getItemLineNumber();
-                            KualiDecimal totalReceived = getTotalItemReceivedGivenLineNumber(lineItemReceivingDocuments, lineNumber);
-                            KualiDecimal invoicedTotalQuantity = preqItem.getPurchaseOrderItem().getItemInvoicedTotalQuantity();
-
-                            if (totalReceived.compareTo(invoicedTotalQuantity) < 0) {
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return isAwaitingReceiving;
-    }
-
-    private KualiDecimal getTotalItemReceivedGivenLineNumber(List<LineItemReceivingDocument> lineItemReceivingDocuments, Integer lineNumber) {
-        KualiDecimal total = new KualiDecimal(0);
-        for (LineItemReceivingDocument lineItemReceivingDocument : lineItemReceivingDocuments) {
-            total = total.add(lineItemReceivingDocument.getTotalItemReceivedGivenLineNumber(lineNumber));
-        }
-        return total;
     }
     
     /**

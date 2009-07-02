@@ -131,7 +131,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
     // BELOW USED BY ROUTING
     private Integer requisitionIdentifier;
-    private boolean awaitingReceiving;
 
     // REFERENCE OBJECTS
     private PaymentTermType vendorPaymentTerms;
@@ -195,12 +194,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     @Override
     public void populateDocumentForRouting() {
         this.setRequisitionIdentifier(getPurchaseOrderDocument().getRequisitionIdentifier());
-        /**
-         * PurapDocumentIdentifier will be null for PREQ created in EInvoice process.
-         */
-        if (!isCreatedByElectronicInvoice()) {
-            this.setAwaitingReceiving(SpringContext.getBean(PaymentRequestService.class).isAwaitingReceiving(this.getPurapDocumentIdentifier()));
-        }
         super.populateDocumentForRouting();
     }
 
@@ -1169,7 +1162,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         if (nodeName.equals(PurapWorkflowConstants.REQUIRES_IMAGE_ATTACHMENT))
             return requiresAccountsPayableReviewRouting();
         if (nodeName.equals(PurapWorkflowConstants.PURCHASE_WAS_RECEIVED))
-            return isAwaitingReceiving();
+            return shouldWaitForReceiving();
         if (nodeName.equals(PurapWorkflowConstants.VENDOR_IS_EMPLOYEE_OR_NON_RESIDENT_ALIEN))
             return isVendorEmployeeOrNonResidentAlien();
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
@@ -1192,14 +1185,52 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return true;
     }
 
-    public boolean isAwaitingReceiving() {
-        return awaitingReceiving;
+    /**
+     * Payment Request needs to wait for receiving if the receiving requirements have NOT been met.
+     * 
+     * @return
+     */
+    private boolean shouldWaitForReceiving() {
+        // only require if PO was marked to require receiving
+        if (isReceivingDocumentRequiredIndicator()) {
+            return !isReceivingRequirementMet();
+        }
+        
+        //receiving is not required or has already been fulfilled, no need to stop for routing
+        return false;
     }
+    
+    /**
+     * Determine if the receiving requirement has been met for all items on the payment request. If any item does not have receiving
+     * requirements met, return false. Receiving requirement has NOT been met if the quantity invoiced on the Payment Request is
+     * greater than the quantity of "unpaid and received" items determined by (poQtyReceived - (poQtyInvoiced - preqQtyInvoiced)).
+     * We have to subtract preqQtyInvoiced from the poQtyInvoiced because this payment request has already updated the totals on the
+     * po.
+     * 
+     * @return boolean return true if the receiving requirement has been met for all items on the payment request; false if
+     *         requirement has not been met
+     */
+    public boolean isReceivingRequirementMet() {
 
-    public void setAwaitingReceiving(boolean awaitingReceiving) {
-        this.awaitingReceiving = awaitingReceiving;
+        for (Iterator iter = getItems().iterator(); iter.hasNext();) {
+            PaymentRequestItem preqItem = (PaymentRequestItem) iter.next();
+
+            if (preqItem.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+                PurchaseOrderItem poItem = preqItem.getPurchaseOrderItem();
+                KualiDecimal preqQuantityInvoiced = preqItem.getItemQuantity() == null ? KualiDecimal.ZERO : preqItem.getItemQuantity();
+                KualiDecimal poQuantityReceived = poItem.getItemReceivedTotalQuantity() == null ? KualiDecimal.ZERO : poItem.getItemReceivedTotalQuantity();
+                KualiDecimal poQuantityInvoiced = poItem.getItemInvoicedTotalQuantity() == null ? KualiDecimal.ZERO : poItem.getItemInvoicedTotalQuantity();
+
+                // receiving has NOT been met if preqQtyInvoiced is greater than (poQtyReceived – (poQtyInvoiced – preqQtyInvoiced))
+                if (preqQuantityInvoiced.compareTo(poQuantityReceived.subtract(poQuantityInvoiced.subtract(preqQuantityInvoiced))) > 0) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
-
+    
     public boolean isCreatedByElectronicInvoice() {
         return isCreatedByElectronicInvoice;
     }

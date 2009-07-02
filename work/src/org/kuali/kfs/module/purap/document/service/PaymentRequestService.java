@@ -338,23 +338,6 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
     public void processPaymentRequestInReceivingStatus();
     
     /**
-     * Determines if the payment request is still awaiting the creation of a receiving line document
-     * if the payment request has the receiving required indicator set to true.
-     * 
-     * @param paymentRequestIdentifier
-     * @return
-     */
-    public boolean isAwaitingReceiving(Integer paymentRequestIdentifier);
-    
-    /**
-     * Determines if the payment request should be routed to the receiving required route level.
-     *   
-     * @param preqDocId
-     * @return true if PREQ should be routed to the receiving required level
-     */
-    public boolean determineReceivingRequirements(Integer preqDocId);
-    
-    /**
      * Payment Requests created in the previous fiscal year get backdated if we're at the beginning of the new fiscal year (i.e.
      * prior to first closing)
      * 

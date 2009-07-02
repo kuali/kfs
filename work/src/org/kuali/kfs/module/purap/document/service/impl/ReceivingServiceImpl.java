@@ -64,7 +64,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class ReceivingServiceImpl implements ReceivingService {
-
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReceivingServiceImpl.class);
+    
     private PurchaseOrderService purchaseOrderService;
     private ReceivingDao receivingDao;
     private DocumentService documentService;
@@ -880,7 +881,8 @@ public class ReceivingServiceImpl implements ReceivingService {
                 SpringContext.getBean(DocumentService.class).approveDocument(receivingDoc, "Approved by the batch job", null);
             }
             catch (WorkflowException e) {
-                e.printStackTrace();
+                LOG.error("approveReceivingDoc() Error approving receiving document from awaiting PO open", e);
+                throw new RuntimeException("Error approving receiving document from awaiting PO open", e);
             }
         }
     }

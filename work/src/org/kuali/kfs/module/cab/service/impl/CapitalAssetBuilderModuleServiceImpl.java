@@ -165,34 +165,19 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         FROM_NONCAP_TO_CAPITAL {
             boolean validateAssetInfoAllowed(AccountingDocument accountingDocument, boolean isNewAssetBlank, boolean isUpdateAssetBlank) {
                 boolean valid = validateAssetInfoEntered(isNewAssetBlank, isUpdateAssetBlank);
-                if (valid) {
-                    if (isDocumentTypeRestricted(accountingDocument)) {
-                        valid &= validateOnlyOneAssetInfoEntered(isNewAssetBlank, isUpdateAssetBlank);
-                    }
-                    // When Non-capital asset object on the FROM side & Capital asset on the TO side, we only allow create a new
-                    // asset.
-                    else if (!isUpdateAssetBlank || isNewAssetBlank) {
-                        GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CAPITAL_ASSET_QUANTITY, CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_CREATE_NEW_ALLOW_ONLY);
-                        valid = false;
-                    }
+                if (valid && isDocumentTypeRestricted(accountingDocument)) {
+                    valid &= validateOnlyOneAssetInfoEntered(isNewAssetBlank, isUpdateAssetBlank);
                 }
                 return valid;
             }
 
             /**
-             * The document is restricted if it's NOT any of the doc type: General Error Correction, Year End General Error
-             * Correction, Distribution Of Income And Expense, Year End Distribution Of Income And Expense, Service Billing,
-             * Internal Billing
+             * The document is restricted for all FP doc types
              * 
              * @see org.kuali.kfs.module.cab.service.impl.CapitalAssetBuilderModuleServiceImpl.AccountCapitalObjectCode#isDocumentTypeRestricted(org.kuali.kfs.sys.document.AccountingDocument)
              */
             boolean isDocumentTypeRestricted(AccountingDocument accountingDocument) {
-                if (accountingDocument instanceof GeneralErrorCorrectionDocument || accountingDocument instanceof DistributionOfIncomeAndExpenseDocument || accountingDocument instanceof ServiceBillingDocument || accountingDocument instanceof InternalBillingDocument) {
-                    return false;
-                }
-                else {
-                    return true;
-                }
+                return true;
             }
         },
         BOTH_CAPITAL {

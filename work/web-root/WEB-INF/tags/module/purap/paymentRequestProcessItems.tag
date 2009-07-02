@@ -71,12 +71,12 @@
 
 		<!-- BEGIN TOTAL SECTION -->
 		<tr>
-			<td align=right width='75%' colspan="6" scope="row" class="datacell">
+			<td align=right width='75%' colspan="8" scope="row" class="datacell">
 			    <div align="right">
 			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.lineItemTotal}" skipHelpUrl="true"/></b>&nbsp;
 			    </div>
 			</td>
-			<td valign=middle class="datacell" colspan="3">
+			<td valign=middle class="datacell" colspan="1">
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
                         attributeEntry="${DataDictionary.PaymentRequestDocument.lineItemTotal}"
@@ -142,7 +142,7 @@
 		<!-- BEGIN TOTAL SECTION -->
 		<c:if test="${purapTaxEnabled}">
 		<tr>
-			<td align=right width='75%' colspan="6" scope="row" class="datacell">
+			<td align=right width='75%' colspan="8" scope="row" class="datacell">
 			    <div align="right">
 					<c:if test="${(empty isCreditMemo or !isCreditMemo) and purapTaxEnabled and KualiForm.document.useTaxIndicator}" >
 					<b>[Vendor Remit Amount]</b>
@@ -151,7 +151,7 @@
 			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grandPreTaxTotal}" skipHelpUrl="true" /></b>&nbsp;
 			    </div>
 			</td>
-			<td valign=middle class="datacell" colspan="3">
+			<td valign=middle class="datacell" colspan="1">
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
                         attributeEntry="${DataDictionary.PaymentRequestDocument.grandPreTaxTotal}"
@@ -164,12 +164,12 @@
 			</td>
 		</tr>
 		<tr>
-			<td align=right width='75%' colspan="6" scope="row" class="datacell">
+			<td align=right width='75%' colspan="8" scope="row" class="datacell">
 			    <div align="right">
 			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grandTaxAmount}" skipHelpUrl="true" /></b>&nbsp;
 			    </div>
 			</td>
-			<td valign=middle class="datacell" colspan="3">
+			<td valign=middle class="datacell" colspan="1">
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
                         attributeEntry="${DataDictionary.PaymentRequestDocument.grandTaxAmount}"
@@ -184,7 +184,7 @@
 		</c:if>
 
 		<tr>
-			<td align=right width='75%' colspan="6" scope="row" class="datacell">
+			<td align=right width='75%' colspan="8" scope="row" class="datacell">
 			    <div align="right">
 					<c:if test="${(empty isCreditMemo or !isCreditMemo) and purapTaxEnabled and !KualiForm.document.useTaxIndicator}" >
 					<b>[Vendor Remit Amount]</b>
@@ -193,7 +193,7 @@
 			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grandTotal}" skipHelpUrl="true" /></b>&nbsp;
 			    </div>
 			</td>
-			<td valign=middle class="datacell" colspan="3">
+			<td valign=middle class="datacell" colspan="1">
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
                         attributeEntry="${DataDictionary.PaymentRequestDocument.grandTotal}"

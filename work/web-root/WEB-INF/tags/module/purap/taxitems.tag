@@ -69,9 +69,9 @@
 </c:if>
 
 <tr>
-	<kul:htmlAttributeHeaderCell colspan="${colSpanItemType + 2}"
+	<kul:htmlAttributeHeaderCell colspan="${colSpanItemType + 4}"
 		attributeEntry="${itemAttributes.itemTypeCode}" />	
-	<kul:htmlAttributeHeaderCell colspan="${colSpanExtendedPrice + 2}"
+	<kul:htmlAttributeHeaderCell colspan="${colSpanExtendedPrice}"
 		attributeEntry="${itemAttributes.extendedPrice}" />	
 	<c:if test="${colSpanBlank > 0}">
 		<th colspan="${colSpanBlank}">&nbsp;</th>
@@ -89,12 +89,12 @@
 				readOnly="true" /> 
 		</tr>
 		<tr>
-			<td class="infoline" colspan="${colSpanItemType + 2}">
+			<td class="infoline" colspan="${colSpanItemType + 4}">
 			    <div align="right">
 			        <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" property="document.item[${ctr}].itemType.itemTypeDescription" readOnly="true" />:&nbsp;
 			    </div>
 			</td>
-			<td class="infoline" colspan="${colSpanExtendedPrice + 2}">
+			<td class="infoline" colspan="${colSpanExtendedPrice}">
 				<div align="right">
 					<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" readOnly="true" styleClass="amount" />
 				</div>

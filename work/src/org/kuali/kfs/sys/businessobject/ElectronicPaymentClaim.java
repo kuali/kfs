@@ -171,7 +171,7 @@ public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
      */
     public AdvanceDepositDocument getGeneratingDocument() {
         try {
-            if (this.generatingDocument == null || !this.generatingDocument.getDocumentNumber().equals(documentNumber)) {
+            if (!StringUtils.isBlank(documentNumber) && (this.generatingDocument == null || !this.generatingDocument.getDocumentNumber().equals(documentNumber))) {
                 generatingDocument = (AdvanceDepositDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
             }
         }

@@ -196,7 +196,14 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentPostingPeriodCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="financialDocumentPostingYear" />
+        <bean parent="FieldDefinition"
         	  p:attributeName="generatingAccountingLine.organizationReferenceId" />
+        <bean parent="FieldDefinition"
+              p:defaultValue="U"
+              p:attributeName="paymentClaimStatusCode" />
       </list>
     </property>
     <property name="resultFields" >

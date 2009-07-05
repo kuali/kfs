@@ -15,8 +15,11 @@
  */
 package org.kuali.kfs.sys.batch;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Appender;
@@ -31,6 +34,7 @@ import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
 import org.quartz.InterruptableJob;
+import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.StatefulJob;
@@ -81,7 +85,7 @@ public class Job implements StatefulJob, InterruptableJob {
         Date jobRunDate = dateTimeService.getCurrentDate();
         int currentStepNumber = 0;
         try {
-            LOG.info("Executing job: " + jobExecutionContext.getJobDetail() + "\n" + jobExecutionContext.getJobDetail().getJobDataMap());
+            LOG.info("Executing job: " + jobExecutionContext.getJobDetail() + " on machine " + getMachineName() + "\n" + jobDataMapToString(jobExecutionContext.getJobDetail().getJobDataMap()));
             for (Step step : getSteps()) {
                 currentStepNumber++;
                 // prevent starting of the next step if the thread has an interrupted status
@@ -219,5 +223,38 @@ public class Job implements StatefulJob, InterruptableJob {
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+    
+    protected String jobDataMapToString(JobDataMap jobDataMap) {
+        StringBuilder buf = new StringBuilder();
+        buf.append("{");
+        Iterator keys = jobDataMap.keySet().iterator();
+        boolean hasNext = keys.hasNext();
+        while (hasNext) {
+            String key = (String) keys.next();
+            Object value = jobDataMap.get(key);
+            buf.append(key).append("=");
+            if (value == jobDataMap) {
+                buf.append("(this map)");
+            }
+            else {
+                buf.append(value);
+            }
+            hasNext = keys.hasNext();
+            if (hasNext) {
+                buf.append(", ");
+            }
+        }
+        buf.append("}");
+        return buf.toString();
+    }
+    
+    protected String getMachineName() {
+        try {
+            return InetAddress.getLocalHost().getHostName();
+        }
+        catch (UnknownHostException e) {
+            return "Unknown";
+        }
     }
 }

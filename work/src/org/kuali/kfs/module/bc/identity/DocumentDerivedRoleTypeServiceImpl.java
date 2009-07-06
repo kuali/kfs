@@ -15,22 +15,29 @@
  */
 package org.kuali.kfs.module.bc.identity;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
-import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
+import org.kuali.kfs.module.bc.document.service.BudgetConstructionProcessorService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kim.service.support.impl.PassThruRoleTypeServiceBase;
+import org.kuali.rice.kns.util.MessageMap;
 
-public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceBase {
-    private static final String DOCUMENT_VIEWER_ROLE_NAME = "Document Viewer";
-    private static final String DOCUMENT_EDITOR_ROLE_NAME = "Document Editor";
-    private static final String BC_PROCESSOR_ROLE_NAME = "Processor";
-
+public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceBase implements BudgetConstructionNoAccessMessageSetting {
+    private BudgetConstructionProcessorService budgetConstructionProcessorService;
+    private RoleManagementService roleManagementService;
+    
     @Override
     public AttributeSet convertQualificationForMemberRoles(String namespaceCode, String roleName, String memberRoleNamespaceCode, String memberRoleName, AttributeSet qualification) {
         AttributeSet newQualification = new AttributeSet();
@@ -41,25 +48,25 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
         String orgChartOfAccountsCode = qualification.get(BCPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
         String organizationCode = qualification.get(KfsKimAttributes.ORGANIZATION_CODE);
         String accountReportExists = qualification.get(BCPropertyConstants.ACCOUNT_REPORTS_EXIST);
-        
+
         Integer organizationLevelCode = Integer.parseInt(qualification.get(BCPropertyConstants.ORGANIZATION_LEVEL_CODE));
-        if (BC_PROCESSOR_ROLE_NAME.equals(memberRoleName)) {
-            if (DOCUMENT_EDITOR_ROLE_NAME.equals(roleName) && organizationLevelCode.intValue() == 0) {
-                organizationCode = UNMATCHABLE_QUALIFICATION; 
+        if (BCConstants.KimConstants.BC_PROCESSOR_ROLE_NAME.equals(memberRoleName)) {
+            if (BCConstants.KimConstants.DOCUMENT_EDITOR_ROLE_NAME.equals(roleName) && organizationLevelCode.intValue() == 0) {
+                organizationCode = UNMATCHABLE_QUALIFICATION;
             }
         }
         else {
             if (organizationLevelCode.intValue() != 0) {
-                if (DOCUMENT_EDITOR_ROLE_NAME.equals(roleName) || Boolean.TRUE.toString().equals(accountReportExists)) {
-                    accountNumber = UNMATCHABLE_QUALIFICATION; 
-                }        
+                if (BCConstants.KimConstants.DOCUMENT_EDITOR_ROLE_NAME.equals(roleName) || Boolean.TRUE.toString().equals(accountReportExists)) {
+                    accountNumber = UNMATCHABLE_QUALIFICATION;
+                }
             }
         }
 
         String descendHierarchy = OrganizationOptionalHierarchyRoleTypeServiceImpl.DESCEND_HIERARCHY_FALSE_VALUE;
-        if (DOCUMENT_VIEWER_ROLE_NAME.equals(roleName)) {
+        if (BCConstants.KimConstants.DOCUMENT_VIEWER_ROLE_NAME.equals(roleName)) {
             descendHierarchy = OrganizationOptionalHierarchyRoleTypeServiceImpl.DESCEND_HIERARCHY_TRUE_VALUE;
-            
+
             newQualification.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
             newQualification.put(BCPropertyConstants.ORGANIZATION_LEVEL_CODE, organizationLevelCode.toString());
         }
@@ -76,9 +83,76 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
 
         return newQualification;
     }
-    
+
     public boolean isApplicationRoleType() {
         return true;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.identity.BudgetConstructionNoAccessMessageSetting#setNoAccessMessage(org.kuali.kfs.module.bc.document.BudgetConstructionDocument,
+     *      org.kuali.rice.kim.bo.Person, org.kuali.rice.kns.util.MessageMap)
+     */
+    public void setNoAccessMessage(BudgetConstructionDocument document, Person user, MessageMap messageMap) {
+        AttributeSet qualification = new AttributeSet();
+        qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, document.getChartOfAccountsCode());
+        qualification.put(KfsKimAttributes.ACCOUNT_NUMBER, document.getAccountNumber());
+        qualification.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
+
+        List<String> roleId = new ArrayList<String>();
+        roleId.add(roleManagementService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME));
+
+        boolean isFiscalOfficerOrDelegate = roleManagementService.principalHasRole(user.getPrincipalId(), roleId, qualification);
+        boolean isBCProcessor = false;
+        boolean isProcessorInAccountHierarchy = false;
+
+        List<Organization> userProcessingOrgs = budgetConstructionProcessorService.getProcessorOrgs(user); 
+        if (userProcessingOrgs != null && !userProcessingOrgs.isEmpty()) {
+            isBCProcessor = true;
+            isProcessorInAccountHierarchy = budgetConstructionProcessorService.isOrgProcessor(document.getChartOfAccountsCode(), document.getAccountNumber(), user);
+        }
+
+        if (document.getOrganizationLevelCode().intValue() == 0) {
+            messageMap.putError(KFSConstants.DOCUMENT_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_IN_HIERARCHY);
+        }
+        else {
+            if (isFiscalOfficerOrDelegate || isProcessorInAccountHierarchy) {
+                messageMap.putError(KFSConstants.DOCUMENT_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_BELOW_DOCLEVEL);
+            }
+            else if (isBCProcessor) {
+                messageMap.putError(KFSConstants.DOCUMENT_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_IN_HIERARCHY);
+            }
+            else {
+                messageMap.putError(KFSConstants.DOCUMENT_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
+            }
+        }
+    }
+
+    /**
+     * @return Returns the budgetConstructionProcessorService.
+     */
+    protected BudgetConstructionProcessorService getBudgetConstructionProcessorService() {
+        return budgetConstructionProcessorService;
+    }
+
+    /**
+     * @param budgetConstructionProcessorService The budgetConstructionProcessorService to set.
+     */
+    public void setBudgetConstructionProcessorService(BudgetConstructionProcessorService budgetConstructionProcessorService) {
+        this.budgetConstructionProcessorService = budgetConstructionProcessorService;
+    }
+
+    /**
+     * @return Returns the roleManagementService.
+     */
+    protected RoleManagementService getRoleManagementService() {
+        return roleManagementService;
+    }
+
+    /**
+     * @param roleManagementService The roleManagementService to set.
+     */
+    public void setRoleManagementService(RoleManagementService roleManagementService) {
+        this.roleManagementService = roleManagementService;
     }
 
 }

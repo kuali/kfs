@@ -47,6 +47,7 @@ import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.document.validation.event.AddPendingBudgetGeneralLedgerLineEvent;
 import org.kuali.kfs.module.bc.document.validation.event.DeletePendingBudgetGeneralLedgerLineEvent;
 import org.kuali.kfs.module.bc.exception.BudgetConstructionDocumentAuthorizationException;
+import org.kuali.kfs.module.bc.identity.BudgetConstructionNoAccessMessageSetting;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -54,7 +55,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.bo.types.dto.KimTypeInfo;
+import org.kuali.rice.kim.service.KimTypeInfoService;
+import org.kuali.rice.kim.service.RoleManagementService;
+import org.kuali.rice.kim.service.support.KimRoleTypeService;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.Document;
@@ -73,7 +79,6 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.UrlFactory;
-import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -155,28 +160,10 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
 
             budgetConstructionForm.setSecurityNoAccess(true);
-            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Due to one of the problems listed below: " + e.getMessage());
-            GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
-            GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_BELOW_DOCLEVEL);
-            GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_IN_HIERARCHY);
+            setBudgetDocumentNoAccessMessage(budgetConstructionForm);
             budgetConstructionForm.getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_CLOSE, Boolean.TRUE);
 
         }
-
-        // TODO: remove this once handling of KIM no access interaction is fixed
-        // handle any security no access cases
-        // if (budgetConstructionForm.getEditingMode().containsKey(BCConstants.EditModes.USER_NOT_ORG_APPROVER)) {
-        // budgetConstructionForm.setSecurityNoAccess(true);
-        // GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
-        // }
-        // if (budgetConstructionForm.getEditingMode().containsKey(BCConstants.EditModes.USER_BELOW_DOC_LEVEL)) {
-        // budgetConstructionForm.setSecurityNoAccess(true);
-        // GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_BELOW_DOCLEVEL);
-        // }
-        // if (budgetConstructionForm.getEditingMode().containsKey(BCConstants.EditModes.USER_NOT_IN_ACCOUNT_HIER)) {
-        // budgetConstructionForm.setSecurityNoAccess(true);
-        // GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_IN_HIERARCHY);
-        // }
 
         // apprise user of granted access
         if (budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_METHOD) || budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_PULLUP_METHOD) || budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_PUSHDOWN_METHOD)) {
@@ -286,6 +273,24 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         }
 
         return forward;
+    }
+    
+    /**
+     * Finds the role type service associated with the document viewer role, than calls method on role type service to set the no
+     * access message
+     * 
+     * @param budgetConstructionForm form containing budget document
+     */
+    protected void setBudgetDocumentNoAccessMessage(BudgetConstructionForm budgetConstructionForm) {
+        KimRoleInfo roleInfo = SpringContext.getBean(RoleManagementService.class).getRoleByName(BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimConstants.DOCUMENT_VIEWER_ROLE_NAME);
+        KimTypeInfo typeInfo = SpringContext.getBean(KimTypeInfoService.class).getKimType(roleInfo.getKimTypeId());
+
+        if (StringUtils.isNotBlank(typeInfo.getKimTypeServiceName())) {
+            KimRoleTypeService roleTypeService = (KimRoleTypeService) SpringContext.getService(typeInfo.getKimTypeServiceName());
+            if (roleTypeService instanceof BudgetConstructionNoAccessMessageSetting) {
+                ((BudgetConstructionNoAccessMessageSetting) roleTypeService).setNoAccessMessage(budgetConstructionForm.getBudgetConstructionDocument(), GlobalVariables.getUserSession().getPerson(), GlobalVariables.getMessageMap());
+            }
+        }
     }
 
     /**

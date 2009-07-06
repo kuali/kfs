@@ -555,6 +555,8 @@ public class BCConstants extends JSTLConstants {
         public static final String VIEW_BCAF_AMOUNTS_PERMISSION_NAME = "View Appointment Funding Amounts";
         public static final String IMPORT_EXPORT_PAYRATE_PERMISSION_NAME = "Import / Export Payrate";
         public static final String UNLOCK_PERMISSION_NAME = "Unlock";
+        public static final String DOCUMENT_VIEWER_ROLE_NAME = "Document Viewer";
+        public static final String DOCUMENT_EDITOR_ROLE_NAME = "Document Editor";
     }
     
     /**
@@ -577,5 +579,5 @@ public class BCConstants extends JSTLConstants {
         public static final String QUICK_SALARY_SETTING_TAB_ERRORS = "salarySettingExpansion.pendingBudgetConstructionAppointmentFunding*,adjustment*,newBCAFLine*";
         public static final String RETURNED_DETAIL_SALARY_SETTING_TAB_ERRORS = "newBCAFLine*";
         public static final String ORGANIZATION_REPORTS_SELECTION_ERRORS = "budgetConstructionReportThresholdSettings*";
-}
+    }
 }

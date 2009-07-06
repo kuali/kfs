@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class ElectronicInvoiceMappingServiceImpl implements ElectronicInvoiceMappingService {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoicingDaoOjb.class);
+  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceMappingServiceImpl.class);
   
   private ElectronicInvoicingDao electronicInvoicingDao;
 

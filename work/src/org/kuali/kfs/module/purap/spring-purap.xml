@@ -602,13 +602,6 @@
 		<property name="parameterService" ref="parameterService"/>
 	</bean>
 	
-	<bean id="electronicInvoiceLoadService" class="org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceLoadServiceImpl">
-		<property name="electronicInvoiceService" ref="electronicInvoiceService" />
-        <property name="electronicInvoiceMappingService" ref="electronicInvoiceMappingService" />
-        <property name="electronicInvoiceInputFileType" ref="electronicInvoiceInputFileType" />
-		<property name="mailService" ref="mailService"/>
-	</bean>
-	
 	<bean id="electronicInvoiceHelperService" class="org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceHelperServiceImpl">
 		<property name="electronicInvoicingDao" ref="electronicInvoicingDao" />
         <property name="electronicInvoiceInputFileType" ref="electronicInvoiceInputFileType" />
@@ -628,16 +621,6 @@
         <property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 
-	<bean id="electronicInvoiceService" class="org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceServiceImpl">
-		<property name="electronicInvoicingDao" ref="electronicInvoicingDao" />
-		<property name="purchaseOrderService" ref="purchaseOrderService" />
-		<property name="paymentRequestService" ref="paymentRequestService" />
-        <property name="vendorService" ref="vendorService" />
-        <property name="electronicInvoiceMappingService" ref="electronicInvoiceMappingService" />
-        <property name="batchInputFileService" ref="batchInputFileService" />
-		<property name="electronicInvoiceInputFileType" ref="electronicInvoiceInputFileType" />
-	</bean>
-	
 	<bean id="electronicInvoiceMappingService" class="org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceMappingServiceImpl">
         <property name="electronicInvoicingDao" ref="electronicInvoicingDao" />
 	</bean>

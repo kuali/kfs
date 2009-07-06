@@ -176,6 +176,10 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         int detailnum = 0;
         // iterate over all invoices consolidating balances for each customer
         for (CustomerInvoiceDetail cid : invoiceDetails) {
+            // ignore the discount line
+            if (cid.getAmount().isNegative())
+                continue;
+            
             String invoiceDocumentNumber = cid.getDocumentNumber();
             CustomerInvoiceDocument custInvoice = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
             Date approvalDate;

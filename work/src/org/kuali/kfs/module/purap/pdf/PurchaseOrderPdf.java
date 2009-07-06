@@ -411,7 +411,7 @@ public class PurchaseOrderPdf extends PurapPdf {
         }
         
         p = new Paragraph();
-        p.add(new Chunk("  Shiping Address", ver_5_normal));
+        p.add(new Chunk("  Shipping Address", ver_5_normal));
         p.add(new Chunk(shipToInfo.toString(), cour_7_normal));
         cell = new PdfPCell(p);
         infoTable.addCell(cell);

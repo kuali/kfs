@@ -760,7 +760,7 @@ public class PurapConstants extends JSTLConstants {
      */
     public static final HashMap<String, Class> PREQ_ITEM_UNCOPYABLE_FIELDS = uncopyablePREQItemFields();
 
-    private static final Map<String, Class> uncopyableFieldsForPurchaseOrder() {
+    public static final Map<String, Class> uncopyableFieldsForPurchaseOrder() {
         Map<String, Class> returnMap = new HashMap<String, Class>();
         returnMap.put(KFSPropertyConstants.DOCUMENT_NUMBER, null);
         returnMap.put(PurapPropertyConstants.ITEM_IDENTIFIER, PurchaseOrderItem.class);

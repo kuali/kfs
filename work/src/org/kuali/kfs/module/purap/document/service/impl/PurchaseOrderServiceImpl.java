@@ -603,7 +603,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             sourceObjectClass = sourceObjectClass.getSuperclass();
             classesToExclude.add(sourceObjectClass);
         }
-        PurApObjectUtils.populateFromBaseWithSuper(sourceDocument, newPurchaseOrderChangeDocument, PurapConstants.UNCOPYABLE_FIELDS_FOR_PO, classesToExclude);
+        PurApObjectUtils.populateFromBaseWithSuper(sourceDocument, newPurchaseOrderChangeDocument, PurapConstants.uncopyableFieldsForPurchaseOrder(), classesToExclude);
         newPurchaseOrderChangeDocument.getDocumentHeader().setDocumentDescription(sourceDocument.getDocumentHeader().getDocumentDescription());
         newPurchaseOrderChangeDocument.getDocumentHeader().setOrganizationDocumentNumber(sourceDocument.getDocumentHeader().getOrganizationDocumentNumber());
         newPurchaseOrderChangeDocument.getDocumentHeader().setExplanation(sourceDocument.getDocumentHeader().getExplanation());
@@ -754,7 +754,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 // Prepare for copying fields over from the current document.
                 Set<Class> classesToExclude = getClassesToExcludeFromCopy();
                 Map<String, Class> uncopyableFields = PurapConstants.UNCOPYABLE_FIELDS_FOR_PO;
-                uncopyableFields.putAll(PurapConstants.UNCOPYABLE_FIELDS_FOR_SPLIT_PO);
+                uncopyableFields.putAll(PurapConstants.uncopyableFieldsForSplitPurchaseOrder());
                 
                 // Copy all fields over from the current document except the items and the above-specified fields.
                 PurApObjectUtils.populateFromBaseWithSuper(currentDocument, newDocument, uncopyableFields, classesToExclude);

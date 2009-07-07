@@ -30,6 +30,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class VendorStipulationRule extends MaintenanceDocumentRuleBase {
 
     private VendorStipulation newStipulation;
+    private VendorStipulation oldStipulation;
     private BusinessObjectService boService;
 
     /**
@@ -39,6 +40,7 @@ public class VendorStipulationRule extends MaintenanceDocumentRuleBase {
     public void setupConvenienceObjects() {
         // setup newDelegateChange convenience objects, make sure all possible sub-objects are populated
         newStipulation = (VendorStipulation) super.getNewBo();
+        oldStipulation = (VendorStipulation) super.getOldBo();
         boService = (BusinessObjectService) super.getBoService();
         super.setupConvenienceObjects();
     }
@@ -82,11 +84,19 @@ public class VendorStipulationRule extends MaintenanceDocumentRuleBase {
         LOG.info("checkForDuplicate called");
         boolean success = true;
         Map fieldValues = new HashMap();
-        fieldValues.put("vendorStipulationName", newStipulation.getVendorStipulationName());
-        if (boService.countMatching(newStipulation.getClass(), fieldValues) != 0) {
-            success &= false;
-            putGlobalError(PurapKeyConstants.PURAP_GENERAL_POTENTIAL_DUPLICATE);
-        }
+        
+        if (oldStipulation.getVendorStipulationIdentifier() != null && newStipulation.getVendorStipulationIdentifier() != null &&
+            oldStipulation.getVendorStipulationIdentifier().equals(newStipulation.getVendorStipulationIdentifier()) &&
+            oldStipulation.getVendorStipulationName().equals(newStipulation.getVendorStipulationName())){
+            return true;
+        }else{
+            fieldValues.put("vendorStipulationName", newStipulation.getVendorStipulationName());
+            if (boService.countMatching(newStipulation.getClass(), fieldValues) != 0) {
+                success &= false;
+                putGlobalError(PurapKeyConstants.PURAP_GENERAL_POTENTIAL_DUPLICATE);
+            }
+        }    
+        
         return success;
     }
 }

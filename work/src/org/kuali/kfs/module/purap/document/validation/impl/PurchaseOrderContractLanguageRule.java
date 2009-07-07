@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderContractLanguage;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -30,6 +31,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class PurchaseOrderContractLanguageRule extends MaintenanceDocumentRuleBase {
 
     private PurchaseOrderContractLanguage newContractLanguage;
+    private PurchaseOrderContractLanguage oldContractLanguage;
     private BusinessObjectService boService;
 
     /**
@@ -37,6 +39,7 @@ public class PurchaseOrderContractLanguageRule extends MaintenanceDocumentRuleBa
      */
     @Override
     public void setupConvenienceObjects() {
+        oldContractLanguage = (PurchaseOrderContractLanguage) super.getOldBo();
         // setup newDelegateChange convenience objects, make sure all possible sub-objects are populated
         newContractLanguage = (PurchaseOrderContractLanguage) super.getNewBo();
         boService = (BusinessObjectService) super.getBoService();
@@ -82,12 +85,22 @@ public class PurchaseOrderContractLanguageRule extends MaintenanceDocumentRuleBa
         LOG.info("checkForDuplicate called");
         boolean success = true;
         Map fieldValues = new HashMap();
-        fieldValues.put("campusCode", newContractLanguage.getCampusCode());
-        fieldValues.put("purchaseOrderContractLanguageDescription", newContractLanguage.getPurchaseOrderContractLanguageDescription());
-        fieldValues.put("contractLanguageCreateDate", newContractLanguage.getContractLanguageCreateDate());
-        if (boService.countMatching(newContractLanguage.getClass(), fieldValues) != 0) {
-            success &= false;
-            putGlobalError(PurapKeyConstants.PURAP_GENERAL_POTENTIAL_DUPLICATE);
+        
+        if (oldContractLanguage.getPurchaseOrderContractLanguageIdentifier() != null &&
+            newContractLanguage.getPurchaseOrderContractLanguageIdentifier() != null &&
+            StringUtils.equalsIgnoreCase(newContractLanguage.getCampusCode(),oldContractLanguage.getCampusCode()) &&
+            newContractLanguage.getPurchaseOrderContractLanguageIdentifier().equals(oldContractLanguage.getPurchaseOrderContractLanguageIdentifier()) &&
+            StringUtils.equalsIgnoreCase(newContractLanguage.getPurchaseOrderContractLanguageDescription(),oldContractLanguage.getPurchaseOrderContractLanguageDescription()) &&
+            newContractLanguage.getContractLanguageCreateDate().equals(oldContractLanguage.getContractLanguageCreateDate())){
+            success = true;
+        }else{
+            fieldValues.put("campusCode", newContractLanguage.getCampusCode());
+            fieldValues.put("purchaseOrderContractLanguageDescription", newContractLanguage.getPurchaseOrderContractLanguageDescription());
+            fieldValues.put("contractLanguageCreateDate", newContractLanguage.getContractLanguageCreateDate());
+            if (boService.countMatching(newContractLanguage.getClass(), fieldValues) != 0) {
+                success &= false;
+                putGlobalError(PurapKeyConstants.PURAP_GENERAL_POTENTIAL_DUPLICATE);
+            }
         }
         return success;
     }

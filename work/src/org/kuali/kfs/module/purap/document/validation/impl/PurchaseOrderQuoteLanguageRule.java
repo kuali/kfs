@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteLanguage;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -29,6 +30,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 */
 public class PurchaseOrderQuoteLanguageRule extends MaintenanceDocumentRuleBase {
 
+    private PurchaseOrderQuoteLanguage oldQuoteLanguage;
     private PurchaseOrderQuoteLanguage newQuoteLanguage;
     private BusinessObjectService boService;
 
@@ -37,6 +39,7 @@ public class PurchaseOrderQuoteLanguageRule extends MaintenanceDocumentRuleBase 
      */
     @Override
     public void setupConvenienceObjects() {
+        oldQuoteLanguage = (PurchaseOrderQuoteLanguage) super.getOldBo();
         // setup newDelegateChange convenience objects, make sure all possible sub-objects are populated
         newQuoteLanguage = (PurchaseOrderQuoteLanguage) super.getNewBo();
         boService = (BusinessObjectService) super.getBoService();
@@ -68,9 +71,16 @@ public class PurchaseOrderQuoteLanguageRule extends MaintenanceDocumentRuleBase 
         LOG.info("checkForDuplicate called");
         boolean success = true;
         Map fieldValues = new HashMap();
+        
         fieldValues.put("purchaseOrderQuoteLanguageDescription", newQuoteLanguage.getPurchaseOrderQuoteLanguageDescription());
         fieldValues.put("purchaseOrderQuoteLanguageCreateDate", newQuoteLanguage.getPurchaseOrderQuoteLanguageCreateDate());
-        if (boService.countMatching(newQuoteLanguage.getClass(), fieldValues) != 0) {
+        
+        if (oldQuoteLanguage != null && newQuoteLanguage != null &&
+            StringUtils.equalsIgnoreCase(newQuoteLanguage.getPurchaseOrderQuoteLanguageDescription(),oldQuoteLanguage.getPurchaseOrderQuoteLanguageDescription()) &&
+            newQuoteLanguage.getPurchaseOrderQuoteLanguageIdentifier().equals(oldQuoteLanguage.getPurchaseOrderQuoteLanguageIdentifier()) &&
+            newQuoteLanguage.getPurchaseOrderQuoteLanguageCreateDate().equals(oldQuoteLanguage.getPurchaseOrderQuoteLanguageCreateDate())){
+            success = true;
+        }else if (boService.countMatching(newQuoteLanguage.getClass(), fieldValues) != 0) {
             success &= false;
             putGlobalError(PurapKeyConstants.PURAP_GENERAL_POTENTIAL_DUPLICATE);
         }

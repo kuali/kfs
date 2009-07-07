@@ -51,10 +51,9 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
 
     private BusinessObjectService businessObjectService;
     private LaborNightlyOutService laborNightlyOutService;
-    
-    private String batchFileDirectoryName;
-    private String nightlyOutputFileName;
-    private String nightlyOutputDoneFileName;
+
+    private File nightlyOutputFile = null;
+    private File nightlyOutputDoneFile = null;
 
     @Override
     public void setUp() throws Exception {
@@ -63,7 +62,7 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         String propertiesFileName = LaborTestDataPropertyConstants.TEST_DATA_PACKAGE_NAME + "/laborNightlyOutService.properties";
 
         properties = TestDataPreparator.loadPropertiesFromClassPath(propertiesFileName);
-        
+
         fieldNames = properties.getProperty("fieldNames");
         documentFieldNames = properties.getProperty("documentFieldNames");
         deliminator = properties.getProperty("deliminator");
@@ -74,15 +73,18 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         int numberOfDocuments = Integer.valueOf(properties.getProperty("document.numOfData"));
         List inputDataList = TestDataPreparator.buildTestDataList(DocumentHeader.class, properties, "document.testData", documentFieldNames, deliminator, numberOfDocuments);
         businessObjectService.save(inputDataList);
-        
+
         LaborLedgerPendingEntry cleanup = new LaborLedgerPendingEntry();
         ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", fieldNames, deliminator);
         fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(fieldNames, deliminator)));
         businessObjectService.deleteMatching(LaborLedgerPendingEntry.class, fieldValues);
-        
-        batchFileDirectoryName = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("staging.directory")+"/ld/originEntry";
-        nightlyOutputFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        nightlyOutputDoneFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION;
+
+        String batchFileDirectoryName = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("staging.directory") + "/ld/originEntry";
+        String nightlyOutputFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        String nightlyOutputDoneFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION;
+
+        nightlyOutputFile = new File(nightlyOutputFileName);
+        nightlyOutputDoneFile = new File(nightlyOutputDoneFileName);
     }
 
     public void testCopyApprovedPendingLedgerEntries() throws Exception {
@@ -93,20 +95,20 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         businessObjectService.save(inputDataList);
 
         laborNightlyOutService.copyApprovedPendingLedgerEntries();
-        
+
         int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
         List<LaborOriginEntryForTesting> expectedDataList = TestDataPreparator.buildExpectedValueList(LaborOriginEntryForTesting.class, properties, testTarget + "expected", expectedNumOfData);
-        
-        Iterator<LaborOriginEntry> originEntries = new LaborOriginEntryFileIterator(new File(nightlyOutputFileName));
+
+        Iterator<LaborOriginEntry> originEntries = new LaborOriginEntryFileIterator(nightlyOutputFile);
         int sizeOfOriginEntries = 0;
         while (originEntries.hasNext()) {
             LaborOriginEntryForTesting originEntryForTesting = new LaborOriginEntryForTesting();
             ObjectUtil.buildObject(originEntryForTesting, originEntries.next());
-            
+
             sizeOfOriginEntries++;
             assertTrue("Cannot find the expected entry", expectedDataList.contains(originEntryForTesting));
         }
-        
+
         assertEquals(expectedNumOfData, sizeOfOriginEntries);
     }
 
@@ -121,13 +123,13 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         laborNightlyOutService.copyApprovedPendingLedgerEntries();
 
         List<LaborOriginEntryForTesting> expectedDataList = TestDataPreparator.buildExpectedValueList(LaborOriginEntryForTesting.class, properties, testTarget + "expected", expectedNumOfData);
-        
-        Iterator<LaborOriginEntry> originEntries = new LaborOriginEntryFileIterator(new File(nightlyOutputFileName));
+
+        Iterator<LaborOriginEntry> originEntries = new LaborOriginEntryFileIterator(nightlyOutputFile);
         int sizeOfOriginEntries = 0;
         while (originEntries.hasNext()) {
             LaborOriginEntryForTesting originEntryForTesting = new LaborOriginEntryForTesting();
             ObjectUtil.buildObject(originEntryForTesting, originEntries.next());
-            
+
             sizeOfOriginEntries++;
             assertTrue("Cannot find the expected entry", expectedDataList.contains(originEntryForTesting));
         }
@@ -144,7 +146,7 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         businessObjectService.save(inputDataList);
 
         laborNightlyOutService.deleteCopiedPendingLedgerEntries();
-        
+
         int sizeOfPendingEntries = businessObjectService.countMatching(LaborLedgerPendingEntry.class, fieldValues);
 
         assertEquals(expectedNumOfData, sizeOfPendingEntries);
@@ -165,10 +167,10 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         for (Object pendingEntry : pendingEntries) {
             PendingLedgerEntryForTesting pendingEntryForTesting = new PendingLedgerEntryForTesting();
             ObjectUtil.buildObject(pendingEntryForTesting, pendingEntry);
-            
+
             assertTrue("Cannot find the expected entry", expectedDataList.contains(pendingEntryForTesting));
         }
-        
+
         assertEquals(expectedNumOfData, pendingEntries.size());
     }
 
@@ -177,16 +179,14 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
      */
     @Override
     protected void tearDown() throws Exception {
-        File nightlyOutputFile = new File(nightlyOutputFileName);
-        if(nightlyOutputFile.isFile() && nightlyOutputFile.exists()) {
+        if (nightlyOutputFile != null && nightlyOutputFile.exists() && nightlyOutputFile.isFile()) {
             nightlyOutputFile.delete();
         }
-        
-        File nightlyOutputDoneFile = new File(nightlyOutputDoneFileName);
-        if(nightlyOutputDoneFile.isFile() && nightlyOutputDoneFile.exists()) {
+
+        if (nightlyOutputDoneFile != null && nightlyOutputDoneFile.exists() && nightlyOutputDoneFile.isFile()) {
             nightlyOutputDoneFile.delete();
         }
-        
+
         super.tearDown();
     }
 }

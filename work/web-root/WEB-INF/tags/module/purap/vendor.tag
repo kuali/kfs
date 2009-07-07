@@ -81,7 +81,7 @@
   </c:otherwise> 
 </c:choose>  
 
-<kul:tab tabTitle="Vendor" defaultOpen="${not displayRequisitionFields}" tabErrorKey="${PurapConstants.VENDOR_ERRORS}">
+<kul:tab tabTitle="Vendor" defaultOpen="true" tabErrorKey="${PurapConstants.VENDOR_ERRORS}">
     <div class="tab-container" align=center>
 		
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Vendor Section">

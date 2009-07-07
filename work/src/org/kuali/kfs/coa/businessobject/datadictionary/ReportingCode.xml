@@ -1,3 +1,4 @@
+
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
@@ -111,14 +112,10 @@
   </bean>
   <bean id="ReportingCode-financialReportingCodeMgrId" parent="ReportingCode-financialReportingCodeMgrId-parentBean" />
 
-  <bean id="ReportingCode-financialReportingCodeMgrId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ReportingCode-financialReportingCodeMgrId-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="financialReportingCodeMgrId" />
     <property name="label" value="Financial Reporting Code Manager Id" />
     <property name="shortLabel" value="Manager Id" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />

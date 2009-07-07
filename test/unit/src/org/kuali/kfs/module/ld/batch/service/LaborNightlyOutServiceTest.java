@@ -44,9 +44,6 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 @ConfigureContext
 public class LaborNightlyOutServiceTest extends KualiTestBase {
     private Properties properties;
-    private String fieldNames, documentFieldNames;
-    private String deliminator;
-
     private Map fieldValues;
 
     private BusinessObjectService businessObjectService;
@@ -63,9 +60,9 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
 
         properties = TestDataPreparator.loadPropertiesFromClassPath(propertiesFileName);
 
-        fieldNames = properties.getProperty("fieldNames");
-        documentFieldNames = properties.getProperty("documentFieldNames");
-        deliminator = properties.getProperty("deliminator");
+        String fieldNames = properties.getProperty("fieldNames");
+        String documentFieldNames = properties.getProperty("documentFieldNames");
+        String deliminator = properties.getProperty("deliminator");
 
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         laborNightlyOutService = SpringContext.getBean(LaborNightlyOutService.class);
@@ -79,7 +76,8 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(fieldNames, deliminator)));
         businessObjectService.deleteMatching(LaborLedgerPendingEntry.class, fieldValues);
 
-        String batchFileDirectoryName = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("staging.directory") + "/ld/originEntry";
+        String stagingDirectory = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("staging.directory");
+        String batchFileDirectoryName = stagingDirectory + File.separator + "ld" + File.separator + "originEntry";
         String nightlyOutputFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         String nightlyOutputDoneFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION;
 

@@ -65,7 +65,7 @@
     <property name="title" value="Edit Organization Invoice Information"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationPostalZipCode" p:required="true"/>      
+        <bean parent="MaintainableFieldDefinition" p:name="organizationPostalZipCode"/>      
         <bean parent="MaintainableFieldDefinition" p:name="organizationCheckPayableToName" p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.InstitutionNameValueFinder"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationPaymentTermsText" p:defaultValue="NET 30 DAYS"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationMessageText"/>

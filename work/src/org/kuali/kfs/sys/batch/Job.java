@@ -85,7 +85,7 @@ public class Job implements StatefulJob, InterruptableJob {
         Date jobRunDate = dateTimeService.getCurrentDate();
         int currentStepNumber = 0;
         try {
-            LOG.info("Executing job: " + jobExecutionContext.getJobDetail() + " on machine " + getMachineName() + "\n" + jobDataMapToString(jobExecutionContext.getJobDetail().getJobDataMap()));
+            LOG.info("Executing job: " + jobExecutionContext.getJobDetail() + " on machine " + getMachineName() + " scheduler instance id " + jobExecutionContext.getScheduler().getSchedulerInstanceId() + "\n" + jobDataMapToString(jobExecutionContext.getJobDetail().getJobDataMap()));
             for (Step step : getSteps()) {
                 currentStepNumber++;
                 // prevent starting of the next step if the thread has an interrupted status

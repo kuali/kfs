@@ -124,7 +124,7 @@
     <property name="maxLength" value="120"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="120"/>
+      <bean parent="TextControlDefinition" p:size="50"/>
     </property>
   </bean>
   

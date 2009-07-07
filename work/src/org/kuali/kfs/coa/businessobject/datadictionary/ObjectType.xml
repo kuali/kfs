@@ -1,37 +1,32 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="ObjectType" parent="ObjectType-parentBean" />
+  <bean id="ObjectType" parent="ObjectType-parentBean"/>
 
   <bean id="ObjectType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ObjectType" />
-    <property name="inquiryDefinition" >
-      <ref bean="ObjectType-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ObjectType"/>
+    <property name="inquiryDefinition">
+      <ref bean="ObjectType-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="ObjectType-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="ObjectType-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="code" />
-    <property name="objectLabel" value="Object Type" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="code"/>
+    <property name="objectLabel" value="Object Type"/>
+    <property name="attributes">
       <list>
-        <ref bean="ObjectType-code" />
-        <ref bean="ObjectType-name" />
-        <ref bean="ObjectType-financialReportingSortCode" />
-        <ref bean="ObjectType-finObjectTypeDebitcreditCd" />
-        <ref bean="ObjectType-finObjectTypeIcrSelectionIndicator" />
-        <ref bean="ObjectType-fundBalanceIndicator" />
-        <ref bean="ObjectType-basicAccountingCategoryCode" />
-        <ref bean="ObjectType-active" />
+        <ref bean="ObjectType-code"/>
+        <ref bean="ObjectType-name"/>
+        <ref bean="ObjectType-financialReportingSortCode"/>
+        <ref bean="ObjectType-finObjectTypeDebitcreditCd"/>
+        <ref bean="ObjectType-finObjectTypeIcrSelectionIndicator"/>
+        <ref bean="ObjectType-fundBalanceIndicator"/>
+        <ref bean="ObjectType-basicAccountingCategoryCode"/>
+        <ref bean="ObjectType-active"/>
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
       <list>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="basicAccountingCategory"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="basicAccountingCategory"/>
       </list>
     </property>
   </bean>
@@ -39,135 +34,118 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="ObjectType-code" parent="ObjectType-code-parentBean" />
+  <bean id="ObjectType-code" parent="ObjectType-code-parentBean"/>
 
   <bean id="ObjectType-code-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="code" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Object Type Code" />
-    <property name="shortLabel" value="Obj. Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaValidationPattern" />
+    <property name="name" value="code"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Object Type Code"/>
+    <property name="shortLabel" value="Obj. Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="ObjectType-name" parent="ObjectType-name-parentBean" />
+  <bean id="ObjectType-name" parent="ObjectType-name-parentBean"/>
 
   <bean id="ObjectType-name-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="name" />
-    <property name="label" value="Object Type Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="41" />
+    <property name="name" value="name"/>
+    <property name="label" value="Object Type Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="41"/>
     </property>
   </bean>
-  <bean id="ObjectType-financialReportingSortCode" parent="ObjectType-financialReportingSortCode-parentBean" />
+  <bean id="ObjectType-financialReportingSortCode" parent="ObjectType-financialReportingSortCode-parentBean"/>
 
   <bean id="ObjectType-financialReportingSortCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialReportingSortCode" />
-	<property name="forceUppercase" value="true" />
-    <property name="label" value="Reporting Sort Code" />
-    <property name="shortLabel" value="SortCode" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern"
-            p:exactLength="2" />
+    <property name="name" value="financialReportingSortCode"/>
+	<property name="forceUppercase" value="true"/>
+    <property name="label" value="Reporting Sort Code"/>
+    <property name="shortLabel" value="SortCode"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern" p:exactLength="2"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
   </bean>
-  <bean id="ObjectType-finObjectTypeDebitcreditCd" parent="ObjectType-finObjectTypeDebitcreditCd-parentBean" />
+  <bean id="ObjectType-finObjectTypeDebitcreditCd" parent="ObjectType-finObjectTypeDebitcreditCd-parentBean"/>
 
   <bean id="ObjectType-finObjectTypeDebitcreditCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="finObjectTypeDebitcreditCd" />
-    <property name="label" value="Object Type Debit Credit Code" />
-    <property name="shortLabel" value="Obj. Type Deb/Cred Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="CharsetValidationPattern"
-            p:validChars="CD" />
+    <property name="name" value="finObjectTypeDebitcreditCd"/>
+    <property name="label" value="Object Type Debit Credit Code"/>
+    <property name="shortLabel" value="Obj. Type Deb/Cred Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="CharsetValidationPattern" p:validChars="CD"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.DebitCreditValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.DebitCreditValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="ObjectType-finObjectTypeIcrSelectionIndicator" parent="ObjectType-finObjectTypeIcrSelectionIndicator-parentBean" />
+  <bean id="ObjectType-finObjectTypeIcrSelectionIndicator" parent="ObjectType-finObjectTypeIcrSelectionIndicator-parentBean"/>
 
   <bean id="ObjectType-finObjectTypeIcrSelectionIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
-    <property name="name" value="finObjectTypeIcrSelectionIndicator" />
-    <property name="label" value="ICR Selection Indicator" />
-    <property name="shortLabel" value="ICR Select Indicator" />
+    <property name="name" value="finObjectTypeIcrSelectionIndicator"/>
+    <property name="label" value="ICR Selection Indicator"/>
+    <property name="shortLabel" value="ICR Select Indicator"/>
   </bean>
-  <bean id="ObjectType-fundBalanceIndicator" parent="ObjectType-fundBalanceIndicator-parentBean" />
+  <bean id="ObjectType-fundBalanceIndicator" parent="ObjectType-fundBalanceIndicator-parentBean"/>
 
   <bean id="ObjectType-fundBalanceIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
-    <property name="name" value="fundBalanceIndicator" />
-    <property name="label" value="Fund Balance Indicator" />
-    <property name="shortLabel" value="Fund Balance Indicator" />
+    <property name="name" value="fundBalanceIndicator"/>
+    <property name="label" value="Fund Balance Indicator"/>
+    <property name="shortLabel" value="Fund Balance Indicator"/>
   </bean>
-  <bean id="ObjectType-basicAccountingCategoryCode" parent="ObjectType-basicAccountingCategoryCode-parentBean" />
+  <bean id="ObjectType-basicAccountingCategoryCode" parent="ObjectType-basicAccountingCategoryCode-parentBean"/>
 
   <bean id="ObjectType-basicAccountingCategoryCode-parentBean" abstract="true" parent="BasicAccountingCategory-code">
-    <property name="name" value="basicAccountingCategoryCode" />
-    <property name="label" value="Basic Accounting Category" />
-    <property name="shortLabel" value="BasicAcctngCategory" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.BasicAccountingCategoryValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="basicAccountingCategoryCode"/>
+    <property name="label" value="Basic Accounting Category"/>
+    <property name="shortLabel" value="BasicAcctngCategory"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.BasicAccountingCategoryValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="ObjectType-active" parent="ObjectType-active-parentBean" />
+  <bean id="ObjectType-active" parent="ObjectType-active-parentBean"/>
 
   <bean id="ObjectType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="ObjectType-inquiryDefinition" parent="ObjectType-inquiryDefinition-parentBean" />
+  <bean id="ObjectType-inquiryDefinition" parent="ObjectType-inquiryDefinition-parentBean"/>
 
   <bean id="ObjectType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Object Type Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Object Type Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="code" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="name" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="finObjectTypeDebitcreditCd" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="finObjectTypeIcrSelectionIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="fundBalanceIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialReportingSortCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="basicAccountingCategory.codeAndDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="code"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
+              <bean parent="FieldDefinition" p:attributeName="finObjectTypeDebitcreditCd"/>
+              <bean parent="FieldDefinition" p:attributeName="finObjectTypeIcrSelectionIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="fundBalanceIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="financialReportingSortCode"/>
+              <bean parent="FieldDefinition" p:attributeName="basicAccountingCategory.codeAndDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -178,50 +156,38 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="ObjectType-lookupDefinition" parent="ObjectType-lookupDefinition-parentBean" />
+  <bean id="ObjectType-lookupDefinition" parent="ObjectType-lookupDefinition-parentBean"/>
 
   <bean id="ObjectType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Object Type Lookup" />
-    <property name="instructions" value="Lookup an Object Type Code" />
-    <property name="defaultSort" >
+    <property name="title" value="Object Type Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>code</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="basicAccountingCategoryCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="basicAccountingCategoryCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="finObjectTypeDebitcreditCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="finObjectTypeIcrSelectionIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="fundBalanceIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialReportingSortCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="basicAccountingCategoryCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjectTypeDebitcreditCd"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjectTypeIcrSelectionIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="fundBalanceIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="financialReportingSortCode"/>
+        <bean parent="FieldDefinition" p:attributeName="basicAccountingCategoryCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

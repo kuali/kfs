@@ -1,30 +1,26 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="BudgetConstructionSalaryTotal" parent="BudgetConstructionSalaryTotal-parentBean" />
+  <bean id="BudgetConstructionSalaryTotal" parent="BudgetConstructionSalaryTotal-parentBean"/>
 
   <bean id="BudgetConstructionSalaryTotal-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalaryTotal" />
-    <property name="inquiryDefinition" >
-      <ref bean="BudgetConstructionSalaryTotal-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalaryTotal"/>
+    <property name="inquiryDefinition">
+      <ref bean="BudgetConstructionSalaryTotal-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="BudgetConstructionSalaryTotal-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="BudgetConstructionSalaryTotal-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Budget Construction Salary Total" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Budget Construction Salary Total"/>
+    <property name="attributes">
       <list>
-        <ref bean="BudgetConstructionSalaryTotal-appointmentRequestedAmount" />
-        <ref bean="BudgetConstructionSalaryTotal-appointmentRequestedFteQuantity" />
-        <ref bean="BudgetConstructionSalaryTotal-csfAmount" />
-        <ref bean="BudgetConstructionSalaryTotal-initialRequestedAmount" />
-        <ref bean="BudgetConstructionSalaryTotal-initialRequestedFteQuantity" />
-        <ref bean="BudgetConstructionSalaryTotal-organizationChartOfAccountsCode" />
-        <ref bean="BudgetConstructionSalaryTotal-organizationCode" />
-        <ref bean="BudgetConstructionSalaryTotal-principalId" />
+        <ref bean="BudgetConstructionSalaryTotal-appointmentRequestedAmount"/>
+        <ref bean="BudgetConstructionSalaryTotal-appointmentRequestedFteQuantity"/>
+        <ref bean="BudgetConstructionSalaryTotal-csfAmount"/>
+        <ref bean="BudgetConstructionSalaryTotal-initialRequestedAmount"/>
+        <ref bean="BudgetConstructionSalaryTotal-initialRequestedFteQuantity"/>
+        <ref bean="BudgetConstructionSalaryTotal-organizationChartOfAccountsCode"/>
+        <ref bean="BudgetConstructionSalaryTotal-organizationCode"/>
+        <ref bean="BudgetConstructionSalaryTotal-principalId"/>
       </list>
     </property>
   </bean>
@@ -32,146 +28,138 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="BudgetConstructionSalaryTotal-appointmentRequestedAmount" parent="BudgetConstructionSalaryTotal-appointmentRequestedAmount-parentBean" />
+  <bean id="BudgetConstructionSalaryTotal-appointmentRequestedAmount" parent="BudgetConstructionSalaryTotal-appointmentRequestedAmount-parentBean"/>
 
   <bean id="BudgetConstructionSalaryTotal-appointmentRequestedAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="appointmentRequestedAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Appointment Requested Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="appointmentRequestedAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Appointment Requested Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionSalaryTotal-appointmentRequestedFteQuantity" parent="BudgetConstructionSalaryTotal-appointmentRequestedFteQuantity-parentBean" />
+  <bean id="BudgetConstructionSalaryTotal-appointmentRequestedFteQuantity" parent="BudgetConstructionSalaryTotal-appointmentRequestedFteQuantity-parentBean"/>
 
   <bean id="BudgetConstructionSalaryTotal-appointmentRequestedFteQuantity-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="appointmentRequestedFteQuantity" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Appointment Requested Fte Quantity" />
-    <property name="shortLabel" value="Quantity" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="appointmentRequestedFteQuantity"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Appointment Requested Fte Quantity"/>
+    <property name="shortLabel" value="Quantity"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionSalaryTotal-csfAmount" parent="BudgetConstructionSalaryTotal-csfAmount-parentBean" />
+  <bean id="BudgetConstructionSalaryTotal-csfAmount" parent="BudgetConstructionSalaryTotal-csfAmount-parentBean"/>
 
   <bean id="BudgetConstructionSalaryTotal-csfAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="csfAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Csf Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="csfAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Csf Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionSalaryTotal-initialRequestedAmount" parent="BudgetConstructionSalaryTotal-initialRequestedAmount-parentBean" />
+  <bean id="BudgetConstructionSalaryTotal-initialRequestedAmount" parent="BudgetConstructionSalaryTotal-initialRequestedAmount-parentBean"/>
 
   <bean id="BudgetConstructionSalaryTotal-initialRequestedAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="initialRequestedAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Initial Requested Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="initialRequestedAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Initial Requested Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionSalaryTotal-initialRequestedFteQuantity" parent="BudgetConstructionSalaryTotal-initialRequestedFteQuantity-parentBean" />
+  <bean id="BudgetConstructionSalaryTotal-initialRequestedFteQuantity" parent="BudgetConstructionSalaryTotal-initialRequestedFteQuantity-parentBean"/>
 
   <bean id="BudgetConstructionSalaryTotal-initialRequestedFteQuantity-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="initialRequestedFteQuantity" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Initial Requested Fte Quantity" />
-    <property name="shortLabel" value="Quantity" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="initialRequestedFteQuantity"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Initial Requested Fte Quantity"/>
+    <property name="shortLabel" value="Quantity"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionSalaryTotal-organizationChartOfAccountsCode" parent="BudgetConstructionSalaryTotal-organizationChartOfAccountsCode-parentBean" />
+  <bean id="BudgetConstructionSalaryTotal-organizationChartOfAccountsCode" parent="BudgetConstructionSalaryTotal-organizationChartOfAccountsCode-parentBean"/>
 
   <bean id="BudgetConstructionSalaryTotal-organizationChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationChartOfAccountsCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Organization Chart Of Accounts Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="organizationChartOfAccountsCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Organization Chart Of Accounts Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionSalaryTotal-organizationCode" parent="BudgetConstructionSalaryTotal-organizationCode-parentBean" />
+  <bean id="BudgetConstructionSalaryTotal-organizationCode" parent="BudgetConstructionSalaryTotal-organizationCode-parentBean"/>
 
   <bean id="BudgetConstructionSalaryTotal-organizationCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Organization Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="organizationCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Organization Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionSalaryTotal-principalId" parent="BudgetConstructionSalaryTotal-principalId-parentBean" />
+  <bean id="BudgetConstructionSalaryTotal-principalId" parent="BudgetConstructionSalaryTotal-principalId-parentBean"/>
 
   <bean id="BudgetConstructionSalaryTotal-principalId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="principalId" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Person Universal Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="principalId"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Person Universal Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
     
     
@@ -180,33 +168,25 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="BudgetConstructionSalaryTotal-inquiryDefinition" parent="BudgetConstructionSalaryTotal-inquiryDefinition-parentBean" />
+  <bean id="BudgetConstructionSalaryTotal-inquiryDefinition" parent="BudgetConstructionSalaryTotal-inquiryDefinition-parentBean"/>
 
   <bean id="BudgetConstructionSalaryTotal-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Budget Construction Salary Total Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Budget Construction Salary Total Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="appointmentRequestedAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="appointmentRequestedFteQuantity" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="csfAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="initialRequestedAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="initialRequestedFteQuantity" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationChartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="principalId" />
+              <bean parent="FieldDefinition" p:attributeName="appointmentRequestedAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="appointmentRequestedFteQuantity"/>
+              <bean parent="FieldDefinition" p:attributeName="csfAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="initialRequestedAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="initialRequestedFteQuantity"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationChartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+              <bean parent="FieldDefinition" p:attributeName="principalId"/>
             </list>
           </property>
         </bean>
@@ -217,55 +197,38 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="BudgetConstructionSalaryTotal-lookupDefinition" parent="BudgetConstructionSalaryTotal-lookupDefinition-parentBean" />
+  <bean id="BudgetConstructionSalaryTotal-lookupDefinition" parent="BudgetConstructionSalaryTotal-lookupDefinition-parentBean"/>
 
   <bean id="BudgetConstructionSalaryTotal-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Budget Construction Salary Total Lookup" />
-    <property name="instructions" value="Look up a Budget Construction Salary Total" />
-    <property name="defaultSort" >
+    <property name="title" value="Budget Construction Salary Total Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="appointmentRequestedAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="appointmentRequestedFteQuantity" />
-        <bean parent="FieldDefinition"
-              p:attributeName="csfAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="initialRequestedAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="initialRequestedFteQuantity" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationChartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="principalId" />
+        <bean parent="FieldDefinition" p:attributeName="appointmentRequestedAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="appointmentRequestedFteQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="csfAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="initialRequestedAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="initialRequestedFteQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationChartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="principalId"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="appointmentRequestedAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="appointmentRequestedFteQuantity" />
-        <bean parent="FieldDefinition"
-              p:attributeName="csfAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="initialRequestedAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="initialRequestedFteQuantity" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationChartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="principalId" />
+        <bean parent="FieldDefinition" p:attributeName="appointmentRequestedAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="appointmentRequestedFteQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="csfAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="initialRequestedAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="initialRequestedFteQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationChartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="principalId"/>
       </list>
     </property>
   </bean>
 </beans>
-

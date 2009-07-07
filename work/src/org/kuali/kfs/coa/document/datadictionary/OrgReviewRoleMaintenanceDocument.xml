@@ -66,23 +66,23 @@
     <property name="title" value="Assignee / Delegation"/>
     <property name="maintainableItems">
       <list>
-        <dd:maintField attributeName="fromAmount" />
-        <dd:maintField attributeName="toAmount" />
-        <dd:maintField attributeName="overrideCode" />
-        <dd:maintField attributeName="delegationTypeCode" />
-        <dd:maintField attributeName="roleMemberId" />
-        <dd:maintField attributeName="delegationMemberId" />
-        <dd:maintField attributeName="principalMemberPrincipalName" />
-        <dd:maintField attributeName="roleMemberRoleNamespaceCode" />
-        <dd:maintField attributeName="roleMemberRoleName" />
-        <dd:maintField attributeName="groupMemberGroupNamespaceCode" />
-        <dd:maintField attributeName="groupMemberGroupName" />
+        <dd:maintField attributeName="fromAmount"/>
+        <dd:maintField attributeName="toAmount"/>
+        <dd:maintField attributeName="overrideCode"/>
+        <dd:maintField attributeName="delegationTypeCode"/>
+        <dd:maintField attributeName="roleMemberId"/>
+        <dd:maintField attributeName="delegationMemberId"/>
+        <dd:maintField attributeName="principalMemberPrincipalName"/>
+        <dd:maintField attributeName="roleMemberRoleNamespaceCode"/>
+        <dd:maintField attributeName="roleMemberRoleName"/>
+        <dd:maintField attributeName="groupMemberGroupNamespaceCode"/>
+        <dd:maintField attributeName="groupMemberGroupName"/>
         <dd:maintField attributeName="actionTypeCode" required="true"/>
-        <dd:maintField attributeName="priorityNumber" />
-        <dd:maintField attributeName="actionPolicyCode" required="true" />
-        <dd:maintField attributeName="forceAction" />
-        <dd:maintField attributeName="activeFromDate" />
-        <dd:maintField attributeName="activeToDate" />
+        <dd:maintField attributeName="priorityNumber"/>
+        <dd:maintField attributeName="actionPolicyCode" required="true"/>
+        <dd:maintField attributeName="forceAction"/>
+        <dd:maintField attributeName="activeFromDate"/>
+        <dd:maintField attributeName="activeToDate"/>
       </list>
     </property>
   </bean>

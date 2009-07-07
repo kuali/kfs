@@ -1,29 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
         
-  <bean id="AutoApproveExclude" parent="AutoApproveExclude-parentBean" />
+  <bean id="AutoApproveExclude" parent="AutoApproveExclude-parentBean"/>
 
   <bean id="AutoApproveExclude-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.AutoApproveExclude" />
-    <property name="inquiryDefinition" >
-      <ref bean="AutoApproveExclude-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.AutoApproveExclude"/>
+    <property name="inquiryDefinition">
+      <ref bean="AutoApproveExclude-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="AutoApproveExclude-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="AutoApproveExclude-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="chartOfAccountsCode" />
-    <property name="objectLabel" value="Payment Request Auto Approve Exclusions" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="chartOfAccountsCode"/>
+    <property name="objectLabel" value="Payment Request Auto Approve Exclusions"/>
+    <property name="attributes">
       <list>
-        <ref bean="AutoApproveExclude-accountNumber" />
-        <ref bean="AutoApproveExclude-chartOfAccountsCode" />
-        <ref bean="AutoApproveExclude-active" />
+        <ref bean="AutoApproveExclude-accountNumber"/>
+        <ref bean="AutoApproveExclude-chartOfAccountsCode"/>
+        <ref bean="AutoApproveExclude-active"/>
       </list>
     </property>
   </bean>
@@ -31,40 +24,37 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AutoApproveExclude-accountNumber" parent="AutoApproveExclude-accountNumber-parentBean" />
+  <bean id="AutoApproveExclude-accountNumber" parent="AutoApproveExclude-accountNumber-parentBean"/>
 
   <bean id="AutoApproveExclude-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
   </bean>
-  <bean id="AutoApproveExclude-chartOfAccountsCode" parent="AutoApproveExclude-chartOfAccountsCode-parentBean" />
+  <bean id="AutoApproveExclude-chartOfAccountsCode" parent="AutoApproveExclude-chartOfAccountsCode-parentBean"/>
 
   <bean id="AutoApproveExclude-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
   </bean>
-  <bean id="AutoApproveExclude-active" parent="AutoApproveExclude-active-parentBean" />
+  <bean id="AutoApproveExclude-active" parent="AutoApproveExclude-active-parentBean"/>
 
   <bean id="AutoApproveExclude-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="AutoApproveExclude-inquiryDefinition" parent="AutoApproveExclude-inquiryDefinition-parentBean" />
+  <bean id="AutoApproveExclude-inquiryDefinition" parent="AutoApproveExclude-inquiryDefinition-parentBean"/>
 
   <bean id="AutoApproveExclude-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Payment Request Auto Approve Exclusions Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Payment Request Auto Approve Exclusions Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="accountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -75,33 +65,27 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="AutoApproveExclude-lookupDefinition" parent="AutoApproveExclude-lookupDefinition-parentBean" />
+  <bean id="AutoApproveExclude-lookupDefinition" parent="AutoApproveExclude-lookupDefinition-parentBean"/>
 
   <bean id="AutoApproveExclude-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Payment Request Auto Approve Exclusions Lookup" />
-    <property name="instructions" value="Lookup an Auto Approve Exclude" />
-    <property name="defaultSort" >
+    <property name="title" value="Payment Request Auto Approve Exclusions Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

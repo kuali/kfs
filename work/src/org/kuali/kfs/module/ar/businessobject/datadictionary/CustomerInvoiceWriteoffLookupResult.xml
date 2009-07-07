@@ -1,119 +1,110 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="CustomerInvoiceWriteoffLookupResult" parent="CustomerInvoiceWriteoffLookupResult-parentBean" />
+  <bean id="CustomerInvoiceWriteoffLookupResult" parent="CustomerInvoiceWriteoffLookupResult-parentBean"/>
 
   <bean id="CustomerInvoiceWriteoffLookupResult-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult" />
-    <property name="objectLabel" value="Customer Invoice Writeoff Lookup Result" />
-    <property name="lookupDefinition" >
-      <ref bean="CustomerInvoiceWriteoffLookupResult-lookupDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult"/>
+    <property name="objectLabel" value="Customer Invoice Writeoff Lookup Result"/>
+    <property name="lookupDefinition">
+      <ref bean="CustomerInvoiceWriteoffLookupResult-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="CustomerInvoiceWriteoffLookupResult-customerNumber" />
-        <ref bean="CustomerInvoiceWriteoffLookupResult-customerName" />
-        <ref bean="CustomerInvoiceWriteoffLookupResult-customerTypeCode" />
-        <ref bean="CustomerInvoiceWriteoffLookupResult-customerInvoiceNumber" />
-        <ref bean="CustomerInvoiceWriteoffLookupResult-customerTotal" />
-        <ref bean="CustomerInvoiceWriteoffLookupResult-collectionStatus" />
-        <ref bean="CustomerInvoiceWriteoffLookupResult-customerNote" />
-        <ref bean="CustomerInvoiceWriteoffLookupResult-age" />
+        <ref bean="CustomerInvoiceWriteoffLookupResult-customerNumber"/>
+        <ref bean="CustomerInvoiceWriteoffLookupResult-customerName"/>
+        <ref bean="CustomerInvoiceWriteoffLookupResult-customerTypeCode"/>
+        <ref bean="CustomerInvoiceWriteoffLookupResult-customerInvoiceNumber"/>
+        <ref bean="CustomerInvoiceWriteoffLookupResult-customerTotal"/>
+        <ref bean="CustomerInvoiceWriteoffLookupResult-collectionStatus"/>
+        <ref bean="CustomerInvoiceWriteoffLookupResult-customerNote"/>
+        <ref bean="CustomerInvoiceWriteoffLookupResult-age"/>
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
   
-  <bean id="CustomerInvoiceWriteoffLookupResult-customerName" parent="CustomerInvoiceWriteoffLookupResult-customerName-parentBean" />
-  <bean id="CustomerInvoiceWriteoffLookupResult-customerName-parentBean" abstract="true" parent="Customer-customerName" />
+  <bean id="CustomerInvoiceWriteoffLookupResult-customerName" parent="CustomerInvoiceWriteoffLookupResult-customerName-parentBean"/>
+  <bean id="CustomerInvoiceWriteoffLookupResult-customerName-parentBean" abstract="true" parent="Customer-customerName"/>
   
-  <bean id="CustomerInvoiceWriteoffLookupResult-customerNumber" parent="CustomerInvoiceWriteoffLookupResult-customerNumber-parentBean" />
-  <bean id="CustomerInvoiceWriteoffLookupResult-customerNumber-parentBean" abstract="true" parent="Customer-customerNumber" />
+  <bean id="CustomerInvoiceWriteoffLookupResult-customerNumber" parent="CustomerInvoiceWriteoffLookupResult-customerNumber-parentBean"/>
+  <bean id="CustomerInvoiceWriteoffLookupResult-customerNumber-parentBean" abstract="true" parent="Customer-customerNumber"/>
     
-  <bean id="CustomerInvoiceWriteoffLookupResult-customerTypeCode" parent="CustomerInvoiceWriteoffLookupResult-customerTypeCode-parentBean" />
-  <bean id="CustomerInvoiceWriteoffLookupResult-customerTypeCode-parentBean" abstract="true" parent="Customer-customerTypeCode" />
+  <bean id="CustomerInvoiceWriteoffLookupResult-customerTypeCode" parent="CustomerInvoiceWriteoffLookupResult-customerTypeCode-parentBean"/>
+  <bean id="CustomerInvoiceWriteoffLookupResult-customerTypeCode-parentBean" abstract="true" parent="Customer-customerTypeCode"/>
   
-  <bean id="CustomerInvoiceWriteoffLookupResult-customerInvoiceNumber" parent="CustomerInvoiceWriteoffLookupResult-customerInvoiceNumber-parentBean" />
+  <bean id="CustomerInvoiceWriteoffLookupResult-customerInvoiceNumber" parent="CustomerInvoiceWriteoffLookupResult-customerInvoiceNumber-parentBean"/>
 
   <bean id="CustomerInvoiceWriteoffLookupResult-customerInvoiceNumber-parentBean" abstract="true" parent="CustomerInvoiceDocument-documentNumber">
-    <property name="name" value="customerInvoiceNumber" />
-    <property name="label" value="Invoice Number" />
-    <property name="shortLabel" value="Invoice Number" />
+    <property name="name" value="customerInvoiceNumber"/>
+    <property name="label" value="Invoice Number"/>
+    <property name="shortLabel" value="Invoice Number"/>
     
   </bean>
   
-  <bean id="CustomerInvoiceWriteoffLookupResult-customerNote" parent="CustomerInvoiceWriteoffLookupResult-customerNote-parentBean" />
+  <bean id="CustomerInvoiceWriteoffLookupResult-customerNote" parent="CustomerInvoiceWriteoffLookupResult-customerNote-parentBean"/>
 
   <bean id="CustomerInvoiceWriteoffLookupResult-customerNote-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="customerNote" />
-    <property name="label" value="Note" />
-    <property name="forceUppercase" value="false" />
-    <property name="shortLabel" value="Note" />
-    <property name="maxLength" value="800" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="customerNote"/>
+    <property name="label" value="Note"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Note"/>
+    <property name="maxLength" value="800"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:cols="50"
-            p:rows="3" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:cols="50" p:rows="3"/>
     </property>
   </bean>  
   
-  <bean id="CustomerInvoiceWriteoffLookupResult-customerTotal" parent="CustomerInvoiceWriteoffLookupResult-customerTotal-parentBean" />
+  <bean id="CustomerInvoiceWriteoffLookupResult-customerTotal" parent="CustomerInvoiceWriteoffLookupResult-customerTotal-parentBean"/>
   
   <bean id="CustomerInvoiceWriteoffLookupResult-customerTotal-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="customerTotal" />
-    <property name="label" value="Customer Total" />
-    <property name="shortLabel" value="Customer Total" />
+    <property name="name" value="customerTotal"/>
+    <property name="label" value="Customer Total"/>
+    <property name="shortLabel" value="Customer Total"/>
   </bean>  
   
-  <bean id="CustomerInvoiceWriteoffLookupResult-collectionStatus" parent="CustomerInvoiceWriteoffLookupResult-collectionStatus-parentBean" />
+  <bean id="CustomerInvoiceWriteoffLookupResult-collectionStatus" parent="CustomerInvoiceWriteoffLookupResult-collectionStatus-parentBean"/>
 
   <bean id="CustomerInvoiceWriteoffLookupResult-collectionStatus-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="collectionStatus" />
-    <property name="label" value="Collection Status" />
-    <property name="shortLabel" value="Collection Status" />
-    <property name="maxLength" value="25" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="25" />
+    <property name="name" value="collectionStatus"/>
+    <property name="label" value="Collection Status"/>
+    <property name="shortLabel" value="Collection Status"/>
+    <property name="maxLength" value="25"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="25"/>
     </property>    
   </bean>    
   
-  <bean id="CustomerInvoiceWriteoffLookupResult-age" parent="CustomerInvoiceWriteoffLookupResult-age-parentBean" />
+  <bean id="CustomerInvoiceWriteoffLookupResult-age" parent="CustomerInvoiceWriteoffLookupResult-age-parentBean"/>
 
   <bean id="CustomerInvoiceWriteoffLookupResult-age-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="age" />
-    <property name="label" value="Age" />
-    <property name="shortLabel" value="Age" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="age"/>
+    <property name="label" value="Age"/>
+    <property name="shortLabel" value="Age"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>  
   </bean>   
 
 <!-- Business Object Lookup Definition -->
 
-  <bean id="CustomerInvoiceWriteoffLookupResult-lookupDefinition" parent="CustomerInvoiceWriteoffLookupResult-lookupDefinition-parentBean" />
+  <bean id="CustomerInvoiceWriteoffLookupResult-lookupDefinition" parent="CustomerInvoiceWriteoffLookupResult-lookupDefinition-parentBean"/>
 
   <bean id="CustomerInvoiceWriteoffLookupResult-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Customer Invoice Writeoff Lookup" />
-    <property name="lookupableID" value="customerInvoiceWriteoffLookupResultLookupable" />
-    <property name="instructions" value="Lookup eligible Customer Invoices to writeoff" />
-    <property name="defaultSort" >
+    <property name="title" value="Customer Invoice Writeoff Lookup"/>
+    <property name="lookupableID" value="customerInvoiceWriteoffLookupResultLookupable"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>customerName</value>
           </list>
@@ -121,35 +112,21 @@
       </bean>
     </property>
     
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:required="false"
-              p:attributeName="customerNumber" />
-        <bean parent="FieldDefinition"
-              p:required="false"
-              p:attributeName="customerName" />
-        <bean parent="FieldDefinition"
-              p:required="false"
-              p:attributeName="customerTypeCode" />
-        <bean parent="FieldDefinition"
-              p:required="false"
-              p:attributeName="customerInvoiceNumber" />
-        <bean parent="FieldDefinition"
-              p:required="false"
-              p:attributeName="age" />              
+        <bean parent="FieldDefinition" p:required="false" p:attributeName="customerNumber"/>
+        <bean parent="FieldDefinition" p:required="false" p:attributeName="customerName"/>
+        <bean parent="FieldDefinition" p:required="false" p:attributeName="customerTypeCode"/>
+        <bean parent="FieldDefinition" p:required="false" p:attributeName="customerInvoiceNumber"/>
+        <bean parent="FieldDefinition" p:required="false" p:attributeName="age"/>              
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="customerNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="customerName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="collectionStatus" />
-		<bean parent="FieldDefinition"
-              p:attributeName="customerTotal" />   
+        <bean parent="FieldDefinition" p:attributeName="customerNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="customerName"/>
+        <bean parent="FieldDefinition" p:attributeName="collectionStatus"/>
+		<bean parent="FieldDefinition" p:attributeName="customerTotal"/>   
       </list>
     </property>
   </bean>

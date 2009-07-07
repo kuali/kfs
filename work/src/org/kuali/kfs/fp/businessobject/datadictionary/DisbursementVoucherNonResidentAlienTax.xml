@@ -1,24 +1,20 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="DisbursementVoucherNonResidentAlienTax" parent="DisbursementVoucherNonResidentAlienTax-parentBean" />
+  <bean id="DisbursementVoucherNonResidentAlienTax" parent="DisbursementVoucherNonResidentAlienTax-parentBean"/>
 
   <bean id="DisbursementVoucherNonResidentAlienTax-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax" />
-    <property name="objectLabel" value="Disbursement Voucher Non-Resident Alien Tax" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax"/>
+    <property name="objectLabel" value="Disbursement Voucher Non-Resident Alien Tax"/>
+    <property name="attributes">
       <list>
-        <ref bean="DisbursementVoucherNonResidentAlienTax-federalIncomeTaxPercent" />
-        <ref bean="DisbursementVoucherNonResidentAlienTax-stateIncomeTaxPercent" />
-        <ref bean="DisbursementVoucherNonResidentAlienTax-incomeClassCode" />
-        <ref bean="DisbursementVoucherNonResidentAlienTax-postalCountryCode" />
-        <ref bean="DisbursementVoucherNonResidentAlienTax-incomeTaxTreatyExemptCode" />
-        <ref bean="DisbursementVoucherNonResidentAlienTax-foreignSourceIncomeCode" />
-        <ref bean="DisbursementVoucherNonResidentAlienTax-incomeTaxGrossUpCode" />
-        <ref bean="DisbursementVoucherNonResidentAlienTax-referenceFinancialDocumentNumber" />
+        <ref bean="DisbursementVoucherNonResidentAlienTax-federalIncomeTaxPercent"/>
+        <ref bean="DisbursementVoucherNonResidentAlienTax-stateIncomeTaxPercent"/>
+        <ref bean="DisbursementVoucherNonResidentAlienTax-incomeClassCode"/>
+        <ref bean="DisbursementVoucherNonResidentAlienTax-postalCountryCode"/>
+        <ref bean="DisbursementVoucherNonResidentAlienTax-incomeTaxTreatyExemptCode"/>
+        <ref bean="DisbursementVoucherNonResidentAlienTax-foreignSourceIncomeCode"/>
+        <ref bean="DisbursementVoucherNonResidentAlienTax-incomeTaxGrossUpCode"/>
+        <ref bean="DisbursementVoucherNonResidentAlienTax-referenceFinancialDocumentNumber"/>
       </list>
     </property>
   </bean>
@@ -26,99 +22,93 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="DisbursementVoucherNonResidentAlienTax-federalIncomeTaxPercent" parent="DisbursementVoucherNonResidentAlienTax-federalIncomeTaxPercent-parentBean" />
+  <bean id="DisbursementVoucherNonResidentAlienTax-federalIncomeTaxPercent" parent="DisbursementVoucherNonResidentAlienTax-federalIncomeTaxPercent-parentBean"/>
 
   <bean id="DisbursementVoucherNonResidentAlienTax-federalIncomeTaxPercent-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="federalIncomeTaxPercent" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Federal Tax Percent" />
-    <property name="shortLabel" value="Fed Tax" />
-    <property name="maxLength" value="22" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="name" value="federalIncomeTaxPercent"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Federal Tax Percent"/>
+    <property name="shortLabel" value="Fed Tax"/>
+    <property name="maxLength" value="22"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherNonResidentAlienTax-stateIncomeTaxPercent" parent="DisbursementVoucherNonResidentAlienTax-stateIncomeTaxPercent-parentBean" />
+  <bean id="DisbursementVoucherNonResidentAlienTax-stateIncomeTaxPercent" parent="DisbursementVoucherNonResidentAlienTax-stateIncomeTaxPercent-parentBean"/>
 
   <bean id="DisbursementVoucherNonResidentAlienTax-stateIncomeTaxPercent-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="stateIncomeTaxPercent" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="State Tax Percent" />
-    <property name="shortLabel" value="St Tax" />
-    <property name="maxLength" value="22" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="name" value="stateIncomeTaxPercent"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="State Tax Percent"/>
+    <property name="shortLabel" value="St Tax"/>
+    <property name="maxLength" value="22"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherNonResidentAlienTax-incomeClassCode" parent="DisbursementVoucherNonResidentAlienTax-incomeClassCode-parentBean" />
+  <bean id="DisbursementVoucherNonResidentAlienTax-incomeClassCode" parent="DisbursementVoucherNonResidentAlienTax-incomeClassCode-parentBean"/>
 
   <bean id="DisbursementVoucherNonResidentAlienTax-incomeClassCode-parentBean" abstract="true" parent="TaxIncomeClassCode-code">
-    <property name="name" value="incomeClassCode" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.TaxIncomeClassValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="incomeClassCode"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.TaxIncomeClassValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherNonResidentAlienTax-postalCountryCode" parent="DisbursementVoucherNonResidentAlienTax-postalCountryCode-parentBean" />
+  <bean id="DisbursementVoucherNonResidentAlienTax-postalCountryCode" parent="DisbursementVoucherNonResidentAlienTax-postalCountryCode-parentBean"/>
 
   <bean id="DisbursementVoucherNonResidentAlienTax-postalCountryCode-parentBean" abstract="true" parent="Country-postalCountryCode">
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherNonResidentAlienTax-incomeTaxTreatyExemptCode" parent="DisbursementVoucherNonResidentAlienTax-incomeTaxTreatyExemptCode-parentBean" />
+  <bean id="DisbursementVoucherNonResidentAlienTax-incomeTaxTreatyExemptCode" parent="DisbursementVoucherNonResidentAlienTax-incomeTaxTreatyExemptCode-parentBean"/>
 
   <bean id="DisbursementVoucherNonResidentAlienTax-incomeTaxTreatyExemptCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="incomeTaxTreatyExemptCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Treaty Exempt" />
-    <property name="shortLabel" value="Treaty Exmt" />
-    <property name="maxLength" value="1" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="incomeTaxTreatyExemptCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Treaty Exempt"/>
+    <property name="shortLabel" value="Treaty Exmt"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherNonResidentAlienTax-foreignSourceIncomeCode" parent="DisbursementVoucherNonResidentAlienTax-foreignSourceIncomeCode-parentBean" />
+  <bean id="DisbursementVoucherNonResidentAlienTax-foreignSourceIncomeCode" parent="DisbursementVoucherNonResidentAlienTax-foreignSourceIncomeCode-parentBean"/>
 
   <bean id="DisbursementVoucherNonResidentAlienTax-foreignSourceIncomeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="foreignSourceIncomeCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Foreign Source" />
-    <property name="shortLabel" value="Frgn Src" />
-    <property name="maxLength" value="1" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="foreignSourceIncomeCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Foreign Source"/>
+    <property name="shortLabel" value="Frgn Src"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherNonResidentAlienTax-incomeTaxGrossUpCode" parent="DisbursementVoucherNonResidentAlienTax-incomeTaxGrossUpCode-parentBean" />
+  <bean id="DisbursementVoucherNonResidentAlienTax-incomeTaxGrossUpCode" parent="DisbursementVoucherNonResidentAlienTax-incomeTaxGrossUpCode-parentBean"/>
 
   <bean id="DisbursementVoucherNonResidentAlienTax-incomeTaxGrossUpCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="incomeTaxGrossUpCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Gross Up" />
-    <property name="shortLabel" value="Grs" />
-    <property name="maxLength" value="1" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="incomeTaxGrossUpCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Gross Up"/>
+    <property name="shortLabel" value="Grs"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherNonResidentAlienTax-referenceFinancialDocumentNumber" parent="DisbursementVoucherNonResidentAlienTax-referenceFinancialDocumentNumber-parentBean" />
+  <bean id="DisbursementVoucherNonResidentAlienTax-referenceFinancialDocumentNumber" parent="DisbursementVoucherNonResidentAlienTax-referenceFinancialDocumentNumber-parentBean"/>
 
   <bean id="DisbursementVoucherNonResidentAlienTax-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
-    <property name="name" value="referenceFinancialDocumentNumber" />
-    <property name="label" value="Reference Doc" />
-    <property name="shortLabel" value="Ref Doc" />
+    <property name="name" value="referenceFinancialDocumentNumber"/>
+    <property name="label" value="Reference Doc"/>
+    <property name="shortLabel" value="Ref Doc"/>
   </bean>
 </beans>

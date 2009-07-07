@@ -1,30 +1,23 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="VendorDefaultAddress" parent="VendorDefaultAddress-parentBean" />
+  <bean id="VendorDefaultAddress" parent="VendorDefaultAddress-parentBean"/>
 
   <bean id="VendorDefaultAddress-parentBean" abstract="true" parent="BusinessObjectEntry">
-  	<property name="objectLabel" value="Vendor Default Address" />
-    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorDefaultAddress" />
-    <property name="attributes" >
+  	<property name="objectLabel" value="Vendor Default Address"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorDefaultAddress"/>
+    <property name="attributes">
       <list>
-        <ref bean="VendorDefaultAddress-vendorAddressGeneratedIdentifier" />
-        <ref bean="VendorDefaultAddress-vendorDefaultAddressGeneratedIdentifier" />
-        <ref bean="VendorDefaultAddress-vendorCampusCode" />
-        <ref bean="VendorDefaultAddress-newCollectionRecord" />
-        <ref bean="VendorDefaultAddress-active" />
+        <ref bean="VendorDefaultAddress-vendorAddressGeneratedIdentifier"/>
+        <ref bean="VendorDefaultAddress-vendorDefaultAddressGeneratedIdentifier"/>
+        <ref bean="VendorDefaultAddress-vendorCampusCode"/>
+        <ref bean="VendorDefaultAddress-newCollectionRecord"/>
+        <ref bean="VendorDefaultAddress-active"/>
       </list>
     </property>
-    <property name="relationships" >
+    <property name="relationships">
       <list>
 		<dd:relationship objectAttribute="vendorCampus">
-        	<dd:primitiveAttribute source="vendorCampusCode" target="campusCode" />
+        	<dd:primitiveAttribute source="vendorCampusCode" target="campusCode"/>
 		</dd:relationship> 
  	  </list>
 	</property>
@@ -33,39 +26,39 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="VendorDefaultAddress-vendorAddressGeneratedIdentifier" parent="VendorDefaultAddress-vendorAddressGeneratedIdentifier-parentBean" />
+  <bean id="VendorDefaultAddress-vendorAddressGeneratedIdentifier" parent="VendorDefaultAddress-vendorAddressGeneratedIdentifier-parentBean"/>
 
   <bean id="VendorDefaultAddress-vendorAddressGeneratedIdentifier-parentBean" abstract="true" parent="VendorAddress-vendorAddressGeneratedIdentifier">
   </bean>
-  <bean id="VendorDefaultAddress-vendorDefaultAddressGeneratedIdentifier" parent="VendorDefaultAddress-vendorDefaultAddressGeneratedIdentifier-parentBean" />
+  <bean id="VendorDefaultAddress-vendorDefaultAddressGeneratedIdentifier" parent="VendorDefaultAddress-vendorDefaultAddressGeneratedIdentifier-parentBean"/>
 
   <bean id="VendorDefaultAddress-vendorDefaultAddressGeneratedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorDefaultAddressGeneratedIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="vendor Default Address Generated Identifier" />
-    <property name="shortLabel" value="Vendor Default AddressGenerated Identifier" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="vendorDefaultAddressGeneratedIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="vendor Default Address Generated Identifier"/>
+    <property name="shortLabel" value="Vendor Default AddressGenerated Identifier"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
-  <bean id="VendorDefaultAddress-vendorCampusCode" parent="VendorDefaultAddress-vendorCampusCode-parentBean" />
+  <bean id="VendorDefaultAddress-vendorCampusCode" parent="VendorDefaultAddress-vendorCampusCode-parentBean"/>
 
   <bean id="VendorDefaultAddress-vendorCampusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
-    <property name="name" value="vendorCampusCode" />
-    <property name="label" value="Set as campus default for" />
-    <property name="required" value="true" />
+    <property name="name" value="vendorCampusCode"/>
+    <property name="label" value="Set as campus default for"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="VendorDefaultAddress-newCollectionRecord" parent="VendorDefaultAddress-newCollectionRecord-parentBean" />
+  <bean id="VendorDefaultAddress-newCollectionRecord" parent="VendorDefaultAddress-newCollectionRecord-parentBean"/>
 
   <bean id="VendorDefaultAddress-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
-  <bean id="VendorDefaultAddress-active" parent="VendorDefaultAddress-active-parentBean" />
+  <bean id="VendorDefaultAddress-active" parent="VendorDefaultAddress-active-parentBean"/>
 
   <bean id="VendorDefaultAddress-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 </beans>

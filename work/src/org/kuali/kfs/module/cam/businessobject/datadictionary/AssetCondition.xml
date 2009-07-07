@@ -1,87 +1,77 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AssetCondition" parent="AssetCondition-parentBean" />
+  <bean id="AssetCondition" parent="AssetCondition-parentBean"/>
 
   <bean id="AssetCondition-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetCondition" />
-    <property name="inquiryDefinition" >
-      <ref bean="AssetCondition-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetCondition"/>
+    <property name="inquiryDefinition">
+      <ref bean="AssetCondition-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="AssetCondition-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="AssetCondition-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Asset Condition" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Asset Condition"/>
+    <property name="attributes">
       <list>
-        <ref bean="AssetCondition-active" />
-        <ref bean="AssetCondition-assetConditionCode" />
-        <ref bean="AssetCondition-assetConditionName" />
+        <ref bean="AssetCondition-active"/>
+        <ref bean="AssetCondition-assetConditionCode"/>
+        <ref bean="AssetCondition-assetConditionName"/>
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
-  <bean id="AssetCondition-active" parent="AssetCondition-active-parentBean" />
+  <bean id="AssetCondition-active" parent="AssetCondition-active-parentBean"/>
   <bean id="AssetCondition-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
   
-  <bean id="AssetCondition-assetConditionCode" parent="AssetCondition-assetConditionCode-parentBean" />
+  <bean id="AssetCondition-assetConditionCode" parent="AssetCondition-assetConditionCode-parentBean"/>
   <bean id="AssetCondition-assetConditionCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="assetConditionCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Asset Condition Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="assetConditionCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Asset Condition Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
   
-  <bean id="AssetCondition-assetConditionName" parent="AssetCondition-assetConditionName-parentBean" />
+  <bean id="AssetCondition-assetConditionName" parent="AssetCondition-assetConditionName-parentBean"/>
   <bean id="AssetCondition-assetConditionName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="assetConditionName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Asset Condition Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="assetConditionName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Asset Condition Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="42" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="42"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
-  <bean id="AssetCondition-inquiryDefinition" parent="AssetCondition-inquiryDefinition-parentBean" />
+  <bean id="AssetCondition-inquiryDefinition" parent="AssetCondition-inquiryDefinition-parentBean"/>
   <bean id="AssetCondition-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Asset Condition Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Asset Condition Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="assetConditionCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="assetConditionName" />
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+              <bean parent="FieldDefinition" p:attributeName="assetConditionCode"/>
+              <bean parent="FieldDefinition" p:attributeName="assetConditionName"/>
             </list>
           </property>
         </bean>
@@ -91,33 +81,26 @@
 
 <!-- Business Object Lookup Definition -->
 
-  <bean id="AssetCondition-lookupDefinition" parent="AssetCondition-lookupDefinition-parentBean" />
+  <bean id="AssetCondition-lookupDefinition" parent="AssetCondition-lookupDefinition-parentBean"/>
   <bean id="AssetCondition-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Asset Condition Lookup" />
-    <property name="instructions" value="Look up an Asset Condition" />
-    <property name="defaultSort" >
+    <property name="title" value="Asset Condition Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="assetConditionCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="assetConditionName" />
-        <bean parent="FieldDefinition"
-              p:defaultValue="Y"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="assetConditionCode"/>
+        <bean parent="FieldDefinition" p:attributeName="assetConditionName"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="assetConditionCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="assetConditionName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="assetConditionCode"/>
+        <bean parent="FieldDefinition" p:attributeName="assetConditionName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

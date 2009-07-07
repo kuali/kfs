@@ -1,23 +1,19 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AssetLocationGlobal" parent="AssetLocationGlobal-parentBean" />
+  <bean id="AssetLocationGlobal" parent="AssetLocationGlobal-parentBean"/>
 
   <bean id="AssetLocationGlobal-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetLocationGlobal" />
-    <property name="inquiryDefinition" >
-      <ref bean="AssetLocationGlobal-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetLocationGlobal"/>
+    <property name="inquiryDefinition">
+      <ref bean="AssetLocationGlobal-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="AssetLocationGlobal-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="AssetLocationGlobal-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Asset Location Global" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Asset Location Global"/>
+    <property name="attributes">
       <list>
-        <ref bean="AssetLocationGlobal-documentNumber" />
+        <ref bean="AssetLocationGlobal-documentNumber"/>
       </list>
     </property>
   </bean>
@@ -25,7 +21,7 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AssetLocationGlobal-documentNumber" parent="AssetLocationGlobal-documentNumber-parentBean" />
+  <bean id="AssetLocationGlobal-documentNumber" parent="AssetLocationGlobal-documentNumber-parentBean"/>
 
   <bean id="AssetLocationGlobal-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
   </bean>
@@ -33,19 +29,18 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="AssetLocationGlobal-inquiryDefinition" parent="AssetLocationGlobal-inquiryDefinition-parentBean" />
+  <bean id="AssetLocationGlobal-inquiryDefinition" parent="AssetLocationGlobal-inquiryDefinition-parentBean"/>
 
   <bean id="AssetLocationGlobal-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Asset Location Global Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Asset Location Global Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
             </list>
           </property>
         </bean>
@@ -56,25 +51,23 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="AssetLocationGlobal-lookupDefinition" parent="AssetLocationGlobal-lookupDefinition-parentBean" />
+  <bean id="AssetLocationGlobal-lookupDefinition" parent="AssetLocationGlobal-lookupDefinition-parentBean"/>
 
   <bean id="AssetLocationGlobal-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Asset Location Global Lookup" />
-    <property name="instructions" value="Look up an Asset Location Global" />
-    <property name="defaultSort" >
+    <property name="title" value="Asset Location Global Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
       </list>
     </property>
   </bean>

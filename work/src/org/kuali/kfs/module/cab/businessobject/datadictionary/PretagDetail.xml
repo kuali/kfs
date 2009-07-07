@@ -1,44 +1,38 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="PretagDetail" parent="PretagDetail-parentBean" />
+  <bean id="PretagDetail" parent="PretagDetail-parentBean"/>
 
   <bean id="PretagDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cab.businessobject.PretagDetail" />
-    <property name="inquiryDefinition" >
-      <ref bean="PretagDetail-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cab.businessobject.PretagDetail"/>
+    <property name="inquiryDefinition">
+      <ref bean="PretagDetail-inquiryDefinition"/>
     </property>
-    <property name="objectLabel" value="Pretag Detail" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Pretag Detail"/>
+    <property name="attributes">
       <list>
-        <ref bean="PretagDetail-purchaseOrderNumber" />
-        <ref bean="PretagDetail-itemLineNumber" />
-        <ref bean="PretagDetail-campusCode" />
-        <ref bean="PretagDetail-pretagTagCreateDate" />
-        <ref bean="PretagDetail-buildingCode" />
-        <ref bean="PretagDetail-buildingRoomNumber" />
-        <ref bean="PretagDetail-active" />
-        <ref bean="PretagDetail-buildingSubRoomNumber" />
-        <ref bean="PretagDetail-campusTagNumber" />
-        <ref bean="PretagDetail-organizationTagNumber" />
-        <ref bean="PretagDetail-governmentTagNumber" />
-        <ref bean="PretagDetail-nationalStockNumber" />
-        <ref bean="PretagDetail-serialNumber" />
-        <ref bean="PretagDetail-newCollectionRecord" />
+        <ref bean="PretagDetail-purchaseOrderNumber"/>
+        <ref bean="PretagDetail-itemLineNumber"/>
+        <ref bean="PretagDetail-campusCode"/>
+        <ref bean="PretagDetail-pretagTagCreateDate"/>
+        <ref bean="PretagDetail-buildingCode"/>
+        <ref bean="PretagDetail-buildingRoomNumber"/>
+        <ref bean="PretagDetail-active"/>
+        <ref bean="PretagDetail-buildingSubRoomNumber"/>
+        <ref bean="PretagDetail-campusTagNumber"/>
+        <ref bean="PretagDetail-organizationTagNumber"/>
+        <ref bean="PretagDetail-governmentTagNumber"/>
+        <ref bean="PretagDetail-nationalStockNumber"/>
+        <ref bean="PretagDetail-serialNumber"/>
+        <ref bean="PretagDetail-newCollectionRecord"/>
       </list>
     </property>
-    <property name="relationships" >
+    <property name="relationships">
       <list>
 	    <bean parent="RelationshipDefinition">
-	         <property name="objectAttributeName" value="campus" />
-	         <property name="primitiveAttributes" >
+	         <property name="objectAttributeName" value="campus"/>
+	         <property name="primitiveAttributes">
 	           <list>
-	             <bean parent="PrimitiveAttributeDefinition"
-	                   p:sourceName="campusCode"
-	                   p:targetName="campusCode" />
+	             <bean parent="PrimitiveAttributeDefinition" p:sourceName="campusCode" p:targetName="campusCode"/>
 	           </list>
 	         </property>
 		</bean>
@@ -48,137 +42,122 @@
 
 <!-- Attribute Definitions -->
 
-  <bean id="PretagDetail-purchaseOrderNumber" parent="PretagDetail-purchaseOrderNumber-parentBean" />
+  <bean id="PretagDetail-purchaseOrderNumber" parent="PretagDetail-purchaseOrderNumber-parentBean"/>
   <bean id="PretagDetail-purchaseOrderNumber-parentBean" abstract="true" parent="Pretag-purchaseOrderNumber">
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
   
-  <bean id="PretagDetail-itemLineNumber" parent="PretagDetail-itemLineNumber-parentBean" />
+  <bean id="PretagDetail-itemLineNumber" parent="PretagDetail-itemLineNumber-parentBean"/>
   <bean id="PretagDetail-itemLineNumber-parentBean" abstract="true" parent="Pretag-itemLineNumber">
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
   
-  <bean id="PretagDetail-campusCode" parent="PretagDetail-campusCode-parentBean" />
+  <bean id="PretagDetail-campusCode" parent="PretagDetail-campusCode-parentBean"/>
   <bean id="PretagDetail-campusCode-parentBean" abstract="true" parent="Asset-campusCode">
-  	<property name="label" value="Campus" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder"
-            p:includeKeyInLabel="false" />
+  	<property name="label" value="Campus"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   
-  <bean id="PretagDetail-pretagTagCreateDate" parent="PretagDetail-pretagTagCreateDate-parentBean" />
+  <bean id="PretagDetail-pretagTagCreateDate" parent="PretagDetail-pretagTagCreateDate-parentBean"/>
   <bean id="PretagDetail-pretagTagCreateDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
-    <property name="name" value="pretagTagCreateDate" />
-    <property name="label" value="Pretag Tag Create Date" />
-    <property name="shortLabel" value="Date" />
+    <property name="name" value="pretagTagCreateDate"/>
+    <property name="label" value="Pretag Tag Create Date"/>
+    <property name="shortLabel" value="Date"/>
   </bean>
   
-  <bean id="PretagDetail-buildingCode" parent="PretagDetail-buildingCode-parentBean" />
+  <bean id="PretagDetail-buildingCode" parent="PretagDetail-buildingCode-parentBean"/>
   <bean id="PretagDetail-buildingCode-parentBean" abstract="true" parent="Asset-buildingCode">
   </bean>
   
-  <bean id="PretagDetail-buildingRoomNumber" parent="PretagDetail-buildingRoomNumber-parentBean" />
+  <bean id="PretagDetail-buildingRoomNumber" parent="PretagDetail-buildingRoomNumber-parentBean"/>
   <bean id="PretagDetail-buildingRoomNumber-parentBean" abstract="true" parent="Asset-buildingRoomNumber">
   </bean>
   
-  <bean id="PretagDetail-active" parent="PretagDetail-active-parentBean" />
+  <bean id="PretagDetail-active" parent="PretagDetail-active-parentBean"/>
   <bean id="PretagDetail-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
   
-  <bean id="PretagDetail-buildingSubRoomNumber" parent="PretagDetail-buildingSubRoomNumber-parentBean" />
+  <bean id="PretagDetail-buildingSubRoomNumber" parent="PretagDetail-buildingSubRoomNumber-parentBean"/>
   <bean id="PretagDetail-buildingSubRoomNumber-parentBean" abstract="true" parent="Asset-buildingSubRoomNumber">
-    <property name="label" value="Building Sub Room Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="label" value="Building Sub Room Number"/>
+    <property name="shortLabel" value="Number"/>
   </bean>
   
-  <bean id="PretagDetail-campusTagNumber" parent="PretagDetail-campusTagNumber-parentBean" />
+  <bean id="PretagDetail-campusTagNumber" parent="PretagDetail-campusTagNumber-parentBean"/>
   <bean id="PretagDetail-campusTagNumber-parentBean" abstract="true" parent="Asset-campusTagNumber">
-    <property name="name" value="campusTagNumber" />
-    <property name="shortLabel" value="Number" />
-    <property name="required" value="true" />
+    <property name="name" value="campusTagNumber"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="required" value="true"/>
     <property name="attributeSecurity">
         <bean parent="AttributeSecurity">
-           <property name="readOnly" value="false" />
+           <property name="readOnly" value="false"/>
        </bean>
 	</property>
   </bean>
   
-  <bean id="PretagDetail-organizationTagNumber" parent="PretagDetail-organizationTagNumber-parentBean" />
+  <bean id="PretagDetail-organizationTagNumber" parent="PretagDetail-organizationTagNumber-parentBean"/>
   <bean id="PretagDetail-organizationTagNumber-parentBean" abstract="true" parent="AssetOrganization-organizationTagNumber">
   </bean>
   
-  <bean id="PretagDetail-governmentTagNumber" parent="PretagDetail-governmentTagNumber-parentBean" />
+  <bean id="PretagDetail-governmentTagNumber" parent="PretagDetail-governmentTagNumber-parentBean"/>
   <bean id="PretagDetail-governmentTagNumber-parentBean" abstract="true" parent="Asset-governmentTagNumber">
-    <property name="label" value="Government Tag" />
-    <property name="shortLabel" value="Number" />
+    <property name="label" value="Government Tag"/>
+    <property name="shortLabel" value="Number"/>
   </bean>
   
-  <bean id="PretagDetail-nationalStockNumber" parent="PretagDetail-nationalStockNumber-parentBean" />
+  <bean id="PretagDetail-nationalStockNumber" parent="PretagDetail-nationalStockNumber-parentBean"/>
   <bean id="PretagDetail-nationalStockNumber-parentBean" abstract="true" parent="Asset-nationalStockNumber">
-    <property name="label" value="National Stock Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="label" value="National Stock Number"/>
+    <property name="shortLabel" value="Number"/>
     <property name="attributeSecurity">
         <bean parent="AttributeSecurity">
-           <property name="readOnly" value="false" />
+           <property name="readOnly" value="false"/>
        </bean>
     </property>
   </bean>
   
-  <bean id="PretagDetail-serialNumber" parent="PretagDetail-serialNumber-parentBean" />
+  <bean id="PretagDetail-serialNumber" parent="PretagDetail-serialNumber-parentBean"/>
   <bean id="PretagDetail-serialNumber-parentBean" abstract="true" parent="Asset-serialNumber">
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Number"/>
   </bean>
   
-  <bean id="PretagDetail-newCollectionRecord" parent="PretagDetail-newCollectionRecord-parentBean" />
+  <bean id="PretagDetail-newCollectionRecord" parent="PretagDetail-newCollectionRecord-parentBean"/>
   <bean id="PretagDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
-  <bean id="PretagDetail-inquiryDefinition" parent="PretagDetail-inquiryDefinition-parentBean" />
+  <bean id="PretagDetail-inquiryDefinition" parent="PretagDetail-inquiryDefinition-parentBean"/>
   <bean id="PretagDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Pretag Detail Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Pretag Detail Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemLineNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="campusTagNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="serialNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationTagNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="governmentTagNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="nationalStockNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="campusCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="buildingCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="buildingRoomNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="buildingSubRoomNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="pretagTagCreateDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="purchaseOrderNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="itemLineNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="campusTagNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="serialNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationTagNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="governmentTagNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="nationalStockNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="buildingCode"/>
+              <bean parent="FieldDefinition" p:attributeName="buildingRoomNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="buildingSubRoomNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="pretagTagCreateDate"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>

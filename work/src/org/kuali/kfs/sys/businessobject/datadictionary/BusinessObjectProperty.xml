@@ -1,40 +1,30 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="BusinessObjectProperty"
-		parent="BusinessObjectProperty-parentBean" />
+	<bean id="BusinessObjectProperty" parent="BusinessObjectProperty-parentBean"/>
 
-	<bean id="BusinessObjectProperty-parentBean" abstract="true"
-		parent="BusinessObjectEntry">
-		<property name="businessObjectClass"
-			value="org.kuali.kfs.sys.businessobject.BusinessObjectProperty" />
+	<bean id="BusinessObjectProperty-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.BusinessObjectProperty"/>
 
 		<property name="lookupDefinition">
-			<ref bean="BusinessObjectProperty-lookupDefinition" />
+			<ref bean="BusinessObjectProperty-lookupDefinition"/>
 		</property>
-		<property name="objectLabel" value="Business Object Property" />
+		<property name="objectLabel" value="Business Object Property"/>
 		<property name="attributes">
 			<list>
-				<ref bean="BusinessObjectProperty-namespaceCode" />
-				<ref bean="BusinessObjectProperty-componentClass" />
-				<ref
-					bean="BusinessObjectProperty-businessObjectComponent.componentLabel" />
-				<ref bean="BusinessObjectProperty-propertyName" />
-				<ref bean="BusinessObjectProperty-propertyLabel" />
+				<ref bean="BusinessObjectProperty-namespaceCode"/>
+				<ref bean="BusinessObjectProperty-componentClass"/>
+				<ref bean="BusinessObjectProperty-businessObjectComponent.componentLabel"/>
+				<ref bean="BusinessObjectProperty-propertyName"/>
+				<ref bean="BusinessObjectProperty-propertyLabel"/>
 			</list>
 		</property>
 		<property name="relationships">
 			<list>
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName"
-						value="businessObjectComponent" />
+					<property name="objectAttributeName" value="businessObjectComponent"/>
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition"
-								p:sourceName="businessObjectComponent.componentLabel" p:targetName="componentLabel" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="businessObjectComponent.componentLabel" p:targetName="componentLabel"/>
 						</list>
 					</property>
 <!--					<property name="supportAttributes">-->
@@ -53,89 +43,64 @@
 
 	<!-- Attribute Definitions -->
 
-	<bean id="BusinessObjectProperty-namespaceCode"
-		parent="BusinessObjectProperty-namespaceCode-parentBean" />
+	<bean id="BusinessObjectProperty-namespaceCode" parent="BusinessObjectProperty-namespaceCode-parentBean"/>
 
-	<bean id="BusinessObjectProperty-namespaceCode-parentBean"
-		abstract="true" parent="BusinessObjectComponent-namespaceCode" />
+	<bean id="BusinessObjectProperty-namespaceCode-parentBean" abstract="true" parent="BusinessObjectComponent-namespaceCode"/>
 
-	<bean id="BusinessObjectProperty-componentClass"
-		parent="BusinessObjectProperty-componentClass-parentBean" />
+	<bean id="BusinessObjectProperty-componentClass" parent="BusinessObjectProperty-componentClass-parentBean"/>
 
-	<bean id="BusinessObjectProperty-componentClass-parentBean"
-		abstract="true" parent="BusinessObjectComponent-componentClass" />
+	<bean id="BusinessObjectProperty-componentClass-parentBean" abstract="true" parent="BusinessObjectComponent-componentClass"/>
 
-	<bean
-		id="BusinessObjectProperty-businessObjectComponent.componentLabel"
-		parent="BusinessObjectProperty-businessObjectComponent.componentLabel-parentBean" />
+	<bean id="BusinessObjectProperty-businessObjectComponent.componentLabel" parent="BusinessObjectProperty-businessObjectComponent.componentLabel-parentBean"/>
 
-	<bean
-		id="BusinessObjectProperty-businessObjectComponent.componentLabel-parentBean"
-		abstract="true" parent="BusinessObjectComponent-componentLabel">
-		<property name="name"
-			value="businessObjectComponent.componentLabel" />
+	<bean id="BusinessObjectProperty-businessObjectComponent.componentLabel-parentBean" abstract="true" parent="BusinessObjectComponent-componentLabel">
+		<property name="name" value="businessObjectComponent.componentLabel"/>
 	</bean>
 
-	<bean id="BusinessObjectProperty-propertyName"
-		parent="BusinessObjectProperty-propertyName-parentBean" />
+	<bean id="BusinessObjectProperty-propertyName" parent="BusinessObjectProperty-propertyName-parentBean"/>
 
-	<bean id="BusinessObjectProperty-propertyName-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="propertyName" />
-		<property name="label" value="Field" />
-		<property name="maxLength" value="100" />
-		<property name="required" value="true" />
+	<bean id="BusinessObjectProperty-propertyName-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="propertyName"/>
+		<property name="label" value="Field"/>
+		<property name="maxLength" value="100"/>
+		<property name="required" value="true"/>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="40" />
+			<bean parent="TextControlDefinition" p:size="40"/>
 		</property>
 	</bean>
 
-	<bean id="BusinessObjectProperty-propertyLabel"
-		parent="BusinessObjectProperty-propertyLabel-parentBean" />
+	<bean id="BusinessObjectProperty-propertyLabel" parent="BusinessObjectProperty-propertyLabel-parentBean"/>
 
-	<bean id="BusinessObjectProperty-propertyLabel-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="propertyLabel" />
-		<property name="label" value="Field" />
-		<property name="maxLength" value="100" />
-		<property name="required" value="true" />
+	<bean id="BusinessObjectProperty-propertyLabel-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="propertyLabel"/>
+		<property name="label" value="Field"/>
+		<property name="maxLength" value="100"/>
+		<property name="required" value="true"/>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="40" />
+			<bean parent="TextControlDefinition" p:size="40"/>
 		</property>
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
 
-	<bean id="BusinessObjectProperty-lookupDefinition"
-		parent="BusinessObjectProperty-lookupDefinition-parentBean" />
+	<bean id="BusinessObjectProperty-lookupDefinition" parent="BusinessObjectProperty-lookupDefinition-parentBean"/>
 
-	<bean id="BusinessObjectProperty-lookupDefinition-parentBean"
-		abstract="true" parent="LookupDefinition">
-		<property name="lookupableID"
-			value="businessObjectPropertyLookupable" />
-		<property name="title" value="Business Object Field Lookup" />
-		<property name="instructions"
-			value="Lookup a Business Object Field" />
+	<bean id="BusinessObjectProperty-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="lookupableID" value="businessObjectPropertyLookupable"/>
+		<property name="title" value="Business Object Field Lookup"/>
+		
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="namespaceCode" p:noLookup="true"
-					p:required="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="businessObjectComponent.componentLabel"
-					p:required="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="propertyLabel" />
+				<bean parent="FieldDefinition" p:attributeName="namespaceCode" p:noLookup="true" p:required="true"/>
+				<bean parent="FieldDefinition" p:attributeName="businessObjectComponent.componentLabel" p:required="true"/>
+				<bean parent="FieldDefinition" p:attributeName="propertyLabel"/>
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="namespaceCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="businessObjectComponent.componentLabel" />
-				<bean parent="FieldDefinition"
-					p:attributeName="propertyLabel" />
+				<bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+				<bean parent="FieldDefinition" p:attributeName="businessObjectComponent.componentLabel"/>
+				<bean parent="FieldDefinition" p:attributeName="propertyLabel"/>
 			</list>
 		</property>
 		<property name="defaultSort">

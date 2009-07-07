@@ -1,22 +1,18 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="DisbursementVoucherNonEmployeeExpense" parent="DisbursementVoucherNonEmployeeExpense-parentBean" />
+  <bean id="DisbursementVoucherNonEmployeeExpense" parent="DisbursementVoucherNonEmployeeExpense-parentBean"/>
 
   <bean id="DisbursementVoucherNonEmployeeExpense-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeExpense" />
-    <property name="objectLabel" value="Disbursement Voucher Non-Employee Expense" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeExpense"/>
+    <property name="objectLabel" value="Disbursement Voucher Non-Employee Expense"/>
+    <property name="attributes">
       <list>
-        <ref bean="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseCode" />
-        <ref bean="DisbursementVoucherNonEmployeeExpense-disbVchrPrePaidExpenseCode" />
-        <ref bean="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseCompanyName" />
-        <ref bean="DisbursementVoucherNonEmployeeExpense-disbVchrPrePaidExpenseCompanyName" />
-        <ref bean="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseAmount" />
-        <ref bean="DisbursementVoucherNonEmployeeExpense-documentNumber" />
+        <ref bean="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseCode"/>
+        <ref bean="DisbursementVoucherNonEmployeeExpense-disbVchrPrePaidExpenseCode"/>
+        <ref bean="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseCompanyName"/>
+        <ref bean="DisbursementVoucherNonEmployeeExpense-disbVchrPrePaidExpenseCompanyName"/>
+        <ref bean="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseAmount"/>
+        <ref bean="DisbursementVoucherNonEmployeeExpense-documentNumber"/>
       </list>
     </property>
   </bean>
@@ -24,77 +20,70 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseCode" parent="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseCode-parentBean" />
+  <bean id="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseCode" parent="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseCode-parentBean"/>
 
   <bean id="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="disbVchrExpenseCode" />
-    <property name="label" value="Type" />
-    <property name="shortLabel" value="Typ" />
-    <property name="maxLength" value="2" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.TravelExpenseTypeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="disbVchrExpenseCode"/>
+    <property name="label" value="Type"/>
+    <property name="shortLabel" value="Typ"/>
+    <property name="maxLength" value="2"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.TravelExpenseTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherNonEmployeeExpense-disbVchrPrePaidExpenseCode" parent="DisbursementVoucherNonEmployeeExpense-disbVchrPrePaidExpenseCode-parentBean" />
+  <bean id="DisbursementVoucherNonEmployeeExpense-disbVchrPrePaidExpenseCode" parent="DisbursementVoucherNonEmployeeExpense-disbVchrPrePaidExpenseCode-parentBean"/>
 
   <bean id="DisbursementVoucherNonEmployeeExpense-disbVchrPrePaidExpenseCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="disbVchrPrePaidExpenseCode" />
-    <property name="label" value="Type" />
-    <property name="shortLabel" value="Typ" />
-    <property name="maxLength" value="2" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.TravelPrePaidExpenseTypeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="disbVchrPrePaidExpenseCode"/>
+    <property name="label" value="Type"/>
+    <property name="shortLabel" value="Typ"/>
+    <property name="maxLength" value="2"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.TravelPrePaidExpenseTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseCompanyName" parent="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseCompanyName-parentBean" />
+  <bean id="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseCompanyName" parent="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseCompanyName-parentBean"/>
 
   <bean id="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseCompanyName-parentBean" abstract="true" parent="TravelCompanyCode-name">
-    <property name="name" value="disbVchrExpenseCompanyName" />
-    <property name="label" value="Company" />
-    <property name="shortLabel" value="Company" />
-    <property name="maxLength" value="40" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="disbVchrExpenseCompanyName"/>
+    <property name="label" value="Company"/>
+    <property name="shortLabel" value="Company"/>
+    <property name="maxLength" value="40"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherNonEmployeeExpense-disbVchrPrePaidExpenseCompanyName" parent="DisbursementVoucherNonEmployeeExpense-disbVchrPrePaidExpenseCompanyName-parentBean" />
+  <bean id="DisbursementVoucherNonEmployeeExpense-disbVchrPrePaidExpenseCompanyName" parent="DisbursementVoucherNonEmployeeExpense-disbVchrPrePaidExpenseCompanyName-parentBean"/>
 
   <bean id="DisbursementVoucherNonEmployeeExpense-disbVchrPrePaidExpenseCompanyName-parentBean" abstract="true" parent="TravelCompanyCode-name">
-    <property name="name" value="disbVchrPrePaidExpenseCompanyName" />
-    <property name="label" value="Company" />
-    <property name="shortLabel" value="Company" />
-    <property name="maxLength" value="40" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="disbVchrPrePaidExpenseCompanyName"/>
+    <property name="label" value="Company"/>
+    <property name="shortLabel" value="Company"/>
+    <property name="maxLength" value="40"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseAmount" parent="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseAmount-parentBean" />
+  <bean id="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseAmount" parent="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseAmount-parentBean"/>
 
   <bean id="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="disbVchrExpenseAmount" />
-    <property name="label" value="Amount" />
-    <property name="shortLabel" value="Amt" />
-    <property name="maxLength" value="22" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="name" value="disbVchrExpenseAmount"/>
+    <property name="label" value="Amount"/>
+    <property name="shortLabel" value="Amt"/>
+    <property name="maxLength" value="22"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherNonEmployeeExpense-documentNumber" parent="DisbursementVoucherNonEmployeeExpense-documentNumber-parentBean" />
+  <bean id="DisbursementVoucherNonEmployeeExpense-documentNumber" parent="DisbursementVoucherNonEmployeeExpense-documentNumber-parentBean"/>
 
   <bean id="DisbursementVoucherNonEmployeeExpense-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
-    <property name="name" value="documentNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="name" value="documentNumber"/>
+    <property name="forceUppercase" value="true"/>
   </bean>
 </beans>

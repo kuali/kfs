@@ -1,27 +1,23 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="PaymentReasonCode" parent="PaymentReasonCode-parentBean" />
+  <bean id="PaymentReasonCode" parent="PaymentReasonCode-parentBean"/>
 
   <bean id="PaymentReasonCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.PaymentReasonCode" />
-    <property name="inquiryDefinition" >
-      <ref bean="PaymentReasonCode-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.PaymentReasonCode"/>
+    <property name="inquiryDefinition">
+      <ref bean="PaymentReasonCode-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="PaymentReasonCode-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="PaymentReasonCode-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="code" />
-    <property name="objectLabel" value="Disbursement Voucher Payment Reason" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="code"/>
+    <property name="objectLabel" value="Disbursement Voucher Payment Reason"/>
+    <property name="attributes">
       <list>
-        <ref bean="PaymentReasonCode-code" />
-        <ref bean="PaymentReasonCode-name" />
-        <ref bean="PaymentReasonCode-description" />
-        <ref bean="PaymentReasonCode-active" />
+        <ref bean="PaymentReasonCode-code"/>
+        <ref bean="PaymentReasonCode-name"/>
+        <ref bean="PaymentReasonCode-description"/>
+        <ref bean="PaymentReasonCode-active"/>
       </list>
     </property>
   </bean>
@@ -29,87 +25,76 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="PaymentReasonCode-code" parent="PaymentReasonCode-code-parentBean" />
+  <bean id="PaymentReasonCode-code" parent="PaymentReasonCode-code-parentBean"/>
 
   <bean id="PaymentReasonCode-code-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="code" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Payment Reason Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AlphaValidationPattern"
-            p:exactLength="1" />
+    <property name="name" value="code"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Payment Reason Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AlphaValidationPattern" p:exactLength="1"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="1"/>
     </property>
   </bean>
-  <bean id="PaymentReasonCode-name" parent="PaymentReasonCode-name-parentBean" />
+  <bean id="PaymentReasonCode-name" parent="PaymentReasonCode-name-parentBean"/>
 
   <bean id="PaymentReasonCode-name-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="name" />
-    <property name="label" value="Payment Reason Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="name"/>
+    <property name="label" value="Payment Reason Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />    
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="required" value="true"/>    
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
   </bean>
-  <bean id="PaymentReasonCode-description" parent="PaymentReasonCode-description-parentBean" />
+  <bean id="PaymentReasonCode-description" parent="PaymentReasonCode-description-parentBean"/>
 
   <bean id="PaymentReasonCode-description-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="description" />
-    <property name="label" value="Payment Reason Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="2500" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="description"/>
+    <property name="label" value="Payment Reason Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="2500"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />    
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="10"
-            p:cols="50" />
+    <property name="required" value="true"/>    
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="10" p:cols="50"/>
     </property>
   </bean>
-  <bean id="PaymentReasonCode-active" parent="PaymentReasonCode-active-parentBean" />
+  <bean id="PaymentReasonCode-active" parent="PaymentReasonCode-active-parentBean"/>
 
   <bean id="PaymentReasonCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="PaymentReasonCode-inquiryDefinition" parent="PaymentReasonCode-inquiryDefinition-parentBean" />
+  <bean id="PaymentReasonCode-inquiryDefinition" parent="PaymentReasonCode-inquiryDefinition-parentBean"/>
 
   <bean id="PaymentReasonCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Disbursement Voucher Payment Reason Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Disbursement Voucher Payment Reason Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="code" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="name" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="description" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="code"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
+              <bean parent="FieldDefinition" p:attributeName="description"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -120,43 +105,35 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="PaymentReasonCode-lookupDefinition" parent="PaymentReasonCode-lookupDefinition-parentBean" />
+  <bean id="PaymentReasonCode-lookupDefinition" parent="PaymentReasonCode-lookupDefinition-parentBean"/>
 
   <bean id="PaymentReasonCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Disbursement Voucher Payment Reason Lookup" />
-    <property name="instructions" value="Lookup a Payment Reason Code" />
-    <property name="defaultSort" >
+    <property name="title" value="Disbursement Voucher Payment Reason Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>code</value>
           </list>
         </property>
-        <property name="sortAscending" value="false" />
+        <property name="sortAscending" value="false"/>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

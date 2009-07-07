@@ -1,31 +1,24 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PurchaseOrderQuoteListVendor" parent="PurchaseOrderQuoteListVendor-parentBean" />
+  <bean id="PurchaseOrderQuoteListVendor" parent="PurchaseOrderQuoteListVendor-parentBean"/>
 
   <bean id="PurchaseOrderQuoteListVendor-parentBean" abstract="true" parent="BusinessObjectEntry">
-  	<property name="objectLabel" value="Purchase Order Quote List Vendor" />
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteListVendor" />
-    <property name="inquiryDefinition" >
-      <ref bean="PurchaseOrderQuoteListVendor-inquiryDefinition" />
+  	<property name="objectLabel" value="Purchase Order Quote List Vendor"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteListVendor"/>
+    <property name="inquiryDefinition">
+      <ref bean="PurchaseOrderQuoteListVendor-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="PurchaseOrderQuoteListVendor-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="PurchaseOrderQuoteListVendor-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="PurchaseOrderQuoteListVendor-purchaseOrderQuoteListIdentifier" />
-        <ref bean="PurchaseOrderQuoteListVendor-newCollectionRecord" />
-        <ref bean="PurchaseOrderQuoteListVendor-vendorHeaderGeneratedIdentifier" />
-        <ref bean="PurchaseOrderQuoteListVendor-vendorDetailAssignedIdentifier" />
-        <ref bean="PurchaseOrderQuoteListVendor-vendorDetail.vendorName" />
-        <ref bean="PurchaseOrderQuoteListVendor-vendorDetail.vendorNumber" />
+        <ref bean="PurchaseOrderQuoteListVendor-purchaseOrderQuoteListIdentifier"/>
+        <ref bean="PurchaseOrderQuoteListVendor-newCollectionRecord"/>
+        <ref bean="PurchaseOrderQuoteListVendor-vendorHeaderGeneratedIdentifier"/>
+        <ref bean="PurchaseOrderQuoteListVendor-vendorDetailAssignedIdentifier"/>
+        <ref bean="PurchaseOrderQuoteListVendor-vendorDetail.vendorName"/>
+        <ref bean="PurchaseOrderQuoteListVendor-vendorDetail.vendorNumber"/>
       </list>
     </property>
   </bean>
@@ -33,57 +26,54 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="PurchaseOrderQuoteListVendor-purchaseOrderQuoteListIdentifier" parent="PurchaseOrderQuoteListVendor-purchaseOrderQuoteListIdentifier-parentBean" />
+  <bean id="PurchaseOrderQuoteListVendor-purchaseOrderQuoteListIdentifier" parent="PurchaseOrderQuoteListVendor-purchaseOrderQuoteListIdentifier-parentBean"/>
 
   <bean id="PurchaseOrderQuoteListVendor-purchaseOrderQuoteListIdentifier-parentBean" abstract="true" parent="PurchaseOrderQuoteList-purchaseOrderQuoteListIdentifier">
   </bean>
   
-  <bean id="PurchaseOrderQuoteListVendor-newCollectionRecord" parent="PurchaseOrderQuoteListVendor-newCollectionRecord-parentBean" />
+  <bean id="PurchaseOrderQuoteListVendor-newCollectionRecord" parent="PurchaseOrderQuoteListVendor-newCollectionRecord-parentBean"/>
 
   <bean id="PurchaseOrderQuoteListVendor-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   
-  <bean id="PurchaseOrderQuoteListVendor-vendorHeaderGeneratedIdentifier" parent="PurchaseOrderQuoteListVendor-vendorHeaderGeneratedIdentifier-parentBean" />
+  <bean id="PurchaseOrderQuoteListVendor-vendorHeaderGeneratedIdentifier" parent="PurchaseOrderQuoteListVendor-vendorHeaderGeneratedIdentifier-parentBean"/>
 
   <bean id="PurchaseOrderQuoteListVendor-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
   </bean>
-  <bean id="PurchaseOrderQuoteListVendor-vendorDetailAssignedIdentifier" parent="PurchaseOrderQuoteListVendor-vendorDetailAssignedIdentifier-parentBean" />
+  <bean id="PurchaseOrderQuoteListVendor-vendorDetailAssignedIdentifier" parent="PurchaseOrderQuoteListVendor-vendorDetailAssignedIdentifier-parentBean"/>
 
   <bean id="PurchaseOrderQuoteListVendor-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
   </bean>
-  <bean id="PurchaseOrderQuoteListVendor-vendorDetail.vendorName" parent="PurchaseOrderQuoteListVendor-vendorDetail.vendorName-parentBean" />
+  <bean id="PurchaseOrderQuoteListVendor-vendorDetail.vendorName" parent="PurchaseOrderQuoteListVendor-vendorDetail.vendorName-parentBean"/>
 
   <bean id="PurchaseOrderQuoteListVendor-vendorDetail.vendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
-    <property name="name" value="vendorDetail.vendorName" />
+    <property name="name" value="vendorDetail.vendorName"/>
   </bean>
   
-    <bean id="PurchaseOrderQuoteListVendor-vendorDetail.vendorNumber" parent="PurchaseOrderQuoteListVendor-vendorDetail.vendorNumber-parentBean" />
+    <bean id="PurchaseOrderQuoteListVendor-vendorDetail.vendorNumber" parent="PurchaseOrderQuoteListVendor-vendorDetail.vendorNumber-parentBean"/>
 
   <bean id="PurchaseOrderQuoteListVendor-vendorDetail.vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
-    <property name="name" value="vendorDetail.vendorNumber" />
+    <property name="name" value="vendorDetail.vendorNumber"/>
   </bean>
 
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="PurchaseOrderQuoteListVendor-inquiryDefinition" parent="PurchaseOrderQuoteListVendor-inquiryDefinition-parentBean" />
+  <bean id="PurchaseOrderQuoteListVendor-inquiryDefinition" parent="PurchaseOrderQuoteListVendor-inquiryDefinition-parentBean"/>
 
   <bean id="PurchaseOrderQuoteListVendor-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Purchase Order Quote List Vendor Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Purchase Order Quote List Vendor Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Vendors" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Vendors"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderQuoteListIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorDetailAssignedIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorHeaderGeneratedIdentifier" />
+              <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteListIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
             </list>
           </property>
         </bean>
@@ -94,33 +84,27 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="PurchaseOrderQuoteListVendor-lookupDefinition" parent="PurchaseOrderQuoteListVendor-lookupDefinition-parentBean" />
+  <bean id="PurchaseOrderQuoteListVendor-lookupDefinition" parent="PurchaseOrderQuoteListVendor-lookupDefinition-parentBean"/>
 
   <bean id="PurchaseOrderQuoteListVendor-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Purchase Order Quote List Vendor Lookup" />
-    <property name="instructions" value="Lookup an Purchase Order Quote List Vendor" />
-    <property name="defaultSort" >
+    <property name="title" value="Purchase Order Quote List Vendor Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderQuoteListIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorDetailAssignedIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorHeaderGeneratedIdentifier" />
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteListIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderQuoteListIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorDetailAssignedIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorHeaderGeneratedIdentifier" />
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteListIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
       </list>
     </property>
   </bean>

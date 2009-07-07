@@ -1,24 +1,20 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AccountingChangeCode" parent="AccountingChangeCode-parentBean" />
+  <bean id="AccountingChangeCode" parent="AccountingChangeCode-parentBean"/>
 
   <bean id="AccountingChangeCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.AccountingChangeCode" />
-    <property name="inquiryDefinition" >
-      <ref bean="AccountingChangeCode-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.AccountingChangeCode"/>
+    <property name="inquiryDefinition">
+      <ref bean="AccountingChangeCode-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="AccountingChangeCode-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="AccountingChangeCode-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Accounting Change" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Accounting Change"/>
+    <property name="attributes">
       <list>
-        <ref bean="AccountingChangeCode-code" />
-        <ref bean="AccountingChangeCode-name" />
+        <ref bean="AccountingChangeCode-code"/>
+        <ref bean="AccountingChangeCode-name"/>
       </list>
     </property>
   </bean>
@@ -26,34 +22,32 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AccountingChangeCode-code" parent="AccountingChangeCode-code-parentBean" />
+  <bean id="AccountingChangeCode-code" parent="AccountingChangeCode-code-parentBean"/>
 
   <bean id="AccountingChangeCode-code-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="code" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Accounting Change Code" />
-    <property name="shortLabel" value="Accounting Change" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="code"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Accounting Change Code"/>
+    <property name="shortLabel" value="Accounting Change"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="AccountingChangeCode-name" parent="AccountingChangeCode-name-parentBean" />
+  <bean id="AccountingChangeCode-name" parent="AccountingChangeCode-name-parentBean"/>
 
   <bean id="AccountingChangeCode-name-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="name" />
-    <property name="label" value="Accounting Change Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="25" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="25" />
+    <property name="name" value="name"/>
+    <property name="label" value="Accounting Change Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="25"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="25"/>
     </property>
   </bean>
  
@@ -61,21 +55,19 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="AccountingChangeCode-inquiryDefinition" parent="AccountingChangeCode-inquiryDefinition-parentBean" />
+  <bean id="AccountingChangeCode-inquiryDefinition" parent="AccountingChangeCode-inquiryDefinition-parentBean"/>
 
   <bean id="AccountingChangeCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Accounting Change Code Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Accounting Change Code Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="code" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="name" />
+              <bean parent="FieldDefinition" p:attributeName="code"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
             </list>
           </property>
         </bean>
@@ -86,34 +78,30 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="AccountingChangeCode-lookupDefinition" parent="AccountingChangeCode-lookupDefinition-parentBean" />
+  <bean id="AccountingChangeCode-lookupDefinition" parent="AccountingChangeCode-lookupDefinition-parentBean"/>
 
   <bean id="AccountingChangeCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Accounting Change Code Lookup" />
-    <property name="instructions" value="Lookup an accounting change code record" />
-    <property name="defaultSort" >
+    <property name="title" value="Accounting Change Code Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>code</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
       </list>
     </property>
   </bean>

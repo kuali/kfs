@@ -49,7 +49,7 @@
     <property name="workflowAttributes">
       <ref bean="AssetMaintenanceDocument-workflowAttributes"/>
     </property>
-    <property name="additionalSectionsFile" value="/jsp/module/cams/AssetPendingLookup.jsp" /> 
+    <property name="additionalSectionsFile" value="/jsp/module/cams/AssetPendingLookup.jsp"/> 
   </bean>
 
 <!-- Maintenance Section Definitions -->

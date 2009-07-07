@@ -1,51 +1,45 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PurchaseOrderVendorQuote" parent="PurchaseOrderVendorQuote-parentBean" />
+  <bean id="PurchaseOrderVendorQuote" parent="PurchaseOrderVendorQuote-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-parentBean" abstract="true" parent="BusinessObjectEntry">
-  	<property name="objectLabel" value="Purchase Order Vendor Quote" />
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote" />
-    <property name="inquiryDefinition" >
-      <ref bean="PurchaseOrderVendorQuote-inquiryDefinition" />
+  	<property name="objectLabel" value="Purchase Order Vendor Quote"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote"/>
+    <property name="inquiryDefinition">
+      <ref bean="PurchaseOrderVendorQuote-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="PurchaseOrderVendorQuote-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="PurchaseOrderVendorQuote-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuoteAwardTimestamp" />
-        <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuotePriceExpirationDate" />
-        <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuoteRankNumber" />
-        <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuoteStatusCode" />
-        <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTimestamp" />
-        <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTypeCode" />
-        <ref bean="PurchaseOrderVendorQuote-purchaseOrderVendorQuoteIdentifier" />
-        <ref bean="PurchaseOrderVendorQuote-vendorName" />
-        <ref bean="PurchaseOrderVendorQuote-vendorNumber" />
-        <ref bean="PurchaseOrderVendorQuote-vendorHeaderGeneratedIdentifier" />
-        <ref bean="PurchaseOrderVendorQuote-vendorDetailAssignedIdentifier" />
-        <ref bean="PurchaseOrderVendorQuote-vendorAttentionName" />
-        <ref bean="PurchaseOrderVendorQuote-vendorLine1Address" />
-        <ref bean="PurchaseOrderVendorQuote-vendorLine2Address" />
-        <ref bean="PurchaseOrderVendorQuote-vendorCityName" />
-        <ref bean="PurchaseOrderVendorQuote-vendorStateCode" />
-        <ref bean="PurchaseOrderVendorQuote-vendorPostalCode" />
-        <ref bean="PurchaseOrderVendorQuote-vendorCountryCode" />
-        <ref bean="PurchaseOrderVendorQuote-vendorEmailAddress" />
-        <ref bean="PurchaseOrderVendorQuote-vendorFaxNumber" />
-        <ref bean="PurchaseOrderVendorQuote-vendorPhoneNumber" />
+        <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuoteAwardTimestamp"/>
+        <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuotePriceExpirationDate"/>
+        <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuoteRankNumber"/>
+        <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuoteStatusCode"/>
+        <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTimestamp"/>
+        <ref bean="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTypeCode"/>
+        <ref bean="PurchaseOrderVendorQuote-purchaseOrderVendorQuoteIdentifier"/>
+        <ref bean="PurchaseOrderVendorQuote-vendorName"/>
+        <ref bean="PurchaseOrderVendorQuote-vendorNumber"/>
+        <ref bean="PurchaseOrderVendorQuote-vendorHeaderGeneratedIdentifier"/>
+        <ref bean="PurchaseOrderVendorQuote-vendorDetailAssignedIdentifier"/>
+        <ref bean="PurchaseOrderVendorQuote-vendorAttentionName"/>
+        <ref bean="PurchaseOrderVendorQuote-vendorLine1Address"/>
+        <ref bean="PurchaseOrderVendorQuote-vendorLine2Address"/>
+        <ref bean="PurchaseOrderVendorQuote-vendorCityName"/>
+        <ref bean="PurchaseOrderVendorQuote-vendorStateCode"/>
+        <ref bean="PurchaseOrderVendorQuote-vendorPostalCode"/>
+        <ref bean="PurchaseOrderVendorQuote-vendorCountryCode"/>
+        <ref bean="PurchaseOrderVendorQuote-vendorEmailAddress"/>
+        <ref bean="PurchaseOrderVendorQuote-vendorFaxNumber"/>
+        <ref bean="PurchaseOrderVendorQuote-vendorPhoneNumber"/>
       </list>
     </property>
-    <property name="relationships" >
+    <property name="relationships">
       <list>
         <dd:relationship objectAttribute="vendorCountry">
-            <dd:primitiveAttribute source="vendorCountryCode" target="postalCountryCode" />
+            <dd:primitiveAttribute source="vendorCountryCode" target="postalCountryCode"/>
         </dd:relationship>
       </list>
     </property>     
@@ -54,248 +48,217 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Attribute Definitions -->
 
 
-  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteAwardTimestamp" parent="PurchaseOrderVendorQuote-purchaseOrderQuoteAwardTimestamp-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteAwardTimestamp" parent="PurchaseOrderVendorQuote-purchaseOrderQuoteAwardTimestamp-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteAwardTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderQuoteAwardTimestamp" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Award Date" />
-    <property name="shortLabel" value="Date" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
+    <property name="name" value="purchaseOrderQuoteAwardTimestamp"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Award Date"/>
+    <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="DateValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
   </bean>
-  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuotePriceExpirationDate" parent="PurchaseOrderVendorQuote-purchaseOrderQuotePriceExpirationDate-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuotePriceExpirationDate" parent="PurchaseOrderVendorQuote-purchaseOrderQuotePriceExpirationDate-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-purchaseOrderQuotePriceExpirationDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderQuotePriceExpirationDate" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Pricing Expiration Date" />
-    <property name="shortLabel" value="Date" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
+    <property name="name" value="purchaseOrderQuotePriceExpirationDate"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Pricing Expiration Date"/>
+    <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="DateValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
   </bean>
-  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteRankNumber" parent="PurchaseOrderVendorQuote-purchaseOrderQuoteRankNumber-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteRankNumber" parent="PurchaseOrderVendorQuote-purchaseOrderQuoteRankNumber-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteRankNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderQuoteRankNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Rank" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" 
-            p:allowWhitespace="true" />
+    <property name="name" value="purchaseOrderQuoteRankNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Rank"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteStatusCode" parent="PurchaseOrderVendorQuote-purchaseOrderQuoteStatusCode-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteStatusCode" parent="PurchaseOrderVendorQuote-purchaseOrderQuoteStatusCode-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderQuoteStatusCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Quote Status" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="purchaseOrderQuoteStatusCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Quote Status"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderVendorQuoteStatusCodeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderVendorQuoteStatusCodeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTimestamp" parent="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTimestamp-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTimestamp" parent="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTimestamp-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderQuoteTransmitTimestamp" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Transmit Date" />
-    <property name="shortLabel" value="Date" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
+    <property name="name" value="purchaseOrderQuoteTransmitTimestamp"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Transmit Date"/>
+    <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+      <bean parent="DateValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTypeCode" parent="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTypeCode-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTypeCode" parent="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTypeCode-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-purchaseOrderQuoteTransmitTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderQuoteTransmitTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Transmit" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="50" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="purchaseOrderQuoteTransmitTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Transmit"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="50"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderVendorQuoteTransmitTypeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderVendorQuoteTransmitTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderVendorQuote-purchaseOrderVendorQuoteIdentifier" parent="PurchaseOrderVendorQuote-purchaseOrderVendorQuoteIdentifier-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-purchaseOrderVendorQuoteIdentifier" parent="PurchaseOrderVendorQuote-purchaseOrderVendorQuoteIdentifier-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-purchaseOrderVendorQuoteIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderVendorQuoteIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Purchase Order Vendor Quote Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="purchaseOrderVendorQuoteIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Purchase Order Vendor Quote Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderVendorQuote-vendorName" parent="PurchaseOrderVendorQuote-vendorName-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-vendorName" parent="PurchaseOrderVendorQuote-vendorName-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-vendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
-    <property name="required" value="true" />
+    <property name="required" value="true"/>
   </bean>
-  <bean id="PurchaseOrderVendorQuote-vendorNumber" parent="PurchaseOrderVendorQuote-vendorNumber-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-vendorNumber" parent="PurchaseOrderVendorQuote-vendorNumber-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
   </bean>
-  <bean id="PurchaseOrderVendorQuote-vendorHeaderGeneratedIdentifier" parent="PurchaseOrderVendorQuote-vendorHeaderGeneratedIdentifier-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-vendorHeaderGeneratedIdentifier" parent="PurchaseOrderVendorQuote-vendorHeaderGeneratedIdentifier-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderVendorQuote-vendorDetailAssignedIdentifier" parent="PurchaseOrderVendorQuote-vendorDetailAssignedIdentifier-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-vendorDetailAssignedIdentifier" parent="PurchaseOrderVendorQuote-vendorDetailAssignedIdentifier-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderVendorQuote-vendorAttentionName" parent="PurchaseOrderVendorQuote-vendorAttentionName-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-vendorAttentionName" parent="PurchaseOrderVendorQuote-vendorAttentionName-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-vendorAttentionName-parentBean" abstract="true" parent="VendorAddress-vendorAttentionName">
   </bean>
-  <bean id="PurchaseOrderVendorQuote-vendorLine1Address" parent="PurchaseOrderVendorQuote-vendorLine1Address-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-vendorLine1Address" parent="PurchaseOrderVendorQuote-vendorLine1Address-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-vendorLine1Address-parentBean" abstract="true" parent="VendorAddress-vendorLine1Address">
   </bean>
-  <bean id="PurchaseOrderVendorQuote-vendorLine2Address" parent="PurchaseOrderVendorQuote-vendorLine2Address-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-vendorLine2Address" parent="PurchaseOrderVendorQuote-vendorLine2Address-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-vendorLine2Address-parentBean" abstract="true" parent="VendorAddress-vendorLine2Address">
   </bean>
-  <bean id="PurchaseOrderVendorQuote-vendorCityName" parent="PurchaseOrderVendorQuote-vendorCityName-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-vendorCityName" parent="PurchaseOrderVendorQuote-vendorCityName-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-vendorCityName-parentBean" abstract="true" parent="VendorAddress-vendorCityName">
   </bean>
-  <bean id="PurchaseOrderVendorQuote-vendorStateCode" parent="PurchaseOrderVendorQuote-vendorStateCode-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-vendorStateCode" parent="PurchaseOrderVendorQuote-vendorStateCode-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-vendorStateCode-parentBean" abstract="true" parent="VendorAddress-vendorStateCode">
   </bean>
-  <bean id="PurchaseOrderVendorQuote-vendorPostalCode" parent="PurchaseOrderVendorQuote-vendorPostalCode-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-vendorPostalCode" parent="PurchaseOrderVendorQuote-vendorPostalCode-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-vendorPostalCode-parentBean" abstract="true" parent="VendorAddress-vendorZipCode">
-    <property name="name" value="vendorPostalCode" />
-    <property name="required" value="false" />
+    <property name="name" value="vendorPostalCode"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="PurchaseOrderVendorQuote-vendorCountryCode" parent="PurchaseOrderVendorQuote-vendorCountryCode-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-vendorCountryCode" parent="PurchaseOrderVendorQuote-vendorCountryCode-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-vendorCountryCode-parentBean" abstract="true" parent="VendorAddress-vendorCountryCode">
-    <property name="required" value="false" />
+    <property name="required" value="false"/>
   </bean>
-  <bean id="PurchaseOrderVendorQuote-vendorEmailAddress" parent="PurchaseOrderVendorQuote-vendorEmailAddress-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-vendorEmailAddress" parent="PurchaseOrderVendorQuote-vendorEmailAddress-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-vendorEmailAddress-parentBean" abstract="true" parent="VendorAddress-vendorAddressEmailAddress">
-    <property name="name" value="vendorEmailAddress" />
+    <property name="name" value="vendorEmailAddress"/>
   </bean>
-  <bean id="PurchaseOrderVendorQuote-vendorFaxNumber" parent="PurchaseOrderVendorQuote-vendorFaxNumber-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-vendorFaxNumber" parent="PurchaseOrderVendorQuote-vendorFaxNumber-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-vendorFaxNumber-parentBean" abstract="true" parent="VendorAddress-vendorFaxNumber">
   </bean>
-  <bean id="PurchaseOrderVendorQuote-vendorPhoneNumber" parent="PurchaseOrderVendorQuote-vendorPhoneNumber-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-vendorPhoneNumber" parent="PurchaseOrderVendorQuote-vendorPhoneNumber-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-vendorPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberNoValidation">
-    <property name="name" value="vendorPhoneNumber" />
-    <property name="label" value="Vendor Phone Number" />
-    <property name="shortLabel" value="Vendor Phone" />
+    <property name="name" value="vendorPhoneNumber"/>
+    <property name="label" value="Vendor Phone Number"/>
+    <property name="shortLabel" value="Vendor Phone"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="PurchaseOrderVendorQuote-inquiryDefinition" parent="PurchaseOrderVendorQuote-inquiryDefinition-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-inquiryDefinition" parent="PurchaseOrderVendorQuote-inquiryDefinition-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Purchase Order Vendor Quote Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Purchase Order Vendor Quote Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderQuoteAwardTimestamp" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderQuotePriceExpirationDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderQuoteRankNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderQuoteStatusCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderQuoteTransmitTimestamp" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderQuoteTransmitTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderVendorQuoteIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorAttentionName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorCityName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorDetailAssignedIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorEmailAddress" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorFaxNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorHeaderGeneratedIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorLine1Address" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorLine2Address" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorPhoneNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorPostalCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorStateCode" />
+              <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteAwardTimestamp"/>
+              <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuotePriceExpirationDate"/>
+              <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteRankNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteStatusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteTransmitTimestamp"/>
+              <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteTransmitTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="purchaseOrderVendorQuoteIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorAttentionName"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorCityName"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorEmailAddress"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorFaxNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorLine1Address"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorLine2Address"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorName"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorPhoneNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorPostalCode"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorStateCode"/>
             </list>
           </property>
         </bean>
@@ -306,97 +269,59 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="PurchaseOrderVendorQuote-lookupDefinition" parent="PurchaseOrderVendorQuote-lookupDefinition-parentBean" />
+  <bean id="PurchaseOrderVendorQuote-lookupDefinition" parent="PurchaseOrderVendorQuote-lookupDefinition-parentBean"/>
 
   <bean id="PurchaseOrderVendorQuote-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Purchase Order Vendor Quote Lookup" />
-    <property name="instructions" value="Lookup an Purchase Order Vendor Quote" />
-    <property name="defaultSort" >
+    <property name="title" value="Purchase Order Vendor Quote Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderQuoteAwardTimestamp" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderQuotePriceExpirationDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderQuoteRankNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderQuoteStatusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderQuoteTransmitTimestamp" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderQuoteTransmitTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderVendorQuoteIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorAttentionName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorCityName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorDetailAssignedIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorEmailAddress" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorFaxNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorHeaderGeneratedIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorLine1Address" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorLine2Address" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorPhoneNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorPostalCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorStateCode" />
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteAwardTimestamp"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuotePriceExpirationDate"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteRankNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteStatusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteTransmitTimestamp"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteTransmitTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderVendorQuoteIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorAttentionName"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorCityName"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorEmailAddress"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorFaxNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorLine1Address"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorLine2Address"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorName"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorPhoneNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorPostalCode"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorStateCode"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderQuoteAwardTimestamp" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderQuotePriceExpirationDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderQuoteRankNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderQuoteStatusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderQuoteTransmitTimestamp" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderQuoteTransmitTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderVendorQuoteIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorAttentionName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorCityName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorDetailAssignedIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorEmailAddress" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorFaxNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorHeaderGeneratedIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorLine1Address" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorLine2Address" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorPhoneNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorPostalCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorStateCode" />
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteAwardTimestamp"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuotePriceExpirationDate"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteRankNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteStatusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteTransmitTimestamp"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteTransmitTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderVendorQuoteIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorAttentionName"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorCityName"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorEmailAddress"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorFaxNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorLine1Address"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorLine2Address"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorName"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorPhoneNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorPostalCode"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorStateCode"/>
       </list>
     </property>
   </bean>

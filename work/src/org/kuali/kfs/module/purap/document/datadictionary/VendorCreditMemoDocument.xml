@@ -84,52 +84,42 @@
 	<property name="relationships">
     	<list>
 			<bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="processingCampus" />
-              <property name="primitiveAttributes" >
+              <property name="objectAttributeName" value="processingCampus"/>
+              <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition"
-                        p:sourceName="processingCampusCode"
-                        p:targetName="campusCode" />
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="processingCampusCode" p:targetName="campusCode"/>
                 </list>
               </property>
     		</bean>
     		<bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="processingCampus" />
-              <property name="primitiveAttributes" >
+              <property name="objectAttributeName" value="processingCampus"/>
+              <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition"
-                        p:sourceName="processingCampusCodeForSearch"
-                        p:targetName="campusCode" />
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="processingCampusCodeForSearch" p:targetName="campusCode"/>
                 </list>
               </property>
     		</bean>
     		<bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="vendorDetail" />
-              <property name="primitiveAttributes" >
+              <property name="objectAttributeName" value="vendorDetail"/>
+              <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition"
-                        p:sourceName="vendorNumber"
-                        p:targetName="vendorNumber" />
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="vendorNumber" p:targetName="vendorNumber"/>
                 </list>
               </property>
     		</bean>
     		<bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="purchaseOrderDocument.organization" />
-              <property name="primitiveAttributes" >
+              <property name="objectAttributeName" value="purchaseOrderDocument.organization"/>
+              <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition"
-                        p:sourceName="documentOrganizationCodeForSearching"
-                        p:targetName="organizationCode" />
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="documentOrganizationCodeForSearching" p:targetName="organizationCode"/>
                 </list>
               </property>
     		</bean>
     		<bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="purchaseOrderDocument.chartOfAccounts" />
-              <property name="primitiveAttributes" >
+              <property name="objectAttributeName" value="purchaseOrderDocument.chartOfAccounts"/>
+              <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition"
-                        p:sourceName="documentChartOfAccountsCodeForSearching"
-                        p:targetName="chartOfAccountsCode" />
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="documentChartOfAccountsCodeForSearching" p:targetName="chartOfAccountsCode"/>
                 </list>
               </property>
     		</bean>
@@ -272,9 +262,8 @@
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
   
@@ -288,9 +277,8 @@
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
   
@@ -556,7 +544,7 @@
     <property name="maxLength" value="4"/>
     <property name="control">
   	  <bean parent="MultiselectControlDefinition">
-		<property name="valuesFinderClass" value="org.kuali.kfs.module.purap.businessobject.options.CreditMemoStatusValuesFinder" />
+		<property name="valuesFinderClass" value="org.kuali.kfs.module.purap.businessobject.options.CreditMemoStatusValuesFinder"/>
 	  </bean>
     </property> 
   </bean>
@@ -579,20 +567,19 @@
     <property name="required" value="false"/>
   </bean>
   
-  <bean id="VendorCreditMemoDocument-processingCampusCodeForSearch" parent="VendorCreditMemoDocument-processingCampusCodeForSearch-parentBean" />
+  <bean id="VendorCreditMemoDocument-processingCampusCodeForSearch" parent="VendorCreditMemoDocument-processingCampusCodeForSearch-parentBean"/>
 
   <bean id="VendorCreditMemoDocument-processingCampusCodeForSearch-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="processingCampusCodeForSearch" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Process Campus" />
-    <property name="shortLabel" value="Process Campus" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
+    <property name="name" value="processingCampusCodeForSearch"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Process Campus"/>
+    <property name="shortLabel" value="Process Campus"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
   	    
@@ -638,7 +625,7 @@
 	    <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/> 
 	    <property name="importingAllowed" value="false"/>
 	    <property name="accountingLineGroupClass" value="org.kuali.kfs.sys.document.web.CollectionAccountingLineGroupImpl"/>
-        <property name="accountingLineComparatorClass" value="org.kuali.kfs.module.purap.util.PurapAccountingLineComparator" />      
+        <property name="accountingLineComparatorClass" value="org.kuali.kfs.module.purap.util.PurapAccountingLineComparator"/>      
     </bean>
   
     <bean id="VendorCreditMemoDocument-accountingLineView" parent="VendorCreditMemoDocument-accountingLineView-parent"/>
@@ -868,7 +855,7 @@
     	      		<property name="searchingAttribute">
     	      			<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     	      				<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument"/>
-    	      				<property name="attributeName" value="documentChartOfAccountsCodeForSearching" />
+    	      				<property name="attributeName" value="documentChartOfAccountsCodeForSearching"/>
     	      				<property name="showAttributeInResultSet" value="false"/>
     	      			</bean>
     	      		</property>
@@ -882,7 +869,7 @@
     	      		<property name="searchingAttribute">
     	      			<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     	      				<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument"/>
-    	      				<property name="attributeName" value="documentOrganizationCodeForSearching" />
+    	      				<property name="attributeName" value="documentOrganizationCodeForSearching"/>
     	      				<property name="showAttributeInResultSet" value="false"/>
     	      			</bean>
     	      		</property>

@@ -1,26 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="FederalFunction" parent="FederalFunction-parentBean" />
+  <bean id="FederalFunction" parent="FederalFunction-parentBean"/>
 
   <bean id="FederalFunction-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.FederalFunction" />
-    <property name="inquiryDefinition" >
-      <ref bean="FederalFunction-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.FederalFunction"/>
+    <property name="inquiryDefinition">
+      <ref bean="FederalFunction-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="FederalFunction-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="FederalFunction-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="financialFederalFunctionCode" />
-    <property name="objectLabel" value="Federal Function" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="financialFederalFunctionCode"/>
+    <property name="objectLabel" value="Federal Function"/>
+    <property name="attributes">
       <list>
-        <ref bean="FederalFunction-financialFederalFunctionCode" />
-        <ref bean="FederalFunction-financialFederalFunctionName" />
-        <ref bean="FederalFunction-active" />
+        <ref bean="FederalFunction-financialFederalFunctionCode"/>
+        <ref bean="FederalFunction-financialFederalFunctionName"/>
+        <ref bean="FederalFunction-active"/>
       </list>
     </property>
   </bean>
@@ -28,63 +24,58 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="FederalFunction-financialFederalFunctionCode" parent="FederalFunction-financialFederalFunctionCode-parentBean" />
+  <bean id="FederalFunction-financialFederalFunctionCode" parent="FederalFunction-financialFederalFunctionCode-parentBean"/>
 
   <bean id="FederalFunction-financialFederalFunctionCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialFederalFunctionCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Federal Function Code" />
-    <property name="shortLabel" value="Fed Function Code" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="financialFederalFunctionCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Federal Function Code"/>
+    <property name="shortLabel" value="Fed Function Code"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="FederalFunction-financialFederalFunctionName" parent="FederalFunction-financialFederalFunctionName-parentBean" />
+  <bean id="FederalFunction-financialFederalFunctionName" parent="FederalFunction-financialFederalFunctionName-parentBean"/>
 
   <bean id="FederalFunction-financialFederalFunctionName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialFederalFunctionName" />
-    <property name="label" value="Federal Function Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="financialFederalFunctionName"/>
+    <property name="label" value="Federal Function Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
   </bean>
-  <bean id="FederalFunction-active" parent="FederalFunction-active-parentBean" />
+  <bean id="FederalFunction-active" parent="FederalFunction-active-parentBean"/>
 
   <bean id="FederalFunction-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="FederalFunction-inquiryDefinition" parent="FederalFunction-inquiryDefinition-parentBean" />
+  <bean id="FederalFunction-inquiryDefinition" parent="FederalFunction-inquiryDefinition-parentBean"/>
 
   <bean id="FederalFunction-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Federal Function Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Federal Function Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialFederalFunctionCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialFederalFunctionName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="financialFederalFunctionCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialFederalFunctionName"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -95,39 +86,32 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="FederalFunction-lookupDefinition" parent="FederalFunction-lookupDefinition-parentBean" />
+  <bean id="FederalFunction-lookupDefinition" parent="FederalFunction-lookupDefinition-parentBean"/>
 
   <bean id="FederalFunction-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Federal Function Lookup" />
-    <property name="instructions" value="Lookup a Federal Function" />
-    <property name="defaultSort" >
+    <property name="title" value="Federal Function Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>financialFederalFunctionCode</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="financialFederalFunctionCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialFederalFunctionName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="financialFederalFunctionCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialFederalFunctionName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="financialFederalFunctionCode"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialFederalFunctionName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="financialFederalFunctionCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="financialFederalFunctionName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

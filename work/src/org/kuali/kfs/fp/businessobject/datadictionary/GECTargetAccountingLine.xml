@@ -1,62 +1,56 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="GECTargetAccountingLine" parent="GECTargetAccountingLine-parentBean" />
+  <bean id="GECTargetAccountingLine" parent="GECTargetAccountingLine-parentBean"/>
 
   <bean id="GECTargetAccountingLine-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.GECTargetAccountingLine" />
-    <property name="objectLabel" value="General Error Correction Target Accounting Line" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.GECTargetAccountingLine"/>
+    <property name="objectLabel" value="General Error Correction Target Accounting Line"/>
+    <property name="attributes">
       <list>
-        <ref bean="GECTargetAccountingLine-objectCode.financialObjectTypeCode" />
-        <ref bean="GECTargetAccountingLine-objectCode.financialObjectSubTypeCode" />
-        <ref bean="GECTargetAccountingLine-objectCode.financialObjectLevelCode" />
-        <ref bean="GECTargetAccountingLine-account.financialHigherEdFunctionCd" />
-        <ref bean="GECTargetAccountingLine-account.subFundGroupCode" />
-        <ref bean="GECTargetAccountingLine-account.subFundGroup.fundGroupCode" />
-        <ref bean="GECTargetAccountingLine-balanceTypeCode" />
-        <ref bean="GECTargetAccountingLine-referenceNumber" />
-        <ref bean="GECTargetAccountingLine-sequenceNumber" />
-        <ref bean="GECTargetAccountingLine-financialObjectCode" />
-        <ref bean="GECTargetAccountingLine-accountNumber" />
-        <ref bean="GECTargetAccountingLine-organizationReferenceId" />
-        <ref bean="GECTargetAccountingLine-chartOfAccountsCode" />
-        <ref bean="GECTargetAccountingLine-postingYear" />
-        <ref bean="GECTargetAccountingLine-referenceOriginCode" />
-        <ref bean="GECTargetAccountingLine-overrideCode" />
-        <ref bean="GECTargetAccountingLine-amount" />
-        <ref bean="GECTargetAccountingLine-subAccountNumber" />
-        <ref bean="GECTargetAccountingLine-referenceTypeCode" />
-        <ref bean="GECTargetAccountingLine-projectCode" />
-        <ref bean="GECTargetAccountingLine-financialSubObjectCode" />
-        <ref bean="GECTargetAccountingLine-documentNumber" />
-        <ref bean="GECTargetAccountingLine-debitCreditCode" />
-        <ref bean="GECTargetAccountingLine-encumbranceUpdateCode" />
-        <ref bean="GECTargetAccountingLine-objectTypeCode" />
-        <ref bean="GECTargetAccountingLine-accountExpiredOverride" />
-        <ref bean="GECTargetAccountingLine-nonFringeAccountOverride" />
-        <ref bean="GECTargetAccountingLine-objectBudgetOverride" />
-        <ref bean="GECTargetAccountingLine-financialDocumentLineDescription" />
-        <ref bean="GECTargetAccountingLine-salesTaxRequired" />
-        <ref bean="GECTargetAccountingLine-salesTax.chartOfAccountsCode" />
-        <ref bean="GECTargetAccountingLine-salesTax.accountNumber" />
-        <ref bean="GECTargetAccountingLine-salesTax.financialDocumentGrossSalesAmount" />
-        <ref bean="GECTargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount" />
-        <ref bean="GECTargetAccountingLine-salesTax.financialDocumentSaleDate" />
+        <ref bean="GECTargetAccountingLine-objectCode.financialObjectTypeCode"/>
+        <ref bean="GECTargetAccountingLine-objectCode.financialObjectSubTypeCode"/>
+        <ref bean="GECTargetAccountingLine-objectCode.financialObjectLevelCode"/>
+        <ref bean="GECTargetAccountingLine-account.financialHigherEdFunctionCd"/>
+        <ref bean="GECTargetAccountingLine-account.subFundGroupCode"/>
+        <ref bean="GECTargetAccountingLine-account.subFundGroup.fundGroupCode"/>
+        <ref bean="GECTargetAccountingLine-balanceTypeCode"/>
+        <ref bean="GECTargetAccountingLine-referenceNumber"/>
+        <ref bean="GECTargetAccountingLine-sequenceNumber"/>
+        <ref bean="GECTargetAccountingLine-financialObjectCode"/>
+        <ref bean="GECTargetAccountingLine-accountNumber"/>
+        <ref bean="GECTargetAccountingLine-organizationReferenceId"/>
+        <ref bean="GECTargetAccountingLine-chartOfAccountsCode"/>
+        <ref bean="GECTargetAccountingLine-postingYear"/>
+        <ref bean="GECTargetAccountingLine-referenceOriginCode"/>
+        <ref bean="GECTargetAccountingLine-overrideCode"/>
+        <ref bean="GECTargetAccountingLine-amount"/>
+        <ref bean="GECTargetAccountingLine-subAccountNumber"/>
+        <ref bean="GECTargetAccountingLine-referenceTypeCode"/>
+        <ref bean="GECTargetAccountingLine-projectCode"/>
+        <ref bean="GECTargetAccountingLine-financialSubObjectCode"/>
+        <ref bean="GECTargetAccountingLine-documentNumber"/>
+        <ref bean="GECTargetAccountingLine-debitCreditCode"/>
+        <ref bean="GECTargetAccountingLine-encumbranceUpdateCode"/>
+        <ref bean="GECTargetAccountingLine-objectTypeCode"/>
+        <ref bean="GECTargetAccountingLine-accountExpiredOverride"/>
+        <ref bean="GECTargetAccountingLine-nonFringeAccountOverride"/>
+        <ref bean="GECTargetAccountingLine-objectBudgetOverride"/>
+        <ref bean="GECTargetAccountingLine-financialDocumentLineDescription"/>
+        <ref bean="GECTargetAccountingLine-salesTaxRequired"/>
+        <ref bean="GECTargetAccountingLine-salesTax.chartOfAccountsCode"/>
+        <ref bean="GECTargetAccountingLine-salesTax.accountNumber"/>
+        <ref bean="GECTargetAccountingLine-salesTax.financialDocumentGrossSalesAmount"/>
+        <ref bean="GECTargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount"/>
+        <ref bean="GECTargetAccountingLine-salesTax.financialDocumentSaleDate"/>
       </list>
     </property>
     <property name="relationships">
     	<list>
     		<bean parent="RelationshipDefinition">
-    			<property name="objectAttributeName" value="referenceFinancialSystemDocumentTypeCode" />
-		        <property name="primitiveAttributes" >
+    			<property name="objectAttributeName" value="referenceFinancialSystemDocumentTypeCode"/>
+		        <property name="primitiveAttributes">
 		        	<list>
-		            	<bean parent="PrimitiveAttributeDefinition"
-		                    p:sourceName="referenceTypeCode"
-		                    p:targetName="name" />
+		            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="referenceTypeCode" p:targetName="name"/>
 		            </list>
 		        </property>
     		</bean>
@@ -67,337 +61,328 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="GECTargetAccountingLine-objectCode.financialObjectTypeCode" parent="GECTargetAccountingLine-objectCode.financialObjectTypeCode-parentBean" />
+  <bean id="GECTargetAccountingLine-objectCode.financialObjectTypeCode" parent="GECTargetAccountingLine-objectCode.financialObjectTypeCode-parentBean"/>
 
   <bean id="GECTargetAccountingLine-objectCode.financialObjectTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectTypeCode">
-    <property name="name" value="objectCode.financialObjectTypeCode" />
+    <property name="name" value="objectCode.financialObjectTypeCode"/>
   </bean>
-  <bean id="GECTargetAccountingLine-objectCode.financialObjectSubTypeCode" parent="GECTargetAccountingLine-objectCode.financialObjectSubTypeCode-parentBean" />
+  <bean id="GECTargetAccountingLine-objectCode.financialObjectSubTypeCode" parent="GECTargetAccountingLine-objectCode.financialObjectSubTypeCode-parentBean"/>
 
   <bean id="GECTargetAccountingLine-objectCode.financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectSubTypeCode">
-    <property name="name" value="objectCode.financialObjectSubTypeCode" />
+    <property name="name" value="objectCode.financialObjectSubTypeCode"/>
   </bean>
-  <bean id="GECTargetAccountingLine-objectCode.financialObjectLevelCode" parent="GECTargetAccountingLine-objectCode.financialObjectLevelCode-parentBean" />
+  <bean id="GECTargetAccountingLine-objectCode.financialObjectLevelCode" parent="GECTargetAccountingLine-objectCode.financialObjectLevelCode-parentBean"/>
 
   <bean id="GECTargetAccountingLine-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectCode-financialObjectLevelCode">
-    <property name="name" value="objectCode.financialObjectLevelCode" />
+    <property name="name" value="objectCode.financialObjectLevelCode"/>
   </bean>
-  <bean id="GECTargetAccountingLine-account.financialHigherEdFunctionCd" parent="GECTargetAccountingLine-account.financialHigherEdFunctionCd-parentBean" />
+  <bean id="GECTargetAccountingLine-account.financialHigherEdFunctionCd" parent="GECTargetAccountingLine-account.financialHigherEdFunctionCd-parentBean"/>
 
   <bean id="GECTargetAccountingLine-account.financialHigherEdFunctionCd-parentBean" abstract="true" parent="Account-financialHigherEdFunctionCd">
-    <property name="name" value="account.financialHigherEdFunctionCd" />
+    <property name="name" value="account.financialHigherEdFunctionCd"/>
   </bean>
-  <bean id="GECTargetAccountingLine-account.subFundGroupCode" parent="GECTargetAccountingLine-account.subFundGroupCode-parentBean" />
+  <bean id="GECTargetAccountingLine-account.subFundGroupCode" parent="GECTargetAccountingLine-account.subFundGroupCode-parentBean"/>
 
   <bean id="GECTargetAccountingLine-account.subFundGroupCode-parentBean" abstract="true" parent="Account-subFundGroupCode">
-    <property name="name" value="account.subFundGroupCode" />
+    <property name="name" value="account.subFundGroupCode"/>
   </bean>
-  <bean id="GECTargetAccountingLine-account.subFundGroup.fundGroupCode" parent="GECTargetAccountingLine-account.subFundGroup.fundGroupCode-parentBean" />
+  <bean id="GECTargetAccountingLine-account.subFundGroup.fundGroupCode" parent="GECTargetAccountingLine-account.subFundGroup.fundGroupCode-parentBean"/>
 
   <bean id="GECTargetAccountingLine-account.subFundGroup.fundGroupCode-parentBean" abstract="true" parent="SubFundGroup-fundGroupCode">
-    <property name="name" value="account.subFundGroup.fundGroupCode" />
+    <property name="name" value="account.subFundGroup.fundGroupCode"/>
   </bean>
-  <bean id="GECTargetAccountingLine-balanceTypeCode" parent="GECTargetAccountingLine-balanceTypeCode-parentBean" />
+  <bean id="GECTargetAccountingLine-balanceTypeCode" parent="GECTargetAccountingLine-balanceTypeCode-parentBean"/>
 
   <bean id="GECTargetAccountingLine-balanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
-    <property name="name" value="balanceTypeCode" />
-    <property name="required" value="false" />
+    <property name="name" value="balanceTypeCode"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="GECTargetAccountingLine-referenceNumber" parent="GECTargetAccountingLine-referenceNumber-parentBean" />
+  <bean id="GECTargetAccountingLine-referenceNumber" parent="GECTargetAccountingLine-referenceNumber-parentBean"/>
 
   <bean id="GECTargetAccountingLine-referenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="referenceNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Reference Number" />
-    <property name="shortLabel" value="Ref Number" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="referenceNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Reference Number"/>
+    <property name="shortLabel" value="Ref Number"/>
+    <property name="maxLength" value="14"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="16"/>
     </property>
     
     
   </bean>
-  <bean id="GECTargetAccountingLine-sequenceNumber" parent="GECTargetAccountingLine-sequenceNumber-parentBean" />
+  <bean id="GECTargetAccountingLine-sequenceNumber" parent="GECTargetAccountingLine-sequenceNumber-parentBean"/>
 
   <bean id="GECTargetAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
-    <property name="name" value="sequenceNumber" />
-    <property name="required" value="false" />
-    <property name="forceUppercase" value="true" />
+    <property name="name" value="sequenceNumber"/>
+    <property name="required" value="false"/>
+    <property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="GECTargetAccountingLine-financialObjectCode" parent="GECTargetAccountingLine-financialObjectCode-parentBean" />
+  <bean id="GECTargetAccountingLine-financialObjectCode" parent="GECTargetAccountingLine-financialObjectCode-parentBean"/>
 
   <bean id="GECTargetAccountingLine-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
     
   </bean>
-  <bean id="GECTargetAccountingLine-accountNumber" parent="GECTargetAccountingLine-accountNumber-parentBean" />
+  <bean id="GECTargetAccountingLine-accountNumber" parent="GECTargetAccountingLine-accountNumber-parentBean"/>
 
   <bean id="GECTargetAccountingLine-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
   </bean>
-  <bean id="GECTargetAccountingLine-organizationReferenceId" parent="GECTargetAccountingLine-organizationReferenceId-parentBean" />
+  <bean id="GECTargetAccountingLine-organizationReferenceId" parent="GECTargetAccountingLine-organizationReferenceId-parentBean"/>
 
   <bean id="GECTargetAccountingLine-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationReferenceId" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Organization Reference Id" />
-    <property name="shortLabel" value="Org Ref Id" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="organizationReferenceId"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Organization Reference Id"/>
+    <property name="shortLabel" value="Org Ref Id"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
     
     
   </bean>
-  <bean id="GECTargetAccountingLine-chartOfAccountsCode" parent="GECTargetAccountingLine-chartOfAccountsCode-parentBean" />
+  <bean id="GECTargetAccountingLine-chartOfAccountsCode" parent="GECTargetAccountingLine-chartOfAccountsCode-parentBean"/>
 
   <bean id="GECTargetAccountingLine-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     
   </bean>
-  <bean id="GECTargetAccountingLine-postingYear" parent="GECTargetAccountingLine-postingYear-parentBean" />
+  <bean id="GECTargetAccountingLine-postingYear" parent="GECTargetAccountingLine-postingYear-parentBean"/>
 
   <bean id="GECTargetAccountingLine-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="postingYear" />
-    <property name="required" value="true" />
+    <property name="name" value="postingYear"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="GECTargetAccountingLine-referenceOriginCode" parent="GECTargetAccountingLine-referenceOriginCode-parentBean" />
+  <bean id="GECTargetAccountingLine-referenceOriginCode" parent="GECTargetAccountingLine-referenceOriginCode-parentBean"/>
 
   <bean id="GECTargetAccountingLine-referenceOriginCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="referenceOriginCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Reference Origin Code" />
-    <property name="shortLabel" value="Ref Origin Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="referenceOriginCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Reference Origin Code"/>
+    <property name="shortLabel" value="Ref Origin Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
     
     
   </bean>
-  <bean id="GECTargetAccountingLine-overrideCode" parent="GECTargetAccountingLine-overrideCode-parentBean" />
+  <bean id="GECTargetAccountingLine-overrideCode" parent="GECTargetAccountingLine-overrideCode-parentBean"/>
 
   <bean id="GECTargetAccountingLine-overrideCode-parentBean" abstract="true" parent="TargetAccountingLine-overrideCode"/>
    
-  <bean id="GECTargetAccountingLine-amount" parent="GECTargetAccountingLine-amount-parentBean" />
+  <bean id="GECTargetAccountingLine-amount" parent="GECTargetAccountingLine-amount-parentBean"/>
 
   <bean id="GECTargetAccountingLine-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="amount" />
-    <property name="required" value="true" />
+    <property name="name" value="amount"/>
+    <property name="required" value="true"/>
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="GECTargetAccountingLine-subAccountNumber" parent="GECTargetAccountingLine-subAccountNumber-parentBean" />
+  <bean id="GECTargetAccountingLine-subAccountNumber" parent="GECTargetAccountingLine-subAccountNumber-parentBean"/>
 
   <bean id="GECTargetAccountingLine-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
-    <property name="label" value="Sub-Account Code" />
-    <property name="required" value="false" />
+    <property name="label" value="Sub-Account Code"/>
+    <property name="required" value="false"/>
     
     
   </bean>
-  <bean id="GECTargetAccountingLine-referenceTypeCode" parent="GECTargetAccountingLine-referenceTypeCode-parentBean" />
+  <bean id="GECTargetAccountingLine-referenceTypeCode" parent="GECTargetAccountingLine-referenceTypeCode-parentBean"/>
 
   <bean id="GECTargetAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-referenceTypeCode"/>
 
-  <bean id="GECTargetAccountingLine-projectCode" parent="GECTargetAccountingLine-projectCode-parentBean" />
+  <bean id="GECTargetAccountingLine-projectCode" parent="GECTargetAccountingLine-projectCode-parentBean"/>
 
   <bean id="GECTargetAccountingLine-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
-    <property name="name" value="projectCode" />
-    <property name="required" value="false" />
+    <property name="name" value="projectCode"/>
+    <property name="required" value="false"/>
     
     
   </bean>
-  <bean id="GECTargetAccountingLine-financialSubObjectCode" parent="GECTargetAccountingLine-financialSubObjectCode-parentBean" />
+  <bean id="GECTargetAccountingLine-financialSubObjectCode" parent="GECTargetAccountingLine-financialSubObjectCode-parentBean"/>
 
   <bean id="GECTargetAccountingLine-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
-    <property name="required" value="false" />
+    <property name="required" value="false"/>
     
   </bean>
-  <bean id="GECTargetAccountingLine-documentNumber" parent="GECTargetAccountingLine-documentNumber-parentBean" />
+  <bean id="GECTargetAccountingLine-documentNumber" parent="GECTargetAccountingLine-documentNumber-parentBean"/>
 
   <bean id="GECTargetAccountingLine-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
-    <property name="required" value="false" />
-    <property name="forceUppercase" value="true" />
+    <property name="required" value="false"/>
+    <property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="GECTargetAccountingLine-debitCreditCode" parent="GECTargetAccountingLine-debitCreditCode-parentBean" />
+  <bean id="GECTargetAccountingLine-debitCreditCode" parent="GECTargetAccountingLine-debitCreditCode-parentBean"/>
 
   <bean id="GECTargetAccountingLine-debitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="debitCreditCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Credit or Debit Code" />
-    <property name="shortLabel" value="Credit/Debit" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="CharsetValidationPattern"
-            p:validChars="DC" />
+    <property name="name" value="debitCreditCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Credit or Debit Code"/>
+    <property name="shortLabel" value="Credit/Debit"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="CharsetValidationPattern" p:validChars="DC"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="GECTargetAccountingLine-encumbranceUpdateCode" parent="GECTargetAccountingLine-encumbranceUpdateCode-parentBean" />
+  <bean id="GECTargetAccountingLine-encumbranceUpdateCode" parent="GECTargetAccountingLine-encumbranceUpdateCode-parentBean"/>
 
   <bean id="GECTargetAccountingLine-encumbranceUpdateCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="encumbranceUpdateCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Encumbrance Update Code" />
-    <property name="shortLabel" value="Encumbrance Update" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AlphaValidationPattern" />
+    <property name="name" value="encumbranceUpdateCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Encumbrance Update Code"/>
+    <property name="shortLabel" value="Encumbrance Update"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AlphaValidationPattern"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="GECTargetAccountingLine-objectTypeCode" parent="GECTargetAccountingLine-objectTypeCode-parentBean" />
+  <bean id="GECTargetAccountingLine-objectTypeCode" parent="GECTargetAccountingLine-objectTypeCode-parentBean"/>
 
   <bean id="GECTargetAccountingLine-objectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
-    <property name="name" value="objectTypeCode" />
-    <property name="required" value="false" />
+    <property name="name" value="objectTypeCode"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="GECTargetAccountingLine-accountExpiredOverride" parent="GECTargetAccountingLine-accountExpiredOverride-parentBean" />
+  <bean id="GECTargetAccountingLine-accountExpiredOverride" parent="GECTargetAccountingLine-accountExpiredOverride-parentBean"/>
 
   <bean id="GECTargetAccountingLine-accountExpiredOverride-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountExpiredOverride" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Account Expired Override" />
-    <property name="shortLabel" value="Expired Override" />
-    <property name="maxLength" value="1" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="accountExpiredOverride"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Account Expired Override"/>
+    <property name="shortLabel" value="Expired Override"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
     
     
   </bean>
-  <bean id="GECTargetAccountingLine-nonFringeAccountOverride" parent="GECTargetAccountingLine-nonFringeAccountOverride-parentBean" />
+  <bean id="GECTargetAccountingLine-nonFringeAccountOverride" parent="GECTargetAccountingLine-nonFringeAccountOverride-parentBean"/>
 
   <bean id="GECTargetAccountingLine-nonFringeAccountOverride-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nonFringeAccountOverride" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Non-fringe Account Override" />
-    <property name="shortLabel" value="Non-fringe Override" />
-    <property name="maxLength" value="1" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="nonFringeAccountOverride"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Non-fringe Account Override"/>
+    <property name="shortLabel" value="Non-fringe Override"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
     
     
   </bean>
-  <bean id="GECTargetAccountingLine-objectBudgetOverride" parent="GECTargetAccountingLine-objectBudgetOverride-parentBean" />
+  <bean id="GECTargetAccountingLine-objectBudgetOverride" parent="GECTargetAccountingLine-objectBudgetOverride-parentBean"/>
 
   <bean id="GECTargetAccountingLine-objectBudgetOverride-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="objectBudgetOverride" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Object Non-Budgeted Override" />
-    <property name="shortLabel" value="Non-Budgeted Override" />
-    <property name="maxLength" value="1" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="objectBudgetOverride"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Object Non-Budgeted Override"/>
+    <property name="shortLabel" value="Non-Budgeted Override"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
     
     
   </bean>
-  <bean id="GECTargetAccountingLine-financialDocumentLineDescription" parent="GECTargetAccountingLine-financialDocumentLineDescription-parentBean" />
+  <bean id="GECTargetAccountingLine-financialDocumentLineDescription" parent="GECTargetAccountingLine-financialDocumentLineDescription-parentBean"/>
 
   <bean id="GECTargetAccountingLine-financialDocumentLineDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentLineDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Line Description" />
-    <property name="shortLabel" value="Line Desc" />
-    <property name="maxLength" value="40" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="financialDocumentLineDescription"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Line Description"/>
+    <property name="shortLabel" value="Line Desc"/>
+    <property name="maxLength" value="40"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
     
     
   </bean>
-  <bean id="GECTargetAccountingLine-salesTaxRequired" parent="GECTargetAccountingLine-salesTaxRequired-parentBean" />
+  <bean id="GECTargetAccountingLine-salesTaxRequired" parent="GECTargetAccountingLine-salesTaxRequired-parentBean"/>
 
   <bean id="GECTargetAccountingLine-salesTaxRequired-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="salesTaxRequired" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Sales Tax Required" />
-    <property name="shortLabel" value="Sales Tax Reqd" />
-    <property name="maxLength" value="10" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="salesTaxRequired"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Sales Tax Required"/>
+    <property name="shortLabel" value="Sales Tax Reqd"/>
+    <property name="maxLength" value="10"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
     
     
   </bean>
-  <bean id="GECTargetAccountingLine-salesTax.chartOfAccountsCode" parent="GECTargetAccountingLine-salesTax.chartOfAccountsCode-parentBean" />
+  <bean id="GECTargetAccountingLine-salesTax.chartOfAccountsCode" parent="GECTargetAccountingLine-salesTax.chartOfAccountsCode-parentBean"/>
 
   <bean id="GECTargetAccountingLine-salesTax.chartOfAccountsCode-parentBean" abstract="true" parent="SalesTax-chartOfAccountsCode">
-    <property name="name" value="salesTax.chartOfAccountsCode" />
-    <property name="label" value="Sales Tax Chart of Accounts Code" />
-    <property name="shortLabel" value="Sales Tax Chart" />
+    <property name="name" value="salesTax.chartOfAccountsCode"/>
+    <property name="label" value="Sales Tax Chart of Accounts Code"/>
+    <property name="shortLabel" value="Sales Tax Chart"/>
     
     
   </bean>
-  <bean id="GECTargetAccountingLine-salesTax.accountNumber" parent="GECTargetAccountingLine-salesTax.accountNumber-parentBean" />
+  <bean id="GECTargetAccountingLine-salesTax.accountNumber" parent="GECTargetAccountingLine-salesTax.accountNumber-parentBean"/>
 
   <bean id="GECTargetAccountingLine-salesTax.accountNumber-parentBean" abstract="true" parent="SalesTax-accountNumber">
-    <property name="name" value="salesTax.accountNumber" />
-    <property name="label" value="Sales Tax Account Number" />
-    <property name="shortLabel" value="Sales Tax Account" />
+    <property name="name" value="salesTax.accountNumber"/>
+    <property name="label" value="Sales Tax Account Number"/>
+    <property name="shortLabel" value="Sales Tax Account"/>
     
     
   </bean>
-  <bean id="GECTargetAccountingLine-salesTax.financialDocumentGrossSalesAmount" parent="GECTargetAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean" />
+  <bean id="GECTargetAccountingLine-salesTax.financialDocumentGrossSalesAmount" parent="GECTargetAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean"/>
 
   <bean id="GECTargetAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean" abstract="true" parent="SalesTax-financialDocumentGrossSalesAmount">
-    <property name="name" value="salesTax.financialDocumentGrossSalesAmount" />
-    <property name="label" value="Gross Sales Amount" />
-    <property name="shortLabel" value="Gross Sales Amt." />
+    <property name="name" value="salesTax.financialDocumentGrossSalesAmount"/>
+    <property name="label" value="Gross Sales Amount"/>
+    <property name="shortLabel" value="Gross Sales Amt."/>
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="GECTargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount" parent="GECTargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean" />
+  <bean id="GECTargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount" parent="GECTargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean"/>
 
   <bean id="GECTargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean" abstract="true" parent="SalesTax-financialDocumentTaxableSalesAmount">
-    <property name="name" value="salesTax.financialDocumentTaxableSalesAmount" />
-    <property name="label" value="Taxable Sales Amount" />
-    <property name="shortLabel" value="Taxable Sales Amt." />
+    <property name="name" value="salesTax.financialDocumentTaxableSalesAmount"/>
+    <property name="label" value="Taxable Sales Amount"/>
+    <property name="shortLabel" value="Taxable Sales Amt."/>
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="GECTargetAccountingLine-salesTax.financialDocumentSaleDate" parent="GECTargetAccountingLine-salesTax.financialDocumentSaleDate-parentBean" />
+  <bean id="GECTargetAccountingLine-salesTax.financialDocumentSaleDate" parent="GECTargetAccountingLine-salesTax.financialDocumentSaleDate-parentBean"/>
 
   <bean id="GECTargetAccountingLine-salesTax.financialDocumentSaleDate-parentBean" abstract="true" parent="SalesTax-financialDocumentSaleDate">
-    <property name="name" value="salesTax.financialDocumentSaleDate" />
-    <property name="label" value="Sale Date" />
+    <property name="name" value="salesTax.financialDocumentSaleDate"/>
+    <property name="label" value="Sale Date"/>
     
   </bean>
 </beans>

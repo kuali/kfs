@@ -1,28 +1,24 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="BudgetConstructionPullup" parent="BudgetConstructionPullup-parentBean" />
+  <bean id="BudgetConstructionPullup" parent="BudgetConstructionPullup-parentBean"/>
 
   <bean id="BudgetConstructionPullup-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup" />
-    <property name="inquiryDefinition" >
-      <ref bean="BudgetConstructionPullup-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup"/>
+    <property name="inquiryDefinition">
+      <ref bean="BudgetConstructionPullup-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="BudgetConstructionPullup-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="BudgetConstructionPullup-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Budget Construction Pullup" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Budget Construction Pullup"/>
+    <property name="attributes">
       <list>
-        <ref bean="BudgetConstructionPullup-chartOfAccountsCode" />
-        <ref bean="BudgetConstructionPullup-organizationCode" />
-        <ref bean="BudgetConstructionPullup-principalId" />
-        <ref bean="BudgetConstructionPullup-pullFlag" />
-        <ref bean="BudgetConstructionPullup-reportsToChartOfAccountsCode" />
-        <ref bean="BudgetConstructionPullup-reportsToOrganizationCode" />
+        <ref bean="BudgetConstructionPullup-chartOfAccountsCode"/>
+        <ref bean="BudgetConstructionPullup-organizationCode"/>
+        <ref bean="BudgetConstructionPullup-principalId"/>
+        <ref bean="BudgetConstructionPullup-pullFlag"/>
+        <ref bean="BudgetConstructionPullup-reportsToChartOfAccountsCode"/>
+        <ref bean="BudgetConstructionPullup-reportsToOrganizationCode"/>
       </list>
     </property>
   </bean>
@@ -30,110 +26,104 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="BudgetConstructionPullup-chartOfAccountsCode" parent="BudgetConstructionPullup-chartOfAccountsCode-parentBean" />
+  <bean id="BudgetConstructionPullup-chartOfAccountsCode" parent="BudgetConstructionPullup-chartOfAccountsCode-parentBean"/>
 
   <bean id="BudgetConstructionPullup-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="chartOfAccountsCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Chart Of Accounts Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="chartOfAccountsCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Chart Of Accounts Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionPullup-organizationCode" parent="BudgetConstructionPullup-organizationCode-parentBean" />
+  <bean id="BudgetConstructionPullup-organizationCode" parent="BudgetConstructionPullup-organizationCode-parentBean"/>
 
   <bean id="BudgetConstructionPullup-organizationCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Organization Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="organizationCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Organization Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionPullup-principalId" parent="BudgetConstructionPullup-principalId-parentBean" />
+  <bean id="BudgetConstructionPullup-principalId" parent="BudgetConstructionPullup-principalId-parentBean"/>
 
   <bean id="BudgetConstructionPullup-principalId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="principalId" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Person Universal Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="principalId"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Person Universal Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionPullup-pullFlag" parent="BudgetConstructionPullup-pullFlag-parentBean" />
+  <bean id="BudgetConstructionPullup-pullFlag" parent="BudgetConstructionPullup-pullFlag-parentBean"/>
 
   <bean id="BudgetConstructionPullup-pullFlag-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="pullFlag" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Pull Flag" />
-    <property name="shortLabel" value="Flag" />
-    <property name="maxLength" value="5" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="pullFlag"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Pull Flag"/>
+    <property name="shortLabel" value="Flag"/>
+    <property name="maxLength" value="5"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="7"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionPullup-reportsToChartOfAccountsCode" parent="BudgetConstructionPullup-reportsToChartOfAccountsCode-parentBean" />
+  <bean id="BudgetConstructionPullup-reportsToChartOfAccountsCode" parent="BudgetConstructionPullup-reportsToChartOfAccountsCode-parentBean"/>
 
   <bean id="BudgetConstructionPullup-reportsToChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="reportsToChartOfAccountsCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Reports To Chart Of Accounts Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="reportsToChartOfAccountsCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Reports To Chart Of Accounts Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionPullup-reportsToOrganizationCode" parent="BudgetConstructionPullup-reportsToOrganizationCode-parentBean" />
+  <bean id="BudgetConstructionPullup-reportsToOrganizationCode" parent="BudgetConstructionPullup-reportsToOrganizationCode-parentBean"/>
 
   <bean id="BudgetConstructionPullup-reportsToOrganizationCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="reportsToOrganizationCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Reports To Organization Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="reportsToOrganizationCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Reports To Organization Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
     
     
@@ -142,29 +132,23 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="BudgetConstructionPullup-inquiryDefinition" parent="BudgetConstructionPullup-inquiryDefinition-parentBean" />
+  <bean id="BudgetConstructionPullup-inquiryDefinition" parent="BudgetConstructionPullup-inquiryDefinition-parentBean"/>
 
   <bean id="BudgetConstructionPullup-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Budget Construction Pullup Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Budget Construction Pullup Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="principalId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="pullFlag" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="reportsToChartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="reportsToOrganizationCode" />
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+              <bean parent="FieldDefinition" p:attributeName="principalId"/>
+              <bean parent="FieldDefinition" p:attributeName="pullFlag"/>
+              <bean parent="FieldDefinition" p:attributeName="reportsToChartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="reportsToOrganizationCode"/>
             </list>
           </property>
         </bean>
@@ -175,47 +159,34 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="BudgetConstructionPullup-lookupDefinition" parent="BudgetConstructionPullup-lookupDefinition-parentBean" />
+  <bean id="BudgetConstructionPullup-lookupDefinition" parent="BudgetConstructionPullup-lookupDefinition-parentBean"/>
 
   <bean id="BudgetConstructionPullup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Budget Construction Pullup Lookup" />
-    <property name="instructions" value="Look up a Budget Construction Pullup" />
-    <property name="defaultSort" >
+    <property name="title" value="Budget Construction Pullup Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="principalId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="pullFlag" />
-        <bean parent="FieldDefinition"
-              p:attributeName="reportsToChartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="reportsToOrganizationCode" />
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="principalId"/>
+        <bean parent="FieldDefinition" p:attributeName="pullFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="reportsToChartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="reportsToOrganizationCode"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="principalId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="pullFlag" />
-        <bean parent="FieldDefinition"
-              p:attributeName="reportsToChartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="reportsToOrganizationCode" />
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="principalId"/>
+        <bean parent="FieldDefinition" p:attributeName="pullFlag"/>
+        <bean parent="FieldDefinition" p:attributeName="reportsToChartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="reportsToOrganizationCode"/>
       </list>
     </property>
   </bean>
 </beans>
-

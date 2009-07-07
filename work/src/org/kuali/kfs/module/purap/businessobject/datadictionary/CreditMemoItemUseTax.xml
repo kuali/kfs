@@ -1,70 +1,58 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-	<bean id="CreditMemoItemUseTax"
-		parent="CreditMemoItemUseTax-parentBean" />
+	<bean id="CreditMemoItemUseTax" parent="CreditMemoItemUseTax-parentBean"/>
 
-	<bean id="CreditMemoItemUseTax-parentBean" abstract="true"
-		parent="BusinessObjectEntry">
-		<property name="businessObjectClass"
-			value="org.kuali.kfs.module.purap.businessobject.CreditMemoItemUseTax" />
+	<bean id="CreditMemoItemUseTax-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.CreditMemoItemUseTax"/>
 		<!-- <property name="inquiryDefinition">
 			<ref bean="CreditMemoItemUseTax-inquiryDefinition" />
 		</property>
 		<property name="lookupDefinition">
 			<ref bean="CreditMemoItemUseTax-lookupDefinition" />
 		</property>-->
-		<property name="titleAttribute"
-			value="CreditMemoItemUseTaxCode" />
-		<property name="objectLabel"
-			value="Delivery Required Date Reason" />
+		<property name="titleAttribute" value="CreditMemoItemUseTaxCode"/>
+		<property name="objectLabel" value="Delivery Required Date Reason"/>
 		<property name="attributes">
 			<list>
-				<ref bean="CreditMemoItemUseTax-creditMemoItemUseTaxId" />
-				<ref bean="CreditMemoItemUseTax-itemIdentifier" />
-				<ref bean="CreditMemoItemUseTax-rateCode" />
-				<ref bean="CreditMemoItemUseTax-taxAmount" />
-				<ref bean="CreditMemoItemUseTax-chartOfAccountsCode" />
-				<ref bean="CreditMemoItemUseTax-accountNumber" />
-				<ref bean="CreditMemoItemUseTax-financialObjectCode" />
+				<ref bean="CreditMemoItemUseTax-creditMemoItemUseTaxId"/>
+				<ref bean="CreditMemoItemUseTax-itemIdentifier"/>
+				<ref bean="CreditMemoItemUseTax-rateCode"/>
+				<ref bean="CreditMemoItemUseTax-taxAmount"/>
+				<ref bean="CreditMemoItemUseTax-chartOfAccountsCode"/>
+				<ref bean="CreditMemoItemUseTax-accountNumber"/>
+				<ref bean="CreditMemoItemUseTax-financialObjectCode"/>
 			</list>
 		</property>
 	</bean>
 
-	<bean id="CreditMemoItemUseTax-creditMemoItemUseTaxId"	parent="CreditMemoItemUseTax-creditMemoItemUseTaxId-parentBean" />
+	<bean id="CreditMemoItemUseTax-creditMemoItemUseTaxId" parent="CreditMemoItemUseTax-creditMemoItemUseTaxId-parentBean"/>
 
-	<bean id="CreditMemoItemUseTax-creditMemoItemUseTaxId-parentBean"	abstract="true" parent="PurchaseOrderItemUseTax-purchaseOrderItemUseTaxId" />
+	<bean id="CreditMemoItemUseTax-creditMemoItemUseTaxId-parentBean" abstract="true" parent="PurchaseOrderItemUseTax-purchaseOrderItemUseTaxId"/>
 
-	<bean id="CreditMemoItemUseTax-itemIdentifier"	parent="CreditMemoItemUseTax-itemIdentifier-parentBean" />
+	<bean id="CreditMemoItemUseTax-itemIdentifier" parent="CreditMemoItemUseTax-itemIdentifier-parentBean"/>
 
-	<bean id="CreditMemoItemUseTax-itemIdentifier-parentBean"	abstract="true" parent="PurchaseOrderItem-itemIdentifier" />
+	<bean id="CreditMemoItemUseTax-itemIdentifier-parentBean" abstract="true" parent="PurchaseOrderItem-itemIdentifier"/>
 
-	<bean id="CreditMemoItemUseTax-rateCode"	parent="CreditMemoItemUseTax-rateCode-parentBean" />
+	<bean id="CreditMemoItemUseTax-rateCode" parent="CreditMemoItemUseTax-rateCode-parentBean"/>
 
-	<bean id="CreditMemoItemUseTax-rateCode-parentBean" abstract="true"		parent="PurchaseOrderItemUseTax-rateCode" />
+	<bean id="CreditMemoItemUseTax-rateCode-parentBean" abstract="true" parent="PurchaseOrderItemUseTax-rateCode"/>
 
-	<bean id="CreditMemoItemUseTax-taxAmount"	parent="CreditMemoItemUseTax-taxAmount-parentBean" />
+	<bean id="CreditMemoItemUseTax-taxAmount" parent="CreditMemoItemUseTax-taxAmount-parentBean"/>
 
-	<bean id="CreditMemoItemUseTax-taxAmount-parentBean" abstract="true"	parent="PurchaseOrderItemUseTax-taxAmount" />
+	<bean id="CreditMemoItemUseTax-taxAmount-parentBean" abstract="true" parent="PurchaseOrderItemUseTax-taxAmount"/>
 
-	<bean id="CreditMemoItemUseTax-chartOfAccountsCode"	parent="CreditMemoItemUseTax-chartOfAccountsCode-parentBean" />
+	<bean id="CreditMemoItemUseTax-chartOfAccountsCode" parent="CreditMemoItemUseTax-chartOfAccountsCode-parentBean"/>
 
-	<bean id="CreditMemoItemUseTax-chartOfAccountsCode-parentBean"	abstract="true" parent="Chart-chartOfAccountsCode" />
-
-
-	<bean id="CreditMemoItemUseTax-accountNumber"	parent="CreditMemoItemUseTax-accountNumber-parentBean" />
-
-	<bean id="CreditMemoItemUseTax-accountNumber-parentBean"	abstract="true" parent="Account-accountNumber" />
+	<bean id="CreditMemoItemUseTax-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode"/>
 
 
-	<bean id="CreditMemoItemUseTax-financialObjectCode"	parent="CreditMemoItemUseTax-financialObjectCode-parentBean" />
+	<bean id="CreditMemoItemUseTax-accountNumber" parent="CreditMemoItemUseTax-accountNumber-parentBean"/>
 
-	<bean id="CreditMemoItemUseTax-financialObjectCode-parentBean"	abstract="true" parent="ObjectCode-financialObjectCode" />
+	<bean id="CreditMemoItemUseTax-accountNumber-parentBean" abstract="true" parent="Account-accountNumber"/>
+
+
+	<bean id="CreditMemoItemUseTax-financialObjectCode" parent="CreditMemoItemUseTax-financialObjectCode-parentBean"/>
+
+	<bean id="CreditMemoItemUseTax-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode"/>
 
 </beans>

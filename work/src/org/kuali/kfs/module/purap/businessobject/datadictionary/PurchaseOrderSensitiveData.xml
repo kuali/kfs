@@ -1,16 +1,9 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-	<bean id="PurchaseOrderSensitiveData" parent="PurchaseOrderSensitiveData-parentBean" />
+	<bean id="PurchaseOrderSensitiveData" parent="PurchaseOrderSensitiveData-parentBean"/>
 
 	<bean id="PurchaseOrderSensitiveData-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderSensitiveData" />
+		<property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderSensitiveData"/>
 		<!-- 
 		<property name="inquiryDefinition">
 			<ref bean="PurchaseOrderSensitiveData-inquiryDefinition" />
@@ -19,13 +12,13 @@
 			<ref bean="PurchaseOrderSensitiveData-lookupDefinition" />
 		</property> 
 		-->
-		<property name="titleAttribute" value="sensitiveDataCode" />
-		<property name="objectLabel" value="Purchase Order Sensitive Data" />
+		<property name="titleAttribute" value="sensitiveDataCode"/>
+		<property name="objectLabel" value="Purchase Order Sensitive Data"/>
 		<property name="attributes">
 			<list>
-				<ref bean="PurchaseOrderSensitiveData-purapDocumentIdentifier" />
-				<ref bean="PurchaseOrderSensitiveData-sensitiveDataCode" />
-				<ref bean="PurchaseOrderSensitiveData-requisitionIdentifier" />
+				<ref bean="PurchaseOrderSensitiveData-purapDocumentIdentifier"/>
+				<ref bean="PurchaseOrderSensitiveData-sensitiveDataCode"/>
+				<ref bean="PurchaseOrderSensitiveData-requisitionIdentifier"/>
 			</list>
 		</property>
 	</bean>
@@ -33,22 +26,20 @@
 <!-- Attribute Definitions -->
 	
 
-	<bean id="PurchaseOrderSensitiveData-purapDocumentIdentifier" parent="PurchaseOrderSensitiveData-purapDocumentIdentifier-parentBean" />
-	<bean id="PurchaseOrderSensitiveData-purapDocumentIdentifier-parentBean" abstract="true" parent="PurchaseOrderDocument-purapDocumentIdentifier" />
+	<bean id="PurchaseOrderSensitiveData-purapDocumentIdentifier" parent="PurchaseOrderSensitiveData-purapDocumentIdentifier-parentBean"/>
+	<bean id="PurchaseOrderSensitiveData-purapDocumentIdentifier-parentBean" abstract="true" parent="PurchaseOrderDocument-purapDocumentIdentifier"/>
 
-	<bean id="PurchaseOrderSensitiveData-sensitiveDataCode" parent="PurchaseOrderSensitiveData-sensitiveDataCode-parentBean" />
-	<bean id="PurchaseOrderSensitiveData-sensitiveDataCode-parentBean" abstract="true" parent="SensitiveData-sensitiveDataCode" >
-	    <property name="label" value="Sensitive Data" />
-    	<property name="shortLabel" value="Sensitive Data" />
-		<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.SensitiveDataValuesFinder"
-            	p:includeKeyInLabel="false" />
+	<bean id="PurchaseOrderSensitiveData-sensitiveDataCode" parent="PurchaseOrderSensitiveData-sensitiveDataCode-parentBean"/>
+	<bean id="PurchaseOrderSensitiveData-sensitiveDataCode-parentBean" abstract="true" parent="SensitiveData-sensitiveDataCode">
+	    <property name="label" value="Sensitive Data"/>
+    	<property name="shortLabel" value="Sensitive Data"/>
+		<property name="control">
+      		<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.SensitiveDataValuesFinder" p:includeKeyInLabel="false"/>
     	</property>
 	</bean>				
 	
 
-	<bean id="PurchaseOrderSensitiveData-requisitionIdentifier" parent="PurchaseOrderSensitiveData-requisitionIdentifier-parentBean" />
-	<bean id="PurchaseOrderSensitiveData-requisitionIdentifier-parentBean" abstract="true" parent="PurchaseOrderDocument-requisitionIdentifier" />
+	<bean id="PurchaseOrderSensitiveData-requisitionIdentifier" parent="PurchaseOrderSensitiveData-requisitionIdentifier-parentBean"/>
+	<bean id="PurchaseOrderSensitiveData-requisitionIdentifier-parentBean" abstract="true" parent="PurchaseOrderDocument-requisitionIdentifier"/>
 
 </beans>

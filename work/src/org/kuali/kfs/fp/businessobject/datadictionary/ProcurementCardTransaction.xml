@@ -1,65 +1,61 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="ProcurementCardTransaction" parent="ProcurementCardTransaction-parentBean" />
+  <bean id="ProcurementCardTransaction" parent="ProcurementCardTransaction-parentBean"/>
 
   <bean id="ProcurementCardTransaction-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.ProcurementCardTransaction" />
-    <property name="objectLabel" value="Procurement Card Transaction" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.ProcurementCardTransaction"/>
+    <property name="objectLabel" value="Procurement Card Transaction"/>
+    <property name="attributes">
       <list>
-        <ref bean="ProcurementCardTransaction-cardCycleAmountLimit" />
-        <ref bean="ProcurementCardTransaction-cardCycleVolumeLimit" />
-        <ref bean="ProcurementCardTransaction-cardHolderAlternateName" />
-        <ref bean="ProcurementCardTransaction-cardHolderCityName" />
-        <ref bean="ProcurementCardTransaction-cardHolderLine1Address" />
-        <ref bean="ProcurementCardTransaction-cardHolderLine2Address" />
-        <ref bean="ProcurementCardTransaction-cardHolderName" />
-        <ref bean="ProcurementCardTransaction-cardHolderStateCode" />
-        <ref bean="ProcurementCardTransaction-cardHolderWorkPhoneNumber" />
-        <ref bean="ProcurementCardTransaction-cardHolderZipCode" />
-        <ref bean="ProcurementCardTransaction-cardLimit" />
-        <ref bean="ProcurementCardTransaction-cardNoteText" />
-        <ref bean="ProcurementCardTransaction-cardStatusCode" />
-        <ref bean="ProcurementCardTransaction-chartOfAccountsCode" />
-        <ref bean="ProcurementCardTransaction-accountNumber" />
-        <ref bean="ProcurementCardTransaction-financialDocumentTotalAmount" />
-        <ref bean="ProcurementCardTransaction-financialObjectCode" />
-        <ref bean="ProcurementCardTransaction-financialSubObjectCode" />
-        <ref bean="ProcurementCardTransaction-projectCode" />
-        <ref bean="ProcurementCardTransaction-subAccountNumber" />
-        <ref bean="ProcurementCardTransaction-transactionBillingCurrencyCode" />
-        <ref bean="ProcurementCardTransaction-transactionCreditCardNumber" />
-        <ref bean="ProcurementCardTransaction-transactionCurrencyExchangeRate" />
-        <ref bean="ProcurementCardTransaction-transactionDate" />
-        <ref bean="ProcurementCardTransaction-transactionDebitCreditCode" />
-        <ref bean="ProcurementCardTransaction-transactionMerchantCategoryCode" />
-        <ref bean="ProcurementCardTransaction-transactionOriginalCurrencyAmount" />
-        <ref bean="ProcurementCardTransaction-transactionOriginalCurrencyCode" />
-        <ref bean="ProcurementCardTransaction-transactionPointOfSaleCode" />
-        <ref bean="ProcurementCardTransaction-transactionPostingDate" />
-        <ref bean="ProcurementCardTransaction-transactionPurchaseIdentifierDescription" />
-        <ref bean="ProcurementCardTransaction-transactionPurchaseIdentifierIndicator" />
-        <ref bean="ProcurementCardTransaction-transactionReferenceNumber" />
-        <ref bean="ProcurementCardTransaction-transactionSalesTaxAmount" />
-        <ref bean="ProcurementCardTransaction-transactionCycleStartDate" />
-        <ref bean="ProcurementCardTransaction-transactionCycleEndDate" />
-        <ref bean="ProcurementCardTransaction-transactionSequenceRowNumber" />
-        <ref bean="ProcurementCardTransaction-transactionSettlementAmount" />
-        <ref bean="ProcurementCardTransaction-transactionTaxExemptIndicator" />
-        <ref bean="ProcurementCardTransaction-transactionTravelAuthorizationCode" />
-        <ref bean="ProcurementCardTransaction-transactionUnitContactName" />
-        <ref bean="ProcurementCardTransaction-vendorCityName" />
-        <ref bean="ProcurementCardTransaction-vendorLine1Address" />
-        <ref bean="ProcurementCardTransaction-vendorLine2Address" />
-        <ref bean="ProcurementCardTransaction-vendorName" />
-        <ref bean="ProcurementCardTransaction-vendorOrderNumber" />
-        <ref bean="ProcurementCardTransaction-vendorStateCode" />
-        <ref bean="ProcurementCardTransaction-vendorZipCode" />
-        <ref bean="ProcurementCardTransaction-visaVendorIdentifier" />
+        <ref bean="ProcurementCardTransaction-cardCycleAmountLimit"/>
+        <ref bean="ProcurementCardTransaction-cardCycleVolumeLimit"/>
+        <ref bean="ProcurementCardTransaction-cardHolderAlternateName"/>
+        <ref bean="ProcurementCardTransaction-cardHolderCityName"/>
+        <ref bean="ProcurementCardTransaction-cardHolderLine1Address"/>
+        <ref bean="ProcurementCardTransaction-cardHolderLine2Address"/>
+        <ref bean="ProcurementCardTransaction-cardHolderName"/>
+        <ref bean="ProcurementCardTransaction-cardHolderStateCode"/>
+        <ref bean="ProcurementCardTransaction-cardHolderWorkPhoneNumber"/>
+        <ref bean="ProcurementCardTransaction-cardHolderZipCode"/>
+        <ref bean="ProcurementCardTransaction-cardLimit"/>
+        <ref bean="ProcurementCardTransaction-cardNoteText"/>
+        <ref bean="ProcurementCardTransaction-cardStatusCode"/>
+        <ref bean="ProcurementCardTransaction-chartOfAccountsCode"/>
+        <ref bean="ProcurementCardTransaction-accountNumber"/>
+        <ref bean="ProcurementCardTransaction-financialDocumentTotalAmount"/>
+        <ref bean="ProcurementCardTransaction-financialObjectCode"/>
+        <ref bean="ProcurementCardTransaction-financialSubObjectCode"/>
+        <ref bean="ProcurementCardTransaction-projectCode"/>
+        <ref bean="ProcurementCardTransaction-subAccountNumber"/>
+        <ref bean="ProcurementCardTransaction-transactionBillingCurrencyCode"/>
+        <ref bean="ProcurementCardTransaction-transactionCreditCardNumber"/>
+        <ref bean="ProcurementCardTransaction-transactionCurrencyExchangeRate"/>
+        <ref bean="ProcurementCardTransaction-transactionDate"/>
+        <ref bean="ProcurementCardTransaction-transactionDebitCreditCode"/>
+        <ref bean="ProcurementCardTransaction-transactionMerchantCategoryCode"/>
+        <ref bean="ProcurementCardTransaction-transactionOriginalCurrencyAmount"/>
+        <ref bean="ProcurementCardTransaction-transactionOriginalCurrencyCode"/>
+        <ref bean="ProcurementCardTransaction-transactionPointOfSaleCode"/>
+        <ref bean="ProcurementCardTransaction-transactionPostingDate"/>
+        <ref bean="ProcurementCardTransaction-transactionPurchaseIdentifierDescription"/>
+        <ref bean="ProcurementCardTransaction-transactionPurchaseIdentifierIndicator"/>
+        <ref bean="ProcurementCardTransaction-transactionReferenceNumber"/>
+        <ref bean="ProcurementCardTransaction-transactionSalesTaxAmount"/>
+        <ref bean="ProcurementCardTransaction-transactionCycleStartDate"/>
+        <ref bean="ProcurementCardTransaction-transactionCycleEndDate"/>
+        <ref bean="ProcurementCardTransaction-transactionSequenceRowNumber"/>
+        <ref bean="ProcurementCardTransaction-transactionSettlementAmount"/>
+        <ref bean="ProcurementCardTransaction-transactionTaxExemptIndicator"/>
+        <ref bean="ProcurementCardTransaction-transactionTravelAuthorizationCode"/>
+        <ref bean="ProcurementCardTransaction-transactionUnitContactName"/>
+        <ref bean="ProcurementCardTransaction-vendorCityName"/>
+        <ref bean="ProcurementCardTransaction-vendorLine1Address"/>
+        <ref bean="ProcurementCardTransaction-vendorLine2Address"/>
+        <ref bean="ProcurementCardTransaction-vendorName"/>
+        <ref bean="ProcurementCardTransaction-vendorOrderNumber"/>
+        <ref bean="ProcurementCardTransaction-vendorStateCode"/>
+        <ref bean="ProcurementCardTransaction-vendorZipCode"/>
+        <ref bean="ProcurementCardTransaction-visaVendorIdentifier"/>
       </list>
     </property>
   </bean>
@@ -67,224 +63,222 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="ProcurementCardTransaction-cardCycleAmountLimit" parent="ProcurementCardTransaction-cardCycleAmountLimit-parentBean" />
+  <bean id="ProcurementCardTransaction-cardCycleAmountLimit" parent="ProcurementCardTransaction-cardCycleAmountLimit-parentBean"/>
 
   <bean id="ProcurementCardTransaction-cardCycleAmountLimit-parentBean" abstract="true" parent="ProcurementCardHolder-cardCycleAmountLimit">
   </bean>
-  <bean id="ProcurementCardTransaction-cardCycleVolumeLimit" parent="ProcurementCardTransaction-cardCycleVolumeLimit-parentBean" />
+  <bean id="ProcurementCardTransaction-cardCycleVolumeLimit" parent="ProcurementCardTransaction-cardCycleVolumeLimit-parentBean"/>
 
   <bean id="ProcurementCardTransaction-cardCycleVolumeLimit-parentBean" abstract="true" parent="ProcurementCardHolder-cardCycleVolumeLimit">
   </bean>
-  <bean id="ProcurementCardTransaction-cardHolderAlternateName" parent="ProcurementCardTransaction-cardHolderAlternateName-parentBean" />
+  <bean id="ProcurementCardTransaction-cardHolderAlternateName" parent="ProcurementCardTransaction-cardHolderAlternateName-parentBean"/>
 
   <bean id="ProcurementCardTransaction-cardHolderAlternateName-parentBean" abstract="true" parent="ProcurementCardHolder-cardHolderAlternateName">
   </bean>
-  <bean id="ProcurementCardTransaction-cardHolderCityName" parent="ProcurementCardTransaction-cardHolderCityName-parentBean" />
+  <bean id="ProcurementCardTransaction-cardHolderCityName" parent="ProcurementCardTransaction-cardHolderCityName-parentBean"/>
 
   <bean id="ProcurementCardTransaction-cardHolderCityName-parentBean" abstract="true" parent="ProcurementCardHolder-cardHolderCityName">
   </bean>
-  <bean id="ProcurementCardTransaction-cardHolderLine1Address" parent="ProcurementCardTransaction-cardHolderLine1Address-parentBean" />
+  <bean id="ProcurementCardTransaction-cardHolderLine1Address" parent="ProcurementCardTransaction-cardHolderLine1Address-parentBean"/>
 
   <bean id="ProcurementCardTransaction-cardHolderLine1Address-parentBean" abstract="true" parent="ProcurementCardHolder-cardHolderLine1Address">
   </bean>
-  <bean id="ProcurementCardTransaction-cardHolderLine2Address" parent="ProcurementCardTransaction-cardHolderLine2Address-parentBean" />
+  <bean id="ProcurementCardTransaction-cardHolderLine2Address" parent="ProcurementCardTransaction-cardHolderLine2Address-parentBean"/>
 
   <bean id="ProcurementCardTransaction-cardHolderLine2Address-parentBean" abstract="true" parent="ProcurementCardHolder-cardHolderLine2Address">
   </bean>
-  <bean id="ProcurementCardTransaction-cardHolderName" parent="ProcurementCardTransaction-cardHolderName-parentBean" />
+  <bean id="ProcurementCardTransaction-cardHolderName" parent="ProcurementCardTransaction-cardHolderName-parentBean"/>
 
   <bean id="ProcurementCardTransaction-cardHolderName-parentBean" abstract="true" parent="ProcurementCardHolder-cardHolderName">
   </bean>
-  <bean id="ProcurementCardTransaction-cardHolderStateCode" parent="ProcurementCardTransaction-cardHolderStateCode-parentBean" />
+  <bean id="ProcurementCardTransaction-cardHolderStateCode" parent="ProcurementCardTransaction-cardHolderStateCode-parentBean"/>
 
   <bean id="ProcurementCardTransaction-cardHolderStateCode-parentBean" abstract="true" parent="ProcurementCardHolder-cardHolderStateCode">
   </bean>
-  <bean id="ProcurementCardTransaction-cardHolderWorkPhoneNumber" parent="ProcurementCardTransaction-cardHolderWorkPhoneNumber-parentBean" />
+  <bean id="ProcurementCardTransaction-cardHolderWorkPhoneNumber" parent="ProcurementCardTransaction-cardHolderWorkPhoneNumber-parentBean"/>
 
   <bean id="ProcurementCardTransaction-cardHolderWorkPhoneNumber-parentBean" abstract="true" parent="ProcurementCardHolder-cardHolderWorkPhoneNumber">
   </bean>
-  <bean id="ProcurementCardTransaction-cardHolderZipCode" parent="ProcurementCardTransaction-cardHolderZipCode-parentBean" />
+  <bean id="ProcurementCardTransaction-cardHolderZipCode" parent="ProcurementCardTransaction-cardHolderZipCode-parentBean"/>
 
   <bean id="ProcurementCardTransaction-cardHolderZipCode-parentBean" abstract="true" parent="ProcurementCardHolder-cardHolderZipCode">
   </bean>
-  <bean id="ProcurementCardTransaction-cardLimit" parent="ProcurementCardTransaction-cardLimit-parentBean" />
+  <bean id="ProcurementCardTransaction-cardLimit" parent="ProcurementCardTransaction-cardLimit-parentBean"/>
 
   <bean id="ProcurementCardTransaction-cardLimit-parentBean" abstract="true" parent="ProcurementCardHolder-cardLimit">
   </bean>
-  <bean id="ProcurementCardTransaction-cardNoteText" parent="ProcurementCardTransaction-cardNoteText-parentBean" />
+  <bean id="ProcurementCardTransaction-cardNoteText" parent="ProcurementCardTransaction-cardNoteText-parentBean"/>
 
   <bean id="ProcurementCardTransaction-cardNoteText-parentBean" abstract="true" parent="ProcurementCardHolder-cardNoteText">
   </bean>
-  <bean id="ProcurementCardTransaction-cardStatusCode" parent="ProcurementCardTransaction-cardStatusCode-parentBean" />
+  <bean id="ProcurementCardTransaction-cardStatusCode" parent="ProcurementCardTransaction-cardStatusCode-parentBean"/>
 
   <bean id="ProcurementCardTransaction-cardStatusCode-parentBean" abstract="true" parent="ProcurementCardHolder-cardStatusCode">
   </bean>
-  <bean id="ProcurementCardTransaction-chartOfAccountsCode" parent="ProcurementCardTransaction-chartOfAccountsCode-parentBean" />
+  <bean id="ProcurementCardTransaction-chartOfAccountsCode" parent="ProcurementCardTransaction-chartOfAccountsCode-parentBean"/>
 
   <bean id="ProcurementCardTransaction-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
   </bean>
-  <bean id="ProcurementCardTransaction-accountNumber" parent="ProcurementCardTransaction-accountNumber-parentBean" />
+  <bean id="ProcurementCardTransaction-accountNumber" parent="ProcurementCardTransaction-accountNumber-parentBean"/>
 
   <bean id="ProcurementCardTransaction-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
   </bean>
-  <bean id="ProcurementCardTransaction-financialDocumentTotalAmount" parent="ProcurementCardTransaction-financialDocumentTotalAmount-parentBean" />
+  <bean id="ProcurementCardTransaction-financialDocumentTotalAmount" parent="ProcurementCardTransaction-financialDocumentTotalAmount-parentBean"/>
 
   <bean id="ProcurementCardTransaction-financialDocumentTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="financialDocumentTotalAmount" />
+    <property name="name" value="financialDocumentTotalAmount"/>
   </bean>
-  <bean id="ProcurementCardTransaction-financialObjectCode" parent="ProcurementCardTransaction-financialObjectCode-parentBean" />
+  <bean id="ProcurementCardTransaction-financialObjectCode" parent="ProcurementCardTransaction-financialObjectCode-parentBean"/>
 
   <bean id="ProcurementCardTransaction-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
   </bean>
-  <bean id="ProcurementCardTransaction-financialSubObjectCode" parent="ProcurementCardTransaction-financialSubObjectCode-parentBean" />
+  <bean id="ProcurementCardTransaction-financialSubObjectCode" parent="ProcurementCardTransaction-financialSubObjectCode-parentBean"/>
 
   <bean id="ProcurementCardTransaction-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
-    <property name="required" value="false" />
+    <property name="required" value="false"/>
   </bean>
-  <bean id="ProcurementCardTransaction-projectCode" parent="ProcurementCardTransaction-projectCode-parentBean" />
+  <bean id="ProcurementCardTransaction-projectCode" parent="ProcurementCardTransaction-projectCode-parentBean"/>
 
   <bean id="ProcurementCardTransaction-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
-    <property name="name" value="projectCode" />
-    <property name="required" value="false" />
+    <property name="name" value="projectCode"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="ProcurementCardTransaction-subAccountNumber" parent="ProcurementCardTransaction-subAccountNumber-parentBean" />
+  <bean id="ProcurementCardTransaction-subAccountNumber" parent="ProcurementCardTransaction-subAccountNumber-parentBean"/>
 
   <bean id="ProcurementCardTransaction-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
-    <property name="required" value="false" />
+    <property name="required" value="false"/>
   </bean>
-  <bean id="ProcurementCardTransaction-transactionBillingCurrencyCode" parent="ProcurementCardTransaction-transactionBillingCurrencyCode-parentBean" />
+  <bean id="ProcurementCardTransaction-transactionBillingCurrencyCode" parent="ProcurementCardTransaction-transactionBillingCurrencyCode-parentBean"/>
 
   <bean id="ProcurementCardTransaction-transactionBillingCurrencyCode-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-transactionBillingCurrencyCode">
   </bean>
-  <bean id="ProcurementCardTransaction-transactionCreditCardNumber" parent="ProcurementCardTransaction-transactionCreditCardNumber-parentBean" />
+  <bean id="ProcurementCardTransaction-transactionCreditCardNumber" parent="ProcurementCardTransaction-transactionCreditCardNumber-parentBean"/>
 
   <bean id="ProcurementCardTransaction-transactionCreditCardNumber-parentBean" abstract="true" parent="ProcurementCardHolder-transactionCreditCardNumber">
   </bean>
-  <bean id="ProcurementCardTransaction-transactionCurrencyExchangeRate" parent="ProcurementCardTransaction-transactionCurrencyExchangeRate-parentBean" />
+  <bean id="ProcurementCardTransaction-transactionCurrencyExchangeRate" parent="ProcurementCardTransaction-transactionCurrencyExchangeRate-parentBean"/>
 
   <bean id="ProcurementCardTransaction-transactionCurrencyExchangeRate-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-transactionCurrencyExchangeRate">
   </bean>
-  <bean id="ProcurementCardTransaction-transactionDate" parent="ProcurementCardTransaction-transactionDate-parentBean" />
+  <bean id="ProcurementCardTransaction-transactionDate" parent="ProcurementCardTransaction-transactionDate-parentBean"/>
 
   <bean id="ProcurementCardTransaction-transactionDate-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-transactionDate">
   </bean>
-  <bean id="ProcurementCardTransaction-transactionDebitCreditCode" parent="ProcurementCardTransaction-transactionDebitCreditCode-parentBean" />
+  <bean id="ProcurementCardTransaction-transactionDebitCreditCode" parent="ProcurementCardTransaction-transactionDebitCreditCode-parentBean"/>
 
   <bean id="ProcurementCardTransaction-transactionDebitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="transactionDebitCreditCode" />
-    <property name="label" value="Transaction Debit Credit Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="name" value="transactionDebitCreditCode"/>
+    <property name="label" value="Transaction Debit Credit Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="ProcurementCardTransaction-transactionMerchantCategoryCode" parent="ProcurementCardTransaction-transactionMerchantCategoryCode-parentBean" />
+  <bean id="ProcurementCardTransaction-transactionMerchantCategoryCode" parent="ProcurementCardTransaction-transactionMerchantCategoryCode-parentBean"/>
 
   <bean id="ProcurementCardTransaction-transactionMerchantCategoryCode-parentBean" abstract="true" parent="ProcurementCardVendor-transactionMerchantCategoryCode">
   </bean>
-  <bean id="ProcurementCardTransaction-transactionOriginalCurrencyAmount" parent="ProcurementCardTransaction-transactionOriginalCurrencyAmount-parentBean" />
+  <bean id="ProcurementCardTransaction-transactionOriginalCurrencyAmount" parent="ProcurementCardTransaction-transactionOriginalCurrencyAmount-parentBean"/>
 
   <bean id="ProcurementCardTransaction-transactionOriginalCurrencyAmount-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-transactionOriginalCurrencyAmount">
   </bean>
-  <bean id="ProcurementCardTransaction-transactionOriginalCurrencyCode" parent="ProcurementCardTransaction-transactionOriginalCurrencyCode-parentBean" />
+  <bean id="ProcurementCardTransaction-transactionOriginalCurrencyCode" parent="ProcurementCardTransaction-transactionOriginalCurrencyCode-parentBean"/>
 
   <bean id="ProcurementCardTransaction-transactionOriginalCurrencyCode-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-transactionOriginalCurrencyCode">
   </bean>
-  <bean id="ProcurementCardTransaction-transactionPointOfSaleCode" parent="ProcurementCardTransaction-transactionPointOfSaleCode-parentBean" />
+  <bean id="ProcurementCardTransaction-transactionPointOfSaleCode" parent="ProcurementCardTransaction-transactionPointOfSaleCode-parentBean"/>
 
   <bean id="ProcurementCardTransaction-transactionPointOfSaleCode-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-transactionPointOfSaleCode">
   </bean>
-  <bean id="ProcurementCardTransaction-transactionPostingDate" parent="ProcurementCardTransaction-transactionPostingDate-parentBean" />
+  <bean id="ProcurementCardTransaction-transactionPostingDate" parent="ProcurementCardTransaction-transactionPostingDate-parentBean"/>
 
   <bean id="ProcurementCardTransaction-transactionPostingDate-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-transactionPostingDate">
   </bean>
-  <bean id="ProcurementCardTransaction-transactionPurchaseIdentifierDescription" parent="ProcurementCardTransaction-transactionPurchaseIdentifierDescription-parentBean" />
+  <bean id="ProcurementCardTransaction-transactionPurchaseIdentifierDescription" parent="ProcurementCardTransaction-transactionPurchaseIdentifierDescription-parentBean"/>
 
   <bean id="ProcurementCardTransaction-transactionPurchaseIdentifierDescription-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-transactionPurchaseIdentifierDescription">
   </bean>
-  <bean id="ProcurementCardTransaction-transactionPurchaseIdentifierIndicator" parent="ProcurementCardTransaction-transactionPurchaseIdentifierIndicator-parentBean" />
+  <bean id="ProcurementCardTransaction-transactionPurchaseIdentifierIndicator" parent="ProcurementCardTransaction-transactionPurchaseIdentifierIndicator-parentBean"/>
 
   <bean id="ProcurementCardTransaction-transactionPurchaseIdentifierIndicator-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-transactionPurchaseIdentifierIndicator">
   </bean>
-  <bean id="ProcurementCardTransaction-transactionReferenceNumber" parent="ProcurementCardTransaction-transactionReferenceNumber-parentBean" />
+  <bean id="ProcurementCardTransaction-transactionReferenceNumber" parent="ProcurementCardTransaction-transactionReferenceNumber-parentBean"/>
 
   <bean id="ProcurementCardTransaction-transactionReferenceNumber-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-transactionReferenceNumber">
   </bean>
-  <bean id="ProcurementCardTransaction-transactionSalesTaxAmount" parent="ProcurementCardTransaction-transactionSalesTaxAmount-parentBean" />
+  <bean id="ProcurementCardTransaction-transactionSalesTaxAmount" parent="ProcurementCardTransaction-transactionSalesTaxAmount-parentBean"/>
 
   <bean id="ProcurementCardTransaction-transactionSalesTaxAmount-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-transactionSalesTaxAmount">
   </bean>
-  <bean id="ProcurementCardTransaction-transactionCycleStartDate" parent="ProcurementCardTransaction-transactionCycleStartDate-parentBean" />
+  <bean id="ProcurementCardTransaction-transactionCycleStartDate" parent="ProcurementCardTransaction-transactionCycleStartDate-parentBean"/>
 
   <bean id="ProcurementCardTransaction-transactionCycleStartDate-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-transactionCycleStartDate">
   </bean>
-  <bean id="ProcurementCardTransaction-transactionCycleEndDate" parent="ProcurementCardTransaction-transactionCycleEndDate-parentBean" />
+  <bean id="ProcurementCardTransaction-transactionCycleEndDate" parent="ProcurementCardTransaction-transactionCycleEndDate-parentBean"/>
 
   <bean id="ProcurementCardTransaction-transactionCycleEndDate-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-transactionCycleEndDate">
   </bean>
-  <bean id="ProcurementCardTransaction-transactionSequenceRowNumber" parent="ProcurementCardTransaction-transactionSequenceRowNumber-parentBean" />
+  <bean id="ProcurementCardTransaction-transactionSequenceRowNumber" parent="ProcurementCardTransaction-transactionSequenceRowNumber-parentBean"/>
 
   <bean id="ProcurementCardTransaction-transactionSequenceRowNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="transactionSequenceRowNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Transaction Sequence Row Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="transactionSequenceRowNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Transaction Sequence Row Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
-  <bean id="ProcurementCardTransaction-transactionSettlementAmount" parent="ProcurementCardTransaction-transactionSettlementAmount-parentBean" />
+  <bean id="ProcurementCardTransaction-transactionSettlementAmount" parent="ProcurementCardTransaction-transactionSettlementAmount-parentBean"/>
 
   <bean id="ProcurementCardTransaction-transactionSettlementAmount-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-transactionSettlementAmount">
   </bean>
-  <bean id="ProcurementCardTransaction-transactionTaxExemptIndicator" parent="ProcurementCardTransaction-transactionTaxExemptIndicator-parentBean" />
+  <bean id="ProcurementCardTransaction-transactionTaxExemptIndicator" parent="ProcurementCardTransaction-transactionTaxExemptIndicator-parentBean"/>
 
   <bean id="ProcurementCardTransaction-transactionTaxExemptIndicator-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-transactionTaxExemptIndicator">
   </bean>
-  <bean id="ProcurementCardTransaction-transactionTravelAuthorizationCode" parent="ProcurementCardTransaction-transactionTravelAuthorizationCode-parentBean" />
+  <bean id="ProcurementCardTransaction-transactionTravelAuthorizationCode" parent="ProcurementCardTransaction-transactionTravelAuthorizationCode-parentBean"/>
 
   <bean id="ProcurementCardTransaction-transactionTravelAuthorizationCode-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-transactionTravelAuthorizationCode">
   </bean>
-  <bean id="ProcurementCardTransaction-transactionUnitContactName" parent="ProcurementCardTransaction-transactionUnitContactName-parentBean" />
+  <bean id="ProcurementCardTransaction-transactionUnitContactName" parent="ProcurementCardTransaction-transactionUnitContactName-parentBean"/>
 
   <bean id="ProcurementCardTransaction-transactionUnitContactName-parentBean" abstract="true" parent="ProcurementCardTransactionDetail-transactionUnitContactName">
   </bean>
-  <bean id="ProcurementCardTransaction-vendorCityName" parent="ProcurementCardTransaction-vendorCityName-parentBean" />
+  <bean id="ProcurementCardTransaction-vendorCityName" parent="ProcurementCardTransaction-vendorCityName-parentBean"/>
 
   <bean id="ProcurementCardTransaction-vendorCityName-parentBean" abstract="true" parent="ProcurementCardVendor-vendorCityName">
   </bean>
-  <bean id="ProcurementCardTransaction-vendorLine1Address" parent="ProcurementCardTransaction-vendorLine1Address-parentBean" />
+  <bean id="ProcurementCardTransaction-vendorLine1Address" parent="ProcurementCardTransaction-vendorLine1Address-parentBean"/>
 
   <bean id="ProcurementCardTransaction-vendorLine1Address-parentBean" abstract="true" parent="ProcurementCardVendor-vendorLine1Address">
   </bean>
-  <bean id="ProcurementCardTransaction-vendorLine2Address" parent="ProcurementCardTransaction-vendorLine2Address-parentBean" />
+  <bean id="ProcurementCardTransaction-vendorLine2Address" parent="ProcurementCardTransaction-vendorLine2Address-parentBean"/>
 
   <bean id="ProcurementCardTransaction-vendorLine2Address-parentBean" abstract="true" parent="ProcurementCardVendor-vendorLine2Address">
   </bean>
-  <bean id="ProcurementCardTransaction-vendorName" parent="ProcurementCardTransaction-vendorName-parentBean" />
+  <bean id="ProcurementCardTransaction-vendorName" parent="ProcurementCardTransaction-vendorName-parentBean"/>
 
   <bean id="ProcurementCardTransaction-vendorName-parentBean" abstract="true" parent="ProcurementCardVendor-vendorName">
   </bean>
-  <bean id="ProcurementCardTransaction-vendorOrderNumber" parent="ProcurementCardTransaction-vendorOrderNumber-parentBean" />
+  <bean id="ProcurementCardTransaction-vendorOrderNumber" parent="ProcurementCardTransaction-vendorOrderNumber-parentBean"/>
 
   <bean id="ProcurementCardTransaction-vendorOrderNumber-parentBean" abstract="true" parent="ProcurementCardVendor-vendorOrderNumber">
   </bean>
-  <bean id="ProcurementCardTransaction-vendorStateCode" parent="ProcurementCardTransaction-vendorStateCode-parentBean" />
+  <bean id="ProcurementCardTransaction-vendorStateCode" parent="ProcurementCardTransaction-vendorStateCode-parentBean"/>
 
   <bean id="ProcurementCardTransaction-vendorStateCode-parentBean" abstract="true" parent="ProcurementCardVendor-vendorStateCode">
   </bean>
-  <bean id="ProcurementCardTransaction-vendorZipCode" parent="ProcurementCardTransaction-vendorZipCode-parentBean" />
+  <bean id="ProcurementCardTransaction-vendorZipCode" parent="ProcurementCardTransaction-vendorZipCode-parentBean"/>
 
   <bean id="ProcurementCardTransaction-vendorZipCode-parentBean" abstract="true" parent="ProcurementCardVendor-vendorZipCode">
   </bean>
-  <bean id="ProcurementCardTransaction-visaVendorIdentifier" parent="ProcurementCardTransaction-visaVendorIdentifier-parentBean" />
+  <bean id="ProcurementCardTransaction-visaVendorIdentifier" parent="ProcurementCardTransaction-visaVendorIdentifier-parentBean"/>
 
   <bean id="ProcurementCardTransaction-visaVendorIdentifier-parentBean" abstract="true" parent="ProcurementCardVendor-visaVendorIdentifier">
   </bean>

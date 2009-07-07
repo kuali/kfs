@@ -1,26 +1,19 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="VendorContractOrganization" parent="VendorContractOrganization-parentBean" />
+  <bean id="VendorContractOrganization" parent="VendorContractOrganization-parentBean"/>
 
   <bean id="VendorContractOrganization-parentBean" abstract="true" parent="BusinessObjectEntry">
-  	<property name="objectLabel" value="Vendor Contract Organization" />
-    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContractOrganization" />
-    <property name="attributes" >
+  	<property name="objectLabel" value="Vendor Contract Organization"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContractOrganization"/>
+    <property name="attributes">
       <list>
-        <ref bean="VendorContractOrganization-chartOfAccountsCode" />
-        <ref bean="VendorContractOrganization-organizationCode" />
-        <ref bean="VendorContractOrganization-vendorContractPurchaseOrderLimitAmount" />
-        <ref bean="VendorContractOrganization-vendorContractExcludeIndicator" />
-        <ref bean="VendorContractOrganization-vendorContractGeneratedIdentifier" />
-        <ref bean="VendorContractOrganization-newCollectionRecord" />
-        <ref bean="VendorContractOrganization-active" />
+        <ref bean="VendorContractOrganization-chartOfAccountsCode"/>
+        <ref bean="VendorContractOrganization-organizationCode"/>
+        <ref bean="VendorContractOrganization-vendorContractPurchaseOrderLimitAmount"/>
+        <ref bean="VendorContractOrganization-vendorContractExcludeIndicator"/>
+        <ref bean="VendorContractOrganization-vendorContractGeneratedIdentifier"/>
+        <ref bean="VendorContractOrganization-newCollectionRecord"/>
+        <ref bean="VendorContractOrganization-active"/>
       </list>
     </property>
   </bean>
@@ -28,43 +21,43 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="VendorContractOrganization-chartOfAccountsCode" parent="VendorContractOrganization-chartOfAccountsCode-parentBean" />
+  <bean id="VendorContractOrganization-chartOfAccountsCode" parent="VendorContractOrganization-chartOfAccountsCode-parentBean"/>
 
   <bean id="VendorContractOrganization-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
   </bean>
-  <bean id="VendorContractOrganization-organizationCode" parent="VendorContractOrganization-organizationCode-parentBean" />
+  <bean id="VendorContractOrganization-organizationCode" parent="VendorContractOrganization-organizationCode-parentBean"/>
 
   <bean id="VendorContractOrganization-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
   </bean>
-  <bean id="VendorContractOrganization-vendorContractPurchaseOrderLimitAmount" parent="VendorContractOrganization-vendorContractPurchaseOrderLimitAmount-parentBean" />
+  <bean id="VendorContractOrganization-vendorContractPurchaseOrderLimitAmount" parent="VendorContractOrganization-vendorContractPurchaseOrderLimitAmount-parentBean"/>
 
   <bean id="VendorContractOrganization-vendorContractPurchaseOrderLimitAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="vendorContractPurchaseOrderLimitAmount" />
-    <property name="label" value="APO Amount" />
-    <property name="shortLabel" value="APO Amount" />
-    <property name="required" value="false" />
+    <property name="name" value="vendorContractPurchaseOrderLimitAmount"/>
+    <property name="label" value="APO Amount"/>
+    <property name="shortLabel" value="APO Amount"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="VendorContractOrganization-vendorContractExcludeIndicator" parent="VendorContractOrganization-vendorContractExcludeIndicator-parentBean" />
+  <bean id="VendorContractOrganization-vendorContractExcludeIndicator" parent="VendorContractOrganization-vendorContractExcludeIndicator-parentBean"/>
 
   <bean id="VendorContractOrganization-vendorContractExcludeIndicator-parentBean" abstract="true" parent="VendorGenericAttributes-yesNoWithBlankIndicator">
-    <property name="name" value="vendorContractExcludeIndicator" />
-    <property name="label" value="Exclude" />
-    <property name="shortLabel" value="Exclude" />
-    <property name="required" value="false" />
+    <property name="name" value="vendorContractExcludeIndicator"/>
+    <property name="label" value="Exclude"/>
+    <property name="shortLabel" value="Exclude"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="VendorContractOrganization-vendorContractGeneratedIdentifier" parent="VendorContractOrganization-vendorContractGeneratedIdentifier-parentBean" />
+  <bean id="VendorContractOrganization-vendorContractGeneratedIdentifier" parent="VendorContractOrganization-vendorContractGeneratedIdentifier-parentBean"/>
 
   <bean id="VendorContractOrganization-vendorContractGeneratedIdentifier-parentBean" abstract="true" parent="VendorContract-vendorContractGeneratedIdentifier">
-    <property name="shortLabel" value="Identifier" />
-    <property name="required" value="false" />
+    <property name="shortLabel" value="Identifier"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="VendorContractOrganization-newCollectionRecord" parent="VendorContractOrganization-newCollectionRecord-parentBean" />
+  <bean id="VendorContractOrganization-newCollectionRecord" parent="VendorContractOrganization-newCollectionRecord-parentBean"/>
 
   <bean id="VendorContractOrganization-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
-  <bean id="VendorContractOrganization-active" parent="VendorContractOrganization-active-parentBean" />
+  <bean id="VendorContractOrganization-active" parent="VendorContractOrganization-active-parentBean"/>
 
   <bean id="VendorContractOrganization-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 </beans>

@@ -1,34 +1,27 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PaymentTermType" parent="PaymentTermType-parentBean" />
+  <bean id="PaymentTermType" parent="PaymentTermType-parentBean"/>
 
   <bean id="PaymentTermType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.PaymentTermType" />
-    <property name="inquiryDefinition" >
-      <ref bean="PaymentTermType-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.PaymentTermType"/>
+    <property name="inquiryDefinition">
+      <ref bean="PaymentTermType-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="PaymentTermType-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="PaymentTermType-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="vendorPaymentTermsCode" />
-    <property name="objectLabel" value="Payment Terms Type" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="vendorPaymentTermsCode"/>
+    <property name="objectLabel" value="Payment Terms Type"/>
+    <property name="attributes">
       <list>
-        <ref bean="PaymentTermType-vendorDiscountDueNumber" />
-        <ref bean="PaymentTermType-vendorDiscountDueTypeDescription" />
-        <ref bean="PaymentTermType-vendorNetDueNumber" />
-        <ref bean="PaymentTermType-vendorNetDueTypeDescription" />
-        <ref bean="PaymentTermType-vendorPaymentTermsCode" />
-        <ref bean="PaymentTermType-vendorPaymentTermsDescription" />
-        <ref bean="PaymentTermType-vendorPaymentTermsPercent" />
-        <ref bean="PaymentTermType-active" />
+        <ref bean="PaymentTermType-vendorDiscountDueNumber"/>
+        <ref bean="PaymentTermType-vendorDiscountDueTypeDescription"/>
+        <ref bean="PaymentTermType-vendorNetDueNumber"/>
+        <ref bean="PaymentTermType-vendorNetDueTypeDescription"/>
+        <ref bean="PaymentTermType-vendorPaymentTermsCode"/>
+        <ref bean="PaymentTermType-vendorPaymentTermsDescription"/>
+        <ref bean="PaymentTermType-vendorPaymentTermsPercent"/>
+        <ref bean="PaymentTermType-active"/>
       </list>
     </property>
   </bean>
@@ -36,159 +29,139 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="PaymentTermType-vendorDiscountDueNumber" parent="PaymentTermType-vendorDiscountDueNumber-parentBean" />
+  <bean id="PaymentTermType-vendorDiscountDueNumber" parent="PaymentTermType-vendorDiscountDueNumber-parentBean"/>
 
   <bean id="PaymentTermType-vendorDiscountDueNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorDiscountDueNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Discount Due Number" />
-    <property name="shortLabel" value="Discount Due Num." />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="vendorDiscountDueNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Discount Due Number"/>
+    <property name="shortLabel" value="Discount Due Num."/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="PaymentTermType-vendorDiscountDueTypeDescription" parent="PaymentTermType-vendorDiscountDueTypeDescription-parentBean" />
+  <bean id="PaymentTermType-vendorDiscountDueTypeDescription" parent="PaymentTermType-vendorDiscountDueTypeDescription-parentBean"/>
 
   <bean id="PaymentTermType-vendorDiscountDueTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorDiscountDueTypeDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Discount Due Type Description" />
-    <property name="shortLabel" value="Discount Due Type Desc." />
-    <property name="maxLength" value="20" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="vendorDiscountDueTypeDescription"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Discount Due Type Description"/>
+    <property name="shortLabel" value="Discount Due Type Desc."/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.PaymentTypeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="control">
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.PaymentTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="PaymentTermType-vendorNetDueNumber" parent="PaymentTermType-vendorNetDueNumber-parentBean" />
+  <bean id="PaymentTermType-vendorNetDueNumber" parent="PaymentTermType-vendorNetDueNumber-parentBean"/>
 
   <bean id="PaymentTermType-vendorNetDueNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorNetDueNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Net Due Number" />
-    <property name="shortLabel" value="Net Due Num." />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="vendorNetDueNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Net Due Number"/>
+    <property name="shortLabel" value="Net Due Num."/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="PaymentTermType-vendorNetDueTypeDescription" parent="PaymentTermType-vendorNetDueTypeDescription-parentBean" />
+  <bean id="PaymentTermType-vendorNetDueTypeDescription" parent="PaymentTermType-vendorNetDueTypeDescription-parentBean"/>
 
   <bean id="PaymentTermType-vendorNetDueTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorNetDueTypeDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Net Due Type Description" />
-    <property name="shortLabel" value="Net Due Type Desc." />
-    <property name="maxLength" value="20" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="vendorNetDueTypeDescription"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Net Due Type Description"/>
+    <property name="shortLabel" value="Net Due Type Desc."/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.PaymentTypeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="control">
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.PaymentTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="PaymentTermType-vendorPaymentTermsCode" parent="PaymentTermType-vendorPaymentTermsCode-parentBean" />
+  <bean id="PaymentTermType-vendorPaymentTermsCode" parent="PaymentTermType-vendorPaymentTermsCode-parentBean"/>
 
   <bean id="PaymentTermType-vendorPaymentTermsCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorPaymentTermsCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Payment Terms Code" />
-    <property name="shortLabel" value="Payment Terms Cd." />
-    <property name="maxLength" value="5" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="vendorPaymentTermsCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Payment Terms Code"/>
+    <property name="shortLabel" value="Payment Terms Cd."/>
+    <property name="maxLength" value="5"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="7"/>
     </property>
   </bean>
-  <bean id="PaymentTermType-vendorPaymentTermsDescription" parent="PaymentTermType-vendorPaymentTermsDescription-parentBean" />
+  <bean id="PaymentTermType-vendorPaymentTermsDescription" parent="PaymentTermType-vendorPaymentTermsDescription-parentBean"/>
 
   <bean id="PaymentTermType-vendorPaymentTermsDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorPaymentTermsDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Payment Terms Description" />
-    <property name="shortLabel" value="Payment Terms Desc." />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="vendorPaymentTermsDescription"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Payment Terms Description"/>
+    <property name="shortLabel" value="Payment Terms Desc."/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="47" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
     </property>
   </bean>
-  <bean id="PaymentTermType-vendorPaymentTermsPercent" parent="PaymentTermType-vendorPaymentTermsPercent-parentBean" />
+  <bean id="PaymentTermType-vendorPaymentTermsPercent" parent="PaymentTermType-vendorPaymentTermsPercent-parentBean"/>
 
   <bean id="PaymentTermType-vendorPaymentTermsPercent-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorPaymentTermsPercent" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Payment Terms Percent" />
-    <property name="shortLabel" value="Payment Terms Percent" />
-    <property name="maxLength" value="6" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="vendorPaymentTermsPercent"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Payment Terms Percent"/>
+    <property name="shortLabel" value="Payment Terms Percent"/>
+    <property name="maxLength" value="6"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="8"/>
     </property>
   </bean>
-  <bean id="PaymentTermType-active" parent="PaymentTermType-active-parentBean" />
+  <bean id="PaymentTermType-active" parent="PaymentTermType-active-parentBean"/>
 
   <bean id="PaymentTermType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="PaymentTermType-inquiryDefinition" parent="PaymentTermType-inquiryDefinition-parentBean" />
+  <bean id="PaymentTermType-inquiryDefinition" parent="PaymentTermType-inquiryDefinition-parentBean"/>
 
   <bean id="PaymentTermType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Payment Terms Type Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Payment Terms Type Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorPaymentTermsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorPaymentTermsDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorPaymentTermsPercent" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorDiscountDueNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorDiscountDueTypeDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorNetDueNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorNetDueTypeDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="vendorPaymentTermsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorPaymentTermsDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorPaymentTermsPercent"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorDiscountDueNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorDiscountDueTypeDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorNetDueNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorNetDueTypeDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -199,54 +172,37 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="PaymentTermType-lookupDefinition" parent="PaymentTermType-lookupDefinition-parentBean" />
+  <bean id="PaymentTermType-lookupDefinition" parent="PaymentTermType-lookupDefinition-parentBean"/>
 
   <bean id="PaymentTermType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Payment Terms Type Lookup" />
-    <property name="instructions" value="Lookup a Payment Terms Type" />
-    <property name="defaultSort" >
+    <property name="title" value="Payment Terms Type Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorPaymentTermsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorPaymentTermsDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorPaymentTermsPercent" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorDiscountDueNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorDiscountDueTypeDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorNetDueNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorNetDueTypeDescription"
-              p:defaultValueFinderClass="org.kuali.kfs.vnd.businessobject.options.PaymentTypeValuesFinder" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="vendorPaymentTermsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorPaymentTermsDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorPaymentTermsPercent"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorDiscountDueNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorDiscountDueTypeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorNetDueNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorNetDueTypeDescription" p:defaultValueFinderClass="org.kuali.kfs.vnd.businessobject.options.PaymentTypeValuesFinder"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorPaymentTermsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorPaymentTermsDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorPaymentTermsPercent" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorDiscountDueNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorDiscountDueTypeDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorNetDueNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorNetDueTypeDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="vendorPaymentTermsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorPaymentTermsDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorPaymentTermsPercent"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorDiscountDueNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorDiscountDueTypeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorNetDueNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorNetDueTypeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

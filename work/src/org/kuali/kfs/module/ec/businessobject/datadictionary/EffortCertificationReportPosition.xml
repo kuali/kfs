@@ -1,37 +1,31 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="EffortCertificationReportPosition" parent="EffortCertificationReportPosition-parentBean" />
+  <bean id="EffortCertificationReportPosition" parent="EffortCertificationReportPosition-parentBean"/>
 
   <bean id="EffortCertificationReportPosition-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationReportPosition" />
-    <property name="objectLabel" value="Effort Certification Report Position" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationReportPosition"/>
+    <property name="objectLabel" value="Effort Certification Report Position"/>
     
-    <property name="inquiryDefinition" >
-      <ref bean="EffortCertificationReportPosition-inquiryDefinition" />
+    <property name="inquiryDefinition">
+      <ref bean="EffortCertificationReportPosition-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="EffortCertificationReportPosition-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="EffortCertificationReportPosition-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="EffortCertificationReportPosition-effortCertificationReportNumber" />
-        <ref bean="EffortCertificationReportPosition-effortCertificationReportPositionObjectGroupCode" />
-        <ref bean="EffortCertificationReportPosition-universityFiscalYear" />
-        <ref bean="EffortCertificationReportPosition-active" />
-        <ref bean="EffortCertificationReportPosition-newCollectionRecord" />
+        <ref bean="EffortCertificationReportPosition-effortCertificationReportNumber"/>
+        <ref bean="EffortCertificationReportPosition-effortCertificationReportPositionObjectGroupCode"/>
+        <ref bean="EffortCertificationReportPosition-universityFiscalYear"/>
+        <ref bean="EffortCertificationReportPosition-active"/>
+        <ref bean="EffortCertificationReportPosition-newCollectionRecord"/>
       </list>
     </property>
         
-    <property name="relationships" >
+    <property name="relationships">
       <list>
         <dd:relationship objectAttribute="positionObjectGroup">
-            <dd:primitiveAttribute source="effortCertificationReportPositionObjectGroupCode" target="positionObjectGroupCode" />
+            <dd:primitiveAttribute source="effortCertificationReportPositionObjectGroupCode" target="positionObjectGroupCode"/>
         </dd:relationship>
       </list>
     </property>
@@ -40,39 +34,36 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Attribute Definitions -->
 
 
-  <bean id="EffortCertificationReportPosition-effortCertificationReportNumber" parent="EffortCertificationReportPosition-effortCertificationReportNumber-parentBean" />
+  <bean id="EffortCertificationReportPosition-effortCertificationReportNumber" parent="EffortCertificationReportPosition-effortCertificationReportNumber-parentBean"/>
 
   <bean id="EffortCertificationReportPosition-effortCertificationReportNumber-parentBean" abstract="true" parent="EffortCertificationReportDefinition-effortCertificationReportNumber">
   </bean>
-  <bean id="EffortCertificationReportPosition-effortCertificationReportPositionObjectGroupCode" parent="EffortCertificationReportPosition-effortCertificationReportPositionObjectGroupCode-parentBean" />
+  <bean id="EffortCertificationReportPosition-effortCertificationReportPositionObjectGroupCode" parent="EffortCertificationReportPosition-effortCertificationReportPositionObjectGroupCode-parentBean"/>
 
-  <bean id="EffortCertificationReportPosition-effortCertificationReportPositionObjectGroupCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.ld.LaborLedgerPositionObjectGroup"
-	p:sourceAttributeName="positionObjectGroupCode">
-    <property name="name" value="effortCertificationReportPositionObjectGroupCode" />
-        <property name="forceUppercase" value="true" />
-    <property name="label" value="Labor Position Object Group Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+  <bean id="EffortCertificationReportPosition-effortCertificationReportPositionObjectGroupCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.ld.LaborLedgerPositionObjectGroup" p:sourceAttributeName="positionObjectGroupCode">
+    <property name="name" value="effortCertificationReportPositionObjectGroupCode"/>
+        <property name="forceUppercase" value="true"/>
+    <property name="label" value="Labor Position Object Group Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="EffortCertificationReportPosition-universityFiscalYear" parent="EffortCertificationReportPosition-universityFiscalYear-parentBean" />
+  <bean id="EffortCertificationReportPosition-universityFiscalYear" parent="EffortCertificationReportPosition-universityFiscalYear-parentBean"/>
 
   <bean id="EffortCertificationReportPosition-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="universityFiscalYear" />
+    <property name="name" value="universityFiscalYear"/>
   </bean>
-  <bean id="EffortCertificationReportPosition-active" parent="EffortCertificationReportPosition-active-parentBean" />
+  <bean id="EffortCertificationReportPosition-active" parent="EffortCertificationReportPosition-active-parentBean"/>
 
   <bean id="EffortCertificationReportPosition-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
-  <bean id="EffortCertificationReportPosition-newCollectionRecord" parent="EffortCertificationReportPosition-newCollectionRecord-parentBean" />
+  <bean id="EffortCertificationReportPosition-newCollectionRecord" parent="EffortCertificationReportPosition-newCollectionRecord-parentBean"/>
 
   <bean id="EffortCertificationReportPosition-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
@@ -83,25 +74,21 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="EffortCertificationReportPosition-inquiryDefinition" parent="EffortCertificationReportPosition-inquiryDefinition-parentBean" />
+  <bean id="EffortCertificationReportPosition-inquiryDefinition" parent="EffortCertificationReportPosition-inquiryDefinition-parentBean"/>
 
   <bean id="EffortCertificationReportPosition-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Effort Certification Report Position Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Effort Certification Report Position Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationReportNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationReportPositionObjectGroupCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYear" />
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationReportNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationReportPositionObjectGroupCode"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
             </list>
           </property>
         </bean>
@@ -112,37 +99,29 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="EffortCertificationReportPosition-lookupDefinition" parent="EffortCertificationReportPosition-lookupDefinition-parentBean" />
+  <bean id="EffortCertificationReportPosition-lookupDefinition" parent="EffortCertificationReportPosition-lookupDefinition-parentBean"/>
 
   <bean id="EffortCertificationReportPosition-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Effort Certification Report Position Lookup" />
-    <property name="instructions" value="Look up Effort Certification Report Position" />
-    <property name="defaultSort" >
+    <property name="title" value="Effort Certification Report Position Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationReportNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationReportPositionObjectGroupCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationReportNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationReportPositionObjectGroupCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationReportNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationReportPositionObjectGroupCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationReportNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationReportPositionObjectGroupCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

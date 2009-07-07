@@ -1,25 +1,21 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="BudgetConstructionRequestImport" parent="BudgetConstructionRequestImport-parentBean" />
+  <bean id="BudgetConstructionRequestImport" parent="BudgetConstructionRequestImport-parentBean"/>
 
   <bean id="BudgetConstructionRequestImport-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionRequestImport" />
-    <property name="lookupDefinition" >
-      <ref bean="BudgetConstructionRequestImport-lookupDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionRequestImport"/>
+    <property name="lookupDefinition">
+      <ref bean="BudgetConstructionRequestImport-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Budget Construction Request Import" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Budget Construction Request Import"/>
+    <property name="attributes">
       <list>
-        <ref bean="BudgetConstructionRequestImport-fileName" />
-        <ref bean="BudgetConstructionRequestImport-otherFieldDelimiter" />
-        <ref bean="BudgetConstructionRequestImport-otherTextFieldDelimiter" />
-        <ref bean="BudgetConstructionRequestImport-fileType" />
-        <ref bean="BudgetConstructionRequestImport-fieldDelimiter" />
-        <ref bean="BudgetConstructionRequestImport-textFieldDelimiter" />
+        <ref bean="BudgetConstructionRequestImport-fileName"/>
+        <ref bean="BudgetConstructionRequestImport-otherFieldDelimiter"/>
+        <ref bean="BudgetConstructionRequestImport-otherTextFieldDelimiter"/>
+        <ref bean="BudgetConstructionRequestImport-fileType"/>
+        <ref bean="BudgetConstructionRequestImport-fieldDelimiter"/>
+        <ref bean="BudgetConstructionRequestImport-textFieldDelimiter"/>
       </list>
     </property>
   </bean>
@@ -27,95 +23,86 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="BudgetConstructionRequestImport-fileName" parent="BudgetConstructionRequestImport-fileName-parentBean" />
+  <bean id="BudgetConstructionRequestImport-fileName" parent="BudgetConstructionRequestImport-fileName-parentBean"/>
 
   <bean id="BudgetConstructionRequestImport-fileName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="fileName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Import File" />
-    <property name="shortLabel" value="Import File" />
-    <property name="maxLength" value="50" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="50" />
+    <property name="name" value="fileName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Import File"/>
+    <property name="shortLabel" value="Import File"/>
+    <property name="maxLength" value="50"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="50"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionRequestImport-otherFieldDelimiter" parent="BudgetConstructionRequestImport-otherFieldDelimiter-parentBean" />
+  <bean id="BudgetConstructionRequestImport-otherFieldDelimiter" parent="BudgetConstructionRequestImport-otherFieldDelimiter-parentBean"/>
 
   <bean id="BudgetConstructionRequestImport-otherFieldDelimiter-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="otherFieldDelimiter" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Field Delimiter" />
-    <property name="shortLabel" value="Field Delimiter" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
+    <property name="name" value="otherFieldDelimiter"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Field Delimiter"/>
+    <property name="shortLabel" value="Field Delimiter"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="1"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionRequestImport-otherTextFieldDelimiter" parent="BudgetConstructionRequestImport-otherTextFieldDelimiter-parentBean" />
+  <bean id="BudgetConstructionRequestImport-otherTextFieldDelimiter" parent="BudgetConstructionRequestImport-otherTextFieldDelimiter-parentBean"/>
 
   <bean id="BudgetConstructionRequestImport-otherTextFieldDelimiter-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="otherTextFieldDelimiter" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Text Field Delimiter" />
-    <property name="shortLabel" value="Text Field Delimiter" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
+    <property name="name" value="otherTextFieldDelimiter"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Text Field Delimiter"/>
+    <property name="shortLabel" value="Text Field Delimiter"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="1"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionRequestImport-fileType" parent="BudgetConstructionRequestImport-fileType-parentBean" />
+  <bean id="BudgetConstructionRequestImport-fileType" parent="BudgetConstructionRequestImport-fileType-parentBean"/>
 
   <bean id="BudgetConstructionRequestImport-fileType-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="fileType" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Import File Type" />
-    <property name="shortLabel" value="Import File Type" />
-    <property name="maxLength" value="50" />
-    <property name="control" >
-      <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.bc.businessobject.options.FileTypeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="fileType"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Import File Type"/>
+    <property name="shortLabel" value="Import File Type"/>
+    <property name="maxLength" value="50"/>
+    <property name="control">
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.bc.businessobject.options.FileTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionRequestImport-fieldDelimiter" parent="BudgetConstructionRequestImport-fieldDelimiter-parentBean" />
+  <bean id="BudgetConstructionRequestImport-fieldDelimiter" parent="BudgetConstructionRequestImport-fieldDelimiter-parentBean"/>
 
   <bean id="BudgetConstructionRequestImport-fieldDelimiter-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="fieldDelimiter" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Fields Separated By" />
-    <property name="shortLabel" value="Fields Separated By" />
-    <property name="maxLength" value="50" />
-    <property name="control" >
-      <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.bc.businessobject.options.FieldDelimiterValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="fieldDelimiter"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Fields Separated By"/>
+    <property name="shortLabel" value="Fields Separated By"/>
+    <property name="maxLength" value="50"/>
+    <property name="control">
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.bc.businessobject.options.FieldDelimiterValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionRequestImport-textFieldDelimiter" parent="BudgetConstructionRequestImport-textFieldDelimiter-parentBean" />
+  <bean id="BudgetConstructionRequestImport-textFieldDelimiter" parent="BudgetConstructionRequestImport-textFieldDelimiter-parentBean"/>
 
   <bean id="BudgetConstructionRequestImport-textFieldDelimiter-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="textFieldDelimiter" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Text Fields Delimited By" />
-    <property name="shortLabel" value="Text Field Delimiter" />
-    <property name="maxLength" value="50" />
-    <property name="control" >
-      <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.bc.businessobject.options.TextFieldDelimiterValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="textFieldDelimiter"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Text Fields Delimited By"/>
+    <property name="shortLabel" value="Text Field Delimiter"/>
+    <property name="maxLength" value="50"/>
+    <property name="control">
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.bc.businessobject.options.TextFieldDelimiterValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     
     
@@ -124,37 +111,29 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="BudgetConstructionRequestImport-lookupDefinition" parent="BudgetConstructionRequestImport-lookupDefinition-parentBean" />
+  <bean id="BudgetConstructionRequestImport-lookupDefinition" parent="BudgetConstructionRequestImport-lookupDefinition-parentBean"/>
 
   <bean id="BudgetConstructionRequestImport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Budget Construction Import Tool" />
-    <property name="instructions" value="Budget Construction Import Tool" />
-    <property name="defaultSort" >
+    <property name="title" value="Budget Construction Import Tool"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="fileName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="fileType" />
-        <bean parent="FieldDefinition"
-              p:attributeName="fieldDelimiter" />
-        <bean parent="FieldDefinition"
-              p:attributeName="textFieldDelimiter" />
+        <bean parent="FieldDefinition" p:attributeName="fileName"/>
+        <bean parent="FieldDefinition" p:attributeName="fileType"/>
+        <bean parent="FieldDefinition" p:attributeName="fieldDelimiter"/>
+        <bean parent="FieldDefinition" p:attributeName="textFieldDelimiter"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="fileName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="fileType" />
-        <bean parent="FieldDefinition"
-              p:attributeName="fieldDelimiter" />
-        <bean parent="FieldDefinition"
-              p:attributeName="textFieldDelimiter" />
+        <bean parent="FieldDefinition" p:attributeName="fileName"/>
+        <bean parent="FieldDefinition" p:attributeName="fileType"/>
+        <bean parent="FieldDefinition" p:attributeName="fieldDelimiter"/>
+        <bean parent="FieldDefinition" p:attributeName="textFieldDelimiter"/>
       </list>
     </property>
   </bean>

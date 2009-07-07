@@ -1,32 +1,28 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="PaymentAccountDetail" parent="PaymentAccountDetail-parentBean" />
+  <bean id="PaymentAccountDetail" parent="PaymentAccountDetail-parentBean"/>
 
   <bean id="PaymentAccountDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentAccountDetail" />
-    <property name="inquiryDefinition" >
-      <ref bean="PaymentAccountDetail-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentAccountDetail"/>
+    <property name="inquiryDefinition">
+      <ref bean="PaymentAccountDetail-inquiryDefinition"/>
     </property>
-    <property name="titleAttribute" value="finChartCode" />
-    <property name="objectLabel" value="Payment Account Detail" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="finChartCode"/>
+    <property name="objectLabel" value="Payment Account Detail"/>
+    <property name="attributes">
       <list>
-        <ref bean="PaymentAccountDetail-finChartCode" />
-        <ref bean="PaymentAccountDetail-accountNbr" />
-        <ref bean="PaymentAccountDetail-subAccountNbr" /> 
-        <ref bean="PaymentAccountDetail-finObjectCode" /> 
-        <ref bean="PaymentAccountDetail-finSubObjectCode" />
-        <ref bean="PaymentAccountDetail-orgReferenceId" />
-        <ref bean="PaymentAccountDetail-accountNetAmount" />
-        <ref bean="PaymentAccountDetail-account.accountNumber" />
-        <ref bean="PaymentAccountDetail-subAccount.subAccountNumber" />
-        <ref bean="PaymentAccountDetail-chartOfAccounts.chartOfAccountsCode" />
-        <ref bean="PaymentAccountDetail-project.code" />
-        <ref bean="PaymentAccountDetail-objectCode.financialObjectCode" />
+        <ref bean="PaymentAccountDetail-finChartCode"/>
+        <ref bean="PaymentAccountDetail-accountNbr"/>
+        <ref bean="PaymentAccountDetail-subAccountNbr"/> 
+        <ref bean="PaymentAccountDetail-finObjectCode"/> 
+        <ref bean="PaymentAccountDetail-finSubObjectCode"/>
+        <ref bean="PaymentAccountDetail-orgReferenceId"/>
+        <ref bean="PaymentAccountDetail-accountNetAmount"/>
+        <ref bean="PaymentAccountDetail-account.accountNumber"/>
+        <ref bean="PaymentAccountDetail-subAccount.subAccountNumber"/>
+        <ref bean="PaymentAccountDetail-chartOfAccounts.chartOfAccountsCode"/>
+        <ref bean="PaymentAccountDetail-project.code"/>
+        <ref bean="PaymentAccountDetail-objectCode.financialObjectCode"/>
    
       </list>
     </property>
@@ -35,109 +31,100 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="PaymentAccountDetail-finChartCode" parent="PaymentAccountDetail-finChartCode-parentBean" />
+  <bean id="PaymentAccountDetail-finChartCode" parent="PaymentAccountDetail-finChartCode-parentBean"/>
 
   <bean id="PaymentAccountDetail-finChartCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-   <property name="name" value="finChartCode" />
+   <property name="name" value="finChartCode"/>
   </bean>
-  <bean id="PaymentAccountDetail-chartOfAccounts.chartOfAccountsCode" parent="PaymentAccountDetail-chartOfAccounts.chartOfAccountsCode-parentBean" />
+  <bean id="PaymentAccountDetail-chartOfAccounts.chartOfAccountsCode" parent="PaymentAccountDetail-chartOfAccounts.chartOfAccountsCode-parentBean"/>
 
   <bean id="PaymentAccountDetail-chartOfAccounts.chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-   <property name="name" value="chartOfAccounts.chartOfAccountsCode" />
+   <property name="name" value="chartOfAccounts.chartOfAccountsCode"/>
   </bean>  
-  <bean id="PaymentAccountDetail-accountNbr" parent="PaymentAccountDetail-accountNbr-parentBean" />
+  <bean id="PaymentAccountDetail-accountNbr" parent="PaymentAccountDetail-accountNbr-parentBean"/>
 
   <bean id="PaymentAccountDetail-accountNbr-parentBean" abstract="true" parent="Account-accountNumber">
-  <property name="name" value="accountNbr" />
+  <property name="name" value="accountNbr"/>
   </bean>
-  <bean id="PaymentAccountDetail-account.accountNumber" parent="PaymentAccountDetail-account.accountNumber-parentBean" />
+  <bean id="PaymentAccountDetail-account.accountNumber" parent="PaymentAccountDetail-account.accountNumber-parentBean"/>
 
   <bean id="PaymentAccountDetail-account.accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-  <property name="name" value="account.accountNumber" />
+  <property name="name" value="account.accountNumber"/>
   </bean>
-  <bean id="PaymentAccountDetail-subAccountNbr" parent="PaymentAccountDetail-subAccountNbr-parentBean" />
+  <bean id="PaymentAccountDetail-subAccountNbr" parent="PaymentAccountDetail-subAccountNbr-parentBean"/>
 
   <bean id="PaymentAccountDetail-subAccountNbr-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
-  <property name="name" value="subAccountNbr" />
+  <property name="name" value="subAccountNbr"/>
   </bean>
-  <bean id="PaymentAccountDetail-subAccount.subAccountNumber" parent="PaymentAccountDetail-subAccount.subAccountNumber-parentBean" />
+  <bean id="PaymentAccountDetail-subAccount.subAccountNumber" parent="PaymentAccountDetail-subAccount.subAccountNumber-parentBean"/>
 
   <bean id="PaymentAccountDetail-subAccount.subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
-  <property name="name" value="subAccount.subAccountNumber" />
+  <property name="name" value="subAccount.subAccountNumber"/>
   </bean>
-  <bean id="PaymentAccountDetail-objectCode.financialObjectCode" parent="PaymentAccountDetail-objectCode.financialObjectCode-parentBean" />
+  <bean id="PaymentAccountDetail-objectCode.financialObjectCode" parent="PaymentAccountDetail-objectCode.financialObjectCode-parentBean"/>
 
   <bean id="PaymentAccountDetail-objectCode.financialObjectCode-parentBean" abstract="true" parent="ObjectCodeCurrent-financialObjectCode">
-  <property name="name" value="objectCode.financialObjectCode" />
+  <property name="name" value="objectCode.financialObjectCode"/>
   </bean>
   
-  <bean id="PaymentAccountDetail-finObjectCode" parent="PaymentAccountDetail-finObjectCode-parentBean" />
+  <bean id="PaymentAccountDetail-finObjectCode" parent="PaymentAccountDetail-finObjectCode-parentBean"/>
 
   <bean id="PaymentAccountDetail-finObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-  <property name="name" value="finObjectCode" />
+  <property name="name" value="finObjectCode"/>
   </bean>
   
-  <bean id="PaymentAccountDetail-finSubObjectCode" parent="PaymentAccountDetail-finSubObjectCode-parentBean" />
+  <bean id="PaymentAccountDetail-finSubObjectCode" parent="PaymentAccountDetail-finSubObjectCode-parentBean"/>
 
   <bean id="PaymentAccountDetail-finSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
-  <property name="name" value="finSubObjectCode" />
+  <property name="name" value="finSubObjectCode"/>
   </bean>
-  <bean id="PaymentAccountDetail-orgReferenceId" parent="PaymentAccountDetail-orgReferenceId-parentBean" />
+  <bean id="PaymentAccountDetail-orgReferenceId" parent="PaymentAccountDetail-orgReferenceId-parentBean"/>
 
   <bean id="PaymentAccountDetail-orgReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="orgReferenceId" />
-    <property name="label" value="Organization Reference ID" />
-    <property name="shortLabel" value="Organization Reference ID" />
-    <property name="maxLength" value="32" />
-    <property name="validationPattern" >
-       <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="orgReferenceId"/>
+    <property name="label" value="Organization Reference ID"/>
+    <property name="shortLabel" value="Organization Reference ID"/>
+    <property name="maxLength" value="32"/>
+    <property name="validationPattern">
+       <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
     </property>
   </bean>
-  <bean id="PaymentAccountDetail-project.code" parent="PaymentAccountDetail-project.code-parentBean" />
+  <bean id="PaymentAccountDetail-project.code" parent="PaymentAccountDetail-project.code-parentBean"/>
 
   <bean id="PaymentAccountDetail-project.code-parentBean" abstract="true" parent="ProjectCode-code">
-     <property name="name" value="project.code" />
+     <property name="name" value="project.code"/>
   </bean>
-  <bean id="PaymentAccountDetail-accountNetAmount" parent="PaymentAccountDetail-accountNetAmount-parentBean" />
+  <bean id="PaymentAccountDetail-accountNetAmount" parent="PaymentAccountDetail-accountNetAmount-parentBean"/>
 
   <bean id="PaymentAccountDetail-accountNetAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-     <property name="name" value="accountNetAmount" />
+     <property name="name" value="accountNetAmount"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="PaymentAccountDetail-inquiryDefinition" parent="PaymentAccountDetail-inquiryDefinition-parentBean" />
+  <bean id="PaymentAccountDetail-inquiryDefinition" parent="PaymentAccountDetail-inquiryDefinition-parentBean"/>
 
   <bean id="PaymentAccountDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="PaymentAccountDetail Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="PaymentAccountDetail Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccounts.chartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="account.accountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="subAccount.subAccountNumber" />   
-              <bean parent="FieldDefinition"
-                    p:attributeName="objectCode.financialObjectCode" />     
-              <bean parent="FieldDefinition"
-                    p:attributeName="finSubObjectCode" />  
-              <bean parent="FieldDefinition"
-                    p:attributeName="orgReferenceId" /> 
-              <bean parent="FieldDefinition"
-                    p:attributeName="project.code" /> 
-              <bean parent="FieldDefinition"
-                    p:attributeName="accountNetAmount" />                                                                                                                
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccounts.chartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="account.accountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="subAccount.subAccountNumber"/>   
+              <bean parent="FieldDefinition" p:attributeName="objectCode.financialObjectCode"/>     
+              <bean parent="FieldDefinition" p:attributeName="finSubObjectCode"/>  
+              <bean parent="FieldDefinition" p:attributeName="orgReferenceId"/> 
+              <bean parent="FieldDefinition" p:attributeName="project.code"/> 
+              <bean parent="FieldDefinition" p:attributeName="accountNetAmount"/>                                                                                                                
             </list>
           </property>
         </bean>

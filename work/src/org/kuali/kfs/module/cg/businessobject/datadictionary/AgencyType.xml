@@ -1,26 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AgencyType" parent="AgencyType-parentBean" />
+  <bean id="AgencyType" parent="AgencyType-parentBean"/>
 
   <bean id="AgencyType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AgencyType" />
-    <property name="inquiryDefinition" >
-      <ref bean="AgencyType-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AgencyType"/>
+    <property name="inquiryDefinition">
+      <ref bean="AgencyType-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="AgencyType-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="AgencyType-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="code" />
-    <property name="objectLabel" value="Agency Type" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="code"/>
+    <property name="objectLabel" value="Agency Type"/>
+    <property name="attributes">
       <list>
-        <ref bean="AgencyType-code" />
-        <ref bean="AgencyType-name" />
-        <ref bean="AgencyType-active" />
+        <ref bean="AgencyType-code"/>
+        <ref bean="AgencyType-name"/>
+        <ref bean="AgencyType-active"/>
       </list>
     </property>
   </bean>
@@ -28,67 +24,60 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AgencyType-code" parent="AgencyType-code-parentBean" />
+  <bean id="AgencyType-code" parent="AgencyType-code-parentBean"/>
 
   <bean id="AgencyType-code-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="code" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Agency Type Code" />
-    <property name="shortLabel" value="Agncy Typ Cd" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AlphaValidationPattern"
-            p:exactLength="1" />
+    <property name="name" value="code"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Agency Type Code"/>
+    <property name="shortLabel" value="Agncy Typ Cd"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AlphaValidationPattern" p:exactLength="1"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="1"/>
     </property>
   </bean>
-  <bean id="AgencyType-name" parent="AgencyType-name-parentBean" />
+  <bean id="AgencyType-name" parent="AgencyType-name-parentBean"/>
 
   <bean id="AgencyType-name-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="name" />
-    <property name="label" value="Agency Type Description" />
-    <property name="shortLabel" value="Type Desc" />
-    <property name="maxLength" value="30" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="name"/>
+    <property name="label" value="Agency Type Description"/>
+    <property name="shortLabel" value="Type Desc"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
     </property>
   </bean>
-  <bean id="AgencyType-active" parent="AgencyType-active-parentBean" />
+  <bean id="AgencyType-active" parent="AgencyType-active-parentBean"/>
 
   <bean id="AgencyType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="AgencyType-inquiryDefinition" parent="AgencyType-inquiryDefinition-parentBean" />
+  <bean id="AgencyType-inquiryDefinition" parent="AgencyType-inquiryDefinition-parentBean"/>
 
   <bean id="AgencyType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Agency Type Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Agency Type Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Agency Type Details" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Agency Type Details"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="code" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="name" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="code"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -99,40 +88,33 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="AgencyType-lookupDefinition" parent="AgencyType-lookupDefinition-parentBean" />
+  <bean id="AgencyType-lookupDefinition" parent="AgencyType-lookupDefinition-parentBean"/>
 
   <bean id="AgencyType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Agency Type Lookup" />
-    <property name="instructions" value="Lookup an Agency Type" />
-    <property name="defaultSort" >
+    <property name="title" value="Agency Type Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>code</value>
           </list>
         </property>
-        <property name="sortAscending" value="false" />
+        <property name="sortAscending" value="false"/>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="code"
-              p:noInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="code" p:noInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

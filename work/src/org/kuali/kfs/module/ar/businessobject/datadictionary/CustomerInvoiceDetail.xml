@@ -1,37 +1,33 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="CustomerInvoiceDetail" parent="CustomerInvoiceDetail-parentBean" />
+  <bean id="CustomerInvoiceDetail" parent="CustomerInvoiceDetail-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail" />
-    <property name="objectLabel" value="Customer Invoice Detail" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail"/>
+    <property name="objectLabel" value="Customer Invoice Detail"/>
+    <property name="attributes">
       <list>
-        <ref bean="CustomerInvoiceDetail-financialObjectCode" />
-        <ref bean="CustomerInvoiceDetail-accountNumber" />
-        <ref bean="CustomerInvoiceDetail-accountExpiredOverride" />
-        <ref bean="CustomerInvoiceDetail-organizationReferenceId" />
-        <ref bean="CustomerInvoiceDetail-chartOfAccountsCode" />
-        <ref bean="CustomerInvoiceDetail-postingYear" />
-        <ref bean="CustomerInvoiceDetail-amount" />
-        <ref bean="CustomerInvoiceDetail-subAccountNumber" />
-        <ref bean="CustomerInvoiceDetail-projectCode" />
-        <ref bean="CustomerInvoiceDetail-financialSubObjectCode" />
-        <ref bean="CustomerInvoiceDetail-documentNumber" />
-        <ref bean="CustomerInvoiceDetail-accountsReceivableObjectCode" />
-        <ref bean="CustomerInvoiceDetail-accountsReceivableSubObjectCode" />
-        <ref bean="CustomerInvoiceDetail-invoiceItemCode" />
-        <ref bean="CustomerInvoiceDetail-invoiceItemDescription" />
-        <ref bean="CustomerInvoiceDetail-invoiceItemQuantity" />
-        <ref bean="CustomerInvoiceDetail-invoiceItemServiceDate" />
-        <ref bean="CustomerInvoiceDetail-invoiceItemUnitOfMeasureCode" />
-        <ref bean="CustomerInvoiceDetail-invoiceItemUnitPrice" />
-        <ref bean="CustomerInvoiceDetail-invoiceItemTaxAmount" />
-        <ref bean="CustomerInvoiceDetail-taxableIndicator" />
+        <ref bean="CustomerInvoiceDetail-financialObjectCode"/>
+        <ref bean="CustomerInvoiceDetail-accountNumber"/>
+        <ref bean="CustomerInvoiceDetail-accountExpiredOverride"/>
+        <ref bean="CustomerInvoiceDetail-organizationReferenceId"/>
+        <ref bean="CustomerInvoiceDetail-chartOfAccountsCode"/>
+        <ref bean="CustomerInvoiceDetail-postingYear"/>
+        <ref bean="CustomerInvoiceDetail-amount"/>
+        <ref bean="CustomerInvoiceDetail-subAccountNumber"/>
+        <ref bean="CustomerInvoiceDetail-projectCode"/>
+        <ref bean="CustomerInvoiceDetail-financialSubObjectCode"/>
+        <ref bean="CustomerInvoiceDetail-documentNumber"/>
+        <ref bean="CustomerInvoiceDetail-accountsReceivableObjectCode"/>
+        <ref bean="CustomerInvoiceDetail-accountsReceivableSubObjectCode"/>
+        <ref bean="CustomerInvoiceDetail-invoiceItemCode"/>
+        <ref bean="CustomerInvoiceDetail-invoiceItemDescription"/>
+        <ref bean="CustomerInvoiceDetail-invoiceItemQuantity"/>
+        <ref bean="CustomerInvoiceDetail-invoiceItemServiceDate"/>
+        <ref bean="CustomerInvoiceDetail-invoiceItemUnitOfMeasureCode"/>
+        <ref bean="CustomerInvoiceDetail-invoiceItemUnitPrice"/>
+        <ref bean="CustomerInvoiceDetail-invoiceItemTaxAmount"/>
+        <ref bean="CustomerInvoiceDetail-taxableIndicator"/>
         <!-- 
 	        <ref bean="CustomerInvoiceDetail-appliedAmount"/>
 	        <ref bean="CustomerInvoiceDetail-amountToBeApplied"/>
@@ -48,52 +44,49 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="CustomerInvoiceDetail-financialObjectCode" parent="CustomerInvoiceDetail-financialObjectCode-parentBean" />
+  <bean id="CustomerInvoiceDetail-financialObjectCode" parent="CustomerInvoiceDetail-financialObjectCode-parentBean"/>
 
-  <bean id="CustomerInvoiceDetail-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode" />
-  <bean id="CustomerInvoiceDetail-accountNumber" parent="CustomerInvoiceDetail-accountNumber-parentBean" />
+  <bean id="CustomerInvoiceDetail-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode"/>
+  <bean id="CustomerInvoiceDetail-accountNumber" parent="CustomerInvoiceDetail-accountNumber-parentBean"/>
 
-  <bean id="CustomerInvoiceDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber" />  <bean id="SourceAccountingLine-accountExpiredOverride" parent="SourceAccountingLine-accountExpiredOverride-parentBean" />
+  <bean id="CustomerInvoiceDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber"/>  <bean id="SourceAccountingLine-accountExpiredOverride" parent="SourceAccountingLine-accountExpiredOverride-parentBean"/>
 
-  <bean id="CustomerInvoiceDetail-accountExpiredOverride" parent="SourceAccountingLine-accountExpiredOverride-parentBean" />
+  <bean id="CustomerInvoiceDetail-accountExpiredOverride" parent="SourceAccountingLine-accountExpiredOverride-parentBean"/>
   
-  <bean id="CustomerInvoiceDetail-organizationReferenceId" parent="CustomerInvoiceDetail-organizationReferenceId-parentBean" />
+  <bean id="CustomerInvoiceDetail-organizationReferenceId" parent="CustomerInvoiceDetail-organizationReferenceId-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationReferenceId" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Organization Reference Id" />
-    <property name="shortLabel" value="Org Ref Id" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="organizationReferenceId"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Organization Reference Id"/>
+    <property name="shortLabel" value="Org Ref Id"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="CustomerInvoiceDetail-chartOfAccountsCode" parent="CustomerInvoiceDetail-chartOfAccountsCode-parentBean" />
+  <bean id="CustomerInvoiceDetail-chartOfAccountsCode" parent="CustomerInvoiceDetail-chartOfAccountsCode-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="CustomerInvoiceDetail-postingYear" parent="CustomerInvoiceDetail-postingYear-parentBean" />
+  <bean id="CustomerInvoiceDetail-postingYear" parent="CustomerInvoiceDetail-postingYear-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="postingYear" />
-    <property name="required" value="true" />
+    <property name="name" value="postingYear"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="CustomerInvoiceDetail-amount" parent="CustomerInvoiceDetail-amount-parentBean" />
+  <bean id="CustomerInvoiceDetail-amount" parent="CustomerInvoiceDetail-amount-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="amount" />
-    <property name="required" value="false" />
+    <property name="name" value="amount"/>
+    <property name="required" value="false"/>
   </bean>
   
 <!-- 
@@ -107,178 +100,168 @@
   </bean>
  -->
   
-  <bean id="CustomerInvoiceDetail-amountOpen" parent="CustomerInvoiceDetail-amountOpen-parentBean" />
+  <bean id="CustomerInvoiceDetail-amountOpen" parent="CustomerInvoiceDetail-amountOpen-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-amountOpen-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="amountOpen" />
-    <property name="label" value="Open Amount" />
-    <property name="shortLabel" value="Open Amount" />    
-    <property name="required" value="false" />
+    <property name="name" value="amountOpen"/>
+    <property name="label" value="Open Amount"/>
+    <property name="shortLabel" value="Open Amount"/>    
+    <property name="required" value="false"/>
   </bean>    
   
-  <bean id="CustomerInvoiceDetail-writeoffAmount" parent="CustomerInvoiceDetail-writeoffAmount-parentBean" />
+  <bean id="CustomerInvoiceDetail-writeoffAmount" parent="CustomerInvoiceDetail-writeoffAmount-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-writeoffAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="writeoffAmount" />
-    <property name="label" value="Writeoff Amount" />
-    <property name="shortLabel" value="Writeoff Amount" />    
-    <property name="required" value="false" />
+    <property name="name" value="writeoffAmount"/>
+    <property name="label" value="Writeoff Amount"/>
+    <property name="shortLabel" value="Writeoff Amount"/>    
+    <property name="required" value="false"/>
   </bean>    
     
   
-  <bean id="CustomerInvoiceDetail-subAccountNumber" parent="CustomerInvoiceDetail-subAccountNumber-parentBean" />
+  <bean id="CustomerInvoiceDetail-subAccountNumber" parent="CustomerInvoiceDetail-subAccountNumber-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
-    <property name="label" value="Sub-Account Code" />
-    <property name="required" value="false" />
+    <property name="label" value="Sub-Account Code"/>
+    <property name="required" value="false"/>
     
   </bean>
-  <bean id="CustomerInvoiceDetail-projectCode" parent="CustomerInvoiceDetail-projectCode-parentBean" />
+  <bean id="CustomerInvoiceDetail-projectCode" parent="CustomerInvoiceDetail-projectCode-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
-    <property name="name" value="projectCode" />
-    <property name="required" value="false" />
+    <property name="name" value="projectCode"/>
+    <property name="required" value="false"/>
     
   </bean>
-  <bean id="CustomerInvoiceDetail-financialSubObjectCode" parent="CustomerInvoiceDetail-financialSubObjectCode-parentBean" />
+  <bean id="CustomerInvoiceDetail-financialSubObjectCode" parent="CustomerInvoiceDetail-financialSubObjectCode-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
-    <property name="required" value="false" />
+    <property name="required" value="false"/>
   </bean>
-  <bean id="CustomerInvoiceDetail-documentNumber" parent="CustomerInvoiceDetail-documentNumber-parentBean" />
+  <bean id="CustomerInvoiceDetail-documentNumber" parent="CustomerInvoiceDetail-documentNumber-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
-    <property name="required" value="false" />
+    <property name="required" value="false"/>
   </bean>
-  <bean id="CustomerInvoiceDetail-accountsReceivableObjectCode" parent="CustomerInvoiceDetail-accountsReceivableObjectCode-parentBean" />
+  <bean id="CustomerInvoiceDetail-accountsReceivableObjectCode" parent="CustomerInvoiceDetail-accountsReceivableObjectCode-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-accountsReceivableObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    <property name="name" value="accountsReceivableObjectCode" />
-    <property name="label" value="Accounts Receivable Object Code" />
-    <property name="shortLabel" value="AR Object Code" />
-    <property name="required" value="false" />
+    <property name="name" value="accountsReceivableObjectCode"/>
+    <property name="label" value="Accounts Receivable Object Code"/>
+    <property name="shortLabel" value="AR Object Code"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="CustomerInvoiceDetail-accountsReceivableSubObjectCode" parent="CustomerInvoiceDetail-accountsReceivableSubObjectCode-parentBean" />
+  <bean id="CustomerInvoiceDetail-accountsReceivableSubObjectCode" parent="CustomerInvoiceDetail-accountsReceivableSubObjectCode-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-accountsReceivableSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
-    <property name="name" value="accountsReceivableSubObjectCode" />
-    <property name="label" value="Accounts Receivable Sub Object Code" />
-    <property name="shortLabel" value="AR Sub-Object Code" />
-    <property name="required" value="false" />
+    <property name="name" value="accountsReceivableSubObjectCode"/>
+    <property name="label" value="Accounts Receivable Sub Object Code"/>
+    <property name="shortLabel" value="AR Sub-Object Code"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="CustomerInvoiceDetail-invoiceItemCode" parent="CustomerInvoiceDetail-invoiceItemCode-parentBean" />
+  <bean id="CustomerInvoiceDetail-invoiceItemCode" parent="CustomerInvoiceDetail-invoiceItemCode-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-invoiceItemCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Code" />
-    <property name="shortLabel" value="Item Code" />
-    <property name="maxLength" value="6" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="invoiceItemCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Item Code"/>
+    <property name="shortLabel" value="Item Code"/>
+    <property name="maxLength" value="6"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="8"/>
     </property>
   </bean>
-  <bean id="CustomerInvoiceDetail-invoiceItemDescription" parent="CustomerInvoiceDetail-invoiceItemDescription-parentBean" />
+  <bean id="CustomerInvoiceDetail-invoiceItemDescription" parent="CustomerInvoiceDetail-invoiceItemDescription-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-invoiceItemDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemDescription" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="400" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="invoiceItemDescription"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Item Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="400"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="20" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
     </property>
   </bean>
-  <bean id="CustomerInvoiceDetail-invoiceItemQuantity" parent="CustomerInvoiceDetail-invoiceItemQuantity-parentBean" />
+  <bean id="CustomerInvoiceDetail-invoiceItemQuantity" parent="CustomerInvoiceDetail-invoiceItemQuantity-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-invoiceItemQuantity-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemQuantity" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Quantity" />
-    <property name="shortLabel" value="Quantity" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="invoiceItemQuantity"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Item Quantity"/>
+    <property name="shortLabel" value="Quantity"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
   </bean>
-  <bean id="CustomerInvoiceDetail-invoiceItemServiceDate" parent="CustomerInvoiceDetail-invoiceItemServiceDate-parentBean" />
+  <bean id="CustomerInvoiceDetail-invoiceItemServiceDate" parent="CustomerInvoiceDetail-invoiceItemServiceDate-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-invoiceItemServiceDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="invoiceItemServiceDate" />
-    <property name="label" value="Invoice Item Service Date" />
-    <property name="shortLabel" value="Service Date" />
-    <property name="required" value="false" />
+    <property name="name" value="invoiceItemServiceDate"/>
+    <property name="label" value="Invoice Item Service Date"/>
+    <property name="shortLabel" value="Service Date"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="CustomerInvoiceDetail-invoiceItemUnitOfMeasureCode" parent="CustomerInvoiceDetail-invoiceItemUnitOfMeasureCode-parentBean" />
+  <bean id="CustomerInvoiceDetail-invoiceItemUnitOfMeasureCode" parent="CustomerInvoiceDetail-invoiceItemUnitOfMeasureCode-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-invoiceItemUnitOfMeasureCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemUnitOfMeasureCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Unit Of Measure Code" />
-    <property name="shortLabel" value="UOM" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="invoiceItemUnitOfMeasureCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Item Unit Of Measure Code"/>
+    <property name="shortLabel" value="UOM"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="CustomerInvoiceDetail-invoiceItemUnitPrice" parent="CustomerInvoiceDetail-invoiceItemUnitPrice-parentBean" />
+  <bean id="CustomerInvoiceDetail-invoiceItemUnitPrice" parent="CustomerInvoiceDetail-invoiceItemUnitPrice-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-invoiceItemUnitPrice-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemUnitPrice" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Invoice Item Unit Price" />
-    <property name="shortLabel" value="Unit Price" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern"
-            p:precision="19"
-            p:scale="4" 
-            p:allowNegative="true" />
+    <property name="name" value="invoiceItemUnitPrice"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Invoice Item Unit Price"/>
+    <property name="shortLabel" value="Unit Price"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FixedPointValidationPattern" p:precision="19" p:scale="4" p:allowNegative="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="CurrencyControlDefinition"
-      		p:formattedMaxLength="26"
-            p:size="10" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="26" p:size="10"/>
     </property>
   </bean>
-  <bean id="CustomerInvoiceDetail-invoiceItemTaxAmount" parent="CustomerInvoiceDetail-invoiceItemTaxAmount-parentBean" />
+  <bean id="CustomerInvoiceDetail-invoiceItemTaxAmount" parent="CustomerInvoiceDetail-invoiceItemTaxAmount-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-invoiceItemTaxAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="invoiceItemTaxAmount" />
-    <property name="label" value="Tax Amount" />
-    <property name="shortLabel" value="Tax Amount" />
-    <property name="required" value="true" />
+    <property name="name" value="invoiceItemTaxAmount"/>
+    <property name="label" value="Tax Amount"/>
+    <property name="shortLabel" value="Tax Amount"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="CustomerInvoiceDetail-taxableIndicator" parent="CustomerInvoiceDetail-taxableIndicator-parentBean" />
+  <bean id="CustomerInvoiceDetail-taxableIndicator" parent="CustomerInvoiceDetail-taxableIndicator-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-taxableIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="taxableIndicator" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Tax?" />
-    <property name="shortLabel" value="Tax?" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="taxableIndicator"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Tax?"/>
+    <property name="shortLabel" value="Tax?"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
   
@@ -292,18 +275,18 @@
   </bean>
 
    -->
-  <bean id="CustomerInvoiceDetail-amountApplied" parent="CustomerInvoiceDetail-amountApplied-parentBean" />
+  <bean id="CustomerInvoiceDetail-amountApplied" parent="CustomerInvoiceDetail-amountApplied-parentBean"/>
   <bean id="CustomerInvoiceDetail-amountApplied-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="amountApplied" />
-    <property name="label" value="Amount Applied" />
-    <property name="shortLabel" value="Amount Applied" />
+    <property name="name" value="amountApplied"/>
+    <property name="label" value="Amount Applied"/>
+    <property name="shortLabel" value="Amount Applied"/>
   </bean>
   
-  <bean id="CustomerInvoiceDetail-sequenceNumber" parent="CustomerInvoiceDetail-sequenceNumber-parentBean" />
+  <bean id="CustomerInvoiceDetail-sequenceNumber" parent="CustomerInvoiceDetail-sequenceNumber-parentBean"/>
 
   <bean id="CustomerInvoiceDetail-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
-    <property name="name" value="sequenceNumber" />
-    <property name="label" value="Item Number" />
-    <property name="shortLabel" value="Item Nbr" />
+    <property name="name" value="sequenceNumber"/>
+    <property name="label" value="Item Number"/>
+    <property name="shortLabel" value="Item Nbr"/>
   </bean>
 </beans>

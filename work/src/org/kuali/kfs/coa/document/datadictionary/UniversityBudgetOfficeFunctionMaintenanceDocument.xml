@@ -38,7 +38,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="financialUniversityBudgetOfficeFunctionCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialUniversityBudgetOfficeFunctionName" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>
   </bean>

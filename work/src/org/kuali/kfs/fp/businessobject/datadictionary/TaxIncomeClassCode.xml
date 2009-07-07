@@ -1,26 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="TaxIncomeClassCode" parent="TaxIncomeClassCode-parentBean" />
+  <bean id="TaxIncomeClassCode" parent="TaxIncomeClassCode-parentBean"/>
 
   <bean id="TaxIncomeClassCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.TaxIncomeClassCode" />
-    <property name="inquiryDefinition" >
-      <ref bean="TaxIncomeClassCode-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.TaxIncomeClassCode"/>
+    <property name="inquiryDefinition">
+      <ref bean="TaxIncomeClassCode-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="TaxIncomeClassCode-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="TaxIncomeClassCode-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="code" />
-    <property name="objectLabel" value="Disbursement Voucher Tax Income Class" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="code"/>
+    <property name="objectLabel" value="Disbursement Voucher Tax Income Class"/>
+    <property name="attributes">
       <list>
-        <ref bean="TaxIncomeClassCode-code" />
-        <ref bean="TaxIncomeClassCode-name" />
-        <ref bean="TaxIncomeClassCode-active" />
+        <ref bean="TaxIncomeClassCode-code"/>
+        <ref bean="TaxIncomeClassCode-name"/>
+        <ref bean="TaxIncomeClassCode-active"/>
       </list>
     </property>
   </bean>
@@ -28,35 +24,33 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="TaxIncomeClassCode-code" parent="TaxIncomeClassCode-code-parentBean" />
+  <bean id="TaxIncomeClassCode-code" parent="TaxIncomeClassCode-code-parentBean"/>
 
   <bean id="TaxIncomeClassCode-code-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="code" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Income Class Code" />
-    <property name="shortLabel" value="Income Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="code"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Income Class Code"/>
+    <property name="shortLabel" value="Income Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
   </bean>
-  <bean id="TaxIncomeClassCode-name" parent="TaxIncomeClassCode-name-parentBean" />
+  <bean id="TaxIncomeClassCode-name" parent="TaxIncomeClassCode-name-parentBean"/>
 
   <bean id="TaxIncomeClassCode-name-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="name" />
-    <property name="label" value="Income Class Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="name"/>
+    <property name="label" value="Income Class Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
   </bean>
-  <bean id="TaxIncomeClassCode-active" parent="TaxIncomeClassCode-active-parentBean" />
+  <bean id="TaxIncomeClassCode-active" parent="TaxIncomeClassCode-active-parentBean"/>
 
   <bean id="TaxIncomeClassCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active"/>
@@ -66,23 +60,20 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="TaxIncomeClassCode-inquiryDefinition" parent="TaxIncomeClassCode-inquiryDefinition-parentBean" />
+  <bean id="TaxIncomeClassCode-inquiryDefinition" parent="TaxIncomeClassCode-inquiryDefinition-parentBean"/>
 
   <bean id="TaxIncomeClassCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Disbursement Voucher Tax Income Class Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Disbursement Voucher Tax Income Class Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="code" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="name" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="code"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -93,38 +84,32 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="TaxIncomeClassCode-lookupDefinition" parent="TaxIncomeClassCode-lookupDefinition-parentBean" />
+  <bean id="TaxIncomeClassCode-lookupDefinition" parent="TaxIncomeClassCode-lookupDefinition-parentBean"/>
 
   <bean id="TaxIncomeClassCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Disbursement Voucher Tax Income Class Lookup" />
-    <property name="instructions" value="Lookup a Tax Income Class" />
-    <property name="defaultSort" >
+    <property name="title" value="Disbursement Voucher Tax Income Class Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>code</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

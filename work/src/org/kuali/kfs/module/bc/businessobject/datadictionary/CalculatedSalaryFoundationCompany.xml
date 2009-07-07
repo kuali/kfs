@@ -1,23 +1,19 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="CalculatedSalaryFoundationCompany" parent="CalculatedSalaryFoundationCompany-parentBean" />
+  <bean id="CalculatedSalaryFoundationCompany" parent="CalculatedSalaryFoundationCompany-parentBean"/>
 
   <bean id="CalculatedSalaryFoundationCompany-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.CalculatedSalaryFoundationCompany" />
-    <property name="inquiryDefinition" >
-      <ref bean="CalculatedSalaryFoundationCompany-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.CalculatedSalaryFoundationCompany"/>
+    <property name="inquiryDefinition">
+      <ref bean="CalculatedSalaryFoundationCompany-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="CalculatedSalaryFoundationCompany-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="CalculatedSalaryFoundationCompany-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Calculated Salary Foundation Company" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Calculated Salary Foundation Company"/>
+    <property name="attributes">
       <list>
-        <ref bean="CalculatedSalaryFoundationCompany-hrmsCompany" />
+        <ref bean="CalculatedSalaryFoundationCompany-hrmsCompany"/>
       </list>
     </property>
   </bean>
@@ -25,20 +21,19 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="CalculatedSalaryFoundationCompany-hrmsCompany" parent="CalculatedSalaryFoundationCompany-hrmsCompany-parentBean" />
+  <bean id="CalculatedSalaryFoundationCompany-hrmsCompany" parent="CalculatedSalaryFoundationCompany-hrmsCompany-parentBean"/>
 
   <bean id="CalculatedSalaryFoundationCompany-hrmsCompany-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="hrmsCompany" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Hrms Company" />
-    <property name="shortLabel" value="Company" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="hrmsCompany"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Hrms Company"/>
+    <property name="shortLabel" value="Company"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
     
     
@@ -47,19 +42,18 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="CalculatedSalaryFoundationCompany-inquiryDefinition" parent="CalculatedSalaryFoundationCompany-inquiryDefinition-parentBean" />
+  <bean id="CalculatedSalaryFoundationCompany-inquiryDefinition" parent="CalculatedSalaryFoundationCompany-inquiryDefinition-parentBean"/>
 
   <bean id="CalculatedSalaryFoundationCompany-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Calculated Salary Foundation Company Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Calculated Salary Foundation Company Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="hrmsCompany" />
+              <bean parent="FieldDefinition" p:attributeName="hrmsCompany"/>
             </list>
           </property>
         </bean>
@@ -70,25 +64,23 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="CalculatedSalaryFoundationCompany-lookupDefinition" parent="CalculatedSalaryFoundationCompany-lookupDefinition-parentBean" />
+  <bean id="CalculatedSalaryFoundationCompany-lookupDefinition" parent="CalculatedSalaryFoundationCompany-lookupDefinition-parentBean"/>
 
   <bean id="CalculatedSalaryFoundationCompany-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Calculated Salary Foundation Company Lookup" />
-    <property name="instructions" value="Look up a Calculated Salary Foundation Company" />
-    <property name="defaultSort" >
+    <property name="title" value="Calculated Salary Foundation Company Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="hrmsCompany" />
+        <bean parent="FieldDefinition" p:attributeName="hrmsCompany"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="hrmsCompany" />
+        <bean parent="FieldDefinition" p:attributeName="hrmsCompany"/>
       </list>
     </property>
   </bean>

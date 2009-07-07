@@ -1,145 +1,102 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="VendorDetail" parent="VendorDetail-parentBean" />
+  <bean id="VendorDetail" parent="VendorDetail-parentBean"/>
 
   <bean id="VendorDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorDetail" />
-    <property name="boNotesEnabled" value="true" />
-    <property name="inquiryDefinition" >
-      <ref bean="VendorDetail-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorDetail"/>
+    <property name="boNotesEnabled" value="true"/>
+    <property name="inquiryDefinition">
+      <ref bean="VendorDetail-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="VendorDetail-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="VendorDetail-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="vendorName" />
-    <property name="objectLabel" value="Vendor" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="vendorName"/>
+    <property name="objectLabel" value="Vendor"/>
+    <property name="attributes">
       <list>
-        <ref bean="VendorDetail-vendorHeaderGeneratedIdentifier" />
-        <ref bean="VendorDetail-vendorDetailAssignedIdentifier" />
-        <ref bean="VendorDetail-vendorNumber" />
-        <ref bean="VendorDetail-vendorDunsNumber" />
-        <ref bean="VendorDetail-vendorName" />
-        <ref bean="VendorDetail-vendorLastName" />
-        <ref bean="VendorDetail-vendorFirstName" />
-        <ref bean="VendorDetail-vendorRemitName" />
-        <ref bean="VendorDetail-vendorRestrictedReasonText" />
-        <ref bean="VendorDetail-vendorSoldToNumber" />
-        <ref bean="VendorDetail-vendorSoldToName" />
-        <ref bean="VendorDetail-vendorUrlAddress" />
-        <ref bean="VendorDetail-vendorRestrictedPersonIdentifier" />
-        <ref bean="VendorDetail-vendorRestrictedPerson.principalName" />
-        <ref bean="VendorDetail-vendorRestrictedPerson.name" />
-        <ref bean="VendorDetail-vendorRestrictedDate" />
-        <ref bean="VendorDetail-vendorPaymentTermsCode" />
-        <ref bean="VendorDetail-vendorShippingPaymentTermsCode" />
-        <ref bean="VendorDetail-vendorShippingTitleCode" />
-        <ref bean="VendorDetail-vendorInactiveReasonCode" />
-        <ref bean="VendorDetail-vendorSoldToGeneratedIdentifier" />
-        <ref bean="VendorDetail-vendorSoldToAssignedIdentifier" />
-        <ref bean="VendorDetail-vendorMinimumOrderAmount" />
-        <ref bean="VendorDetail-vendorStateForLookup" />
-        <ref bean="VendorDetail-vendorCreditCardIndicator" />
-        <ref bean="VendorDetail-vendorConfirmationIndicator" />
-        <ref bean="VendorDetail-vendorPrepaymentIndicator" />
-        <ref bean="VendorDetail-vendorRestrictedIndicator" />
-        <ref bean="VendorDetail-vendorParentIndicator" />
-        <ref bean="VendorDetail-vendorFirstLastNameIndicator" />
-        <ref bean="VendorDetail-vendorAddresses.vendorStateCode" />
-        <ref bean="VendorDetail-vendorHeader.vendorTaxNumber" />
-        <ref bean="VendorDetail-vendorHeader.vendorFederalWithholdingTaxBeginningDate" />
-        <ref bean="VendorDetail-vendorHeader.vendorTaxTypeCode" />
-        <ref bean="VendorDetail-vendorHeader.vendorOwnershipCode" />
-        <ref bean="VendorDetail-vendorHeader.vendorOwnershipCategoryCode" />
-        <ref bean="VendorDetail-vendorHeader.vendorW9ReceivedIndicator" />
-        <ref bean="VendorDetail-vendorHeader.vendorW8BenReceivedIndicator" />
-        <ref bean="VendorDetail-vendorHeader.vendorFederalWithholdingTaxEndDate" />
-        <ref bean="VendorDetail-vendorHeader.vendorDebarredIndicator" />
-        <ref bean="VendorDetail-vendorHeader.vendorForeignIndicator" />
-        <ref bean="VendorDetail-vendorHeader.vendorTypeCode" />
-        <ref bean="VendorDetail-vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" />
-        <ref bean="VendorDetail-vendorShippingSpecialConditions.vendorShippingSpecialConditionCode" />
-        <ref bean="VendorDetail-vendorAliases.vendorAliasName" />
-        <ref bean="VendorDetail-vendorPhoneNumbers.vendorPhoneTypeCode" />
-        <ref bean="VendorDetail-vendorPhoneNumbers.vendorPhoneNumber" />
-        <ref bean="VendorDetail-vendorPhoneNumbers.vendorPhoneExtensionNumber" />
-        <ref bean="VendorDetail-vendorCustomerNumbers.vendorCustomerNumber" />
-        <ref bean="VendorDetail-vendorCustomerNumbers.chartOfAccountsCode" />
-        <ref bean="VendorDetail-vendorCustomerNumbers.vendorOrganizationCode" />
-        <ref bean="VendorDetail-vendorCommodities.purchasingCommodityCode" />
-        <ref bean="VendorDetail-activeIndicator" />
-        <ref bean="VendorDetail-taxableIndicator" />
-        <ref bean="VendorDetail-vendorParentName" />
+        <ref bean="VendorDetail-vendorHeaderGeneratedIdentifier"/>
+        <ref bean="VendorDetail-vendorDetailAssignedIdentifier"/>
+        <ref bean="VendorDetail-vendorNumber"/>
+        <ref bean="VendorDetail-vendorDunsNumber"/>
+        <ref bean="VendorDetail-vendorName"/>
+        <ref bean="VendorDetail-vendorLastName"/>
+        <ref bean="VendorDetail-vendorFirstName"/>
+        <ref bean="VendorDetail-vendorRemitName"/>
+        <ref bean="VendorDetail-vendorRestrictedReasonText"/>
+        <ref bean="VendorDetail-vendorSoldToNumber"/>
+        <ref bean="VendorDetail-vendorSoldToName"/>
+        <ref bean="VendorDetail-vendorUrlAddress"/>
+        <ref bean="VendorDetail-vendorRestrictedPersonIdentifier"/>
+        <ref bean="VendorDetail-vendorRestrictedPerson.principalName"/>
+        <ref bean="VendorDetail-vendorRestrictedPerson.name"/>
+        <ref bean="VendorDetail-vendorRestrictedDate"/>
+        <ref bean="VendorDetail-vendorPaymentTermsCode"/>
+        <ref bean="VendorDetail-vendorShippingPaymentTermsCode"/>
+        <ref bean="VendorDetail-vendorShippingTitleCode"/>
+        <ref bean="VendorDetail-vendorInactiveReasonCode"/>
+        <ref bean="VendorDetail-vendorSoldToGeneratedIdentifier"/>
+        <ref bean="VendorDetail-vendorSoldToAssignedIdentifier"/>
+        <ref bean="VendorDetail-vendorMinimumOrderAmount"/>
+        <ref bean="VendorDetail-vendorStateForLookup"/>
+        <ref bean="VendorDetail-vendorCreditCardIndicator"/>
+        <ref bean="VendorDetail-vendorConfirmationIndicator"/>
+        <ref bean="VendorDetail-vendorPrepaymentIndicator"/>
+        <ref bean="VendorDetail-vendorRestrictedIndicator"/>
+        <ref bean="VendorDetail-vendorParentIndicator"/>
+        <ref bean="VendorDetail-vendorFirstLastNameIndicator"/>
+        <ref bean="VendorDetail-vendorAddresses.vendorStateCode"/>
+        <ref bean="VendorDetail-vendorHeader.vendorTaxNumber"/>
+        <ref bean="VendorDetail-vendorHeader.vendorFederalWithholdingTaxBeginningDate"/>
+        <ref bean="VendorDetail-vendorHeader.vendorTaxTypeCode"/>
+        <ref bean="VendorDetail-vendorHeader.vendorOwnershipCode"/>
+        <ref bean="VendorDetail-vendorHeader.vendorOwnershipCategoryCode"/>
+        <ref bean="VendorDetail-vendorHeader.vendorW9ReceivedIndicator"/>
+        <ref bean="VendorDetail-vendorHeader.vendorW8BenReceivedIndicator"/>
+        <ref bean="VendorDetail-vendorHeader.vendorFederalWithholdingTaxEndDate"/>
+        <ref bean="VendorDetail-vendorHeader.vendorDebarredIndicator"/>
+        <ref bean="VendorDetail-vendorHeader.vendorForeignIndicator"/>
+        <ref bean="VendorDetail-vendorHeader.vendorTypeCode"/>
+        <ref bean="VendorDetail-vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode"/>
+        <ref bean="VendorDetail-vendorShippingSpecialConditions.vendorShippingSpecialConditionCode"/>
+        <ref bean="VendorDetail-vendorAliases.vendorAliasName"/>
+        <ref bean="VendorDetail-vendorPhoneNumbers.vendorPhoneTypeCode"/>
+        <ref bean="VendorDetail-vendorPhoneNumbers.vendorPhoneNumber"/>
+        <ref bean="VendorDetail-vendorPhoneNumbers.vendorPhoneExtensionNumber"/>
+        <ref bean="VendorDetail-vendorCustomerNumbers.vendorCustomerNumber"/>
+        <ref bean="VendorDetail-vendorCustomerNumbers.chartOfAccountsCode"/>
+        <ref bean="VendorDetail-vendorCustomerNumbers.vendorOrganizationCode"/>
+        <ref bean="VendorDetail-vendorCommodities.purchasingCommodityCode"/>
+        <ref bean="VendorDetail-activeIndicator"/>
+        <ref bean="VendorDetail-taxableIndicator"/>
+        <ref bean="VendorDetail-vendorParentName"/>
       </list>
     </property>
-    <property name="collections" >
+    <property name="collections">
       <list>
-        <bean parent="CollectionDefinition"
-              p:name="vendorAddresses"
-              p:label="Vendor Addresses"
-              p:shortLabel="Addresses"
-              p:elementLabel="Address" />
-        <bean parent="CollectionDefinition"
-              p:name="vendorHeader.vendorSupplierDiversities"
-              p:label="Supplier Diversities"
-              p:shortLabel="Supplier Diversities" />
-        <bean parent="CollectionDefinition"
-              p:name="vendorShippingSpecialConditions"
-              p:label="Vendor Shipping Special Conditions"
-              p:shortLabel="Shipping Special Conditions" />
-        <bean parent="CollectionDefinition"
-              p:name="vendorPhoneNumbers"
-              p:label="Vendor Phone Numbers"
-              p:shortLabel="Phone Numbers"
-              p:elementLabel="Phone Numbers" />
-        <bean parent="CollectionDefinition"
-              p:name="vendorCustomerNumbers"
-              p:label="Vendor Customer Numbers"
-              p:shortLabel="Customer Numbers"
-              p:elementLabel="Customer Numbers" />
-        <bean parent="CollectionDefinition"
-              p:name="vendorAliases"
-              p:label="Search Alias"
-              p:shortLabel="Search Alias"
-              p:elementLabel="Search Alias" />
-        <bean parent="CollectionDefinition"
-              p:name="boNotes"
-              p:label="Notes"
-              p:shortLabel="Notes"
-              p:elementLabel="Notes" />
-        <bean parent="CollectionDefinition"
-              p:name="vendorCommodities"
-              p:label="Commodity Codes"
-              p:shortLabel="Commodity Codes" />
+        <bean parent="CollectionDefinition" p:name="vendorAddresses" p:label="Vendor Addresses" p:shortLabel="Addresses" p:elementLabel="Address"/>
+        <bean parent="CollectionDefinition" p:name="vendorHeader.vendorSupplierDiversities" p:label="Supplier Diversities" p:shortLabel="Supplier Diversities"/>
+        <bean parent="CollectionDefinition" p:name="vendorShippingSpecialConditions" p:label="Vendor Shipping Special Conditions" p:shortLabel="Shipping Special Conditions"/>
+        <bean parent="CollectionDefinition" p:name="vendorPhoneNumbers" p:label="Vendor Phone Numbers" p:shortLabel="Phone Numbers" p:elementLabel="Phone Numbers"/>
+        <bean parent="CollectionDefinition" p:name="vendorCustomerNumbers" p:label="Vendor Customer Numbers" p:shortLabel="Customer Numbers" p:elementLabel="Customer Numbers"/>
+        <bean parent="CollectionDefinition" p:name="vendorAliases" p:label="Search Alias" p:shortLabel="Search Alias" p:elementLabel="Search Alias"/>
+        <bean parent="CollectionDefinition" p:name="boNotes" p:label="Notes" p:shortLabel="Notes" p:elementLabel="Notes"/>
+        <bean parent="CollectionDefinition" p:name="vendorCommodities" p:label="Commodity Codes" p:shortLabel="Commodity Codes"/>
       </list>
     </property>
-    <property name="relationships" >
+    <property name="relationships">
       <list>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="vendorRestrictedPerson" />
-          <property name="primitiveAttributes" >
+          <property name="objectAttributeName" value="vendorRestrictedPerson"/>
+          <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="vendorRestrictedPersonIdentifier"
-                    p:targetName="principalId" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="vendorRestrictedPersonIdentifier" p:targetName="principalId"/>
             </list>
           </property>
-          <property name="supportAttributes" >
+          <property name="supportAttributes">
             <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="vendorRestrictedPerson.principalName"
-                    p:targetName="principalName" />
-              <bean parent="SupportAttributeDefinition"
-                    p:sourceName="vendorRestrictedPerson.name"
-                    p:targetName="name" />
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="vendorRestrictedPerson.principalName" p:targetName="principalName"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="vendorRestrictedPerson.name" p:targetName="name"/>
             </list>
           </property>
         </bean>
@@ -150,651 +107,566 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="VendorDetail-vendorHeaderGeneratedIdentifier" parent="VendorDetail-vendorHeaderGeneratedIdentifier-parentBean" />
+  <bean id="VendorDetail-vendorHeaderGeneratedIdentifier" parent="VendorDetail-vendorHeaderGeneratedIdentifier-parentBean"/>
 
   <bean id="VendorDetail-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorHeaderGeneratedIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Vendor Header Generated Identifier" />
-    <property name="shortLabel" value="Header Generated ID" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="vendorHeaderGeneratedIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Vendor Header Generated Identifier"/>
+    <property name="shortLabel" value="Header Generated ID"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
-  <bean id="VendorDetail-vendorDetailAssignedIdentifier" parent="VendorDetail-vendorDetailAssignedIdentifier-parentBean" />
+  <bean id="VendorDetail-vendorDetailAssignedIdentifier" parent="VendorDetail-vendorDetailAssignedIdentifier-parentBean"/>
 
   <bean id="VendorDetail-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorDetailAssignedIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Vendor Detail Assigned Identifier" />
-    <property name="shortLabel" value="Detail Assigned ID" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="vendorDetailAssignedIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Vendor Detail Assigned Identifier"/>
+    <property name="shortLabel" value="Detail Assigned ID"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
-  <bean id="VendorDetail-vendorNumber" parent="VendorDetail-vendorNumber-parentBean" />
+  <bean id="VendorDetail-vendorNumber" parent="VendorDetail-vendorNumber-parentBean"/>
 
   <bean id="VendorDetail-vendorNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorNumber" />
-    <property name="label" value="Vendor #" />
-    <property name="shortLabel" value="Vendor #" />
-    <property name="maxLength" value="20" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="vendorNumber"/>
+    <property name="label" value="Vendor #"/>
+    <property name="shortLabel" value="Vendor #"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="22" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="22"/>
     </property>
   </bean>
-  <bean id="VendorDetail-vendorDunsNumber" parent="VendorDetail-vendorDunsNumber-parentBean" />
+  <bean id="VendorDetail-vendorDunsNumber" parent="VendorDetail-vendorDunsNumber-parentBean"/>
 
   <bean id="VendorDetail-vendorDunsNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorDunsNumber" />
-    <property name="label" value="DUNS Number" />
-    <property name="shortLabel" value="DUNS #" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="vendorDunsNumber"/>
+    <property name="label" value="DUNS Number"/>
+    <property name="shortLabel" value="DUNS #"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
   </bean>
-  <bean id="VendorDetail-vendorName" parent="VendorDetail-vendorName-parentBean" />
+  <bean id="VendorDetail-vendorName" parent="VendorDetail-vendorName-parentBean"/>
 
   <bean id="VendorDetail-vendorName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Vendor Name" />
-    <property name="shortLabel" value="Vendor Name" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="vendorName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Vendor Name"/>
+    <property name="shortLabel" value="Vendor Name"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="45" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="45"/>
     </property>
   </bean>
-  <bean id="VendorDetail-vendorLastName" parent="VendorDetail-vendorLastName-parentBean" />
+  <bean id="VendorDetail-vendorLastName" parent="VendorDetail-vendorLastName-parentBean"/>
 
   <bean id="VendorDetail-vendorLastName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorLastName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Vendor Last Name" />
-    <property name="shortLabel" value="Vendor Last Name" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="vendorLastName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Vendor Last Name"/>
+    <property name="shortLabel" value="Vendor Last Name"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="45" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="45"/>
     </property>
   </bean>
-  <bean id="VendorDetail-vendorFirstName" parent="VendorDetail-vendorFirstName-parentBean" />
+  <bean id="VendorDetail-vendorFirstName" parent="VendorDetail-vendorFirstName-parentBean"/>
 
   <bean id="VendorDetail-vendorFirstName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorFirstName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Vendor First Name" />
-    <property name="shortLabel" value="Vendor First Name" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="vendorFirstName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Vendor First Name"/>
+    <property name="shortLabel" value="Vendor First Name"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="45" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="45"/>
     </property>
   </bean>
-  <bean id="VendorDetail-vendorRemitName" parent="VendorDetail-vendorRemitName-parentBean" />
+  <bean id="VendorDetail-vendorRemitName" parent="VendorDetail-vendorRemitName-parentBean"/>
 
   <bean id="VendorDetail-vendorRemitName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorRemitName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Remit Name" />
-    <property name="shortLabel" value="Remit Name" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="vendorRemitName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Remit Name"/>
+    <property name="shortLabel" value="Remit Name"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="45" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="45"/>
     </property>
   </bean>
-  <bean id="VendorDetail-vendorRestrictedReasonText" parent="VendorDetail-vendorRestrictedReasonText-parentBean" />
+  <bean id="VendorDetail-vendorRestrictedReasonText" parent="VendorDetail-vendorRestrictedReasonText-parentBean"/>
 
   <bean id="VendorDetail-vendorRestrictedReasonText-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorRestrictedReasonText" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Restricted Reason" />
-    <property name="shortLabel" value="Restricted Reason" />
-    <property name="maxLength" value="60" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="vendorRestrictedReasonText"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Restricted Reason"/>
+    <property name="shortLabel" value="Restricted Reason"/>
+    <property name="maxLength" value="60"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="3"
-            p:cols="60" />
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="60"/>
     </property>
   </bean>
-  <bean id="VendorDetail-vendorSoldToNumber" parent="VendorDetail-vendorSoldToNumber-parentBean" />
+  <bean id="VendorDetail-vendorSoldToNumber" parent="VendorDetail-vendorSoldToNumber-parentBean"/>
 
   <bean id="VendorDetail-vendorSoldToNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorSoldToNumber" />
-    <property name="label" value="Sold To Vendor Number" />
-    <property name="shortLabel" value="Sold To Vendor Num." />
-    <property name="maxLength" value="20" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="vendorSoldToNumber"/>
+    <property name="label" value="Sold To Vendor Number"/>
+    <property name="shortLabel" value="Sold To Vendor Num."/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="22" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="22"/>
     </property>
   </bean>
-  <bean id="VendorDetail-vendorSoldToName" parent="VendorDetail-vendorSoldToName-parentBean" />
+  <bean id="VendorDetail-vendorSoldToName" parent="VendorDetail-vendorSoldToName-parentBean"/>
 
   <bean id="VendorDetail-vendorSoldToName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorSoldToName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Sold To Name" />
-    <property name="shortLabel" value="Sold To Name" />
-    <property name="maxLength" value="100" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="vendorSoldToName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Sold To Name"/>
+    <property name="shortLabel" value="Sold To Name"/>
+    <property name="maxLength" value="100"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="45" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="45"/>
     </property>
   </bean>
-  <bean id="VendorDetail-vendorUrlAddress" parent="VendorDetail-vendorUrlAddress-parentBean" />
+  <bean id="VendorDetail-vendorUrlAddress" parent="VendorDetail-vendorUrlAddress-parentBean"/>
 
   <bean id="VendorDetail-vendorUrlAddress-parentBean" abstract="true" parent="VendorGenericAttributes-genericUrlAddress">
-    <property name="name" value="vendorUrlAddress" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Vendor URL" />
-    <property name="shortLabel" value="Vendor URL" />
+    <property name="name" value="vendorUrlAddress"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Vendor URL"/>
+    <property name="shortLabel" value="Vendor URL"/>
   </bean>
-  <bean id="VendorDetail-vendorRestrictedPersonIdentifier" parent="VendorDetail-vendorRestrictedPersonIdentifier-parentBean" />
+  <bean id="VendorDetail-vendorRestrictedPersonIdentifier" parent="VendorDetail-vendorRestrictedPersonIdentifier-parentBean"/>
 
   <bean id="VendorDetail-vendorRestrictedPersonIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="vendorRestrictedPersonIdentifier" />
-    <property name="label" value="Restricted Person Identifier" />
-    <property name="shortLabel" value="Restricted Person ID" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="vendorRestrictedPersonIdentifier"/>
+    <property name="label" value="Restricted Person Identifier"/>
+    <property name="shortLabel" value="Restricted Person ID"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
-    <property name="displayLabelAttribute" value="vendorRestrictedPerson.principalName" />
+    <property name="displayLabelAttribute" value="vendorRestrictedPerson.principalName"/>
   </bean>
-  <bean id="VendorDetail-vendorRestrictedPerson.principalName" parent="VendorDetail-vendorRestrictedPerson.principalName-parentBean" />
+  <bean id="VendorDetail-vendorRestrictedPerson.principalName" parent="VendorDetail-vendorRestrictedPerson.principalName-parentBean"/>
 
   <bean id="VendorDetail-vendorRestrictedPerson.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="vendorRestrictedPerson.principalName" />
-    <property name="label" value="Restricted By Principal Name" />
-    <property name="shortLabel" value="Restricted By" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="vendorRestrictedPerson.name"
-            p:universalIdAttributeName="vendorRestrictedPersonIdentifier"
-            p:userIdAttributeName="vendorRestrictedPerson.principalName" />
+    <property name="name" value="vendorRestrictedPerson.principalName"/>
+    <property name="label" value="Restricted By Principal Name"/>
+    <property name="shortLabel" value="Restricted By"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="vendorRestrictedPerson.name" p:universalIdAttributeName="vendorRestrictedPersonIdentifier" p:userIdAttributeName="vendorRestrictedPerson.principalName"/>
     </property>
   </bean>
-  <bean id="VendorDetail-vendorRestrictedPerson.name" parent="VendorDetail-vendorRestrictedPerson.name-parentBean" />
+  <bean id="VendorDetail-vendorRestrictedPerson.name" parent="VendorDetail-vendorRestrictedPerson.name-parentBean"/>
 
   <bean id="VendorDetail-vendorRestrictedPerson.name-parentBean" abstract="true" parent="PersonImpl-name">
-    <property name="name" value="vendorRestrictedPerson.name" />
-    <property name="label" value="Restricted Person Name" />
-    <property name="shortLabel" value="Restricted Person Name" />
-    <property name="required" value="false" />
+    <property name="name" value="vendorRestrictedPerson.name"/>
+    <property name="label" value="Restricted Person Name"/>
+    <property name="shortLabel" value="Restricted Person Name"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="VendorDetail-vendorRestrictedDate" parent="VendorDetail-vendorRestrictedDate-parentBean" />
+  <bean id="VendorDetail-vendorRestrictedDate" parent="VendorDetail-vendorRestrictedDate-parentBean"/>
 
   <bean id="VendorDetail-vendorRestrictedDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="vendorRestrictedDate" />
-    <property name="label" value="Restricted Date" />
-    <property name="shortLabel" value="Restricted Date" />
+    <property name="name" value="vendorRestrictedDate"/>
+    <property name="label" value="Restricted Date"/>
+    <property name="shortLabel" value="Restricted Date"/>
   </bean>
-  <bean id="VendorDetail-vendorPaymentTermsCode" parent="VendorDetail-vendorPaymentTermsCode-parentBean" />
+  <bean id="VendorDetail-vendorPaymentTermsCode" parent="VendorDetail-vendorPaymentTermsCode-parentBean"/>
 
   <bean id="VendorDetail-vendorPaymentTermsCode-parentBean" abstract="true" parent="PaymentTermType-vendorPaymentTermsCode">
-    <property name="label" value="Payment Terms" />
-    <property name="shortLabel" value="Payment Terms" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.PaymentTermsValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="label" value="Payment Terms"/>
+    <property name="shortLabel" value="Payment Terms"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.PaymentTermsValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="VendorDetail-vendorShippingPaymentTermsCode" parent="VendorDetail-vendorShippingPaymentTermsCode-parentBean" />
+  <bean id="VendorDetail-vendorShippingPaymentTermsCode" parent="VendorDetail-vendorShippingPaymentTermsCode-parentBean"/>
 
   <bean id="VendorDetail-vendorShippingPaymentTermsCode-parentBean" abstract="true" parent="ShippingPaymentTerms-vendorShippingPaymentTermsCode">
-    <property name="label" value="Shipping Payment Terms" />
-    <property name="shortLabel" value="Shipping Payment Terms" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.ShippingPaymentTermsValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="label" value="Shipping Payment Terms"/>
+    <property name="shortLabel" value="Shipping Payment Terms"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.ShippingPaymentTermsValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="VendorDetail-vendorShippingTitleCode" parent="VendorDetail-vendorShippingTitleCode-parentBean" />
+  <bean id="VendorDetail-vendorShippingTitleCode" parent="VendorDetail-vendorShippingTitleCode-parentBean"/>
 
   <bean id="VendorDetail-vendorShippingTitleCode-parentBean" abstract="true" parent="ShippingTitle-vendorShippingTitleCode">
-    <property name="label" value="Shipping Title" />
-    <property name="shortLabel" value="Shipping Title" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.ShippingTitleValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="label" value="Shipping Title"/>
+    <property name="shortLabel" value="Shipping Title"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.ShippingTitleValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="VendorDetail-vendorInactiveReasonCode" parent="VendorDetail-vendorInactiveReasonCode-parentBean" />
+  <bean id="VendorDetail-vendorInactiveReasonCode" parent="VendorDetail-vendorInactiveReasonCode-parentBean"/>
 
   <bean id="VendorDetail-vendorInactiveReasonCode-parentBean" abstract="true" parent="VendorInactiveReason-vendorInactiveReasonCode">
-    <property name="label" value="Inactive Reason" />
-    <property name="shortLabel" value="Inactive Reason" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.InactiveReasonValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="label" value="Inactive Reason"/>
+    <property name="shortLabel" value="Inactive Reason"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.InactiveReasonValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="VendorDetail-vendorSoldToGeneratedIdentifier" parent="VendorDetail-vendorSoldToGeneratedIdentifier-parentBean" />
+  <bean id="VendorDetail-vendorSoldToGeneratedIdentifier" parent="VendorDetail-vendorSoldToGeneratedIdentifier-parentBean"/>
 
   <bean id="VendorDetail-vendorSoldToGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
-    <property name="name" value="vendorSoldToGeneratedIdentifier" />
-    <property name="label" value="Sold To Lookup" />
-    <property name="shortLabel" value="Sold To Lookup" />
-    <property name="required" value="false" />
+    <property name="name" value="vendorSoldToGeneratedIdentifier"/>
+    <property name="label" value="Sold To Lookup"/>
+    <property name="shortLabel" value="Sold To Lookup"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="VendorDetail-vendorSoldToAssignedIdentifier" parent="VendorDetail-vendorSoldToAssignedIdentifier-parentBean" />
+  <bean id="VendorDetail-vendorSoldToAssignedIdentifier" parent="VendorDetail-vendorSoldToAssignedIdentifier-parentBean"/>
 
   <bean id="VendorDetail-vendorSoldToAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
-    <property name="name" value="vendorSoldToAssignedIdentifier" />
-    <property name="label" value="Sold To Assigned Identifier" />
-    <property name="shortLabel" value="Sold To Assigned ID" />
-    <property name="required" value="false" />
+    <property name="name" value="vendorSoldToAssignedIdentifier"/>
+    <property name="label" value="Sold To Assigned Identifier"/>
+    <property name="shortLabel" value="Sold To Assigned ID"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="VendorDetail-vendorMinimumOrderAmount" parent="VendorDetail-vendorMinimumOrderAmount-parentBean" />
+  <bean id="VendorDetail-vendorMinimumOrderAmount" parent="VendorDetail-vendorMinimumOrderAmount-parentBean"/>
 
   <bean id="VendorDetail-vendorMinimumOrderAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="vendorMinimumOrderAmount" />
-    <property name="label" value="Minimum Order Amount" />
-    <property name="shortLabel" value="Min. Order Amt." />
+    <property name="name" value="vendorMinimumOrderAmount"/>
+    <property name="label" value="Minimum Order Amount"/>
+    <property name="shortLabel" value="Min. Order Amt."/>
   </bean>
-  <bean id="VendorDetail-vendorStateForLookup" parent="VendorDetail-vendorStateForLookup-parentBean" />
+  <bean id="VendorDetail-vendorStateForLookup" parent="VendorDetail-vendorStateForLookup-parentBean"/>
 
   <bean id="VendorDetail-vendorStateForLookup-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
-    <property name="name" value="vendorStateForLookup" />
+    <property name="name" value="vendorStateForLookup"/>
   </bean>
-  <bean id="VendorDetail-vendorCreditCardIndicator" parent="VendorDetail-vendorCreditCardIndicator-parentBean" />
+  <bean id="VendorDetail-vendorCreditCardIndicator" parent="VendorDetail-vendorCreditCardIndicator-parentBean"/>
 
   <bean id="VendorDetail-vendorCreditCardIndicator-parentBean" abstract="true" parent="VendorGenericAttributes-yesNoWithBlankIndicator">
-    <property name="name" value="vendorCreditCardIndicator" />
-    <property name="label" value="Credit Card" />
-    <property name="shortLabel" value="Credit Card" />
+    <property name="name" value="vendorCreditCardIndicator"/>
+    <property name="label" value="Credit Card"/>
+    <property name="shortLabel" value="Credit Card"/>
   </bean>
 
-  <bean id="VendorDetail-vendorConfirmationIndicator" parent="VendorDetail-vendorConfirmationIndicator-parentBean" />
+  <bean id="VendorDetail-vendorConfirmationIndicator" parent="VendorDetail-vendorConfirmationIndicator-parentBean"/>
 
   <bean id="VendorDetail-vendorConfirmationIndicator-parentBean" abstract="true" parent="VendorGenericAttributes-yesNoWithBlankIndicator">
-    <property name="name" value="vendorConfirmationIndicator" />
-    <property name="label" value="Confirmation" />
-    <property name="shortLabel" value="Confirmation?" />
+    <property name="name" value="vendorConfirmationIndicator"/>
+    <property name="label" value="Confirmation"/>
+    <property name="shortLabel" value="Confirmation?"/>
   </bean>
-  <bean id="VendorDetail-vendorPrepaymentIndicator" parent="VendorDetail-vendorPrepaymentIndicator-parentBean" />
+  <bean id="VendorDetail-vendorPrepaymentIndicator" parent="VendorDetail-vendorPrepaymentIndicator-parentBean"/>
 
   <bean id="VendorDetail-vendorPrepaymentIndicator-parentBean" abstract="true" parent="VendorGenericAttributes-yesNoWithBlankIndicator">
-    <property name="name" value="vendorPrepaymentIndicator" />
-    <property name="label" value="Pre-Payment" />
-    <property name="shortLabel" value="Pre-Payment?" />
+    <property name="name" value="vendorPrepaymentIndicator"/>
+    <property name="label" value="Pre-Payment"/>
+    <property name="shortLabel" value="Pre-Payment?"/>
   </bean>
-  <bean id="VendorDetail-vendorRestrictedIndicator" parent="VendorDetail-vendorRestrictedIndicator-parentBean" />
+  <bean id="VendorDetail-vendorRestrictedIndicator" parent="VendorDetail-vendorRestrictedIndicator-parentBean"/>
 
   <bean id="VendorDetail-vendorRestrictedIndicator-parentBean" abstract="true" parent="VendorGenericAttributes-yesNoWithBlankIndicator">
-    <property name="name" value="vendorRestrictedIndicator" />
-    <property name="label" value="Restricted" />
-    <property name="shortLabel" value="Restricted?" />
+    <property name="name" value="vendorRestrictedIndicator"/>
+    <property name="label" value="Restricted"/>
+    <property name="shortLabel" value="Restricted?"/>
   </bean>
-  <bean id="VendorDetail-vendorParentIndicator" parent="VendorDetail-vendorParentIndicator-parentBean" />
+  <bean id="VendorDetail-vendorParentIndicator" parent="VendorDetail-vendorParentIndicator-parentBean"/>
 
   <bean id="VendorDetail-vendorParentIndicator-parentBean" abstract="true" parent="VendorGenericAttributes-yesNoWithoutBlankIndicator">
-    <property name="name" value="vendorParentIndicator" />
-    <property name="label" value="Vendor Parent Indicator" />
-    <property name="shortLabel" value="Parent?" />
+    <property name="name" value="vendorParentIndicator"/>
+    <property name="label" value="Vendor Parent Indicator"/>
+    <property name="shortLabel" value="Parent?"/>
   </bean>
-  <bean id="VendorDetail-vendorFirstLastNameIndicator" parent="VendorDetail-vendorFirstLastNameIndicator-parentBean" />
+  <bean id="VendorDetail-vendorFirstLastNameIndicator" parent="VendorDetail-vendorFirstLastNameIndicator-parentBean"/>
 
   <bean id="VendorDetail-vendorFirstLastNameIndicator-parentBean" abstract="true" parent="VendorGenericAttributes-hiddenIndicator">
-    <property name="name" value="vendorFirstLastNameIndicator" />
-    <property name="label" value="Vendor First Last Name Indicator" />
-    <property name="shortLabel" value="Vendor First Last Name Indicator" />
+    <property name="name" value="vendorFirstLastNameIndicator"/>
+    <property name="label" value="Vendor First Last Name Indicator"/>
+    <property name="shortLabel" value="Vendor First Last Name Indicator"/>
   </bean>
-  <bean id="VendorDetail-vendorAddresses.vendorStateCode" parent="VendorDetail-vendorAddresses.vendorStateCode-parentBean" />
+  <bean id="VendorDetail-vendorAddresses.vendorStateCode" parent="VendorDetail-vendorAddresses.vendorStateCode-parentBean"/>
 
   <bean id="VendorDetail-vendorAddresses.vendorStateCode-parentBean" abstract="true" parent="VendorAddress-vendorStateCode">
-    <property name="name" value="vendorAddresses.vendorStateCode" />
+    <property name="name" value="vendorAddresses.vendorStateCode"/>
   </bean>
-  <bean id="VendorDetail-vendorHeader.vendorTaxNumber" parent="VendorDetail-vendorHeader.vendorTaxNumber-parentBean" />
+  <bean id="VendorDetail-vendorHeader.vendorTaxNumber" parent="VendorDetail-vendorHeader.vendorTaxNumber-parentBean"/>
 
   <bean id="VendorDetail-vendorHeader.vendorTaxNumber-parentBean" abstract="true" parent="VendorHeader-vendorTaxNumber">
-    <property name="name" value="vendorHeader.vendorTaxNumber" />
+    <property name="name" value="vendorHeader.vendorTaxNumber"/>
   </bean>
-  <bean id="VendorDetail-vendorHeader.vendorFederalWithholdingTaxBeginningDate" parent="VendorDetail-vendorHeader.vendorFederalWithholdingTaxBeginningDate-parentBean" />
+  <bean id="VendorDetail-vendorHeader.vendorFederalWithholdingTaxBeginningDate" parent="VendorDetail-vendorHeader.vendorFederalWithholdingTaxBeginningDate-parentBean"/>
 
   <bean id="VendorDetail-vendorHeader.vendorFederalWithholdingTaxBeginningDate-parentBean" abstract="true" parent="VendorHeader-vendorFederalWithholdingTaxBeginningDate">
-    <property name="name" value="vendorHeader.vendorFederalWithholdingTaxBeginningDate" />
+    <property name="name" value="vendorHeader.vendorFederalWithholdingTaxBeginningDate"/>
   </bean>
-  <bean id="VendorDetail-vendorHeader.vendorTaxTypeCode" parent="VendorDetail-vendorHeader.vendorTaxTypeCode-parentBean" />
+  <bean id="VendorDetail-vendorHeader.vendorTaxTypeCode" parent="VendorDetail-vendorHeader.vendorTaxTypeCode-parentBean"/>
 
   <bean id="VendorDetail-vendorHeader.vendorTaxTypeCode-parentBean" abstract="true" parent="VendorHeader-vendorTaxTypeCode">
-    <property name="name" value="vendorHeader.vendorTaxTypeCode" />
+    <property name="name" value="vendorHeader.vendorTaxTypeCode"/>
   </bean>
-  <bean id="VendorDetail-vendorHeader.vendorOwnershipCode" parent="VendorDetail-vendorHeader.vendorOwnershipCode-parentBean" />
+  <bean id="VendorDetail-vendorHeader.vendorOwnershipCode" parent="VendorDetail-vendorHeader.vendorOwnershipCode-parentBean"/>
 
   <bean id="VendorDetail-vendorHeader.vendorOwnershipCode-parentBean" abstract="true" parent="VendorHeader-vendorOwnershipCode">
-    <property name="name" value="vendorHeader.vendorOwnershipCode" />
+    <property name="name" value="vendorHeader.vendorOwnershipCode"/>
   </bean>
-  <bean id="VendorDetail-vendorHeader.vendorOwnershipCategoryCode" parent="VendorDetail-vendorHeader.vendorOwnershipCategoryCode-parentBean" />
+  <bean id="VendorDetail-vendorHeader.vendorOwnershipCategoryCode" parent="VendorDetail-vendorHeader.vendorOwnershipCategoryCode-parentBean"/>
 
   <bean id="VendorDetail-vendorHeader.vendorOwnershipCategoryCode-parentBean" abstract="true" parent="VendorHeader-vendorOwnershipCategoryCode">
-    <property name="name" value="vendorHeader.vendorOwnershipCategoryCode" />
+    <property name="name" value="vendorHeader.vendorOwnershipCategoryCode"/>
   </bean>
-  <bean id="VendorDetail-vendorHeader.vendorW9ReceivedIndicator" parent="VendorDetail-vendorHeader.vendorW9ReceivedIndicator-parentBean" />
+  <bean id="VendorDetail-vendorHeader.vendorW9ReceivedIndicator" parent="VendorDetail-vendorHeader.vendorW9ReceivedIndicator-parentBean"/>
 
   <bean id="VendorDetail-vendorHeader.vendorW9ReceivedIndicator-parentBean" abstract="true" parent="VendorHeader-vendorW9ReceivedIndicator">
-    <property name="name" value="vendorHeader.vendorW9ReceivedIndicator" />
+    <property name="name" value="vendorHeader.vendorW9ReceivedIndicator"/>
   </bean>
-  <bean id="VendorDetail-vendorHeader.vendorW8BenReceivedIndicator" parent="VendorDetail-vendorHeader.vendorW8BenReceivedIndicator-parentBean" />
+  <bean id="VendorDetail-vendorHeader.vendorW8BenReceivedIndicator" parent="VendorDetail-vendorHeader.vendorW8BenReceivedIndicator-parentBean"/>
 
   <bean id="VendorDetail-vendorHeader.vendorW8BenReceivedIndicator-parentBean" abstract="true" parent="VendorHeader-vendorW8BenReceivedIndicator">
-    <property name="name" value="vendorHeader.vendorW8BenReceivedIndicator" />
+    <property name="name" value="vendorHeader.vendorW8BenReceivedIndicator"/>
   </bean>
-  <bean id="VendorDetail-vendorHeader.vendorFederalWithholdingTaxEndDate" parent="VendorDetail-vendorHeader.vendorFederalWithholdingTaxEndDate-parentBean" />
+  <bean id="VendorDetail-vendorHeader.vendorFederalWithholdingTaxEndDate" parent="VendorDetail-vendorHeader.vendorFederalWithholdingTaxEndDate-parentBean"/>
 
   <bean id="VendorDetail-vendorHeader.vendorFederalWithholdingTaxEndDate-parentBean" abstract="true" parent="VendorHeader-vendorFederalWithholdingTaxEndDate">
-    <property name="name" value="vendorHeader.vendorFederalWithholdingTaxEndDate" />
+    <property name="name" value="vendorHeader.vendorFederalWithholdingTaxEndDate"/>
   </bean>
-  <bean id="VendorDetail-vendorHeader.vendorDebarredIndicator" parent="VendorDetail-vendorHeader.vendorDebarredIndicator-parentBean" />
+  <bean id="VendorDetail-vendorHeader.vendorDebarredIndicator" parent="VendorDetail-vendorHeader.vendorDebarredIndicator-parentBean"/>
 
   <bean id="VendorDetail-vendorHeader.vendorDebarredIndicator-parentBean" abstract="true" parent="VendorHeader-vendorDebarredIndicator">
-    <property name="name" value="vendorHeader.vendorDebarredIndicator" />
+    <property name="name" value="vendorHeader.vendorDebarredIndicator"/>
   </bean>
-  <bean id="VendorDetail-vendorHeader.vendorForeignIndicator" parent="VendorDetail-vendorHeader.vendorForeignIndicator-parentBean" />
+  <bean id="VendorDetail-vendorHeader.vendorForeignIndicator" parent="VendorDetail-vendorHeader.vendorForeignIndicator-parentBean"/>
 
   <bean id="VendorDetail-vendorHeader.vendorForeignIndicator-parentBean" abstract="true" parent="VendorHeader-vendorForeignIndicator">
-    <property name="name" value="vendorHeader.vendorForeignIndicator" />
+    <property name="name" value="vendorHeader.vendorForeignIndicator"/>
   </bean>
-  <bean id="VendorDetail-vendorHeader.vendorTypeCode" parent="VendorDetail-vendorHeader.vendorTypeCode-parentBean" />
+  <bean id="VendorDetail-vendorHeader.vendorTypeCode" parent="VendorDetail-vendorHeader.vendorTypeCode-parentBean"/>
 
   <bean id="VendorDetail-vendorHeader.vendorTypeCode-parentBean" abstract="true" parent="VendorHeader-vendorTypeCode">
-    <property name="name" value="vendorHeader.vendorTypeCode" />
+    <property name="name" value="vendorHeader.vendorTypeCode"/>
   </bean>
-  <bean id="VendorDetail-vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" parent="VendorDetail-vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode-parentBean" />
+  <bean id="VendorDetail-vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" parent="VendorDetail-vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode-parentBean"/>
 
   <bean id="VendorDetail-vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode-parentBean" abstract="true" parent="VendorSupplierDiversity-vendorSupplierDiversityCode">
-    <property name="name" value="vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" />
+    <property name="name" value="vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode"/>
   </bean>
-  <bean id="VendorDetail-vendorShippingSpecialConditions.vendorShippingSpecialConditionCode" parent="VendorDetail-vendorShippingSpecialConditions.vendorShippingSpecialConditionCode-parentBean" />
+  <bean id="VendorDetail-vendorShippingSpecialConditions.vendorShippingSpecialConditionCode" parent="VendorDetail-vendorShippingSpecialConditions.vendorShippingSpecialConditionCode-parentBean"/>
 
   <bean id="VendorDetail-vendorShippingSpecialConditions.vendorShippingSpecialConditionCode-parentBean" abstract="true" parent="VendorShippingSpecialCondition-vendorShippingSpecialConditionCode">
-    <property name="name" value="vendorShippingSpecialConditions.vendorShippingSpecialConditionCode" />
+    <property name="name" value="vendorShippingSpecialConditions.vendorShippingSpecialConditionCode"/>
   </bean>
-  <bean id="VendorDetail-vendorAliases.vendorAliasName" parent="VendorDetail-vendorAliases.vendorAliasName-parentBean" />
+  <bean id="VendorDetail-vendorAliases.vendorAliasName" parent="VendorDetail-vendorAliases.vendorAliasName-parentBean"/>
 
   <bean id="VendorDetail-vendorAliases.vendorAliasName-parentBean" abstract="true" parent="VendorAlias-vendorAliasName">
-    <property name="name" value="vendorAliases.vendorAliasName" />
+    <property name="name" value="vendorAliases.vendorAliasName"/>
   </bean>
-  <bean id="VendorDetail-vendorPhoneNumbers.vendorPhoneTypeCode" parent="VendorDetail-vendorPhoneNumbers.vendorPhoneTypeCode-parentBean" />
+  <bean id="VendorDetail-vendorPhoneNumbers.vendorPhoneTypeCode" parent="VendorDetail-vendorPhoneNumbers.vendorPhoneTypeCode-parentBean"/>
 
   <bean id="VendorDetail-vendorPhoneNumbers.vendorPhoneTypeCode-parentBean" abstract="true" parent="VendorPhoneNumber-vendorPhoneTypeCode">
-    <property name="name" value="vendorPhoneNumbers.vendorPhoneTypeCode" />
+    <property name="name" value="vendorPhoneNumbers.vendorPhoneTypeCode"/>
   </bean>
-  <bean id="VendorDetail-vendorPhoneNumbers.vendorPhoneNumber" parent="VendorDetail-vendorPhoneNumbers.vendorPhoneNumber-parentBean" />
+  <bean id="VendorDetail-vendorPhoneNumbers.vendorPhoneNumber" parent="VendorDetail-vendorPhoneNumbers.vendorPhoneNumber-parentBean"/>
 
   <bean id="VendorDetail-vendorPhoneNumbers.vendorPhoneNumber-parentBean" abstract="true" parent="VendorPhoneNumber-vendorPhoneNumber">
-    <property name="name" value="vendorPhoneNumbers.vendorPhoneNumber" />
+    <property name="name" value="vendorPhoneNumbers.vendorPhoneNumber"/>
   </bean>
-  <bean id="VendorDetail-vendorPhoneNumbers.vendorPhoneExtensionNumber" parent="VendorDetail-vendorPhoneNumbers.vendorPhoneExtensionNumber-parentBean" />
+  <bean id="VendorDetail-vendorPhoneNumbers.vendorPhoneExtensionNumber" parent="VendorDetail-vendorPhoneNumbers.vendorPhoneExtensionNumber-parentBean"/>
 
   <bean id="VendorDetail-vendorPhoneNumbers.vendorPhoneExtensionNumber-parentBean" abstract="true" parent="VendorPhoneNumber-vendorPhoneExtensionNumber">
-    <property name="name" value="vendorPhoneNumbers.vendorPhoneExtensionNumber" />
+    <property name="name" value="vendorPhoneNumbers.vendorPhoneExtensionNumber"/>
   </bean>
-  <bean id="VendorDetail-vendorCustomerNumbers.vendorCustomerNumber" parent="VendorDetail-vendorCustomerNumbers.vendorCustomerNumber-parentBean" />
+  <bean id="VendorDetail-vendorCustomerNumbers.vendorCustomerNumber" parent="VendorDetail-vendorCustomerNumbers.vendorCustomerNumber-parentBean"/>
 
   <bean id="VendorDetail-vendorCustomerNumbers.vendorCustomerNumber-parentBean" abstract="true" parent="VendorCustomerNumber-vendorCustomerNumber">
-    <property name="name" value="vendorCustomerNumbers.vendorCustomerNumber" />
+    <property name="name" value="vendorCustomerNumbers.vendorCustomerNumber"/>
   </bean>
-  <bean id="VendorDetail-vendorCustomerNumbers.chartOfAccountsCode" parent="VendorDetail-vendorCustomerNumbers.chartOfAccountsCode-parentBean" />
+  <bean id="VendorDetail-vendorCustomerNumbers.chartOfAccountsCode" parent="VendorDetail-vendorCustomerNumbers.chartOfAccountsCode-parentBean"/>
 
   <bean id="VendorDetail-vendorCustomerNumbers.chartOfAccountsCode-parentBean" abstract="true" parent="VendorCustomerNumber-chartOfAccountsCode">
-    <property name="name" value="vendorCustomerNumbers.chartOfAccountsCode" />
+    <property name="name" value="vendorCustomerNumbers.chartOfAccountsCode"/>
   </bean>
-  <bean id="VendorDetail-vendorCustomerNumbers.vendorOrganizationCode" parent="VendorDetail-vendorCustomerNumbers.vendorOrganizationCode-parentBean" />
+  <bean id="VendorDetail-vendorCustomerNumbers.vendorOrganizationCode" parent="VendorDetail-vendorCustomerNumbers.vendorOrganizationCode-parentBean"/>
 
   <bean id="VendorDetail-vendorCustomerNumbers.vendorOrganizationCode-parentBean" abstract="true" parent="VendorCustomerNumber-vendorOrganizationCode">
-    <property name="name" value="vendorCustomerNumbers.vendorOrganizationCode" />
+    <property name="name" value="vendorCustomerNumbers.vendorOrganizationCode"/>
   </bean>
-  <bean id="VendorDetail-vendorCommodities.purchasingCommodityCode" parent="VendorDetail-vendorCommodities.purchasingCommodityCode-parentBean" />
+  <bean id="VendorDetail-vendorCommodities.purchasingCommodityCode" parent="VendorDetail-vendorCommodities.purchasingCommodityCode-parentBean"/>
 
   <bean id="VendorDetail-vendorCommodities.purchasingCommodityCode-parentBean" abstract="true" parent="VendorCommodityCode-purchasingCommodityCode">
-    <property name="name" value="vendorCommodities.purchasingCommodityCode" />
+    <property name="name" value="vendorCommodities.purchasingCommodityCode"/>
   </bean>
-  <bean id="VendorDetail-activeIndicator" parent="VendorDetail-activeIndicator-parentBean" />
+  <bean id="VendorDetail-activeIndicator" parent="VendorDetail-activeIndicator-parentBean"/>
 
   <bean id="VendorDetail-activeIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
   </bean>
   
-  <bean id="VendorDetail-taxableIndicator" parent="VendorDetail-taxableIndicator-parentBean" />
+  <bean id="VendorDetail-taxableIndicator" parent="VendorDetail-taxableIndicator-parentBean"/>
   
-  <bean id="VendorDetail-taxableIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
-  	<property name="name" value="taxableIndicator" />
-    <property name="label" value="Taxable Indicator" />
-    <property name="shortLabel" value="Taxable" />
+  <bean id="VendorDetail-taxableIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+  	<property name="name" value="taxableIndicator"/>
+    <property name="label" value="Taxable Indicator"/>
+    <property name="shortLabel" value="Taxable"/>
    </bean>
 
-  <bean id="VendorDetail-vendorParentName" parent="VendorDetail-vendorParentName-parentBean" />
+  <bean id="VendorDetail-vendorParentName" parent="VendorDetail-vendorParentName-parentBean"/>
 
   <bean id="VendorDetail-vendorParentName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorParentName" />
-    <property name="label" value="Vendor Parent Name" />
-    <property name="shortLabel" value="Parent Name" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" 
-            p:allowWhitespace="true"/>
+    <property name="name" value="vendorParentName"/>
+    <property name="label" value="Vendor Parent Name"/>
+    <property name="shortLabel" value="Parent Name"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="45" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="45"/>
     </property>
   </bean>
   
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="VendorDetail-inquiryDefinition" parent="VendorDetail-inquiryDefinition-parentBean" />
+  <bean id="VendorDetail-inquiryDefinition" parent="VendorDetail-inquiryDefinition-parentBean"/>
 
   <bean id="VendorDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Vendor Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Vendor Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Vendor Detail" />
-          <property name="numberOfColumns" value="2" />
-          <property name="inquiryFields" >
+          <property name="title" value="Vendor Detail"/>
+          <property name="numberOfColumns" value="2"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="InquirySubSectionHeaderDefinition"
-                    p:attributeName="Vendor Header Information" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorParentIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorParentName" />
-              <bean parent="InquirySubSectionHeaderDefinition"
-                    p:attributeName="Corporate Information" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorHeader.vendorTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorHeader.vendorW9ReceivedIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorHeader.vendorForeignIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorHeader.vendorW8BenReceivedIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorHeader.vendorTaxNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorHeader.vendorFederalWithholdingTaxBeginningDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorHeader.vendorTaxTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorHeader.vendorFederalWithholdingTaxEndDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorHeader.vendorOwnershipCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorHeader.vendorDebarredIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorHeader.vendorOwnershipCategoryCode" />
-              <bean parent="InquirySubSectionHeaderDefinition"
-                    p:attributeName="Detail Information" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorPaymentTermsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorSoldToNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorPrepaymentIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorSoldToName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorCreditCardIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="taxableIndicator" />      
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorRestrictedIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorMinimumOrderAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorRestrictedDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorShippingTitleCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorRestrictedPerson.name" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorShippingPaymentTermsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorRestrictedReasonText" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorDunsNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorRemitName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorUrlAddress" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="activeIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorConfirmationIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorInactiveReasonCode" />
+              <bean parent="InquirySubSectionHeaderDefinition" p:attributeName="Vendor Header Information"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorName"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorParentIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorParentName"/>
+              <bean parent="InquirySubSectionHeaderDefinition" p:attributeName="Corporate Information"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorW9ReceivedIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorForeignIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorW8BenReceivedIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTaxNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorFederalWithholdingTaxBeginningDate"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTaxTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorFederalWithholdingTaxEndDate"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorOwnershipCode"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorDebarredIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorOwnershipCategoryCode"/>
+              <bean parent="InquirySubSectionHeaderDefinition" p:attributeName="Detail Information"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorPaymentTermsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorSoldToNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorPrepaymentIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorSoldToName"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorCreditCardIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="taxableIndicator"/>      
+              <bean parent="FieldDefinition" p:attributeName="vendorRestrictedIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorMinimumOrderAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorRestrictedDate"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorShippingTitleCode"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorRestrictedPerson.name"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorShippingPaymentTermsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorRestrictedReasonText"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorDunsNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorRemitName"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorUrlAddress"/>
+              <bean parent="FieldDefinition" p:attributeName="activeIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorConfirmationIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorInactiveReasonCode"/>
             </list>
           </property>
         </bean>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Address" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Address"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
               <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="vendorAddresses" />
-                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorAddress" />
-                <property name="numberOfColumns" value="2" />
-                <property name="inquiryFields" >
+                <property name="attributeName" value="vendorAddresses"/>
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorAddress"/>
+                <property name="numberOfColumns" value="2"/>
+                <property name="inquiryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorAddressTypeCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorCountryCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorLine1Address" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorAttentionName" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorLine2Address" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorBusinessToBusinessUrlAddress" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorCityName" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorFaxNumber" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorStateCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorAddressEmailAddress" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorZipCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorDefaultAddressIndicator" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorAddressInternationalProvinceName" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="active" />
+                    <bean parent="FieldDefinition" p:attributeName="vendorAddressTypeCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorCountryCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorLine1Address"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorAttentionName"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorLine2Address"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorBusinessToBusinessUrlAddress"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorCityName"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorFaxNumber"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorStateCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorAddressEmailAddress"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorZipCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorDefaultAddressIndicator"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorAddressInternationalProvinceName"/>
+                    <bean parent="FieldDefinition" p:attributeName="active"/>
                   </list>
                 </property>
-                <property name="inquiryCollections" >
+                <property name="inquiryCollections">
                   <list>
                     <bean parent="InquiryCollectionDefinition">
-                      <property name="attributeName" value="vendorDefaultAddresses" />
-                      <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorDefaultAddress" />
-                      <property name="numberOfColumns" value="1" />
-                      <property name="summaryTitle" value="Default Address" />
-                      <property name="inquiryFields" >
+                      <property name="attributeName" value="vendorDefaultAddresses"/>
+                      <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorDefaultAddress"/>
+                      <property name="numberOfColumns" value="1"/>
+                      <property name="summaryTitle" value="Default Address"/>
+                      <property name="inquiryFields">
                         <list>
-                          <bean parent="FieldDefinition"
-                                p:attributeName="vendorCampusCode" />
-                          <bean parent="FieldDefinition"
-                                p:attributeName="active" />
+                          <bean parent="FieldDefinition" p:attributeName="vendorCampusCode"/>
+                          <bean parent="FieldDefinition" p:attributeName="active"/>
                         </list>
                       </property> 
-                      <property name="summaryFields" >
+                      <property name="summaryFields">
                         <list>
-                          <bean parent="FieldDefinition"
-                                p:attributeName="vendorCampusCode" />
+                          <bean parent="FieldDefinition" p:attributeName="vendorCampusCode"/>
                         </list>
                       </property>
                     </bean>
                   </list>
                 </property>
-                <property name="summaryFields" >
+                <property name="summaryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorAddressTypeCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorCityName" />
+                    <bean parent="FieldDefinition" p:attributeName="vendorAddressTypeCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorCityName"/>
                   </list>
                 </property>
               </bean>
@@ -802,81 +674,60 @@
           </property>
         </bean>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Contacts" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Contacts"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
               <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="vendorContacts" />
-                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContact" />
-                <property name="numberOfColumns" value="2" />
-                <property name="summaryTitle" value="Contact" />
-                <property name="inquiryFields" >
+                <property name="attributeName" value="vendorContacts"/>
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContact"/>
+                <property name="numberOfColumns" value="2"/>
+                <property name="summaryTitle" value="Contact"/>
+                <property name="inquiryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorContactTypeCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorZipCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorContactName" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorAddressInternationalProvinceName" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorContactEmailAddress" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorCountryCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorLine1Address" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorAttentionName" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorLine2Address" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorContactCommentText" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorCityName" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="active" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorStateCode" />
+                    <bean parent="FieldDefinition" p:attributeName="vendorContactTypeCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorZipCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorContactName"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorAddressInternationalProvinceName"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorContactEmailAddress"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorCountryCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorLine1Address"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorAttentionName"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorLine2Address"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorContactCommentText"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorCityName"/>
+                    <bean parent="FieldDefinition" p:attributeName="active"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorStateCode"/>
                   </list>
                 </property>
-                <property name="inquiryCollections" >
+                <property name="inquiryCollections">
                   <list>
                     <bean parent="InquiryCollectionDefinition">
-                      <property name="attributeName" value="vendorContactPhoneNumbers" />
-                      <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContactPhoneNumber" />
-                      <property name="numberOfColumns" value="1" />
-                      <property name="summaryTitle" value="Phone Number" />
-                      <property name="inquiryFields" >
+                      <property name="attributeName" value="vendorContactPhoneNumbers"/>
+                      <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContactPhoneNumber"/>
+                      <property name="numberOfColumns" value="1"/>
+                      <property name="summaryTitle" value="Phone Number"/>
+                      <property name="inquiryFields">
                         <list>
-                          <bean parent="FieldDefinition"
-                                p:attributeName="vendorPhoneTypeCode" />
-                          <bean parent="FieldDefinition"
-                                p:attributeName="vendorPhoneNumber" />
-                          <bean parent="FieldDefinition"
-                                p:attributeName="vendorPhoneExtensionNumber" />
-                          <bean parent="FieldDefinition"
-                                p:attributeName="active" />
+                          <bean parent="FieldDefinition" p:attributeName="vendorPhoneTypeCode"/>
+                          <bean parent="FieldDefinition" p:attributeName="vendorPhoneNumber"/>
+                          <bean parent="FieldDefinition" p:attributeName="vendorPhoneExtensionNumber"/>
+                          <bean parent="FieldDefinition" p:attributeName="active"/>
                         </list>
                       </property>
-                      <property name="summaryFields" >
+                      <property name="summaryFields">
                         <list>
-                          <bean parent="FieldDefinition"
-                                p:attributeName="vendorPhoneTypeCode" />                        
-                          <bean parent="FieldDefinition"
-                                p:attributeName="vendorPhoneNumber" />
+                          <bean parent="FieldDefinition" p:attributeName="vendorPhoneTypeCode"/>                        
+                          <bean parent="FieldDefinition" p:attributeName="vendorPhoneNumber"/>
                         </list>
                       </property>                       
                     </bean>
                   </list>
                 </property>
-                <property name="summaryFields" >
+                <property name="summaryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorContactTypeCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorContactName" />
+                    <bean parent="FieldDefinition" p:attributeName="vendorContactTypeCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorContactName"/>
                   </list>
                 </property>
               </bean>
@@ -884,27 +735,24 @@
           </property>
         </bean>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Supplier Diversities" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Supplier Diversities"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
               <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="vendorHeader.vendorSupplierDiversities" />
-                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorSupplierDiversity" />
-                <property name="numberOfColumns" value="1" />
-                <property name="summaryTitle" value="Supplier Diversity" />
-                <property name="inquiryFields" >
+                <property name="attributeName" value="vendorHeader.vendorSupplierDiversities"/>
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorSupplierDiversity"/>
+                <property name="numberOfColumns" value="1"/>
+                <property name="summaryTitle" value="Supplier Diversity"/>
+                <property name="inquiryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorSupplierDiversityCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="active" />
+                    <bean parent="FieldDefinition" p:attributeName="vendorSupplierDiversityCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="active"/>
                   </list>
                 </property>
-                <property name="summaryFields" >
+                <property name="summaryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorSupplierDiversityCode" />
+                    <bean parent="FieldDefinition" p:attributeName="vendorSupplierDiversityCode"/>
                   </list>
                 </property>
               </bean>
@@ -912,27 +760,24 @@
           </property>
         </bean>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Shipping Special Conditions" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Shipping Special Conditions"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
               <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="vendorShippingSpecialConditions" />
-                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorShippingSpecialCondition" />
-                <property name="numberOfColumns" value="1" />
-                <property name="summaryTitle" value="Shipping Special Condition" />
-                <property name="inquiryFields" >
+                <property name="attributeName" value="vendorShippingSpecialConditions"/>
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorShippingSpecialCondition"/>
+                <property name="numberOfColumns" value="1"/>
+                <property name="summaryTitle" value="Shipping Special Condition"/>
+                <property name="inquiryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorShippingSpecialConditionCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="active" />
+                    <bean parent="FieldDefinition" p:attributeName="vendorShippingSpecialConditionCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="active"/>
                   </list>
                 </property>
-                <property name="summaryFields" >
+                <property name="summaryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorShippingSpecialConditionCode" />
+                    <bean parent="FieldDefinition" p:attributeName="vendorShippingSpecialConditionCode"/>
                   </list>
                 </property>
               </bean>
@@ -940,26 +785,23 @@
           </property>
         </bean>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Search Alias" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Search Alias"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
               <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="vendorAliases" />
-                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorAlias" />
-                <property name="numberOfColumns" value="1" />
-                <property name="inquiryFields" >
+                <property name="attributeName" value="vendorAliases"/>
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorAlias"/>
+                <property name="numberOfColumns" value="1"/>
+                <property name="inquiryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorAliasName" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="active" />
+                    <bean parent="FieldDefinition" p:attributeName="vendorAliasName"/>
+                    <bean parent="FieldDefinition" p:attributeName="active"/>
                   </list>
                 </property>
-                <property name="summaryFields" >
+                <property name="summaryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorAliasName" />
+                    <bean parent="FieldDefinition" p:attributeName="vendorAliasName"/>
                   </list>
                 </property>
               </bean>
@@ -968,29 +810,25 @@
         </bean>
                 
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Vendor Commodity Codes" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Vendor Commodity Codes"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
               <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="vendorCommodities" />
-                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorCommodityCode" />
-                <property name="numberOfColumns" value="1" />
-                <property name="summaryTitle" value="Vendor Commodity Code" />
-                <property name="inquiryFields" >
+                <property name="attributeName" value="vendorCommodities"/>
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorCommodityCode"/>
+                <property name="numberOfColumns" value="1"/>
+                <property name="summaryTitle" value="Vendor Commodity Code"/>
+                <property name="inquiryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="purchasingCommodityCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="commodityDefaultIndicator" />                             
-                    <bean parent="FieldDefinition"
-                          p:attributeName="active" />                       
+                    <bean parent="FieldDefinition" p:attributeName="purchasingCommodityCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="commodityDefaultIndicator"/>                             
+                    <bean parent="FieldDefinition" p:attributeName="active"/>                       
                   </list>
                 </property>
-                <property name="summaryFields" >
+                <property name="summaryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="purchasingCommodityCode" />
+                    <bean parent="FieldDefinition" p:attributeName="purchasingCommodityCode"/>
                   </list>
                 </property>
               </bean>
@@ -999,32 +837,26 @@
         </bean>
         
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Vendor Phone Number" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Vendor Phone Number"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
               <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="vendorPhoneNumbers" />
-                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorPhoneNumber" />
-                <property name="numberOfColumns" value="1" />
-                <property name="inquiryFields" >
+                <property name="attributeName" value="vendorPhoneNumbers"/>
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorPhoneNumber"/>
+                <property name="numberOfColumns" value="1"/>
+                <property name="inquiryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorPhoneTypeCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorPhoneNumber" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorPhoneExtensionNumber" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="active" />
+                    <bean parent="FieldDefinition" p:attributeName="vendorPhoneTypeCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorPhoneNumber"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorPhoneExtensionNumber"/>
+                    <bean parent="FieldDefinition" p:attributeName="active"/>
                   </list>
                 </property>
-                <property name="summaryFields" >
+                <property name="summaryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorPhoneTypeCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorPhoneNumber" />
+                    <bean parent="FieldDefinition" p:attributeName="vendorPhoneTypeCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorPhoneNumber"/>
                   </list>
                 </property>
               </bean>
@@ -1032,30 +864,25 @@
           </property>
         </bean>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Vendor Customer Number" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Vendor Customer Number"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
               <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="vendorCustomerNumbers" />
-                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorCustomerNumber" />
-                <property name="numberOfColumns" value="1" />
-                <property name="inquiryFields" >
+                <property name="attributeName" value="vendorCustomerNumbers"/>
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorCustomerNumber"/>
+                <property name="numberOfColumns" value="1"/>
+                <property name="inquiryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorCustomerNumber" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="chartOfAccountsCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorOrganizationCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="active" />
+                    <bean parent="FieldDefinition" p:attributeName="vendorCustomerNumber"/>
+                    <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorOrganizationCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="active"/>
                   </list>
                 </property>
-                <property name="summaryFields" >
+                <property name="summaryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorCustomerNumber" />
+                    <bean parent="FieldDefinition" p:attributeName="vendorCustomerNumber"/>
                   </list>
                 </property>
               </bean>
@@ -1063,85 +890,62 @@
           </property>
         </bean>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Contracts" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Contracts"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
               <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="vendorContracts" />
-                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContract" />
-                <property name="numberOfColumns" value="2" />
-                <property name="summaryTitle" value="Contract" />
-                <property name="inquiryFields" >
+                <property name="attributeName" value="vendorContracts"/>
+                <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContract"/>
+                <property name="numberOfColumns" value="2"/>
+                <property name="summaryTitle" value="Contract"/>
+                <property name="inquiryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorContractName" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorB2bIndicator" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorContractDescription" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorPaymentTermsCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorCampusCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorShippingPaymentTermsCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorContractBeginningDate" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorShippingTitleCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorContractEndDate" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorContractExtensionDate" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="contractManagerCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="organizationAutomaticPurchaseOrderLimit" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="purchaseOrderCostSourceCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="active" />
+                    <bean parent="FieldDefinition" p:attributeName="vendorContractName"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorB2bIndicator"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorContractDescription"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorPaymentTermsCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorCampusCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorShippingPaymentTermsCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorContractBeginningDate"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorShippingTitleCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorContractEndDate"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorContractExtensionDate"/>
+                    <bean parent="FieldDefinition" p:attributeName="contractManagerCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="organizationAutomaticPurchaseOrderLimit"/>
+                    <bean parent="FieldDefinition" p:attributeName="purchaseOrderCostSourceCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="active"/>
                   </list>
                 </property>
-                <property name="inquiryCollections" >
+                <property name="inquiryCollections">
                   <list>
                     <bean parent="InquiryCollectionDefinition">
-                      <property name="attributeName" value="vendorContractOrganizations" />
-                      <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContractOrganization" />
-                      <property name="numberOfColumns" value="1" />
-                      <property name="summaryTitle" value="Contract Organization" />
-                      <property name="inquiryFields" >
+                      <property name="attributeName" value="vendorContractOrganizations"/>
+                      <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorContractOrganization"/>
+                      <property name="numberOfColumns" value="1"/>
+                      <property name="summaryTitle" value="Contract Organization"/>
+                      <property name="inquiryFields">
                         <list>
-                          <bean parent="FieldDefinition"
-                                p:attributeName="chartOfAccountsCode" />
-                          <bean parent="FieldDefinition"
-                                p:attributeName="organizationCode" />
-                          <bean parent="FieldDefinition"
-                                p:attributeName="vendorContractPurchaseOrderLimitAmount" />
-                          <bean parent="FieldDefinition"
-                                p:attributeName="vendorContractExcludeIndicator" />
-                          <bean parent="FieldDefinition"
-                                p:attributeName="active" />
+                          <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+                          <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+                          <bean parent="FieldDefinition" p:attributeName="vendorContractPurchaseOrderLimitAmount"/>
+                          <bean parent="FieldDefinition" p:attributeName="vendorContractExcludeIndicator"/>
+                          <bean parent="FieldDefinition" p:attributeName="active"/>
                         </list>
                       </property>
-                      <property name="summaryFields" >
+                      <property name="summaryFields">
                         <list>
-                          <bean parent="FieldDefinition"
-                                p:attributeName="chartOfAccountsCode" />
-                          <bean parent="FieldDefinition"
-                                p:attributeName="organizationCode" />
+                          <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+                          <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
                         </list>
                       </property> 
                     </bean>
                   </list>
                 </property>
-                <property name="summaryFields" >
+                <property name="summaryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorCampusCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="vendorContractName" />
+                    <bean parent="FieldDefinition" p:attributeName="vendorCampusCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="vendorContractName"/>
                   </list>
                 </property>
               </bean>
@@ -1149,23 +953,20 @@
           </property>
         </bean>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Notes" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Notes"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
               <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="boNotes" />
-                <property name="businessObjectClass" value="org.kuali.rice.kns.bo.Note" />
-                <property name="numberOfColumns" value="1" />
-                <property name="inquiryFields" >
+                <property name="attributeName" value="boNotes"/>
+                <property name="businessObjectClass" value="org.kuali.rice.kns.bo.Note"/>
+                <property name="numberOfColumns" value="1"/>
+                <property name="inquiryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="noteText" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="notePostedTimestamp" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="authorUniversal.principalName" />
-                    <bean parent="FieldDefinition" p:attributeName="attachmentLink" /> 
+                    <bean parent="FieldDefinition" p:attributeName="noteText"/>
+                    <bean parent="FieldDefinition" p:attributeName="notePostedTimestamp"/>
+                    <bean parent="FieldDefinition" p:attributeName="authorUniversal.principalName"/>
+                    <bean parent="FieldDefinition" p:attributeName="attachmentLink"/> 
                   </list>
                 </property>
               </bean>
@@ -1174,67 +975,50 @@
         </bean>
       </list>
     </property>
-    <property name="inquirableClass" value="org.kuali.kfs.vnd.businessobject.inquiry.VendorInquirable" />    
+    <property name="inquirableClass" value="org.kuali.kfs.vnd.businessobject.inquiry.VendorInquirable"/>    
   </bean>
 
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="VendorDetail-lookupDefinition" parent="VendorDetail-lookupDefinition-parentBean" />
+  <bean id="VendorDetail-lookupDefinition" parent="VendorDetail-lookupDefinition-parentBean"/>
 
   <bean id="VendorDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Vendor Lookup" />
-    <property name="lookupableID" value="vendorLookupable" />
-    <property name="instructions" value="Lookup a Vendor Detail" />
-    <property name="defaultSort" >
+    <property name="title" value="Vendor Lookup"/>
+    <property name="lookupableID" value="vendorLookupable"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>vendorName</value>
           </list>     
         </property> 
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorHeader.vendorTaxNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="activeIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorHeader.vendorTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorAddresses.vendorStateCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorCommodities.purchasingCommodityCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" />
+        <bean parent="FieldDefinition" p:attributeName="vendorName"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTaxNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="activeIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorAddresses.vendorStateCode"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorCommodities.purchasingCommodityCode"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorAliases" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="activeIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorHeader.vendorTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorStateForLookup" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorCommodities" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorHeader.vendorSupplierDiversities" />
+        <bean parent="FieldDefinition" p:attributeName="vendorName"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorAliases"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="activeIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorStateForLookup"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorCommodities"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorSupplierDiversities"/>
       </list>
     </property>
   </bean>
 </beans>
-

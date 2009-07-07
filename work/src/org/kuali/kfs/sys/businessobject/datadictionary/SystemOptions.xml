@@ -1,51 +1,47 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="SystemOptions" parent="SystemOptions-parentBean" />
+  <bean id="SystemOptions" parent="SystemOptions-parentBean"/>
 
   <bean id="SystemOptions-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.SystemOptions" />
-    <property name="inquiryDefinition" >
-      <ref bean="SystemOptions-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.SystemOptions"/>
+    <property name="inquiryDefinition">
+      <ref bean="SystemOptions-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="SystemOptions-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="SystemOptions-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="universityFiscalYear" />
-    <property name="objectLabel" value="System Options" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="universityFiscalYear"/>
+    <property name="objectLabel" value="System Options"/>
+    <property name="attributes">
       <list>
-        <ref bean="SystemOptions-universityFiscalYear" />
-        <ref bean="SystemOptions-universityFiscalYearName" />
-        <ref bean="SystemOptions-universityFiscalYearStartYr" />
-        <ref bean="SystemOptions-universityFiscalYearStartMo" />
-        <ref bean="SystemOptions-financialBeginBalanceLoadInd" />
-        <ref bean="SystemOptions-budgetCheckingOptionsCode" />
-        <ref bean="SystemOptions-universityFinChartOfAcctCd" />
-        <ref bean="SystemOptions-actualFinancialBalanceTypeCd" />
-        <ref bean="SystemOptions-extrnlEncumFinBalanceTypCd" />
-        <ref bean="SystemOptions-intrnlEncumFinBalanceTypCd" />
-        <ref bean="SystemOptions-preencumbranceFinBalTypeCd" />
-        <ref bean="SystemOptions-eliminationsFinBalanceTypeCd" />
-        <ref bean="SystemOptions-budgetCheckingBalanceTypeCd" />
-        <ref bean="SystemOptions-finObjTypeExpenditureexpCd" />
-        <ref bean="SystemOptions-finObjTypeExpendNotExpCode" />
-        <ref bean="SystemOptions-finObjTypeExpNotExpendCode" />
-        <ref bean="SystemOptions-finObjectTypeIncomecashCode" />
-        <ref bean="SystemOptions-finObjTypeIncomeNotCashCd" />
-        <ref bean="SystemOptions-finObjTypeCshNotIncomeCd" />
-        <ref bean="SystemOptions-financialObjectTypeAssetsCd" />
-        <ref bean="SystemOptions-finObjectTypeLiabilitiesCode" />
-        <ref bean="SystemOptions-finObjectTypeFundBalanceCd" />
-        <ref bean="SystemOptions-costShareEncumbranceBalanceTypeCd" />
-        <ref bean="SystemOptions-baseBudgetFinancialBalanceTypeCd" />
-        <ref bean="SystemOptions-monthlyBudgetFinancialBalanceTypeCd" />
-        <ref bean="SystemOptions-financialObjectTypeTransferIncomeCd" />
-        <ref bean="SystemOptions-financialObjectTypeTransferExpenseCd" />
-        <ref bean="SystemOptions-nominalFinancialBalanceTypeCd" />
+        <ref bean="SystemOptions-universityFiscalYear"/>
+        <ref bean="SystemOptions-universityFiscalYearName"/>
+        <ref bean="SystemOptions-universityFiscalYearStartYr"/>
+        <ref bean="SystemOptions-universityFiscalYearStartMo"/>
+        <ref bean="SystemOptions-financialBeginBalanceLoadInd"/>
+        <ref bean="SystemOptions-budgetCheckingOptionsCode"/>
+        <ref bean="SystemOptions-universityFinChartOfAcctCd"/>
+        <ref bean="SystemOptions-actualFinancialBalanceTypeCd"/>
+        <ref bean="SystemOptions-extrnlEncumFinBalanceTypCd"/>
+        <ref bean="SystemOptions-intrnlEncumFinBalanceTypCd"/>
+        <ref bean="SystemOptions-preencumbranceFinBalTypeCd"/>
+        <ref bean="SystemOptions-eliminationsFinBalanceTypeCd"/>
+        <ref bean="SystemOptions-budgetCheckingBalanceTypeCd"/>
+        <ref bean="SystemOptions-finObjTypeExpenditureexpCd"/>
+        <ref bean="SystemOptions-finObjTypeExpendNotExpCode"/>
+        <ref bean="SystemOptions-finObjTypeExpNotExpendCode"/>
+        <ref bean="SystemOptions-finObjectTypeIncomecashCode"/>
+        <ref bean="SystemOptions-finObjTypeIncomeNotCashCd"/>
+        <ref bean="SystemOptions-finObjTypeCshNotIncomeCd"/>
+        <ref bean="SystemOptions-financialObjectTypeAssetsCd"/>
+        <ref bean="SystemOptions-finObjectTypeLiabilitiesCode"/>
+        <ref bean="SystemOptions-finObjectTypeFundBalanceCd"/>
+        <ref bean="SystemOptions-costShareEncumbranceBalanceTypeCd"/>
+        <ref bean="SystemOptions-baseBudgetFinancialBalanceTypeCd"/>
+        <ref bean="SystemOptions-monthlyBudgetFinancialBalanceTypeCd"/>
+        <ref bean="SystemOptions-financialObjectTypeTransferIncomeCd"/>
+        <ref bean="SystemOptions-financialObjectTypeTransferExpenseCd"/>
+        <ref bean="SystemOptions-nominalFinancialBalanceTypeCd"/>
       </list>
     </property>
   </bean>
@@ -53,475 +49,449 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="SystemOptions-universityFiscalYear" parent="SystemOptions-universityFiscalYear-parentBean" />
+  <bean id="SystemOptions-universityFiscalYear" parent="SystemOptions-universityFiscalYear-parentBean"/>
 
   <bean id="SystemOptions-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="universityFiscalYear" />
-    <property name="label" value="Fiscal Year" />
-    <property name="shortLabel" value="FY" />
-    <property name="required" value="true" />
+    <property name="name" value="universityFiscalYear"/>
+    <property name="label" value="Fiscal Year"/>
+    <property name="shortLabel" value="FY"/>
+    <property name="required" value="true"/>
     
     
   </bean>
-  <bean id="SystemOptions-universityFiscalYearName" parent="SystemOptions-universityFiscalYearName-parentBean" />
+  <bean id="SystemOptions-universityFiscalYearName" parent="SystemOptions-universityFiscalYearName-parentBean"/>
 
   <bean id="SystemOptions-universityFiscalYearName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="universityFiscalYearName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Fiscal Year Name" />
-    <property name="shortLabel" value="Year Name" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="universityFiscalYearName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Fiscal Year Name"/>
+    <property name="shortLabel" value="Year Name"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-universityFiscalYearStartYr" parent="SystemOptions-universityFiscalYearStartYr-parentBean" />
+  <bean id="SystemOptions-universityFiscalYearStartYr" parent="SystemOptions-universityFiscalYearStartYr-parentBean"/>
 
   <bean id="SystemOptions-universityFiscalYearStartYr-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="universityFiscalYearStartYr" />
-    <property name="label" value="Fiscal Year Start Year" />
-    <property name="shortLabel" value="Start Year" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="universityFiscalYearStartYr"/>
+    <property name="label" value="Fiscal Year Start Year"/>
+    <property name="shortLabel" value="Start Year"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-universityFiscalYearStartMo" parent="SystemOptions-universityFiscalYearStartMo-parentBean" />
+  <bean id="SystemOptions-universityFiscalYearStartMo" parent="SystemOptions-universityFiscalYearStartMo-parentBean"/>
 
   <bean id="SystemOptions-universityFiscalYearStartMo-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="universityFiscalYearStartMo" />
-    <property name="label" value="Fiscal Year Start Month" />
-    <property name="shortLabel" value="Start Month" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="universityFiscalYearStartMo"/>
+    <property name="label" value="Fiscal Year Start Month"/>
+    <property name="shortLabel" value="Start Month"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-financialBeginBalanceLoadInd" parent="SystemOptions-financialBeginBalanceLoadInd-parentBean" />
+  <bean id="SystemOptions-financialBeginBalanceLoadInd" parent="SystemOptions-financialBeginBalanceLoadInd-parentBean"/>
 
   <bean id="SystemOptions-financialBeginBalanceLoadInd-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
-    <property name="name" value="financialBeginBalanceLoadInd" />
-    <property name="label" value="Beginning Balances Loaded Indicator" />
-    <property name="shortLabel" value="Begin Bal. Loaded Ind" />
-    <property name="required" value="true" />
+    <property name="name" value="financialBeginBalanceLoadInd"/>
+    <property name="label" value="Beginning Balances Loaded Indicator"/>
+    <property name="shortLabel" value="Begin Bal. Loaded Ind"/>
+    <property name="required" value="true"/>
     
     
   </bean>
-  <bean id="SystemOptions-budgetCheckingOptionsCode" parent="SystemOptions-budgetCheckingOptionsCode-parentBean" />
+  <bean id="SystemOptions-budgetCheckingOptionsCode" parent="SystemOptions-budgetCheckingOptionsCode-parentBean"/>
 
   <bean id="SystemOptions-budgetCheckingOptionsCode-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
-    <property name="name" value="budgetCheckingOptionsCode" />
-    <property name="label" value="Budget Checking Options Code" />
-    <property name="shortLabel" value="Budget Option Code" />
-    <property name="required" value="true" />
+    <property name="name" value="budgetCheckingOptionsCode"/>
+    <property name="label" value="Budget Checking Options Code"/>
+    <property name="shortLabel" value="Budget Option Code"/>
+    <property name="required" value="true"/>
     
     
   </bean>
-  <bean id="SystemOptions-universityFinChartOfAcctCd" parent="SystemOptions-universityFinChartOfAcctCd-parentBean" />
+  <bean id="SystemOptions-universityFinChartOfAcctCd" parent="SystemOptions-universityFinChartOfAcctCd-parentBean"/>
 
   <bean id="SystemOptions-universityFinChartOfAcctCd-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="name" value="universityFinChartOfAcctCd" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="universityFinChartOfAcctCd"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="SystemOptions-actualFinancialBalanceTypeCd" parent="SystemOptions-actualFinancialBalanceTypeCd-parentBean" />
+  <bean id="SystemOptions-actualFinancialBalanceTypeCd" parent="SystemOptions-actualFinancialBalanceTypeCd-parentBean"/>
 
   <bean id="SystemOptions-actualFinancialBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="actualFinancialBalanceTypeCd" />
-    <property name="label" value="Actual Balance Type" />
-    <property name="shortLabel" value="Actual Balance Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="actualFinancialBalanceTypeCd"/>
+    <property name="label" value="Actual Balance Type"/>
+    <property name="shortLabel" value="Actual Balance Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-extrnlEncumFinBalanceTypCd" parent="SystemOptions-extrnlEncumFinBalanceTypCd-parentBean" />
+  <bean id="SystemOptions-extrnlEncumFinBalanceTypCd" parent="SystemOptions-extrnlEncumFinBalanceTypCd-parentBean"/>
 
   <bean id="SystemOptions-extrnlEncumFinBalanceTypCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="extrnlEncumFinBalanceTypCd" />
-    <property name="label" value="External Encumbrance Balance Type" />
-    <property name="shortLabel" value="External Encumbrance Balance Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="extrnlEncumFinBalanceTypCd"/>
+    <property name="label" value="External Encumbrance Balance Type"/>
+    <property name="shortLabel" value="External Encumbrance Balance Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-intrnlEncumFinBalanceTypCd" parent="SystemOptions-intrnlEncumFinBalanceTypCd-parentBean" />
+  <bean id="SystemOptions-intrnlEncumFinBalanceTypCd" parent="SystemOptions-intrnlEncumFinBalanceTypCd-parentBean"/>
 
   <bean id="SystemOptions-intrnlEncumFinBalanceTypCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="intrnlEncumFinBalanceTypCd" />
-    <property name="label" value="Internal Encumbrance Balance Type" />
-    <property name="shortLabel" value="Internal Encumbrance Balance Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="intrnlEncumFinBalanceTypCd"/>
+    <property name="label" value="Internal Encumbrance Balance Type"/>
+    <property name="shortLabel" value="Internal Encumbrance Balance Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-preencumbranceFinBalTypeCd" parent="SystemOptions-preencumbranceFinBalTypeCd-parentBean" />
+  <bean id="SystemOptions-preencumbranceFinBalTypeCd" parent="SystemOptions-preencumbranceFinBalTypeCd-parentBean"/>
 
   <bean id="SystemOptions-preencumbranceFinBalTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="preencumbranceFinBalTypeCd" />
-    <property name="label" value="Pre-Encumbrance Balance Type" />
-    <property name="shortLabel" value="Pre-Encumbrance Balance Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="preencumbranceFinBalTypeCd"/>
+    <property name="label" value="Pre-Encumbrance Balance Type"/>
+    <property name="shortLabel" value="Pre-Encumbrance Balance Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-eliminationsFinBalanceTypeCd" parent="SystemOptions-eliminationsFinBalanceTypeCd-parentBean" />
+  <bean id="SystemOptions-eliminationsFinBalanceTypeCd" parent="SystemOptions-eliminationsFinBalanceTypeCd-parentBean"/>
 
   <bean id="SystemOptions-eliminationsFinBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="eliminationsFinBalanceTypeCd" />
-    <property name="label" value="Eliminations Balance Type" />
-    <property name="shortLabel" value="Eliminations Balance Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="eliminationsFinBalanceTypeCd"/>
+    <property name="label" value="Eliminations Balance Type"/>
+    <property name="shortLabel" value="Eliminations Balance Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-budgetCheckingBalanceTypeCd" parent="SystemOptions-budgetCheckingBalanceTypeCd-parentBean" />
+  <bean id="SystemOptions-budgetCheckingBalanceTypeCd" parent="SystemOptions-budgetCheckingBalanceTypeCd-parentBean"/>
 
   <bean id="SystemOptions-budgetCheckingBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="budgetCheckingBalanceTypeCd" />
-    <property name="label" value="Budget Checking Balance Type" />
-    <property name="shortLabel" value="Budget Checking Balance Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="budgetCheckingBalanceTypeCd"/>
+    <property name="label" value="Budget Checking Balance Type"/>
+    <property name="shortLabel" value="Budget Checking Balance Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-finObjTypeExpenditureexpCd" parent="SystemOptions-finObjTypeExpenditureexpCd-parentBean" />
+  <bean id="SystemOptions-finObjTypeExpenditureexpCd" parent="SystemOptions-finObjTypeExpenditureexpCd-parentBean"/>
 
   <bean id="SystemOptions-finObjTypeExpenditureexpCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="finObjTypeExpenditureexpCd" />
-    <property name="label" value="Expenditure/Expense Object Type" />
-    <property name="shortLabel" value="Expenditure/Expense Object Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="finObjTypeExpenditureexpCd"/>
+    <property name="label" value="Expenditure/Expense Object Type"/>
+    <property name="shortLabel" value="Expenditure/Expense Object Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-finObjTypeExpendNotExpCode" parent="SystemOptions-finObjTypeExpendNotExpCode-parentBean" />
+  <bean id="SystemOptions-finObjTypeExpendNotExpCode" parent="SystemOptions-finObjTypeExpendNotExpCode-parentBean"/>
 
   <bean id="SystemOptions-finObjTypeExpendNotExpCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="finObjTypeExpendNotExpCode" />
-    <property name="label" value="Expenditure Not Expense Object Type" />
-    <property name="shortLabel" value="Expenditure Not Expense Object Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="finObjTypeExpendNotExpCode"/>
+    <property name="label" value="Expenditure Not Expense Object Type"/>
+    <property name="shortLabel" value="Expenditure Not Expense Object Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-finObjTypeExpNotExpendCode" parent="SystemOptions-finObjTypeExpNotExpendCode-parentBean" />
+  <bean id="SystemOptions-finObjTypeExpNotExpendCode" parent="SystemOptions-finObjTypeExpNotExpendCode-parentBean"/>
 
   <bean id="SystemOptions-finObjTypeExpNotExpendCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="finObjTypeExpNotExpendCode" />
-    <property name="label" value="Expense Not Expenditure Object Type" />
-    <property name="shortLabel" value="Expense Not Expenditure Object Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="finObjTypeExpNotExpendCode"/>
+    <property name="label" value="Expense Not Expenditure Object Type"/>
+    <property name="shortLabel" value="Expense Not Expenditure Object Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-finObjectTypeIncomecashCode" parent="SystemOptions-finObjectTypeIncomecashCode-parentBean" />
+  <bean id="SystemOptions-finObjectTypeIncomecashCode" parent="SystemOptions-finObjectTypeIncomecashCode-parentBean"/>
 
   <bean id="SystemOptions-finObjectTypeIncomecashCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="finObjectTypeIncomecashCode" />
-    <property name="label" value="Income/Cash Object Type" />
-    <property name="shortLabel" value="Income/Cash Object Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="finObjectTypeIncomecashCode"/>
+    <property name="label" value="Income/Cash Object Type"/>
+    <property name="shortLabel" value="Income/Cash Object Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-finObjTypeIncomeNotCashCd" parent="SystemOptions-finObjTypeIncomeNotCashCd-parentBean" />
+  <bean id="SystemOptions-finObjTypeIncomeNotCashCd" parent="SystemOptions-finObjTypeIncomeNotCashCd-parentBean"/>
 
   <bean id="SystemOptions-finObjTypeIncomeNotCashCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="finObjTypeIncomeNotCashCd" />
-    <property name="label" value="Income Not Cash Object Type" />
-    <property name="shortLabel" value="Income Not Cash Object Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="finObjTypeIncomeNotCashCd"/>
+    <property name="label" value="Income Not Cash Object Type"/>
+    <property name="shortLabel" value="Income Not Cash Object Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-finObjTypeCshNotIncomeCd" parent="SystemOptions-finObjTypeCshNotIncomeCd-parentBean" />
+  <bean id="SystemOptions-finObjTypeCshNotIncomeCd" parent="SystemOptions-finObjTypeCshNotIncomeCd-parentBean"/>
 
   <bean id="SystemOptions-finObjTypeCshNotIncomeCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="finObjTypeCshNotIncomeCd" />
-    <property name="label" value="Cash Not Income Object Type" />
-    <property name="shortLabel" value="Cash Not Income Object Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="finObjTypeCshNotIncomeCd"/>
+    <property name="label" value="Cash Not Income Object Type"/>
+    <property name="shortLabel" value="Cash Not Income Object Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-financialObjectTypeAssetsCd" parent="SystemOptions-financialObjectTypeAssetsCd-parentBean" />
+  <bean id="SystemOptions-financialObjectTypeAssetsCd" parent="SystemOptions-financialObjectTypeAssetsCd-parentBean"/>
 
   <bean id="SystemOptions-financialObjectTypeAssetsCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectTypeAssetsCd" />
-    <property name="label" value="Assets Object Type" />
-    <property name="shortLabel" value="Assets Object Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="financialObjectTypeAssetsCd"/>
+    <property name="label" value="Assets Object Type"/>
+    <property name="shortLabel" value="Assets Object Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-finObjectTypeLiabilitiesCode" parent="SystemOptions-finObjectTypeLiabilitiesCode-parentBean" />
+  <bean id="SystemOptions-finObjectTypeLiabilitiesCode" parent="SystemOptions-finObjectTypeLiabilitiesCode-parentBean"/>
 
   <bean id="SystemOptions-finObjectTypeLiabilitiesCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="finObjectTypeLiabilitiesCode" />
-    <property name="label" value="Liabilities Object Type" />
-    <property name="shortLabel" value="Liabilities Object Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="finObjectTypeLiabilitiesCode"/>
+    <property name="label" value="Liabilities Object Type"/>
+    <property name="shortLabel" value="Liabilities Object Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-finObjectTypeFundBalanceCd" parent="SystemOptions-finObjectTypeFundBalanceCd-parentBean" />
+  <bean id="SystemOptions-finObjectTypeFundBalanceCd" parent="SystemOptions-finObjectTypeFundBalanceCd-parentBean"/>
 
   <bean id="SystemOptions-finObjectTypeFundBalanceCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="finObjectTypeFundBalanceCd" />
-    <property name="label" value="Fund Balance Object Type" />
-    <property name="shortLabel" value="Fund Balance Object Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="finObjectTypeFundBalanceCd"/>
+    <property name="label" value="Fund Balance Object Type"/>
+    <property name="shortLabel" value="Fund Balance Object Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-costShareEncumbranceBalanceTypeCd" parent="SystemOptions-costShareEncumbranceBalanceTypeCd-parentBean" />
+  <bean id="SystemOptions-costShareEncumbranceBalanceTypeCd" parent="SystemOptions-costShareEncumbranceBalanceTypeCd-parentBean"/>
 
   <bean id="SystemOptions-costShareEncumbranceBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="costShareEncumbranceBalanceTypeCd" />
-    <property name="label" value="Cost Share Encumbrance Balance Type" />
-    <property name="shortLabel" value="Cost Share Encumbrance Balance Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="costShareEncumbranceBalanceTypeCd"/>
+    <property name="label" value="Cost Share Encumbrance Balance Type"/>
+    <property name="shortLabel" value="Cost Share Encumbrance Balance Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-baseBudgetFinancialBalanceTypeCd" parent="SystemOptions-baseBudgetFinancialBalanceTypeCd-parentBean" />
+  <bean id="SystemOptions-baseBudgetFinancialBalanceTypeCd" parent="SystemOptions-baseBudgetFinancialBalanceTypeCd-parentBean"/>
 
   <bean id="SystemOptions-baseBudgetFinancialBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="baseBudgetFinancialBalanceTypeCd" />
-    <property name="label" value="Base Budget Balance Type" />
-    <property name="shortLabel" value="Base Budget Balance Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="baseBudgetFinancialBalanceTypeCd"/>
+    <property name="label" value="Base Budget Balance Type"/>
+    <property name="shortLabel" value="Base Budget Balance Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-monthlyBudgetFinancialBalanceTypeCd" parent="SystemOptions-monthlyBudgetFinancialBalanceTypeCd-parentBean" />
+  <bean id="SystemOptions-monthlyBudgetFinancialBalanceTypeCd" parent="SystemOptions-monthlyBudgetFinancialBalanceTypeCd-parentBean"/>
 
   <bean id="SystemOptions-monthlyBudgetFinancialBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="monthlyBudgetFinancialBalanceTypeCd" />
-    <property name="label" value="Monthly Budget Balance Type" />
-    <property name="shortLabel" value="Monthly Budget Balance Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="monthlyBudgetFinancialBalanceTypeCd"/>
+    <property name="label" value="Monthly Budget Balance Type"/>
+    <property name="shortLabel" value="Monthly Budget Balance Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-financialObjectTypeTransferIncomeCd" parent="SystemOptions-financialObjectTypeTransferIncomeCd-parentBean" />
+  <bean id="SystemOptions-financialObjectTypeTransferIncomeCd" parent="SystemOptions-financialObjectTypeTransferIncomeCd-parentBean"/>
 
   <bean id="SystemOptions-financialObjectTypeTransferIncomeCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectTypeTransferIncomeCd" />
-    <property name="label" value="Transfer In Object Type" />
-    <property name="shortLabel" value="Transfer In Object Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="financialObjectTypeTransferIncomeCd"/>
+    <property name="label" value="Transfer In Object Type"/>
+    <property name="shortLabel" value="Transfer In Object Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-financialObjectTypeTransferExpenseCd" parent="SystemOptions-financialObjectTypeTransferExpenseCd-parentBean" />
+  <bean id="SystemOptions-financialObjectTypeTransferExpenseCd" parent="SystemOptions-financialObjectTypeTransferExpenseCd-parentBean"/>
 
   <bean id="SystemOptions-financialObjectTypeTransferExpenseCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectTypeTransferExpenseCd" />
-    <property name="label" value="Transfer Out Object Type" />
-    <property name="shortLabel" value="Transfer Out Object Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="financialObjectTypeTransferExpenseCd"/>
+    <property name="label" value="Transfer Out Object Type"/>
+    <property name="shortLabel" value="Transfer Out Object Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="SystemOptions-nominalFinancialBalanceTypeCd" parent="SystemOptions-nominalFinancialBalanceTypeCd-parentBean" />
+  <bean id="SystemOptions-nominalFinancialBalanceTypeCd" parent="SystemOptions-nominalFinancialBalanceTypeCd-parentBean"/>
 
   <bean id="SystemOptions-nominalFinancialBalanceTypeCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nominalFinancialBalanceTypeCd" />
-    <property name="label" value="Nominal Closing Balances Balance Type" />
-    <property name="shortLabel" value="Nominal Closing Balances Balance Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="nominalFinancialBalanceTypeCd"/>
+    <property name="label" value="Nominal Closing Balances Balance Type"/>
+    <property name="shortLabel" value="Nominal Closing Balances Balance Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
@@ -530,73 +500,45 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="SystemOptions-inquiryDefinition" parent="SystemOptions-inquiryDefinition-parentBean" />
+  <bean id="SystemOptions-inquiryDefinition" parent="SystemOptions-inquiryDefinition-parentBean"/>
 
   <bean id="SystemOptions-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="System Options Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="System Options Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYear" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYearName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYearStartYr" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYearStartMo" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialBeginBalanceLoadInd" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="budgetCheckingOptionsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFinChartOfAcctCd" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="actualFinancialBalanceTypeCd" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="budgetCheckingBalanceTypeCd" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="extrnlEncumFinBalanceTypCd" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="intrnlEncumFinBalanceTypCd" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="preencumbranceFinBalTypeCd" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="eliminationsFinBalanceTypeCd" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="finObjTypeExpenditureexpCd" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="finObjTypeExpendNotExpCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="finObjTypeExpNotExpendCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="finObjectTypeIncomecashCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="finObjTypeIncomeNotCashCd" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="finObjTypeCshNotIncomeCd" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectTypeAssetsCd" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="finObjectTypeLiabilitiesCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="finObjectTypeFundBalanceCd" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="costShareEncumbranceBalanceTypeCd" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="baseBudgetFinancialBalanceTypeCd" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="monthlyBudgetFinancialBalanceTypeCd" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectTypeTransferIncomeCd" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectTypeTransferExpenseCd" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="nominalFinancialBalanceTypeCd" />
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalYearName"/>
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalYearStartYr"/>
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalYearStartMo"/>
+              <bean parent="FieldDefinition" p:attributeName="financialBeginBalanceLoadInd"/>
+              <bean parent="FieldDefinition" p:attributeName="budgetCheckingOptionsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="universityFinChartOfAcctCd"/>
+              <bean parent="FieldDefinition" p:attributeName="actualFinancialBalanceTypeCd"/>
+              <bean parent="FieldDefinition" p:attributeName="budgetCheckingBalanceTypeCd"/>
+              <bean parent="FieldDefinition" p:attributeName="extrnlEncumFinBalanceTypCd"/>
+              <bean parent="FieldDefinition" p:attributeName="intrnlEncumFinBalanceTypCd"/>
+              <bean parent="FieldDefinition" p:attributeName="preencumbranceFinBalTypeCd"/>
+              <bean parent="FieldDefinition" p:attributeName="eliminationsFinBalanceTypeCd"/>
+              <bean parent="FieldDefinition" p:attributeName="finObjTypeExpenditureexpCd"/>
+              <bean parent="FieldDefinition" p:attributeName="finObjTypeExpendNotExpCode"/>
+              <bean parent="FieldDefinition" p:attributeName="finObjTypeExpNotExpendCode"/>
+              <bean parent="FieldDefinition" p:attributeName="finObjectTypeIncomecashCode"/>
+              <bean parent="FieldDefinition" p:attributeName="finObjTypeIncomeNotCashCd"/>
+              <bean parent="FieldDefinition" p:attributeName="finObjTypeCshNotIncomeCd"/>
+              <bean parent="FieldDefinition" p:attributeName="financialObjectTypeAssetsCd"/>
+              <bean parent="FieldDefinition" p:attributeName="finObjectTypeLiabilitiesCode"/>
+              <bean parent="FieldDefinition" p:attributeName="finObjectTypeFundBalanceCd"/>
+              <bean parent="FieldDefinition" p:attributeName="costShareEncumbranceBalanceTypeCd"/>
+              <bean parent="FieldDefinition" p:attributeName="baseBudgetFinancialBalanceTypeCd"/>
+              <bean parent="FieldDefinition" p:attributeName="monthlyBudgetFinancialBalanceTypeCd"/>
+              <bean parent="FieldDefinition" p:attributeName="financialObjectTypeTransferIncomeCd"/>
+              <bean parent="FieldDefinition" p:attributeName="financialObjectTypeTransferExpenseCd"/>
+              <bean parent="FieldDefinition" p:attributeName="nominalFinancialBalanceTypeCd"/>
             </list>
           </property>
         </bean>
@@ -607,129 +549,77 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="SystemOptions-lookupDefinition" parent="SystemOptions-lookupDefinition-parentBean" />
+  <bean id="SystemOptions-lookupDefinition" parent="SystemOptions-lookupDefinition-parentBean"/>
 
   <bean id="SystemOptions-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="System Options Lookup" />
-    <property name="instructions" value="Lookup a System Options" />
-    <property name="defaultSort" >
+    <property name="title" value="System Options Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>universityFiscalYear</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear"
-              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFinChartOfAcctCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="actualFinancialBalanceTypeCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="budgetCheckingBalanceTypeCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="extrnlEncumFinBalanceTypCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="intrnlEncumFinBalanceTypCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="preencumbranceFinBalTypeCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="eliminationsFinBalanceTypeCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="finObjTypeExpenditureexpCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="finObjTypeExpendNotExpCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="finObjTypeExpNotExpendCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="finObjectTypeIncomecashCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="finObjTypeIncomeNotCashCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="finObjTypeCshNotIncomeCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectTypeAssetsCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="finObjectTypeLiabilitiesCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="finObjectTypeFundBalanceCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="costShareEncumbranceBalanceTypeCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="baseBudgetFinancialBalanceTypeCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="monthlyBudgetFinancialBalanceTypeCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectTypeTransferIncomeCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectTypeTransferExpenseCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="nominalFinancialBalanceTypeCd" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFinChartOfAcctCd"/>
+        <bean parent="FieldDefinition" p:attributeName="actualFinancialBalanceTypeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="budgetCheckingBalanceTypeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="extrnlEncumFinBalanceTypCd"/>
+        <bean parent="FieldDefinition" p:attributeName="intrnlEncumFinBalanceTypCd"/>
+        <bean parent="FieldDefinition" p:attributeName="preencumbranceFinBalTypeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="eliminationsFinBalanceTypeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjTypeExpenditureexpCd"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjTypeExpendNotExpCode"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjTypeExpNotExpendCode"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjectTypeIncomecashCode"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjTypeIncomeNotCashCd"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjTypeCshNotIncomeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectTypeAssetsCd"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjectTypeLiabilitiesCode"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjectTypeFundBalanceCd"/>
+        <bean parent="FieldDefinition" p:attributeName="costShareEncumbranceBalanceTypeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="baseBudgetFinancialBalanceTypeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="monthlyBudgetFinancialBalanceTypeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectTypeTransferIncomeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectTypeTransferExpenseCd"/>
+        <bean parent="FieldDefinition" p:attributeName="nominalFinancialBalanceTypeCd"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYearName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYearStartYr" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYearStartMo" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialBeginBalanceLoadInd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="budgetCheckingOptionsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFinChartOfAcctCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="actualFinancialBalanceTypeCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="budgetCheckingBalanceTypeCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="extrnlEncumFinBalanceTypCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="intrnlEncumFinBalanceTypCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="preencumbranceFinBalTypeCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="eliminationsFinBalanceTypeCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="finObjTypeExpenditureexpCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="finObjTypeExpendNotExpCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="finObjTypeExpNotExpendCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="finObjectTypeIncomecashCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="finObjTypeIncomeNotCashCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="finObjTypeCshNotIncomeCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectTypeAssetsCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="finObjectTypeLiabilitiesCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="finObjectTypeFundBalanceCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="costShareEncumbranceBalanceTypeCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="baseBudgetFinancialBalanceTypeCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="monthlyBudgetFinancialBalanceTypeCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectTypeTransferIncomeCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectTypeTransferExpenseCd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="nominalFinancialBalanceTypeCd" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYearName"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYearStartYr"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYearStartMo"/>
+        <bean parent="FieldDefinition" p:attributeName="financialBeginBalanceLoadInd"/>
+        <bean parent="FieldDefinition" p:attributeName="budgetCheckingOptionsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFinChartOfAcctCd"/>
+        <bean parent="FieldDefinition" p:attributeName="actualFinancialBalanceTypeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="budgetCheckingBalanceTypeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="extrnlEncumFinBalanceTypCd"/>
+        <bean parent="FieldDefinition" p:attributeName="intrnlEncumFinBalanceTypCd"/>
+        <bean parent="FieldDefinition" p:attributeName="preencumbranceFinBalTypeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="eliminationsFinBalanceTypeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjTypeExpenditureexpCd"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjTypeExpendNotExpCode"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjTypeExpNotExpendCode"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjectTypeIncomecashCode"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjTypeIncomeNotCashCd"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjTypeCshNotIncomeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectTypeAssetsCd"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjectTypeLiabilitiesCode"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjectTypeFundBalanceCd"/>
+        <bean parent="FieldDefinition" p:attributeName="costShareEncumbranceBalanceTypeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="baseBudgetFinancialBalanceTypeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="monthlyBudgetFinancialBalanceTypeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectTypeTransferIncomeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectTypeTransferExpenseCd"/>
+        <bean parent="FieldDefinition" p:attributeName="nominalFinancialBalanceTypeCd"/>
       </list>
     </property>
   </bean>

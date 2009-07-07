@@ -1,27 +1,23 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="BudgetConstructionSalarySocialSecurityNumber" parent="BudgetConstructionSalarySocialSecurityNumber-parentBean" />
+  <bean id="BudgetConstructionSalarySocialSecurityNumber" parent="BudgetConstructionSalarySocialSecurityNumber-parentBean"/>
 
   <bean id="BudgetConstructionSalarySocialSecurityNumber-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalarySocialSecurityNumber" />
-    <property name="inquiryDefinition" >
-      <ref bean="BudgetConstructionSalarySocialSecurityNumber-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalarySocialSecurityNumber"/>
+    <property name="inquiryDefinition">
+      <ref bean="BudgetConstructionSalarySocialSecurityNumber-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="BudgetConstructionSalarySocialSecurityNumber-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="BudgetConstructionSalarySocialSecurityNumber-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Budget Construction Salary Social Security Number" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Budget Construction Salary Social Security Number"/>
+    <property name="attributes">
       <list>
-        <ref bean="BudgetConstructionSalarySocialSecurityNumber-emplid" />
-        <ref bean="BudgetConstructionSalarySocialSecurityNumber-organizationChartOfAccountsCode" />
-        <ref bean="BudgetConstructionSalarySocialSecurityNumber-organizationCode" />
-        <ref bean="BudgetConstructionSalarySocialSecurityNumber-name" />
-        <ref bean="BudgetConstructionSalarySocialSecurityNumber-principalId" />
+        <ref bean="BudgetConstructionSalarySocialSecurityNumber-emplid"/>
+        <ref bean="BudgetConstructionSalarySocialSecurityNumber-organizationChartOfAccountsCode"/>
+        <ref bean="BudgetConstructionSalarySocialSecurityNumber-organizationCode"/>
+        <ref bean="BudgetConstructionSalarySocialSecurityNumber-name"/>
+        <ref bean="BudgetConstructionSalarySocialSecurityNumber-principalId"/>
       </list>
     </property>
   </bean>
@@ -29,92 +25,87 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="BudgetConstructionSalarySocialSecurityNumber-emplid" parent="BudgetConstructionSalarySocialSecurityNumber-emplid-parentBean" />
+  <bean id="BudgetConstructionSalarySocialSecurityNumber-emplid" parent="BudgetConstructionSalarySocialSecurityNumber-emplid-parentBean"/>
 
   <bean id="BudgetConstructionSalarySocialSecurityNumber-emplid-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="emplid" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Emplid" />
-    <property name="shortLabel" value="Emplid" />
-    <property name="maxLength" value="11" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="emplid"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Emplid"/>
+    <property name="shortLabel" value="Emplid"/>
+    <property name="maxLength" value="11"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="13" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="13"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionSalarySocialSecurityNumber-organizationChartOfAccountsCode" parent="BudgetConstructionSalarySocialSecurityNumber-organizationChartOfAccountsCode-parentBean" />
+  <bean id="BudgetConstructionSalarySocialSecurityNumber-organizationChartOfAccountsCode" parent="BudgetConstructionSalarySocialSecurityNumber-organizationChartOfAccountsCode-parentBean"/>
 
   <bean id="BudgetConstructionSalarySocialSecurityNumber-organizationChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationChartOfAccountsCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Organization Chart Of Accounts Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="organizationChartOfAccountsCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Organization Chart Of Accounts Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionSalarySocialSecurityNumber-organizationCode" parent="BudgetConstructionSalarySocialSecurityNumber-organizationCode-parentBean" />
+  <bean id="BudgetConstructionSalarySocialSecurityNumber-organizationCode" parent="BudgetConstructionSalarySocialSecurityNumber-organizationCode-parentBean"/>
 
   <bean id="BudgetConstructionSalarySocialSecurityNumber-organizationCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Organization Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="organizationCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Organization Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionSalarySocialSecurityNumber-name" parent="BudgetConstructionSalarySocialSecurityNumber-name-parentBean" />
+  <bean id="BudgetConstructionSalarySocialSecurityNumber-name" parent="BudgetConstructionSalarySocialSecurityNumber-name-parentBean"/>
 
   <bean id="BudgetConstructionSalarySocialSecurityNumber-name-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="name" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Person Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="50" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="name"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Person Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="50"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="52" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="52"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionSalarySocialSecurityNumber-principalId" parent="BudgetConstructionSalarySocialSecurityNumber-principalId-parentBean" />
+  <bean id="BudgetConstructionSalarySocialSecurityNumber-principalId" parent="BudgetConstructionSalarySocialSecurityNumber-principalId-parentBean"/>
 
   <bean id="BudgetConstructionSalarySocialSecurityNumber-principalId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="principalId" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Person Universal Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="principalId"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Person Universal Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
     
     
@@ -123,27 +114,22 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="BudgetConstructionSalarySocialSecurityNumber-inquiryDefinition" parent="BudgetConstructionSalarySocialSecurityNumber-inquiryDefinition-parentBean" />
+  <bean id="BudgetConstructionSalarySocialSecurityNumber-inquiryDefinition" parent="BudgetConstructionSalarySocialSecurityNumber-inquiryDefinition-parentBean"/>
 
   <bean id="BudgetConstructionSalarySocialSecurityNumber-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Budget Construction Salary Social Security Number Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Budget Construction Salary Social Security Number Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="emplid" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationChartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="name" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="principalId" />
+              <bean parent="FieldDefinition" p:attributeName="emplid"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationChartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
+              <bean parent="FieldDefinition" p:attributeName="principalId"/>
             </list>
           </property>
         </bean>
@@ -154,43 +140,32 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="BudgetConstructionSalarySocialSecurityNumber-lookupDefinition" parent="BudgetConstructionSalarySocialSecurityNumber-lookupDefinition-parentBean" />
+  <bean id="BudgetConstructionSalarySocialSecurityNumber-lookupDefinition" parent="BudgetConstructionSalarySocialSecurityNumber-lookupDefinition-parentBean"/>
 
   <bean id="BudgetConstructionSalarySocialSecurityNumber-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Budget Construction Salary Social Security Number Lookup" />
-    <property name="instructions" value="Look up a Budget Construction Salary Social Security Number" />
-    <property name="defaultSort" >
+    <property name="title" value="Budget Construction Salary Social Security Number Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="emplid" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationChartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="principalId" />
+        <bean parent="FieldDefinition" p:attributeName="emplid"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationChartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="principalId"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="emplid" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationChartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="principalId" />
+        <bean parent="FieldDefinition" p:attributeName="emplid"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationChartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="principalId"/>
       </list>
     </property>
   </bean>
 </beans>
-

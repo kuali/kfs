@@ -1,25 +1,21 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="CreditCardDetail" parent="CreditCardDetail-parentBean" />
+  <bean id="CreditCardDetail" parent="CreditCardDetail-parentBean"/>
 
   <bean id="CreditCardDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.CreditCardDetail" />
-    <property name="objectLabel" value="Credit Card Detail" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.CreditCardDetail"/>
+    <property name="objectLabel" value="Credit Card Detail"/>
+    <property name="attributes">
       <list>
-        <ref bean="CreditCardDetail-documentNumber" />
-        <ref bean="CreditCardDetail-financialDocumentTypeCode" />
-        <ref bean="CreditCardDetail-financialDocumentColumnTypeCode" />
-        <ref bean="CreditCardDetail-financialDocumentLineNumber" />
-        <ref bean="CreditCardDetail-financialDocumentCreditCardTypeCode" />
-        <ref bean="CreditCardDetail-financialDocumentCreditCardVendorNumber" />
-        <ref bean="CreditCardDetail-creditCardDepositDate" />
-        <ref bean="CreditCardDetail-creditCardDepositReferenceNumber" />
-        <ref bean="CreditCardDetail-creditCardAdvanceDepositAmount" />
+        <ref bean="CreditCardDetail-documentNumber"/>
+        <ref bean="CreditCardDetail-financialDocumentTypeCode"/>
+        <ref bean="CreditCardDetail-financialDocumentColumnTypeCode"/>
+        <ref bean="CreditCardDetail-financialDocumentLineNumber"/>
+        <ref bean="CreditCardDetail-financialDocumentCreditCardTypeCode"/>
+        <ref bean="CreditCardDetail-financialDocumentCreditCardVendorNumber"/>
+        <ref bean="CreditCardDetail-creditCardDepositDate"/>
+        <ref bean="CreditCardDetail-creditCardDepositReferenceNumber"/>
+        <ref bean="CreditCardDetail-creditCardAdvanceDepositAmount"/>
       </list>
     </property>
   </bean>
@@ -27,83 +23,81 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="CreditCardDetail-documentNumber" parent="CreditCardDetail-documentNumber-parentBean" />
+  <bean id="CreditCardDetail-documentNumber" parent="CreditCardDetail-documentNumber-parentBean"/>
 
   <bean id="CreditCardDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
-  	<property name="forceUppercase" value="true" />
+  	<property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="CreditCardDetail-financialDocumentTypeCode" parent="CreditCardDetail-financialDocumentTypeCode-parentBean" />
+  <bean id="CreditCardDetail-financialDocumentTypeCode" parent="CreditCardDetail-financialDocumentTypeCode-parentBean"/>
 
   <bean id="CreditCardDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
-    <property name="name" value="financialDocumentTypeCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="name" value="financialDocumentTypeCode"/>
+    <property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="CreditCardDetail-financialDocumentColumnTypeCode" parent="CreditCardDetail-financialDocumentColumnTypeCode-parentBean" />
+  <bean id="CreditCardDetail-financialDocumentColumnTypeCode" parent="CreditCardDetail-financialDocumentColumnTypeCode-parentBean"/>
 
   <bean id="CreditCardDetail-financialDocumentColumnTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentColumnTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Column Type Code" />
-    <property name="shortLabel" value="Col Type Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AlphaValidationPattern" />
+    <property name="name" value="financialDocumentColumnTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Column Type Code"/>
+    <property name="shortLabel" value="Col Type Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AlphaValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="CreditCardDetail-financialDocumentLineNumber" parent="CreditCardDetail-financialDocumentLineNumber-parentBean" />
+  <bean id="CreditCardDetail-financialDocumentLineNumber" parent="CreditCardDetail-financialDocumentLineNumber-parentBean"/>
 
   <bean id="CreditCardDetail-financialDocumentLineNumber-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="financialDocumentLineNumber" />
-    <property name="required" value="true" />
-    <property name="forceUppercase" value="true" />
+    <property name="name" value="financialDocumentLineNumber"/>
+    <property name="required" value="true"/>
+    <property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="CreditCardDetail-financialDocumentCreditCardTypeCode" parent="CreditCardDetail-financialDocumentCreditCardTypeCode-parentBean" />
+  <bean id="CreditCardDetail-financialDocumentCreditCardTypeCode" parent="CreditCardDetail-financialDocumentCreditCardTypeCode-parentBean"/>
 
   <bean id="CreditCardDetail-financialDocumentCreditCardTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentCreditCardTypeCode" />
-    <property name="label" value="Type" />
-    <property name="shortLabel" value="Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="financialDocumentCreditCardTypeCode"/>
+    <property name="label" value="Type"/>
+    <property name="shortLabel" value="Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="CreditCardDetail-financialDocumentCreditCardVendorNumber" parent="CreditCardDetail-financialDocumentCreditCardVendorNumber-parentBean" />
+  <bean id="CreditCardDetail-financialDocumentCreditCardVendorNumber" parent="CreditCardDetail-financialDocumentCreditCardVendorNumber-parentBean"/>
 
   <bean id="CreditCardDetail-financialDocumentCreditCardVendorNumber-parentBean" abstract="true" parent="CreditCardVendor-financialDocumentCreditCardVendorNumber">
   </bean>
-  <bean id="CreditCardDetail-creditCardDepositDate" parent="CreditCardDetail-creditCardDepositDate-parentBean" />
+  <bean id="CreditCardDetail-creditCardDepositDate" parent="CreditCardDetail-creditCardDepositDate-parentBean"/>
 
   <bean id="CreditCardDetail-creditCardDepositDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="creditCardDepositDate" />
-    <property name="label" value="Credit Card Date" />
-    <property name="shortLabel" value="Date" />
-    <property name="required" value="true" />
+    <property name="name" value="creditCardDepositDate"/>
+    <property name="label" value="Credit Card Date"/>
+    <property name="shortLabel" value="Date"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="CreditCardDetail-creditCardDepositReferenceNumber" parent="CreditCardDetail-creditCardDepositReferenceNumber-parentBean" />
+  <bean id="CreditCardDetail-creditCardDepositReferenceNumber" parent="CreditCardDetail-creditCardDepositReferenceNumber-parentBean"/>
 
   <bean id="CreditCardDetail-creditCardDepositReferenceNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
-    <property name="name" value="creditCardDepositReferenceNumber" />
-    <property name="label" value="Credit Card Reference Number" />
-    <property name="shortLabel" value="Ref Nbr" />
-    <property name="maxLength" value="10" />
-    <property name="required" value="true" />
+    <property name="name" value="creditCardDepositReferenceNumber"/>
+    <property name="label" value="Credit Card Reference Number"/>
+    <property name="shortLabel" value="Ref Nbr"/>
+    <property name="maxLength" value="10"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="CreditCardDetail-creditCardAdvanceDepositAmount" parent="CreditCardDetail-creditCardAdvanceDepositAmount-parentBean" />
+  <bean id="CreditCardDetail-creditCardAdvanceDepositAmount" parent="CreditCardDetail-creditCardAdvanceDepositAmount-parentBean"/>
 
   <bean id="CreditCardDetail-creditCardAdvanceDepositAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="creditCardAdvanceDepositAmount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="required" value="true" />
+    <property name="name" value="creditCardAdvanceDepositAmount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="required" value="true"/>
   </bean>
 </beans>

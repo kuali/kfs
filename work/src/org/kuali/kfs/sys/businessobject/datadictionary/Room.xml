@@ -1,39 +1,32 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans 
-    					http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-						http://rice.kuali.org/dd 
-						http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd       http://rice.kuali.org/dd        http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="Room" parent="Room-parentBean" />
+  <bean id="Room" parent="Room-parentBean"/>
 
   <bean id="Room-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.Room" />
-    <property name="inquiryDefinition" >
-      <ref bean="Room-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.Room"/>
+    <property name="inquiryDefinition">
+      <ref bean="Room-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="Room-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="Room-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="buildingRoomNumber" />
-    <property name="objectLabel" value="Room" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="buildingRoomNumber"/>
+    <property name="objectLabel" value="Room"/>
+    <property name="attributes">
       <list>
-        <ref bean="Room-campusCode" />
-        <ref bean="Room-buildingCode" />
-        <ref bean="Room-buildingRoomNumber" />
-        <ref bean="Room-buildingRoomDepartment" />
-        <ref bean="Room-buildingRoomType" />
-        <ref bean="Room-buildingRoomDescription" />
-        <ref bean="Room-active" />
+        <ref bean="Room-campusCode"/>
+        <ref bean="Room-buildingCode"/>
+        <ref bean="Room-buildingRoomNumber"/>
+        <ref bean="Room-buildingRoomDepartment"/>
+        <ref bean="Room-buildingRoomType"/>
+        <ref bean="Room-buildingRoomDescription"/>
+        <ref bean="Room-active"/>
       </list>
     </property>
-	<property name="relationships" >
+	<property name="relationships">
       <list>
 		<dd:relationship objectAttribute="campus">
-        	<dd:primitiveAttribute source="campusCode" target="campusCode" />
+        	<dd:primitiveAttribute source="campusCode" target="campusCode"/>
         </dd:relationship>         
       </list>
     </property> 
@@ -42,129 +35,112 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="Room-campusCode" parent="Room-campusCode-parentBean" />
+  <bean id="Room-campusCode" parent="Room-campusCode-parentBean"/>
 
   <bean id="Room-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
-  	<property name="forceUppercase" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder"
-            p:includeKeyInLabel="false" />
+  	<property name="forceUppercase" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="Room-buildingCode" parent="Room-buildingCode-parentBean" />
+  <bean id="Room-buildingCode" parent="Room-buildingCode-parentBean"/>
 
   <bean id="Room-buildingCode-parentBean" abstract="true" parent="Building-buildingCode">
-  	<property name="forceUppercase" value="true" />
+  	<property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="Room-buildingRoomNumber" parent="Room-buildingRoomNumber-parentBean" />
+  <bean id="Room-buildingRoomNumber" parent="Room-buildingRoomNumber-parentBean"/>
 
   <bean id="Room-buildingRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="buildingRoomNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Building Room Number" />
-    <property name="shortLabel" value="Room Number" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="buildingRoomNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Building Room Number"/>
+    <property name="shortLabel" value="Room Number"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="8"/>
     </property>
     
     
   </bean>
-  <bean id="Room-buildingRoomDepartment" parent="Room-buildingRoomDepartment-parentBean" />
+  <bean id="Room-buildingRoomDepartment" parent="Room-buildingRoomDepartment-parentBean"/>
 
   <bean id="Room-buildingRoomDepartment-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="buildingRoomDepartment" />
-    <property name="label" value="Building Room Department" />
-    <property name="shortLabel" value="Bldg. Room Department" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="buildingRoomDepartment"/>
+    <property name="label" value="Building Room Department"/>
+    <property name="shortLabel" value="Bldg. Room Department"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
     
     
   </bean>
-  <bean id="Room-buildingRoomType" parent="Room-buildingRoomType-parentBean" />
+  <bean id="Room-buildingRoomType" parent="Room-buildingRoomType-parentBean"/>
 
   <bean id="Room-buildingRoomType-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="buildingRoomType" />
-    <property name="label" value="Building Room Type" />
-    <property name="shortLabel" value="Bldg. Room Type" />
-    <property name="maxLength" value="50" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="buildingRoomType"/>
+    <property name="label" value="Building Room Type"/>
+    <property name="shortLabel" value="Bldg. Room Type"/>
+    <property name="maxLength" value="50"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="50" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="50"/>
     </property>
     
     
   </bean>
-  <bean id="Room-buildingRoomDescription" parent="Room-buildingRoomDescription-parentBean" />
+  <bean id="Room-buildingRoomDescription" parent="Room-buildingRoomDescription-parentBean"/>
 
   <bean id="Room-buildingRoomDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="buildingRoomDescription" />
-    <property name="label" value="Building Address Description" />
-    <property name="shortLabel" value="Bldg. Address Description" />
-    <property name="maxLength" value="25" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="buildingRoomDescription"/>
+    <property name="label" value="Building Address Description"/>
+    <property name="shortLabel" value="Bldg. Address Description"/>
+    <property name="maxLength" value="25"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="25" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="25"/>
     </property>
     
     
   </bean>
-  <bean id="Room-active" parent="Room-active-parentBean" />
+  <bean id="Room-active" parent="Room-active-parentBean"/>
 
   <bean id="Room-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="Room-inquiryDefinition" parent="Room-inquiryDefinition-parentBean" />
+  <bean id="Room-inquiryDefinition" parent="Room-inquiryDefinition-parentBean"/>
 
   <bean id="Room-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Room Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Room Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="campusCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="buildingCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="buildingRoomNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="buildingRoomDepartment" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="buildingRoomType" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="buildingRoomDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="buildingCode"/>
+              <bean parent="FieldDefinition" p:attributeName="buildingRoomNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="buildingRoomDepartment"/>
+              <bean parent="FieldDefinition" p:attributeName="buildingRoomType"/>
+              <bean parent="FieldDefinition" p:attributeName="buildingRoomDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -175,54 +151,40 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="Room-lookupDefinition" parent="Room-lookupDefinition-parentBean" />
+  <bean id="Room-lookupDefinition" parent="Room-lookupDefinition-parentBean"/>
 
   <bean id="Room-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Room Lookup" />
-    <property name="instructions" value="Lookup a Room" />
-    <property name="defaultSort" >
+    <property name="title" value="Room Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>buildingRoomNumber</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="campusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="buildingCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="buildingRoomNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="buildingRoomDepartment" />
-        <bean parent="FieldDefinition"
-              p:attributeName="buildingRoomType" />
-        <bean parent="FieldDefinition"
-              p:attributeName="buildingRoomDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="buildingCode"/>
+        <bean parent="FieldDefinition" p:attributeName="buildingRoomNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="buildingRoomDepartment"/>
+        <bean parent="FieldDefinition" p:attributeName="buildingRoomType"/>
+        <bean parent="FieldDefinition" p:attributeName="buildingRoomDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="campusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="buildingCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="buildingRoomNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="buildingRoomDepartment" />
-        <bean parent="FieldDefinition"
-              p:attributeName="buildingRoomType" />
-        <bean parent="FieldDefinition"
-              p:attributeName="buildingRoomDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="buildingCode"/>
+        <bean parent="FieldDefinition" p:attributeName="buildingRoomNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="buildingRoomDepartment"/>
+        <bean parent="FieldDefinition" p:attributeName="buildingRoomType"/>
+        <bean parent="FieldDefinition" p:attributeName="buildingRoomDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

@@ -1,26 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="NonResidentAlienTaxPercent" parent="NonResidentAlienTaxPercent-parentBean" />
+  <bean id="NonResidentAlienTaxPercent" parent="NonResidentAlienTaxPercent-parentBean"/>
 
   <bean id="NonResidentAlienTaxPercent-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent" />
-    <property name="inquiryDefinition" >
-      <ref bean="NonResidentAlienTaxPercent-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.NonResidentAlienTaxPercent"/>
+    <property name="inquiryDefinition">
+      <ref bean="NonResidentAlienTaxPercent-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="NonResidentAlienTaxPercent-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="NonResidentAlienTaxPercent-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Non-Resident Alien Tax Percent" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Non-Resident Alien Tax Percent"/>
+    <property name="attributes">
       <list>
-        <ref bean="NonResidentAlienTaxPercent-incomeClassCode" />
-        <ref bean="NonResidentAlienTaxPercent-incomeTaxTypeCode" />
-        <ref bean="NonResidentAlienTaxPercent-incomeTaxPercent" />
-        <ref bean="NonResidentAlienTaxPercent-active" />
+        <ref bean="NonResidentAlienTaxPercent-incomeClassCode"/>
+        <ref bean="NonResidentAlienTaxPercent-incomeTaxTypeCode"/>
+        <ref bean="NonResidentAlienTaxPercent-incomeTaxPercent"/>
+        <ref bean="NonResidentAlienTaxPercent-active"/>
       </list>
     </property>
   </bean>
@@ -28,57 +24,51 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="NonResidentAlienTaxPercent-incomeClassCode" parent="NonResidentAlienTaxPercent-incomeClassCode-parentBean" />
+  <bean id="NonResidentAlienTaxPercent-incomeClassCode" parent="NonResidentAlienTaxPercent-incomeClassCode-parentBean"/>
 
   <bean id="NonResidentAlienTaxPercent-incomeClassCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="incomeClassCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Income Class Code" />
-    <property name="shortLabel" value="Inc Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="incomeClassCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Income Class Code"/>
+    <property name="shortLabel" value="Inc Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
   </bean>
-  <bean id="NonResidentAlienTaxPercent-incomeTaxTypeCode" parent="NonResidentAlienTaxPercent-incomeTaxTypeCode-parentBean" />
+  <bean id="NonResidentAlienTaxPercent-incomeTaxTypeCode" parent="NonResidentAlienTaxPercent-incomeTaxTypeCode-parentBean"/>
 
   <bean id="NonResidentAlienTaxPercent-incomeTaxTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="incomeTaxTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Income Tax Type Code" />
-    <property name="shortLabel" value="Inc Tx Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="incomeTaxTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Income Tax Type Code"/>
+    <property name="shortLabel" value="Inc Tx Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="1"/>
     </property>
   </bean>
-  <bean id="NonResidentAlienTaxPercent-incomeTaxPercent" parent="NonResidentAlienTaxPercent-incomeTaxPercent-parentBean" />
+  <bean id="NonResidentAlienTaxPercent-incomeTaxPercent" parent="NonResidentAlienTaxPercent-incomeTaxPercent-parentBean"/>
 
   <bean id="NonResidentAlienTaxPercent-incomeTaxPercent-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="incomeTaxPercent" />
-    <property name="label" value="Income Tax Percent" />
-    <property name="shortLabel" value="Inc Tx Pc" />
-    <property name="maxLength" value="22" />
-    <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern"
-            p:precision="5"
-            p:scale="2"
-            p:allowNegative="true" />
+    <property name="name" value="incomeTaxPercent"/>
+    <property name="label" value="Income Tax Percent"/>
+    <property name="shortLabel" value="Inc Tx Pc"/>
+    <property name="maxLength" value="22"/>
+    <property name="validationPattern">
+      <bean parent="FixedPointValidationPattern" p:precision="5" p:scale="2" p:allowNegative="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="22" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="22"/>
     </property>
   </bean>
-  <bean id="NonResidentAlienTaxPercent-active" parent="NonResidentAlienTaxPercent-active-parentBean" />
+  <bean id="NonResidentAlienTaxPercent-active" parent="NonResidentAlienTaxPercent-active-parentBean"/>
 
   <bean id="NonResidentAlienTaxPercent-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active"/>
@@ -88,25 +78,21 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="NonResidentAlienTaxPercent-inquiryDefinition" parent="NonResidentAlienTaxPercent-inquiryDefinition-parentBean" />
+  <bean id="NonResidentAlienTaxPercent-inquiryDefinition" parent="NonResidentAlienTaxPercent-inquiryDefinition-parentBean"/>
 
   <bean id="NonResidentAlienTaxPercent-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Non Resident Alien Tax Percent Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Non Resident Alien Tax Percent Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="incomeClassCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="incomeTaxTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="incomeTaxPercent" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="incomeClassCode"/>
+              <bean parent="FieldDefinition" p:attributeName="incomeTaxTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="incomeTaxPercent"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -117,41 +103,34 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="NonResidentAlienTaxPercent-lookupDefinition" parent="NonResidentAlienTaxPercent-lookupDefinition-parentBean" />
+  <bean id="NonResidentAlienTaxPercent-lookupDefinition" parent="NonResidentAlienTaxPercent-lookupDefinition-parentBean"/>
 
   <bean id="NonResidentAlienTaxPercent-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Non Resident Alien Tax Percent Lookup" />
-    <property name="lookupableID" value="nonResidentAlienTaxPercentLookupable" />
-    <property name="instructions" value="Lookup a Non Resident Alien Tax Percent" />
-    <property name="defaultSort" >
+    <property name="title" value="Non Resident Alien Tax Percent Lookup"/>
+    <property name="lookupableID" value="nonResidentAlienTaxPercentLookupable"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>incomeClassCode</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="incomeClassCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="incomeTaxTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="incomeClassCode"/>
+        <bean parent="FieldDefinition" p:attributeName="incomeTaxTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="incomeClassCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="incomeTaxTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="incomeTaxPercent" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="incomeClassCode"/>
+        <bean parent="FieldDefinition" p:attributeName="incomeTaxTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="incomeTaxPercent"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

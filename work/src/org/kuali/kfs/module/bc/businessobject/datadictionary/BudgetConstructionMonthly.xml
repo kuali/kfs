@@ -1,43 +1,39 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="BudgetConstructionMonthly" parent="BudgetConstructionMonthly-parentBean" />
+  <bean id="BudgetConstructionMonthly" parent="BudgetConstructionMonthly-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly" />
-    <property name="inquiryDefinition" >
-      <ref bean="BudgetConstructionMonthly-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly"/>
+    <property name="inquiryDefinition">
+      <ref bean="BudgetConstructionMonthly-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="BudgetConstructionMonthly-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="BudgetConstructionMonthly-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Budget Construction Monthly" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Budget Construction Monthly"/>
+    <property name="attributes">
       <list>
-        <ref bean="BudgetConstructionMonthly-accountNumber" />
-        <ref bean="BudgetConstructionMonthly-chartOfAccountsCode" />
-        <ref bean="BudgetConstructionMonthly-financialBalanceTypeCode" />
-        <ref bean="BudgetConstructionMonthly-financialDocumentMonth10LineAmount" />
-        <ref bean="BudgetConstructionMonthly-financialDocumentMonth11LineAmount" />
-        <ref bean="BudgetConstructionMonthly-financialDocumentMonth12LineAmount" />
-        <ref bean="BudgetConstructionMonthly-financialDocumentMonth1LineAmount" />
-        <ref bean="BudgetConstructionMonthly-financialDocumentMonth2LineAmount" />
-        <ref bean="BudgetConstructionMonthly-financialDocumentMonth3LineAmount" />
-        <ref bean="BudgetConstructionMonthly-financialDocumentMonth4LineAmount" />
-        <ref bean="BudgetConstructionMonthly-financialDocumentMonth5LineAmount" />
-        <ref bean="BudgetConstructionMonthly-financialDocumentMonth6LineAmount" />
-        <ref bean="BudgetConstructionMonthly-financialDocumentMonth7LineAmount" />
-        <ref bean="BudgetConstructionMonthly-financialDocumentMonth8LineAmount" />
-        <ref bean="BudgetConstructionMonthly-financialDocumentMonth9LineAmount" />
-        <ref bean="BudgetConstructionMonthly-documentNumber" />
-        <ref bean="BudgetConstructionMonthly-financialObjectCode" />
-        <ref bean="BudgetConstructionMonthly-financialObjectTypeCode" />
-        <ref bean="BudgetConstructionMonthly-financialSubObjectCode" />
-        <ref bean="BudgetConstructionMonthly-subAccountNumber" />
-        <ref bean="BudgetConstructionMonthly-universityFiscalYear" />
+        <ref bean="BudgetConstructionMonthly-accountNumber"/>
+        <ref bean="BudgetConstructionMonthly-chartOfAccountsCode"/>
+        <ref bean="BudgetConstructionMonthly-financialBalanceTypeCode"/>
+        <ref bean="BudgetConstructionMonthly-financialDocumentMonth10LineAmount"/>
+        <ref bean="BudgetConstructionMonthly-financialDocumentMonth11LineAmount"/>
+        <ref bean="BudgetConstructionMonthly-financialDocumentMonth12LineAmount"/>
+        <ref bean="BudgetConstructionMonthly-financialDocumentMonth1LineAmount"/>
+        <ref bean="BudgetConstructionMonthly-financialDocumentMonth2LineAmount"/>
+        <ref bean="BudgetConstructionMonthly-financialDocumentMonth3LineAmount"/>
+        <ref bean="BudgetConstructionMonthly-financialDocumentMonth4LineAmount"/>
+        <ref bean="BudgetConstructionMonthly-financialDocumentMonth5LineAmount"/>
+        <ref bean="BudgetConstructionMonthly-financialDocumentMonth6LineAmount"/>
+        <ref bean="BudgetConstructionMonthly-financialDocumentMonth7LineAmount"/>
+        <ref bean="BudgetConstructionMonthly-financialDocumentMonth8LineAmount"/>
+        <ref bean="BudgetConstructionMonthly-financialDocumentMonth9LineAmount"/>
+        <ref bean="BudgetConstructionMonthly-documentNumber"/>
+        <ref bean="BudgetConstructionMonthly-financialObjectCode"/>
+        <ref bean="BudgetConstructionMonthly-financialObjectTypeCode"/>
+        <ref bean="BudgetConstructionMonthly-financialSubObjectCode"/>
+        <ref bean="BudgetConstructionMonthly-subAccountNumber"/>
+        <ref bean="BudgetConstructionMonthly-universityFiscalYear"/>
       </list>
     </property>
   </bean>
@@ -45,401 +41,368 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="BudgetConstructionMonthly-accountNumber" parent="BudgetConstructionMonthly-accountNumber-parentBean" />
+  <bean id="BudgetConstructionMonthly-accountNumber" parent="BudgetConstructionMonthly-accountNumber-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Account Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="accountNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Account Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionMonthly-chartOfAccountsCode" parent="BudgetConstructionMonthly-chartOfAccountsCode-parentBean" />
+  <bean id="BudgetConstructionMonthly-chartOfAccountsCode" parent="BudgetConstructionMonthly-chartOfAccountsCode-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="chartOfAccountsCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Chart Of Accounts Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="chartOfAccountsCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Chart Of Accounts Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionMonthly-financialBalanceTypeCode" parent="BudgetConstructionMonthly-financialBalanceTypeCode-parentBean" />
+  <bean id="BudgetConstructionMonthly-financialBalanceTypeCode" parent="BudgetConstructionMonthly-financialBalanceTypeCode-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-financialBalanceTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialBalanceTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Balance Type Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="financialBalanceTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Financial Balance Type Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionMonthly-financialDocumentMonth10LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth10LineAmount-parentBean" />
+  <bean id="BudgetConstructionMonthly-financialDocumentMonth10LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth10LineAmount-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-financialDocumentMonth10LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentMonth10LineAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Document Month10 Line Amount" />
-    <property name="shortLabel" value="Month 10" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern"
-            p:allowNegative="true" />
+    <property name="name" value="financialDocumentMonth10LineAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Financial Document Month10 Line Amount"/>
+    <property name="shortLabel" value="Month 10"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern" p:allowNegative="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionMonthly-financialDocumentMonth11LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth11LineAmount-parentBean" />
+  <bean id="BudgetConstructionMonthly-financialDocumentMonth11LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth11LineAmount-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-financialDocumentMonth11LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentMonth11LineAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Document Month11 Line Amount" />
-    <property name="shortLabel" value="Month 11" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern"
-            p:allowNegative="true" />
+    <property name="name" value="financialDocumentMonth11LineAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Financial Document Month11 Line Amount"/>
+    <property name="shortLabel" value="Month 11"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern" p:allowNegative="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionMonthly-financialDocumentMonth12LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth12LineAmount-parentBean" />
+  <bean id="BudgetConstructionMonthly-financialDocumentMonth12LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth12LineAmount-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-financialDocumentMonth12LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentMonth12LineAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Document Month12 Line Amount" />
-    <property name="shortLabel" value="Month 12" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern"
-            p:allowNegative="true" />
+    <property name="name" value="financialDocumentMonth12LineAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Financial Document Month12 Line Amount"/>
+    <property name="shortLabel" value="Month 12"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern" p:allowNegative="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionMonthly-financialDocumentMonth1LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth1LineAmount-parentBean" />
+  <bean id="BudgetConstructionMonthly-financialDocumentMonth1LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth1LineAmount-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-financialDocumentMonth1LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentMonth1LineAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Document Month1 Line Amount" />
-    <property name="shortLabel" value="Month 1" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern"
-            p:allowNegative="true" />
+    <property name="name" value="financialDocumentMonth1LineAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Financial Document Month1 Line Amount"/>
+    <property name="shortLabel" value="Month 1"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern" p:allowNegative="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionMonthly-financialDocumentMonth2LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth2LineAmount-parentBean" />
+  <bean id="BudgetConstructionMonthly-financialDocumentMonth2LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth2LineAmount-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-financialDocumentMonth2LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentMonth2LineAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Document Month2 Line Amount" />
-    <property name="shortLabel" value="Month 2" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern"
-            p:allowNegative="true" />
+    <property name="name" value="financialDocumentMonth2LineAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Financial Document Month2 Line Amount"/>
+    <property name="shortLabel" value="Month 2"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern" p:allowNegative="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionMonthly-financialDocumentMonth3LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth3LineAmount-parentBean" />
+  <bean id="BudgetConstructionMonthly-financialDocumentMonth3LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth3LineAmount-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-financialDocumentMonth3LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentMonth3LineAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Document Month3 Line Amount" />
-    <property name="shortLabel" value="Month 3" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern"
-            p:allowNegative="true" />
+    <property name="name" value="financialDocumentMonth3LineAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Financial Document Month3 Line Amount"/>
+    <property name="shortLabel" value="Month 3"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern" p:allowNegative="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionMonthly-financialDocumentMonth4LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth4LineAmount-parentBean" />
+  <bean id="BudgetConstructionMonthly-financialDocumentMonth4LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth4LineAmount-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-financialDocumentMonth4LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentMonth4LineAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Document Month4 Line Amount" />
-    <property name="shortLabel" value="Month 4" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern"
-            p:allowNegative="true" />
+    <property name="name" value="financialDocumentMonth4LineAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Financial Document Month4 Line Amount"/>
+    <property name="shortLabel" value="Month 4"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern" p:allowNegative="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionMonthly-financialDocumentMonth5LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth5LineAmount-parentBean" />
+  <bean id="BudgetConstructionMonthly-financialDocumentMonth5LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth5LineAmount-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-financialDocumentMonth5LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentMonth5LineAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Document Month5 Line Amount" />
-    <property name="shortLabel" value="Month 5" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern"
-            p:allowNegative="true" />
+    <property name="name" value="financialDocumentMonth5LineAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Financial Document Month5 Line Amount"/>
+    <property name="shortLabel" value="Month 5"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern" p:allowNegative="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionMonthly-financialDocumentMonth6LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth6LineAmount-parentBean" />
+  <bean id="BudgetConstructionMonthly-financialDocumentMonth6LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth6LineAmount-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-financialDocumentMonth6LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentMonth6LineAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Document Month6 Line Amount" />
-    <property name="shortLabel" value="Month 6" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern"
-            p:allowNegative="true" />
+    <property name="name" value="financialDocumentMonth6LineAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Financial Document Month6 Line Amount"/>
+    <property name="shortLabel" value="Month 6"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern" p:allowNegative="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionMonthly-financialDocumentMonth7LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth7LineAmount-parentBean" />
+  <bean id="BudgetConstructionMonthly-financialDocumentMonth7LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth7LineAmount-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-financialDocumentMonth7LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentMonth7LineAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Document Month7 Line Amount" />
-    <property name="shortLabel" value="Month 7" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern"
-            p:allowNegative="true" />
+    <property name="name" value="financialDocumentMonth7LineAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Financial Document Month7 Line Amount"/>
+    <property name="shortLabel" value="Month 7"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern" p:allowNegative="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionMonthly-financialDocumentMonth8LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth8LineAmount-parentBean" />
+  <bean id="BudgetConstructionMonthly-financialDocumentMonth8LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth8LineAmount-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-financialDocumentMonth8LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentMonth8LineAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Document Month8 Line Amount" />
-    <property name="shortLabel" value="Month 8" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern"
-            p:allowNegative="true" />
+    <property name="name" value="financialDocumentMonth8LineAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Financial Document Month8 Line Amount"/>
+    <property name="shortLabel" value="Month 8"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern" p:allowNegative="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionMonthly-financialDocumentMonth9LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth9LineAmount-parentBean" />
+  <bean id="BudgetConstructionMonthly-financialDocumentMonth9LineAmount" parent="BudgetConstructionMonthly-financialDocumentMonth9LineAmount-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-financialDocumentMonth9LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentMonth9LineAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Document Month9 Line Amount" />
-    <property name="shortLabel" value="Month 9" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern"
-            p:allowNegative="true" />
+    <property name="name" value="financialDocumentMonth9LineAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Financial Document Month9 Line Amount"/>
+    <property name="shortLabel" value="Month 9"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern" p:allowNegative="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionMonthly-documentNumber" parent="BudgetConstructionMonthly-documentNumber-parentBean" />
+  <bean id="BudgetConstructionMonthly-documentNumber" parent="BudgetConstructionMonthly-documentNumber-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Document Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="documentNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Document Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="14"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="16"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionMonthly-financialObjectCode" parent="BudgetConstructionMonthly-financialObjectCode-parentBean" />
+  <bean id="BudgetConstructionMonthly-financialObjectCode" parent="BudgetConstructionMonthly-financialObjectCode-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Object Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="financialObjectCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Financial Object Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionMonthly-financialObjectTypeCode" parent="BudgetConstructionMonthly-financialObjectTypeCode-parentBean" />
+  <bean id="BudgetConstructionMonthly-financialObjectTypeCode" parent="BudgetConstructionMonthly-financialObjectTypeCode-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-financialObjectTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Object Type Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="financialObjectTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Financial Object Type Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionMonthly-financialSubObjectCode" parent="BudgetConstructionMonthly-financialSubObjectCode-parentBean" />
+  <bean id="BudgetConstructionMonthly-financialSubObjectCode" parent="BudgetConstructionMonthly-financialSubObjectCode-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
-    <property name="label" value="Financial Sub Object Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="label" value="Financial Sub Object Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>    
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionMonthly-subAccountNumber" parent="BudgetConstructionMonthly-subAccountNumber-parentBean" />
+  <bean id="BudgetConstructionMonthly-subAccountNumber" parent="BudgetConstructionMonthly-subAccountNumber-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-subAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="subAccountNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Sub Account Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="5" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="subAccountNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Sub Account Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="5"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="7"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionMonthly-universityFiscalYear" parent="BudgetConstructionMonthly-universityFiscalYear-parentBean" />
+  <bean id="BudgetConstructionMonthly-universityFiscalYear" parent="BudgetConstructionMonthly-universityFiscalYear-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-universityFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="universityFiscalYear" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="University Fiscal Year" />
-    <property name="shortLabel" value="Year" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="universityFiscalYear"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="University Fiscal Year"/>
+    <property name="shortLabel" value="Year"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
     
     
@@ -448,59 +411,38 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="BudgetConstructionMonthly-inquiryDefinition" parent="BudgetConstructionMonthly-inquiryDefinition-parentBean" />
+  <bean id="BudgetConstructionMonthly-inquiryDefinition" parent="BudgetConstructionMonthly-inquiryDefinition-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Budget Construction Monthly Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Budget Construction Monthly Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="accountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialBalanceTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentMonth10LineAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentMonth11LineAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentMonth12LineAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentMonth1LineAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentMonth2LineAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentMonth3LineAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentMonth4LineAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentMonth5LineAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentMonth6LineAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentMonth7LineAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentMonth8LineAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentMonth9LineAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="documentNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialSubObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="subAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYear" />
+              <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth10LineAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth11LineAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth12LineAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth1LineAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth2LineAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth3LineAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth4LineAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth5LineAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth6LineAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth7LineAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth8LineAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth9LineAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
             </list>
           </property>
         </bean>
@@ -511,105 +453,63 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="BudgetConstructionMonthly-lookupDefinition" parent="BudgetConstructionMonthly-lookupDefinition-parentBean" />
+  <bean id="BudgetConstructionMonthly-lookupDefinition" parent="BudgetConstructionMonthly-lookupDefinition-parentBean"/>
 
   <bean id="BudgetConstructionMonthly-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Budget Construction Monthly Lookup" />
-    <property name="instructions" value="Look up Budget Construction Monthly" />
-    <property name="defaultSort" >
+    <property name="title" value="Budget Construction Monthly Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialBalanceTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth10LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth11LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth12LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth1LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth2LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth3LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth4LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth5LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth6LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth7LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth8LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth9LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="documentNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSubObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="subAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth10LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth11LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth12LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth1LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth2LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth3LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth4LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth5LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth6LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth7LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth8LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth9LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialBalanceTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth10LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth11LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth12LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth1LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth2LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth3LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth4LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth5LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth6LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth7LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth8LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentMonth9LineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="documentNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSubObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="subAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth10LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth11LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth12LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth1LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth2LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth3LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth4LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth5LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth6LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth7LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth8LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentMonth9LineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
       </list>
     </property>
   </bean>

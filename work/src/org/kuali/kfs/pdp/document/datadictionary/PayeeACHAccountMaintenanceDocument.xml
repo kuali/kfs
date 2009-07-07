@@ -5,7 +5,7 @@
   <bean id="PayeeACHAccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PayeeACHAccount"/>
     <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"/>
-    <property name="encryptDocumentDataInPersistentSessionStorage" value="true" />
+    <property name="encryptDocumentDataInPersistentSessionStorage" value="true"/>
     <property name="maintainableSections">
       <list>
         <ref bean="PayeeACHAccountMaintenanceDocument-EditPayeeACHAccount"/>
@@ -46,8 +46,8 @@
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="achAccountGeneratedIdentifier" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.pdp.businessobject.defaultvalue.NextAchAccountIdentifierFinder"/>
-        <bean parent="MaintainableFieldDefinition" p:name="payeeIdentifierTypeCode" p:required="true" />
-        <bean parent="MaintainableFieldDefinition" p:name="payeeIdNumber" p:required="true" />   
+        <bean parent="MaintainableFieldDefinition" p:name="payeeIdentifierTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="payeeIdNumber" p:required="true"/>   
         <bean parent="MaintainableFieldDefinition">
           <property name="name" value="bankRoutingNumber"/>
           <property name="required" value="true"/>

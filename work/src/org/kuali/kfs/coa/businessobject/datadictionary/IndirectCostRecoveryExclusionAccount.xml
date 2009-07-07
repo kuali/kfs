@@ -1,26 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="IndirectCostRecoveryExclusionAccount" parent="IndirectCostRecoveryExclusionAccount-parentBean" />
+  <bean id="IndirectCostRecoveryExclusionAccount" parent="IndirectCostRecoveryExclusionAccount-parentBean"/>
 
   <bean id="IndirectCostRecoveryExclusionAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount" />
-    <property name="inquiryDefinition" >
-      <ref bean="IndirectCostRecoveryExclusionAccount-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount"/>
+    <property name="inquiryDefinition">
+      <ref bean="IndirectCostRecoveryExclusionAccount-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="IndirectCostRecoveryExclusionAccount-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="IndirectCostRecoveryExclusionAccount-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Indirect Cost Recovery Exclusion By Account" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Indirect Cost Recovery Exclusion By Account"/>
+    <property name="attributes">
       <list>
-        <ref bean="IndirectCostRecoveryExclusionAccount-chartOfAccountsCode" />
-        <ref bean="IndirectCostRecoveryExclusionAccount-accountNumber" />
-        <ref bean="IndirectCostRecoveryExclusionAccount-financialObjectCode" />
-        <ref bean="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode" />
+        <ref bean="IndirectCostRecoveryExclusionAccount-chartOfAccountsCode"/>
+        <ref bean="IndirectCostRecoveryExclusionAccount-accountNumber"/>
+        <ref bean="IndirectCostRecoveryExclusionAccount-financialObjectCode"/>
+        <ref bean="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode"/>
       </list>
     </property>
   </bean>
@@ -28,73 +24,67 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="IndirectCostRecoveryExclusionAccount-chartOfAccountsCode" parent="IndirectCostRecoveryExclusionAccount-chartOfAccountsCode-parentBean" />
+  <bean id="IndirectCostRecoveryExclusionAccount-chartOfAccountsCode" parent="IndirectCostRecoveryExclusionAccount-chartOfAccountsCode-parentBean"/>
 
   <bean id="IndirectCostRecoveryExclusionAccount-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-  	<property name="forceUppercase" value="true" />
+  	<property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="IndirectCostRecoveryExclusionAccount-accountNumber" parent="IndirectCostRecoveryExclusionAccount-accountNumber-parentBean" />
+  <bean id="IndirectCostRecoveryExclusionAccount-accountNumber" parent="IndirectCostRecoveryExclusionAccount-accountNumber-parentBean"/>
 
   <bean id="IndirectCostRecoveryExclusionAccount-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Account Number" />
-    <property name="shortLabel" value="Acct" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="accountNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Account Number"/>
+    <property name="shortLabel" value="Acct"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="7"/>
     </property>
   </bean>
-  <bean id="IndirectCostRecoveryExclusionAccount-financialObjectCode" parent="IndirectCostRecoveryExclusionAccount-financialObjectCode-parentBean" />
+  <bean id="IndirectCostRecoveryExclusionAccount-financialObjectCode" parent="IndirectCostRecoveryExclusionAccount-financialObjectCode-parentBean"/>
 
   <bean id="IndirectCostRecoveryExclusionAccount-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Object Code" />
-    <property name="shortLabel" value="Object" />
-    <property name="maxLength" value="4" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="name" value="financialObjectCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Object Code"/>
+    <property name="shortLabel" value="Object"/>
+    <property name="maxLength" value="4"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode" parent="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode-parentBean" />
+  <bean id="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode" parent="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode-parentBean"/>
 
   <bean id="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="forceUppercase" value="true" />
-    <property name="name" value="financialObjectChartOfAccountCode" />
-    <property name="label" value="Object Chart" />
-    <property name="shortLabel" value="Object Chart" />
+    <property name="forceUppercase" value="true"/>
+    <property name="name" value="financialObjectChartOfAccountCode"/>
+    <property name="label" value="Object Chart"/>
+    <property name="shortLabel" value="Object Chart"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="IndirectCostRecoveryExclusionAccount-inquiryDefinition" parent="IndirectCostRecoveryExclusionAccount-inquiryDefinition-parentBean" />
+  <bean id="IndirectCostRecoveryExclusionAccount-inquiryDefinition" parent="IndirectCostRecoveryExclusionAccount-inquiryDefinition-parentBean"/>
 
   <bean id="IndirectCostRecoveryExclusionAccount-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Indirect Cost Recovery Exclusion By Account Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Indirect Cost Recovery Exclusion By Account Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="accountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectChartOfAccountCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectCode" />
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="financialObjectChartOfAccountCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
             </list>
           </property>
         </bean>
@@ -105,42 +95,34 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="IndirectCostRecoveryExclusionAccount-lookupDefinition" parent="IndirectCostRecoveryExclusionAccount-lookupDefinition-parentBean" />
+  <bean id="IndirectCostRecoveryExclusionAccount-lookupDefinition" parent="IndirectCostRecoveryExclusionAccount-lookupDefinition-parentBean"/>
 
   <bean id="IndirectCostRecoveryExclusionAccount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Indirect Cost Recovery Exclusion By Account Lookup" />
-    <property name="instructions" value="Lookup an Indirect Cost Recovery Exclusion By Account" />
-    <property name="defaultSort" >
+    <property name="title" value="Indirect Cost Recovery Exclusion By Account Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>accountNumber</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectChartOfAccountCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectChartOfAccountCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectChartOfAccountCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCode" />
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectChartOfAccountCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
       </list>
     </property>
   </bean>

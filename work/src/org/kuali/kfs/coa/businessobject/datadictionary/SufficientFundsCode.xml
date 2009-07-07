@@ -1,26 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="SufficientFundsCode" parent="SufficientFundsCode-parentBean" />
+  <bean id="SufficientFundsCode" parent="SufficientFundsCode-parentBean"/>
 
   <bean id="SufficientFundsCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SufficientFundsCode" />
-    <property name="inquiryDefinition" >
-      <ref bean="SufficientFundsCode-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SufficientFundsCode"/>
+    <property name="inquiryDefinition">
+      <ref bean="SufficientFundsCode-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="SufficientFundsCode-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="SufficientFundsCode-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="code" />
-    <property name="objectLabel" value="Sufficient Funds Code" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="code"/>
+    <property name="objectLabel" value="Sufficient Funds Code"/>
+    <property name="attributes">
       <list>
-        <ref bean="SufficientFundsCode-code" />
-        <ref bean="SufficientFundsCode-name" />
-        <ref bean="SufficientFundsCode-active" />
+        <ref bean="SufficientFundsCode-code"/>
+        <ref bean="SufficientFundsCode-name"/>
+        <ref bean="SufficientFundsCode-active"/>
       </list>
     </property>
   </bean>
@@ -28,64 +24,58 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="SufficientFundsCode-code" parent="SufficientFundsCode-code-parentBean" />
+  <bean id="SufficientFundsCode-code" parent="SufficientFundsCode-code-parentBean"/>
 
   <bean id="SufficientFundsCode-code-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="code" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Account Sufficient Funds Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="code"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Account Sufficient Funds Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="SufficientFundsCode-name" parent="SufficientFundsCode-name-parentBean" />
+  <bean id="SufficientFundsCode-name" parent="SufficientFundsCode-name-parentBean"/>
 
   <bean id="SufficientFundsCode-name-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="name" />
-    <property name="label" value="Account Sufficient Funds Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="name"/>
+    <property name="label" value="Account Sufficient Funds Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="42" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="42"/>
     </property>
   </bean>
-  <bean id="SufficientFundsCode-active" parent="SufficientFundsCode-active-parentBean" />
+  <bean id="SufficientFundsCode-active" parent="SufficientFundsCode-active-parentBean"/>
 
   <bean id="SufficientFundsCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="SufficientFundsCode-inquiryDefinition" parent="SufficientFundsCode-inquiryDefinition-parentBean" />
+  <bean id="SufficientFundsCode-inquiryDefinition" parent="SufficientFundsCode-inquiryDefinition-parentBean"/>
 
   <bean id="SufficientFundsCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Sufficient Funds Code Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Sufficient Funds Code Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="code" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="name" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="code"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -96,38 +86,32 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="SufficientFundsCode-lookupDefinition" parent="SufficientFundsCode-lookupDefinition-parentBean" />
+  <bean id="SufficientFundsCode-lookupDefinition" parent="SufficientFundsCode-lookupDefinition-parentBean"/>
 
   <bean id="SufficientFundsCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Sufficient Funds Code Lookup" />
-    <property name="instructions" value="Look up an Sufficient Funds Code" />
-    <property name="defaultSort" >
+    <property name="title" value="Sufficient Funds Code Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>code</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

@@ -1,28 +1,21 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="CreditMemoStatus" parent="CreditMemoStatus-parentBean" />
+  <bean id="CreditMemoStatus" parent="CreditMemoStatus-parentBean"/>
 
   <bean id="CreditMemoStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.CreditMemoStatus" />
-    <property name="inquiryDefinition" >
-      <ref bean="CreditMemoStatus-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.CreditMemoStatus"/>
+    <property name="inquiryDefinition">
+      <ref bean="CreditMemoStatus-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="CreditMemoStatus-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="CreditMemoStatus-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="statusCode" />
-    <property name="objectLabel" value="Credit Memo Status" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="statusCode"/>
+    <property name="objectLabel" value="Credit Memo Status"/>
+    <property name="attributes">
       <list>
-        <ref bean="CreditMemoStatus-statusCode" />
-        <ref bean="CreditMemoStatus-statusDescription" />
+        <ref bean="CreditMemoStatus-statusCode"/>
+        <ref bean="CreditMemoStatus-statusDescription"/>
       </list>
     </property>
   </bean>
@@ -30,57 +23,52 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="CreditMemoStatus-statusCode" parent="CreditMemoStatus-statusCode-parentBean" />
+  <bean id="CreditMemoStatus-statusCode" parent="CreditMemoStatus-statusCode-parentBean"/>
 
   <bean id="CreditMemoStatus-statusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="statusCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Credit Memo Status Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="statusCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Credit Memo Status Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
-  <bean id="CreditMemoStatus-statusDescription" parent="CreditMemoStatus-statusDescription-parentBean" />
+  <bean id="CreditMemoStatus-statusDescription" parent="CreditMemoStatus-statusDescription-parentBean"/>
 
   <bean id="CreditMemoStatus-statusDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="statusDescription" />
-    <property name="label" value="Credit Memo Status Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="statusDescription"/>
+    <property name="label" value="Credit Memo Status Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="47" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="CreditMemoStatus-inquiryDefinition" parent="CreditMemoStatus-inquiryDefinition-parentBean" />
+  <bean id="CreditMemoStatus-inquiryDefinition" parent="CreditMemoStatus-inquiryDefinition-parentBean"/>
 
   <bean id="CreditMemoStatus-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Credit Memo Status Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Credit Memo Status Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="statusCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="statusDescription" />
+              <bean parent="FieldDefinition" p:attributeName="statusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="statusDescription"/>
             </list>
           </property>
         </bean>
@@ -91,29 +79,25 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="CreditMemoStatus-lookupDefinition" parent="CreditMemoStatus-lookupDefinition-parentBean" />
+  <bean id="CreditMemoStatus-lookupDefinition" parent="CreditMemoStatus-lookupDefinition-parentBean"/>
 
   <bean id="CreditMemoStatus-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Credit Memo Status Lookup" />
-    <property name="instructions" value="Lookup a Credit Memo Status" />
-    <property name="defaultSort" >
+    <property name="title" value="Credit Memo Status Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="statusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="statusDescription" />
+        <bean parent="FieldDefinition" p:attributeName="statusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="statusDescription"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="statusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="statusDescription" />
+        <bean parent="FieldDefinition" p:attributeName="statusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="statusDescription"/>
       </list>
     </property>
   </bean>

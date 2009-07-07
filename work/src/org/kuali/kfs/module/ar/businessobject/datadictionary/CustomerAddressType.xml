@@ -1,26 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="CustomerAddressType" parent="CustomerAddressType-parentBean" />
+  <bean id="CustomerAddressType" parent="CustomerAddressType-parentBean"/>
 
   <bean id="CustomerAddressType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CustomerAddressType" />
-    <property name="inquiryDefinition" >
-      <ref bean="CustomerAddressType-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CustomerAddressType"/>
+    <property name="inquiryDefinition">
+      <ref bean="CustomerAddressType-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="CustomerAddressType-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="CustomerAddressType-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="customerAddressTypeCode" />
-    <property name="objectLabel" value="Customer Address Type" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="customerAddressTypeCode"/>
+    <property name="objectLabel" value="Customer Address Type"/>
+    <property name="attributes">
       <list>
-        <ref bean="CustomerAddressType-customerAddressTypeCode" />
-        <ref bean="CustomerAddressType-customerAddressTypeDescription" />
-        <ref bean="CustomerAddressType-active" />
+        <ref bean="CustomerAddressType-customerAddressTypeCode"/>
+        <ref bean="CustomerAddressType-customerAddressTypeDescription"/>
+        <ref bean="CustomerAddressType-active"/>
       </list>
     </property>
   </bean>
@@ -28,67 +24,61 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="CustomerAddressType-customerAddressTypeCode" parent="CustomerAddressType-customerAddressTypeCode-parentBean" />
+  <bean id="CustomerAddressType-customerAddressTypeCode" parent="CustomerAddressType-customerAddressTypeCode-parentBean"/>
 
   <bean id="CustomerAddressType-customerAddressTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="customerAddressTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Customer Address Type Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="customerAddressTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Customer Address Type Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="CustomerAddressType-customerAddressTypeDescription" parent="CustomerAddressType-customerAddressTypeDescription-parentBean" />
+  <bean id="CustomerAddressType-customerAddressTypeDescription" parent="CustomerAddressType-customerAddressTypeDescription-parentBean"/>
 
   <bean id="CustomerAddressType-customerAddressTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="customerAddressTypeDescription" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Customer Address Type Description" />
-    <property name="shortLabel" value="Addr Typ Desc" />
-    <property name="maxLength" value="30" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="customerAddressTypeDescription"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Customer Address Type Description"/>
+    <property name="shortLabel" value="Addr Typ Desc"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
     </property>
   </bean>
-  <bean id="CustomerAddressType-active" parent="CustomerAddressType-active-parentBean" />
+  <bean id="CustomerAddressType-active" parent="CustomerAddressType-active-parentBean"/>
 
   <bean id="CustomerAddressType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="CustomerAddressType-inquiryDefinition" parent="CustomerAddressType-inquiryDefinition-parentBean" />
+  <bean id="CustomerAddressType-inquiryDefinition" parent="CustomerAddressType-inquiryDefinition-parentBean"/>
 
   <bean id="CustomerAddressType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Customer Address Type Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Customer Address Type Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Customer Address Type" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Customer Address Type"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="customerAddressTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="customerAddressTypeDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="customerAddressTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="customerAddressTypeDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -99,33 +89,27 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="CustomerAddressType-lookupDefinition" parent="CustomerAddressType-lookupDefinition-parentBean" />
+  <bean id="CustomerAddressType-lookupDefinition" parent="CustomerAddressType-lookupDefinition-parentBean"/>
 
   <bean id="CustomerAddressType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Customer Address Type Lookup" />
-    <property name="instructions" value="Look up a Customer Address Type" />
-    <property name="defaultSort" >
+    <property name="title" value="Customer Address Type Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="customerAddressTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="customerAddressTypeDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" p:defaultValue="Y" />
+        <bean parent="FieldDefinition" p:attributeName="customerAddressTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="customerAddressTypeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="customerAddressTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="customerAddressTypeDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="customerAddressTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="customerAddressTypeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

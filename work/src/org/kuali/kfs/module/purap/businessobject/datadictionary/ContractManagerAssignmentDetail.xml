@@ -1,22 +1,15 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="ContractManagerAssignmentDetail" parent="ContractManagerAssignmentDetail-parentBean" />
+  <bean id="ContractManagerAssignmentDetail" parent="ContractManagerAssignmentDetail-parentBean"/>
 
   <bean id="ContractManagerAssignmentDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-  	<property name="objectLabel" value="Contract Management Assignment Detail" />
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail" />
-    <property name="attributes" >
+  	<property name="objectLabel" value="Contract Management Assignment Detail"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail"/>
+    <property name="attributes">
       <list>
-        <ref bean="ContractManagerAssignmentDetail-contractManagerCode" />
-        <ref bean="ContractManagerAssignmentDetail-documentNumber" />
-        <ref bean="ContractManagerAssignmentDetail-requisitionIdentifier" />
+        <ref bean="ContractManagerAssignmentDetail-contractManagerCode"/>
+        <ref bean="ContractManagerAssignmentDetail-documentNumber"/>
+        <ref bean="ContractManagerAssignmentDetail-requisitionIdentifier"/>
       </list>
     </property>
   </bean>
@@ -24,52 +17,49 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="ContractManagerAssignmentDetail-contractManagerCode" parent="ContractManagerAssignmentDetail-contractManagerCode-parentBean" />
+  <bean id="ContractManagerAssignmentDetail-contractManagerCode" parent="ContractManagerAssignmentDetail-contractManagerCode-parentBean"/>
 
   <bean id="ContractManagerAssignmentDetail-contractManagerCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="contractManagerCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Contract Manager Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="contractManagerCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Contract Manager Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="ContractManagerAssignmentDetail-documentNumber" parent="ContractManagerAssignmentDetail-documentNumber-parentBean" />
+  <bean id="ContractManagerAssignmentDetail-documentNumber" parent="ContractManagerAssignmentDetail-documentNumber-parentBean"/>
 
   <bean id="ContractManagerAssignmentDetail-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Document Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="documentNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Document Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="14"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="16"/>
     </property>
   </bean>
-  <bean id="ContractManagerAssignmentDetail-requisitionIdentifier" parent="ContractManagerAssignmentDetail-requisitionIdentifier-parentBean" />
+  <bean id="ContractManagerAssignmentDetail-requisitionIdentifier" parent="ContractManagerAssignmentDetail-requisitionIdentifier-parentBean"/>
 
   <bean id="ContractManagerAssignmentDetail-requisitionIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="requisitionIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Requisition Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="requisitionIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Requisition Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
 </beans>

@@ -1,27 +1,23 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="PositionObjectGroup" parent="PositionObjectGroup-parentBean" />
+  <bean id="PositionObjectGroup" parent="PositionObjectGroup-parentBean"/>
 
   <bean id="PositionObjectGroup-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.PositionObjectGroup" />
-    <property name="objectLabel" value="Position Object Group" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.PositionObjectGroup"/>
+    <property name="objectLabel" value="Position Object Group"/>
     
-    <property name="inquiryDefinition" >
-      <ref bean="PositionObjectGroup-inquiryDefinition" />
+    <property name="inquiryDefinition">
+      <ref bean="PositionObjectGroup-inquiryDefinition"/>
     </property>
-    <property name="titleAttribute" value="positionObjectGroupCode" />
-    <property name="lookupDefinition" >
-      <ref bean="PositionObjectGroup-lookupDefinition" />
+    <property name="titleAttribute" value="positionObjectGroupCode"/>
+    <property name="lookupDefinition">
+      <ref bean="PositionObjectGroup-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="PositionObjectGroup-positionObjectGroupCode" />
-        <ref bean="PositionObjectGroup-positionObjectGroupName" />
-        <ref bean="PositionObjectGroup-active" />
+        <ref bean="PositionObjectGroup-positionObjectGroupCode"/>
+        <ref bean="PositionObjectGroup-positionObjectGroupName"/>
+        <ref bean="PositionObjectGroup-active"/>
       </list>
     </property>
   </bean>
@@ -29,65 +25,59 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="PositionObjectGroup-positionObjectGroupCode" parent="PositionObjectGroup-positionObjectGroupCode-parentBean" />
+  <bean id="PositionObjectGroup-positionObjectGroupCode" parent="PositionObjectGroup-positionObjectGroupCode-parentBean"/>
 
   <bean id="PositionObjectGroup-positionObjectGroupCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="positionObjectGroupCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Labor Position Object Group Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="positionObjectGroupCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Labor Position Object Group Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="PositionObjectGroup-positionObjectGroupName" parent="PositionObjectGroup-positionObjectGroupName-parentBean" />
+  <bean id="PositionObjectGroup-positionObjectGroupName" parent="PositionObjectGroup-positionObjectGroupName-parentBean"/>
 
   <bean id="PositionObjectGroup-positionObjectGroupName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="positionObjectGroupName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Labor Position Object Group Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="positionObjectGroupName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Labor Position Object Group Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="42" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="42"/>
     </property>
   </bean>
   
-  <bean id="PositionObjectGroup-active" parent="PositionObjectGroup-active-parentBean" />
+  <bean id="PositionObjectGroup-active" parent="PositionObjectGroup-active-parentBean"/>
   <bean id="PositionObjectGroup-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="PositionObjectGroup-inquiryDefinition" parent="PositionObjectGroup-inquiryDefinition-parentBean" />
+  <bean id="PositionObjectGroup-inquiryDefinition" parent="PositionObjectGroup-inquiryDefinition-parentBean"/>
 
   <bean id="PositionObjectGroup-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Labor Position Object Group Code" />
-    <property name="inquirySections" >
+    <property name="title" value="Labor Position Object Group Code"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="positionObjectGroupCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="positionObjectGroupName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="positionObjectGroupCode"/>
+              <bean parent="FieldDefinition" p:attributeName="positionObjectGroupName"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -98,12 +88,12 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="PositionObjectGroup-lookupDefinition" parent="PositionObjectGroup-lookupDefinition-parentBean" />
+  <bean id="PositionObjectGroup-lookupDefinition" parent="PositionObjectGroup-lookupDefinition-parentBean"/>
 
   <bean id="PositionObjectGroup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Labor Position Object Group Code" />
-    <property name="instructions" value="Look up a Labor Object Group" />
-    <property name="defaultSort" >
+    <property name="title" value="Labor Position Object Group Code"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       	<property name="attributeNames">
       		<list>
@@ -112,22 +102,17 @@
       	</property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="positionObjectGroupCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="positionObjectGroupCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="positionObjectGroupCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionObjectGroupName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="positionObjectGroupCode"/>
+        <bean parent="FieldDefinition" p:attributeName="positionObjectGroupName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

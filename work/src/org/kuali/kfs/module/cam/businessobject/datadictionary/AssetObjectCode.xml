@@ -1,110 +1,96 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AssetObjectCode" parent="AssetObjectCode-parentBean" />
+  <bean id="AssetObjectCode" parent="AssetObjectCode-parentBean"/>
   
   <bean id="AssetObjectCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetObjectCode" />
-    <property name="inquiryDefinition" >
-      <ref bean="AssetObjectCode-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetObjectCode"/>
+    <property name="inquiryDefinition">
+      <ref bean="AssetObjectCode-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="AssetObjectCode-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="AssetObjectCode-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Asset Object Code" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Asset Object Code"/>
+    <property name="attributes">
       <list>
-        <ref bean="AssetObjectCode-universityFiscalYear" />
-        <ref bean="AssetObjectCode-chartOfAccountsCode" />
-        <ref bean="AssetObjectCode-financialObjectSubTypeCode" />
-        <ref bean="AssetObjectCode-capitalizationFinancialObjectCode" />
-        <ref bean="AssetObjectCode-accumulatedDepreciationFinancialObjectCode" />
-        <ref bean="AssetObjectCode-depreciationExpenseFinancialObjectCode" />
-        <ref bean="AssetObjectCode-active" />
+        <ref bean="AssetObjectCode-universityFiscalYear"/>
+        <ref bean="AssetObjectCode-chartOfAccountsCode"/>
+        <ref bean="AssetObjectCode-financialObjectSubTypeCode"/>
+        <ref bean="AssetObjectCode-capitalizationFinancialObjectCode"/>
+        <ref bean="AssetObjectCode-accumulatedDepreciationFinancialObjectCode"/>
+        <ref bean="AssetObjectCode-depreciationExpenseFinancialObjectCode"/>
+        <ref bean="AssetObjectCode-active"/>
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
       <list>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="accumulatedDepreciationFinancialObject"/>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="capitalizationFinancialObject"/>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="depreciationExpenseFinancialObject"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="accumulatedDepreciationFinancialObject"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="capitalizationFinancialObject"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="depreciationExpenseFinancialObject"/>
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
-  <bean id="AssetObjectCode-universityFiscalYear" parent="AssetObjectCode-universityFiscalYear-parentBean" />
+  <bean id="AssetObjectCode-universityFiscalYear" parent="AssetObjectCode-universityFiscalYear-parentBean"/>
   <bean id="AssetObjectCode-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="universityFiscalYear" />
+    <property name="name" value="universityFiscalYear"/>
   </bean>
   
-  <bean id="AssetObjectCode-chartOfAccountsCode" parent="AssetObjectCode-chartOfAccountsCode-parentBean" />
+  <bean id="AssetObjectCode-chartOfAccountsCode" parent="AssetObjectCode-chartOfAccountsCode-parentBean"/>
   <bean id="AssetObjectCode-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
   </bean>
   
-  <bean id="AssetObjectCode-financialObjectSubTypeCode" parent="AssetObjectCode-financialObjectSubTypeCode-parentBean" />
+  <bean id="AssetObjectCode-financialObjectSubTypeCode" parent="AssetObjectCode-financialObjectSubTypeCode-parentBean"/>
   <bean id="AssetObjectCode-financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectSubTypeCode">
   </bean>
   
-  <bean id="AssetObjectCode-capitalizationFinancialObjectCode" parent="AssetObjectCode-capitalizationFinancialObjectCode-parentBean" />
+  <bean id="AssetObjectCode-capitalizationFinancialObjectCode" parent="AssetObjectCode-capitalizationFinancialObjectCode-parentBean"/>
   <bean id="AssetObjectCode-capitalizationFinancialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    <property name="name" value="capitalizationFinancialObjectCode" />
-    <property name="label" value="Capitalization Financial Object Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="name" value="capitalizationFinancialObjectCode"/>
+    <property name="label" value="Capitalization Financial Object Code"/>
+    <property name="shortLabel" value="Code"/>
   </bean>
   
-  <bean id="AssetObjectCode-accumulatedDepreciationFinancialObjectCode" parent="AssetObjectCode-accumulatedDepreciationFinancialObjectCode-parentBean" />
+  <bean id="AssetObjectCode-accumulatedDepreciationFinancialObjectCode" parent="AssetObjectCode-accumulatedDepreciationFinancialObjectCode-parentBean"/>
   <bean id="AssetObjectCode-accumulatedDepreciationFinancialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    <property name="name" value="accumulatedDepreciationFinancialObjectCode" />
-    <property name="label" value="Accumulated Depreciation Financial Object Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="name" value="accumulatedDepreciationFinancialObjectCode"/>
+    <property name="label" value="Accumulated Depreciation Financial Object Code"/>
+    <property name="shortLabel" value="Code"/>
   </bean>
   
-  <bean id="AssetObjectCode-depreciationExpenseFinancialObjectCode" parent="AssetObjectCode-depreciationExpenseFinancialObjectCode-parentBean" />
+  <bean id="AssetObjectCode-depreciationExpenseFinancialObjectCode" parent="AssetObjectCode-depreciationExpenseFinancialObjectCode-parentBean"/>
   <bean id="AssetObjectCode-depreciationExpenseFinancialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    <property name="name" value="depreciationExpenseFinancialObjectCode" />
-    <property name="label" value="Depreciation Expense Financial Object Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="name" value="depreciationExpenseFinancialObjectCode"/>
+    <property name="label" value="Depreciation Expense Financial Object Code"/>
+    <property name="shortLabel" value="Code"/>
   </bean>
   
-  <bean id="AssetObjectCode-active" parent="AssetObjectCode-active-parentBean" />
+  <bean id="AssetObjectCode-active" parent="AssetObjectCode-active-parentBean"/>
   <bean id="AssetObjectCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
-  <bean id="AssetObjectCode-inquiryDefinition" parent="AssetObjectCode-inquiryDefinition-parentBean" />
+  <bean id="AssetObjectCode-inquiryDefinition" parent="AssetObjectCode-inquiryDefinition-parentBean"/>
   <bean id="AssetObjectCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Asset Object Code Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Asset Object Code Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYear" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectSubTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="capitalizationFinancialObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="accumulatedDepreciationFinancialObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="depreciationExpenseFinancialObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialObjectSubTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="capitalizationFinancialObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="accumulatedDepreciationFinancialObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="depreciationExpenseFinancialObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -114,51 +100,34 @@
 
 <!-- Business Object Lookup Definition -->
 
-  <bean id="AssetObjectCode-lookupDefinition" parent="AssetObjectCode-lookupDefinition-parentBean" />
+  <bean id="AssetObjectCode-lookupDefinition" parent="AssetObjectCode-lookupDefinition-parentBean"/>
   <bean id="AssetObjectCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Asset Object Code Lookup" />
-    <property name="instructions" value="Look up an Asset Object Code" />
-    <property name="defaultSort" >
+    <property name="title" value="Asset Object Code Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:required="true"
-              p:attributeName="universityFiscalYear"
-              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectSubTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalizationFinancialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accumulatedDepreciationFinancialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="depreciationExpenseFinancialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:defaultValue="Y"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="universityFiscalYear" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectSubTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalizationFinancialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accumulatedDepreciationFinancialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="depreciationExpenseFinancialObjectCode"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectSubTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalizationFinancialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accumulatedDepreciationFinancialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="depreciationExpenseFinancialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectSubTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalizationFinancialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accumulatedDepreciationFinancialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="depreciationExpenseFinancialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

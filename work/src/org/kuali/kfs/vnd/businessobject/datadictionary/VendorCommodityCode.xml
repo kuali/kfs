@@ -1,30 +1,23 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="VendorCommodityCode" parent="VendorCommodityCode-parentBean" />
+  <bean id="VendorCommodityCode" parent="VendorCommodityCode-parentBean"/>
 
   <bean id="VendorCommodityCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-  	<property name="objectLabel" value="Vendor Commodity Code" />
-    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorCommodityCode" />
-    <property name="inquiryDefinition" >
-      <ref bean="VendorCommodityCode-inquiryDefinition" />
+  	<property name="objectLabel" value="Vendor Commodity Code"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorCommodityCode"/>
+    <property name="inquiryDefinition">
+      <ref bean="VendorCommodityCode-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="VendorCommodityCode-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="VendorCommodityCode-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="VendorCommodityCode-active" />
-        <ref bean="VendorCommodityCode-commodityDefaultIndicator" />
-        <ref bean="VendorCommodityCode-purchasingCommodityCode" />
-        <ref bean="VendorCommodityCode-vendorHeaderGeneratedIdentifier" />
-        <ref bean="VendorCommodityCode-vendorDetailAssignedIdentifier" />
+        <ref bean="VendorCommodityCode-active"/>
+        <ref bean="VendorCommodityCode-commodityDefaultIndicator"/>
+        <ref bean="VendorCommodityCode-purchasingCommodityCode"/>
+        <ref bean="VendorCommodityCode-vendorHeaderGeneratedIdentifier"/>
+        <ref bean="VendorCommodityCode-vendorDetailAssignedIdentifier"/>
       </list>
     </property>
   </bean>
@@ -32,32 +25,32 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="VendorCommodityCode-active" parent="VendorCommodityCode-active-parentBean" />  
+  <bean id="VendorCommodityCode-active" parent="VendorCommodityCode-active-parentBean"/>  
   <bean id="VendorCommodityCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
   
-  <bean id="VendorCommodityCode-commodityDefaultIndicator" parent="VendorCommodityCode-commodityDefaultIndicator-parentBean" />
+  <bean id="VendorCommodityCode-commodityDefaultIndicator" parent="VendorCommodityCode-commodityDefaultIndicator-parentBean"/>
 
   <bean id="VendorCommodityCode-commodityDefaultIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="commodityDefaultIndicator" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Commodity Default Indicator" />
-    <property name="shortLabel" value="Indicator" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="commodityDefaultIndicator"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Commodity Default Indicator"/>
+    <property name="shortLabel" value="Indicator"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="VendorCommodityCode-purchasingCommodityCode" parent="VendorCommodityCode-purchasingCommodityCode-parentBean" />
+  <bean id="VendorCommodityCode-purchasingCommodityCode" parent="VendorCommodityCode-purchasingCommodityCode-parentBean"/>
 
   <bean id="VendorCommodityCode-purchasingCommodityCode-parentBean" abstract="true" parent="CommodityCode-purchasingCommodityCode">
   </bean>
-  <bean id="VendorCommodityCode-vendorHeaderGeneratedIdentifier" parent="VendorCommodityCode-vendorHeaderGeneratedIdentifier-parentBean" />
+  <bean id="VendorCommodityCode-vendorHeaderGeneratedIdentifier" parent="VendorCommodityCode-vendorHeaderGeneratedIdentifier-parentBean"/>
 
   <bean id="VendorCommodityCode-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
   </bean>
-  <bean id="VendorCommodityCode-vendorDetailAssignedIdentifier" parent="VendorCommodityCode-vendorDetailAssignedIdentifier-parentBean" />
+  <bean id="VendorCommodityCode-vendorDetailAssignedIdentifier" parent="VendorCommodityCode-vendorDetailAssignedIdentifier-parentBean"/>
 
   <bean id="VendorCommodityCode-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
   </bean>
@@ -65,27 +58,22 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="VendorCommodityCode-inquiryDefinition" parent="VendorCommodityCode-inquiryDefinition-parentBean" />
+  <bean id="VendorCommodityCode-inquiryDefinition" parent="VendorCommodityCode-inquiryDefinition-parentBean"/>
 
   <bean id="VendorCommodityCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Vendor Commodity Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Vendor Commodity Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchasingCommodityCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="commodityDefaultIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorDetailAssignedIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorHeaderGeneratedIdentifier" />
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+              <bean parent="FieldDefinition" p:attributeName="purchasingCommodityCode"/>
+              <bean parent="FieldDefinition" p:attributeName="commodityDefaultIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
             </list>
           </property>
         </bean>
@@ -96,41 +84,31 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="VendorCommodityCode-lookupDefinition" parent="VendorCommodityCode-lookupDefinition-parentBean" />
+  <bean id="VendorCommodityCode-lookupDefinition" parent="VendorCommodityCode-lookupDefinition-parentBean"/>
 
   <bean id="VendorCommodityCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Vendor Commodity Lookup" />
-    <property name="instructions" value="Look up a Vendor Commodity" />
-    <property name="defaultSort" >
+    <property name="title" value="Vendor Commodity Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchasingCommodityCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="commodityDefaultIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorDetailAssignedIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorHeaderGeneratedIdentifier" />
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="purchasingCommodityCode"/>
+        <bean parent="FieldDefinition" p:attributeName="commodityDefaultIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchasingCommodityCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="commodityDefaultIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorDetailAssignedIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorHeaderGeneratedIdentifier" />
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="purchasingCommodityCode"/>
+        <bean parent="FieldDefinition" p:attributeName="commodityDefaultIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
       </list>
     </property>
   </bean>

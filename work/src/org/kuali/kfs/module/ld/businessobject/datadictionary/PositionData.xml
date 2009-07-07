@@ -1,41 +1,37 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="PositionData" parent="PositionData-parentBean" />
+  <bean id="PositionData" parent="PositionData-parentBean"/>
 
   <bean id="PositionData-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.PositionData" />
-    <property name="objectLabel" value="Position Data" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.PositionData"/>
+    <property name="objectLabel" value="Position Data"/>
     
-    <property name="inquiryDefinition" >
-      <ref bean="PositionData-inquiryDefinition" />
+    <property name="inquiryDefinition">
+      <ref bean="PositionData-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="PositionData-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="PositionData-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="PositionData-budgetedPosition" />
-        <ref bean="PositionData-businessUnit" />
-        <ref bean="PositionData-departmentId" />
-        <ref bean="PositionData-description" />
-        <ref bean="PositionData-effectiveDate" />
-        <ref bean="PositionData-jobCode" />
-        <ref bean="PositionData-positionEffectiveStatus" />
-        <ref bean="PositionData-positionFullTimeEquivalency" />
-        <ref bean="PositionData-positionGradeDefault" />
-        <ref bean="PositionData-positionNumber" />
-        <ref bean="PositionData-positionRegularTemporary" />
-        <ref bean="PositionData-positionSalaryPlanDefault" />
-        <ref bean="PositionData-positionStatus" />
-        <ref bean="PositionData-shortDescription" />
-        <ref bean="PositionData-standardHoursDefault" />
-        <ref bean="PositionData-standardHoursFrequency" />
-        <ref bean="PositionData-statusDate" />
-        <ref bean="PositionData-dummyBusinessObject.linkButtonOption" />
+        <ref bean="PositionData-budgetedPosition"/>
+        <ref bean="PositionData-businessUnit"/>
+        <ref bean="PositionData-departmentId"/>
+        <ref bean="PositionData-description"/>
+        <ref bean="PositionData-effectiveDate"/>
+        <ref bean="PositionData-jobCode"/>
+        <ref bean="PositionData-positionEffectiveStatus"/>
+        <ref bean="PositionData-positionFullTimeEquivalency"/>
+        <ref bean="PositionData-positionGradeDefault"/>
+        <ref bean="PositionData-positionNumber"/>
+        <ref bean="PositionData-positionRegularTemporary"/>
+        <ref bean="PositionData-positionSalaryPlanDefault"/>
+        <ref bean="PositionData-positionStatus"/>
+        <ref bean="PositionData-shortDescription"/>
+        <ref bean="PositionData-standardHoursDefault"/>
+        <ref bean="PositionData-standardHoursFrequency"/>
+        <ref bean="PositionData-statusDate"/>
+        <ref bean="PositionData-dummyBusinessObject.linkButtonOption"/>
       </list>
     </property>
   </bean>
@@ -43,401 +39,347 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="PositionData-budgetedPosition" parent="PositionData-budgetedPosition-parentBean" />
+  <bean id="PositionData-budgetedPosition" parent="PositionData-budgetedPosition-parentBean"/>
 
   <bean id="PositionData-budgetedPosition-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="budgetedPosition" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Budgeted Position" />
-    <property name="shortLabel" value="Position" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="budgetedPosition"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Budgeted Position"/>
+    <property name="shortLabel" value="Position"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="PositionData-businessUnit" parent="PositionData-businessUnit-parentBean" />
+  <bean id="PositionData-businessUnit" parent="PositionData-businessUnit-parentBean"/>
 
   <bean id="PositionData-businessUnit-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="businessUnit" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Business Unit" />
-    <property name="shortLabel" value="Unit" />
-    <property name="maxLength" value="5" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="businessUnit"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Business Unit"/>
+    <property name="shortLabel" value="Unit"/>
+    <property name="maxLength" value="5"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="7"/>
     </property>
   </bean>
-  <bean id="PositionData-departmentId" parent="PositionData-departmentId-parentBean" />
+  <bean id="PositionData-departmentId" parent="PositionData-departmentId-parentBean"/>
 
   <bean id="PositionData-departmentId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="departmentId" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Department Id" />
-    <property name="shortLabel" value="Id" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="departmentId"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Department Id"/>
+    <property name="shortLabel" value="Id"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
   </bean>
-  <bean id="PositionData-description" parent="PositionData-description-parentBean" />
+  <bean id="PositionData-description" parent="PositionData-description-parentBean"/>
 
   <bean id="PositionData-description-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="description" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="30" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="description"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
     </property>
   </bean>
-  <bean id="PositionData-effectiveDate" parent="PositionData-effectiveDate-parentBean" />
+  <bean id="PositionData-effectiveDate" parent="PositionData-effectiveDate-parentBean"/>
 
   <bean id="PositionData-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="effectiveDate" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Effective Date" />
-    <property name="shortLabel" value="Date" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
+    <property name="name" value="effectiveDate"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Effective Date"/>
+    <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+      <bean parent="DateValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
-  <bean id="PositionData-jobCode" parent="PositionData-jobCode-parentBean" />
+  <bean id="PositionData-jobCode" parent="PositionData-jobCode-parentBean"/>
 
   <bean id="PositionData-jobCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="jobCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Job Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="6" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="jobCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Job Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="6"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="8"/>
     </property>
   </bean>
-  <bean id="PositionData-positionEffectiveStatus" parent="PositionData-positionEffectiveStatus-parentBean" />
+  <bean id="PositionData-positionEffectiveStatus" parent="PositionData-positionEffectiveStatus-parentBean"/>
 
   <bean id="PositionData-positionEffectiveStatus-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="positionEffectiveStatus" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Position Effective Status" />
-    <property name="shortLabel" value="Status" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="positionEffectiveStatus"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Position Effective Status"/>
+    <property name="shortLabel" value="Status"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="PositionData-positionFullTimeEquivalency" parent="PositionData-positionFullTimeEquivalency-parentBean" />
+  <bean id="PositionData-positionFullTimeEquivalency" parent="PositionData-positionFullTimeEquivalency-parentBean"/>
 
   <bean id="PositionData-positionFullTimeEquivalency-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="positionFullTimeEquivalency" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Full Time Equivalency" />
-    <property name="shortLabel" value="Equivalency" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="positionFullTimeEquivalency"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Full Time Equivalency"/>
+    <property name="shortLabel" value="Equivalency"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
   </bean>
-  <bean id="PositionData-positionGradeDefault" parent="PositionData-positionGradeDefault-parentBean" />
+  <bean id="PositionData-positionGradeDefault" parent="PositionData-positionGradeDefault-parentBean"/>
 
   <bean id="PositionData-positionGradeDefault-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="positionGradeDefault" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Position Grade Default" />
-    <property name="shortLabel" value="Default" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="positionGradeDefault"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Position Grade Default"/>
+    <property name="shortLabel" value="Default"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
   </bean>
-  <bean id="PositionData-positionNumber" parent="PositionData-positionNumber-parentBean" />
+  <bean id="PositionData-positionNumber" parent="PositionData-positionNumber-parentBean"/>
 
   <bean id="PositionData-positionNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="positionNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Position Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="positionNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Position Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="PositionData-positionRegularTemporary" parent="PositionData-positionRegularTemporary-parentBean" />
+  <bean id="PositionData-positionRegularTemporary" parent="PositionData-positionRegularTemporary-parentBean"/>
 
   <bean id="PositionData-positionRegularTemporary-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="positionRegularTemporary" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Position Regular Temporary" />
-    <property name="shortLabel" value="Temporary" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="positionRegularTemporary"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Position Regular Temporary"/>
+    <property name="shortLabel" value="Temporary"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="PositionData-positionSalaryPlanDefault" parent="PositionData-positionSalaryPlanDefault-parentBean" />
+  <bean id="PositionData-positionSalaryPlanDefault" parent="PositionData-positionSalaryPlanDefault-parentBean"/>
 
   <bean id="PositionData-positionSalaryPlanDefault-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="positionSalaryPlanDefault" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Position Salary Plan Default" />
-    <property name="shortLabel" value="Default" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="positionSalaryPlanDefault"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Position Salary Plan Default"/>
+    <property name="shortLabel" value="Default"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
-  <bean id="PositionData-positionStatus" parent="PositionData-positionStatus-parentBean" />
+  <bean id="PositionData-positionStatus" parent="PositionData-positionStatus-parentBean"/>
 
   <bean id="PositionData-positionStatus-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="positionStatus" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Position Status" />
-    <property name="shortLabel" value="Status" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="positionStatus"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Position Status"/>
+    <property name="shortLabel" value="Status"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="PositionData-shortDescription" parent="PositionData-shortDescription-parentBean" />
+  <bean id="PositionData-shortDescription" parent="PositionData-shortDescription-parentBean"/>
 
   <bean id="PositionData-shortDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="shortDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Short Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="shortDescription"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Short Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
   </bean>
-  <bean id="PositionData-standardHoursDefault" parent="PositionData-standardHoursDefault-parentBean" />
+  <bean id="PositionData-standardHoursDefault" parent="PositionData-standardHoursDefault-parentBean"/>
 
   <bean id="PositionData-standardHoursDefault-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="standardHoursDefault" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Standard Hours Default" />
-    <property name="shortLabel" value="Default" />
-    <property name="maxLength" value="6" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="standardHoursDefault"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Standard Hours Default"/>
+    <property name="shortLabel" value="Default"/>
+    <property name="maxLength" value="6"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="8"/>
     </property>
   </bean>
-  <bean id="PositionData-standardHoursFrequency" parent="PositionData-standardHoursFrequency-parentBean" />
+  <bean id="PositionData-standardHoursFrequency" parent="PositionData-standardHoursFrequency-parentBean"/>
 
   <bean id="PositionData-standardHoursFrequency-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="standardHoursFrequency" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Standard Hours Frequency" />
-    <property name="shortLabel" value="Frequency" />
-    <property name="maxLength" value="5" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="standardHoursFrequency"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Standard Hours Frequency"/>
+    <property name="shortLabel" value="Frequency"/>
+    <property name="maxLength" value="5"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="7"/>
     </property>
   </bean>
-  <bean id="PositionData-statusDate" parent="PositionData-statusDate-parentBean" />
+  <bean id="PositionData-statusDate" parent="PositionData-statusDate-parentBean"/>
 
   <bean id="PositionData-statusDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="statusDate" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Status Date" />
-    <property name="shortLabel" value="Date" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
+    <property name="name" value="statusDate"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Status Date"/>
+    <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+      <bean parent="DateValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
-  <bean id="PositionData-dummyBusinessObject.linkButtonOption" parent="PositionData-dummyBusinessObject.linkButtonOption-parentBean" />
+  <bean id="PositionData-dummyBusinessObject.linkButtonOption" parent="PositionData-dummyBusinessObject.linkButtonOption-parentBean"/>
 
   <bean id="PositionData-dummyBusinessObject.linkButtonOption-parentBean" abstract="true" parent="TransientBalanceInquiryAttributes-linkButtonOption">
-    <property name="name" value="dummyBusinessObject.linkButtonOption" />
-    <property name="label" value="Position Funding" />
-    <property name="shortLabel" value="Position Funding" />
+    <property name="name" value="dummyBusinessObject.linkButtonOption"/>
+    <property name="label" value="Position Funding"/>
+    <property name="shortLabel" value="Position Funding"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="PositionData-inquiryDefinition" parent="PositionData-inquiryDefinition-parentBean" />
+  <bean id="PositionData-inquiryDefinition" parent="PositionData-inquiryDefinition-parentBean"/>
 
   <bean id="PositionData-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Position Data Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Position Data Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="budgetedPosition" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="businessUnit" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="departmentId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="description" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effectiveDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="jobCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="positionEffectiveStatus" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="positionFullTimeEquivalency" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="positionGradeDefault" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="positionNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="positionRegularTemporary" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="positionSalaryPlanDefault" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="positionStatus" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="shortDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="standardHoursDefault" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="standardHoursFrequency" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="statusDate" />
+              <bean parent="FieldDefinition" p:attributeName="budgetedPosition"/>
+              <bean parent="FieldDefinition" p:attributeName="businessUnit"/>
+              <bean parent="FieldDefinition" p:attributeName="departmentId"/>
+              <bean parent="FieldDefinition" p:attributeName="description"/>
+              <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+              <bean parent="FieldDefinition" p:attributeName="jobCode"/>
+              <bean parent="FieldDefinition" p:attributeName="positionEffectiveStatus"/>
+              <bean parent="FieldDefinition" p:attributeName="positionFullTimeEquivalency"/>
+              <bean parent="FieldDefinition" p:attributeName="positionGradeDefault"/>
+              <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="positionRegularTemporary"/>
+              <bean parent="FieldDefinition" p:attributeName="positionSalaryPlanDefault"/>
+              <bean parent="FieldDefinition" p:attributeName="positionStatus"/>
+              <bean parent="FieldDefinition" p:attributeName="shortDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="standardHoursDefault"/>
+              <bean parent="FieldDefinition" p:attributeName="standardHoursFrequency"/>
+              <bean parent="FieldDefinition" p:attributeName="statusDate"/>
             </list>
           </property>
         </bean>
       </list>
     </property>
-    <property name="inquirableClass" value="org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl" />
+    <property name="inquirableClass" value="org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl"/>
   </bean>
 
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="PositionData-lookupDefinition" parent="PositionData-lookupDefinition-parentBean" />
+  <bean id="PositionData-lookupDefinition" parent="PositionData-lookupDefinition-parentBean"/>
 
   <bean id="PositionData-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Position Inquiry" />
-    <property name="lookupableID" value="laborPositionDataLookupable" />
-    <property name="instructions" value="Look up Position Data" />
-    <property name="defaultSort" >
+    <property name="title" value="Position Inquiry"/>
+    <property name="lookupableID" value="laborPositionDataLookupable"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="positionNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effectiveDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="businessUnit" />
-        <bean parent="FieldDefinition"
-              p:attributeName="departmentId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="jobCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionStatus" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionSalaryPlanDefault" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionGradeDefault" />
+        <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+        <bean parent="FieldDefinition" p:attributeName="businessUnit"/>
+        <bean parent="FieldDefinition" p:attributeName="departmentId"/>
+        <bean parent="FieldDefinition" p:attributeName="jobCode"/>
+        <bean parent="FieldDefinition" p:attributeName="positionStatus"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="positionSalaryPlanDefault"/>
+        <bean parent="FieldDefinition" p:attributeName="positionGradeDefault"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="positionNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effectiveDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
-        <bean parent="FieldDefinition"
-              p:attributeName="businessUnit" />
-        <bean parent="FieldDefinition"
-              p:attributeName="departmentId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionSalaryPlanDefault" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionGradeDefault" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionFullTimeEquivalency" />
-        <bean parent="FieldDefinition"
-              p:attributeName="jobCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionStatus" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dummyBusinessObject.linkButtonOption" />
+        <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="businessUnit"/>
+        <bean parent="FieldDefinition" p:attributeName="departmentId"/>
+        <bean parent="FieldDefinition" p:attributeName="positionSalaryPlanDefault"/>
+        <bean parent="FieldDefinition" p:attributeName="positionGradeDefault"/>
+        <bean parent="FieldDefinition" p:attributeName="positionFullTimeEquivalency"/>
+        <bean parent="FieldDefinition" p:attributeName="jobCode"/>
+        <bean parent="FieldDefinition" p:attributeName="positionStatus"/>
+        <bean parent="FieldDefinition" p:attributeName="dummyBusinessObject.linkButtonOption"/>
       </list>
     </property>
   </bean>

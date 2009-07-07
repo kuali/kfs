@@ -1,29 +1,25 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AgeTrialBalance" parent="AgeTrialBalance-parentBean" />
+  <bean id="AgeTrialBalance" parent="AgeTrialBalance-parentBean"/>
 
   <bean id="AgeTrialBalance-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.AgeTrialBalance" />
-    <property name="inquiryDefinition" >
-      <ref bean="AgeTrialBalance-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.AgeTrialBalance"/>
+    <property name="inquiryDefinition">
+      <ref bean="AgeTrialBalance-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="AgeTrialBalance-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="AgeTrialBalance-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Age Trial Balance" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Age Trial Balance"/>
+    <property name="attributes">
       <list>
-        <ref bean="AgeTrialBalance-currentInvoiceAmount" />
-        <ref bean="AgeTrialBalance-customerName" />
-        <ref bean="AgeTrialBalance-customerNumber" />
-        <ref bean="AgeTrialBalance-over30InvoiceAmount" />
-        <ref bean="AgeTrialBalance-over60InvoiceAmount" />
-        <ref bean="AgeTrialBalance-over90InvoiceAmount" />
-        <ref bean="AgeTrialBalance-principalId" />
+        <ref bean="AgeTrialBalance-currentInvoiceAmount"/>
+        <ref bean="AgeTrialBalance-customerName"/>
+        <ref bean="AgeTrialBalance-customerNumber"/>
+        <ref bean="AgeTrialBalance-over30InvoiceAmount"/>
+        <ref bean="AgeTrialBalance-over60InvoiceAmount"/>
+        <ref bean="AgeTrialBalance-over90InvoiceAmount"/>
+        <ref bean="AgeTrialBalance-principalId"/>
       </list>
     </property>
   </bean>
@@ -31,147 +27,133 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AgeTrialBalance-currentInvoiceAmount" parent="AgeTrialBalance-currentInvoiceAmount-parentBean" />
+  <bean id="AgeTrialBalance-currentInvoiceAmount" parent="AgeTrialBalance-currentInvoiceAmount-parentBean"/>
 
   <bean id="AgeTrialBalance-currentInvoiceAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="currentInvoiceAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Current Invoice Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="currentInvoiceAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Current Invoice Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
   </bean>
-  <bean id="AgeTrialBalance-customerName" parent="AgeTrialBalance-customerName-parentBean" />
+  <bean id="AgeTrialBalance-customerName" parent="AgeTrialBalance-customerName-parentBean"/>
 
   <bean id="AgeTrialBalance-customerName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="customerName" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Customer Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="60" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="customerName"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Customer Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="60"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="62" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="62"/>
     </property>
   </bean>
-  <bean id="AgeTrialBalance-customerNumber" parent="AgeTrialBalance-customerNumber-parentBean" />
+  <bean id="AgeTrialBalance-customerNumber" parent="AgeTrialBalance-customerNumber-parentBean"/>
 
   <bean id="AgeTrialBalance-customerNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="customerNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Customer Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="customerNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Customer Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
   </bean>
-  <bean id="AgeTrialBalance-over30InvoiceAmount" parent="AgeTrialBalance-over30InvoiceAmount-parentBean" />
+  <bean id="AgeTrialBalance-over30InvoiceAmount" parent="AgeTrialBalance-over30InvoiceAmount-parentBean"/>
 
   <bean id="AgeTrialBalance-over30InvoiceAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="over30InvoiceAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Over30 Invoice Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="over30InvoiceAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Over30 Invoice Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
   </bean>
-  <bean id="AgeTrialBalance-over60InvoiceAmount" parent="AgeTrialBalance-over60InvoiceAmount-parentBean" />
+  <bean id="AgeTrialBalance-over60InvoiceAmount" parent="AgeTrialBalance-over60InvoiceAmount-parentBean"/>
 
   <bean id="AgeTrialBalance-over60InvoiceAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="over60InvoiceAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Over60 Invoice Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="over60InvoiceAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Over60 Invoice Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
   </bean>
-  <bean id="AgeTrialBalance-over90InvoiceAmount" parent="AgeTrialBalance-over90InvoiceAmount-parentBean" />
+  <bean id="AgeTrialBalance-over90InvoiceAmount" parent="AgeTrialBalance-over90InvoiceAmount-parentBean"/>
 
   <bean id="AgeTrialBalance-over90InvoiceAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="over90InvoiceAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Over90 Invoice Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="over90InvoiceAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Over90 Invoice Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
   </bean>
-  <bean id="AgeTrialBalance-principalId" parent="AgeTrialBalance-principalId-parentBean" />
+  <bean id="AgeTrialBalance-principalId" parent="AgeTrialBalance-principalId-parentBean"/>
 
   <bean id="AgeTrialBalance-principalId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="principalId" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Person Universal Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="principalId"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Person Universal Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="AgeTrialBalance-inquiryDefinition" parent="AgeTrialBalance-inquiryDefinition-parentBean" />
+  <bean id="AgeTrialBalance-inquiryDefinition" parent="AgeTrialBalance-inquiryDefinition-parentBean"/>
 
   <bean id="AgeTrialBalance-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Age Trial Balance Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Age Trial Balance Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="currentInvoiceAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="customerName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="customerNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="over30InvoiceAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="over60InvoiceAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="over90InvoiceAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="principalId" />
+              <bean parent="FieldDefinition" p:attributeName="currentInvoiceAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="customerName"/>
+              <bean parent="FieldDefinition" p:attributeName="customerNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="over30InvoiceAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="over60InvoiceAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="over90InvoiceAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="principalId"/>
             </list>
           </property>
         </bean>
@@ -182,51 +164,36 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="AgeTrialBalance-lookupDefinition" parent="AgeTrialBalance-lookupDefinition-parentBean" />
+  <bean id="AgeTrialBalance-lookupDefinition" parent="AgeTrialBalance-lookupDefinition-parentBean"/>
 
   <bean id="AgeTrialBalance-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Age Trial Balance Lookup" />
-    <property name="instructions" value="Look up an Age Trial Balance" />
-    <property name="defaultSort" >
+    <property name="title" value="Age Trial Balance Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="currentInvoiceAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="customerName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="customerNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="over30InvoiceAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="over60InvoiceAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="over90InvoiceAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="principalId" />
+        <bean parent="FieldDefinition" p:attributeName="currentInvoiceAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="customerName"/>
+        <bean parent="FieldDefinition" p:attributeName="customerNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="over30InvoiceAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="over60InvoiceAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="over90InvoiceAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="principalId"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="currentInvoiceAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="customerName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="customerNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="over30InvoiceAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="over60InvoiceAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="over90InvoiceAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="principalId" />
+        <bean parent="FieldDefinition" p:attributeName="currentInvoiceAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="customerName"/>
+        <bean parent="FieldDefinition" p:attributeName="customerNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="over30InvoiceAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="over60InvoiceAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="over90InvoiceAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="principalId"/>
       </list>
     </property>
   </bean>
 </beans>
-

@@ -1,62 +1,56 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="GECSourceAccountingLine" parent="GECSourceAccountingLine-parentBean" />
+  <bean id="GECSourceAccountingLine" parent="GECSourceAccountingLine-parentBean"/>
 
   <bean id="GECSourceAccountingLine-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.GECSourceAccountingLine" />
-    <property name="objectLabel" value="General Error Correction Source Accounting Line" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.GECSourceAccountingLine"/>
+    <property name="objectLabel" value="General Error Correction Source Accounting Line"/>
+    <property name="attributes">
       <list>
-        <ref bean="GECSourceAccountingLine-objectCode.financialObjectTypeCode" />
-        <ref bean="GECSourceAccountingLine-objectCode.financialObjectSubTypeCode" />
-        <ref bean="GECSourceAccountingLine-objectCode.financialObjectLevelCode" />
-        <ref bean="GECSourceAccountingLine-account.financialHigherEdFunctionCd" />
-        <ref bean="GECSourceAccountingLine-account.subFundGroupCode" />
-        <ref bean="GECSourceAccountingLine-account.subFundGroup.fundGroupCode" />
-        <ref bean="GECSourceAccountingLine-balanceTypeCode" />
-        <ref bean="GECSourceAccountingLine-referenceNumber" />
-        <ref bean="GECSourceAccountingLine-sequenceNumber" />
-        <ref bean="GECSourceAccountingLine-financialObjectCode" />
-        <ref bean="GECSourceAccountingLine-accountNumber" />
-        <ref bean="GECSourceAccountingLine-organizationReferenceId" />
-        <ref bean="GECSourceAccountingLine-chartOfAccountsCode" />
-        <ref bean="GECSourceAccountingLine-postingYear" />
-        <ref bean="GECSourceAccountingLine-referenceOriginCode" />
-        <ref bean="GECSourceAccountingLine-overrideCode" />
-        <ref bean="GECSourceAccountingLine-amount" />
-        <ref bean="GECSourceAccountingLine-subAccountNumber" />
-        <ref bean="GECSourceAccountingLine-referenceTypeCode" />
-        <ref bean="GECSourceAccountingLine-projectCode" />
-        <ref bean="GECSourceAccountingLine-financialSubObjectCode" />
-        <ref bean="GECSourceAccountingLine-documentNumber" />
-        <ref bean="GECSourceAccountingLine-debitCreditCode" />
-        <ref bean="GECSourceAccountingLine-encumbranceUpdateCode" />
-        <ref bean="GECSourceAccountingLine-objectTypeCode" />
-        <ref bean="GECSourceAccountingLine-accountExpiredOverride" />
-        <ref bean="GECSourceAccountingLine-nonFringeAccountOverride" />
-        <ref bean="GECSourceAccountingLine-objectBudgetOverride" />
-        <ref bean="GECSourceAccountingLine-financialDocumentLineDescription" />
-        <ref bean="GECSourceAccountingLine-salesTaxRequired" />
-        <ref bean="GECSourceAccountingLine-salesTax.chartOfAccountsCode" />
-        <ref bean="GECSourceAccountingLine-salesTax.accountNumber" />
-        <ref bean="GECSourceAccountingLine-salesTax.financialDocumentGrossSalesAmount" />
-        <ref bean="GECSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount" />
-        <ref bean="GECSourceAccountingLine-salesTax.financialDocumentSaleDate" />
+        <ref bean="GECSourceAccountingLine-objectCode.financialObjectTypeCode"/>
+        <ref bean="GECSourceAccountingLine-objectCode.financialObjectSubTypeCode"/>
+        <ref bean="GECSourceAccountingLine-objectCode.financialObjectLevelCode"/>
+        <ref bean="GECSourceAccountingLine-account.financialHigherEdFunctionCd"/>
+        <ref bean="GECSourceAccountingLine-account.subFundGroupCode"/>
+        <ref bean="GECSourceAccountingLine-account.subFundGroup.fundGroupCode"/>
+        <ref bean="GECSourceAccountingLine-balanceTypeCode"/>
+        <ref bean="GECSourceAccountingLine-referenceNumber"/>
+        <ref bean="GECSourceAccountingLine-sequenceNumber"/>
+        <ref bean="GECSourceAccountingLine-financialObjectCode"/>
+        <ref bean="GECSourceAccountingLine-accountNumber"/>
+        <ref bean="GECSourceAccountingLine-organizationReferenceId"/>
+        <ref bean="GECSourceAccountingLine-chartOfAccountsCode"/>
+        <ref bean="GECSourceAccountingLine-postingYear"/>
+        <ref bean="GECSourceAccountingLine-referenceOriginCode"/>
+        <ref bean="GECSourceAccountingLine-overrideCode"/>
+        <ref bean="GECSourceAccountingLine-amount"/>
+        <ref bean="GECSourceAccountingLine-subAccountNumber"/>
+        <ref bean="GECSourceAccountingLine-referenceTypeCode"/>
+        <ref bean="GECSourceAccountingLine-projectCode"/>
+        <ref bean="GECSourceAccountingLine-financialSubObjectCode"/>
+        <ref bean="GECSourceAccountingLine-documentNumber"/>
+        <ref bean="GECSourceAccountingLine-debitCreditCode"/>
+        <ref bean="GECSourceAccountingLine-encumbranceUpdateCode"/>
+        <ref bean="GECSourceAccountingLine-objectTypeCode"/>
+        <ref bean="GECSourceAccountingLine-accountExpiredOverride"/>
+        <ref bean="GECSourceAccountingLine-nonFringeAccountOverride"/>
+        <ref bean="GECSourceAccountingLine-objectBudgetOverride"/>
+        <ref bean="GECSourceAccountingLine-financialDocumentLineDescription"/>
+        <ref bean="GECSourceAccountingLine-salesTaxRequired"/>
+        <ref bean="GECSourceAccountingLine-salesTax.chartOfAccountsCode"/>
+        <ref bean="GECSourceAccountingLine-salesTax.accountNumber"/>
+        <ref bean="GECSourceAccountingLine-salesTax.financialDocumentGrossSalesAmount"/>
+        <ref bean="GECSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount"/>
+        <ref bean="GECSourceAccountingLine-salesTax.financialDocumentSaleDate"/>
       </list>
     </property>
     <property name="relationships">
     	<list>
     		<bean parent="RelationshipDefinition">
-    			<property name="objectAttributeName" value="referenceFinancialSystemDocumentTypeCode" />
-		        <property name="primitiveAttributes" >
+    			<property name="objectAttributeName" value="referenceFinancialSystemDocumentTypeCode"/>
+		        <property name="primitiveAttributes">
 		        	<list>
-		            	<bean parent="PrimitiveAttributeDefinition"
-		                    p:sourceName="referenceTypeCode"
-		                    p:targetName="name" />
+		            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="referenceTypeCode" p:targetName="name"/>
 		            </list>
 		        </property>
     		</bean>
@@ -67,327 +61,318 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="GECSourceAccountingLine-objectCode.financialObjectTypeCode" parent="GECSourceAccountingLine-objectCode.financialObjectTypeCode-parentBean" />
+  <bean id="GECSourceAccountingLine-objectCode.financialObjectTypeCode" parent="GECSourceAccountingLine-objectCode.financialObjectTypeCode-parentBean"/>
 
   <bean id="GECSourceAccountingLine-objectCode.financialObjectTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectTypeCode">
-    <property name="name" value="objectCode.financialObjectTypeCode" />
+    <property name="name" value="objectCode.financialObjectTypeCode"/>
   </bean>
-  <bean id="GECSourceAccountingLine-objectCode.financialObjectSubTypeCode" parent="GECSourceAccountingLine-objectCode.financialObjectSubTypeCode-parentBean" />
+  <bean id="GECSourceAccountingLine-objectCode.financialObjectSubTypeCode" parent="GECSourceAccountingLine-objectCode.financialObjectSubTypeCode-parentBean"/>
 
   <bean id="GECSourceAccountingLine-objectCode.financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectSubTypeCode">
-    <property name="name" value="objectCode.financialObjectSubTypeCode" />
+    <property name="name" value="objectCode.financialObjectSubTypeCode"/>
   </bean>
-  <bean id="GECSourceAccountingLine-objectCode.financialObjectLevelCode" parent="GECSourceAccountingLine-objectCode.financialObjectLevelCode-parentBean" />
+  <bean id="GECSourceAccountingLine-objectCode.financialObjectLevelCode" parent="GECSourceAccountingLine-objectCode.financialObjectLevelCode-parentBean"/>
 
   <bean id="GECSourceAccountingLine-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectCode-financialObjectLevelCode">
-    <property name="name" value="objectCode.financialObjectLevelCode" />
+    <property name="name" value="objectCode.financialObjectLevelCode"/>
   </bean>
-  <bean id="GECSourceAccountingLine-account.financialHigherEdFunctionCd" parent="GECSourceAccountingLine-account.financialHigherEdFunctionCd-parentBean" />
+  <bean id="GECSourceAccountingLine-account.financialHigherEdFunctionCd" parent="GECSourceAccountingLine-account.financialHigherEdFunctionCd-parentBean"/>
 
   <bean id="GECSourceAccountingLine-account.financialHigherEdFunctionCd-parentBean" abstract="true" parent="Account-financialHigherEdFunctionCd">
-    <property name="name" value="account.financialHigherEdFunctionCd" />
+    <property name="name" value="account.financialHigherEdFunctionCd"/>
   </bean>
-  <bean id="GECSourceAccountingLine-account.subFundGroupCode" parent="GECSourceAccountingLine-account.subFundGroupCode-parentBean" />
+  <bean id="GECSourceAccountingLine-account.subFundGroupCode" parent="GECSourceAccountingLine-account.subFundGroupCode-parentBean"/>
 
   <bean id="GECSourceAccountingLine-account.subFundGroupCode-parentBean" abstract="true" parent="Account-subFundGroupCode">
-    <property name="name" value="account.subFundGroupCode" />
+    <property name="name" value="account.subFundGroupCode"/>
   </bean>
-  <bean id="GECSourceAccountingLine-account.subFundGroup.fundGroupCode" parent="GECSourceAccountingLine-account.subFundGroup.fundGroupCode-parentBean" />
+  <bean id="GECSourceAccountingLine-account.subFundGroup.fundGroupCode" parent="GECSourceAccountingLine-account.subFundGroup.fundGroupCode-parentBean"/>
 
   <bean id="GECSourceAccountingLine-account.subFundGroup.fundGroupCode-parentBean" abstract="true" parent="SubFundGroup-fundGroupCode">
-    <property name="name" value="account.subFundGroup.fundGroupCode" />
+    <property name="name" value="account.subFundGroup.fundGroupCode"/>
   </bean>
-  <bean id="GECSourceAccountingLine-balanceTypeCode" parent="GECSourceAccountingLine-balanceTypeCode-parentBean" />
+  <bean id="GECSourceAccountingLine-balanceTypeCode" parent="GECSourceAccountingLine-balanceTypeCode-parentBean"/>
 
   <bean id="GECSourceAccountingLine-balanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
-    <property name="name" value="balanceTypeCode" />
-    <property name="required" value="false" />
+    <property name="name" value="balanceTypeCode"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="GECSourceAccountingLine-referenceNumber" parent="GECSourceAccountingLine-referenceNumber-parentBean" />
+  <bean id="GECSourceAccountingLine-referenceNumber" parent="GECSourceAccountingLine-referenceNumber-parentBean"/>
 
   <bean id="GECSourceAccountingLine-referenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="referenceNumber" />
-    <property name="label" value="Reference Number" />
-    <property name="shortLabel" value="Ref Number" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="referenceNumber"/>
+    <property name="label" value="Reference Number"/>
+    <property name="shortLabel" value="Ref Number"/>
+    <property name="maxLength" value="14"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="16"/>
     </property>
     
     
   </bean>
-  <bean id="GECSourceAccountingLine-sequenceNumber" parent="GECSourceAccountingLine-sequenceNumber-parentBean" />
+  <bean id="GECSourceAccountingLine-sequenceNumber" parent="GECSourceAccountingLine-sequenceNumber-parentBean"/>
 
   <bean id="GECSourceAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
-    <property name="name" value="sequenceNumber" />
-    <property name="required" value="false" />
-    <property name="forceUppercase" value="true" />
+    <property name="name" value="sequenceNumber"/>
+    <property name="required" value="false"/>
+    <property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="GECSourceAccountingLine-financialObjectCode" parent="GECSourceAccountingLine-financialObjectCode-parentBean" />
+  <bean id="GECSourceAccountingLine-financialObjectCode" parent="GECSourceAccountingLine-financialObjectCode-parentBean"/>
 
   <bean id="GECSourceAccountingLine-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
     
   </bean>
-  <bean id="GECSourceAccountingLine-accountNumber" parent="GECSourceAccountingLine-accountNumber-parentBean" />
+  <bean id="GECSourceAccountingLine-accountNumber" parent="GECSourceAccountingLine-accountNumber-parentBean"/>
 
   <bean id="GECSourceAccountingLine-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
   </bean>
-  <bean id="GECSourceAccountingLine-organizationReferenceId" parent="GECSourceAccountingLine-organizationReferenceId-parentBean" />
+  <bean id="GECSourceAccountingLine-organizationReferenceId" parent="GECSourceAccountingLine-organizationReferenceId-parentBean"/>
 
   <bean id="GECSourceAccountingLine-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationReferenceId" />
-    <property name="label" value="Organization Reference Id" />
-    <property name="shortLabel" value="Org Ref Id" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="organizationReferenceId"/>
+    <property name="label" value="Organization Reference Id"/>
+    <property name="shortLabel" value="Org Ref Id"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
     
     
   </bean>
-  <bean id="GECSourceAccountingLine-chartOfAccountsCode" parent="GECSourceAccountingLine-chartOfAccountsCode-parentBean" />
+  <bean id="GECSourceAccountingLine-chartOfAccountsCode" parent="GECSourceAccountingLine-chartOfAccountsCode-parentBean"/>
 
   <bean id="GECSourceAccountingLine-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     
   </bean>
-  <bean id="GECSourceAccountingLine-postingYear" parent="GECSourceAccountingLine-postingYear-parentBean" />
+  <bean id="GECSourceAccountingLine-postingYear" parent="GECSourceAccountingLine-postingYear-parentBean"/>
 
   <bean id="GECSourceAccountingLine-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="postingYear" />
-    <property name="required" value="true" />
+    <property name="name" value="postingYear"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="GECSourceAccountingLine-referenceOriginCode" parent="GECSourceAccountingLine-referenceOriginCode-parentBean" />
+  <bean id="GECSourceAccountingLine-referenceOriginCode" parent="GECSourceAccountingLine-referenceOriginCode-parentBean"/>
 
   <bean id="GECSourceAccountingLine-referenceOriginCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="referenceOriginCode" />
-    <property name="label" value="Reference Origin Code" />
-    <property name="shortLabel" value="Ref Origin Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="referenceOriginCode"/>
+    <property name="label" value="Reference Origin Code"/>
+    <property name="shortLabel" value="Ref Origin Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
     
     
   </bean>
-  <bean id="GECSourceAccountingLine-overrideCode" parent="GECSourceAccountingLine-overrideCode-parentBean" />
+  <bean id="GECSourceAccountingLine-overrideCode" parent="GECSourceAccountingLine-overrideCode-parentBean"/>
 
   <bean id="GECSourceAccountingLine-overrideCode-parentBean" abstract="true" parent="SourceAccountingLine-overrideCode"/>
    
-  <bean id="GECSourceAccountingLine-amount" parent="GECSourceAccountingLine-amount-parentBean" />
+  <bean id="GECSourceAccountingLine-amount" parent="GECSourceAccountingLine-amount-parentBean"/>
 
   <bean id="GECSourceAccountingLine-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="amount" />
-    <property name="required" value="true" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="amount"/>
+    <property name="required" value="true"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
     
   </bean>
-  <bean id="GECSourceAccountingLine-subAccountNumber" parent="GECSourceAccountingLine-subAccountNumber-parentBean" />
+  <bean id="GECSourceAccountingLine-subAccountNumber" parent="GECSourceAccountingLine-subAccountNumber-parentBean"/>
 
   <bean id="GECSourceAccountingLine-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
-    <property name="label" value="Sub-Account Code" />
-    <property name="required" value="false" />
+    <property name="label" value="Sub-Account Code"/>
+    <property name="required" value="false"/>
     
     
   </bean>
-  <bean id="GECSourceAccountingLine-referenceTypeCode" parent="GECSourceAccountingLine-referenceTypeCode-parentBean" />
+  <bean id="GECSourceAccountingLine-referenceTypeCode" parent="GECSourceAccountingLine-referenceTypeCode-parentBean"/>
 
   <bean id="GECSourceAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-referenceTypeCode"/>
 
-  <bean id="GECSourceAccountingLine-projectCode" parent="GECSourceAccountingLine-projectCode-parentBean" />
+  <bean id="GECSourceAccountingLine-projectCode" parent="GECSourceAccountingLine-projectCode-parentBean"/>
 
   <bean id="GECSourceAccountingLine-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
-    <property name="name" value="projectCode" />
-    <property name="required" value="false" />
+    <property name="name" value="projectCode"/>
+    <property name="required" value="false"/>
     
     
   </bean>
-  <bean id="GECSourceAccountingLine-financialSubObjectCode" parent="GECSourceAccountingLine-financialSubObjectCode-parentBean" />
+  <bean id="GECSourceAccountingLine-financialSubObjectCode" parent="GECSourceAccountingLine-financialSubObjectCode-parentBean"/>
 
   <bean id="GECSourceAccountingLine-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
-    <property name="required" value="false" />
+    <property name="required" value="false"/>
     
   </bean>
-  <bean id="GECSourceAccountingLine-documentNumber" parent="GECSourceAccountingLine-documentNumber-parentBean" />
+  <bean id="GECSourceAccountingLine-documentNumber" parent="GECSourceAccountingLine-documentNumber-parentBean"/>
 
   <bean id="GECSourceAccountingLine-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
-    <property name="required" value="false" />
-    <property name="forceUppercase" value="true" />
+    <property name="required" value="false"/>
+    <property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="GECSourceAccountingLine-debitCreditCode" parent="GECSourceAccountingLine-debitCreditCode-parentBean" />
+  <bean id="GECSourceAccountingLine-debitCreditCode" parent="GECSourceAccountingLine-debitCreditCode-parentBean"/>
 
   <bean id="GECSourceAccountingLine-debitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="debitCreditCode" />
-    <property name="label" value="Credit or Debit Code" />
-    <property name="shortLabel" value="Credit/Debit" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="CharsetValidationPattern"
-            p:validChars="DC" />
+    <property name="name" value="debitCreditCode"/>
+    <property name="label" value="Credit or Debit Code"/>
+    <property name="shortLabel" value="Credit/Debit"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="CharsetValidationPattern" p:validChars="DC"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="GECSourceAccountingLine-encumbranceUpdateCode" parent="GECSourceAccountingLine-encumbranceUpdateCode-parentBean" />
+  <bean id="GECSourceAccountingLine-encumbranceUpdateCode" parent="GECSourceAccountingLine-encumbranceUpdateCode-parentBean"/>
 
   <bean id="GECSourceAccountingLine-encumbranceUpdateCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="encumbranceUpdateCode" />
-    <property name="label" value="Encumbrance Update Code" />
-    <property name="shortLabel" value="Encumbrance Update" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AlphaValidationPattern" />
+    <property name="name" value="encumbranceUpdateCode"/>
+    <property name="label" value="Encumbrance Update Code"/>
+    <property name="shortLabel" value="Encumbrance Update"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AlphaValidationPattern"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="GECSourceAccountingLine-objectTypeCode" parent="GECSourceAccountingLine-objectTypeCode-parentBean" />
+  <bean id="GECSourceAccountingLine-objectTypeCode" parent="GECSourceAccountingLine-objectTypeCode-parentBean"/>
 
   <bean id="GECSourceAccountingLine-objectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
-    <property name="name" value="objectTypeCode" />
-    <property name="required" value="false" />
+    <property name="name" value="objectTypeCode"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="GECSourceAccountingLine-accountExpiredOverride" parent="GECSourceAccountingLine-accountExpiredOverride-parentBean" />
+  <bean id="GECSourceAccountingLine-accountExpiredOverride" parent="GECSourceAccountingLine-accountExpiredOverride-parentBean"/>
 
   <bean id="GECSourceAccountingLine-accountExpiredOverride-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountExpiredOverride" />
-    <property name="label" value="Account Expired Override" />
-    <property name="shortLabel" value="Expired Override" />
-    <property name="maxLength" value="1" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="accountExpiredOverride"/>
+    <property name="label" value="Account Expired Override"/>
+    <property name="shortLabel" value="Expired Override"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
     
     
   </bean>
-  <bean id="GECSourceAccountingLine-nonFringeAccountOverride" parent="GECSourceAccountingLine-nonFringeAccountOverride-parentBean" />
+  <bean id="GECSourceAccountingLine-nonFringeAccountOverride" parent="GECSourceAccountingLine-nonFringeAccountOverride-parentBean"/>
 
   <bean id="GECSourceAccountingLine-nonFringeAccountOverride-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nonFringeAccountOverride" />
-    <property name="label" value="Non-fringe Account Override" />
-    <property name="shortLabel" value="Non-fringe Override" />
-    <property name="maxLength" value="1" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="nonFringeAccountOverride"/>
+    <property name="label" value="Non-fringe Account Override"/>
+    <property name="shortLabel" value="Non-fringe Override"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
     
     
   </bean>
-  <bean id="GECSourceAccountingLine-objectBudgetOverride" parent="GECSourceAccountingLine-objectBudgetOverride-parentBean" />
+  <bean id="GECSourceAccountingLine-objectBudgetOverride" parent="GECSourceAccountingLine-objectBudgetOverride-parentBean"/>
 
   <bean id="GECSourceAccountingLine-objectBudgetOverride-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="objectBudgetOverride" />
-    <property name="label" value="Object Non-Budgeted Override" />
-    <property name="shortLabel" value="Non-Budgeted Override" />
-    <property name="maxLength" value="1" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="objectBudgetOverride"/>
+    <property name="label" value="Object Non-Budgeted Override"/>
+    <property name="shortLabel" value="Non-Budgeted Override"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
     
     
   </bean>
-  <bean id="GECSourceAccountingLine-financialDocumentLineDescription" parent="GECSourceAccountingLine-financialDocumentLineDescription-parentBean" />
+  <bean id="GECSourceAccountingLine-financialDocumentLineDescription" parent="GECSourceAccountingLine-financialDocumentLineDescription-parentBean"/>
 
   <bean id="GECSourceAccountingLine-financialDocumentLineDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentLineDescription" />
-    <property name="label" value="Line Description" />
-    <property name="shortLabel" value="Line Desc" />
-    <property name="maxLength" value="40" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="financialDocumentLineDescription"/>
+    <property name="label" value="Line Description"/>
+    <property name="shortLabel" value="Line Desc"/>
+    <property name="maxLength" value="40"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
     
     
   </bean>
-  <bean id="GECSourceAccountingLine-salesTaxRequired" parent="GECSourceAccountingLine-salesTaxRequired-parentBean" />
+  <bean id="GECSourceAccountingLine-salesTaxRequired" parent="GECSourceAccountingLine-salesTaxRequired-parentBean"/>
 
   <bean id="GECSourceAccountingLine-salesTaxRequired-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="salesTaxRequired" />
-    <property name="label" value="Sales Tax Required" />
-    <property name="shortLabel" value="Sales Tax Reqd" />
-    <property name="maxLength" value="10" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="salesTaxRequired"/>
+    <property name="label" value="Sales Tax Required"/>
+    <property name="shortLabel" value="Sales Tax Reqd"/>
+    <property name="maxLength" value="10"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
     
     
   </bean>
-  <bean id="GECSourceAccountingLine-salesTax.chartOfAccountsCode" parent="GECSourceAccountingLine-salesTax.chartOfAccountsCode-parentBean" />
+  <bean id="GECSourceAccountingLine-salesTax.chartOfAccountsCode" parent="GECSourceAccountingLine-salesTax.chartOfAccountsCode-parentBean"/>
 
   <bean id="GECSourceAccountingLine-salesTax.chartOfAccountsCode-parentBean" abstract="true" parent="SalesTax-chartOfAccountsCode">
-    <property name="name" value="salesTax.chartOfAccountsCode" />
-    <property name="label" value="Sales Tax Chart of Accounts Code" />
-    <property name="shortLabel" value="Sales Tax Chart" />
+    <property name="name" value="salesTax.chartOfAccountsCode"/>
+    <property name="label" value="Sales Tax Chart of Accounts Code"/>
+    <property name="shortLabel" value="Sales Tax Chart"/>
     
     
   </bean>
-  <bean id="GECSourceAccountingLine-salesTax.accountNumber" parent="GECSourceAccountingLine-salesTax.accountNumber-parentBean" />
+  <bean id="GECSourceAccountingLine-salesTax.accountNumber" parent="GECSourceAccountingLine-salesTax.accountNumber-parentBean"/>
 
   <bean id="GECSourceAccountingLine-salesTax.accountNumber-parentBean" abstract="true" parent="SalesTax-accountNumber">
-    <property name="name" value="salesTax.accountNumber" />
-    <property name="label" value="Sales Tax Account Number" />
-    <property name="shortLabel" value="Sales Tax Account" />
+    <property name="name" value="salesTax.accountNumber"/>
+    <property name="label" value="Sales Tax Account Number"/>
+    <property name="shortLabel" value="Sales Tax Account"/>
     
     
   </bean>
-  <bean id="GECSourceAccountingLine-salesTax.financialDocumentGrossSalesAmount" parent="GECSourceAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean" />
+  <bean id="GECSourceAccountingLine-salesTax.financialDocumentGrossSalesAmount" parent="GECSourceAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean"/>
 
   <bean id="GECSourceAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean" abstract="true" parent="SalesTax-financialDocumentGrossSalesAmount">
-    <property name="name" value="salesTax.financialDocumentGrossSalesAmount" />
-    <property name="label" value="Gross Sales Amount" />
-    <property name="shortLabel" value="Gross Sales Amt." />
+    <property name="name" value="salesTax.financialDocumentGrossSalesAmount"/>
+    <property name="label" value="Gross Sales Amount"/>
+    <property name="shortLabel" value="Gross Sales Amt."/>
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="GECSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount" parent="GECSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean" />
+  <bean id="GECSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount" parent="GECSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean"/>
 
   <bean id="GECSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean" abstract="true" parent="SalesTax-financialDocumentTaxableSalesAmount">
-    <property name="name" value="salesTax.financialDocumentTaxableSalesAmount" />
-    <property name="label" value="Taxable Sales Amount" />
-    <property name="shortLabel" value="Taxable Sales Amt." />
+    <property name="name" value="salesTax.financialDocumentTaxableSalesAmount"/>
+    <property name="label" value="Taxable Sales Amount"/>
+    <property name="shortLabel" value="Taxable Sales Amt."/>
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="GECSourceAccountingLine-salesTax.financialDocumentSaleDate" parent="GECSourceAccountingLine-salesTax.financialDocumentSaleDate-parentBean" />
+  <bean id="GECSourceAccountingLine-salesTax.financialDocumentSaleDate" parent="GECSourceAccountingLine-salesTax.financialDocumentSaleDate-parentBean"/>
 
   <bean id="GECSourceAccountingLine-salesTax.financialDocumentSaleDate-parentBean" abstract="true" parent="SalesTax-financialDocumentSaleDate">
-    <property name="name" value="salesTax.financialDocumentSaleDate" />
-    <property name="label" value="Sale Date" />
+    <property name="name" value="salesTax.financialDocumentSaleDate"/>
+    <property name="label" value="Sale Date"/>
     
   </bean>
 </beans>

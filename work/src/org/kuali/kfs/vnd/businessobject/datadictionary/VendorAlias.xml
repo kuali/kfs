@@ -1,24 +1,17 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="VendorAlias" parent="VendorAlias-parentBean" />
+  <bean id="VendorAlias" parent="VendorAlias-parentBean"/>
 
   <bean id="VendorAlias-parentBean" abstract="true" parent="BusinessObjectEntry">
-  	<property name="objectLabel" value="Vendor Alias" />
-    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorAlias" />
-    <property name="attributes" >
+  	<property name="objectLabel" value="Vendor Alias"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorAlias"/>
+    <property name="attributes">
       <list>
-        <ref bean="VendorAlias-vendorAliasName" />
-        <ref bean="VendorAlias-newCollectionRecord" />
-        <ref bean="VendorAlias-vendorHeaderGeneratedIdentifier" />
-        <ref bean="VendorAlias-vendorDetailAssignedIdentifier" />
-        <ref bean="VendorAlias-active" />
+        <ref bean="VendorAlias-vendorAliasName"/>
+        <ref bean="VendorAlias-newCollectionRecord"/>
+        <ref bean="VendorAlias-vendorHeaderGeneratedIdentifier"/>
+        <ref bean="VendorAlias-vendorDetailAssignedIdentifier"/>
+        <ref bean="VendorAlias-active"/>
       </list>
     </property>
   </bean>
@@ -26,39 +19,37 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="VendorAlias-vendorAliasName" parent="VendorAlias-vendorAliasName-parentBean" />
+  <bean id="VendorAlias-vendorAliasName" parent="VendorAlias-vendorAliasName-parentBean"/>
 
   <bean id="VendorAlias-vendorAliasName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorAliasName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Search Alias Name" />
-    <property name="shortLabel" value="Search Alias" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="vendorAliasName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Search Alias Name"/>
+    <property name="shortLabel" value="Search Alias"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="45" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="45"/>
     </property>
   </bean>
-  <bean id="VendorAlias-newCollectionRecord" parent="VendorAlias-newCollectionRecord-parentBean" />
+  <bean id="VendorAlias-newCollectionRecord" parent="VendorAlias-newCollectionRecord-parentBean"/>
 
   <bean id="VendorAlias-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
-  <bean id="VendorAlias-vendorHeaderGeneratedIdentifier" parent="VendorAlias-vendorHeaderGeneratedIdentifier-parentBean" />
+  <bean id="VendorAlias-vendorHeaderGeneratedIdentifier" parent="VendorAlias-vendorHeaderGeneratedIdentifier-parentBean"/>
 
   <bean id="VendorAlias-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
   </bean>
-  <bean id="VendorAlias-vendorDetailAssignedIdentifier" parent="VendorAlias-vendorDetailAssignedIdentifier-parentBean" />
+  <bean id="VendorAlias-vendorDetailAssignedIdentifier" parent="VendorAlias-vendorDetailAssignedIdentifier-parentBean"/>
 
   <bean id="VendorAlias-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
   </bean>
-  <bean id="VendorAlias-active" parent="VendorAlias-active-parentBean" />
+  <bean id="VendorAlias-active" parent="VendorAlias-active-parentBean"/>
 
   <bean id="VendorAlias-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 </beans>

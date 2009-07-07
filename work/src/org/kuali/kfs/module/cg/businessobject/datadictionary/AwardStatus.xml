@@ -1,26 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AwardStatus" parent="AwardStatus-parentBean" />
+  <bean id="AwardStatus" parent="AwardStatus-parentBean"/>
 
   <bean id="AwardStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AwardStatus" />
-    <property name="inquiryDefinition" >
-      <ref bean="AwardStatus-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AwardStatus"/>
+    <property name="inquiryDefinition">
+      <ref bean="AwardStatus-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="AwardStatus-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="AwardStatus-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Award Status" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Award Status"/>
+    <property name="attributes">
       <list>
-        <ref bean="AwardStatus-awardStatusCode" />
-        <ref bean="AwardStatus-awardStatusCodeDropDown" />
-        <ref bean="AwardStatus-awardStatusDescription" />
-        <ref bean="AwardStatus-active" />
+        <ref bean="AwardStatus-awardStatusCode"/>
+        <ref bean="AwardStatus-awardStatusCodeDropDown"/>
+        <ref bean="AwardStatus-awardStatusDescription"/>
+        <ref bean="AwardStatus-active"/>
       </list>
     </property>
   </bean>
@@ -28,74 +24,66 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AwardStatus-awardStatusCode" parent="AwardStatus-awardStatusCode-parentBean" />
+  <bean id="AwardStatus-awardStatusCode" parent="AwardStatus-awardStatusCode-parentBean"/>
 
   <bean id="AwardStatus-awardStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="awardStatusCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Award Status Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="awardStatusCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Award Status Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="AwardStatus-awardStatusCodeDropDown" parent="AwardStatus-awardStatusCodeDropDown-parentBean" />
+  <bean id="AwardStatus-awardStatusCodeDropDown" parent="AwardStatus-awardStatusCodeDropDown-parentBean"/>
 
   <bean id="AwardStatus-awardStatusCodeDropDown-parentBean" abstract="true" parent="AwardStatus-awardStatusCode">
-    <property name="name" value="awardStatusCodeDropDown" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.AwardStatusValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="awardStatusCodeDropDown"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.AwardStatusValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="AwardStatus-awardStatusDescription" parent="AwardStatus-awardStatusDescription-parentBean" />
+  <bean id="AwardStatus-awardStatusDescription" parent="AwardStatus-awardStatusDescription-parentBean"/>
 
   <bean id="AwardStatus-awardStatusDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="awardStatusDescription" />
-    <property name="label" value="Award Status Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="15" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="awardStatusDescription"/>
+    <property name="label" value="Award Status Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="15"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="17" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="17"/>
     </property>
   </bean>
-  <bean id="AwardStatus-active" parent="AwardStatus-active-parentBean" />
+  <bean id="AwardStatus-active" parent="AwardStatus-active-parentBean"/>
 
   <bean id="AwardStatus-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="AwardStatus-inquiryDefinition" parent="AwardStatus-inquiryDefinition-parentBean" />
+  <bean id="AwardStatus-inquiryDefinition" parent="AwardStatus-inquiryDefinition-parentBean"/>
 
   <bean id="AwardStatus-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Award Status Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Award Status Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Award Status Details" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Award Status Details"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="awardStatusCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="awardStatusDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="awardStatusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="awardStatusDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -106,33 +94,27 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="AwardStatus-lookupDefinition" parent="AwardStatus-lookupDefinition-parentBean" />
+  <bean id="AwardStatus-lookupDefinition" parent="AwardStatus-lookupDefinition-parentBean"/>
 
   <bean id="AwardStatus-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Award Status Lookup" />
-    <property name="instructions" value="Look up an Award Status" />
-    <property name="defaultSort" >
+    <property name="title" value="Award Status Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="awardStatusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="awardStatusDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="awardStatusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="awardStatusDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="awardStatusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="awardStatusDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="awardStatusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="awardStatusDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

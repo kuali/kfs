@@ -1,42 +1,38 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AccountStatusCurrentFunds" parent="AccountStatusCurrentFunds-parentBean" />
+  <bean id="AccountStatusCurrentFunds" parent="AccountStatusCurrentFunds-parentBean"/>
 
   <bean id="AccountStatusCurrentFunds-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.AccountStatusCurrentFunds" />
-    <property name="objectLabel" value="Account Status Current Funds" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.AccountStatusCurrentFunds"/>
+    <property name="objectLabel" value="Account Status Current Funds"/>
     
-    <property name="inquiryDefinition" >
-      <ref bean="AccountStatusCurrentFunds-inquiryDefinition" />
+    <property name="inquiryDefinition">
+      <ref bean="AccountStatusCurrentFunds-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="AccountStatusCurrentFunds-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="AccountStatusCurrentFunds-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="AccountStatusCurrentFunds-positionNumber" />
-        <ref bean="AccountStatusCurrentFunds-universityFiscalYear" />
-        <ref bean="AccountStatusCurrentFunds-subAccountNumber" />
-        <ref bean="AccountStatusCurrentFunds-accountNumber" />
-        <ref bean="AccountStatusCurrentFunds-chartOfAccountsCode" />
-        <ref bean="AccountStatusCurrentFunds-financialBalanceTypeCode" />
-        <ref bean="AccountStatusCurrentFunds-financialObjectCode" />
-        <ref bean="AccountStatusCurrentFunds-financialObjectTypeCode" />
-        <ref bean="AccountStatusCurrentFunds-financialSubObjectCode" />
-        <ref bean="AccountStatusCurrentFunds-financialBeginningBalanceLineAmount" />
-        <ref bean="AccountStatusCurrentFunds-annualActualAmount" />
-        <ref bean="AccountStatusCurrentFunds-outstandingEncum" />
-        <ref bean="AccountStatusCurrentFunds-july1BudgetAmount" />
-        <ref bean="AccountStatusCurrentFunds-variance" />
-        <ref bean="AccountStatusCurrentFunds-dummyBusinessObject.genericAmount" />
-        <ref bean="AccountStatusCurrentFunds-dummyBusinessObject.consolidationOption" />
-        <ref bean="AccountStatusCurrentFunds-dummyBusinessObject.pendingEntryOption" />
-        <ref bean="AccountStatusCurrentFunds-emplid" />
-        <ref bean="AccountStatusCurrentFunds-name" />
+        <ref bean="AccountStatusCurrentFunds-positionNumber"/>
+        <ref bean="AccountStatusCurrentFunds-universityFiscalYear"/>
+        <ref bean="AccountStatusCurrentFunds-subAccountNumber"/>
+        <ref bean="AccountStatusCurrentFunds-accountNumber"/>
+        <ref bean="AccountStatusCurrentFunds-chartOfAccountsCode"/>
+        <ref bean="AccountStatusCurrentFunds-financialBalanceTypeCode"/>
+        <ref bean="AccountStatusCurrentFunds-financialObjectCode"/>
+        <ref bean="AccountStatusCurrentFunds-financialObjectTypeCode"/>
+        <ref bean="AccountStatusCurrentFunds-financialSubObjectCode"/>
+        <ref bean="AccountStatusCurrentFunds-financialBeginningBalanceLineAmount"/>
+        <ref bean="AccountStatusCurrentFunds-annualActualAmount"/>
+        <ref bean="AccountStatusCurrentFunds-outstandingEncum"/>
+        <ref bean="AccountStatusCurrentFunds-july1BudgetAmount"/>
+        <ref bean="AccountStatusCurrentFunds-variance"/>
+        <ref bean="AccountStatusCurrentFunds-dummyBusinessObject.genericAmount"/>
+        <ref bean="AccountStatusCurrentFunds-dummyBusinessObject.consolidationOption"/>
+        <ref bean="AccountStatusCurrentFunds-dummyBusinessObject.pendingEntryOption"/>
+        <ref bean="AccountStatusCurrentFunds-emplid"/>
+        <ref bean="AccountStatusCurrentFunds-name"/>
       </list>
     </property>
   </bean>
@@ -44,148 +40,146 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AccountStatusCurrentFunds-positionNumber" parent="AccountStatusCurrentFunds-positionNumber-parentBean" />
+  <bean id="AccountStatusCurrentFunds-positionNumber" parent="AccountStatusCurrentFunds-positionNumber-parentBean"/>
 
   <bean id="AccountStatusCurrentFunds-positionNumber-parentBean" abstract="true" parent="PositionData-positionNumber">
   </bean>
-  <bean id="AccountStatusCurrentFunds-universityFiscalYear" parent="AccountStatusCurrentFunds-universityFiscalYear-parentBean" />
+  <bean id="AccountStatusCurrentFunds-universityFiscalYear" parent="AccountStatusCurrentFunds-universityFiscalYear-parentBean"/>
 
   <bean id="AccountStatusCurrentFunds-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="universityFiscalYear" />
-    <property name="label" value="Fiscal Year" />
-    <property name="shortLabel" value="Fiscal Year" />
+    <property name="name" value="universityFiscalYear"/>
+    <property name="label" value="Fiscal Year"/>
+    <property name="shortLabel" value="Fiscal Year"/>
   </bean>
-  <bean id="AccountStatusCurrentFunds-subAccountNumber" parent="AccountStatusCurrentFunds-subAccountNumber-parentBean" />
+  <bean id="AccountStatusCurrentFunds-subAccountNumber" parent="AccountStatusCurrentFunds-subAccountNumber-parentBean"/>
 
   <bean id="AccountStatusCurrentFunds-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
   </bean>
-  <bean id="AccountStatusCurrentFunds-accountNumber" parent="AccountStatusCurrentFunds-accountNumber-parentBean" />
+  <bean id="AccountStatusCurrentFunds-accountNumber" parent="AccountStatusCurrentFunds-accountNumber-parentBean"/>
 
   <bean id="AccountStatusCurrentFunds-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
   </bean>
-  <bean id="AccountStatusCurrentFunds-chartOfAccountsCode" parent="AccountStatusCurrentFunds-chartOfAccountsCode-parentBean" />
+  <bean id="AccountStatusCurrentFunds-chartOfAccountsCode" parent="AccountStatusCurrentFunds-chartOfAccountsCode-parentBean"/>
 
   <bean id="AccountStatusCurrentFunds-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
   </bean>
-  <bean id="AccountStatusCurrentFunds-financialBalanceTypeCode" parent="AccountStatusCurrentFunds-financialBalanceTypeCode-parentBean" />
+  <bean id="AccountStatusCurrentFunds-financialBalanceTypeCode" parent="AccountStatusCurrentFunds-financialBalanceTypeCode-parentBean"/>
 
   <bean id="AccountStatusCurrentFunds-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
-    <property name="name" value="financialBalanceTypeCode" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="financialBalanceTypeCode"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
-  <bean id="AccountStatusCurrentFunds-financialObjectCode" parent="AccountStatusCurrentFunds-financialObjectCode-parentBean" />
+  <bean id="AccountStatusCurrentFunds-financialObjectCode" parent="AccountStatusCurrentFunds-financialObjectCode-parentBean"/>
 
   <bean id="AccountStatusCurrentFunds-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
   </bean>
-  <bean id="AccountStatusCurrentFunds-financialObjectTypeCode" parent="AccountStatusCurrentFunds-financialObjectTypeCode-parentBean" />
+  <bean id="AccountStatusCurrentFunds-financialObjectTypeCode" parent="AccountStatusCurrentFunds-financialObjectTypeCode-parentBean"/>
 
   <bean id="AccountStatusCurrentFunds-financialObjectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
-    <property name="name" value="financialObjectTypeCode" />
+    <property name="name" value="financialObjectTypeCode"/>
   </bean>
-  <bean id="AccountStatusCurrentFunds-financialSubObjectCode" parent="AccountStatusCurrentFunds-financialSubObjectCode-parentBean" />
+  <bean id="AccountStatusCurrentFunds-financialSubObjectCode" parent="AccountStatusCurrentFunds-financialSubObjectCode-parentBean"/>
 
   <bean id="AccountStatusCurrentFunds-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
   </bean>
-  <bean id="AccountStatusCurrentFunds-financialBeginningBalanceLineAmount" parent="AccountStatusCurrentFunds-financialBeginningBalanceLineAmount-parentBean" />
+  <bean id="AccountStatusCurrentFunds-financialBeginningBalanceLineAmount" parent="AccountStatusCurrentFunds-financialBeginningBalanceLineAmount-parentBean"/>
 
   <bean id="AccountStatusCurrentFunds-financialBeginningBalanceLineAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="financialBeginningBalanceLineAmount" />
-    <property name="label" value="Beginning Balance Line Amount" />
-    <property name="shortLabel" value="Beginning Balance Line Amount" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="financialBeginningBalanceLineAmount"/>
+    <property name="label" value="Beginning Balance Line Amount"/>
+    <property name="shortLabel" value="Beginning Balance Line Amount"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="AccountStatusCurrentFunds-annualActualAmount" parent="AccountStatusCurrentFunds-annualActualAmount-parentBean" />
+  <bean id="AccountStatusCurrentFunds-annualActualAmount" parent="AccountStatusCurrentFunds-annualActualAmount-parentBean"/>
 
   <bean id="AccountStatusCurrentFunds-annualActualAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="annualActualAmount" />
-    <property name="label" value="YTD Actual" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="annualActualAmount"/>
+    <property name="label" value="YTD Actual"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="AccountStatusCurrentFunds-outstandingEncum" parent="AccountStatusCurrentFunds-outstandingEncum-parentBean" />
+  <bean id="AccountStatusCurrentFunds-outstandingEncum" parent="AccountStatusCurrentFunds-outstandingEncum-parentBean"/>
 
   <bean id="AccountStatusCurrentFunds-outstandingEncum-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="outstandingEncum" />
-    <property name="label" value="Outstanding Encum" />
-    <property name="shortLabel" value="Outstanding Encum" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="outstandingEncum"/>
+    <property name="label" value="Outstanding Encum"/>
+    <property name="shortLabel" value="Outstanding Encum"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="AccountStatusCurrentFunds-july1BudgetAmount" parent="AccountStatusCurrentFunds-july1BudgetAmount-parentBean" />
+  <bean id="AccountStatusCurrentFunds-july1BudgetAmount" parent="AccountStatusCurrentFunds-july1BudgetAmount-parentBean"/>
 
   <bean id="AccountStatusCurrentFunds-july1BudgetAmount-parentBean" abstract="true" parent="July1PositionFunding-july1BudgetAmount">
   </bean>
-  <bean id="AccountStatusCurrentFunds-variance" parent="AccountStatusCurrentFunds-variance-parentBean" />
+  <bean id="AccountStatusCurrentFunds-variance" parent="AccountStatusCurrentFunds-variance-parentBean"/>
 
   <bean id="AccountStatusCurrentFunds-variance-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="variance" />
-    <property name="label" value="Variance" />
-    <property name="shortLabel" value="Variance" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="variance"/>
+    <property name="label" value="Variance"/>
+    <property name="shortLabel" value="Variance"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="AccountStatusCurrentFunds-dummyBusinessObject.genericAmount" parent="AccountStatusCurrentFunds-dummyBusinessObject.genericAmount-parentBean" />
+  <bean id="AccountStatusCurrentFunds-dummyBusinessObject.genericAmount" parent="AccountStatusCurrentFunds-dummyBusinessObject.genericAmount-parentBean"/>
 
   <bean id="AccountStatusCurrentFunds-dummyBusinessObject.genericAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="dummyBusinessObject.genericAmount" />
-    <property name="label" value="Year End Close" />
-    <property name="shortLabel" value="Year End Close" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="dummyBusinessObject.genericAmount"/>
+    <property name="label" value="Year End Close"/>
+    <property name="shortLabel" value="Year End Close"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="AccountStatusCurrentFunds-dummyBusinessObject.consolidationOption" parent="AccountStatusCurrentFunds-dummyBusinessObject.consolidationOption-parentBean" />
+  <bean id="AccountStatusCurrentFunds-dummyBusinessObject.consolidationOption" parent="AccountStatusCurrentFunds-dummyBusinessObject.consolidationOption-parentBean"/>
 
   <bean id="AccountStatusCurrentFunds-dummyBusinessObject.consolidationOption-parentBean" abstract="true" parent="TransientBalanceInquiryAttributes-consolidationOption">
-    <property name="name" value="dummyBusinessObject.consolidationOption" />
+    <property name="name" value="dummyBusinessObject.consolidationOption"/>
   </bean>
-  <bean id="AccountStatusCurrentFunds-dummyBusinessObject.pendingEntryOption" parent="AccountStatusCurrentFunds-dummyBusinessObject.pendingEntryOption-parentBean" />
+  <bean id="AccountStatusCurrentFunds-dummyBusinessObject.pendingEntryOption" parent="AccountStatusCurrentFunds-dummyBusinessObject.pendingEntryOption-parentBean"/>
 
   <bean id="AccountStatusCurrentFunds-dummyBusinessObject.pendingEntryOption-parentBean" abstract="true" parent="TransientBalanceInquiryAttributes-pendingEntryOption">
-    <property name="name" value="dummyBusinessObject.pendingEntryOption" />
+    <property name="name" value="dummyBusinessObject.pendingEntryOption"/>
   </bean>
-  <bean id="AccountStatusCurrentFunds-emplid" parent="AccountStatusCurrentFunds-emplid-parentBean" />
+  <bean id="AccountStatusCurrentFunds-emplid" parent="AccountStatusCurrentFunds-emplid-parentBean"/>
 
   <bean id="AccountStatusCurrentFunds-emplid-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="emplid" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Emplid" />
-    <property name="shortLabel" value="Emplid" />
-    <property name="maxLength" value="11" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="emplid"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Emplid"/>
+    <property name="shortLabel" value="Emplid"/>
+    <property name="maxLength" value="11"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="13" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="13"/>
     </property>
   </bean>
-  <bean id="AccountStatusCurrentFunds-name" parent="AccountStatusCurrentFunds-name-parentBean" />
+  <bean id="AccountStatusCurrentFunds-name" parent="AccountStatusCurrentFunds-name-parentBean"/>
 
   <bean id="AccountStatusCurrentFunds-name-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="name" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Person" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="80" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="name"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Person"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="80"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="AccountStatusCurrentFunds-inquiryDefinition" parent="AccountStatusCurrentFunds-inquiryDefinition-parentBean" />
+  <bean id="AccountStatusCurrentFunds-inquiryDefinition" parent="AccountStatusCurrentFunds-inquiryDefinition-parentBean"/>
 
   <bean id="AccountStatusCurrentFunds-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Account Status (Current Funds) Balance Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Account Status (Current Funds) Balance Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="annualActualAmount" />
+              <bean parent="FieldDefinition" p:attributeName="annualActualAmount"/>
             </list>
           </property>
         </bean>
@@ -196,70 +190,43 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="AccountStatusCurrentFunds-lookupDefinition" parent="AccountStatusCurrentFunds-lookupDefinition-parentBean" />
+  <bean id="AccountStatusCurrentFunds-lookupDefinition" parent="AccountStatusCurrentFunds-lookupDefinition-parentBean"/>
 
   <bean id="AccountStatusCurrentFunds-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Account Status (Current Funds) Balance Inquiry" />
-    <property name="lookupableID" value="CurrentFundsLookupable" />
-    <property name="instructions" value="Look up a Account Current Funds Ledger Balance" />
-    <property name="defaultSort" >
+    <property name="title" value="Account Status (Current Funds) Balance Inquiry"/>
+    <property name="lookupableID" value="CurrentFundsLookupable"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:required="true"
-              p:attributeName="universityFiscalYear"
-              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder" />
-        <bean parent="FieldDefinition"
-              p:required="true"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:required="true"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="subAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSubObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dummyBusinessObject.consolidationOption"
-              p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.ConsolidationOptionFinder" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dummyBusinessObject.pendingEntryOption"
-              p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.PendingEntryOptionFinder" />
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="universityFiscalYear" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder"/>
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="dummyBusinessObject.consolidationOption" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.ConsolidationOptionFinder"/>
+        <bean parent="FieldDefinition" p:attributeName="dummyBusinessObject.pendingEntryOption" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.PendingEntryOptionFinder"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="subAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSubObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="july1BudgetAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="annualActualAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="outstandingEncum" />
-        <bean parent="FieldDefinition"
-              p:attributeName="variance" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="july1BudgetAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="annualActualAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="outstandingEncum"/>
+        <bean parent="FieldDefinition" p:attributeName="variance"/>
       </list>
     </property>
   </bean>
 </beans>
-

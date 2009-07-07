@@ -1,29 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PurchaseOrderVendorStipulation" parent="PurchaseOrderVendorStipulation-parentBean" />
+  <bean id="PurchaseOrderVendorStipulation" parent="PurchaseOrderVendorStipulation-parentBean"/>
 
   <bean id="PurchaseOrderVendorStipulation-parentBean" abstract="true" parent="BusinessObjectEntry">
-  	<property name="objectLabel" value="Purchase Order Vendor Stipulation" />
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation" />
-    <property name="inquiryDefinition" >
-      <ref bean="PurchaseOrderVendorStipulation-inquiryDefinition" />
+  	<property name="objectLabel" value="Purchase Order Vendor Stipulation"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation"/>
+    <property name="inquiryDefinition">
+      <ref bean="PurchaseOrderVendorStipulation-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="PurchaseOrderVendorStipulation-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="PurchaseOrderVendorStipulation-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="PurchaseOrderVendorStipulation-purchaseOrderVendorStipulationIdentifier" />
-        <ref bean="PurchaseOrderVendorStipulation-vendorStipulationAuthorEmployeeIdentifier" />
-        <ref bean="PurchaseOrderVendorStipulation-vendorStipulationCreateDate" />
-        <ref bean="PurchaseOrderVendorStipulation-vendorStipulationDescription" />
+        <ref bean="PurchaseOrderVendorStipulation-purchaseOrderVendorStipulationIdentifier"/>
+        <ref bean="PurchaseOrderVendorStipulation-vendorStipulationAuthorEmployeeIdentifier"/>
+        <ref bean="PurchaseOrderVendorStipulation-vendorStipulationCreateDate"/>
+        <ref bean="PurchaseOrderVendorStipulation-vendorStipulationDescription"/>
       </list>
     </property>
   </bean>
@@ -31,95 +24,85 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="PurchaseOrderVendorStipulation-purchaseOrderVendorStipulationIdentifier" parent="PurchaseOrderVendorStipulation-purchaseOrderVendorStipulationIdentifier-parentBean" />
+  <bean id="PurchaseOrderVendorStipulation-purchaseOrderVendorStipulationIdentifier" parent="PurchaseOrderVendorStipulation-purchaseOrderVendorStipulationIdentifier-parentBean"/>
 
   <bean id="PurchaseOrderVendorStipulation-purchaseOrderVendorStipulationIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderVendorStipulationIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Purchase Order Vendor Stipulation Identifier" />
-    <property name="shortLabel" value="Stipulation Identifier" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="purchaseOrderVendorStipulationIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Purchase Order Vendor Stipulation Identifier"/>
+    <property name="shortLabel" value="Stipulation Identifier"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderVendorStipulation-vendorStipulationAuthorEmployeeIdentifier" parent="PurchaseOrderVendorStipulation-vendorStipulationAuthorEmployeeIdentifier-parentBean" />
+  <bean id="PurchaseOrderVendorStipulation-vendorStipulationAuthorEmployeeIdentifier" parent="PurchaseOrderVendorStipulation-vendorStipulationAuthorEmployeeIdentifier-parentBean"/>
 
   <bean id="PurchaseOrderVendorStipulation-vendorStipulationAuthorEmployeeIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorStipulationAuthorEmployeeIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Vendor Stipulation Author Employee Identifier" />
-    <property name="shortLabel" value="Stipulation Author Identifier" />
-    <property name="maxLength" value="11" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="vendorStipulationAuthorEmployeeIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Vendor Stipulation Author Employee Identifier"/>
+    <property name="shortLabel" value="Stipulation Author Identifier"/>
+    <property name="maxLength" value="11"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="13" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="13"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderVendorStipulation-vendorStipulationCreateDate" parent="PurchaseOrderVendorStipulation-vendorStipulationCreateDate-parentBean" />
+  <bean id="PurchaseOrderVendorStipulation-vendorStipulationCreateDate" parent="PurchaseOrderVendorStipulation-vendorStipulationCreateDate-parentBean"/>
 
   <bean id="PurchaseOrderVendorStipulation-vendorStipulationCreateDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorStipulationCreateDate" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Vendor Stipulation Create Date" />
-    <property name="shortLabel" value="Date" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
+    <property name="name" value="vendorStipulationCreateDate"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Vendor Stipulation Create Date"/>
+    <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+      <bean parent="DateValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderVendorStipulation-vendorStipulationDescription" parent="PurchaseOrderVendorStipulation-vendorStipulationDescription-parentBean" />
+  <bean id="PurchaseOrderVendorStipulation-vendorStipulationDescription" parent="PurchaseOrderVendorStipulation-vendorStipulationDescription-parentBean"/>
 
   <bean id="PurchaseOrderVendorStipulation-vendorStipulationDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorStipulationDescription" />
-    <property name="label" value="Note Text" />
-    <property name="shortLabel" value="Note Text" />
-    <property name="maxLength" value="4000" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="vendorStipulationDescription"/>
+    <property name="label" value="Note Text"/>
+    <property name="shortLabel" value="Note Text"/>
+    <property name="maxLength" value="4000"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="5"
-            p:cols="80" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="80"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="PurchaseOrderVendorStipulation-inquiryDefinition" parent="PurchaseOrderVendorStipulation-inquiryDefinition-parentBean" />
+  <bean id="PurchaseOrderVendorStipulation-inquiryDefinition" parent="PurchaseOrderVendorStipulation-inquiryDefinition-parentBean"/>
 
   <bean id="PurchaseOrderVendorStipulation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Purchase Order Vendor Stipulation Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Purchase Order Vendor Stipulation Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderVendorStipulationIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorStipulationAuthorEmployeeIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorStipulationCreateDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorStipulationDescription" />
+              <bean parent="FieldDefinition" p:attributeName="purchaseOrderVendorStipulationIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorStipulationAuthorEmployeeIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorStipulationCreateDate"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorStipulationDescription"/>
             </list>
           </property>
         </bean>
@@ -130,37 +113,29 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="PurchaseOrderVendorStipulation-lookupDefinition" parent="PurchaseOrderVendorStipulation-lookupDefinition-parentBean" />
+  <bean id="PurchaseOrderVendorStipulation-lookupDefinition" parent="PurchaseOrderVendorStipulation-lookupDefinition-parentBean"/>
 
   <bean id="PurchaseOrderVendorStipulation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Purchase Order Vendor Stipulation Lookup" />
-    <property name="instructions" value="Lookup a Purchase Order Vendor Stipulation" />
-    <property name="defaultSort" >
+    <property name="title" value="Purchase Order Vendor Stipulation Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderVendorStipulationIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorStipulationAuthorEmployeeIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorStipulationCreateDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorStipulationDescription" />
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderVendorStipulationIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorStipulationAuthorEmployeeIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorStipulationCreateDate"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorStipulationDescription"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderVendorStipulationIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorStipulationAuthorEmployeeIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorStipulationCreateDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorStipulationDescription" />
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderVendorStipulationIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorStipulationAuthorEmployeeIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorStipulationCreateDate"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorStipulationDescription"/>
       </list>
     </property>
   </bean>

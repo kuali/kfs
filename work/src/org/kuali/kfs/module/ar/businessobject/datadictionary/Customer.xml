@@ -1,5 +1,4 @@
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean id="Customer" parent="Customer-parentBean"/>
 
@@ -41,7 +40,7 @@
                 <ref bean="Customer-customerAddresses.customerStateCode"/>
                 <ref bean="Customer-customerAddresses.customerZipCode"/>
                 <ref bean="Customer-customerAddresses.customerAddressInternationalProvinceName"/>
-                <ref bean="Customer-customerAddresses.customerEmailAddress" />
+                <ref bean="Customer-customerAddresses.customerEmailAddress"/>
                 <ref bean="Customer-customerTaxTypeCode"/>
                 <ref bean="Customer-customerTaxNbr"/>
             </list>
@@ -78,9 +77,9 @@
         </property>
         <property name="attributeSecurity">
 			<bean parent="AttributeSecurity">
-	  			<property name="mask" value="true" /> 
+	  			<property name="mask" value="true"/> 
 				<property name="maskFormatter">
-	  			<bean parent="MaskFormatterLiteral" p:literal="*********" /> 
+	  			<bean parent="MaskFormatterLiteral" p:literal="*********"/> 
 	  			</property>
 	  		</bean>
   		</property>
@@ -108,7 +107,7 @@
         <property name="shortLabel" value="Number"/>
         <property name="maxLength" value="20"/>
         <property name="validationPattern">
-            <bean parent="PhoneNumberValidationPattern" />
+            <bean parent="PhoneNumberValidationPattern"/>
         </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="22"/>
@@ -117,7 +116,7 @@
 
     <bean id="Customer-active" parent="Customer-active-parentBean"/>
     <bean id="Customer-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-      <property name="name" value="active" />
+      <property name="name" value="active"/>
     </bean>
 
     <bean id="Customer-customerAddressChangeDate" parent="Customer-customerAddressChangeDate-parentBean"/>
@@ -159,7 +158,7 @@
         <property name="shortLabel" value="Number"/>
         <property name="maxLength" value="20"/>
         <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="22"/>
@@ -219,7 +218,7 @@
         <property name="shortLabel" value="Number"/>
         <property name="maxLength" value="20"/>
         <property name="validationPattern">
-            <bean parent="PhoneNumberValidationPattern" />
+            <bean parent="PhoneNumberValidationPattern"/>
         </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="22"/>
@@ -271,7 +270,7 @@
         <property name="shortLabel" value="Phone"/>
         <property name="maxLength" value="20"/>
         <property name="validationPattern">
-            <bean parent="PhoneNumberValidationPattern" />
+            <bean parent="PhoneNumberValidationPattern"/>
         </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="22"/>
@@ -443,7 +442,7 @@
                                         <bean parent="FieldDefinition" p:attributeName="customerInternationalMailCode"/>
                                         <bean parent="FieldDefinition" p:attributeName="customerCountryCode"/>
                                         <bean parent="FieldDefinition" p:attributeName="customerEmailAddress"/>
-                                        <bean parent="FieldDefinition" p:attributeName="customerAddressEndDate"></bean>
+                                        <bean parent="FieldDefinition" p:attributeName="customerAddressEndDate"/>
                                     </list>
                                 </property>
                                 <property name="summaryFields">
@@ -470,7 +469,7 @@
                                         <bean parent="FieldDefinition" p:attributeName="noteText"/>
                                         <bean parent="FieldDefinition" p:attributeName="notePostedTimestamp"/>
                                         <bean parent="FieldDefinition" p:attributeName="authorUniversal.principalName"/>
-                                        <bean parent="FieldDefinition" p:attributeName="attachmentLink" />
+                                        <bean parent="FieldDefinition" p:attributeName="attachmentLink"/>
                                     </list>
                                 </property>
                             </bean>
@@ -491,9 +490,9 @@
     <bean id="Customer-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Customer Lookup"/>
         <property name="lookupableID" value="customerLookupable"/>
-        <property name="instructions" value="Look up a Customer"/>
+        
         <property name="defaultSort">
-            <bean parent="SortDefinition"></bean>
+            <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields">
             <list>
@@ -503,7 +502,7 @@
                 <bean parent="FieldDefinition" p:attributeName="customerPhoneNumber"/>
                 <bean parent="FieldDefinition" p:attributeName="customerTaxNbr"/>
                 <bean parent="FieldDefinition" p:attributeName="customerTaxTypeCode"/>
-                <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y" />
+                <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
                 <bean parent="FieldDefinition" p:attributeName="customerAddresses.customerAddressName"/>
                 <bean parent="FieldDefinition" p:attributeName="customerAddresses.customerLine1StreetAddress"/>
                 <bean parent="FieldDefinition" p:attributeName="customerAddresses.customerLine2StreetAddress"/>

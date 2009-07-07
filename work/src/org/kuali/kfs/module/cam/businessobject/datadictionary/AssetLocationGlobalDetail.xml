@@ -1,41 +1,35 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AssetLocationGlobalDetail" parent="AssetLocationGlobalDetail-parentBean" />
+  <bean id="AssetLocationGlobalDetail" parent="AssetLocationGlobalDetail-parentBean"/>
 
   <bean id="AssetLocationGlobalDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail" />
-    <property name="inquiryDefinition" >
-      <ref bean="AssetLocationGlobalDetail-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail"/>
+    <property name="inquiryDefinition">
+      <ref bean="AssetLocationGlobalDetail-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="AssetLocationGlobalDetail-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="AssetLocationGlobalDetail-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Asset Location Global Detail" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Asset Location Global Detail"/>
+    <property name="attributes">
       <list>
-        <ref bean="AssetLocationGlobalDetail-buildingCode" />
-        <ref bean="AssetLocationGlobalDetail-buildingRoomNumber" />
-        <ref bean="AssetLocationGlobalDetail-buildingSubRoomNumber" />
-        <ref bean="AssetLocationGlobalDetail-campusCode" />
-        <ref bean="AssetLocationGlobalDetail-campusTagNumber" />
-        <ref bean="AssetLocationGlobalDetail-capitalAssetNumber" />
-        <ref bean="AssetLocationGlobalDetail-documentNumber" />
-        <ref bean="AssetLocationGlobalDetail-newCollectionRecord" />
+        <ref bean="AssetLocationGlobalDetail-buildingCode"/>
+        <ref bean="AssetLocationGlobalDetail-buildingRoomNumber"/>
+        <ref bean="AssetLocationGlobalDetail-buildingSubRoomNumber"/>
+        <ref bean="AssetLocationGlobalDetail-campusCode"/>
+        <ref bean="AssetLocationGlobalDetail-campusTagNumber"/>
+        <ref bean="AssetLocationGlobalDetail-capitalAssetNumber"/>
+        <ref bean="AssetLocationGlobalDetail-documentNumber"/>
+        <ref bean="AssetLocationGlobalDetail-newCollectionRecord"/>
       </list>
     </property>
 	<property name="relationships">
     	<list>
 			<bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="campus" />
-              <property name="primitiveAttributes" >
+              <property name="objectAttributeName" value="campus"/>
+              <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition"
-                        p:sourceName="campusCode"
-                        p:targetName="campusCode" />
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="campusCode" p:targetName="campusCode"/>
                 </list>
               </property>
     		</bean>
@@ -45,69 +39,62 @@
 
 <!-- Attribute Definitions -->
 
-  <bean id="AssetLocationGlobalDetail-buildingCode" parent="AssetLocationGlobalDetail-buildingCode-parentBean" />
+  <bean id="AssetLocationGlobalDetail-buildingCode" parent="AssetLocationGlobalDetail-buildingCode-parentBean"/>
   <bean id="AssetLocationGlobalDetail-buildingCode-parentBean" abstract="true" parent="Asset-buildingCode">
   </bean>
   
-  <bean id="AssetLocationGlobalDetail-buildingRoomNumber" parent="AssetLocationGlobalDetail-buildingRoomNumber-parentBean" />
+  <bean id="AssetLocationGlobalDetail-buildingRoomNumber" parent="AssetLocationGlobalDetail-buildingRoomNumber-parentBean"/>
   <bean id="AssetLocationGlobalDetail-buildingRoomNumber-parentBean" abstract="true" parent="Asset-buildingRoomNumber">
   </bean>
   
-  <bean id="AssetLocationGlobalDetail-buildingSubRoomNumber" parent="AssetLocationGlobalDetail-buildingSubRoomNumber-parentBean" />
+  <bean id="AssetLocationGlobalDetail-buildingSubRoomNumber" parent="AssetLocationGlobalDetail-buildingSubRoomNumber-parentBean"/>
   <bean id="AssetLocationGlobalDetail-buildingSubRoomNumber-parentBean" abstract="true" parent="Asset-buildingSubRoomNumber">
   </bean>
   
-  <bean id="AssetLocationGlobalDetail-campusCode" parent="AssetLocationGlobalDetail-campusCode-parentBean" />
+  <bean id="AssetLocationGlobalDetail-campusCode" parent="AssetLocationGlobalDetail-campusCode-parentBean"/>
   <bean id="AssetLocationGlobalDetail-campusCode-parentBean" abstract="true" parent="Asset-campusCode">
-  	<property name="label" value="Campus" />
+  	<property name="label" value="Campus"/>
   </bean>
   
-  <bean id="AssetLocationGlobalDetail-campusTagNumber" parent="AssetLocationGlobalDetail-campusTagNumber-parentBean" />
+  <bean id="AssetLocationGlobalDetail-campusTagNumber" parent="AssetLocationGlobalDetail-campusTagNumber-parentBean"/>
   <bean id="AssetLocationGlobalDetail-campusTagNumber-parentBean" abstract="true" parent="Asset-campusTagNumber">
   	<property name="attributeSecurity">
         <bean parent="AttributeSecurity">
-           <property name="readOnly" value="false" />
+           <property name="readOnly" value="false"/>
        </bean>
 	</property>
   </bean>
   
-  <bean id="AssetLocationGlobalDetail-capitalAssetNumber" parent="AssetLocationGlobalDetail-capitalAssetNumber-parentBean" />
+  <bean id="AssetLocationGlobalDetail-capitalAssetNumber" parent="AssetLocationGlobalDetail-capitalAssetNumber-parentBean"/>
   <bean id="AssetLocationGlobalDetail-capitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber">
   </bean>
   
-  <bean id="AssetLocationGlobalDetail-documentNumber" parent="AssetLocationGlobalDetail-documentNumber-parentBean" />
+  <bean id="AssetLocationGlobalDetail-documentNumber" parent="AssetLocationGlobalDetail-documentNumber-parentBean"/>
   <bean id="AssetLocationGlobalDetail-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
   </bean>
   
-  <bean id="AssetLocationGlobalDetail-newCollectionRecord" parent="AssetLocationGlobalDetail-newCollectionRecord-parentBean" />
-  <bean id="AssetLocationGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord" />
+  <bean id="AssetLocationGlobalDetail-newCollectionRecord" parent="AssetLocationGlobalDetail-newCollectionRecord-parentBean"/>
+  <bean id="AssetLocationGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord"/>
 
 <!-- Business Object Inquiry Definition -->
 
-  <bean id="AssetLocationGlobalDetail-inquiryDefinition" parent="AssetLocationGlobalDetail-inquiryDefinition-parentBean" />
+  <bean id="AssetLocationGlobalDetail-inquiryDefinition" parent="AssetLocationGlobalDetail-inquiryDefinition-parentBean"/>
   <bean id="AssetLocationGlobalDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Asset Location Global Detail Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Asset Location Global Detail Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="buildingCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="buildingRoomNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="buildingSubRoomNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="campusCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="campusTagNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="capitalAssetNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition" p:attributeName="buildingCode"/>
+              <bean parent="FieldDefinition" p:attributeName="buildingRoomNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="buildingSubRoomNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="campusTagNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
             </list>
           </property>
         </bean>
@@ -117,48 +104,34 @@
 
 <!-- Business Object Lookup Definition -->
 
-  <bean id="AssetLocationGlobalDetail-lookupDefinition" parent="AssetLocationGlobalDetail-lookupDefinition-parentBean" />
+  <bean id="AssetLocationGlobalDetail-lookupDefinition" parent="AssetLocationGlobalDetail-lookupDefinition-parentBean"/>
   <bean id="AssetLocationGlobalDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Asset Location Global Detail Lookup" />
-    <property name="instructions" value="Look up an Asset Location Global Detail" />
-    <property name="defaultSort" >
+    <property name="title" value="Asset Location Global Detail Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="buildingCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="buildingRoomNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="buildingSubRoomNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="campusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="campusTagNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition" p:attributeName="buildingCode"/>
+        <bean parent="FieldDefinition" p:attributeName="buildingRoomNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="buildingSubRoomNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="campusTagNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="buildingCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="buildingRoomNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="buildingSubRoomNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="campusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="campusTagNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition" p:attributeName="buildingCode"/>
+        <bean parent="FieldDefinition" p:attributeName="buildingRoomNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="buildingSubRoomNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="campusTagNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
       </list>
     </property>
   </bean>

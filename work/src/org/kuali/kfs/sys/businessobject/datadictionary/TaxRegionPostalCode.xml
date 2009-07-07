@@ -1,67 +1,57 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="TaxRegionPostalCode" parent="TaxRegionPostalCode-parentBean" />
+  <bean id="TaxRegionPostalCode" parent="TaxRegionPostalCode-parentBean"/>
 
   <bean id="TaxRegionPostalCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.TaxRegionPostalCode" />
-    <property name="titleAttribute" value="taxPostalCode" />
-    <property name="objectLabel" value="TaxRegionPostalCode" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.TaxRegionPostalCode"/>
+    <property name="titleAttribute" value="taxPostalCode"/>
+    <property name="objectLabel" value="TaxRegionPostalCode"/>
+    <property name="attributes">
       <list>
-      	<ref bean="TaxRegionPostalCode-postalCountryCode" />
-        <ref bean="TaxRegionPostalCode-postalCode" />
-        <ref bean="TaxRegionPostalCode-taxRegionCode" />
-        <ref bean="TaxRegionPostalCode-active" />
+      	<ref bean="TaxRegionPostalCode-postalCountryCode"/>
+        <ref bean="TaxRegionPostalCode-postalCode"/>
+        <ref bean="TaxRegionPostalCode-taxRegionCode"/>
+        <ref bean="TaxRegionPostalCode-active"/>
       </list>
     </property>
-    <property name="relationships" >
+    <property name="relationships">
       <list>
         <dd:relationship objectAttribute="postalZip">
-        	<dd:primitiveAttribute source="postalCountryCode" target="postalCountryCode" />
-            <dd:primitiveAttribute source="postalCode" target="postalCode" />
+        	<dd:primitiveAttribute source="postalCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="postalCode" target="postalCode"/>
         </dd:relationship>
         <dd:relationship objectAttribute="country">
-            <dd:primitiveAttribute source="postalCountryCode" target="postalCountryCode" />
+            <dd:primitiveAttribute source="postalCountryCode" target="postalCountryCode"/>
         </dd:relationship>        
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
-  <bean id="TaxRegionPostalCode-postalCountryCode" parent="TaxRegionPostalCode-postalCountryCode-parentBean" />
+  <bean id="TaxRegionPostalCode-postalCountryCode" parent="TaxRegionPostalCode-postalCountryCode-parentBean"/>
   
-  <bean id="TaxRegionPostalCode-postalCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
-	p:sourceAttributeName="postalCountryCode">
-	<property name="name" value="postalCountryCode" />
-	<property name="forceUppercase" value="true" />
+  <bean id="TaxRegionPostalCode-postalCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country" p:sourceAttributeName="postalCountryCode">
+	<property name="name" value="postalCountryCode"/>
+	<property name="forceUppercase" value="true"/>
   </bean>	
   
- <bean id="TaxRegionPostalCode-postalCode" parent="TaxRegionPostalCode-postalCode-parentBean" />
+ <bean id="TaxRegionPostalCode-postalCode" parent="TaxRegionPostalCode-postalCode-parentBean"/>
 
-  <bean id="TaxRegionPostalCode-postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
-	p:sourceAttributeName="postalCode">
-    <property name="name" value="postalCode" />
-    <property name="forceUppercase" value="true" />
+  <bean id="TaxRegionPostalCode-postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode" p:sourceAttributeName="postalCode">
+    <property name="name" value="postalCode"/>
+    <property name="forceUppercase" value="true"/>
   </bean>
   
-  <bean id="TaxRegionPostalCode-taxRegionCode" parent="TaxRegionPostalCode-taxRegionCode-parentBean" />
+  <bean id="TaxRegionPostalCode-taxRegionCode" parent="TaxRegionPostalCode-taxRegionCode-parentBean"/>
 
   <bean id="TaxRegionPostalCode-taxRegionCode-parentBean" abstract="true" parent="TaxRegion-taxRegionCode">
-  	<property name="forceUppercase" value="true" />  
+  	<property name="forceUppercase" value="true"/>  
   </bean>
   
-  <bean id="TaxRegionPostalCode-active" parent="TaxRegionPostalCode-active-parentBean" />
+  <bean id="TaxRegionPostalCode-active" parent="TaxRegionPostalCode-active-parentBean"/>
 
   <bean id="TaxRegionPostalCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
   
 </beans>

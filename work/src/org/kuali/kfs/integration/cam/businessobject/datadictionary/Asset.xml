@@ -1,230 +1,208 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="Asset" parent="Asset-parentBean" />
+  <bean id="Asset" parent="Asset-parentBean"/>
 
   <bean id="Asset-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.integration.cam.businessobject.Asset" />
-    <property name="titleAttribute" value="capitalAssetNumber" />
-    <property name="objectLabel" value="Asset" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.integration.cam.businessobject.Asset"/>
+    <property name="titleAttribute" value="capitalAssetNumber"/>
+    <property name="objectLabel" value="Asset"/>
+    <property name="attributes">
       <list>
-        <ref bean="Asset-buildingSubRoomNumber" />
-        <ref bean="Asset-campusTagNumber" />
-        <ref bean="Asset-capitalAssetDescription" />
-        <ref bean="Asset-capitalAssetNumber" />
-        <ref bean="Asset-manufacturerModelNumber" />
-        <ref bean="Asset-manufacturerName" />
-        <ref bean="Asset-serialNumber" />
-        <ref bean="Asset-vendorName" />
-        <ref bean="Asset-capitalAssetTypeCode" />
-        <ref bean="Asset-campusCode" />
-        <ref bean="Asset-buildingCode" />
-        <ref bean="Asset-buildingRoomNumber" />
-        <ref bean="Asset-quantity" />
+        <ref bean="Asset-buildingSubRoomNumber"/>
+        <ref bean="Asset-campusTagNumber"/>
+        <ref bean="Asset-capitalAssetDescription"/>
+        <ref bean="Asset-capitalAssetNumber"/>
+        <ref bean="Asset-manufacturerModelNumber"/>
+        <ref bean="Asset-manufacturerName"/>
+        <ref bean="Asset-serialNumber"/>
+        <ref bean="Asset-vendorName"/>
+        <ref bean="Asset-capitalAssetTypeCode"/>
+        <ref bean="Asset-campusCode"/>
+        <ref bean="Asset-buildingCode"/>
+        <ref bean="Asset-buildingRoomNumber"/>
+        <ref bean="Asset-quantity"/>
       </list>
     </property>
   </bean>
   
-  <bean id="Asset-buildingSubRoomNumber" parent="Asset-buildingSubRoomNumber-parentBean" />
+  <bean id="Asset-buildingSubRoomNumber" parent="Asset-buildingSubRoomNumber-parentBean"/>
   <bean id="Asset-buildingSubRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="buildingSubRoomNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Building Sub Room Number" />
-    <property name="shortLabel" value="Sub Room" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" 
-      		p:allowWhitespace="true" />
+    <property name="name" value="buildingSubRoomNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Building Sub Room Number"/>
+    <property name="shortLabel" value="Sub Room"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
   
   
-  <bean id="Asset-campusTagNumber" parent="Asset-campusTagNumber-parentBean" />
+  <bean id="Asset-campusTagNumber" parent="Asset-campusTagNumber-parentBean"/>
   <bean id="Asset-campusTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="campusTagNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Tag Number" />
-    <property name="shortLabel" value="Tag Number" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="campusTagNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Tag Number"/>
+    <property name="shortLabel" value="Tag Number"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
     <property name="attributeSecurity">
         <bean parent="AttributeSecurity">
-           <property name="readOnly" value="false" />
+           <property name="readOnly" value="false"/>
        </bean>
 	</property> 
   </bean>
   
-  <bean id="Asset-capitalAssetDescription" parent="Asset-capitalAssetDescription-parentBean" />
+  <bean id="Asset-capitalAssetDescription" parent="Asset-capitalAssetDescription-parentBean"/>
   <bean id="Asset-capitalAssetDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Asset Description" />
-    <property name="shortLabel" value="Asset Description" />
-    <property name="maxLength" value="2000" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="capitalAssetDescription"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Asset Description"/>
+    <property name="shortLabel" value="Asset Description"/>
+    <property name="maxLength" value="2000"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="10"
-            p:cols="40" />
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="10" p:cols="40"/>
     </property>
     <property name="attributeSecurity">
         <bean parent="AttributeSecurity">
-           <property name="readOnly" value="false" />
+           <property name="readOnly" value="false"/>
        </bean>
 	</property> 
   </bean>
   
-  <bean id="Asset-capitalAssetNumber" parent="Asset-capitalAssetNumber-parentBean" />
+  <bean id="Asset-capitalAssetNumber" parent="Asset-capitalAssetNumber-parentBean"/>
   <bean id="Asset-capitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Asset Number" />
-    <property name="shortLabel" value="Asset Number" />    
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="capitalAssetNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Asset Number"/>
+    <property name="shortLabel" value="Asset Number"/>    
+    <property name="maxLength" value="12"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="14" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="14"/>
     </property>
   </bean>
   
-  <bean id="Asset-manufacturerModelNumber" parent="Asset-manufacturerModelNumber-parentBean" />
+  <bean id="Asset-manufacturerModelNumber" parent="Asset-manufacturerModelNumber-parentBean"/>
   <bean id="Asset-manufacturerModelNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="manufacturerModelNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Model Number" />
-    <property name="shortLabel" value="Model" />
-    <property name="maxLength" value="25" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="manufacturerModelNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Model Number"/>
+    <property name="shortLabel" value="Model"/>
+    <property name="maxLength" value="25"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="27" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="27"/>
     </property>
   </bean>
   
-  <bean id="Asset-manufacturerName" parent="Asset-manufacturerName-parentBean" />
+  <bean id="Asset-manufacturerName" parent="Asset-manufacturerName-parentBean"/>
   <bean id="Asset-manufacturerName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="manufacturerName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Manufacturer" />
-    <property name="shortLabel" value="Manufacturer" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="manufacturerName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Manufacturer"/>
+    <property name="shortLabel" value="Manufacturer"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="42" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="42"/>
     </property>
   </bean>
   
-  <bean id="Asset-serialNumber" parent="Asset-serialNumber-parentBean" />
+  <bean id="Asset-serialNumber" parent="Asset-serialNumber-parentBean"/>
   <bean id="Asset-serialNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="serialNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Serial Number" />
-    <property name="shortLabel" value="Serial Number" />
-    <property name="maxLength" value="25" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="serialNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Serial Number"/>
+    <property name="shortLabel" value="Serial Number"/>
+    <property name="maxLength" value="25"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="27" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="27"/>
     </property>
   </bean>
   
-  <bean id="Asset-vendorName" parent="Asset-vendorName-parentBean" />
+  <bean id="Asset-vendorName" parent="Asset-vendorName-parentBean"/>
   <bean id="Asset-vendorName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Vendor Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="vendorName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Vendor Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="42" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="42"/>
     </property>
     <property name="attributeSecurity">
         <bean parent="AttributeSecurity">
-           <property name="readOnly" value="true" />
+           <property name="readOnly" value="true"/>
        </bean>
     </property>
   </bean>
 
-  <bean id="Asset-capitalAssetTypeCode" parent="Asset-capitalAssetTypeCode-parentBean" />
+  <bean id="Asset-capitalAssetTypeCode" parent="Asset-capitalAssetTypeCode-parentBean"/>
   <bean id="Asset-capitalAssetTypeCode-parentBean" abstract="true" parent="AssetType-capitalAssetTypeCode">
-    <property name="label" value="Asset Type Code" />
+    <property name="label" value="Asset Type Code"/>
     <property name="attributeSecurity">
         <bean parent="AttributeSecurity">
-           <property name="readOnly" value="false" />
+           <property name="readOnly" value="false"/>
        </bean>
 	</property> 
   </bean>
   
-  <bean id="Asset-campusCode" parent="Asset-campusCode-parentBean" />
+  <bean id="Asset-campusCode" parent="Asset-campusCode-parentBean"/>
   <bean id="Asset-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
-    <property name="label" value="Campus" />
-    <property name="required" value="false" />
-    <property name="forceUppercase" value="true" />    
+    <property name="label" value="Campus"/>
+    <property name="required" value="false"/>
+    <property name="forceUppercase" value="true"/>    
   </bean>
   
-  <bean id="Asset-buildingCode" parent="Asset-buildingCode-parentBean" />
+  <bean id="Asset-buildingCode" parent="Asset-buildingCode-parentBean"/>
   <bean id="Asset-buildingCode-parentBean" abstract="true" parent="Building-buildingCode">
-    <property name="required" value="false" />
-    <property name="forceUppercase" value="true" />    
+    <property name="required" value="false"/>
+    <property name="forceUppercase" value="true"/>    
   </bean>
   
-  <bean id="Asset-buildingRoomNumber" parent="Asset-buildingRoomNumber-parentBean" />
+  <bean id="Asset-buildingRoomNumber" parent="Asset-buildingRoomNumber-parentBean"/>
   <bean id="Asset-buildingRoomNumber-parentBean" abstract="true" parent="Room-buildingRoomNumber">
-    <property name="required" value="false" />
-    <property name="forceUppercase" value="true" />    
+    <property name="required" value="false"/>
+    <property name="forceUppercase" value="true"/>    
   </bean>
   
 
-  <bean id="Asset-quantity" parent="Asset-quantity-parentBean" />
+  <bean id="Asset-quantity" parent="Asset-quantity-parentBean"/>
   <bean id="Asset-quantity-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="quantity" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Quantity" />
-    <property name="shortLabel" value="Quantity" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="quantity"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Quantity"/>
+    <property name="shortLabel" value="Quantity"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
   </bean>
 

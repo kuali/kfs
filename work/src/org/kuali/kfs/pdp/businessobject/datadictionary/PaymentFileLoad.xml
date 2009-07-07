@@ -1,100 +1,93 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
         
-  <bean id="PaymentFileLoad" parent="PaymentFileLoad-parentBean" />
+  <bean id="PaymentFileLoad" parent="PaymentFileLoad-parentBean"/>
 
   <bean id="PaymentFileLoad-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentFileLoad" />
-    <property name="objectLabel" value="Payment File Load" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentFileLoad"/>
+    <property name="objectLabel" value="Payment File Load"/>
+    <property name="attributes">
       <list>
-        <ref bean="PaymentFileLoad-chart" />
-        <ref bean="PaymentFileLoad-unit" />
-        <ref bean="PaymentFileLoad-subUnit" />
-        <ref bean="PaymentFileLoad-creationDate" />
-        <ref bean="PaymentFileLoad-paymentCount" />
-        <ref bean="PaymentFileLoad-paymentTotalAmount" />
-        <ref bean="PaymentFileLoad-batchId" />
+        <ref bean="PaymentFileLoad-chart"/>
+        <ref bean="PaymentFileLoad-unit"/>
+        <ref bean="PaymentFileLoad-subUnit"/>
+        <ref bean="PaymentFileLoad-creationDate"/>
+        <ref bean="PaymentFileLoad-paymentCount"/>
+        <ref bean="PaymentFileLoad-paymentTotalAmount"/>
+        <ref bean="PaymentFileLoad-batchId"/>
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->   
-  <bean id="PaymentFileLoad-chart" parent="PaymentFileLoad-chart-parentBean" />
+  <bean id="PaymentFileLoad-chart" parent="PaymentFileLoad-chart-parentBean"/>
 
   <bean id="PaymentFileLoad-chart-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-      <property name="name" value="chart" />
+      <property name="name" value="chart"/>
   </bean>   
   
-  <bean id="PaymentFileLoad-unit" parent="PaymentFileLoad-unit-parentBean" />
+  <bean id="PaymentFileLoad-unit" parent="PaymentFileLoad-unit-parentBean"/>
 
   <bean id="PaymentFileLoad-unit-parentBean" abstract="true" parent="Organization-organizationCode">
-      <property name="name" value="unit" />
+      <property name="name" value="unit"/>
   </bean>     
 
-  <bean id="PaymentFileLoad-subUnit" parent="PaymentFileLoad-subUnit-parentBean" />
+  <bean id="PaymentFileLoad-subUnit" parent="PaymentFileLoad-subUnit-parentBean"/>
 
   <bean id="PaymentFileLoad-subUnit-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="subUnit" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Sub Unit" />
-    <property name="shortLabel" value="Unt" />
-    <property name="maxLength" value="4" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="name" value="subUnit"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Sub Unit"/>
+    <property name="shortLabel" value="Unt"/>
+    <property name="maxLength" value="4"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
   
-  <bean id="PaymentFileLoad-creationDate" parent="PaymentFileLoad-creationDate-parentBean" />
+  <bean id="PaymentFileLoad-creationDate" parent="PaymentFileLoad-creationDate-parentBean"/>
 
   <bean id="PaymentFileLoad-creationDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
-    <property name="name" value="creationDate" />
-    <property name="label" value="Creation Date" />
-    <property name="shortLabel" value="Create Dt" />
-    <property name="required" value="false" />
+    <property name="name" value="creationDate"/>
+    <property name="label" value="Creation Date"/>
+    <property name="shortLabel" value="Create Dt"/>
+    <property name="required" value="false"/>
   </bean>
   
-  <bean id="PaymentFileLoad-paymentCount" parent="PaymentFileLoad-paymentCount-parentBean" />
+  <bean id="PaymentFileLoad-paymentCount" parent="PaymentFileLoad-paymentCount-parentBean"/>
 
   <bean id="PaymentFileLoad-paymentCount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="paymentCount" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Payment Count" />
-    <property name="shortLabel" value="Count" />
-    <property name="maxLength" value="8" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
+    <property name="name" value="paymentCount"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Payment Count"/>
+    <property name="shortLabel" value="Count"/>
+    <property name="maxLength" value="8"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="8"/>
     </property>
   </bean>
   
-  <bean id="PaymentFileLoad-paymentTotalAmount" parent="PaymentFileLoad-paymentTotalAmount-parentBean" />
+  <bean id="PaymentFileLoad-paymentTotalAmount" parent="PaymentFileLoad-paymentTotalAmount-parentBean"/>
 
   <bean id="PaymentFileLoad-paymentTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="paymentTotalAmount" />
-    <property name="label" value="Payment Total Amount" />
-    <property name="shortLabel" value="Total Amt" />
+    <property name="name" value="paymentTotalAmount"/>
+    <property name="label" value="Payment Total Amount"/>
+    <property name="shortLabel" value="Total Amt"/>
   </bean>
   
-  <bean id="PaymentFileLoad-batchId" parent="PaymentFileLoad-batchId-parentBean" />
+  <bean id="PaymentFileLoad-batchId" parent="PaymentFileLoad-batchId-parentBean"/>
 
   <bean id="PaymentFileLoad-batchId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="batchId" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Batch Id" />
-    <property name="shortLabel" value="Id" />
-    <property name="maxLength" value="8" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
+    <property name="name" value="batchId"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Batch Id"/>
+    <property name="shortLabel" value="Id"/>
+    <property name="maxLength" value="8"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="8"/>
     </property>
   </bean>
   
-</beans>  
+</beans>

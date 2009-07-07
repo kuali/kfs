@@ -1,29 +1,25 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AccountingPeriod" parent="AccountingPeriod-parentBean" />
+  <bean id="AccountingPeriod" parent="AccountingPeriod-parentBean"/>
 
   <bean id="AccountingPeriod-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountingPeriod" />
-    <property name="inquiryDefinition" >
-      <ref bean="AccountingPeriod-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountingPeriod"/>
+    <property name="inquiryDefinition">
+      <ref bean="AccountingPeriod-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="AccountingPeriod-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="AccountingPeriod-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="universityFiscalPeriodCode" />    
-    <property name="objectLabel" value="Accounting Period" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="universityFiscalPeriodCode"/>    
+    <property name="objectLabel" value="Accounting Period"/>
+    <property name="attributes">
       <list>
-        <ref bean="AccountingPeriod-budgetRolloverIndicator" />
-        <ref bean="AccountingPeriod-universityFiscalPeriodName" />
-        <ref bean="AccountingPeriod-active" />
-        <ref bean="AccountingPeriod-universityFiscalPeriodCode" />
-        <ref bean="AccountingPeriod-universityFiscalPeriodEndDate" />
-        <ref bean="AccountingPeriod-universityFiscalYear" />
+        <ref bean="AccountingPeriod-budgetRolloverIndicator"/>
+        <ref bean="AccountingPeriod-universityFiscalPeriodName"/>
+        <ref bean="AccountingPeriod-active"/>
+        <ref bean="AccountingPeriod-universityFiscalPeriodCode"/>
+        <ref bean="AccountingPeriod-universityFiscalPeriodEndDate"/>
+        <ref bean="AccountingPeriod-universityFiscalYear"/>
       </list>
     </property>
   </bean>
@@ -31,114 +27,102 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AccountingPeriod-budgetRolloverIndicator" parent="AccountingPeriod-budgetRolloverIndicator-parentBean" />
+  <bean id="AccountingPeriod-budgetRolloverIndicator" parent="AccountingPeriod-budgetRolloverIndicator-parentBean"/>
 
   <bean id="AccountingPeriod-budgetRolloverIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="budgetRolloverIndicator" />
-    <property name="label" value="Budget Rollover" />
-    <property name="shortLabel" value="Bdgt. Rollover" />
-    <property name="maxLength" value="0" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="budgetRolloverIndicator"/>
+    <property name="label" value="Budget Rollover"/>
+    <property name="shortLabel" value="Bdgt. Rollover"/>
+    <property name="maxLength" value="0"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="AccountingPeriod-universityFiscalPeriodName" parent="AccountingPeriod-universityFiscalPeriodName-parentBean" />
+  <bean id="AccountingPeriod-universityFiscalPeriodName" parent="AccountingPeriod-universityFiscalPeriodName-parentBean"/>
 
   <bean id="AccountingPeriod-universityFiscalPeriodName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="universityFiscalPeriodName" />
-    <property name="label" value="University Fiscal Period Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="universityFiscalPeriodName"/>
+    <property name="label" value="University Fiscal Period Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="AccountingPeriod-active" parent="AccountingPeriod-active-parentBean" />
+  <bean id="AccountingPeriod-active" parent="AccountingPeriod-active-parentBean"/>
 
   <bean id="AccountingPeriod-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
-  <bean id="AccountingPeriod-universityFiscalPeriodCode" parent="AccountingPeriod-universityFiscalPeriodCode-parentBean" />
+  <bean id="AccountingPeriod-universityFiscalPeriodCode" parent="AccountingPeriod-universityFiscalPeriodCode-parentBean"/>
 
   <bean id="AccountingPeriod-universityFiscalPeriodCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="universityFiscalPeriodCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="University Fiscal Period Code" />
-    <property name="shortLabel" value="Fiscal Period Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:exactLength="2" />
+    <property name="name" value="universityFiscalPeriodCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="University Fiscal Period Code"/>
+    <property name="shortLabel" value="Fiscal Period Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:exactLength="2"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.FiscalPeriodValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.FiscalPeriodValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="AccountingPeriod-universityFiscalPeriodEndDate" parent="AccountingPeriod-universityFiscalPeriodEndDate-parentBean" />
+  <bean id="AccountingPeriod-universityFiscalPeriodEndDate" parent="AccountingPeriod-universityFiscalPeriodEndDate-parentBean"/>
 
   <bean id="AccountingPeriod-universityFiscalPeriodEndDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="universityFiscalPeriodEndDate" />
-    <property name="label" value="University Fiscal Period End Date" />
-    <property name="shortLabel" value="End Date" />
-    <property name="required" value="true" />
+    <property name="name" value="universityFiscalPeriodEndDate"/>
+    <property name="label" value="University Fiscal Period End Date"/>
+    <property name="shortLabel" value="End Date"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="AccountingPeriod-universityFiscalYear" parent="AccountingPeriod-universityFiscalYear-parentBean" />
+  <bean id="AccountingPeriod-universityFiscalYear" parent="AccountingPeriod-universityFiscalYear-parentBean"/>
 
   <bean id="AccountingPeriod-universityFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="universityFiscalYear" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="University Fiscal Year" />
-    <property name="shortLabel" value="Fiscal Year" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="YearValidationPattern" />
+    <property name="name" value="universityFiscalYear"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="University Fiscal Year"/>
+    <property name="shortLabel" value="Fiscal Year"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="YearValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="AccountingPeriod-inquiryDefinition" parent="AccountingPeriod-inquiryDefinition-parentBean" />
+  <bean id="AccountingPeriod-inquiryDefinition" parent="AccountingPeriod-inquiryDefinition-parentBean"/>
 
   <bean id="AccountingPeriod-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Accounting Period Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Accounting Period Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYear" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalPeriodCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalPeriodName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalPeriodEndDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="budgetRolloverIndicator" />
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode"/>
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodName"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodEndDate"/>
+              <bean parent="FieldDefinition" p:attributeName="budgetRolloverIndicator"/>
             </list>
           </property>
         </bean>
@@ -149,51 +133,39 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="AccountingPeriod-lookupDefinition" parent="AccountingPeriod-lookupDefinition-parentBean" />
+  <bean id="AccountingPeriod-lookupDefinition" parent="AccountingPeriod-lookupDefinition-parentBean"/>
 
   <bean id="AccountingPeriod-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Accounting Period Lookup" />
-    <property name="instructions" value="Lookup an Accounting Period" />
-    <property name="defaultSort" >
+    <property name="title" value="Accounting Period Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>universityFiscalPeriodCode</value>
           </list>
         </property>
-        <property name="sortAscending" value="false" />
+        <property name="sortAscending" value="false"/>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalPeriodCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalPeriodName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalPeriodEndDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
-        <bean parent="FieldDefinition"
-              p:attributeName="budgetRolloverIndicator" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodName"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodEndDate"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="budgetRolloverIndicator"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalPeriodCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalPeriodName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalPeriodEndDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
-        <bean parent="FieldDefinition"
-              p:attributeName="budgetRolloverIndicator" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodName"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodEndDate"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="budgetRolloverIndicator"/>
       </list>
     </property>
   </bean>

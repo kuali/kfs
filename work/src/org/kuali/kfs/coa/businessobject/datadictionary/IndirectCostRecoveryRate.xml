@@ -1,107 +1,89 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="IndirectCostRecoveryRate" parent="IndirectCostRecoveryRate-parentBean" />
+  <bean id="IndirectCostRecoveryRate" parent="IndirectCostRecoveryRate-parentBean"/>
   <bean id="IndirectCostRecoveryRate-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRate" />
-    <property name="inquiryDefinition" >
-      <ref bean="IndirectCostRecoveryRate-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRate"/>
+    <property name="inquiryDefinition">
+      <ref bean="IndirectCostRecoveryRate-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="IndirectCostRecoveryRate-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="IndirectCostRecoveryRate-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="financialIcrSeriesIdentifier" />
-    <property name="objectLabel" value="Indirect Cost Recovery Rate" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="financialIcrSeriesIdentifier"/>
+    <property name="objectLabel" value="Indirect Cost Recovery Rate"/>
+    <property name="attributes">
       <list>
-        <ref bean="IndirectCostRecoveryRate-universityFiscalYear" />
-        <ref bean="IndirectCostRecoveryRate-financialIcrSeriesIdentifier" />
-        <ref bean="IndirectCostRecoveryRate-active" />
+        <ref bean="IndirectCostRecoveryRate-universityFiscalYear"/>
+        <ref bean="IndirectCostRecoveryRate-financialIcrSeriesIdentifier"/>
+        <ref bean="IndirectCostRecoveryRate-active"/>
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
-  <bean id="IndirectCostRecoveryRate-universityFiscalYear" parent="IndirectCostRecoveryRate-universityFiscalYear-parentBean" />
+  <bean id="IndirectCostRecoveryRate-universityFiscalYear" parent="IndirectCostRecoveryRate-universityFiscalYear-parentBean"/>
   <bean id="IndirectCostRecoveryRate-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="universityFiscalYear" />
-    <property name="forceUppercase" value="true" />
-    <property name="required" value="true" />
+    <property name="name" value="universityFiscalYear"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="required" value="true"/>
   </bean>
   
-  <bean id="IndirectCostRecoveryRate-financialIcrSeriesIdentifier" parent="IndirectCostRecoveryRate-financialIcrSeriesIdentifier-parentBean" />
+  <bean id="IndirectCostRecoveryRate-financialIcrSeriesIdentifier" parent="IndirectCostRecoveryRate-financialIcrSeriesIdentifier-parentBean"/>
   <bean id="IndirectCostRecoveryRate-financialIcrSeriesIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialIcrSeriesIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Rate Id" />
-    <property name="shortLabel" value="Rate Id" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="financialIcrSeriesIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Rate Id"/>
+    <property name="shortLabel" value="Rate Id"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
   
   
-  <bean id="IndirectCostRecoveryRate-active" parent="IndirectCostRecoveryRate-active-parentBean" />
+  <bean id="IndirectCostRecoveryRate-active" parent="IndirectCostRecoveryRate-active-parentBean"/>
   <bean id="IndirectCostRecoveryRate-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-  	<property name="name" value="active" />
+  	<property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
-  <bean id="IndirectCostRecoveryRate-inquiryDefinition" parent="IndirectCostRecoveryRate-inquiryDefinition-parentBean" />
+  <bean id="IndirectCostRecoveryRate-inquiryDefinition" parent="IndirectCostRecoveryRate-inquiryDefinition-parentBean"/>
   <bean id="IndirectCostRecoveryRate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Indirect Cost Recovery Rate Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Indirect Cost Recovery Rate Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Header Text" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Header Text"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYear" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialIcrSeriesIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+              <bean parent="FieldDefinition" p:attributeName="financialIcrSeriesIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
         <bean parent="InquirySectionDefinition" p:title="Indirect Cost Recovery Rate Details">
-          <property name="inquiryFields" >
+          <property name="inquiryFields">
             <list>
-              <bean parent="InquiryCollectionDefinition" p:attributeName="indirectCostRecoveryRateDetails"
-                    p:businessObjectClass="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail">
-                <property name="inquiryFields" >
+              <bean parent="InquiryCollectionDefinition" p:attributeName="indirectCostRecoveryRateDetails" p:businessObjectClass="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail">
+                <property name="inquiryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="awardIndrCostRcvyEntryNbr" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="chartOfAccountsCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="accountNumber" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="subAccountNumber" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="financialObjectCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="financialSubObjectCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="transactionDebitIndicator" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="awardIndrCostRcvyRatePct" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="active" />
+                    <bean parent="FieldDefinition" p:attributeName="awardIndrCostRcvyEntryNbr"/>
+                    <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+                    <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+                    <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="transactionDebitIndicator"/>
+                    <bean parent="FieldDefinition" p:attributeName="awardIndrCostRcvyRatePct"/>
+                    <bean parent="FieldDefinition" p:attributeName="active"/>
                   </list>
                 </property>
               </bean>
@@ -114,14 +96,14 @@
 
 <!-- Business Object Lookup Definition -->
 
-  <bean id="IndirectCostRecoveryRate-lookupDefinition" parent="IndirectCostRecoveryRate-lookupDefinition-parentBean" />
+  <bean id="IndirectCostRecoveryRate-lookupDefinition" parent="IndirectCostRecoveryRate-lookupDefinition-parentBean"/>
   <bean id="IndirectCostRecoveryRate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Indirect Cost Recovery Rate Lookup" />
+    <property name="title" value="Indirect Cost Recovery Rate Lookup"/>
 
-    <property name="instructions" value="Lookup an Indirect Cost Recovery Rate" />
-    <property name="defaultSort" >
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>universityFiscalYear</value>
             <value>financialIcrSeriesIdentifier</value>
@@ -129,25 +111,18 @@
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialIcrSeriesIdentifier" />
-        <bean parent="FieldDefinition"
-        	  p:defaultValue="Y"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="financialIcrSeriesIdentifier"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialIcrSeriesIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="financialIcrSeriesIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

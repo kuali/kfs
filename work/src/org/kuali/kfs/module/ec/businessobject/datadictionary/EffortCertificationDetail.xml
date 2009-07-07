@@ -1,40 +1,36 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="EffortCertificationDetail" parent="EffortCertificationDetail-parentBean" />
+  <bean id="EffortCertificationDetail" parent="EffortCertificationDetail-parentBean"/>
 
   <bean id="EffortCertificationDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail" />
-    <property name="objectLabel" value="Effort Certification Detail Line" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail"/>
+    <property name="objectLabel" value="Effort Certification Detail Line"/>
     
-    <property name="inquiryDefinition" >
-      <ref bean="EffortCertificationDetail-inquiryDefinition" />
+    <property name="inquiryDefinition">
+      <ref bean="EffortCertificationDetail-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="EffortCertificationDetail-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="EffortCertificationDetail-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="EffortCertificationDetail-documentNumber" />
-        <ref bean="EffortCertificationDetail-effortCertificationOriginalPayrollAmount" />
-        <ref bean="EffortCertificationDetail-effortCertificationPayrollAmount" />
-        <ref bean="EffortCertificationDetail-effortCertificationCalculatedOverallPercent" />
-        <ref bean="EffortCertificationDetail-effortCertificationUpdatedOverallPercent" />
-        <ref bean="EffortCertificationDetail-accountNumber" />
-        <ref bean="EffortCertificationDetail-chartOfAccountsCode" />
-        <ref bean="EffortCertificationDetail-subAccountNumber" />
-        <ref bean="EffortCertificationDetail-universityFiscalYear" />
-        <ref bean="EffortCertificationDetail-financialObjectCode" />
-        <ref bean="EffortCertificationDetail-positionNumber" />
-        <ref bean="EffortCertificationDetail-sourceAccountNumber" />
-        <ref bean="EffortCertificationDetail-sourceChartOfAccountsCode" />
-        <ref bean="EffortCertificationDetail-costShareSourceSubAccountNumber" />
-        <ref bean="EffortCertificationDetail-accountExpiredOverride" />
-        <ref bean="EffortCertificationDetail-originalFringeBenefitAmount" />
-        <ref bean="EffortCertificationDetail-fringeBenefitAmount" />
+        <ref bean="EffortCertificationDetail-documentNumber"/>
+        <ref bean="EffortCertificationDetail-effortCertificationOriginalPayrollAmount"/>
+        <ref bean="EffortCertificationDetail-effortCertificationPayrollAmount"/>
+        <ref bean="EffortCertificationDetail-effortCertificationCalculatedOverallPercent"/>
+        <ref bean="EffortCertificationDetail-effortCertificationUpdatedOverallPercent"/>
+        <ref bean="EffortCertificationDetail-accountNumber"/>
+        <ref bean="EffortCertificationDetail-chartOfAccountsCode"/>
+        <ref bean="EffortCertificationDetail-subAccountNumber"/>
+        <ref bean="EffortCertificationDetail-universityFiscalYear"/>
+        <ref bean="EffortCertificationDetail-financialObjectCode"/>
+        <ref bean="EffortCertificationDetail-positionNumber"/>
+        <ref bean="EffortCertificationDetail-sourceAccountNumber"/>
+        <ref bean="EffortCertificationDetail-sourceChartOfAccountsCode"/>
+        <ref bean="EffortCertificationDetail-costShareSourceSubAccountNumber"/>
+        <ref bean="EffortCertificationDetail-accountExpiredOverride"/>
+        <ref bean="EffortCertificationDetail-originalFringeBenefitAmount"/>
+        <ref bean="EffortCertificationDetail-fringeBenefitAmount"/>
       </list>
     </property>
   </bean>
@@ -42,202 +38,179 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="EffortCertificationDetail-documentNumber" parent="EffortCertificationDetail-documentNumber-parentBean" />
+  <bean id="EffortCertificationDetail-documentNumber" parent="EffortCertificationDetail-documentNumber-parentBean"/>
 
   <bean id="EffortCertificationDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
   </bean>
-  <bean id="EffortCertificationDetail-effortCertificationOriginalPayrollAmount" parent="EffortCertificationDetail-effortCertificationOriginalPayrollAmount-parentBean" />
+  <bean id="EffortCertificationDetail-effortCertificationOriginalPayrollAmount" parent="EffortCertificationDetail-effortCertificationOriginalPayrollAmount-parentBean"/>
 
   <bean id="EffortCertificationDetail-effortCertificationOriginalPayrollAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="effortCertificationOriginalPayrollAmount" />
-    <property name="label" value="Original Salary" />
-    <property name="shortLabel" value="Original Salary" />
+    <property name="name" value="effortCertificationOriginalPayrollAmount"/>
+    <property name="label" value="Original Salary"/>
+    <property name="shortLabel" value="Original Salary"/>
     
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="EffortCertificationDetail-effortCertificationPayrollAmount" parent="EffortCertificationDetail-effortCertificationPayrollAmount-parentBean" />
+  <bean id="EffortCertificationDetail-effortCertificationPayrollAmount" parent="EffortCertificationDetail-effortCertificationPayrollAmount-parentBean"/>
 
   <bean id="EffortCertificationDetail-effortCertificationPayrollAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="effortCertificationPayrollAmount" />
-    <property name="label" value="Salary" />
-    <property name="shortLabel" value="Salary" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="effortCertificationPayrollAmount"/>
+    <property name="label" value="Salary"/>
+    <property name="shortLabel" value="Salary"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="EffortCertificationDetail-effortCertificationCalculatedOverallPercent" parent="EffortCertificationDetail-effortCertificationCalculatedOverallPercent-parentBean" />
+  <bean id="EffortCertificationDetail-effortCertificationCalculatedOverallPercent" parent="EffortCertificationDetail-effortCertificationCalculatedOverallPercent-parentBean"/>
 
   <bean id="EffortCertificationDetail-effortCertificationCalculatedOverallPercent-parentBean" abstract="true" parent="GenericAttributes-percent">
-    <property name="name" value="effortCertificationCalculatedOverallPercent" />
-    <property name="label" value="Original Effort" />
-    <property name="shortLabel" value="Original Effort" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter" />
+    <property name="name" value="effortCertificationCalculatedOverallPercent"/>
+    <property name="label" value="Original Effort"/>
+    <property name="shortLabel" value="Original Effort"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter"/>
   </bean>
-  <bean id="EffortCertificationDetail-effortCertificationUpdatedOverallPercent" parent="EffortCertificationDetail-effortCertificationUpdatedOverallPercent-parentBean" />
+  <bean id="EffortCertificationDetail-effortCertificationUpdatedOverallPercent" parent="EffortCertificationDetail-effortCertificationUpdatedOverallPercent-parentBean"/>
 
   <bean id="EffortCertificationDetail-effortCertificationUpdatedOverallPercent-parentBean" abstract="true" parent="GenericAttributes-percent">
-    <property name="name" value="effortCertificationUpdatedOverallPercent" />
-    <property name="label" value="Effort" />
-    <property name="shortLabel" value="Effort" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter" />
+    <property name="name" value="effortCertificationUpdatedOverallPercent"/>
+    <property name="label" value="Effort"/>
+    <property name="shortLabel" value="Effort"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter"/>
   </bean>
-  <bean id="EffortCertificationDetail-accountNumber" parent="EffortCertificationDetail-accountNumber-parentBean" />
+  <bean id="EffortCertificationDetail-accountNumber" parent="EffortCertificationDetail-accountNumber-parentBean"/>
 
   <bean id="EffortCertificationDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="label" value="Account" />
+    <property name="label" value="Account"/>
   </bean>
-  <bean id="EffortCertificationDetail-chartOfAccountsCode" parent="EffortCertificationDetail-chartOfAccountsCode-parentBean" />
+  <bean id="EffortCertificationDetail-chartOfAccountsCode" parent="EffortCertificationDetail-chartOfAccountsCode-parentBean"/>
 
   <bean id="EffortCertificationDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="label" value="Chart" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="label" value="Chart"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="EffortCertificationDetail-subAccountNumber" parent="EffortCertificationDetail-subAccountNumber-parentBean" />
+  <bean id="EffortCertificationDetail-subAccountNumber" parent="EffortCertificationDetail-subAccountNumber-parentBean"/>
 
   <bean id="EffortCertificationDetail-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
-    <property name="label" value="CS Sub-Acct" />
-    <property name="required" value="false" />
+    <property name="label" value="CS Sub-Acct"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="EffortCertificationDetail-universityFiscalYear" parent="EffortCertificationDetail-universityFiscalYear-parentBean" />
+  <bean id="EffortCertificationDetail-universityFiscalYear" parent="EffortCertificationDetail-universityFiscalYear-parentBean"/>
 
   <bean id="EffortCertificationDetail-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="universityFiscalYear" />
-    <property name="label" value="Financial Document Posting Year" />
-    <property name="shortLabel" value="Posting Year" />
+    <property name="name" value="universityFiscalYear"/>
+    <property name="label" value="Financial Document Posting Year"/>
+    <property name="shortLabel" value="Posting Year"/>
   </bean>
-  <bean id="EffortCertificationDetail-financialObjectCode" parent="EffortCertificationDetail-financialObjectCode-parentBean" />
+  <bean id="EffortCertificationDetail-financialObjectCode" parent="EffortCertificationDetail-financialObjectCode-parentBean"/>
 
   <bean id="EffortCertificationDetail-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.ec.businessobject.options.ObjectCodeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ec.businessobject.options.ObjectCodeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="EffortCertificationDetail-positionNumber" parent="EffortCertificationDetail-positionNumber-parentBean" />
+  <bean id="EffortCertificationDetail-positionNumber" parent="EffortCertificationDetail-positionNumber-parentBean"/>
 
   <bean id="EffortCertificationDetail-positionNumber-parentBean" abstract="true" parent="PositionData-positionNumber">
-    <property name="shortLabel" value="Position" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.ec.businessobject.options.PositionNumberValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="shortLabel" value="Position"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ec.businessobject.options.PositionNumberValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="EffortCertificationDetail-sourceAccountNumber" parent="EffortCertificationDetail-sourceAccountNumber-parentBean" />
+  <bean id="EffortCertificationDetail-sourceAccountNumber" parent="EffortCertificationDetail-sourceAccountNumber-parentBean"/>
 
   <bean id="EffortCertificationDetail-sourceAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="sourceAccountNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Source Account" />
-    <property name="shortLabel" value="Source Account" />
-    <property name="maxLength" value="7" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="name" value="sourceAccountNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Source Account"/>
+    <property name="shortLabel" value="Source Account"/>
+    <property name="maxLength" value="7"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="EffortCertificationDetail-sourceChartOfAccountsCode" parent="EffortCertificationDetail-sourceChartOfAccountsCode-parentBean" />
+  <bean id="EffortCertificationDetail-sourceChartOfAccountsCode" parent="EffortCertificationDetail-sourceChartOfAccountsCode-parentBean"/>
 
   <bean id="EffortCertificationDetail-sourceChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="sourceChartOfAccountsCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Source Chart" />
-    <property name="shortLabel" value="Source Chart" />
-    <property name="maxLength" value="2" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="name" value="sourceChartOfAccountsCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Source Chart"/>
+    <property name="shortLabel" value="Source Chart"/>
+    <property name="maxLength" value="2"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
   </bean>
-  <bean id="EffortCertificationDetail-costShareSourceSubAccountNumber" parent="EffortCertificationDetail-costShareSourceSubAccountNumber-parentBean" />
+  <bean id="EffortCertificationDetail-costShareSourceSubAccountNumber" parent="EffortCertificationDetail-costShareSourceSubAccountNumber-parentBean"/>
 
   <bean id="EffortCertificationDetail-costShareSourceSubAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="costShareSourceSubAccountNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Src Sub-Acct" />
-    <property name="shortLabel" value="Src Sub-Acct" />
-    <property name="maxLength" value="5" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="name" value="costShareSourceSubAccountNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Src Sub-Acct"/>
+    <property name="shortLabel" value="Src Sub-Acct"/>
+    <property name="maxLength" value="5"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
   </bean>
-  <bean id="EffortCertificationDetail-accountExpiredOverride" parent="EffortCertificationDetail-accountExpiredOverride-parentBean" />
+  <bean id="EffortCertificationDetail-accountExpiredOverride" parent="EffortCertificationDetail-accountExpiredOverride-parentBean"/>
 
   <bean id="EffortCertificationDetail-accountExpiredOverride-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountExpiredOverride" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Account Expired Override" />
-    <property name="shortLabel" value="Expired Override" />
-    <property name="maxLength" value="1" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="accountExpiredOverride"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Account Expired Override"/>
+    <property name="shortLabel" value="Expired Override"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="EffortCertificationDetail-originalFringeBenefitAmount" parent="EffortCertificationDetail-originalFringeBenefitAmount-parentBean" />
+  <bean id="EffortCertificationDetail-originalFringeBenefitAmount" parent="EffortCertificationDetail-originalFringeBenefitAmount-parentBean"/>
 
   <bean id="EffortCertificationDetail-originalFringeBenefitAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="originalFringeBenefitAmount" />
-    <property name="label" value="Original Fringe Benefit" />
-    <property name="shortLabel" value="Original F-Ben" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="originalFringeBenefitAmount"/>
+    <property name="label" value="Original Fringe Benefit"/>
+    <property name="shortLabel" value="Original F-Ben"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="EffortCertificationDetail-fringeBenefitAmount" parent="EffortCertificationDetail-fringeBenefitAmount-parentBean" />
+  <bean id="EffortCertificationDetail-fringeBenefitAmount" parent="EffortCertificationDetail-fringeBenefitAmount-parentBean"/>
 
   <bean id="EffortCertificationDetail-fringeBenefitAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="fringeBenefitAmount" />
-    <property name="label" value="Fringe Benefit" />
-    <property name="shortLabel" value="F-Ben" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="fringeBenefitAmount"/>
+    <property name="label" value="Fringe Benefit"/>
+    <property name="shortLabel" value="F-Ben"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="EffortCertificationDetail-inquiryDefinition" parent="EffortCertificationDetail-inquiryDefinition-parentBean" />
+  <bean id="EffortCertificationDetail-inquiryDefinition" parent="EffortCertificationDetail-inquiryDefinition-parentBean"/>
 
   <bean id="EffortCertificationDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Effort Certification Detail Line Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Effort Certification Detail Line Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="documentNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYear" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="accountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="subAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="positionNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="sourceChartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="sourceAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationPayrollAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationCalculatedOverallPercent" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationUpdatedOverallPercent" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="costShareSourceSubAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationOriginalPayrollAmount" />
+              <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="sourceChartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="sourceAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationPayrollAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationCalculatedOverallPercent"/>
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationUpdatedOverallPercent"/>
+              <bean parent="FieldDefinition" p:attributeName="costShareSourceSubAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationOriginalPayrollAmount"/>
             </list>
           </property>
         </bean>
@@ -248,56 +221,38 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="EffortCertificationDetail-lookupDefinition" parent="EffortCertificationDetail-lookupDefinition-parentBean" />
+  <bean id="EffortCertificationDetail-lookupDefinition" parent="EffortCertificationDetail-lookupDefinition-parentBean"/>
 
   <bean id="EffortCertificationDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Effort Certification Detail Line Lookup" />
-    <property name="instructions" value="Look up an Effort Certification Detail Line" />
-    <property name="defaultSort" >
+    <property name="title" value="Effort Certification Detail Line Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:required="true"
-              p:attributeName="documentNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="subAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionNumber" />
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="documentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="documentNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="sourceChartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="sourceAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="subAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationPayrollAmount" />
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sourceChartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="sourceAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationPayrollAmount"/>
       </list>
     </property>
   </bean>

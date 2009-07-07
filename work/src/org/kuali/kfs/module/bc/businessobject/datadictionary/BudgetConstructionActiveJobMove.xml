@@ -1,30 +1,26 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="BudgetConstructionActiveJobMove" parent="BudgetConstructionActiveJobMove-parentBean" />
+  <bean id="BudgetConstructionActiveJobMove" parent="BudgetConstructionActiveJobMove-parentBean"/>
 
   <bean id="BudgetConstructionActiveJobMove-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionActiveJobMove" />
-    <property name="inquiryDefinition" >
-      <ref bean="BudgetConstructionActiveJobMove-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionActiveJobMove"/>
+    <property name="inquiryDefinition">
+      <ref bean="BudgetConstructionActiveJobMove-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="BudgetConstructionActiveJobMove-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="BudgetConstructionActiveJobMove-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Budget Construction Active Job Move" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Budget Construction Active Job Move"/>
+    <property name="attributes">
       <list>
-        <ref bean="BudgetConstructionActiveJobMove-departmentIdentifier" />
-        <ref bean="BudgetConstructionActiveJobMove-effectiveDate" />
-        <ref bean="BudgetConstructionActiveJobMove-effectiveSequence" />
-        <ref bean="BudgetConstructionActiveJobMove-emplid" />
-        <ref bean="BudgetConstructionActiveJobMove-employeeRecord" />
-        <ref bean="BudgetConstructionActiveJobMove-employeeStatus" />
-        <ref bean="BudgetConstructionActiveJobMove-principalId" />
-        <ref bean="BudgetConstructionActiveJobMove-positionNumber" />
+        <ref bean="BudgetConstructionActiveJobMove-departmentIdentifier"/>
+        <ref bean="BudgetConstructionActiveJobMove-effectiveDate"/>
+        <ref bean="BudgetConstructionActiveJobMove-effectiveSequence"/>
+        <ref bean="BudgetConstructionActiveJobMove-emplid"/>
+        <ref bean="BudgetConstructionActiveJobMove-employeeRecord"/>
+        <ref bean="BudgetConstructionActiveJobMove-employeeStatus"/>
+        <ref bean="BudgetConstructionActiveJobMove-principalId"/>
+        <ref bean="BudgetConstructionActiveJobMove-positionNumber"/>
       </list>
     </property>
   </bean>
@@ -32,146 +28,138 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="BudgetConstructionActiveJobMove-departmentIdentifier" parent="BudgetConstructionActiveJobMove-departmentIdentifier-parentBean" />
+  <bean id="BudgetConstructionActiveJobMove-departmentIdentifier" parent="BudgetConstructionActiveJobMove-departmentIdentifier-parentBean"/>
 
   <bean id="BudgetConstructionActiveJobMove-departmentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="departmentIdentifier" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Department Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="departmentIdentifier"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Department Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionActiveJobMove-effectiveDate" parent="BudgetConstructionActiveJobMove-effectiveDate-parentBean" />
+  <bean id="BudgetConstructionActiveJobMove-effectiveDate" parent="BudgetConstructionActiveJobMove-effectiveDate-parentBean"/>
 
   <bean id="BudgetConstructionActiveJobMove-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="effectiveDate" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Effective Date" />
-    <property name="shortLabel" value="Date" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
+    <property name="name" value="effectiveDate"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Effective Date"/>
+    <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+      <bean parent="DateValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionActiveJobMove-effectiveSequence" parent="BudgetConstructionActiveJobMove-effectiveSequence-parentBean" />
+  <bean id="BudgetConstructionActiveJobMove-effectiveSequence" parent="BudgetConstructionActiveJobMove-effectiveSequence-parentBean"/>
 
   <bean id="BudgetConstructionActiveJobMove-effectiveSequence-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="effectiveSequence" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Effective Sequence" />
-    <property name="shortLabel" value="Sequence" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="effectiveSequence"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Effective Sequence"/>
+    <property name="shortLabel" value="Sequence"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionActiveJobMove-emplid" parent="BudgetConstructionActiveJobMove-emplid-parentBean" />
+  <bean id="BudgetConstructionActiveJobMove-emplid" parent="BudgetConstructionActiveJobMove-emplid-parentBean"/>
 
   <bean id="BudgetConstructionActiveJobMove-emplid-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="emplid" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Emplid" />
-    <property name="shortLabel" value="Emplid" />
-    <property name="maxLength" value="11" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="emplid"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Emplid"/>
+    <property name="shortLabel" value="Emplid"/>
+    <property name="maxLength" value="11"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="13" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="13"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionActiveJobMove-employeeRecord" parent="BudgetConstructionActiveJobMove-employeeRecord-parentBean" />
+  <bean id="BudgetConstructionActiveJobMove-employeeRecord" parent="BudgetConstructionActiveJobMove-employeeRecord-parentBean"/>
 
   <bean id="BudgetConstructionActiveJobMove-employeeRecord-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="employeeRecord" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Employee Record" />
-    <property name="shortLabel" value="Record" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="employeeRecord"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Employee Record"/>
+    <property name="shortLabel" value="Record"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionActiveJobMove-employeeStatus" parent="BudgetConstructionActiveJobMove-employeeStatus-parentBean" />
+  <bean id="BudgetConstructionActiveJobMove-employeeStatus" parent="BudgetConstructionActiveJobMove-employeeStatus-parentBean"/>
 
   <bean id="BudgetConstructionActiveJobMove-employeeStatus-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="employeeStatus" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Employee Status" />
-    <property name="shortLabel" value="Status" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="employeeStatus"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Employee Status"/>
+    <property name="shortLabel" value="Status"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionActiveJobMove-principalId" parent="BudgetConstructionActiveJobMove-principalId-parentBean" />
+  <bean id="BudgetConstructionActiveJobMove-principalId" parent="BudgetConstructionActiveJobMove-principalId-parentBean"/>
 
   <bean id="BudgetConstructionActiveJobMove-principalId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="principalId" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Person Universal Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="principalId"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Person Universal Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionActiveJobMove-positionNumber" parent="BudgetConstructionActiveJobMove-positionNumber-parentBean" />
+  <bean id="BudgetConstructionActiveJobMove-positionNumber" parent="BudgetConstructionActiveJobMove-positionNumber-parentBean"/>
 
   <bean id="BudgetConstructionActiveJobMove-positionNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="positionNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Position Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="positionNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Position Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
     
     
@@ -180,33 +168,25 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="BudgetConstructionActiveJobMove-inquiryDefinition" parent="BudgetConstructionActiveJobMove-inquiryDefinition-parentBean" />
+  <bean id="BudgetConstructionActiveJobMove-inquiryDefinition" parent="BudgetConstructionActiveJobMove-inquiryDefinition-parentBean"/>
 
   <bean id="BudgetConstructionActiveJobMove-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Budget Construction Active Job Move Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Budget Construction Active Job Move Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="departmentIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effectiveDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effectiveSequence" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="emplid" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="employeeRecord" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="employeeStatus" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="principalId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="positionNumber" />
+              <bean parent="FieldDefinition" p:attributeName="departmentIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+              <bean parent="FieldDefinition" p:attributeName="effectiveSequence"/>
+              <bean parent="FieldDefinition" p:attributeName="emplid"/>
+              <bean parent="FieldDefinition" p:attributeName="employeeRecord"/>
+              <bean parent="FieldDefinition" p:attributeName="employeeStatus"/>
+              <bean parent="FieldDefinition" p:attributeName="principalId"/>
+              <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
             </list>
           </property>
         </bean>
@@ -217,55 +197,38 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="BudgetConstructionActiveJobMove-lookupDefinition" parent="BudgetConstructionActiveJobMove-lookupDefinition-parentBean" />
+  <bean id="BudgetConstructionActiveJobMove-lookupDefinition" parent="BudgetConstructionActiveJobMove-lookupDefinition-parentBean"/>
 
   <bean id="BudgetConstructionActiveJobMove-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Budget Construction Active Job Move Lookup" />
-    <property name="instructions" value="Look up a Budget Construction Active Job Move" />
-    <property name="defaultSort" >
+    <property name="title" value="Budget Construction Active Job Move Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="departmentIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effectiveDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effectiveSequence" />
-        <bean parent="FieldDefinition"
-              p:attributeName="emplid" />
-        <bean parent="FieldDefinition"
-              p:attributeName="employeeRecord" />
-        <bean parent="FieldDefinition"
-              p:attributeName="employeeStatus" />
-        <bean parent="FieldDefinition"
-              p:attributeName="principalId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionNumber" />
+        <bean parent="FieldDefinition" p:attributeName="departmentIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+        <bean parent="FieldDefinition" p:attributeName="effectiveSequence"/>
+        <bean parent="FieldDefinition" p:attributeName="emplid"/>
+        <bean parent="FieldDefinition" p:attributeName="employeeRecord"/>
+        <bean parent="FieldDefinition" p:attributeName="employeeStatus"/>
+        <bean parent="FieldDefinition" p:attributeName="principalId"/>
+        <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="departmentIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effectiveDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effectiveSequence" />
-        <bean parent="FieldDefinition"
-              p:attributeName="emplid" />
-        <bean parent="FieldDefinition"
-              p:attributeName="employeeRecord" />
-        <bean parent="FieldDefinition"
-              p:attributeName="employeeStatus" />
-        <bean parent="FieldDefinition"
-              p:attributeName="principalId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionNumber" />
+        <bean parent="FieldDefinition" p:attributeName="departmentIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+        <bean parent="FieldDefinition" p:attributeName="effectiveSequence"/>
+        <bean parent="FieldDefinition" p:attributeName="emplid"/>
+        <bean parent="FieldDefinition" p:attributeName="employeeRecord"/>
+        <bean parent="FieldDefinition" p:attributeName="employeeStatus"/>
+        <bean parent="FieldDefinition" p:attributeName="principalId"/>
+        <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
       </list>
     </property>
   </bean>
 </beans>
-

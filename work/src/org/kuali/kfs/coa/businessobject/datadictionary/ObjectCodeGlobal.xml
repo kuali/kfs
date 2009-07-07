@@ -1,31 +1,27 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="ObjectCodeGlobal" parent="ObjectCodeGlobal-parentBean" />
+  <bean id="ObjectCodeGlobal" parent="ObjectCodeGlobal-parentBean"/>
 
   <bean id="ObjectCodeGlobal-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ObjectCodeGlobal" />
-    <property name="objectLabel" value="Object Code Global" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ObjectCodeGlobal"/>
+    <property name="objectLabel" value="Object Code Global"/>
+    <property name="attributes">
       <list>
-        <ref bean="ObjectCodeGlobal-universityFiscalYear" />
-        <ref bean="ObjectCodeGlobal-chartOfAccountsCode" />
-        <ref bean="ObjectCodeGlobal-financialObjectCode" />
-        <ref bean="ObjectCodeGlobal-financialObjectCodeName" />
-        <ref bean="ObjectCodeGlobal-financialObjectCodeShortName" />
-        <ref bean="ObjectCodeGlobal-financialObjectLevelCode" />
-        <ref bean="ObjectCodeGlobal-reportsToFinancialObjectCode" />
-        <ref bean="ObjectCodeGlobal-financialObjectTypeCode" />
-        <ref bean="ObjectCodeGlobal-financialObjectSubTypeCode" />
-        <ref bean="ObjectCodeGlobal-historicalFinancialObjectCode" />
-        <ref bean="ObjectCodeGlobal-financialObjectActiveIndicator" />
-        <ref bean="ObjectCodeGlobal-financialBudgetAggregationCd" />
-        <ref bean="ObjectCodeGlobal-finObjMandatoryTrnfrOrElimCd" />
-        <ref bean="ObjectCodeGlobal-financialFederalFundedCode" />
-        <ref bean="ObjectCodeGlobal-nextYearFinancialObjectCode" />
+        <ref bean="ObjectCodeGlobal-universityFiscalYear"/>
+        <ref bean="ObjectCodeGlobal-chartOfAccountsCode"/>
+        <ref bean="ObjectCodeGlobal-financialObjectCode"/>
+        <ref bean="ObjectCodeGlobal-financialObjectCodeName"/>
+        <ref bean="ObjectCodeGlobal-financialObjectCodeShortName"/>
+        <ref bean="ObjectCodeGlobal-financialObjectLevelCode"/>
+        <ref bean="ObjectCodeGlobal-reportsToFinancialObjectCode"/>
+        <ref bean="ObjectCodeGlobal-financialObjectTypeCode"/>
+        <ref bean="ObjectCodeGlobal-financialObjectSubTypeCode"/>
+        <ref bean="ObjectCodeGlobal-historicalFinancialObjectCode"/>
+        <ref bean="ObjectCodeGlobal-financialObjectActiveIndicator"/>
+        <ref bean="ObjectCodeGlobal-financialBudgetAggregationCd"/>
+        <ref bean="ObjectCodeGlobal-finObjMandatoryTrnfrOrElimCd"/>
+        <ref bean="ObjectCodeGlobal-financialFederalFundedCode"/>
+        <ref bean="ObjectCodeGlobal-nextYearFinancialObjectCode"/>
       </list>
     </property>
   </bean>
@@ -33,230 +29,212 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="ObjectCodeGlobal-universityFiscalYear" parent="ObjectCodeGlobal-universityFiscalYear-parentBean" />
+  <bean id="ObjectCodeGlobal-universityFiscalYear" parent="ObjectCodeGlobal-universityFiscalYear-parentBean"/>
 
   <bean id="ObjectCodeGlobal-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="universityFiscalYear" />
-    <property name="label" value="Fiscal Year" />
-    <property name="shortLabel" value="FY" />
-    <property name="required" value="false" />
+    <property name="name" value="universityFiscalYear"/>
+    <property name="label" value="Fiscal Year"/>
+    <property name="shortLabel" value="FY"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="ObjectCodeGlobal-chartOfAccountsCode" parent="ObjectCodeGlobal-chartOfAccountsCode-parentBean" />
+  <bean id="ObjectCodeGlobal-chartOfAccountsCode" parent="ObjectCodeGlobal-chartOfAccountsCode-parentBean"/>
 
   <bean id="ObjectCodeGlobal-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="ObjectCodeGlobal-financialObjectCode" parent="ObjectCodeGlobal-financialObjectCode-parentBean" />
+  <bean id="ObjectCodeGlobal-financialObjectCode" parent="ObjectCodeGlobal-financialObjectCode-parentBean"/>
 
   <bean id="ObjectCodeGlobal-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Object Code" />
-    <property name="shortLabel" value="Object" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="financialObjectCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Object Code"/>
+    <property name="shortLabel" value="Object"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="ObjectCodeGlobal-financialObjectCodeName" parent="ObjectCodeGlobal-financialObjectCodeName-parentBean" />
+  <bean id="ObjectCodeGlobal-financialObjectCodeName" parent="ObjectCodeGlobal-financialObjectCodeName-parentBean"/>
 
   <bean id="ObjectCodeGlobal-financialObjectCodeName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectCodeName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Object Code Name" />
-    <property name="shortLabel" value="ObjCodeName" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="financialObjectCodeName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Object Code Name"/>
+    <property name="shortLabel" value="ObjCodeName"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
   </bean>
-  <bean id="ObjectCodeGlobal-financialObjectCodeShortName" parent="ObjectCodeGlobal-financialObjectCodeShortName-parentBean" />
+  <bean id="ObjectCodeGlobal-financialObjectCodeShortName" parent="ObjectCodeGlobal-financialObjectCodeShortName-parentBean"/>
 
   <bean id="ObjectCodeGlobal-financialObjectCodeShortName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectCodeShortName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Object Code Short Name" />
-    <property name="shortLabel" value="ObjCodeShortName" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="financialObjectCodeShortName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Object Code Short Name"/>
+    <property name="shortLabel" value="ObjCodeShortName"/>
+    <property name="maxLength" value="12"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
   </bean>
-  <bean id="ObjectCodeGlobal-financialObjectLevelCode" parent="ObjectCodeGlobal-financialObjectLevelCode-parentBean" />
+  <bean id="ObjectCodeGlobal-financialObjectLevelCode" parent="ObjectCodeGlobal-financialObjectLevelCode-parentBean"/>
 
   <bean id="ObjectCodeGlobal-financialObjectLevelCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectLevelCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Object Level Code" />
-    <property name="shortLabel" value="ObjLevlCde" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="financialObjectLevelCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Object Level Code"/>
+    <property name="shortLabel" value="ObjLevlCde"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="ObjectCodeGlobal-reportsToFinancialObjectCode" parent="ObjectCodeGlobal-reportsToFinancialObjectCode-parentBean" />
+  <bean id="ObjectCodeGlobal-reportsToFinancialObjectCode" parent="ObjectCodeGlobal-reportsToFinancialObjectCode-parentBean"/>
 
   <bean id="ObjectCodeGlobal-reportsToFinancialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="reportsToFinancialObjectCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Reports To Object Code" />
-    <property name="shortLabel" value="RptsToObjCode" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="reportsToFinancialObjectCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Reports To Object Code"/>
+    <property name="shortLabel" value="RptsToObjCode"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="ObjectCodeGlobal-financialObjectTypeCode" parent="ObjectCodeGlobal-financialObjectTypeCode-parentBean" />
+  <bean id="ObjectCodeGlobal-financialObjectTypeCode" parent="ObjectCodeGlobal-financialObjectTypeCode-parentBean"/>
 
   <bean id="ObjectCodeGlobal-financialObjectTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Object Type Code" />
-    <property name="shortLabel" value="Object Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="financialObjectTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Object Type Code"/>
+    <property name="shortLabel" value="Object Type"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
   </bean>
-  <bean id="ObjectCodeGlobal-financialObjectSubTypeCode" parent="ObjectCodeGlobal-financialObjectSubTypeCode-parentBean" />
+  <bean id="ObjectCodeGlobal-financialObjectSubTypeCode" parent="ObjectCodeGlobal-financialObjectSubTypeCode-parentBean"/>
 
   <bean id="ObjectCodeGlobal-financialObjectSubTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectSubTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Object Sub-Type Code" />
-    <property name="shortLabel" value="ObjSubTypCode" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="financialObjectSubTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Object Sub-Type Code"/>
+    <property name="shortLabel" value="ObjSubTypCode"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
   </bean>
-  <bean id="ObjectCodeGlobal-historicalFinancialObjectCode" parent="ObjectCodeGlobal-historicalFinancialObjectCode-parentBean" />
+  <bean id="ObjectCodeGlobal-historicalFinancialObjectCode" parent="ObjectCodeGlobal-historicalFinancialObjectCode-parentBean"/>
 
   <bean id="ObjectCodeGlobal-historicalFinancialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="historicalFinancialObjectCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Historical Financial Object Code" />
-    <property name="shortLabel" value="HistFinObjCde" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="historicalFinancialObjectCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Historical Financial Object Code"/>
+    <property name="shortLabel" value="HistFinObjCde"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="ObjectCodeGlobal-financialObjectActiveIndicator" parent="ObjectCodeGlobal-financialObjectActiveIndicator-parentBean" />
+  <bean id="ObjectCodeGlobal-financialObjectActiveIndicator" parent="ObjectCodeGlobal-financialObjectActiveIndicator-parentBean"/>
 
   <bean id="ObjectCodeGlobal-financialObjectActiveIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectActiveIndicator" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Active Code" />
-    <property name="shortLabel" value="Ac." />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="financialObjectActiveIndicator"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Active Code"/>
+    <property name="shortLabel" value="Ac."/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
   </bean>
-  <bean id="ObjectCodeGlobal-financialBudgetAggregationCd" parent="ObjectCodeGlobal-financialBudgetAggregationCd-parentBean" />
+  <bean id="ObjectCodeGlobal-financialBudgetAggregationCd" parent="ObjectCodeGlobal-financialBudgetAggregationCd-parentBean"/>
 
   <bean id="ObjectCodeGlobal-financialBudgetAggregationCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialBudgetAggregationCd" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Budget Aggregation Code" />
-    <property name="shortLabel" value="BudgetAggCde" />
-    <property name="maxLength" value="1" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
+    <property name="name" value="financialBudgetAggregationCd"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Budget Aggregation Code"/>
+    <property name="shortLabel" value="BudgetAggCde"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="1"/>
     </property>
   </bean>
-  <bean id="ObjectCodeGlobal-finObjMandatoryTrnfrOrElimCd" parent="ObjectCodeGlobal-finObjMandatoryTrnfrOrElimCd-parentBean" />
+  <bean id="ObjectCodeGlobal-finObjMandatoryTrnfrOrElimCd" parent="ObjectCodeGlobal-finObjMandatoryTrnfrOrElimCd-parentBean"/>
 
   <bean id="ObjectCodeGlobal-finObjMandatoryTrnfrOrElimCd-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="finObjMandatoryTrnfrOrElimCd" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Mandatory Transfer Or Eliminations Code" />
-    <property name="shortLabel" value="ManTranOrElimCode" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
+    <property name="name" value="finObjMandatoryTrnfrOrElimCd"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Mandatory Transfer Or Eliminations Code"/>
+    <property name="shortLabel" value="ManTranOrElimCode"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="1"/>
     </property>
   </bean>
-  <bean id="ObjectCodeGlobal-financialFederalFundedCode" parent="ObjectCodeGlobal-financialFederalFundedCode-parentBean" />
+  <bean id="ObjectCodeGlobal-financialFederalFundedCode" parent="ObjectCodeGlobal-financialFederalFundedCode-parentBean"/>
 
   <bean id="ObjectCodeGlobal-financialFederalFundedCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialFederalFundedCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Federal Funded Code" />
-    <property name="shortLabel" value="FedFundCd" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.FederalFundedCodeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="financialFederalFundedCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Federal Funded Code"/>
+    <property name="shortLabel" value="FedFundCd"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.FederalFundedCodeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="ObjectCodeGlobal-nextYearFinancialObjectCode" parent="ObjectCodeGlobal-nextYearFinancialObjectCode-parentBean" />
+  <bean id="ObjectCodeGlobal-nextYearFinancialObjectCode" parent="ObjectCodeGlobal-nextYearFinancialObjectCode-parentBean"/>
 
   <bean id="ObjectCodeGlobal-nextYearFinancialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nextYearFinancialObjectCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Next Year Object Code" />
-    <property name="shortLabel" value="NextYearObjCode" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="nextYearFinancialObjectCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Next Year Object Code"/>
+    <property name="shortLabel" value="NextYearObjCode"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
 </beans>

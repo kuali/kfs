@@ -1,29 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PurchaseOrderVendorChoice" parent="PurchaseOrderVendorChoice-parentBean" />
+  <bean id="PurchaseOrderVendorChoice" parent="PurchaseOrderVendorChoice-parentBean"/>
 
   <bean id="PurchaseOrderVendorChoice-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice" />
-    <property name="inquiryDefinition" >
-      <ref bean="PurchaseOrderVendorChoice-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice"/>
+    <property name="inquiryDefinition">
+      <ref bean="PurchaseOrderVendorChoice-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="PurchaseOrderVendorChoice-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="PurchaseOrderVendorChoice-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="purchaseOrderVendorChoiceCode" />
-    <property name="objectLabel" value="Purchase Order Vendor Choice" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="purchaseOrderVendorChoiceCode"/>
+    <property name="objectLabel" value="Purchase Order Vendor Choice"/>
+    <property name="attributes">
       <list>
-        <ref bean="PurchaseOrderVendorChoice-purchaseOrderVendorChoiceCode" />
-        <ref bean="PurchaseOrderVendorChoice-purchaseOrderVendorChoiceDescription" />
-        <ref bean="PurchaseOrderVendorChoice-active" />
+        <ref bean="PurchaseOrderVendorChoice-purchaseOrderVendorChoiceCode"/>
+        <ref bean="PurchaseOrderVendorChoice-purchaseOrderVendorChoiceDescription"/>
+        <ref bean="PurchaseOrderVendorChoice-active"/>
       </list>
     </property>
   </bean>
@@ -31,64 +24,58 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="PurchaseOrderVendorChoice-purchaseOrderVendorChoiceCode" parent="PurchaseOrderVendorChoice-purchaseOrderVendorChoiceCode-parentBean" />
+  <bean id="PurchaseOrderVendorChoice-purchaseOrderVendorChoiceCode" parent="PurchaseOrderVendorChoice-purchaseOrderVendorChoiceCode-parentBean"/>
 
   <bean id="PurchaseOrderVendorChoice-purchaseOrderVendorChoiceCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderVendorChoiceCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Purchase Order Vendor Choice Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="purchaseOrderVendorChoiceCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Purchase Order Vendor Choice Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderVendorChoice-purchaseOrderVendorChoiceDescription" parent="PurchaseOrderVendorChoice-purchaseOrderVendorChoiceDescription-parentBean" />
+  <bean id="PurchaseOrderVendorChoice-purchaseOrderVendorChoiceDescription" parent="PurchaseOrderVendorChoice-purchaseOrderVendorChoiceDescription-parentBean"/>
 
   <bean id="PurchaseOrderVendorChoice-purchaseOrderVendorChoiceDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderVendorChoiceDescription" />
-    <property name="label" value="Purchase Order Vendor Choice Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="purchaseOrderVendorChoiceDescription"/>
+    <property name="label" value="Purchase Order Vendor Choice Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="47" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderVendorChoice-active" parent="PurchaseOrderVendorChoice-active-parentBean" />
+  <bean id="PurchaseOrderVendorChoice-active" parent="PurchaseOrderVendorChoice-active-parentBean"/>
 
   <bean id="PurchaseOrderVendorChoice-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="PurchaseOrderVendorChoice-inquiryDefinition" parent="PurchaseOrderVendorChoice-inquiryDefinition-parentBean" />
+  <bean id="PurchaseOrderVendorChoice-inquiryDefinition" parent="PurchaseOrderVendorChoice-inquiryDefinition-parentBean"/>
 
   <bean id="PurchaseOrderVendorChoice-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Purchase Order Vendor Choice Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Purchase Order Vendor Choice Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderVendorChoiceCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderVendorChoiceDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="purchaseOrderVendorChoiceCode"/>
+              <bean parent="FieldDefinition" p:attributeName="purchaseOrderVendorChoiceDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -99,33 +86,27 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="PurchaseOrderVendorChoice-lookupDefinition" parent="PurchaseOrderVendorChoice-lookupDefinition-parentBean" />
+  <bean id="PurchaseOrderVendorChoice-lookupDefinition" parent="PurchaseOrderVendorChoice-lookupDefinition-parentBean"/>
 
   <bean id="PurchaseOrderVendorChoice-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Purchase Order Vendor Choice Lookup" />
-    <property name="instructions" value="Lookup a Purchase Order Vendor Choice" />
-    <property name="defaultSort" >
+    <property name="title" value="Purchase Order Vendor Choice Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderVendorChoiceCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderVendorChoiceDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderVendorChoiceCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderVendorChoiceDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderVendorChoiceCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderVendorChoiceDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderVendorChoiceCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderVendorChoiceDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

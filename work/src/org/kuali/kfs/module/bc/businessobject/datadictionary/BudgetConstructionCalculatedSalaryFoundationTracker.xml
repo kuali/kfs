@@ -1,34 +1,30 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker" parent="BudgetConstructionCalculatedSalaryFoundationTracker-parentBean" />
+  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker" parent="BudgetConstructionCalculatedSalaryFoundationTracker-parentBean"/>
 
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionCalculatedSalaryFoundationTracker" />
-    <property name="inquiryDefinition" >
-      <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionCalculatedSalaryFoundationTracker"/>
+    <property name="inquiryDefinition">
+      <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Budget Construction Calculated Salary Foundation Tracker" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Budget Construction Calculated Salary Foundation Tracker"/>
+    <property name="attributes">
       <list>
-        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-accountNumber" />
-        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-chartOfAccountsCode" />
-        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-csfAmount" />
-        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-csfFullTimeEmploymentQuantity" />
-        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-csfFundingStatusCode" />
-        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-csfTimePercent" />
-        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-emplid" />
-        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-financialObjectCode" />
-        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-financialSubObjectCode" />
-        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-positionNumber" />
-        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-subAccountNumber" />
-        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-universityFiscalYear" />
+        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-accountNumber"/>
+        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-chartOfAccountsCode"/>
+        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-csfAmount"/>
+        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-csfFullTimeEmploymentQuantity"/>
+        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-csfFundingStatusCode"/>
+        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-csfTimePercent"/>
+        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-emplid"/>
+        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-financialObjectCode"/>
+        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-financialSubObjectCode"/>
+        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-positionNumber"/>
+        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-subAccountNumber"/>
+        <ref bean="BudgetConstructionCalculatedSalaryFoundationTracker-universityFiscalYear"/>
       </list>
     </property>
   </bean>
@@ -36,215 +32,203 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-accountNumber" parent="BudgetConstructionCalculatedSalaryFoundationTracker-accountNumber-parentBean" />
+  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-accountNumber" parent="BudgetConstructionCalculatedSalaryFoundationTracker-accountNumber-parentBean"/>
 
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Account Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="accountNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Account Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-chartOfAccountsCode" parent="BudgetConstructionCalculatedSalaryFoundationTracker-chartOfAccountsCode-parentBean" />
+  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-chartOfAccountsCode" parent="BudgetConstructionCalculatedSalaryFoundationTracker-chartOfAccountsCode-parentBean"/>
 
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="chartOfAccountsCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Chart Of Accounts Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="chartOfAccountsCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Chart Of Accounts Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-csfAmount" parent="BudgetConstructionCalculatedSalaryFoundationTracker-csfAmount-parentBean" />
+  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-csfAmount" parent="BudgetConstructionCalculatedSalaryFoundationTracker-csfAmount-parentBean"/>
 
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-csfAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="csfAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="CSF Amount" />
-    <property name="shortLabel" value="CSF Amt" />
-    <property name="maxLength" value="16" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="csfAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="CSF Amount"/>
+    <property name="shortLabel" value="CSF Amt"/>
+    <property name="maxLength" value="16"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="17" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="17"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-csfFullTimeEmploymentQuantity" parent="BudgetConstructionCalculatedSalaryFoundationTracker-csfFullTimeEmploymentQuantity-parentBean" />
+  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-csfFullTimeEmploymentQuantity" parent="BudgetConstructionCalculatedSalaryFoundationTracker-csfFullTimeEmploymentQuantity-parentBean"/>
 
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-csfFullTimeEmploymentQuantity-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="csfFullTimeEmploymentQuantity" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Csf Full Time Employment Quantity" />
-    <property name="shortLabel" value="CSF FTE" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="csfFullTimeEmploymentQuantity"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Csf Full Time Employment Quantity"/>
+    <property name="shortLabel" value="CSF FTE"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-csfFundingStatusCode" parent="BudgetConstructionCalculatedSalaryFoundationTracker-csfFundingStatusCode-parentBean" />
+  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-csfFundingStatusCode" parent="BudgetConstructionCalculatedSalaryFoundationTracker-csfFundingStatusCode-parentBean"/>
 
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-csfFundingStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="csfFundingStatusCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Csf Funding Status Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="csfFundingStatusCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Csf Funding Status Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-csfTimePercent" parent="BudgetConstructionCalculatedSalaryFoundationTracker-csfTimePercent-parentBean" />
+  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-csfTimePercent" parent="BudgetConstructionCalculatedSalaryFoundationTracker-csfTimePercent-parentBean"/>
 
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-csfTimePercent-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="csfTimePercent" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Csf Time Percent" />
-    <property name="shortLabel" value="Percent" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="csfTimePercent"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Csf Time Percent"/>
+    <property name="shortLabel" value="Percent"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-emplid" parent="BudgetConstructionCalculatedSalaryFoundationTracker-emplid-parentBean" />
+  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-emplid" parent="BudgetConstructionCalculatedSalaryFoundationTracker-emplid-parentBean"/>
 
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-emplid-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="emplid" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Emplid" />
-    <property name="shortLabel" value="Emplid" />
-    <property name="maxLength" value="11" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="emplid"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Emplid"/>
+    <property name="shortLabel" value="Emplid"/>
+    <property name="maxLength" value="11"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="13" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="13"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-financialObjectCode" parent="BudgetConstructionCalculatedSalaryFoundationTracker-financialObjectCode-parentBean" />
+  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-financialObjectCode" parent="BudgetConstructionCalculatedSalaryFoundationTracker-financialObjectCode-parentBean"/>
 
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Object Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="financialObjectCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Financial Object Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-financialSubObjectCode" parent="BudgetConstructionCalculatedSalaryFoundationTracker-financialSubObjectCode-parentBean" />
+  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-financialSubObjectCode" parent="BudgetConstructionCalculatedSalaryFoundationTracker-financialSubObjectCode-parentBean"/>
 
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
-    <property name="label" value="Financial Sub Object Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="label" value="Financial Sub Object Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>    
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-positionNumber" parent="BudgetConstructionCalculatedSalaryFoundationTracker-positionNumber-parentBean" />
+  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-positionNumber" parent="BudgetConstructionCalculatedSalaryFoundationTracker-positionNumber-parentBean"/>
 
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-positionNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="positionNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Position Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="positionNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Position Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-subAccountNumber" parent="BudgetConstructionCalculatedSalaryFoundationTracker-subAccountNumber-parentBean" />
+  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-subAccountNumber" parent="BudgetConstructionCalculatedSalaryFoundationTracker-subAccountNumber-parentBean"/>
 
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-subAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="subAccountNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Sub Account Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="5" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="subAccountNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Sub Account Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="5"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="7"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-universityFiscalYear" parent="BudgetConstructionCalculatedSalaryFoundationTracker-universityFiscalYear-parentBean" />
+  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-universityFiscalYear" parent="BudgetConstructionCalculatedSalaryFoundationTracker-universityFiscalYear-parentBean"/>
 
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-universityFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="universityFiscalYear" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="University Fiscal Year" />
-    <property name="shortLabel" value="Year" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="universityFiscalYear"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="University Fiscal Year"/>
+    <property name="shortLabel" value="Year"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
     
     
@@ -253,41 +237,29 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-inquiryDefinition" parent="BudgetConstructionCalculatedSalaryFoundationTracker-inquiryDefinition-parentBean" />
+  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-inquiryDefinition" parent="BudgetConstructionCalculatedSalaryFoundationTracker-inquiryDefinition-parentBean"/>
 
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Budget Construction Calculated Salary Foundation Tracker Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Budget Construction Calculated Salary Foundation Tracker Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="accountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="csfAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="csfFullTimeEmploymentQuantity" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="csfFundingStatusCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="csfTimePercent" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="emplid" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialSubObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="positionNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="subAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYear" />
+              <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="csfAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="csfFullTimeEmploymentQuantity"/>
+              <bean parent="FieldDefinition" p:attributeName="csfFundingStatusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="csfTimePercent"/>
+              <bean parent="FieldDefinition" p:attributeName="emplid"/>
+              <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
             </list>
           </property>
         </bean>
@@ -298,69 +270,45 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-lookupDefinition" parent="BudgetConstructionCalculatedSalaryFoundationTracker-lookupDefinition-parentBean" />
+  <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-lookupDefinition" parent="BudgetConstructionCalculatedSalaryFoundationTracker-lookupDefinition-parentBean"/>
 
   <bean id="BudgetConstructionCalculatedSalaryFoundationTracker-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Calculated Salary Foundation Tracker Lookup" />
-    <property name="instructions" value="Look up a Budget Construction Calculated Salary Foundation Tracker" />
-    <property name="defaultSort" >
+    <property name="title" value="Calculated Salary Foundation Tracker Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="csfAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="csfFullTimeEmploymentQuantity" />
-        <bean parent="FieldDefinition"
-              p:attributeName="csfFundingStatusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="csfTimePercent" />
-        <bean parent="FieldDefinition"
-              p:attributeName="emplid" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSubObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="subAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="csfAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="csfFullTimeEmploymentQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="csfFundingStatusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="csfTimePercent"/>
+        <bean parent="FieldDefinition" p:attributeName="emplid"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="csfAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="csfFullTimeEmploymentQuantity" />
-        <bean parent="FieldDefinition"
-              p:attributeName="csfFundingStatusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="csfTimePercent" />
-        <bean parent="FieldDefinition"
-              p:attributeName="emplid" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSubObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="subAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="csfAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="csfFullTimeEmploymentQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="csfFundingStatusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="csfTimePercent"/>
+        <bean parent="FieldDefinition" p:attributeName="emplid"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
       </list>
     </property>
   </bean>

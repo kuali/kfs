@@ -1,338 +1,316 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="AssetGlobal" parent="AssetGlobal-parentBean" />
+  <bean id="AssetGlobal" parent="AssetGlobal-parentBean"/>
   
   <bean id="AssetGlobal-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetGlobal" />
-    <property name="objectLabel" value="Asset Global" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetGlobal"/>
+    <property name="objectLabel" value="Asset Global"/>
+    <property name="attributes">
       <list>
-        <ref bean="AssetGlobal-separateSourceCapitalAssetNumber" />
-        <ref bean="AssetGlobal-totalCostAmount" />
-        <ref bean="AssetGlobal-calculateEqualSourceAmountsButton" />
-        <ref bean="AssetGlobal-organizationOwnerChartOfAccountsCode" />
-        <ref bean="AssetGlobal-organizationOwnerAccountNumber" />
-        <ref bean="AssetGlobal-organizationOwnerAccount.organizationCode" />
-        <ref bean="AssetGlobal-agencyNumber" />
-        <ref bean="AssetGlobal-acquisitionTypeCode" />
-        <ref bean="AssetGlobal-inventoryStatusCode" />
-        <ref bean="AssetGlobal-conditionCode" />
-        <ref bean="AssetGlobal-capitalAssetDescription" />
-        <ref bean="AssetGlobal-capitalAssetTypeCode" />
-        <ref bean="AssetGlobal-vendorName" />
-        <ref bean="AssetGlobal-manufacturerName" />
-        <ref bean="AssetGlobal-manufacturerModelNumber" />
-        <ref bean="AssetGlobal-organizationText" />
-        <ref bean="AssetGlobal-representativeUniversalIdentifier" />
-        <ref bean="AssetGlobal-assetRepresentative.principalName" />
-        <ref bean="AssetGlobal-assetRepresentative.name" />
-        <ref bean="AssetGlobal-lastInventoryDate" />
-        <ref bean="AssetGlobal-createDate" />
-        <ref bean="AssetGlobal-capitalAssetInServiceDate" />
-        <ref bean="AssetGlobal-capitalAssetDepreciationDate" />
-        <ref bean="AssetGlobal-landCountyName" />
-        <ref bean="AssetGlobal-landAcreageSize" />
-        <ref bean="AssetGlobal-landParcelNumber" />
-        <ref bean="AssetGlobal-financialDocumentNextLineNumber" />
-        <ref bean="AssetGlobal-financialDocumentTypeCode" />
-        <ref bean="AssetGlobal-separateSourcePaymentSequenceNumber" />
-        <ref bean="AssetGlobal-capitalAssetBuilderOriginIndicator" />
-        <ref bean="AssetGlobal-calculateSeparateSourceRemainingAmountButton" />
-        <ref bean="AssetGlobal-separateSourceRemainingAmount" />
-        <ref bean="AssetGlobal-separateSourceTotalAmount" />
-        <ref bean="AssetGlobal-totalAssetPaymentAmount" />        
-        <ref bean="AssetGlobal-documentNumber" />        
+        <ref bean="AssetGlobal-separateSourceCapitalAssetNumber"/>
+        <ref bean="AssetGlobal-totalCostAmount"/>
+        <ref bean="AssetGlobal-calculateEqualSourceAmountsButton"/>
+        <ref bean="AssetGlobal-organizationOwnerChartOfAccountsCode"/>
+        <ref bean="AssetGlobal-organizationOwnerAccountNumber"/>
+        <ref bean="AssetGlobal-organizationOwnerAccount.organizationCode"/>
+        <ref bean="AssetGlobal-agencyNumber"/>
+        <ref bean="AssetGlobal-acquisitionTypeCode"/>
+        <ref bean="AssetGlobal-inventoryStatusCode"/>
+        <ref bean="AssetGlobal-conditionCode"/>
+        <ref bean="AssetGlobal-capitalAssetDescription"/>
+        <ref bean="AssetGlobal-capitalAssetTypeCode"/>
+        <ref bean="AssetGlobal-vendorName"/>
+        <ref bean="AssetGlobal-manufacturerName"/>
+        <ref bean="AssetGlobal-manufacturerModelNumber"/>
+        <ref bean="AssetGlobal-organizationText"/>
+        <ref bean="AssetGlobal-representativeUniversalIdentifier"/>
+        <ref bean="AssetGlobal-assetRepresentative.principalName"/>
+        <ref bean="AssetGlobal-assetRepresentative.name"/>
+        <ref bean="AssetGlobal-lastInventoryDate"/>
+        <ref bean="AssetGlobal-createDate"/>
+        <ref bean="AssetGlobal-capitalAssetInServiceDate"/>
+        <ref bean="AssetGlobal-capitalAssetDepreciationDate"/>
+        <ref bean="AssetGlobal-landCountyName"/>
+        <ref bean="AssetGlobal-landAcreageSize"/>
+        <ref bean="AssetGlobal-landParcelNumber"/>
+        <ref bean="AssetGlobal-financialDocumentNextLineNumber"/>
+        <ref bean="AssetGlobal-financialDocumentTypeCode"/>
+        <ref bean="AssetGlobal-separateSourcePaymentSequenceNumber"/>
+        <ref bean="AssetGlobal-capitalAssetBuilderOriginIndicator"/>
+        <ref bean="AssetGlobal-calculateSeparateSourceRemainingAmountButton"/>
+        <ref bean="AssetGlobal-separateSourceRemainingAmount"/>
+        <ref bean="AssetGlobal-separateSourceTotalAmount"/>
+        <ref bean="AssetGlobal-totalAssetPaymentAmount"/>        
+        <ref bean="AssetGlobal-documentNumber"/>        
       </list>
     </property>
-	<property name="relationships" >
+	<property name="relationships">
       <list>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="assetRepresentative" />
-          <property name="primitiveAttributes" >
+          <property name="objectAttributeName" value="assetRepresentative"/>
+          <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="representativeUniversalIdentifier"
-                    p:targetName="principalId" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="representativeUniversalIdentifier" p:targetName="principalId"/>
             </list>
           </property>
-          <property name="supportAttributes" >
+          <property name="supportAttributes">
             <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="assetRepresentative.principalName"
-                    p:targetName="principalName" />
-              <bean parent="SupportAttributeDefinition"
-                    p:sourceName="assetRepresentative.name"
-                    p:targetName="name" />
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="assetRepresentative.principalName" p:targetName="principalName"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="assetRepresentative.name" p:targetName="name"/>
             </list>
           </property>
         </bean>
         <dd:relationship objectAttribute="agency">
-			<dd:primitiveAttribute source="agencyNumber" target="agencyNumber" />
+			<dd:primitiveAttribute source="agencyNumber" target="agencyNumber"/>
         </dd:relationship>
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
-  <bean id="AssetGlobal-documentNumber" parent="AssetGlobal-documentNumber-parentBean" />
+  <bean id="AssetGlobal-documentNumber" parent="AssetGlobal-documentNumber-parentBean"/>
   <bean id="AssetGlobal-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
   </bean>  
   
-  <bean id="AssetGlobal-separateSourceCapitalAssetNumber" parent="AssetGlobal-separateSourceCapitalAssetNumber-parentBean" />
+  <bean id="AssetGlobal-separateSourceCapitalAssetNumber" parent="AssetGlobal-separateSourceCapitalAssetNumber-parentBean"/>
   <bean id="AssetGlobal-separateSourceCapitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber">
-    <property name="name" value="separateSourceCapitalAssetNumber" />
+    <property name="name" value="separateSourceCapitalAssetNumber"/>
   </bean>  
   
-  <bean id="AssetGlobal-totalCostAmount" parent="AssetGlobal-totalCostAmount-parentBean" />
+  <bean id="AssetGlobal-totalCostAmount" parent="AssetGlobal-totalCostAmount-parentBean"/>
   <bean id="AssetGlobal-totalCostAmount-parentBean" abstract="true" parent="Asset-totalCostAmount">
-    <property name="name" value="totalCostAmount" />
+    <property name="name" value="totalCostAmount"/>
   </bean>
   
-  <bean id="AssetGlobal-calculateEqualSourceAmountsButton" parent="AssetGlobal-calculateEqualSourceAmountsButton-parentBean" />
+  <bean id="AssetGlobal-calculateEqualSourceAmountsButton" parent="AssetGlobal-calculateEqualSourceAmountsButton-parentBean"/>
   <bean id="AssetGlobal-calculateEqualSourceAmountsButton-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="calculateEqualSourceAmountsButton" />
-    <property name="label" value="Calculate Equal Source Amounts" />
-    <property name="shortLabel" value="Calculate Equal Source Amounts" />
-    <property name="control" >
-      <bean parent="ButtonControlDefinition"
-            p:imageSrc="tinybutton-allocate.gif"
-            p:styleClass="globalbuttons" />
+    <property name="name" value="calculateEqualSourceAmountsButton"/>
+    <property name="label" value="Calculate Equal Source Amounts"/>
+    <property name="shortLabel" value="Calculate Equal Source Amounts"/>
+    <property name="control">
+      <bean parent="ButtonControlDefinition" p:imageSrc="tinybutton-allocate.gif" p:styleClass="globalbuttons"/>
     </property>
   </bean>
 
-  <bean id="AssetGlobal-organizationOwnerChartOfAccountsCode" parent="AssetGlobal-organizationOwnerChartOfAccountsCode-parentBean" />
+  <bean id="AssetGlobal-organizationOwnerChartOfAccountsCode" parent="AssetGlobal-organizationOwnerChartOfAccountsCode-parentBean"/>
   <bean id="AssetGlobal-organizationOwnerChartOfAccountsCode-parentBean" abstract="true" parent="Asset-organizationOwnerChartOfAccountsCode">
     <property name="attributeSecurity">
         <bean parent="AttributeSecurity">
-            <property name="readOnly" value="false" />
+            <property name="readOnly" value="false"/>
         </bean>
     </property>
   </bean>
   
-  <bean id="AssetGlobal-organizationOwnerAccountNumber" parent="AssetGlobal-organizationOwnerAccountNumber-parentBean" />
+  <bean id="AssetGlobal-organizationOwnerAccountNumber" parent="AssetGlobal-organizationOwnerAccountNumber-parentBean"/>
   <bean id="AssetGlobal-organizationOwnerAccountNumber-parentBean" abstract="true" parent="Asset-organizationOwnerAccountNumber">
     <property name="attributeSecurity">
         <bean parent="AttributeSecurity">
-            <property name="readOnly" value="false" />
+            <property name="readOnly" value="false"/>
         </bean>
     </property>
   </bean>
 
-  <bean id="AssetGlobal-organizationOwnerAccount.organizationCode" parent="AssetGlobal-organizationOwnerAccount.organizationCode-parentBean" />
+  <bean id="AssetGlobal-organizationOwnerAccount.organizationCode" parent="AssetGlobal-organizationOwnerAccount.organizationCode-parentBean"/>
   <bean id="AssetGlobal-organizationOwnerAccount.organizationCode-parentBean" abstract="true" parent="Account-organizationCode">
-    <property name="name" value="organizationOwnerAccount.organizationCode" />
-    <property name="label" value="Organization Owner Organization Code" />
-	<property name="shortLabel" value="Org Code" />    
+    <property name="name" value="organizationOwnerAccount.organizationCode"/>
+    <property name="label" value="Organization Owner Organization Code"/>
+	<property name="shortLabel" value="Org Code"/>    
   </bean>
 
-  <bean id="AssetGlobal-agencyNumber" parent="AssetGlobal-agencyNumber-parentBean" />
+  <bean id="AssetGlobal-agencyNumber" parent="AssetGlobal-agencyNumber-parentBean"/>
   <bean id="AssetGlobal-agencyNumber-parentBean" abstract="true" parent="Asset-agencyNumber">
   	<property name="attributeSecurity">
         <bean parent="AttributeSecurity">
-           <property name="readOnly" value="false" />
+           <property name="readOnly" value="false"/>
        </bean>
     </property>
   </bean>
 
-  <bean id="AssetGlobal-acquisitionTypeCode" parent="AssetGlobal-acquisitionTypeCode-parentBean" />
+  <bean id="AssetGlobal-acquisitionTypeCode" parent="AssetGlobal-acquisitionTypeCode-parentBean"/>
   <bean id="AssetGlobal-acquisitionTypeCode-parentBean" abstract="true" parent="Asset-acquisitionTypeCode">
-  	  <property name="label" value="Acquisition Type Code" />
+  	  <property name="label" value="Acquisition Type Code"/>
   </bean>
 
-  <bean id="AssetGlobal-inventoryStatusCode" parent="AssetGlobal-inventoryStatusCode-parentBean" />
+  <bean id="AssetGlobal-inventoryStatusCode" parent="AssetGlobal-inventoryStatusCode-parentBean"/>
   <bean id="AssetGlobal-inventoryStatusCode-parentBean" abstract="true" parent="Asset-inventoryStatusCode">
-    <property name="forceUppercase" value="true" />
-  	<property name="label" value="Asset Status Code" />
+    <property name="forceUppercase" value="true"/>
+  	<property name="label" value="Asset Status Code"/>
   </bean>
 
-  <bean id="AssetGlobal-conditionCode" parent="AssetGlobal-conditionCode-parentBean" />
+  <bean id="AssetGlobal-conditionCode" parent="AssetGlobal-conditionCode-parentBean"/>
   <bean id="AssetGlobal-conditionCode-parentBean" abstract="true" parent="AssetCondition-assetConditionCode">
-    <property name="name" value="conditionCode" />
-    <property name="label" value="Asset Condition" />
+    <property name="name" value="conditionCode"/>
+    <property name="label" value="Asset Condition"/>
     <property name="control">
-    	<bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.cam.businessobject.defaultvalue.AssetConditionValuesFinder" />
+    	<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.cam.businessobject.defaultvalue.AssetConditionValuesFinder"/>
     </property>
   </bean>
   
-  <bean id="AssetGlobal-capitalAssetDescription" parent="AssetGlobal-capitalAssetDescription-parentBean" />
+  <bean id="AssetGlobal-capitalAssetDescription" parent="AssetGlobal-capitalAssetDescription-parentBean"/>
   <bean id="AssetGlobal-capitalAssetDescription-parentBean" abstract="true" parent="Asset-capitalAssetDescription">
   	<property name="attributeSecurity">
         <bean parent="AttributeSecurity">
-           <property name="readOnly" value="false" />
+           <property name="readOnly" value="false"/>
        </bean>
 	</property>
   </bean>
 
-  <bean id="AssetGlobal-capitalAssetTypeCode" parent="AssetGlobal-capitalAssetTypeCode-parentBean" />
+  <bean id="AssetGlobal-capitalAssetTypeCode" parent="AssetGlobal-capitalAssetTypeCode-parentBean"/>
   <bean id="AssetGlobal-capitalAssetTypeCode-parentBean" abstract="true" parent="AssetType-capitalAssetTypeCode">
-    <property name="label" value="Asset Type Code" />
+    <property name="label" value="Asset Type Code"/>
   </bean>
   
-  <bean id="AssetGlobal-vendorName" parent="AssetGlobal-vendorName-parentBean" />
+  <bean id="AssetGlobal-vendorName" parent="AssetGlobal-vendorName-parentBean"/>
   <bean id="AssetGlobal-vendorName-parentBean" abstract="true" parent="Asset-vendorName">
   	<property name="attributeSecurity">
         <bean parent="AttributeSecurity">
-           <property name="readOnly" value="false" />
+           <property name="readOnly" value="false"/>
        </bean>
     </property>
   </bean>
 
-  <bean id="AssetGlobal-manufacturerName" parent="AssetGlobal-manufacturerName-parentBean" />
-  <bean id="AssetGlobal-manufacturerName-parentBean" abstract="true" parent="Asset-manufacturerName" />
+  <bean id="AssetGlobal-manufacturerName" parent="AssetGlobal-manufacturerName-parentBean"/>
+  <bean id="AssetGlobal-manufacturerName-parentBean" abstract="true" parent="Asset-manufacturerName"/>
 
-  <bean id="AssetGlobal-manufacturerModelNumber" parent="AssetGlobal-manufacturerModelNumber-parentBean" />
-  <bean id="AssetGlobal-manufacturerModelNumber-parentBean" abstract="true" parent="Asset-manufacturerModelNumber" />
+  <bean id="AssetGlobal-manufacturerModelNumber" parent="AssetGlobal-manufacturerModelNumber-parentBean"/>
+  <bean id="AssetGlobal-manufacturerModelNumber-parentBean" abstract="true" parent="Asset-manufacturerModelNumber"/>
 
-  <bean id="AssetGlobal-organizationText" parent="AssetGlobal-organizationText-parentBean" />
-  <bean id="AssetGlobal-organizationText-parentBean" abstract="true" parent="AssetOrganization-organizationText" />
+  <bean id="AssetGlobal-organizationText" parent="AssetGlobal-organizationText-parentBean"/>
+  <bean id="AssetGlobal-organizationText-parentBean" abstract="true" parent="AssetOrganization-organizationText"/>
 
-  <bean id="AssetGlobal-representativeUniversalIdentifier" parent="AssetGlobal-representativeUniversalIdentifier-parentBean" />
+  <bean id="AssetGlobal-representativeUniversalIdentifier" parent="AssetGlobal-representativeUniversalIdentifier-parentBean"/>
   <bean id="AssetGlobal-representativeUniversalIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="representativeUniversalIdentifier" />
-    <property name="label" value="Asset Representative" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="representativeUniversalIdentifier"/>
+    <property name="label" value="Asset Representative"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
-    <property name="displayLabelAttribute" value="assetRepresentative.principalName" />
+    <property name="displayLabelAttribute" value="assetRepresentative.principalName"/>
   </bean>
   
-  <bean id="AssetGlobal-assetRepresentative.principalName" parent="AssetGlobal-assetRepresentative.principalName-parentBean" />
+  <bean id="AssetGlobal-assetRepresentative.principalName" parent="AssetGlobal-assetRepresentative.principalName-parentBean"/>
   <bean id="AssetGlobal-assetRepresentative.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="assetRepresentative.principalName" />
-    <property name="label" value="Asset Representative Principal Name" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="assetRepresentative.name"
-            p:universalIdAttributeName="representativeUniversalIdentifier"
-            p:userIdAttributeName="assetRepresentative.principalName" />
+    <property name="name" value="assetRepresentative.principalName"/>
+    <property name="label" value="Asset Representative Principal Name"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="assetRepresentative.name" p:universalIdAttributeName="representativeUniversalIdentifier" p:userIdAttributeName="assetRepresentative.principalName"/>
     </property>
   </bean>
   
-  <bean id="AssetGlobal-assetRepresentative.name" parent="AssetGlobal-assetRepresentative.name-parentBean" />
+  <bean id="AssetGlobal-assetRepresentative.name" parent="AssetGlobal-assetRepresentative.name-parentBean"/>
   <bean id="AssetGlobal-assetRepresentative.name-parentBean" abstract="true" parent="PersonImpl-name">
-    <property name="name" value="assetRepresentative.name" />
-    <property name="label" value="Asset Representative Name" />
-    <property name="required" value="false" />
+    <property name="name" value="assetRepresentative.name"/>
+    <property name="label" value="Asset Representative Name"/>
+    <property name="required" value="false"/>
   </bean>
   
-  <bean id="AssetGlobal-lastInventoryDate" parent="AssetGlobal-lastInventoryDate-parentBean" />
+  <bean id="AssetGlobal-lastInventoryDate" parent="AssetGlobal-lastInventoryDate-parentBean"/>
   <bean id="AssetGlobal-lastInventoryDate-parentBean" abstract="true" parent="Asset-lastInventoryDate">
   </bean>
   
-  <bean id="AssetGlobal-createDate" parent="AssetGlobal-createDate-parentBean" />
+  <bean id="AssetGlobal-createDate" parent="AssetGlobal-createDate-parentBean"/>
   <bean id="AssetGlobal-createDate-parentBean" abstract="true" parent="Asset-createDate">
   </bean>
   
-  <bean id="AssetGlobal-capitalAssetInServiceDate" parent="AssetGlobal-capitalAssetInServiceDate-parentBean" />
+  <bean id="AssetGlobal-capitalAssetInServiceDate" parent="AssetGlobal-capitalAssetInServiceDate-parentBean"/>
   <bean id="AssetGlobal-capitalAssetInServiceDate-parentBean" abstract="true" parent="Asset-capitalAssetInServiceDate">
   	<property name="attributeSecurity">
         <bean parent="AttributeSecurity">
-           <property name="readOnly" value="false" />
+           <property name="readOnly" value="false"/>
        </bean>
     </property>
   </bean>
   
-  <bean id="AssetGlobal-capitalAssetDepreciationDate" parent="AssetGlobal-capitalAssetDepreciationDate-parentBean" />
+  <bean id="AssetGlobal-capitalAssetDepreciationDate" parent="AssetGlobal-capitalAssetDepreciationDate-parentBean"/>
   <bean id="AssetGlobal-capitalAssetDepreciationDate-parentBean" abstract="true" parent="Asset-depreciationDate">
-    <property name="name" value="capitalAssetDepreciationDate" />
+    <property name="name" value="capitalAssetDepreciationDate"/>
   </bean>
   
-  <bean id="AssetGlobal-landCountyName" parent="AssetGlobal-landCountyName-parentBean" />
+  <bean id="AssetGlobal-landCountyName" parent="AssetGlobal-landCountyName-parentBean"/>
   <bean id="AssetGlobal-landCountyName-parentBean" abstract="true" parent="Asset-landCountyName">
-    <property name="shortLabel" value="Country" />
+    <property name="shortLabel" value="Country"/>
   </bean>
   
-  <bean id="AssetGlobal-landAcreageSize" parent="AssetGlobal-landAcreageSize-parentBean" />
+  <bean id="AssetGlobal-landAcreageSize" parent="AssetGlobal-landAcreageSize-parentBean"/>
   <bean id="AssetGlobal-landAcreageSize-parentBean" abstract="true" parent="Asset-landAcreageSize">
-    <property name="shortLabel" value="Acreage" />
+    <property name="shortLabel" value="Acreage"/>
   </bean>
   
-  <bean id="AssetGlobal-landParcelNumber" parent="AssetGlobal-landParcelNumber-parentBean" />
+  <bean id="AssetGlobal-landParcelNumber" parent="AssetGlobal-landParcelNumber-parentBean"/>
   <bean id="AssetGlobal-landParcelNumber-parentBean" abstract="true" parent="Asset-landParcelNumber">
-    <property name="shortLabel" value="Parcel" />
+    <property name="shortLabel" value="Parcel"/>
   </bean>
   
-  <bean id="AssetGlobal-financialDocumentNextLineNumber" parent="AssetGlobal-financialDocumentNextLineNumber-parentBean" />
+  <bean id="AssetGlobal-financialDocumentNextLineNumber" parent="AssetGlobal-financialDocumentNextLineNumber-parentBean"/>
   <bean id="AssetGlobal-financialDocumentNextLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentNextLineNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Financial Document Next LineNumber" />
-    <property name="shortLabel" value="financialDocumentNextLineNumber" />
-    <property name="maxLength" value="32" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="financialDocumentNextLineNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Financial Document Next LineNumber"/>
+    <property name="shortLabel" value="financialDocumentNextLineNumber"/>
+    <property name="maxLength" value="32"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
   
-  <bean id="AssetGlobal-financialDocumentTypeCode" parent="AssetGlobal-financialDocumentTypeCode-parentBean" />
+  <bean id="AssetGlobal-financialDocumentTypeCode" parent="AssetGlobal-financialDocumentTypeCode-parentBean"/>
   <bean id="AssetGlobal-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
-    <property name="name" value="financialDocumentTypeCode" />
-    <property name="label" value="Financial Document Type Code" />
-    <property name="shortLabel" value="financialDocumentTypeCode" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="financialDocumentTypeCode"/>
+    <property name="label" value="Financial Document Type Code"/>
+    <property name="shortLabel" value="financialDocumentTypeCode"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
   
   <bean id="AssetGlobal-separateSourcePaymentSequenceNumber" parent="AssetGlobal-separateSourcePaymentSequenceNumber-parentBean"/>
   <bean id="AssetGlobal-separateSourcePaymentSequenceNumber-parentBean" abstract="true" parent="AssetPayment-paymentSequenceNumber">
-   <property name="name" value="separateSourcePaymentSequenceNumber" />
+   <property name="name" value="separateSourcePaymentSequenceNumber"/>
   </bean>
   
-  <bean id="AssetGlobal-capitalAssetBuilderOriginIndicator"  parent="AssetGlobal-capitalAssetBuilderOriginIndicator-parentBean" />
-  <bean id="AssetGlobal-capitalAssetBuilderOriginIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
-	<property name="name" value="capitalAssetBuilderOriginIndicator" />
-	<property name="label" value="Capital Asset Builder Origin Indicator" />
-	<property name="shortLabel" value="Origin Indicator" />
+  <bean id="AssetGlobal-capitalAssetBuilderOriginIndicator" parent="AssetGlobal-capitalAssetBuilderOriginIndicator-parentBean"/>
+  <bean id="AssetGlobal-capitalAssetBuilderOriginIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+	<property name="name" value="capitalAssetBuilderOriginIndicator"/>
+	<property name="label" value="Capital Asset Builder Origin Indicator"/>
+	<property name="shortLabel" value="Origin Indicator"/>
   </bean>
   
-  <bean id="AssetGlobal-calculateSeparateSourceRemainingAmountButton" parent="AssetGlobal-calculateSeparateSourceRemainingAmountButton-parentBean" />
+  <bean id="AssetGlobal-calculateSeparateSourceRemainingAmountButton" parent="AssetGlobal-calculateSeparateSourceRemainingAmountButton-parentBean"/>
   <bean id="AssetGlobal-calculateSeparateSourceRemainingAmountButton-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="calculateSeparateSourceRemainingAmountButton" />
-    <property name="label" value="Calculate Remaining Total Amount" />
-    <property name="shortLabel" value="Calculate Remaining Amount" />
-    <property name="control" >
-      <bean parent="ButtonControlDefinition"
-            p:imageSrc="tinybutton-recalculate.gif"
-            p:styleClass="globalbuttons" />
+    <property name="name" value="calculateSeparateSourceRemainingAmountButton"/>
+    <property name="label" value="Calculate Remaining Total Amount"/>
+    <property name="shortLabel" value="Calculate Remaining Amount"/>
+    <property name="control">
+      <bean parent="ButtonControlDefinition" p:imageSrc="tinybutton-recalculate.gif" p:styleClass="globalbuttons"/>
     </property>
   </bean>
   
-  <bean id="AssetGlobal-separateSourceRemainingAmount" parent="AssetGlobal-separateSourceRemainingAmount-parentBean" />
+  <bean id="AssetGlobal-separateSourceRemainingAmount" parent="AssetGlobal-separateSourceRemainingAmount-parentBean"/>
   <bean id="AssetGlobal-separateSourceRemainingAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="separateSourceRemainingAmount" />
-    <property name="label" value="Remaining Total Amount" />
-    <property name="shortLabel" value="Remaining Amount" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="separateSourceRemainingAmount"/>
+    <property name="label" value="Remaining Total Amount"/>
+    <property name="shortLabel" value="Remaining Amount"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
   
-  <bean id="AssetGlobal-separateSourceTotalAmount" parent="AssetGlobal-separateSourceTotalAmount-parentBean" />
+  <bean id="AssetGlobal-separateSourceTotalAmount" parent="AssetGlobal-separateSourceTotalAmount-parentBean"/>
   <bean id="AssetGlobal-separateSourceTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="separateSourceTotalAmount" />
-    <property name="label" value="Less Additions" />
-    <property name="shortLabel" value="Less Additions" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="separateSourceTotalAmount"/>
+    <property name="label" value="Less Additions"/>
+    <property name="shortLabel" value="Less Additions"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
   
-  <bean id="AssetGlobal-totalAssetPaymentAmount" parent="AssetGlobal-totalAssetPaymentAmount-parentBean" />
+  <bean id="AssetGlobal-totalAssetPaymentAmount" parent="AssetGlobal-totalAssetPaymentAmount-parentBean"/>
   <bean id="AssetGlobal-totalAssetPaymentAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="totalAssetPaymentAmount" />
-    <property name="label" value="Total Amount" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="totalAssetPaymentAmount"/>
+    <property name="label" value="Total Amount"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
   
 </beans>
-

@@ -1,135 +1,121 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-  <bean id="AssetType" parent="AssetType-parentBean" />
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+  <bean id="AssetType" parent="AssetType-parentBean"/>
   
   <bean id="AssetType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetType" />
-    <property name="inquiryDefinition" >
-      <ref bean="AssetType-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetType"/>
+    <property name="inquiryDefinition">
+      <ref bean="AssetType-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="AssetType-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="AssetType-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Asset Type" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Asset Type"/>
+    <property name="attributes">
       <list>
-        <ref bean="AssetType-capitalAssetTypeCode" />
-        <ref bean="AssetType-capitalAssetTypeDescription" />
-        <ref bean="AssetType-depreciableLifeLimit" />
-        <ref bean="AssetType-movingIndicator" />
-        <ref bean="AssetType-requiredBuildingIndicator" />
-        <ref bean="AssetType-active" />
+        <ref bean="AssetType-capitalAssetTypeCode"/>
+        <ref bean="AssetType-capitalAssetTypeDescription"/>
+        <ref bean="AssetType-depreciableLifeLimit"/>
+        <ref bean="AssetType-movingIndicator"/>
+        <ref bean="AssetType-requiredBuildingIndicator"/>
+        <ref bean="AssetType-active"/>
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
-  <bean id="AssetType-capitalAssetTypeCode" parent="AssetType-capitalAssetTypeCode-parentBean" />
+  <bean id="AssetType-capitalAssetTypeCode" parent="AssetType-capitalAssetTypeCode-parentBean"/>
   <bean id="AssetType-capitalAssetTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Asset Type" />
-    <property name="shortLabel" value="Asset Type" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="capitalAssetTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Asset Type"/>
+    <property name="shortLabel" value="Asset Type"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
   
-  <bean id="AssetType-capitalAssetTypeDescription" parent="AssetType-capitalAssetTypeDescription-parentBean" />
+  <bean id="AssetType-capitalAssetTypeDescription" parent="AssetType-capitalAssetTypeDescription-parentBean"/>
   <bean id="AssetType-capitalAssetTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetTypeDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Asset Type Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="70" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="capitalAssetTypeDescription"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Asset Type Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="70"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="72" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="72"/>
     </property>
   </bean>
   
-  <bean id="AssetType-depreciableLifeLimit" parent="AssetType-depreciableLifeLimit-parentBean" />
+  <bean id="AssetType-depreciableLifeLimit" parent="AssetType-depreciableLifeLimit-parentBean"/>
   <bean id="AssetType-depreciableLifeLimit-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="depreciableLifeLimit" />
-    <property name="forceUppercase" value="false"  />
-    <property name="label" value="Depreciable Life Limit" />
-    <property name="shortLabel" value="Limit" />
-    <property name="maxLength" value="5" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="depreciableLifeLimit"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Depreciable Life Limit"/>
+    <property name="shortLabel" value="Limit"/>
+    <property name="maxLength" value="5"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="7"/>
     </property>
   </bean>
   
-  <bean id="AssetType-movingIndicator" parent="AssetType-movingIndicator-parentBean" />
+  <bean id="AssetType-movingIndicator" parent="AssetType-movingIndicator-parentBean"/>
   <bean id="AssetType-movingIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="movingIndicator" />
-    <property name="forceUppercase" value="false"  />
-    <property name="label" value="Moving Indicator" />
-    <property name="shortLabel" value="Indicator" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="movingIndicator"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Moving Indicator"/>
+    <property name="shortLabel" value="Indicator"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
   
-  <bean id="AssetType-requiredBuildingIndicator" parent="AssetType-requiredBuildingIndicator-parentBean" />
+  <bean id="AssetType-requiredBuildingIndicator" parent="AssetType-requiredBuildingIndicator-parentBean"/>
   <bean id="AssetType-requiredBuildingIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="requiredBuildingIndicator" />
-    <property name="forceUppercase" value="false"  />
-    <property name="label" value="Required Building Indicator" />
-    <property name="shortLabel" value="Indicator" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="requiredBuildingIndicator"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Required Building Indicator"/>
+    <property name="shortLabel" value="Indicator"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
   
-  <bean id="AssetType-active" parent="AssetType-active-parentBean" />
+  <bean id="AssetType-active" parent="AssetType-active-parentBean"/>
   <bean id="AssetType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
-  <bean id="AssetType-inquiryDefinition" parent="AssetType-inquiryDefinition-parentBean" />
+  <bean id="AssetType-inquiryDefinition" parent="AssetType-inquiryDefinition-parentBean"/>
   <bean id="AssetType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Asset Type Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Asset Type Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="capitalAssetTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="capitalAssetTypeDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="depreciableLifeLimit" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="movingIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="requiredBuildingIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="capitalAssetTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="capitalAssetTypeDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="depreciableLifeLimit"/>
+              <bean parent="FieldDefinition" p:attributeName="movingIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="requiredBuildingIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -139,45 +125,32 @@
 
 <!-- Business Object Lookup Definition -->
 
-  <bean id="AssetType-lookupDefinition" parent="AssetType-lookupDefinition-parentBean" />
+  <bean id="AssetType-lookupDefinition" parent="AssetType-lookupDefinition-parentBean"/>
   <bean id="AssetType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Asset Type Lookup" />
-    <property name="instructions" value="Look up an Asset Type" />
-    <property name="defaultSort" >
+    <property name="title" value="Asset Type Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetTypeDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="depreciableLifeLimit" />
-        <bean parent="FieldDefinition"
-              p:attributeName="movingIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="requiredBuildingIndicator" />
-        <bean parent="FieldDefinition"
-              p:defaultValue="Y"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetTypeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="depreciableLifeLimit"/>
+        <bean parent="FieldDefinition" p:attributeName="movingIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="requiredBuildingIndicator"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetTypeDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="depreciableLifeLimit" />
-        <bean parent="FieldDefinition"
-              p:attributeName="movingIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="requiredBuildingIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetTypeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="depreciableLifeLimit"/>
+        <bean parent="FieldDefinition" p:attributeName="movingIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="requiredBuildingIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

@@ -1,30 +1,24 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="FormatProcess" parent="FormatProcess-parentBean" />
+  <bean id="FormatProcess" parent="FormatProcess-parentBean"/>
 
   <bean id="FormatProcess-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.FormatProcess" />
-    <property name="inquiryDefinition" >
-      <ref bean="FormatProcess-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.FormatProcess"/>
+    <property name="inquiryDefinition">
+      <ref bean="FormatProcess-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="FormatProcess-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="FormatProcess-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Format Process" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Format Process"/>
+    <property name="attributes">
       <list>
-        <ref bean="FormatProcess-physicalCampusProcessCode" />
-        <ref bean="FormatProcess-beginFormat" />
-        <ref bean="FormatProcess-paymentProcIdentifier" />
-        <ref bean="FormatProcess-paymentProcess.extractedInd" />
-        <ref bean="FormatProcess-paymentProcess.formattedIndicator" />
-        <ref bean="FormatProcess-paymentProcess.campusCode" />
+        <ref bean="FormatProcess-physicalCampusProcessCode"/>
+        <ref bean="FormatProcess-beginFormat"/>
+        <ref bean="FormatProcess-paymentProcIdentifier"/>
+        <ref bean="FormatProcess-paymentProcess.extractedInd"/>
+        <ref bean="FormatProcess-paymentProcess.formattedIndicator"/>
+        <ref bean="FormatProcess-paymentProcess.campusCode"/>
       </list>
     </property>
   </bean>
@@ -32,65 +26,60 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Attribute Definitions -->
 
 
-  <bean id="FormatProcess-physicalCampusProcessCode" parent="FormatProcess-physicalCampusProcessCode-parentBean" />
+  <bean id="FormatProcess-physicalCampusProcessCode" parent="FormatProcess-physicalCampusProcessCode-parentBean"/>
 
   <bean id="FormatProcess-physicalCampusProcessCode-parentBean" abstract="true" parent="Campus-campusCode">
-    <property name="name" value="physicalCampusProcessCode" />
-    <property name="shortLabel" value="Campus" />
+    <property name="name" value="physicalCampusProcessCode"/>
+    <property name="shortLabel" value="Campus"/>
   </bean>
-  <bean id="FormatProcess-beginFormat" parent="FormatProcess-beginFormat-parentBean" />
+  <bean id="FormatProcess-beginFormat" parent="FormatProcess-beginFormat-parentBean"/>
 
   <bean id="FormatProcess-beginFormat-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
-    <property name="name" value="beginFormat" />
-    <property name="label" value="Begin Process Date" />
-    <property name="shortLabel" value="Begin Process Date" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter" />
+    <property name="name" value="beginFormat"/>
+    <property name="label" value="Begin Process Date"/>
+    <property name="shortLabel" value="Begin Process Date"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter"/>
   </bean>
-  <bean id="FormatProcess-paymentProcIdentifier" parent="FormatProcess-paymentProcIdentifier-parentBean" />
+  <bean id="FormatProcess-paymentProcIdentifier" parent="FormatProcess-paymentProcIdentifier-parentBean"/>
   
-  <bean id="FormatProcess-paymentProcIdentifier-parentBean" abstract="true" parent="PaymentProcess-id" >
-  	<property name="name" value="paymentProcIdentifier" />
+  <bean id="FormatProcess-paymentProcIdentifier-parentBean" abstract="true" parent="PaymentProcess-id">
+  	<property name="name" value="paymentProcIdentifier"/>
   </bean>
-  <bean id="FormatProcess-paymentProcess.extractedInd" parent="FormatProcess-paymentProcess.extractedInd-parentBean" />
+  <bean id="FormatProcess-paymentProcess.extractedInd" parent="FormatProcess-paymentProcess.extractedInd-parentBean"/>
   
-  <bean id="FormatProcess-paymentProcess.extractedInd-parentBean" abstract="true" parent="PaymentProcess-extractedInd" >
-  	<property name="name" value="paymentProcess.extractedInd" />
+  <bean id="FormatProcess-paymentProcess.extractedInd-parentBean" abstract="true" parent="PaymentProcess-extractedInd">
+  	<property name="name" value="paymentProcess.extractedInd"/>
   </bean>
-  <bean id="FormatProcess-paymentProcess.formattedIndicator" parent="FormatProcess-paymentProcess.formattedIndicator-parentBean" />
+  <bean id="FormatProcess-paymentProcess.formattedIndicator" parent="FormatProcess-paymentProcess.formattedIndicator-parentBean"/>
   
-  <bean id="FormatProcess-paymentProcess.formattedIndicator-parentBean" abstract="true" parent="PaymentProcess-formattedIndicator" >
-  	<property name="name" value="paymentProcess.formattedIndicator" />
+  <bean id="FormatProcess-paymentProcess.formattedIndicator-parentBean" abstract="true" parent="PaymentProcess-formattedIndicator">
+  	<property name="name" value="paymentProcess.formattedIndicator"/>
   </bean>
-  <bean id="FormatProcess-paymentProcess.campusCode" parent="FormatProcess-paymentProcess.campusCode-parentBean" />
+  <bean id="FormatProcess-paymentProcess.campusCode" parent="FormatProcess-paymentProcess.campusCode-parentBean"/>
   
-  <bean id="FormatProcess-paymentProcess.campusCode-parentBean" abstract="true" parent="PaymentProcess-campusCode" >
-  	<property name="name" value="paymentProcess.campusCode" />
+  <bean id="FormatProcess-paymentProcess.campusCode-parentBean" abstract="true" parent="PaymentProcess-campusCode">
+  	<property name="name" value="paymentProcess.campusCode"/>
   </bean>
   
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="FormatProcess-inquiryDefinition" parent="FormatProcess-inquiryDefinition-parentBean" />
+  <bean id="FormatProcess-inquiryDefinition" parent="FormatProcess-inquiryDefinition-parentBean"/>
 
   <bean id="FormatProcess-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Format Process Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Format Process Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="physicalCampusProcessCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="beginFormat" />
-              <bean parent="FieldDefinition"
-              		p:attributeName="paymentProcIdentifier" />
-              <bean parent="FieldDefinition"
-              		p:attributeName="paymentProcess.extractedInd" />
-              <bean parent="FieldDefinition"
-              		p:attributeName="paymentProcess.formattedIndicator" />              		
+              <bean parent="FieldDefinition" p:attributeName="physicalCampusProcessCode"/>
+              <bean parent="FieldDefinition" p:attributeName="beginFormat"/>
+              <bean parent="FieldDefinition" p:attributeName="paymentProcIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="paymentProcess.extractedInd"/>
+              <bean parent="FieldDefinition" p:attributeName="paymentProcess.formattedIndicator"/>              		
             </list>
           </property>
         </bean>
@@ -101,43 +90,35 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="FormatProcess-lookupDefinition" parent="FormatProcess-lookupDefinition-parentBean" />
+  <bean id="FormatProcess-lookupDefinition" parent="FormatProcess-lookupDefinition-parentBean"/>
 
   <bean id="FormatProcess-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Format Reset" />
-    <property name="lookupableID" value="formatProcessLookupable" />
-    <property name="instructions" value="Lookup a Format Process" />
-    <property name="defaultSort" >
+    <property name="title" value="Format Reset"/>
+    <property name="lookupableID" value="formatProcessLookupable"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>physicalCampusProcessCode</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="paymentProcess.campusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="beginFormat" />             
-        <bean parent="FieldDefinition"
-              p:attributeName="paymentProcIdentifier" />            
+        <bean parent="FieldDefinition" p:attributeName="paymentProcess.campusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="beginFormat"/>             
+        <bean parent="FieldDefinition" p:attributeName="paymentProcIdentifier"/>            
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="physicalCampusProcessCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="beginFormat" />             
-        <bean parent="FieldDefinition"
-              p:attributeName="paymentProcIdentifier" />  
-        <bean parent="FieldDefinition"
-              p:attributeName="paymentProcess.extractedInd" />
-        <bean parent="FieldDefinition"
-              p:attributeName="paymentProcess.formattedIndicator" />                         
+        <bean parent="FieldDefinition" p:attributeName="physicalCampusProcessCode"/>
+        <bean parent="FieldDefinition" p:attributeName="beginFormat"/>             
+        <bean parent="FieldDefinition" p:attributeName="paymentProcIdentifier"/>  
+        <bean parent="FieldDefinition" p:attributeName="paymentProcess.extractedInd"/>
+        <bean parent="FieldDefinition" p:attributeName="paymentProcess.formattedIndicator"/>                         
       </list>
     </property>
   </bean>

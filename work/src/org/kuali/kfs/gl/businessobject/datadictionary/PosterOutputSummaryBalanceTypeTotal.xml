@@ -1,53 +1,49 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="PosterOutputSummaryBalanceTypeTotal" parent="PosterOutputSummaryBalanceTypeTotal-parentBean" />
+  <bean id="PosterOutputSummaryBalanceTypeTotal" parent="PosterOutputSummaryBalanceTypeTotal-parentBean"/>
 
   <bean id="PosterOutputSummaryBalanceTypeTotal-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.PosterOutputSummaryBalanceTypeTotal" />
+    <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.PosterOutputSummaryBalanceTypeTotal"/>
     
-    <property name="objectLabel" value="Poster Output Summary Total by Balance Type" />
+    <property name="objectLabel" value="Poster Output Summary Total by Balance Type"/>
     <property name="attributes">
       <list>
-      	<ref bean="PosterOutputSummaryBalanceTypeTotal-summary" />
-        <ref bean="PosterOutputSummaryBalanceTypeTotal-balanceTypeCode" />
-        <ref bean="PosterOutputSummaryBalanceTypeTotal-creditAmount" />
-        <ref bean="PosterOutputSummaryBalanceTypeTotal-debitAmount" />
-        <ref bean="PosterOutputSummaryBalanceTypeTotal-budgetAmount" />
-        <ref bean="PosterOutputSummaryBalanceTypeTotal-netAmount" />
+      	<ref bean="PosterOutputSummaryBalanceTypeTotal-summary"/>
+        <ref bean="PosterOutputSummaryBalanceTypeTotal-balanceTypeCode"/>
+        <ref bean="PosterOutputSummaryBalanceTypeTotal-creditAmount"/>
+        <ref bean="PosterOutputSummaryBalanceTypeTotal-debitAmount"/>
+        <ref bean="PosterOutputSummaryBalanceTypeTotal-budgetAmount"/>
+        <ref bean="PosterOutputSummaryBalanceTypeTotal-netAmount"/>
       </list>
     </property>
   </bean>
   
-  <bean id="PosterOutputSummaryBalanceTypeTotal-summary" parent="PosterOutputSummaryBalanceTypeTotal-summary-parentBean" />
+  <bean id="PosterOutputSummaryBalanceTypeTotal-summary" parent="PosterOutputSummaryBalanceTypeTotal-summary-parentBean"/>
 
   <bean id="PosterOutputSummaryBalanceTypeTotal-summary-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
-  	<property name="name" value="summary" />
-  	<property name="maxLength" value="34" />
+  	<property name="name" value="summary"/>
+  	<property name="maxLength" value="34"/>
   </bean>
   
-  <bean id="PosterOutputSummaryBalanceTypeTotal-balanceTypeCode" parent="PosterOutputSummaryBalanceTypeTotal-balanceTypeCode-parentBean" />
+  <bean id="PosterOutputSummaryBalanceTypeTotal-balanceTypeCode" parent="PosterOutputSummaryBalanceTypeTotal-balanceTypeCode-parentBean"/>
 
   <bean id="PosterOutputSummaryBalanceTypeTotal-balanceTypeCode-parentBean" abstract="true" parent="Entry-financialBalanceTypeCode">
-  	<property name="name" value="balanceTypeCode" />
+  	<property name="name" value="balanceTypeCode"/>
   </bean>
 
-  <bean id="PosterOutputSummaryBalanceTypeTotal-creditAmount" parent="PosterOutputSummaryBalanceTypeTotal-creditAmount-parentBean" />
+  <bean id="PosterOutputSummaryBalanceTypeTotal-creditAmount" parent="PosterOutputSummaryBalanceTypeTotal-creditAmount-parentBean"/>
 
-  <bean id="PosterOutputSummaryBalanceTypeTotal-creditAmount-parentBean" abstract="true" parent="PosterOutputSummaryTotal-creditAmount" />
+  <bean id="PosterOutputSummaryBalanceTypeTotal-creditAmount-parentBean" abstract="true" parent="PosterOutputSummaryTotal-creditAmount"/>
 
-  <bean id="PosterOutputSummaryBalanceTypeTotal-debitAmount" parent="PosterOutputSummaryBalanceTypeTotal-debitAmount-parentBean" />
+  <bean id="PosterOutputSummaryBalanceTypeTotal-debitAmount" parent="PosterOutputSummaryBalanceTypeTotal-debitAmount-parentBean"/>
 
-  <bean id="PosterOutputSummaryBalanceTypeTotal-debitAmount-parentBean" abstract="true" parent="PosterOutputSummaryTotal-debitAmount" />
+  <bean id="PosterOutputSummaryBalanceTypeTotal-debitAmount-parentBean" abstract="true" parent="PosterOutputSummaryTotal-debitAmount"/>
 
-  <bean id="PosterOutputSummaryBalanceTypeTotal-budgetAmount" parent="PosterOutputSummaryBalanceTypeTotal-budgetAmount-parentBean" />
+  <bean id="PosterOutputSummaryBalanceTypeTotal-budgetAmount" parent="PosterOutputSummaryBalanceTypeTotal-budgetAmount-parentBean"/>
 
-  <bean id="PosterOutputSummaryBalanceTypeTotal-budgetAmount-parentBean" abstract="true" parent="PosterOutputSummaryTotal-budgetAmount" />
+  <bean id="PosterOutputSummaryBalanceTypeTotal-budgetAmount-parentBean" abstract="true" parent="PosterOutputSummaryTotal-budgetAmount"/>
 
-  <bean id="PosterOutputSummaryBalanceTypeTotal-netAmount" parent="PosterOutputSummaryBalanceTypeTotal-netAmount-parentBean" />
+  <bean id="PosterOutputSummaryBalanceTypeTotal-netAmount" parent="PosterOutputSummaryBalanceTypeTotal-netAmount-parentBean"/>
 
-  <bean id="PosterOutputSummaryBalanceTypeTotal-netAmount-parentBean" abstract="true" parent="PosterOutputSummaryTotal-netAmount" />
+  <bean id="PosterOutputSummaryBalanceTypeTotal-netAmount-parentBean" abstract="true" parent="PosterOutputSummaryTotal-netAmount"/>
 </beans>

@@ -1,45 +1,41 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AssetPaymentAssetDetail" parent="AssetPaymentAssetDetail-parentBean" />
+  <bean id="AssetPaymentAssetDetail" parent="AssetPaymentAssetDetail-parentBean"/>
 
   <bean id="AssetPaymentAssetDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail"/>
     
-    <property name="titleAttribute" value="capitalAssetNumber" />
-    <property name="objectLabel" value="Asset Payment Asset Detail" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="capitalAssetNumber"/>
+    <property name="objectLabel" value="Asset Payment Asset Detail"/>
+    <property name="attributes">
       <list>
-        <ref bean="AssetPaymentAssetDetail-documentNumber" />
-        <ref bean="AssetPaymentAssetDetail-capitalAssetNumber" />
-        <ref bean="AssetPaymentAssetDetail-previousTotalCostAmount" />
+        <ref bean="AssetPaymentAssetDetail-documentNumber"/>
+        <ref bean="AssetPaymentAssetDetail-capitalAssetNumber"/>
+        <ref bean="AssetPaymentAssetDetail-previousTotalCostAmount"/>
       </list>
     </property>
   </bean>
   
 <!-- Attribute Definitions -->       
-  <bean id="AssetPaymentAssetDetail-documentNumber" parent="AssetPaymentAssetDetail-documentNumber-parentBean" />
+  <bean id="AssetPaymentAssetDetail-documentNumber" parent="AssetPaymentAssetDetail-documentNumber-parentBean"/>
   <bean id="AssetPaymentAssetDetail-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
-    <property name="label" value="Document Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="label" value="Document Number"/>
+    <property name="shortLabel" value="Number"/>
   </bean>
 
 
-  <bean id="AssetPaymentAssetDetail-capitalAssetNumber" parent="AssetPaymentAssetDetail-capitalAssetNumber-parentBean" />
+  <bean id="AssetPaymentAssetDetail-capitalAssetNumber" parent="AssetPaymentAssetDetail-capitalAssetNumber-parentBean"/>
   <bean id="AssetPaymentAssetDetail-capitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber">
   </bean>
 
 
 
- <bean id="AssetPaymentAssetDetail-previousTotalCostAmount" parent="AssetPaymentAssetDetail-previousTotalCostAmount-parentBean" />
+ <bean id="AssetPaymentAssetDetail-previousTotalCostAmount" parent="AssetPaymentAssetDetail-previousTotalCostAmount-parentBean"/>
   <bean id="AssetPaymentAssetDetail-previousTotalCostAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="previousTotalCostAmount" />
-    <property name="label" value="Previous Cost" />
-    <property name="shortLabel" value="Previous Cost" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="previousTotalCostAmount"/>
+    <property name="label" value="Previous Cost"/>
+    <property name="shortLabel" value="Previous Cost"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   
   </bean>    
 </beans>

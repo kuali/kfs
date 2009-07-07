@@ -1,26 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="UniversityBudgetOfficeFunction" parent="UniversityBudgetOfficeFunction-parentBean" />
+  <bean id="UniversityBudgetOfficeFunction" parent="UniversityBudgetOfficeFunction-parentBean"/>
 
   <bean id="UniversityBudgetOfficeFunction-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.UniversityBudgetOfficeFunction" />
-    <property name="inquiryDefinition" >
-      <ref bean="UniversityBudgetOfficeFunction-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.UniversityBudgetOfficeFunction"/>
+    <property name="inquiryDefinition">
+      <ref bean="UniversityBudgetOfficeFunction-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="UniversityBudgetOfficeFunction-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="UniversityBudgetOfficeFunction-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="financialUniversityBudgetOfficeFunctionCode" />
-    <property name="objectLabel" value="University Budget Office Function" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="financialUniversityBudgetOfficeFunctionCode"/>
+    <property name="objectLabel" value="University Budget Office Function"/>
+    <property name="attributes">
       <list>
-        <ref bean="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionCode" />
-        <ref bean="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionName" />
-        <ref bean="UniversityBudgetOfficeFunction-active" />
+        <ref bean="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionCode"/>
+        <ref bean="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionName"/>
+        <ref bean="UniversityBudgetOfficeFunction-active"/>
       </list>
     </property>
   </bean>
@@ -28,63 +24,58 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionCode" parent="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionCode-parentBean" />
+  <bean id="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionCode" parent="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionCode-parentBean"/>
 
   <bean id="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialUniversityBudgetOfficeFunctionCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="University Budget Office Function Code" />
-    <property name="shortLabel" value="UBOC" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="financialUniversityBudgetOfficeFunctionCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="University Budget Office Function Code"/>
+    <property name="shortLabel" value="UBOC"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionName" parent="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionName-parentBean" />
+  <bean id="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionName" parent="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionName-parentBean"/>
 
   <bean id="UniversityBudgetOfficeFunction-financialUniversityBudgetOfficeFunctionName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialUniversityBudgetOfficeFunctionName" />
-    <property name="label" value="University Budget Office Function Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="financialUniversityBudgetOfficeFunctionName"/>
+    <property name="label" value="University Budget Office Function Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
   </bean>
-  <bean id="UniversityBudgetOfficeFunction-active" parent="UniversityBudgetOfficeFunction-active-parentBean" />
+  <bean id="UniversityBudgetOfficeFunction-active" parent="UniversityBudgetOfficeFunction-active-parentBean"/>
 
   <bean id="UniversityBudgetOfficeFunction-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="UniversityBudgetOfficeFunction-inquiryDefinition" parent="UniversityBudgetOfficeFunction-inquiryDefinition-parentBean" />
+  <bean id="UniversityBudgetOfficeFunction-inquiryDefinition" parent="UniversityBudgetOfficeFunction-inquiryDefinition-parentBean"/>
 
   <bean id="UniversityBudgetOfficeFunction-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="University Budget Office Function Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="University Budget Office Function Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialUniversityBudgetOfficeFunctionCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialUniversityBudgetOfficeFunctionName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="financialUniversityBudgetOfficeFunctionCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialUniversityBudgetOfficeFunctionName"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -95,38 +86,32 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="UniversityBudgetOfficeFunction-lookupDefinition" parent="UniversityBudgetOfficeFunction-lookupDefinition-parentBean" />
+  <bean id="UniversityBudgetOfficeFunction-lookupDefinition" parent="UniversityBudgetOfficeFunction-lookupDefinition-parentBean"/>
 
   <bean id="UniversityBudgetOfficeFunction-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="University Budget Office Function Lookup" />
-    <property name="instructions" value="Lookup a University Budget Office Function" />
-    <property name="defaultSort" >
+    <property name="title" value="University Budget Office Function Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>financialUniversityBudgetOfficeFunctionCode</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="financialUniversityBudgetOfficeFunctionCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialUniversityBudgetOfficeFunctionName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="financialUniversityBudgetOfficeFunctionCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialUniversityBudgetOfficeFunctionName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="financialUniversityBudgetOfficeFunctionCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialUniversityBudgetOfficeFunctionName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="financialUniversityBudgetOfficeFunctionCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialUniversityBudgetOfficeFunctionName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

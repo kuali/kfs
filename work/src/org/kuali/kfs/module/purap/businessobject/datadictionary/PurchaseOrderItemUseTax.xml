@@ -1,92 +1,79 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-	<bean id="PurchaseOrderItemUseTax"
-		parent="PurchaseOrderItemUseTax-parentBean" />
+	<bean id="PurchaseOrderItemUseTax" parent="PurchaseOrderItemUseTax-parentBean"/>
 
-	<bean id="PurchaseOrderItemUseTax-parentBean" abstract="true"
-		parent="BusinessObjectEntry">
-		<property name="businessObjectClass"
-			value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderItemUseTax" />
+	<bean id="PurchaseOrderItemUseTax-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderItemUseTax"/>
 		<!-- <property name="inquiryDefinition">
 			<ref bean="PurchaseOrderItemUseTax-inquiryDefinition" />
 		</property>
 		<property name="lookupDefinition">
 			<ref bean="PurchaseOrderItemUseTax-lookupDefinition" />
 		</property>-->
-		<property name="titleAttribute"
-			value="PurchaseOrderItemUseTaxCode" />
-		<property name="objectLabel"
-			value="Delivery Required Date Reason" />
+		<property name="titleAttribute" value="PurchaseOrderItemUseTaxCode"/>
+		<property name="objectLabel" value="Delivery Required Date Reason"/>
 		<property name="attributes">
 			<list>
-				<ref bean="PurchaseOrderItemUseTax-purchaseOrderItemUseTaxId" />
-				<ref bean="PurchaseOrderItemUseTax-ItemIdentifier" />
-				<ref bean="PurchaseOrderItemUseTax-rateCode" />
-				<ref bean="PurchaseOrderItemUseTax-taxAmount" />
-				<ref bean="PurchaseOrderItemUseTax-chartOfAccountsCode" />
-				<ref bean="PurchaseOrderItemUseTax-accountNumber" />
-				<ref bean="PurchaseOrderItemUseTax-financialObjectCode" />
+				<ref bean="PurchaseOrderItemUseTax-purchaseOrderItemUseTaxId"/>
+				<ref bean="PurchaseOrderItemUseTax-ItemIdentifier"/>
+				<ref bean="PurchaseOrderItemUseTax-rateCode"/>
+				<ref bean="PurchaseOrderItemUseTax-taxAmount"/>
+				<ref bean="PurchaseOrderItemUseTax-chartOfAccountsCode"/>
+				<ref bean="PurchaseOrderItemUseTax-accountNumber"/>
+				<ref bean="PurchaseOrderItemUseTax-financialObjectCode"/>
 			</list>
 		</property>
 	</bean>
 
-	<bean id="PurchaseOrderItemUseTax-purchaseOrderItemUseTaxId"	parent="PurchaseOrderItemUseTax-purchaseOrderItemUseTaxId-parentBean" />
+	<bean id="PurchaseOrderItemUseTax-purchaseOrderItemUseTaxId" parent="PurchaseOrderItemUseTax-purchaseOrderItemUseTaxId-parentBean"/>
 
-	<bean id="PurchaseOrderItemUseTax-purchaseOrderItemUseTaxId-parentBean"	abstract="true"  parent="PurApGenericAttributes-genericItemIdentifier" >
-		<property name="name" value="useTaxId" />
-    	<property name="label" value="Use Tax Id" />
-    	<property name="shortLabel" value="Id" />
+	<bean id="PurchaseOrderItemUseTax-purchaseOrderItemUseTaxId-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemIdentifier">
+		<property name="name" value="useTaxId"/>
+    	<property name="label" value="Use Tax Id"/>
+    	<property name="shortLabel" value="Id"/>
     </bean>
 
-	<bean id="PurchaseOrderItemUseTax-ItemIdentifier" parent="PurchaseOrderItemUseTax-ItemIdentifier-parentBean" />
+	<bean id="PurchaseOrderItemUseTax-ItemIdentifier" parent="PurchaseOrderItemUseTax-ItemIdentifier-parentBean"/>
 
-	<bean id="PurchaseOrderItemUseTax-ItemIdentifier-parentBean"	abstract="true" parent="PurchaseOrderItem-itemIdentifier" />
+	<bean id="PurchaseOrderItemUseTax-ItemIdentifier-parentBean" abstract="true" parent="PurchaseOrderItem-itemIdentifier"/>
 
-	<bean id="PurchaseOrderItemUseTax-rateCode" parent="PurchaseOrderItemUseTax-rateCode-parentBean" />
+	<bean id="PurchaseOrderItemUseTax-rateCode" parent="PurchaseOrderItemUseTax-rateCode-parentBean"/>
 
-	<bean id="PurchaseOrderItemUseTax-rateCode-parentBean"	abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="rateCode" />
-    	<property name="forceUppercase" value="true" />
-    	<property name="label" value="Tax Rate Code" />
-    	<property name="shortLabel" value="Code" />
-    	<property name="maxLength" value="10" />
-    	<property name="required" value="true" />
-    	<property name="control" >
-      		<bean parent="TextControlDefinition"
-            	p:size="10" />
+	<bean id="PurchaseOrderItemUseTax-rateCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="rateCode"/>
+    	<property name="forceUppercase" value="true"/>
+    	<property name="label" value="Tax Rate Code"/>
+    	<property name="shortLabel" value="Code"/>
+    	<property name="maxLength" value="10"/>
+    	<property name="required" value="true"/>
+    	<property name="control">
+      		<bean parent="TextControlDefinition" p:size="10"/>
     	</property>
    </bean>
 
 
-	<bean id="PurchaseOrderItemUseTax-taxAmount"	parent="PurchaseOrderItemUseTax-taxAmount-parentBean" />
+	<bean id="PurchaseOrderItemUseTax-taxAmount" parent="PurchaseOrderItemUseTax-taxAmount-parentBean"/>
 
-	<bean id="PurchaseOrderItemUseTax-taxAmount-parentBean"	abstract="true" parent="GenericAttributes-genericAmount" >
-		<property name="name" value="taxAmount" />
-		<property name="label" value="Tax Amount" />
-		<property name="shortLabel" value="Tax" />
+	<bean id="PurchaseOrderItemUseTax-taxAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="taxAmount"/>
+		<property name="label" value="Tax Amount"/>
+		<property name="shortLabel" value="Tax"/>
 	</bean>
 
 
 
-	<bean id="PurchaseOrderItemUseTax-chartOfAccountsCode" parent="PurchaseOrderItemUseTax-chartOfAccountsCode-parentBean" />
+	<bean id="PurchaseOrderItemUseTax-chartOfAccountsCode" parent="PurchaseOrderItemUseTax-chartOfAccountsCode-parentBean"/>
 
-	<bean id="PurchaseOrderItemUseTax-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode" />
-
-
-	<bean id="PurchaseOrderItemUseTax-accountNumber"	parent="PurchaseOrderItemUseTax-accountNumber-parentBean" />
-
-	<bean id="PurchaseOrderItemUseTax-accountNumber-parentBean"	abstract="true" parent="Account-accountNumber" />
+	<bean id="PurchaseOrderItemUseTax-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode"/>
 
 
-	<bean id="PurchaseOrderItemUseTax-financialObjectCode" parent="PurchaseOrderItemUseTax-financialObjectCode-parentBean" />
+	<bean id="PurchaseOrderItemUseTax-accountNumber" parent="PurchaseOrderItemUseTax-accountNumber-parentBean"/>
 
-	<bean id="PurchaseOrderItemUseTax-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode" />
+	<bean id="PurchaseOrderItemUseTax-accountNumber-parentBean" abstract="true" parent="Account-accountNumber"/>
+
+
+	<bean id="PurchaseOrderItemUseTax-financialObjectCode" parent="PurchaseOrderItemUseTax-financialObjectCode-parentBean"/>
+
+	<bean id="PurchaseOrderItemUseTax-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode"/>
 
 </beans>

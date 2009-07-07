@@ -1,54 +1,43 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="ProjectCode" parent="ProjectCode-parentBean" />
+  <bean id="ProjectCode" parent="ProjectCode-parentBean"/>
 
   <bean id="ProjectCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ProjectCode" />
-    <property name="inquiryDefinition" >
-      <ref bean="ProjectCode-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ProjectCode"/>
+    <property name="inquiryDefinition">
+      <ref bean="ProjectCode-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="ProjectCode-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="ProjectCode-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="code" />
-    <property name="objectLabel" value="Project Code" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="code"/>
+    <property name="objectLabel" value="Project Code"/>
+    <property name="attributes">
       <list>
-        <ref bean="ProjectCode-active" />
-        <ref bean="ProjectCode-chartOfAccountsCode" />
-        <ref bean="ProjectCode-organizationCode" />
-        <ref bean="ProjectCode-projectManagerUniversalId" />
-        <ref bean="ProjectCode-projectManagerUniversal.principalName" />
-        <ref bean="ProjectCode-projectManagerUniversal.name" />
-        <ref bean="ProjectCode-code" />
-        <ref bean="ProjectCode-projectDescription" />
-        <ref bean="ProjectCode-name" />
+        <ref bean="ProjectCode-active"/>
+        <ref bean="ProjectCode-chartOfAccountsCode"/>
+        <ref bean="ProjectCode-organizationCode"/>
+        <ref bean="ProjectCode-projectManagerUniversalId"/>
+        <ref bean="ProjectCode-projectManagerUniversal.principalName"/>
+        <ref bean="ProjectCode-projectManagerUniversal.name"/>
+        <ref bean="ProjectCode-code"/>
+        <ref bean="ProjectCode-projectDescription"/>
+        <ref bean="ProjectCode-name"/>
       </list>
     </property>
-    <property name="relationships" >
+    <property name="relationships">
       <list>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="projectManagerUniversal" />
-          <property name="primitiveAttributes" >
+          <property name="objectAttributeName" value="projectManagerUniversal"/>
+          <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="projectManagerUniversalId"
-                    p:targetName="principalId" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="projectManagerUniversalId" p:targetName="principalId"/>
             </list>
           </property>
-          <property name="supportAttributes" >
+          <property name="supportAttributes">
             <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="projectManagerUniversal.principalName"
-                    p:targetName="principalName" />
-              <bean parent="SupportAttributeDefinition"
-                    p:sourceName="projectManagerUniversal.name"
-                    p:targetName="name" />
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="projectManagerUniversal.principalName" p:targetName="principalName"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="projectManagerUniversal.name" p:targetName="name"/>
             </list>
           </property>
         </bean>
@@ -59,135 +48,117 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="ProjectCode-active" parent="ProjectCode-active-parentBean" />
+  <bean id="ProjectCode-active" parent="ProjectCode-active-parentBean"/>
 
   <bean id="ProjectCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
-    <property name="shortLabel" value="Active" />
+    <property name="name" value="active"/>
+    <property name="shortLabel" value="Active"/>
   </bean>
-  <bean id="ProjectCode-chartOfAccountsCode" parent="ProjectCode-chartOfAccountsCode-parentBean" />
+  <bean id="ProjectCode-chartOfAccountsCode" parent="ProjectCode-chartOfAccountsCode-parentBean"/>
 
   <bean id="ProjectCode-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
   </bean>
-  <bean id="ProjectCode-organizationCode" parent="ProjectCode-organizationCode-parentBean" />
+  <bean id="ProjectCode-organizationCode" parent="ProjectCode-organizationCode-parentBean"/>
 
   <bean id="ProjectCode-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
   </bean>
-  <bean id="ProjectCode-projectManagerUniversalId" parent="ProjectCode-projectManagerUniversalId-parentBean" />
+  <bean id="ProjectCode-projectManagerUniversalId" parent="ProjectCode-projectManagerUniversalId-parentBean"/>
 
   <bean id="ProjectCode-projectManagerUniversalId-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="projectManagerUniversalId" />
-    <property name="label" value="Project Manager UserID" />
-    <property name="shortLabel" value="Mgr" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="projectManagerUniversalId"/>
+    <property name="label" value="Project Manager UserID"/>
+    <property name="shortLabel" value="Mgr"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
-  <bean id="ProjectCode-projectManagerUniversal.principalName" parent="ProjectCode-projectManagerUniversal.principalName-parentBean" />
+  <bean id="ProjectCode-projectManagerUniversal.principalName" parent="ProjectCode-projectManagerUniversal.principalName-parentBean"/>
 
   <bean id="ProjectCode-projectManagerUniversal.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="projectManagerUniversal.principalName" />
-    <property name="label" value="Project Manager Principal Name" />
-    <property name="shortLabel" value="UserID" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="projectManagerUniversal.name"
-            p:universalIdAttributeName="projectManagerUniversalId"
-            p:userIdAttributeName="projectManagerUniversal.principalName" />
+    <property name="name" value="projectManagerUniversal.principalName"/>
+    <property name="label" value="Project Manager Principal Name"/>
+    <property name="shortLabel" value="UserID"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="projectManagerUniversal.name" p:universalIdAttributeName="projectManagerUniversalId" p:userIdAttributeName="projectManagerUniversal.principalName"/>
     </property>
   </bean>
-  <bean id="ProjectCode-projectManagerUniversal.name" parent="ProjectCode-projectManagerUniversal.name-parentBean" />
+  <bean id="ProjectCode-projectManagerUniversal.name" parent="ProjectCode-projectManagerUniversal.name-parentBean"/>
 
   <bean id="ProjectCode-projectManagerUniversal.name-parentBean" abstract="true" parent="PersonImpl-name">
-    <property name="name" value="projectManagerUniversal.name" />
-    <property name="label" value="Project Manager Name" />
-    <property name="required" value="false" />
+    <property name="name" value="projectManagerUniversal.name"/>
+    <property name="label" value="Project Manager Name"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="ProjectCode-code" parent="ProjectCode-code-parentBean" />
+  <bean id="ProjectCode-code" parent="ProjectCode-code-parentBean"/>
 
   <bean id="ProjectCode-code-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="code" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Project Code" />
-    <property name="shortLabel" value="Project" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="code"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Project Code"/>
+    <property name="shortLabel" value="Project"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="ProjectCode-projectDescription" parent="ProjectCode-projectDescription-parentBean" />
+  <bean id="ProjectCode-projectDescription" parent="ProjectCode-projectDescription-parentBean"/>
 
   <bean id="ProjectCode-projectDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="projectDescription" />
-    <property name="label" value="Project Description" />
-    <property name="shortLabel" value="Desc" />
-    <property name="maxLength" value="400" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="projectDescription"/>
+    <property name="label" value="Project Description"/>
+    <property name="shortLabel" value="Desc"/>
+    <property name="maxLength" value="400"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="3"
-            p:cols="40" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="40"/>
     </property>
   </bean>
-  <bean id="ProjectCode-name" parent="ProjectCode-name-parentBean" />
+  <bean id="ProjectCode-name" parent="ProjectCode-name-parentBean"/>
 
   <bean id="ProjectCode-name-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="name" />
-    <property name="label" value="Project Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="name"/>
+    <property name="label" value="Project Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="ProjectCode-inquiryDefinition" parent="ProjectCode-inquiryDefinition-parentBean" />
+  <bean id="ProjectCode-inquiryDefinition" parent="ProjectCode-inquiryDefinition-parentBean"/>
 
   <bean id="ProjectCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Project Code Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Project Code Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="code" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="name" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="projectManagerUniversal.principalName"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="projectDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="code"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+              <bean parent="FieldDefinition" p:attributeName="projectManagerUniversal.principalName" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="projectDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -198,54 +169,40 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="ProjectCode-lookupDefinition" parent="ProjectCode-lookupDefinition-parentBean" />
+  <bean id="ProjectCode-lookupDefinition" parent="ProjectCode-lookupDefinition-parentBean"/>
 
   <bean id="ProjectCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Project Code Lookup" />
-    <property name="instructions" value="Lookup a Project Code" />
-    <property name="defaultSort" >
+    <property name="title" value="Project Code Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>code</value>
           </list>
         </property>
-        <property name="sortAscending" value="false" />
+        <property name="sortAscending" value="false"/>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="projectManagerUniversal.principalName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="projectManagerUniversal.principalName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
-        <bean parent="FieldDefinition"
-              p:attributeName="projectManagerUniversal.principalName"
-              p:forceInquiry="true" />
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="projectManagerUniversal.principalName" p:forceInquiry="true"/>
       </list>
     </property>
   </bean>
 </beans>
-

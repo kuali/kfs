@@ -1,30 +1,23 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="OwnershipType" parent="OwnershipType-parentBean" />
+  <bean id="OwnershipType" parent="OwnershipType-parentBean"/>
 
   <bean id="OwnershipType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.OwnershipType" />
-    <property name="inquiryDefinition" >
-      <ref bean="OwnershipType-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.OwnershipType"/>
+    <property name="inquiryDefinition">
+      <ref bean="OwnershipType-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="OwnershipType-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="OwnershipType-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="vendorOwnershipCode" />
-    <property name="objectLabel" value="Ownership Type" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="vendorOwnershipCode"/>
+    <property name="objectLabel" value="Ownership Type"/>
+    <property name="attributes">
       <list>
-        <ref bean="OwnershipType-vendorOwnershipCode" />
-        <ref bean="OwnershipType-vendorOwnershipDescription" />
-        <ref bean="OwnershipType-vendorOwnershipCategoryAllowedIndicator" />
-        <ref bean="OwnershipType-active" />
+        <ref bean="OwnershipType-vendorOwnershipCode"/>
+        <ref bean="OwnershipType-vendorOwnershipDescription"/>
+        <ref bean="OwnershipType-vendorOwnershipCategoryAllowedIndicator"/>
+        <ref bean="OwnershipType-active"/>
       </list>
     </property>
   </bean>
@@ -32,81 +25,74 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="OwnershipType-vendorOwnershipCode" parent="OwnershipType-vendorOwnershipCode-parentBean" />
+  <bean id="OwnershipType-vendorOwnershipCode" parent="OwnershipType-vendorOwnershipCode-parentBean"/>
 
   <bean id="OwnershipType-vendorOwnershipCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorOwnershipCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Ownership Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="vendorOwnershipCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Ownership Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
-  <bean id="OwnershipType-vendorOwnershipDescription" parent="OwnershipType-vendorOwnershipDescription-parentBean" />
+  <bean id="OwnershipType-vendorOwnershipDescription" parent="OwnershipType-vendorOwnershipDescription-parentBean"/>
 
   <bean id="OwnershipType-vendorOwnershipDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorOwnershipDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Ownership Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="vendorOwnershipDescription"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Ownership Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="47" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
     </property>
   </bean>
-  <bean id="OwnershipType-vendorOwnershipCategoryAllowedIndicator" parent="OwnershipType-vendorOwnershipCategoryAllowedIndicator-parentBean" />
+  <bean id="OwnershipType-vendorOwnershipCategoryAllowedIndicator" parent="OwnershipType-vendorOwnershipCategoryAllowedIndicator-parentBean"/>
 
   <bean id="OwnershipType-vendorOwnershipCategoryAllowedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorOwnershipCategoryAllowedIndicator" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Ownership Type Category Allowed Indicator" />
-    <property name="shortLabel" value="Ownership Type Category Allowed" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="vendorOwnershipCategoryAllowedIndicator"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Ownership Type Category Allowed Indicator"/>
+    <property name="shortLabel" value="Ownership Type Category Allowed"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="OwnershipType-active" parent="OwnershipType-active-parentBean" />
+  <bean id="OwnershipType-active" parent="OwnershipType-active-parentBean"/>
 
   <bean id="OwnershipType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="OwnershipType-inquiryDefinition" parent="OwnershipType-inquiryDefinition-parentBean" />
+  <bean id="OwnershipType-inquiryDefinition" parent="OwnershipType-inquiryDefinition-parentBean"/>
 
   <bean id="OwnershipType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Ownership Type Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Ownership Type Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorOwnershipCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorOwnershipDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorOwnershipCategoryAllowedIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="vendorOwnershipCode"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorOwnershipDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorOwnershipCategoryAllowedIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -117,37 +103,29 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="OwnershipType-lookupDefinition" parent="OwnershipType-lookupDefinition-parentBean" />
+  <bean id="OwnershipType-lookupDefinition" parent="OwnershipType-lookupDefinition-parentBean"/>
 
   <bean id="OwnershipType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Ownership Type Lookup" />
-    <property name="instructions" value="Lookup an Ownership Type" />
-    <property name="defaultSort" >
+    <property name="title" value="Ownership Type Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorOwnershipCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorOwnershipDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorOwnershipCategoryAllowedIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="vendorOwnershipCode"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorOwnershipDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorOwnershipCategoryAllowedIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorOwnershipCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorOwnershipDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorOwnershipCategoryAllowedIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="vendorOwnershipCode"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorOwnershipDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorOwnershipCategoryAllowedIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

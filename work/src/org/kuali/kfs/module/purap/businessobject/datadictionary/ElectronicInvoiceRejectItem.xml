@@ -1,60 +1,53 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="ElectronicInvoiceRejectItem" parent="ElectronicInvoiceRejectItem-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem" parent="ElectronicInvoiceRejectItem-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-parentBean" abstract="true" parent="BusinessObjectEntry">
-  	<property name="objectLabel" value="Electronic Invoice Reject Item" />
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectItem" />
-    <property name="inquiryDefinition" >
-      <ref bean="ElectronicInvoiceRejectItem-inquiryDefinition" />
+  	<property name="objectLabel" value="Electronic Invoice Reject Item"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectItem"/>
+    <property name="inquiryDefinition">
+      <ref bean="ElectronicInvoiceRejectItem-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="ElectronicInvoiceRejectItem-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="ElectronicInvoiceRejectItem-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="ElectronicInvoiceRejectItem-invoiceRejectItemIdentifier" />
-        <ref bean="ElectronicInvoiceRejectItem-purapDocumentIdentifier" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceItemCatalogNumber" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceItemDiscountAmount" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceItemDiscountCurrencyCode" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceItemGrossAmount" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceItemGrossCurrencyCode" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceItemLineNumber" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceItemNetAmount" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceItemNetCurrencyCode" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceItemQuantity" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceItemShippingAmount" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceItemShippingCurrencyCode" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceItemShippingDescription" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingAmount" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingCurrencyCode" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceItemSubTotalAmount" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceItemSubTotalCurrencyCode" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceItemTaxAmount" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceItemTaxCurrencyCode" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceItemTaxDescription" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceItemUnitOfMeasureCode" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceItemUnitPrice" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceItemUnitPriceCurrencyCode" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceReferenceItemCountryCode" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceReferenceItemCountryName" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceReferenceItemDescription" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceReferenceItemLineNumber" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceReferenceItemManufacturerName" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceReferenceItemManufacturerPartIdentifier" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceReferenceItemSerialNumber" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceReferenceItemSupplierPartAuxiliaryIdentifier" />
-        <ref bean="ElectronicInvoiceRejectItem-invoiceReferenceItemSupplierPartIdentifier" />
-        <ref bean="ElectronicInvoiceRejectItem-unitOfMeasureAcceptIndicator" />
-        <ref bean="ElectronicInvoiceRejectItem-catalogNumberAcceptIndicator" />
+        <ref bean="ElectronicInvoiceRejectItem-invoiceRejectItemIdentifier"/>
+        <ref bean="ElectronicInvoiceRejectItem-purapDocumentIdentifier"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceItemCatalogNumber"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceItemDiscountAmount"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceItemDiscountCurrencyCode"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceItemGrossAmount"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceItemGrossCurrencyCode"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceItemLineNumber"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceItemNetAmount"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceItemNetCurrencyCode"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceItemQuantity"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceItemShippingAmount"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceItemShippingCurrencyCode"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceItemShippingDescription"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingAmount"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingCurrencyCode"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceItemSubTotalAmount"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceItemSubTotalCurrencyCode"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceItemTaxAmount"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceItemTaxCurrencyCode"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceItemTaxDescription"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceItemUnitOfMeasureCode"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceItemUnitPrice"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceItemUnitPriceCurrencyCode"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceReferenceItemCountryCode"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceReferenceItemCountryName"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceReferenceItemDescription"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceReferenceItemLineNumber"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceReferenceItemManufacturerName"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceReferenceItemManufacturerPartIdentifier"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceReferenceItemSerialNumber"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceReferenceItemSupplierPartAuxiliaryIdentifier"/>
+        <ref bean="ElectronicInvoiceRejectItem-invoiceReferenceItemSupplierPartIdentifier"/>
+        <ref bean="ElectronicInvoiceRejectItem-unitOfMeasureAcceptIndicator"/>
+        <ref bean="ElectronicInvoiceRejectItem-catalogNumberAcceptIndicator"/>
       </list>
     </property>
   </bean>
@@ -62,579 +55,514 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemCatalogNumber" parent="ElectronicInvoiceRejectItem-invoiceItemCatalogNumber-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemCatalogNumber" parent="ElectronicInvoiceRejectItem-invoiceItemCatalogNumber-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceItemCatalogNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemCatalogNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Catalog Number" />
-    <property name="shortLabel" value="Catalog Number" />
-    <property name="maxLength" value="50" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="invoiceItemCatalogNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Catalog Number"/>
+    <property name="shortLabel" value="Catalog Number"/>
+    <property name="maxLength" value="50"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="52" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="52"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-purapDocumentIdentifier" parent="ElectronicInvoiceRejectItem-purapDocumentIdentifier-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-purapDocumentIdentifier" parent="ElectronicInvoiceRejectItem-purapDocumentIdentifier-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-purapDocumentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purapDocumentIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Header Information Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="purapDocumentIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Header Information Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemDiscountAmount" parent="ElectronicInvoiceRejectItem-invoiceItemDiscountAmount-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemDiscountAmount" parent="ElectronicInvoiceRejectItem-invoiceItemDiscountAmount-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceItemDiscountAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
-    <property name="name" value="invoiceItemDiscountAmount" />
-    <property name="label" value="Invoice Item Discount Amount" />
-    <property name="shortLabel" value="Discount" />
+    <property name="name" value="invoiceItemDiscountAmount"/>
+    <property name="label" value="Invoice Item Discount Amount"/>
+    <property name="shortLabel" value="Discount"/>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemDiscountCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemDiscountCurrencyCode-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemDiscountCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemDiscountCurrencyCode-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceItemDiscountCurrencyCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemDiscountCurrencyCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Discount Currency Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="20" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="invoiceItemDiscountCurrencyCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Item Discount Currency Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="22" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="22"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemGrossAmount" parent="ElectronicInvoiceRejectItem-invoiceItemGrossAmount-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemGrossAmount" parent="ElectronicInvoiceRejectItem-invoiceItemGrossAmount-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceItemGrossAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
-    <property name="name" value="invoiceItemGrossAmount" />
-    <property name="label" value="Invoice Item Gross Amount" />
-    <property name="shortLabel" value="Gross Amount" />
+    <property name="name" value="invoiceItemGrossAmount"/>
+    <property name="label" value="Invoice Item Gross Amount"/>
+    <property name="shortLabel" value="Gross Amount"/>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemGrossCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemGrossCurrencyCode-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemGrossCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemGrossCurrencyCode-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceItemGrossCurrencyCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemGrossCurrencyCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Gross Currency Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="20" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="invoiceItemGrossCurrencyCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Item Gross Currency Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="22" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="22"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceRejectItemIdentifier" parent="ElectronicInvoiceRejectItem-invoiceRejectItemIdentifier-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceRejectItemIdentifier" parent="ElectronicInvoiceRejectItem-invoiceRejectItemIdentifier-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceRejectItemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceRejectItemIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="invoiceRejectItemIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Item Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemLineNumber" parent="ElectronicInvoiceRejectItem-invoiceItemLineNumber-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemLineNumber" parent="ElectronicInvoiceRejectItem-invoiceItemLineNumber-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceItemLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemLineNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Line Number" />
-    <property name="shortLabel" value="Line Number" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="invoiceItemLineNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Item Line Number"/>
+    <property name="shortLabel" value="Line Number"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemNetAmount" parent="ElectronicInvoiceRejectItem-invoiceItemNetAmount-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemNetAmount" parent="ElectronicInvoiceRejectItem-invoiceItemNetAmount-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceItemNetAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
-    <property name="name" value="invoiceItemNetAmount" />
-    <property name="label" value="Invoice Item Net Amount" />
-    <property name="shortLabel" value="Net Amount" />
+    <property name="name" value="invoiceItemNetAmount"/>
+    <property name="label" value="Invoice Item Net Amount"/>
+    <property name="shortLabel" value="Net Amount"/>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemNetCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemNetCurrencyCode-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemNetCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemNetCurrencyCode-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceItemNetCurrencyCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemNetCurrencyCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Net Currency Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="20" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="invoiceItemNetCurrencyCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Item Net Currency Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="22" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="22"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemQuantity" parent="ElectronicInvoiceRejectItem-invoiceItemQuantity-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemQuantity" parent="ElectronicInvoiceRejectItem-invoiceItemQuantity-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceItemQuantity-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemQuantity" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Quantity" />
-    <property name="shortLabel" value="Quantity" />
-    <property name="maxLength" value="11" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="invoiceItemQuantity"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Item Quantity"/>
+    <property name="shortLabel" value="Quantity"/>
+    <property name="maxLength" value="11"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="13" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="13"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemShippingAmount" parent="ElectronicInvoiceRejectItem-invoiceItemShippingAmount-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemShippingAmount" parent="ElectronicInvoiceRejectItem-invoiceItemShippingAmount-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceItemShippingAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
-    <property name="name" value="invoiceItemShippingAmount" />
-    <property name="label" value="Invoice Item Shipping Amount" />
-    <property name="shortLabel" value="Shipping" />
+    <property name="name" value="invoiceItemShippingAmount"/>
+    <property name="label" value="Invoice Item Shipping Amount"/>
+    <property name="shortLabel" value="Shipping"/>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemShippingCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemShippingCurrencyCode-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemShippingCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemShippingCurrencyCode-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceItemShippingCurrencyCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemShippingCurrencyCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Shipping Currency Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="20" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="invoiceItemShippingCurrencyCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Item Shipping Currency Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="22" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="22"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemShippingDescription" parent="ElectronicInvoiceRejectItem-invoiceItemShippingDescription-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemShippingDescription" parent="ElectronicInvoiceRejectItem-invoiceItemShippingDescription-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceItemShippingDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemShippingDescription" />
-    <property name="label" value="Invoice Item Shipping Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="300" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="invoiceItemShippingDescription"/>
+    <property name="label" value="Invoice Item Shipping Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="300"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="5"
-            p:cols="80" />
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="80"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingAmount" parent="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingAmount-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingAmount" parent="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingAmount-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
-    <property name="name" value="invoiceItemSpecialHandlingAmount" />
-    <property name="label" value="Special Handling Amount" />
-    <property name="shortLabel" value="Handling" />
+    <property name="name" value="invoiceItemSpecialHandlingAmount"/>
+    <property name="label" value="Special Handling Amount"/>
+    <property name="shortLabel" value="Handling"/>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingCurrencyCode-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingCurrencyCode-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceItemSpecialHandlingCurrencyCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemSpecialHandlingCurrencyCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Special Handling Currency Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="20" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="invoiceItemSpecialHandlingCurrencyCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Item Special Handling Currency Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="22" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="22"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemSubTotalAmount" parent="ElectronicInvoiceRejectItem-invoiceItemSubTotalAmount-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemSubTotalAmount" parent="ElectronicInvoiceRejectItem-invoiceItemSubTotalAmount-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceItemSubTotalAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
-    <property name="name" value="invoiceItemSubTotalAmount" />
-    <property name="label" value="Invoice Item Sub Total Amount" />
-    <property name="shortLabel" value="Sub Total" />
+    <property name="name" value="invoiceItemSubTotalAmount"/>
+    <property name="label" value="Invoice Item Sub Total Amount"/>
+    <property name="shortLabel" value="Sub Total"/>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemSubTotalCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemSubTotalCurrencyCode-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemSubTotalCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemSubTotalCurrencyCode-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceItemSubTotalCurrencyCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemSubTotalCurrencyCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Sub Total Currency Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="20" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="invoiceItemSubTotalCurrencyCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Item Sub Total Currency Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="22" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="22"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemTaxAmount" parent="ElectronicInvoiceRejectItem-invoiceItemTaxAmount-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemTaxAmount" parent="ElectronicInvoiceRejectItem-invoiceItemTaxAmount-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceItemTaxAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
-    <property name="name" value="invoiceItemTaxAmount" />
-    <property name="label" value="Invoice Item Tax Amount" />
-    <property name="shortLabel" value="Tax" />
+    <property name="name" value="invoiceItemTaxAmount"/>
+    <property name="label" value="Invoice Item Tax Amount"/>
+    <property name="shortLabel" value="Tax"/>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemTaxCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemTaxCurrencyCode-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemTaxCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemTaxCurrencyCode-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceItemTaxCurrencyCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemTaxCurrencyCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Tax Currency Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="20" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="invoiceItemTaxCurrencyCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Item Tax Currency Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="22" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="22"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemTaxDescription" parent="ElectronicInvoiceRejectItem-invoiceItemTaxDescription-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemTaxDescription" parent="ElectronicInvoiceRejectItem-invoiceItemTaxDescription-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceItemTaxDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemTaxDescription" />
-    <property name="label" value="Invoice Item Tax Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="300" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="invoiceItemTaxDescription"/>
+    <property name="label" value="Invoice Item Tax Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="300"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="5"
-            p:cols="80" />
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="80"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemUnitOfMeasureCode" parent="ElectronicInvoiceRejectItem-invoiceItemUnitOfMeasureCode-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemUnitOfMeasureCode" parent="ElectronicInvoiceRejectItem-invoiceItemUnitOfMeasureCode-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceItemUnitOfMeasureCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemUnitOfMeasureCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Unit Of Measure Code" />
-    <property name="shortLabel" value="UOM Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="invoiceItemUnitOfMeasureCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Item Unit Of Measure Code"/>
+    <property name="shortLabel" value="UOM Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemUnitPrice" parent="ElectronicInvoiceRejectItem-invoiceItemUnitPrice-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemUnitPrice" parent="ElectronicInvoiceRejectItem-invoiceItemUnitPrice-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceItemUnitPrice-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemUnitPrice" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Unit Price" />
-    <property name="shortLabel" value="Unit Price" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="invoiceItemUnitPrice"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Item Unit Price"/>
+    <property name="shortLabel" value="Unit Price"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceItemUnitPriceCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemUnitPriceCurrencyCode-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceItemUnitPriceCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemUnitPriceCurrencyCode-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceItemUnitPriceCurrencyCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemUnitPriceCurrencyCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Unit Price Currency Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="20" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="invoiceItemUnitPriceCurrencyCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Item Unit Price Currency Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="22" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="22"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemCountryCode" parent="ElectronicInvoiceRejectItem-invoiceReferenceItemCountryCode-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemCountryCode" parent="ElectronicInvoiceRejectItem-invoiceReferenceItemCountryCode-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceReferenceItemCountryCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Reference Item Country Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="50" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="invoiceReferenceItemCountryCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Reference Item Country Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="50"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="52" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="52"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemCountryName" parent="ElectronicInvoiceRejectItem-invoiceReferenceItemCountryName-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemCountryName" parent="ElectronicInvoiceRejectItem-invoiceReferenceItemCountryName-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemCountryName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceReferenceItemCountryName" />
-    <property name="label" value="Invoice Reference Item Country Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="100" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="invoiceReferenceItemCountryName"/>
+    <property name="label" value="Invoice Reference Item Country Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="100"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="102" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="102"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemDescription" parent="ElectronicInvoiceRejectItem-invoiceReferenceItemDescription-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemDescription" parent="ElectronicInvoiceRejectItem-invoiceReferenceItemDescription-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceReferenceItemDescription" />
-    <property name="label" value="Invoice Reference Item Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="400" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="invoiceReferenceItemDescription"/>
+    <property name="label" value="Invoice Reference Item Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="400"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="5"
-            p:cols="80" />
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="80"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemLineNumber" parent="ElectronicInvoiceRejectItem-invoiceReferenceItemLineNumber-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemLineNumber" parent="ElectronicInvoiceRejectItem-invoiceReferenceItemLineNumber-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceReferenceItemLineNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Reference Item Line Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="invoiceReferenceItemLineNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Reference Item Line Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemManufacturerName" parent="ElectronicInvoiceRejectItem-invoiceReferenceItemManufacturerName-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemManufacturerName" parent="ElectronicInvoiceRejectItem-invoiceReferenceItemManufacturerName-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemManufacturerName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceReferenceItemManufacturerName" />
-    <property name="label" value="Invoice Reference Item Manufacturer Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="100" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="invoiceReferenceItemManufacturerName"/>
+    <property name="label" value="Invoice Reference Item Manufacturer Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="100"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="102" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="102"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemManufacturerPartIdentifier" parent="ElectronicInvoiceRejectItem-invoiceReferenceItemManufacturerPartIdentifier-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemManufacturerPartIdentifier" parent="ElectronicInvoiceRejectItem-invoiceReferenceItemManufacturerPartIdentifier-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemManufacturerPartIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceReferenceItemManufacturerPartIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Reference Item Manufacturer Part Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="100" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="invoiceReferenceItemManufacturerPartIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Reference Item Manufacturer Part Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="100"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="102" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="102"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemSerialNumber" parent="ElectronicInvoiceRejectItem-invoiceReferenceItemSerialNumber-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemSerialNumber" parent="ElectronicInvoiceRejectItem-invoiceReferenceItemSerialNumber-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemSerialNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceReferenceItemSerialNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Reference Item Serial Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="100" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="invoiceReferenceItemSerialNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Reference Item Serial Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="100"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="102" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="102"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemSupplierPartAuxiliaryIdentifier" parent="ElectronicInvoiceRejectItem-invoiceReferenceItemSupplierPartAuxiliaryIdentifier-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemSupplierPartAuxiliaryIdentifier" parent="ElectronicInvoiceRejectItem-invoiceReferenceItemSupplierPartAuxiliaryIdentifier-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemSupplierPartAuxiliaryIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceReferenceItemSupplierPartAuxiliaryIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Reference Item Supplier Part Auxiliary Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="100" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="invoiceReferenceItemSupplierPartAuxiliaryIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Reference Item Supplier Part Auxiliary Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="100"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="102" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="102"/>
     </property>
   </bean>
-  <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemSupplierPartIdentifier" parent="ElectronicInvoiceRejectItem-invoiceReferenceItemSupplierPartIdentifier-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemSupplierPartIdentifier" parent="ElectronicInvoiceRejectItem-invoiceReferenceItemSupplierPartIdentifier-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-invoiceReferenceItemSupplierPartIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceReferenceItemSupplierPartIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Reference Item Supplier Part Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="100" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="invoiceReferenceItemSupplierPartIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Reference Item Supplier Part Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="100"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="102" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="102"/>
     </property>
   </bean>
 
-  <bean id="ElectronicInvoiceRejectItem-unitOfMeasureAcceptIndicator" parent="ElectronicInvoiceRejectItem-unitOfMeasureAcceptIndicator-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-unitOfMeasureAcceptIndicator" parent="ElectronicInvoiceRejectItem-unitOfMeasureAcceptIndicator-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-unitOfMeasureAcceptIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="unitOfMeasureAcceptIndicator" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Accept Value" />
-    <property name="shortLabel" value="Accept Value" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="unitOfMeasureAcceptIndicator"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Accept Value"/>
+    <property name="shortLabel" value="Accept Value"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
 
-  <bean id="ElectronicInvoiceRejectItem-catalogNumberAcceptIndicator" parent="ElectronicInvoiceRejectItem-catalogNumberAcceptIndicator-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-catalogNumberAcceptIndicator" parent="ElectronicInvoiceRejectItem-catalogNumberAcceptIndicator-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-catalogNumberAcceptIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="catalogNumberAcceptIndicator" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Accept Value" />
-    <property name="shortLabel" value="Accept Value" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="catalogNumberAcceptIndicator"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Accept Value"/>
+    <property name="shortLabel" value="Accept Value"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="ElectronicInvoiceRejectItem-inquiryDefinition" parent="ElectronicInvoiceRejectItem-inquiryDefinition-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-inquiryDefinition" parent="ElectronicInvoiceRejectItem-inquiryDefinition-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Electronic Invoice Item Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Electronic Invoice Item Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemCatalogNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="purapDocumentIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemDiscountAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemDiscountCurrencyCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemGrossAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemGrossCurrencyCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceRejectItemIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemLineNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemNetAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemNetCurrencyCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemQuantity" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemShippingAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemShippingCurrencyCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemShippingDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemSpecialHandlingAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemSpecialHandlingCurrencyCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemSubTotalAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemSubTotalCurrencyCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemTaxAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemTaxCurrencyCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemTaxDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemUnitOfMeasureCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemUnitPrice" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemUnitPriceCurrencyCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceReferenceItemCountryCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceReferenceItemCountryName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceReferenceItemDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceReferenceItemLineNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceReferenceItemManufacturerName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceReferenceItemManufacturerPartIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceReferenceItemSerialNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceReferenceItemSupplierPartAuxiliaryIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceReferenceItemSupplierPartIdentifier" />
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemCatalogNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemDiscountAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemDiscountCurrencyCode"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemGrossAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemGrossCurrencyCode"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceRejectItemIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemLineNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemNetAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemNetCurrencyCode"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemQuantity"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemShippingAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemShippingCurrencyCode"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemShippingDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemSpecialHandlingAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemSpecialHandlingCurrencyCode"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemSubTotalAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemSubTotalCurrencyCode"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemTaxAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemTaxCurrencyCode"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemTaxDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemUnitOfMeasureCode"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemUnitPrice"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemUnitPriceCurrencyCode"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemCountryCode"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemCountryName"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemLineNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemManufacturerName"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemManufacturerPartIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemSerialNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemSupplierPartAuxiliaryIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemSupplierPartIdentifier"/>
             </list>
           </property>
         </bean>
@@ -645,153 +573,87 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="ElectronicInvoiceRejectItem-lookupDefinition" parent="ElectronicInvoiceRejectItem-lookupDefinition-parentBean" />
+  <bean id="ElectronicInvoiceRejectItem-lookupDefinition" parent="ElectronicInvoiceRejectItem-lookupDefinition-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectItem-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Electronic Invoice Item Lookup" />
-    <property name="instructions" value="Lookup an Electronic Invoice Item" />
-    <property name="defaultSort" >
+    <property name="title" value="Electronic Invoice Item Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemCatalogNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purapDocumentIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemDiscountAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemDiscountCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemGrossAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemGrossCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRejectItemIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemLineNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemNetAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemNetCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemQuantity" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemShippingAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemShippingCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemShippingDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemSpecialHandlingAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemSpecialHandlingCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemSubTotalAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemSubTotalCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemTaxAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemTaxCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemTaxDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemUnitOfMeasureCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemUnitPrice" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemUnitPriceCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceReferenceItemCountryCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceReferenceItemCountryName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceReferenceItemDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceReferenceItemLineNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceReferenceItemManufacturerName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceReferenceItemManufacturerPartIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceReferenceItemSerialNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceReferenceItemSupplierPartAuxiliaryIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceReferenceItemSupplierPartIdentifier" />
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemCatalogNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemDiscountAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemDiscountCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemGrossAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemGrossCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceRejectItemIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemLineNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemNetAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemNetCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemShippingAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemShippingCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemShippingDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemSpecialHandlingAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemSpecialHandlingCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemSubTotalAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemSubTotalCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemTaxAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemTaxCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemTaxDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemUnitOfMeasureCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemUnitPrice"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemUnitPriceCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemCountryCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemCountryName"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemLineNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemManufacturerName"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemManufacturerPartIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemSerialNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemSupplierPartAuxiliaryIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemSupplierPartIdentifier"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemCatalogNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purapDocumentIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemDiscountAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemDiscountCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemGrossAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemGrossCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceRejectItemIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemLineNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemNetAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemNetCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemQuantity" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemShippingAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemShippingCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemShippingDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemSpecialHandlingAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemSpecialHandlingCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemSubTotalAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemSubTotalCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemTaxAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemTaxCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemTaxDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemUnitOfMeasureCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemUnitPrice" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemUnitPriceCurrencyCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceReferenceItemCountryCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceReferenceItemCountryName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceReferenceItemDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceReferenceItemLineNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceReferenceItemManufacturerName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceReferenceItemManufacturerPartIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceReferenceItemSerialNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceReferenceItemSupplierPartAuxiliaryIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceReferenceItemSupplierPartIdentifier" />
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemCatalogNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemDiscountAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemDiscountCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemGrossAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemGrossCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceRejectItemIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemLineNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemNetAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemNetCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemShippingAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemShippingCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemShippingDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemSpecialHandlingAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemSpecialHandlingCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemSubTotalAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemSubTotalCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemTaxAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemTaxCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemTaxDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemUnitOfMeasureCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemUnitPrice"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemUnitPriceCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemCountryCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemCountryName"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemLineNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemManufacturerName"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemManufacturerPartIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemSerialNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemSupplierPartAuxiliaryIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemSupplierPartIdentifier"/>
       </list>
     </property>
   </bean>

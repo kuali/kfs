@@ -1,24 +1,20 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="PaymentStatus" parent="PaymentStatus-parentBean" />
+  <bean id="PaymentStatus" parent="PaymentStatus-parentBean"/>
 
   <bean id="PaymentStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentStatus" />
-    <property name="objectLabel" value="Payment Status" />
-    <property name="inquiryDefinition" >
-      <ref bean="PaymentStatus-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentStatus"/>
+    <property name="objectLabel" value="Payment Status"/>
+    <property name="inquiryDefinition">
+      <ref bean="PaymentStatus-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="PaymentStatus-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="PaymentStatus-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="PaymentStatus-code" />
-        <ref bean="PaymentStatus-name" />
+        <ref bean="PaymentStatus-code"/>
+        <ref bean="PaymentStatus-name"/>
       </list>
     </property>
   </bean>
@@ -26,35 +22,32 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="PaymentStatus-code" parent="PaymentStatus-code-parentBean" />
+  <bean id="PaymentStatus-code" parent="PaymentStatus-code-parentBean"/>
 
   <bean id="PaymentStatus-code-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="code" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Payment Status Code" />
-    <property name="shortLabel" value="Payment Status" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="code"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Payment Status Code"/>
+    <property name="shortLabel" value="Payment Status"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.PaymentStatusValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.PaymentStatusValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="PaymentStatus-name" parent="PaymentStatus-name-parentBean" />
+  <bean id="PaymentStatus-name" parent="PaymentStatus-name-parentBean"/>
 
   <bean id="PaymentStatus-name-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="name" />
-    <property name="label" value="Payment Status Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="name"/>
+    <property name="label" value="Payment Status Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
   </bean>
  
@@ -62,21 +55,19 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="PaymentStatus-inquiryDefinition" parent="PaymentStatus-inquiryDefinition-parentBean" />
+  <bean id="PaymentStatus-inquiryDefinition" parent="PaymentStatus-inquiryDefinition-parentBean"/>
 
   <bean id="PaymentStatus-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Payment Status Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Payment Status Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="code" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="name" />
+              <bean parent="FieldDefinition" p:attributeName="code"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
             </list>
           </property>
         </bean>
@@ -87,34 +78,30 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="PaymentStatus-lookupDefinition" parent="PaymentStatus-lookupDefinition-parentBean" />
+  <bean id="PaymentStatus-lookupDefinition" parent="PaymentStatus-lookupDefinition-parentBean"/>
 
   <bean id="PaymentStatus-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Payment Status Lookup" />
-    <property name="instructions" value="Lookup a Payment Status" />
-    <property name="defaultSort" >
+    <property name="title" value="Payment Status Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>code</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
       </list>
     </property>
   </bean>

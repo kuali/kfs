@@ -1,31 +1,24 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="ElectronicInvoiceItemMapping" parent="ElectronicInvoiceItemMapping-parentBean" />
+  <bean id="ElectronicInvoiceItemMapping" parent="ElectronicInvoiceItemMapping-parentBean"/>
 
   <bean id="ElectronicInvoiceItemMapping-parentBean" abstract="true" parent="BusinessObjectEntry">
-  	<property name="objectLabel" value="Electronic Invoice Item Mapping" />
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItemMapping" />
-    <property name="inquiryDefinition" >
-      <ref bean="ElectronicInvoiceItemMapping-inquiryDefinition" />
+  	<property name="objectLabel" value="Electronic Invoice Item Mapping"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItemMapping"/>
+    <property name="inquiryDefinition">
+      <ref bean="ElectronicInvoiceItemMapping-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="ElectronicInvoiceItemMapping-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="ElectronicInvoiceItemMapping-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
         <!-- <ref bean="ElectronicInvoiceItemMapping-active" /> -->
-        <ref bean="ElectronicInvoiceItemMapping-invoiceItemTypeCode" />
-        <ref bean="ElectronicInvoiceItemMapping-itemTypeCode" />
-        <ref bean="ElectronicInvoiceItemMapping-invoiceMapIdentifier" />
-        <ref bean="ElectronicInvoiceItemMapping-vendorHeaderGeneratedIdentifier" />
-        <ref bean="ElectronicInvoiceItemMapping-vendorDetailAssignedIdentifier" />
+        <ref bean="ElectronicInvoiceItemMapping-invoiceItemTypeCode"/>
+        <ref bean="ElectronicInvoiceItemMapping-itemTypeCode"/>
+        <ref bean="ElectronicInvoiceItemMapping-invoiceMapIdentifier"/>
+        <ref bean="ElectronicInvoiceItemMapping-vendorHeaderGeneratedIdentifier"/>
+        <ref bean="ElectronicInvoiceItemMapping-vendorDetailAssignedIdentifier"/>
       </list>
     </property>
   </bean>
@@ -46,86 +39,82 @@
     </property>
   </bean>
   -->
-  <bean id="ElectronicInvoiceItemMapping-invoiceItemTypeCode" parent="ElectronicInvoiceItemMapping-invoiceItemTypeCode-parentBean" />
+  <bean id="ElectronicInvoiceItemMapping-invoiceItemTypeCode" parent="ElectronicInvoiceItemMapping-invoiceItemTypeCode-parentBean"/>
 
   <bean id="ElectronicInvoiceItemMapping-invoiceItemTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Type Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="11" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="invoiceItemTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Item Type Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="11"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="13" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="13"/>
     </property>
   </bean>
   
-  <bean id="ElectronicInvoiceItemMapping-itemTypeCode" parent="ElectronicInvoiceItemMapping-itemTypeCode-parentBean" />
+  <bean id="ElectronicInvoiceItemMapping-itemTypeCode" parent="ElectronicInvoiceItemMapping-itemTypeCode-parentBean"/>
 
   <bean id="ElectronicInvoiceItemMapping-itemTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemTypeCode" />
-    <property name="label" value="Item Type Code" />
-    <property name="shortLabel" value="code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="itemTypeCode"/>
+    <property name="label" value="Item Type Code"/>
+    <property name="shortLabel" value="code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
 
-  <bean id="ElectronicInvoiceItemMapping-invoiceMapIdentifier" parent="ElectronicInvoiceItemMapping-invoiceMapIdentifier-parentBean" />
+  <bean id="ElectronicInvoiceItemMapping-invoiceMapIdentifier" parent="ElectronicInvoiceItemMapping-invoiceMapIdentifier-parentBean"/>
 
   <bean id="ElectronicInvoiceItemMapping-invoiceMapIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceMapIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Mapping Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="invoiceMapIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Mapping Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
+    <property name="control">
       <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
 
-  <bean id="ElectronicInvoiceItemMapping-vendorHeaderGeneratedIdentifier" parent="ElectronicInvoiceItemMapping-vendorHeaderGeneratedIdentifier-parentBean" />
+  <bean id="ElectronicInvoiceItemMapping-vendorHeaderGeneratedIdentifier" parent="ElectronicInvoiceItemMapping-vendorHeaderGeneratedIdentifier-parentBean"/>
 
   <bean id="ElectronicInvoiceItemMapping-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorHeaderGeneratedIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Vendor Header Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="vendorHeaderGeneratedIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Vendor Header Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
   </bean>
 
-  <bean id="ElectronicInvoiceItemMapping-vendorDetailAssignedIdentifier" parent="ElectronicInvoiceItemMapping-vendorDetailAssignedIdentifier-parentBean" />
+  <bean id="ElectronicInvoiceItemMapping-vendorDetailAssignedIdentifier" parent="ElectronicInvoiceItemMapping-vendorDetailAssignedIdentifier-parentBean"/>
 
   <bean id="ElectronicInvoiceItemMapping-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorDetailAssignedIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Vendor Detail Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="vendorDetailAssignedIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Vendor Detail Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
   </bean>
 
@@ -133,31 +122,26 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="ElectronicInvoiceItemMapping-inquiryDefinition" parent="ElectronicInvoiceItemMapping-inquiryDefinition-parentBean" />
+  <bean id="ElectronicInvoiceItemMapping-inquiryDefinition" parent="ElectronicInvoiceItemMapping-inquiryDefinition-parentBean"/>
 
   <bean id="ElectronicInvoiceItemMapping-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Electronic Invoice Item Mapping Code Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Electronic Invoice Item Mapping Code Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
             	<!-- 
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
               -->
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceItemTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceMapIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorHeaderGeneratedIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorDetailAssignedIdentifier" />
+              <bean parent="FieldDefinition" p:attributeName="invoiceItemTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceMapIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
             </list>
           </property>
         </bean>
@@ -168,49 +152,39 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="ElectronicInvoiceItemMapping-lookupDefinition" parent="ElectronicInvoiceItemMapping-lookupDefinition-parentBean" />
+  <bean id="ElectronicInvoiceItemMapping-lookupDefinition" parent="ElectronicInvoiceItemMapping-lookupDefinition-parentBean"/>
 
   <bean id="ElectronicInvoiceItemMapping-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Electronic Invoice Item Mapping Code Lookup" />
-    <property name="instructions" value="Lookup an Electronic Invoice Item Mapping Code" />
-    <property name="defaultSort" >
+    <property name="title" value="Electronic Invoice Item Mapping Code Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
       	<!--
         <bean parent="FieldDefinition"
               p:attributeName="active" />
         -->
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceMapIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorHeaderGeneratedIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorDetailAssignedIdentifier" />
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceMapIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
         <!--
         <bean parent="FieldDefinition"
               p:attributeName="active" />
         -->
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceItemTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceMapIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorHeaderGeneratedIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorDetailAssignedIdentifier" />
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceMapIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
       </list>
     </property>
   </bean>

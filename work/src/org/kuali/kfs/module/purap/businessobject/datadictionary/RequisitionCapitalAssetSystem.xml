@@ -1,192 +1,156 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="RequisitionCapitalAssetSystem" parent="RequisitionCapitalAssetSystem-parentBean" />
+  <bean id="RequisitionCapitalAssetSystem" parent="RequisitionCapitalAssetSystem-parentBean"/>
 
   <bean id="RequisitionCapitalAssetSystem-parentBean" abstract="true" parent="BusinessObjectEntry">
-  	<property name="objectLabel" value="Requisition Capital Asset System" />
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem" />
-    <property name="inquiryDefinition" >
-      <ref bean="RequisitionCapitalAssetSystem-inquiryDefinition" />
+  	<property name="objectLabel" value="Requisition Capital Asset System"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem"/>
+    <property name="inquiryDefinition">
+      <ref bean="RequisitionCapitalAssetSystem-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="RequisitionCapitalAssetSystem-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="RequisitionCapitalAssetSystem-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="RequisitionCapitalAssetSystem-capitalAssetManufacturerName" />
-        <ref bean="RequisitionCapitalAssetSystem-capitalAssetModelDescription" />
-        <ref bean="RequisitionCapitalAssetSystem-capitalAssetNotReceivedCurrentFiscalYearIndicator" />
-        <ref bean="RequisitionCapitalAssetSystem-capitalAssetNoteText" />     
-        <ref bean="RequisitionCapitalAssetSystem-capitalAssetSystemDescription" />
-        <ref bean="RequisitionCapitalAssetSystem-capitalAssetSystemIdentifier" />      
-        <ref bean="RequisitionCapitalAssetSystem-capitalAssetTypeCode" />
-        <ref bean="RequisitionCapitalAssetSystem-purapDocumentIdentifier" />
-        <ref bean="RequisitionCapitalAssetSystem-capitalAssetCountAssetNumber" />
+        <ref bean="RequisitionCapitalAssetSystem-capitalAssetManufacturerName"/>
+        <ref bean="RequisitionCapitalAssetSystem-capitalAssetModelDescription"/>
+        <ref bean="RequisitionCapitalAssetSystem-capitalAssetNotReceivedCurrentFiscalYearIndicator"/>
+        <ref bean="RequisitionCapitalAssetSystem-capitalAssetNoteText"/>     
+        <ref bean="RequisitionCapitalAssetSystem-capitalAssetSystemDescription"/>
+        <ref bean="RequisitionCapitalAssetSystem-capitalAssetSystemIdentifier"/>      
+        <ref bean="RequisitionCapitalAssetSystem-capitalAssetTypeCode"/>
+        <ref bean="RequisitionCapitalAssetSystem-purapDocumentIdentifier"/>
+        <ref bean="RequisitionCapitalAssetSystem-capitalAssetCountAssetNumber"/>
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
-  <bean id="RequisitionCapitalAssetSystem-capitalAssetManufacturerName" parent="RequisitionCapitalAssetSystem-capitalAssetManufacturerName-parentBean" />
+  <bean id="RequisitionCapitalAssetSystem-capitalAssetManufacturerName" parent="RequisitionCapitalAssetSystem-capitalAssetManufacturerName-parentBean"/>
 
-  <bean id="RequisitionCapitalAssetSystem-capitalAssetManufacturerName-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset"
-	p:sourceAttributeName="manufacturerName">
-     <property name="name" value="capitalAssetManufacturerName" />
+  <bean id="RequisitionCapitalAssetSystem-capitalAssetManufacturerName-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" p:sourceAttributeName="manufacturerName">
+     <property name="name" value="capitalAssetManufacturerName"/>
   </bean>
 
-  <bean id="RequisitionCapitalAssetSystem-capitalAssetModelDescription" parent="RequisitionCapitalAssetSystem-capitalAssetModelDescription-parentBean" />
+  <bean id="RequisitionCapitalAssetSystem-capitalAssetModelDescription" parent="RequisitionCapitalAssetSystem-capitalAssetModelDescription-parentBean"/>
 
-  <bean id="RequisitionCapitalAssetSystem-capitalAssetModelDescription-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset"
-	p:sourceAttributeName="manufacturerModelNumber">
-     <property name="name" value="capitalAssetModelDescription" />
+  <bean id="RequisitionCapitalAssetSystem-capitalAssetModelDescription-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" p:sourceAttributeName="manufacturerModelNumber">
+     <property name="name" value="capitalAssetModelDescription"/>
   </bean>
 
-  <bean id="RequisitionCapitalAssetSystem-capitalAssetNotReceivedCurrentFiscalYearIndicator" parent="RequisitionCapitalAssetSystem-capitalAssetNotReceivedCurrentFiscalYearIndicator-parentBean" />
+  <bean id="RequisitionCapitalAssetSystem-capitalAssetNotReceivedCurrentFiscalYearIndicator" parent="RequisitionCapitalAssetSystem-capitalAssetNotReceivedCurrentFiscalYearIndicator-parentBean"/>
 
   <bean id="RequisitionCapitalAssetSystem-capitalAssetNotReceivedCurrentFiscalYearIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetNotReceivedCurrentFiscalYearIndicator" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Receiving Outside of Current Fiscal Year" />
-    <property name="shortLabel" value="Receiving Outside of Current Fiscal Year" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="capitalAssetNotReceivedCurrentFiscalYearIndicator"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Receiving Outside of Current Fiscal Year"/>
+    <property name="shortLabel" value="Receiving Outside of Current Fiscal Year"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNBlankValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNBlankValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="RequisitionCapitalAssetSystem-capitalAssetNoteText" parent="RequisitionCapitalAssetSystem-capitalAssetNoteText-parentBean" />
+  <bean id="RequisitionCapitalAssetSystem-capitalAssetNoteText" parent="RequisitionCapitalAssetSystem-capitalAssetNoteText-parentBean"/>
   
-  <bean id="RequisitionCapitalAssetSystem-capitalAssetNoteText-parentBean" parent="AttributeDefinition" abstract="true"
-        p:name="capitalAssetNoteText"
-        p:forceUppercase="false"
-        p:label="Capital Asset Note Text"
-        p:shortLabel="Capital Asset Note Text"
-        p:maxLength="800"
-        p:required="false" >
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+  <bean id="RequisitionCapitalAssetSystem-capitalAssetNoteText-parentBean" parent="AttributeDefinition" abstract="true" p:name="capitalAssetNoteText" p:forceUppercase="false" p:label="Capital Asset Note Text" p:shortLabel="Capital Asset Note Text" p:maxLength="800" p:required="false">
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="4"
-            p:cols="60" />
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="4" p:cols="60"/>
     </property>
   </bean>  
-  <bean id="RequisitionCapitalAssetSystem-capitalAssetSystemDescription" parent="RequisitionCapitalAssetSystem-capitalAssetSystemDescription-parentBean" />
+  <bean id="RequisitionCapitalAssetSystem-capitalAssetSystemDescription" parent="RequisitionCapitalAssetSystem-capitalAssetSystemDescription-parentBean"/>
 
   <bean id="RequisitionCapitalAssetSystem-capitalAssetSystemDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetSystemDescription" />
-    <property name="label" value="Capital Asset System Description" />
-    <property name="shortLabel" value="Capital Asset System Description" />
-    <property name="maxLength" value="4000" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" 
-      		p:allowWhitespace="true" />
+    <property name="name" value="capitalAssetSystemDescription"/>
+    <property name="label" value="Capital Asset System Description"/>
+    <property name="shortLabel" value="Capital Asset System Description"/>
+    <property name="maxLength" value="4000"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="4"
-            p:cols="60" />
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="4" p:cols="60"/>
     </property>
   </bean>  
-  <bean id="RequisitionCapitalAssetSystem-capitalAssetSystemIdentifier" parent="RequisitionCapitalAssetSystem-capitalAssetSystemIdentifier-parentBean" />
+  <bean id="RequisitionCapitalAssetSystem-capitalAssetSystemIdentifier" parent="RequisitionCapitalAssetSystem-capitalAssetSystemIdentifier-parentBean"/>
 
   <bean id="RequisitionCapitalAssetSystem-capitalAssetSystemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetSystemIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Capital Asset System Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="capitalAssetSystemIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Capital Asset System Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
   </bean>  
-  <bean id="RequisitionCapitalAssetSystem-capitalAssetTypeCode" parent="RequisitionCapitalAssetSystem-capitalAssetTypeCode-parentBean" />
+  <bean id="RequisitionCapitalAssetSystem-capitalAssetTypeCode" parent="RequisitionCapitalAssetSystem-capitalAssetTypeCode-parentBean"/>
 
-  <bean id="RequisitionCapitalAssetSystem-capitalAssetTypeCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-        p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset"
-        p:sourceAttributeName="capitalAssetTypeCode">    
-    <property name="name" value="capitalAssetTypeCode" />
+  <bean id="RequisitionCapitalAssetSystem-capitalAssetTypeCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" p:sourceAttributeName="capitalAssetTypeCode">    
+    <property name="name" value="capitalAssetTypeCode"/>
   </bean>
   
-  <bean id="RequisitionCapitalAssetSystem-purapDocumentIdentifier" parent="RequisitionCapitalAssetSystem-purapDocumentIdentifier-parentBean" />
+  <bean id="RequisitionCapitalAssetSystem-purapDocumentIdentifier" parent="RequisitionCapitalAssetSystem-purapDocumentIdentifier-parentBean"/>
 
   <bean id="RequisitionCapitalAssetSystem-purapDocumentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purapDocumentIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Requisition Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="purapDocumentIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Requisition Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
   
-  <bean id="RequisitionCapitalAssetSystem-capitalAssetCountAssetNumber" parent="RequisitionCapitalAssetSystem-capitalAssetCountAssetNumber-parentBean" />
+  <bean id="RequisitionCapitalAssetSystem-capitalAssetCountAssetNumber" parent="RequisitionCapitalAssetSystem-capitalAssetCountAssetNumber-parentBean"/>
   
   <bean id="RequisitionCapitalAssetSystem-capitalAssetCountAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetCountAssetNumber" />
-    <property name="label" value="How Many Assets?" />
-    <property name="shortLabel" value="How Many Assets?" />
-    <property name="maxLength" value="11" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="capitalAssetCountAssetNumber"/>
+    <property name="label" value="How Many Assets?"/>
+    <property name="shortLabel" value="How Many Assets?"/>
+    <property name="maxLength" value="11"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="13" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="13"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="RequisitionCapitalAssetSystem-inquiryDefinition" parent="RequisitionCapitalAssetSystem-inquiryDefinition-parentBean" />
+  <bean id="RequisitionCapitalAssetSystem-inquiryDefinition" parent="RequisitionCapitalAssetSystem-inquiryDefinition-parentBean"/>
 
   <bean id="RequisitionCapitalAssetSystem-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Requisition Capital Asset System Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Requisition Capital Asset System Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="capitalAssetManufacturerName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="capitalAssetModelDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="capitalAssetNotReceivedCurrentFiscalYearIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="capitalAssetSystemDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="capitalAssetTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="purapDocumentIdentifier" />
+              <bean parent="FieldDefinition" p:attributeName="capitalAssetManufacturerName"/>
+              <bean parent="FieldDefinition" p:attributeName="capitalAssetModelDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="capitalAssetNotReceivedCurrentFiscalYearIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="capitalAssetTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
             </list>
           </property>
         </bean>
@@ -197,45 +161,33 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="RequisitionCapitalAssetSystem-lookupDefinition" parent="RequisitionCapitalAssetSystem-lookupDefinition-parentBean" />
+  <bean id="RequisitionCapitalAssetSystem-lookupDefinition" parent="RequisitionCapitalAssetSystem-lookupDefinition-parentBean"/>
 
   <bean id="RequisitionCapitalAssetSystem-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Requisition Capital Asset System Lookup" />
-    <property name="instructions" value="Look up a Requisition Capital Asset System" />
-    <property name="defaultSort" >
+    <property name="title" value="Requisition Capital Asset System Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetManufacturerName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetModelDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetNotReceivedCurrentFiscalYearIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetSystemDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purapDocumentIdentifier" />
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetManufacturerName"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetModelDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetNotReceivedCurrentFiscalYearIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetManufacturerName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetModelDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetNotReceivedCurrentFiscalYearIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetSystemDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purapDocumentIdentifier" />
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetManufacturerName"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetModelDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetNotReceivedCurrentFiscalYearIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
       </list>
     </property>
   </bean>

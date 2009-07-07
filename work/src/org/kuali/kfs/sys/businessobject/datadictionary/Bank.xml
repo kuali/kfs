@@ -1,40 +1,36 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="Bank" parent="Bank-parentBean" />
+  <bean id="Bank" parent="Bank-parentBean"/>
 
   <bean id="Bank-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.Bank" />
-    <property name="inquiryDefinition" >
-      <ref bean="Bank-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.Bank"/>
+    <property name="inquiryDefinition">
+      <ref bean="Bank-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="Bank-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="Bank-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="bankCode" />
-    <property name="objectLabel" value="Bank" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="bankCode"/>
+    <property name="objectLabel" value="Bank"/>
+    <property name="attributes">
       <list>
-        <ref bean="Bank-bankCode" />
-        <ref bean="Bank-bankName" />
-        <ref bean="Bank-bankShortName" />
-        <ref bean="Bank-bankRoutingNumber" />
-        <ref bean="Bank-bankAccountNumber" />
-        <ref bean="Bank-bankAccountDescription" />
-        <ref bean="Bank-cashOffsetFinancialChartOfAccountCode" />
-        <ref bean="Bank-cashOffsetAccountNumber" />
-        <ref bean="Bank-cashOffsetSubAccountNumber" />
-        <ref bean="Bank-cashOffsetObjectCode" />
-        <ref bean="Bank-cashOffsetSubObjectCode" />
-        <ref bean="Bank-continuationBankCode" />
-        <ref bean="Bank-bankDepositIndicator" />
-        <ref bean="Bank-bankDisbursementIndicator" />
-        <ref bean="Bank-bankAchIndicator" />
-        <ref bean="Bank-bankCheckIndicator" />
-        <ref bean="Bank-active" />
+        <ref bean="Bank-bankCode"/>
+        <ref bean="Bank-bankName"/>
+        <ref bean="Bank-bankShortName"/>
+        <ref bean="Bank-bankRoutingNumber"/>
+        <ref bean="Bank-bankAccountNumber"/>
+        <ref bean="Bank-bankAccountDescription"/>
+        <ref bean="Bank-cashOffsetFinancialChartOfAccountCode"/>
+        <ref bean="Bank-cashOffsetAccountNumber"/>
+        <ref bean="Bank-cashOffsetSubAccountNumber"/>
+        <ref bean="Bank-cashOffsetObjectCode"/>
+        <ref bean="Bank-cashOffsetSubObjectCode"/>
+        <ref bean="Bank-continuationBankCode"/>
+        <ref bean="Bank-bankDepositIndicator"/>
+        <ref bean="Bank-bankDisbursementIndicator"/>
+        <ref bean="Bank-bankAchIndicator"/>
+        <ref bean="Bank-bankCheckIndicator"/>
+        <ref bean="Bank-active"/>
       </list>
     </property>
   </bean>
@@ -42,246 +38,223 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="Bank-bankCode" parent="Bank-bankCode-parentBean" />
+  <bean id="Bank-bankCode" parent="Bank-bankCode-parentBean"/>
 
   <bean id="Bank-bankCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="bankCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Bank Code" />
-    <property name="shortLabel" value="Bank Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="bankCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Bank Code"/>
+    <property name="shortLabel" value="Bank Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="Bank-bankName" parent="Bank-bankName-parentBean" />
+  <bean id="Bank-bankName" parent="Bank-bankName-parentBean"/>
 
   <bean id="Bank-bankName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="bankName" />
-    <property name="label" value="Bank Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="bankName"/>
+    <property name="label" value="Bank Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
   </bean>
-  <bean id="Bank-bankShortName" parent="Bank-bankShortName-parentBean" />
+  <bean id="Bank-bankShortName" parent="Bank-bankShortName-parentBean"/>
 
   <bean id="Bank-bankShortName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="bankShortName" />
-    <property name="label" value="Bank Short Name" />
-    <property name="shortLabel" value="Short Name" />
-    <property name="maxLength" value="12" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="name" value="bankShortName"/>
+    <property name="label" value="Bank Short Name"/>
+    <property name="shortLabel" value="Short Name"/>
+    <property name="maxLength" value="12"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
   </bean>
-  <bean id="Bank-bankRoutingNumber" parent="Bank-bankRoutingNumber-parentBean" />
+  <bean id="Bank-bankRoutingNumber" parent="Bank-bankRoutingNumber-parentBean"/>
 
   <bean id="Bank-bankRoutingNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="bankRoutingNumber" />
-    <property name="label" value="Bank Routing Number" />
-    <property name="shortLabel" value="Routing Nbr" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="bankRoutingNumber"/>
+    <property name="label" value="Bank Routing Number"/>
+    <property name="shortLabel" value="Routing Nbr"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
     <property name="attributeSecurity">
 		<bean parent="AttributeSecurity">
-  			<property name="mask" value="true" /> 
+  			<property name="mask" value="true"/> 
 			<property name="maskFormatter">
-  			<bean parent="MaskFormatterLiteral" p:literal="*********" /> 
+  			<bean parent="MaskFormatterLiteral" p:literal="*********"/> 
   			</property>
   		</bean>
   	</property>
   </bean>
   
-  <bean id="Bank-bankAccountNumber" parent="Bank-bankAccountNumber-parentBean" />
+  <bean id="Bank-bankAccountNumber" parent="Bank-bankAccountNumber-parentBean"/>
 
   <bean id="Bank-bankAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="bankAccountNumber" />
-    <property name="label" value="Bank Account Number" />
-    <property name="shortLabel" value="Bank Acct" />
-    <property name="maxLength" value="15" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="15" />
+    <property name="name" value="bankAccountNumber"/>
+    <property name="label" value="Bank Account Number"/>
+    <property name="shortLabel" value="Bank Acct"/>
+    <property name="maxLength" value="15"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="15"/>
     </property>
 
 	<property name="attributeSecurity">
 		<bean parent="AttributeSecurity">
-  			<property name="mask" value="true" /> 
+  			<property name="mask" value="true"/> 
 			<property name="maskFormatter">
-  			<bean parent="MaskFormatterLiteral" p:literal="*********" /> 
+  			<bean parent="MaskFormatterLiteral" p:literal="*********"/> 
   			</property>
   		</bean>
   	</property>
 
   </bean>
   
-  <bean id="Bank-bankAccountDescription" parent="Bank-bankAccountDescription-parentBean" />
+  <bean id="Bank-bankAccountDescription" parent="Bank-bankAccountDescription-parentBean"/>
 
   <bean id="Bank-bankAccountDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="bankAccountDescription" />
-    <property name="label" value="Bank Account Description" />
-    <property name="shortLabel" value="Bank Acct Desc" />
-    <property name="maxLength" value="40" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="bankAccountDescription"/>
+    <property name="label" value="Bank Account Description"/>
+    <property name="shortLabel" value="Bank Acct Desc"/>
+    <property name="maxLength" value="40"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
   </bean>
-  <bean id="Bank-cashOffsetFinancialChartOfAccountCode" parent="Bank-cashOffsetFinancialChartOfAccountCode-parentBean" />
+  <bean id="Bank-cashOffsetFinancialChartOfAccountCode" parent="Bank-cashOffsetFinancialChartOfAccountCode-parentBean"/>
 
   <bean id="Bank-cashOffsetFinancialChartOfAccountCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="name" value="cashOffsetFinancialChartOfAccountCode" />
-    <property name="label" value="Cash Offset Chart Of Accounts" />
-    <property name="shortLabel" value="Cash Off CoA" />
-    <property name="required" value="false" />
+    <property name="name" value="cashOffsetFinancialChartOfAccountCode"/>
+    <property name="label" value="Cash Offset Chart Of Accounts"/>
+    <property name="shortLabel" value="Cash Off CoA"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="Bank-cashOffsetAccountNumber" parent="Bank-cashOffsetAccountNumber-parentBean" />
+  <bean id="Bank-cashOffsetAccountNumber" parent="Bank-cashOffsetAccountNumber-parentBean"/>
 
   <bean id="Bank-cashOffsetAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="name" value="cashOffsetAccountNumber" />
-    <property name="label" value="Cash Offset Account Number" />
-    <property name="shortLabel" value="Cash Off Acct" />
-    <property name="required" value="false" />
+    <property name="name" value="cashOffsetAccountNumber"/>
+    <property name="label" value="Cash Offset Account Number"/>
+    <property name="shortLabel" value="Cash Off Acct"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="Bank-cashOffsetSubAccountNumber" parent="Bank-cashOffsetSubAccountNumber-parentBean" />
+  <bean id="Bank-cashOffsetSubAccountNumber" parent="Bank-cashOffsetSubAccountNumber-parentBean"/>
 
   <bean id="Bank-cashOffsetSubAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
-    <property name="name" value="cashOffsetSubAccountNumber" />
-    <property name="label" value="Cash Offset Sub-Account Number" />
-    <property name="shortLabel" value="Cash Off Sub-Acct Nbr" />
-    <property name="required" value="false" />
+    <property name="name" value="cashOffsetSubAccountNumber"/>
+    <property name="label" value="Cash Offset Sub-Account Number"/>
+    <property name="shortLabel" value="Cash Off Sub-Acct Nbr"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="Bank-cashOffsetObjectCode" parent="Bank-cashOffsetObjectCode-parentBean" />
+  <bean id="Bank-cashOffsetObjectCode" parent="Bank-cashOffsetObjectCode-parentBean"/>
 
   <bean id="Bank-cashOffsetObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    <property name="name" value="cashOffsetObjectCode" />
-    <property name="label" value="Cash Offset Object Code" />
-    <property name="shortLabel" value="Cash Off Obj Cd" />
-    <property name="required" value="false" />
+    <property name="name" value="cashOffsetObjectCode"/>
+    <property name="label" value="Cash Offset Object Code"/>
+    <property name="shortLabel" value="Cash Off Obj Cd"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="Bank-cashOffsetSubObjectCode" parent="Bank-cashOffsetSubObjectCode-parentBean" />
+  <bean id="Bank-cashOffsetSubObjectCode" parent="Bank-cashOffsetSubObjectCode-parentBean"/>
 
   <bean id="Bank-cashOffsetSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
-    <property name="name" value="cashOffsetSubObjectCode" />
-    <property name="label" value="Cash Offset Sub-Object Code" />
-    <property name="shortLabel" value="Cash Off Sub-Obj Cd" />
-    <property name="required" value="false" />
+    <property name="name" value="cashOffsetSubObjectCode"/>
+    <property name="label" value="Cash Offset Sub-Object Code"/>
+    <property name="shortLabel" value="Cash Off Sub-Obj Cd"/>
+    <property name="required" value="false"/>
   </bean>
   
-  <bean id="Bank-continuationBankCode" parent="Bank-continuationBankCode-parentBean" />      
-  <bean id="Bank-continuationBankCode-parentBean" abstract="true" parent="Bank-bankCode" >
-    <property name="name" value="continuationBankCode" />
-    <property name="label" value="Continuation Bank Code" />
-    <property name="shortLabel" value="Cont Bank Cd" />
-    <property name="required" value="false" />
+  <bean id="Bank-continuationBankCode" parent="Bank-continuationBankCode-parentBean"/>      
+  <bean id="Bank-continuationBankCode-parentBean" abstract="true" parent="Bank-bankCode">
+    <property name="name" value="continuationBankCode"/>
+    <property name="label" value="Continuation Bank Code"/>
+    <property name="shortLabel" value="Cont Bank Cd"/>
+    <property name="required" value="false"/>
   </bean>
 
-  <bean id="Bank-bankDepositIndicator" parent="Bank-bankDepositIndicator-parentBean" />  
-  <bean id="Bank-bankDepositIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" >
-    <property name="name" value="bankDepositIndicator" />
-    <property name="label" value="Bank Deposit Indicator" />
-    <property name="shortLabel" value="Deposit Ind." />
-    <property name="required" value="false" />
+  <bean id="Bank-bankDepositIndicator" parent="Bank-bankDepositIndicator-parentBean"/>  
+  <bean id="Bank-bankDepositIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="bankDepositIndicator"/>
+    <property name="label" value="Bank Deposit Indicator"/>
+    <property name="shortLabel" value="Deposit Ind."/>
+    <property name="required" value="false"/>
   </bean>
 
-  <bean id="Bank-bankDisbursementIndicator" parent="Bank-bankDisbursementIndicator-parentBean" />    
-  <bean id="Bank-bankDisbursementIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" >
-    <property name="name" value="bankDisbursementIndicator" />
-    <property name="label" value="Bank Disbursement Indicator" />
-    <property name="shortLabel" value="Disbursement Ind." />
-    <property name="required" value="false" />
+  <bean id="Bank-bankDisbursementIndicator" parent="Bank-bankDisbursementIndicator-parentBean"/>    
+  <bean id="Bank-bankDisbursementIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="bankDisbursementIndicator"/>
+    <property name="label" value="Bank Disbursement Indicator"/>
+    <property name="shortLabel" value="Disbursement Ind."/>
+    <property name="required" value="false"/>
   </bean>
  
-  <bean id="Bank-bankAchIndicator" parent="Bank-bankAchIndicator-parentBean" />     
-  <bean id="Bank-bankAchIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" >
-    <property name="name" value="bankAchIndicator" />
-    <property name="label" value="Bank ACH Indicator" />
-    <property name="shortLabel" value="ACH Ind." />
-    <property name="required" value="false" />
+  <bean id="Bank-bankAchIndicator" parent="Bank-bankAchIndicator-parentBean"/>     
+  <bean id="Bank-bankAchIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="bankAchIndicator"/>
+    <property name="label" value="Bank ACH Indicator"/>
+    <property name="shortLabel" value="ACH Ind."/>
+    <property name="required" value="false"/>
   </bean>
  
-  <bean id="Bank-bankCheckIndicator" parent="Bank-bankCheckIndicator-parentBean" />      
-  <bean id="Bank-bankCheckIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" >
-    <property name="name" value="bankCheckIndicator" />
-    <property name="label" value="Bank Check Indicator" />
-    <property name="shortLabel" value="Check Ind." />
-    <property name="required" value="false" />
+  <bean id="Bank-bankCheckIndicator" parent="Bank-bankCheckIndicator-parentBean"/>      
+  <bean id="Bank-bankCheckIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="bankCheckIndicator"/>
+    <property name="label" value="Bank Check Indicator"/>
+    <property name="shortLabel" value="Check Ind."/>
+    <property name="required" value="false"/>
   </bean>
   
-  <bean id="Bank-active" parent="Bank-active-parentBean" />      
-  <bean id="Bank-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" >
-    <property name="name" value="active" />
-    <property name="required" value="false" />
+  <bean id="Bank-active" parent="Bank-active-parentBean"/>      
+  <bean id="Bank-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+    <property name="required" value="false"/>
   </bean>
   
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="Bank-inquiryDefinition" parent="Bank-inquiryDefinition-parentBean" />
+  <bean id="Bank-inquiryDefinition" parent="Bank-inquiryDefinition-parentBean"/>
 
   <bean id="Bank-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Bank Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Bank Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankShortName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankRoutingNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankAccountDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="cashOffsetFinancialChartOfAccountCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="cashOffsetAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="cashOffsetSubAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="cashOffsetObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="cashOffsetSubObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="continuationBankCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankDepositIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankDisbursementIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankAchIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankCheckIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="bankCode"/>
+              <bean parent="FieldDefinition" p:attributeName="bankName"/>
+              <bean parent="FieldDefinition" p:attributeName="bankShortName"/>
+              <bean parent="FieldDefinition" p:attributeName="bankRoutingNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="bankAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="bankAccountDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="cashOffsetFinancialChartOfAccountCode"/>
+              <bean parent="FieldDefinition" p:attributeName="cashOffsetAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="cashOffsetSubAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="cashOffsetObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="cashOffsetSubObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="continuationBankCode"/>
+              <bean parent="FieldDefinition" p:attributeName="bankDepositIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="bankDisbursementIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="bankAchIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="bankCheckIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -292,76 +265,51 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="Bank-lookupDefinition" parent="Bank-lookupDefinition-parentBean" />
+  <bean id="Bank-lookupDefinition" parent="Bank-lookupDefinition-parentBean"/>
 
   <bean id="Bank-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Bank Lookup" />
-    <property name="instructions" value="Lookup a Bank" />
-    <property name="defaultSort" >
+    <property name="title" value="Bank Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>bankCode</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankAccountDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="cashOffsetFinancialChartOfAccountCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="cashOffsetAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="cashOffsetSubAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="cashOffsetObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="cashOffsetSubObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankDepositIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankDisbursementIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="bankCode"/>
+              <bean parent="FieldDefinition" p:attributeName="bankName"/>
+              <bean parent="FieldDefinition" p:attributeName="bankAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="bankAccountDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="cashOffsetFinancialChartOfAccountCode"/>
+              <bean parent="FieldDefinition" p:attributeName="cashOffsetAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="cashOffsetSubAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="cashOffsetObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="cashOffsetSubObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="bankDepositIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="bankDisbursementIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankAccountDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="cashOffsetFinancialChartOfAccountCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="cashOffsetAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="cashOffsetObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="continuationBankCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankDepositIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankDisbursementIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankAchIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankCheckIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="bankCode"/>
+              <bean parent="FieldDefinition" p:attributeName="bankName"/>
+              <bean parent="FieldDefinition" p:attributeName="bankAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="bankAccountDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="cashOffsetFinancialChartOfAccountCode"/>
+              <bean parent="FieldDefinition" p:attributeName="cashOffsetAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="cashOffsetObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="continuationBankCode"/>
+              <bean parent="FieldDefinition" p:attributeName="bankDepositIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="bankDisbursementIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="bankAchIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="bankCheckIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

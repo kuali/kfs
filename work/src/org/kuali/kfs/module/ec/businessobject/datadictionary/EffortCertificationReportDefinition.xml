@@ -1,54 +1,44 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="EffortCertificationReportDefinition" parent="EffortCertificationReportDefinition-parentBean" />
+  <bean id="EffortCertificationReportDefinition" parent="EffortCertificationReportDefinition-parentBean"/>
 
   <bean id="EffortCertificationReportDefinition-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition" />
-    <property name="objectLabel" value="Effort Certification Report Definition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition"/>
+    <property name="objectLabel" value="Effort Certification Report Definition"/>
     
-    <property name="inquiryDefinition" >
-      <ref bean="EffortCertificationReportDefinition-inquiryDefinition" />
+    <property name="inquiryDefinition">
+      <ref bean="EffortCertificationReportDefinition-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="EffortCertificationReportDefinition-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="EffortCertificationReportDefinition-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="effortCertificationReportNumber" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="effortCertificationReportNumber"/>
+    <property name="attributes">
       <list>
-        <ref bean="EffortCertificationReportDefinition-expenseTransferFiscalPeriodCode" />
-        <ref bean="EffortCertificationReportDefinition-expenseTransferFiscalYear" />
-        <ref bean="EffortCertificationReportDefinition-universityFiscalYear" />
-        <ref bean="EffortCertificationReportDefinition-effortCertificationReportNumber" />
-        <ref bean="EffortCertificationReportDefinition-effortCertificationReportPeriodTitle" />
-        <ref bean="EffortCertificationReportDefinition-effortCertificationReportReturnDate" />
-        <ref bean="EffortCertificationReportDefinition-effortCertificationReportTypeCode" />
-        <ref bean="EffortCertificationReportDefinition-effortCertificationReportPeriodStatusCode" />
-        <ref bean="EffortCertificationReportDefinition-effortCertificationReportBeginFiscalYear" />
-        <ref bean="EffortCertificationReportDefinition-effortCertificationReportBeginPeriodCode" />
-        <ref bean="EffortCertificationReportDefinition-effortCertificationReportEndFiscalYear" />
-        <ref bean="EffortCertificationReportDefinition-effortCertificationReportEndPeriodCode" />
-        <ref bean="EffortCertificationReportDefinition-effortCertificationReportPositions.effortCertificationReportPositionObjectGroupCode" />
-        <ref bean="EffortCertificationReportDefinition-active" />
+        <ref bean="EffortCertificationReportDefinition-expenseTransferFiscalPeriodCode"/>
+        <ref bean="EffortCertificationReportDefinition-expenseTransferFiscalYear"/>
+        <ref bean="EffortCertificationReportDefinition-universityFiscalYear"/>
+        <ref bean="EffortCertificationReportDefinition-effortCertificationReportNumber"/>
+        <ref bean="EffortCertificationReportDefinition-effortCertificationReportPeriodTitle"/>
+        <ref bean="EffortCertificationReportDefinition-effortCertificationReportReturnDate"/>
+        <ref bean="EffortCertificationReportDefinition-effortCertificationReportTypeCode"/>
+        <ref bean="EffortCertificationReportDefinition-effortCertificationReportPeriodStatusCode"/>
+        <ref bean="EffortCertificationReportDefinition-effortCertificationReportBeginFiscalYear"/>
+        <ref bean="EffortCertificationReportDefinition-effortCertificationReportBeginPeriodCode"/>
+        <ref bean="EffortCertificationReportDefinition-effortCertificationReportEndFiscalYear"/>
+        <ref bean="EffortCertificationReportDefinition-effortCertificationReportEndPeriodCode"/>
+        <ref bean="EffortCertificationReportDefinition-effortCertificationReportPositions.effortCertificationReportPositionObjectGroupCode"/>
+        <ref bean="EffortCertificationReportDefinition-active"/>
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
       <list>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="effortCertificationReportType"/>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="effortCertificationPeriodStatusCode"/>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="effortCertificationReportPositions"/>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="expenseTransferFiscalPeriod"/>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="reportBeginPeriod"/>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="reportEndPeriod"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="effortCertificationReportType"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="effortCertificationPeriodStatusCode"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="effortCertificationReportPositions"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="expenseTransferFiscalPeriod"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="reportBeginPeriod"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="reportEndPeriod"/>
       </list>      
     </property>
   </bean>
@@ -56,191 +46,168 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="EffortCertificationReportDefinition-expenseTransferFiscalPeriodCode" parent="EffortCertificationReportDefinition-expenseTransferFiscalPeriodCode-parentBean" />
+  <bean id="EffortCertificationReportDefinition-expenseTransferFiscalPeriodCode" parent="EffortCertificationReportDefinition-expenseTransferFiscalPeriodCode-parentBean"/>
 
   <bean id="EffortCertificationReportDefinition-expenseTransferFiscalPeriodCode-parentBean" abstract="true" parent="AccountingPeriod-universityFiscalPeriodCode">
-    <property name="name" value="expenseTransferFiscalPeriodCode" />
-    <property name="label" value="Expense Transfer Fiscal Period Code" />
-    <property name="shortLabel" value="Expense Transfer Period Code" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.ec.businessobject.options.FiscalPeriodNonNumberValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="expenseTransferFiscalPeriodCode"/>
+    <property name="label" value="Expense Transfer Fiscal Period Code"/>
+    <property name="shortLabel" value="Expense Transfer Period Code"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ec.businessobject.options.FiscalPeriodNonNumberValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     
     
   </bean>
-  <bean id="EffortCertificationReportDefinition-expenseTransferFiscalYear" parent="EffortCertificationReportDefinition-expenseTransferFiscalYear-parentBean" />
+  <bean id="EffortCertificationReportDefinition-expenseTransferFiscalYear" parent="EffortCertificationReportDefinition-expenseTransferFiscalYear-parentBean"/>
 
   <bean id="EffortCertificationReportDefinition-expenseTransferFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="expenseTransferFiscalYear" />
-    <property name="label" value="Expense Transfer Fiscal Year" />
-    <property name="shortLabel" value="Expense Transfer Year" />
+    <property name="name" value="expenseTransferFiscalYear"/>
+    <property name="label" value="Expense Transfer Fiscal Year"/>
+    <property name="shortLabel" value="Expense Transfer Year"/>
     
     
   </bean>
-  <bean id="EffortCertificationReportDefinition-universityFiscalYear" parent="EffortCertificationReportDefinition-universityFiscalYear-parentBean" />
+  <bean id="EffortCertificationReportDefinition-universityFiscalYear" parent="EffortCertificationReportDefinition-universityFiscalYear-parentBean"/>
 
   <bean id="EffortCertificationReportDefinition-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="universityFiscalYear" />
+    <property name="name" value="universityFiscalYear"/>
   </bean>
-  <bean id="EffortCertificationReportDefinition-effortCertificationReportNumber" parent="EffortCertificationReportDefinition-effortCertificationReportNumber-parentBean" />
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportNumber" parent="EffortCertificationReportDefinition-effortCertificationReportNumber-parentBean"/>
 
   <bean id="EffortCertificationReportDefinition-effortCertificationReportNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="effortCertificationReportNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Report Number" />
-    <property name="shortLabel" value="Report Number" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="effortCertificationReportNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Report Number"/>
+    <property name="shortLabel" value="Report Number"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
     
     
   </bean>
-  <bean id="EffortCertificationReportDefinition-effortCertificationReportPeriodTitle" parent="EffortCertificationReportDefinition-effortCertificationReportPeriodTitle-parentBean" />
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportPeriodTitle" parent="EffortCertificationReportDefinition-effortCertificationReportPeriodTitle-parentBean"/>
 
   <bean id="EffortCertificationReportDefinition-effortCertificationReportPeriodTitle-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="effortCertificationReportPeriodTitle" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Report Period Title" />
-    <property name="shortLabel" value="Report Title" />
-    <property name="maxLength" value="30" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="effortCertificationReportPeriodTitle"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Report Period Title"/>
+    <property name="shortLabel" value="Report Title"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
     </property>
     
     
   </bean>
-  <bean id="EffortCertificationReportDefinition-effortCertificationReportReturnDate" parent="EffortCertificationReportDefinition-effortCertificationReportReturnDate-parentBean" />
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportReturnDate" parent="EffortCertificationReportDefinition-effortCertificationReportReturnDate-parentBean"/>
 
   <bean id="EffortCertificationReportDefinition-effortCertificationReportReturnDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="effortCertificationReportReturnDate" />
-    <property name="label" value="Report Return Date" />
-    <property name="shortLabel" value="Report Return Date" />
+    <property name="name" value="effortCertificationReportReturnDate"/>
+    <property name="label" value="Report Return Date"/>
+    <property name="shortLabel" value="Report Return Date"/>
     
     
   </bean>
-  <bean id="EffortCertificationReportDefinition-effortCertificationReportTypeCode" parent="EffortCertificationReportDefinition-effortCertificationReportTypeCode-parentBean" />
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportTypeCode" parent="EffortCertificationReportDefinition-effortCertificationReportTypeCode-parentBean"/>
 
   <bean id="EffortCertificationReportDefinition-effortCertificationReportTypeCode-parentBean" abstract="true" parent="EffortCertificationReportType-effortCertificationReportTypeCode">
   </bean>
-  <bean id="EffortCertificationReportDefinition-effortCertificationReportPeriodStatusCode" parent="EffortCertificationReportDefinition-effortCertificationReportPeriodStatusCode-parentBean" />
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportPeriodStatusCode" parent="EffortCertificationReportDefinition-effortCertificationReportPeriodStatusCode-parentBean"/>
 
   <bean id="EffortCertificationReportDefinition-effortCertificationReportPeriodStatusCode-parentBean" abstract="true" parent="EffortCertificationPeriodStatusCode-effortCertificationReportPeriodStatusCode">
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.ec.businessobject.options.PeriodStatusCodeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ec.businessobject.options.PeriodStatusCodeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="EffortCertificationReportDefinition-effortCertificationReportBeginFiscalYear" parent="EffortCertificationReportDefinition-effortCertificationReportBeginFiscalYear-parentBean" />
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportBeginFiscalYear" parent="EffortCertificationReportDefinition-effortCertificationReportBeginFiscalYear-parentBean"/>
 
   <bean id="EffortCertificationReportDefinition-effortCertificationReportBeginFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="effortCertificationReportBeginFiscalYear" />
-    <property name="label" value="Report Begin Fiscal Year" />
+    <property name="name" value="effortCertificationReportBeginFiscalYear"/>
+    <property name="label" value="Report Begin Fiscal Year"/>
     
     
   </bean>
-  <bean id="EffortCertificationReportDefinition-effortCertificationReportBeginPeriodCode" parent="EffortCertificationReportDefinition-effortCertificationReportBeginPeriodCode-parentBean" />
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportBeginPeriodCode" parent="EffortCertificationReportDefinition-effortCertificationReportBeginPeriodCode-parentBean"/>
 
   <bean id="EffortCertificationReportDefinition-effortCertificationReportBeginPeriodCode-parentBean" abstract="true" parent="AccountingPeriod-universityFiscalPeriodCode">
-    <property name="name" value="effortCertificationReportBeginPeriodCode" />
-    <property name="label" value="Report Begin Period Code" />
-    <property name="shortLabel" value="Begin Period Code" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.ec.businessobject.options.FiscalPeriodNonNumberValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="effortCertificationReportBeginPeriodCode"/>
+    <property name="label" value="Report Begin Period Code"/>
+    <property name="shortLabel" value="Begin Period Code"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ec.businessobject.options.FiscalPeriodNonNumberValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     
     
   </bean>
-  <bean id="EffortCertificationReportDefinition-effortCertificationReportEndFiscalYear" parent="EffortCertificationReportDefinition-effortCertificationReportEndFiscalYear-parentBean" />
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportEndFiscalYear" parent="EffortCertificationReportDefinition-effortCertificationReportEndFiscalYear-parentBean"/>
 
   <bean id="EffortCertificationReportDefinition-effortCertificationReportEndFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="effortCertificationReportEndFiscalYear" />
-    <property name="label" value="Report End Fiscal Year" />
-    <property name="shortLabel" value="End Fiscal Year" />
+    <property name="name" value="effortCertificationReportEndFiscalYear"/>
+    <property name="label" value="Report End Fiscal Year"/>
+    <property name="shortLabel" value="End Fiscal Year"/>
     
     
   </bean>
-  <bean id="EffortCertificationReportDefinition-effortCertificationReportEndPeriodCode" parent="EffortCertificationReportDefinition-effortCertificationReportEndPeriodCode-parentBean" />
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportEndPeriodCode" parent="EffortCertificationReportDefinition-effortCertificationReportEndPeriodCode-parentBean"/>
 
   <bean id="EffortCertificationReportDefinition-effortCertificationReportEndPeriodCode-parentBean" abstract="true" parent="AccountingPeriod-universityFiscalPeriodCode">
-    <property name="name" value="effortCertificationReportEndPeriodCode" />
-    <property name="label" value="Report End Period Code" />
-    <property name="shortLabel" value="End Period Code" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.ec.businessobject.options.FiscalPeriodNonNumberValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="effortCertificationReportEndPeriodCode"/>
+    <property name="label" value="Report End Period Code"/>
+    <property name="shortLabel" value="End Period Code"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ec.businessobject.options.FiscalPeriodNonNumberValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     
     
   </bean>
-  <bean id="EffortCertificationReportDefinition-effortCertificationReportPositions.effortCertificationReportPositionObjectGroupCode" parent="EffortCertificationReportDefinition-effortCertificationReportPositions.effortCertificationReportPositionObjectGroupCode-parentBean" />
+  <bean id="EffortCertificationReportDefinition-effortCertificationReportPositions.effortCertificationReportPositionObjectGroupCode" parent="EffortCertificationReportDefinition-effortCertificationReportPositions.effortCertificationReportPositionObjectGroupCode-parentBean"/>
 
   <bean id="EffortCertificationReportDefinition-effortCertificationReportPositions.effortCertificationReportPositionObjectGroupCode-parentBean" abstract="true" parent="EffortCertificationReportPosition-effortCertificationReportPositionObjectGroupCode">
-    <property name="name" value="effortCertificationReportPositions.effortCertificationReportPositionObjectGroupCode" />
-    <property name="label" value="Position Object Group Code" />
-    <property name="shortLabel" value="Pos Obj Grp Cd" />
+    <property name="name" value="effortCertificationReportPositions.effortCertificationReportPositionObjectGroupCode"/>
+    <property name="label" value="Position Object Group Code"/>
+    <property name="shortLabel" value="Pos Obj Grp Cd"/>
     
     
   </bean>
-  <bean id="EffortCertificationReportDefinition-active" parent="EffortCertificationReportDefinition-active-parentBean" />
+  <bean id="EffortCertificationReportDefinition-active" parent="EffortCertificationReportDefinition-active-parentBean"/>
 
   <bean id="EffortCertificationReportDefinition-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="EffortCertificationReportDefinition-inquiryDefinition" parent="EffortCertificationReportDefinition-inquiryDefinition-parentBean" />
+  <bean id="EffortCertificationReportDefinition-inquiryDefinition" parent="EffortCertificationReportDefinition-inquiryDefinition-parentBean"/>
 
   <bean id="EffortCertificationReportDefinition-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Effort Certification Report Definition Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Effort Certification Report Definition Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYear" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationReportNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationReportPeriodTitle" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationReportPeriodStatusCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationReportBeginFiscalYear" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationReportBeginPeriodCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationReportEndFiscalYear" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationReportEndPeriodCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationReportTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="expenseTransferFiscalYear" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="expenseTransferFiscalPeriodCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationReportReturnDate" />
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationReportNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationReportPeriodTitle"/>
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationReportPeriodStatusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationReportBeginFiscalYear"/>
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationReportBeginPeriodCode"/>
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationReportEndFiscalYear"/>
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationReportEndPeriodCode"/>
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationReportTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="expenseTransferFiscalYear"/>
+              <bean parent="FieldDefinition" p:attributeName="expenseTransferFiscalPeriodCode"/>
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationReportReturnDate"/>
             </list>
           </property>
         </bean>
@@ -251,57 +218,39 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="EffortCertificationReportDefinition-lookupDefinition" parent="EffortCertificationReportDefinition-lookupDefinition-parentBean" />
+  <bean id="EffortCertificationReportDefinition-lookupDefinition" parent="EffortCertificationReportDefinition-lookupDefinition-parentBean"/>
 
   <bean id="EffortCertificationReportDefinition-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Report Definition Lookup" />
-    <property name="instructions" value="Look up an Effort Certification Report" />
-    <property name="defaultSort" >
+    <property name="title" value="Report Definition Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationReportNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationReportTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationReportPeriodStatusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationReportNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationReportTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationReportPeriodStatusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationReportNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationReportPeriodTitle" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationReportPeriodStatusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationReportBeginFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationReportBeginPeriodCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationReportEndFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationReportEndPeriodCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationReportTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="expenseTransferFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="expenseTransferFiscalPeriodCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationReportReturnDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationReportNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationReportPeriodTitle"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationReportPeriodStatusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationReportBeginFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationReportBeginPeriodCode"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationReportEndFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationReportEndPeriodCode"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationReportTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="expenseTransferFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="expenseTransferFiscalPeriodCode"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationReportReturnDate"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

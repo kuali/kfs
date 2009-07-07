@@ -1,29 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PurchaseOrderTransmissionMethod" parent="PurchaseOrderTransmissionMethod-parentBean" />
+  <bean id="PurchaseOrderTransmissionMethod" parent="PurchaseOrderTransmissionMethod-parentBean"/>
 
   <bean id="PurchaseOrderTransmissionMethod-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod" />
-    <property name="inquiryDefinition" >
-      <ref bean="PurchaseOrderTransmissionMethod-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod"/>
+    <property name="inquiryDefinition">
+      <ref bean="PurchaseOrderTransmissionMethod-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="PurchaseOrderTransmissionMethod-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="PurchaseOrderTransmissionMethod-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="purchaseOrderTransmissionMethodCode" />
-    <property name="objectLabel" value="Method of PO Transmission" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="purchaseOrderTransmissionMethodCode"/>
+    <property name="objectLabel" value="Method of PO Transmission"/>
+    <property name="attributes">
       <list>
-        <ref bean="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodCode" />
-        <ref bean="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodDescription" />
-        <ref bean="PurchaseOrderTransmissionMethod-active" />
+        <ref bean="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodCode"/>
+        <ref bean="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodDescription"/>
+        <ref bean="PurchaseOrderTransmissionMethod-active"/>
       </list>
     </property>
   </bean>
@@ -31,66 +24,60 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodCode" parent="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodCode-parentBean" />
+  <bean id="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodCode" parent="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodCode-parentBean"/>
 
   <bean id="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderTransmissionMethodCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Method of PO Transmission Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="purchaseOrderTransmissionMethodCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Method of PO Transmission Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodDescription" parent="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodDescription-parentBean" />
+  <bean id="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodDescription" parent="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodDescription-parentBean"/>
 
   <bean id="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderTransmissionMethodDescription" />
-    <property name="label" value="Method of PO Transmission Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="purchaseOrderTransmissionMethodDescription"/>
+    <property name="label" value="Method of PO Transmission Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="47" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderTransmissionMethod-active" parent="PurchaseOrderTransmissionMethod-active-parentBean" />
+  <bean id="PurchaseOrderTransmissionMethod-active" parent="PurchaseOrderTransmissionMethod-active-parentBean"/>
 
   <bean id="PurchaseOrderTransmissionMethod-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="PurchaseOrderTransmissionMethod-inquiryDefinition" parent="PurchaseOrderTransmissionMethod-inquiryDefinition-parentBean" />
+  <bean id="PurchaseOrderTransmissionMethod-inquiryDefinition" parent="PurchaseOrderTransmissionMethod-inquiryDefinition-parentBean"/>
 
   <bean id="PurchaseOrderTransmissionMethod-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Method of PO Transmission Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Method of PO Transmission Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderTransmissionMethodCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderTransmissionMethodDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="purchaseOrderTransmissionMethodCode"/>
+              <bean parent="FieldDefinition" p:attributeName="purchaseOrderTransmissionMethodDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -101,33 +88,27 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="PurchaseOrderTransmissionMethod-lookupDefinition" parent="PurchaseOrderTransmissionMethod-lookupDefinition-parentBean" />
+  <bean id="PurchaseOrderTransmissionMethod-lookupDefinition" parent="PurchaseOrderTransmissionMethod-lookupDefinition-parentBean"/>
 
   <bean id="PurchaseOrderTransmissionMethod-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Method of PO Transmission Lookup" />
-    <property name="instructions" value="Lookup a Method of PO Transmission" />
-    <property name="defaultSort" >
+    <property name="title" value="Method of PO Transmission Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderTransmissionMethodCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderTransmissionMethodDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderTransmissionMethodCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderTransmissionMethodDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderTransmissionMethodCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderTransmissionMethodDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderTransmissionMethodCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderTransmissionMethodDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

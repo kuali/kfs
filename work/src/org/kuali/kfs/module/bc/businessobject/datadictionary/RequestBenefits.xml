@@ -1,132 +1,122 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="RequestBenefits" parent="RequestBenefits-parentBean" />
+  <bean id="RequestBenefits" parent="RequestBenefits-parentBean"/>
 
   <bean id="RequestBenefits-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.RequestBenefits" />
-    <property name="objectLabel" value="Request Benefits" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.RequestBenefits"/>
+    <property name="objectLabel" value="Request Benefits"/>
     
-    <property name="lookupDefinition" >
-      <ref bean="RequestBenefits-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="RequestBenefits-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="RequestBenefits-universityFiscalYear" />
-        <ref bean="RequestBenefits-chartOfAccountsCode" />
-        <ref bean="RequestBenefits-financialObjectCode" />
-        <ref bean="RequestBenefits-financialObjectBenefitsTypeCode" />
-        <ref bean="RequestBenefits-financialObjectBenefitsTypeDescription" />
-        <ref bean="RequestBenefits-positionFringeBenefitPercent" />
-        <ref bean="RequestBenefits-positionFringeBenefitObjectCode" />
-        <ref bean="RequestBenefits-positionFringeBenefitObjectCodeName" />
-        <ref bean="RequestBenefits-fringeDetailAmount" />
-        <ref bean="RequestBenefits-accountLineAnnualBalanceAmount" />
+        <ref bean="RequestBenefits-universityFiscalYear"/>
+        <ref bean="RequestBenefits-chartOfAccountsCode"/>
+        <ref bean="RequestBenefits-financialObjectCode"/>
+        <ref bean="RequestBenefits-financialObjectBenefitsTypeCode"/>
+        <ref bean="RequestBenefits-financialObjectBenefitsTypeDescription"/>
+        <ref bean="RequestBenefits-positionFringeBenefitPercent"/>
+        <ref bean="RequestBenefits-positionFringeBenefitObjectCode"/>
+        <ref bean="RequestBenefits-positionFringeBenefitObjectCodeName"/>
+        <ref bean="RequestBenefits-fringeDetailAmount"/>
+        <ref bean="RequestBenefits-accountLineAnnualBalanceAmount"/>
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
-  <bean id="RequestBenefits-accountLineAnnualBalanceAmount" parent="RequestBenefits-accountLineAnnualBalanceAmount-parentBean" />
+  <bean id="RequestBenefits-accountLineAnnualBalanceAmount" parent="RequestBenefits-accountLineAnnualBalanceAmount-parentBean"/>
 
   <bean id="RequestBenefits-accountLineAnnualBalanceAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountLineAnnualBalanceAmount" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Request Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern"
-            p:allowNegative="true" />
+    <property name="name" value="accountLineAnnualBalanceAmount"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Request Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern" p:allowNegative="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
     
     
   </bean>
-  <bean id="RequestBenefits-universityFiscalYear" parent="RequestBenefits-universityFiscalYear-parentBean" />
+  <bean id="RequestBenefits-universityFiscalYear" parent="RequestBenefits-universityFiscalYear-parentBean"/>
 
   <bean id="RequestBenefits-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="universityFiscalYear" />
-    <property name="required" value="true" />
+    <property name="name" value="universityFiscalYear"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="RequestBenefits-chartOfAccountsCode" parent="RequestBenefits-chartOfAccountsCode-parentBean" />
+  <bean id="RequestBenefits-chartOfAccountsCode" parent="RequestBenefits-chartOfAccountsCode-parentBean"/>
 
   <bean id="RequestBenefits-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
   </bean>
-  <bean id="RequestBenefits-financialObjectCode" parent="RequestBenefits-financialObjectCode-parentBean" />
+  <bean id="RequestBenefits-financialObjectCode" parent="RequestBenefits-financialObjectCode-parentBean"/>
 
   <bean id="RequestBenefits-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
   </bean>
-  <bean id="RequestBenefits-financialObjectBenefitsTypeCode" parent="RequestBenefits-financialObjectBenefitsTypeCode-parentBean" />
+  <bean id="RequestBenefits-financialObjectBenefitsTypeCode" parent="RequestBenefits-financialObjectBenefitsTypeCode-parentBean"/>
 
   <bean id="RequestBenefits-financialObjectBenefitsTypeCode-parentBean" abstract="true" parent="BenefitsType-positionBenefitTypeCode">
-    <property name="name" value="financialObjectBenefitsTypeCode" />
+    <property name="name" value="financialObjectBenefitsTypeCode"/>
   </bean>
-  <bean id="RequestBenefits-financialObjectBenefitsTypeDescription" parent="RequestBenefits-financialObjectBenefitsTypeDescription-parentBean" />
+  <bean id="RequestBenefits-financialObjectBenefitsTypeDescription" parent="RequestBenefits-financialObjectBenefitsTypeDescription-parentBean"/>
 
   <bean id="RequestBenefits-financialObjectBenefitsTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialObjectBenefitsTypeDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Labor Benefits Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="40" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="42" />
+    <property name="name" value="financialObjectBenefitsTypeDescription"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Labor Benefits Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="40"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="42"/>
     </property>
   </bean>
-  <bean id="RequestBenefits-positionFringeBenefitPercent" parent="RequestBenefits-positionFringeBenefitPercent-parentBean" />
+  <bean id="RequestBenefits-positionFringeBenefitPercent" parent="RequestBenefits-positionFringeBenefitPercent-parentBean"/>
 
   <bean id="RequestBenefits-positionFringeBenefitPercent-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="positionFringeBenefitPercent" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Position Fringe Benefit Percent" />
-    <property name="shortLabel" value="Percent" />
-    <property name="maxLength" value="22" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="positionFringeBenefitPercent"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Position Fringe Benefit Percent"/>
+    <property name="shortLabel" value="Percent"/>
+    <property name="maxLength" value="22"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="24" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="24"/>
     </property>
   </bean>
   
-  <bean id="RequestBenefits-positionFringeBenefitObjectCode" parent="RequestBenefits-positionFringeBenefitObjectCode-parentBean" />
+  <bean id="RequestBenefits-positionFringeBenefitObjectCode" parent="RequestBenefits-positionFringeBenefitObjectCode-parentBean"/>
 
-  <bean id="RequestBenefits-positionFringeBenefitObjectCode-parentBean" abstract="true"  parent="BenefitsCalculation-positionFringeBenefitObjectCode-parentBean">
-    <property name="label" value="Position Fringe Benefit Object Code" />
+  <bean id="RequestBenefits-positionFringeBenefitObjectCode-parentBean" abstract="true" parent="BenefitsCalculation-positionFringeBenefitObjectCode-parentBean">
+    <property name="label" value="Position Fringe Benefit Object Code"/>
   </bean>
-  <bean id="RequestBenefits-positionFringeBenefitObjectCodeName" parent="RequestBenefits-positionFringeBenefitObjectCodeName-parentBean" />
+  <bean id="RequestBenefits-positionFringeBenefitObjectCodeName" parent="RequestBenefits-positionFringeBenefitObjectCodeName-parentBean"/>
 
-  <bean id="RequestBenefits-positionFringeBenefitObjectCodeName-parentBean" abstract="true"  parent="ObjectCode-financialObjectCodeName-parentBean">
-    <property name="name" value="positionFringeBenefitObjectCodeName" />
-    <property name="label" value="Position Fringe Benefit Object Code Name" />
+  <bean id="RequestBenefits-positionFringeBenefitObjectCodeName-parentBean" abstract="true" parent="ObjectCode-financialObjectCodeName-parentBean">
+    <property name="name" value="positionFringeBenefitObjectCodeName"/>
+    <property name="label" value="Position Fringe Benefit Object Code Name"/>
   </bean>
-  <bean id="RequestBenefits-fringeDetailAmount" parent="RequestBenefits-fringeDetailAmount-parentBean" />
+  <bean id="RequestBenefits-fringeDetailAmount" parent="RequestBenefits-fringeDetailAmount-parentBean"/>
 
   <bean id="RequestBenefits-fringeDetailAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="fringeDetailAmount" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Benefit Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern"
-            p:allowNegative="true" />
+    <property name="name" value="fringeDetailAmount"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Benefit Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern" p:allowNegative="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
     
     
@@ -135,44 +125,33 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="RequestBenefits-lookupDefinition" parent="RequestBenefits-lookupDefinition-parentBean" />
+  <bean id="RequestBenefits-lookupDefinition" parent="RequestBenefits-lookupDefinition-parentBean"/>
 
   <bean id="RequestBenefits-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Single Line Benefits Impact" />
-    <property name="lookupableID" value="requestBenefitsLookupable" />
-    <property name="instructions" value="Lookup request benefits impact " />
-    <property name="defaultSort" >
+    <property name="title" value="Single Line Benefits Impact"/>
+    <property name="lookupableID" value="requestBenefitsLookupable"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountLineAnnualBalanceAmount" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountLineAnnualBalanceAmount"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectBenefitsTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectBenefitsTypeDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionFringeBenefitPercent" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionFringeBenefitObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionFringeBenefitObjectCodeName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="fringeDetailAmount" />
+        <bean parent="FieldDefinition" p:attributeName="financialObjectBenefitsTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectBenefitsTypeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="positionFringeBenefitPercent"/>
+        <bean parent="FieldDefinition" p:attributeName="positionFringeBenefitObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="positionFringeBenefitObjectCodeName"/>
+        <bean parent="FieldDefinition" p:attributeName="fringeDetailAmount"/>
       </list>
     </property>
   </bean>
 </beans>
-

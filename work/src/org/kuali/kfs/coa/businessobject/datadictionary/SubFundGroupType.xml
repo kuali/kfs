@@ -1,26 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="SubFundGroupType" parent="SubFundGroupType-parentBean" />
+  <bean id="SubFundGroupType" parent="SubFundGroupType-parentBean"/>
 
   <bean id="SubFundGroupType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubFundGroupType" />
-    <property name="inquiryDefinition" >
-      <ref bean="SubFundGroupType-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubFundGroupType"/>
+    <property name="inquiryDefinition">
+      <ref bean="SubFundGroupType-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="SubFundGroupType-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="SubFundGroupType-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="subFundGroupTypeCode" />
-    <property name="objectLabel" value="Sub-Fund Group Type" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="subFundGroupTypeCode"/>
+    <property name="objectLabel" value="Sub-Fund Group Type"/>
+    <property name="attributes">
       <list>
-        <ref bean="SubFundGroupType-active" />
-        <ref bean="SubFundGroupType-subFundGroupTypeCode" />
-        <ref bean="SubFundGroupType-subFundGroupTypeDescription" />
+        <ref bean="SubFundGroupType-active"/>
+        <ref bean="SubFundGroupType-subFundGroupTypeCode"/>
+        <ref bean="SubFundGroupType-subFundGroupTypeDescription"/>
       </list>
     </property>
   </bean>
@@ -28,64 +24,58 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="SubFundGroupType-active" parent="SubFundGroupType-active-parentBean" />
+  <bean id="SubFundGroupType-active" parent="SubFundGroupType-active-parentBean"/>
 
   <bean id="SubFundGroupType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
-  <bean id="SubFundGroupType-subFundGroupTypeCode" parent="SubFundGroupType-subFundGroupTypeCode-parentBean" />
+  <bean id="SubFundGroupType-subFundGroupTypeCode" parent="SubFundGroupType-subFundGroupTypeCode-parentBean"/>
 
   <bean id="SubFundGroupType-subFundGroupTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="subFundGroupTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Sub-Fund Group Type Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="subFundGroupTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Sub-Fund Group Type Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="SubFundGroupType-subFundGroupTypeDescription" parent="SubFundGroupType-subFundGroupTypeDescription-parentBean" />
+  <bean id="SubFundGroupType-subFundGroupTypeDescription" parent="SubFundGroupType-subFundGroupTypeDescription-parentBean"/>
 
   <bean id="SubFundGroupType-subFundGroupTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="subFundGroupTypeDescription" />
-    <property name="label" value="Sub-Fund Group Type Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="subFundGroupTypeDescription"/>
+    <property name="label" value="Sub-Fund Group Type Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="42" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="42"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="SubFundGroupType-inquiryDefinition" parent="SubFundGroupType-inquiryDefinition-parentBean" />
+  <bean id="SubFundGroupType-inquiryDefinition" parent="SubFundGroupType-inquiryDefinition-parentBean"/>
 
   <bean id="SubFundGroupType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Sub-Fund Group Type Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Sub-Fund Group Type Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="subFundGroupTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="subFundGroupTypeDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="subFundGroupTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="subFundGroupTypeDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -96,34 +86,27 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="SubFundGroupType-lookupDefinition" parent="SubFundGroupType-lookupDefinition-parentBean" />
+  <bean id="SubFundGroupType-lookupDefinition" parent="SubFundGroupType-lookupDefinition-parentBean"/>
 
   <bean id="SubFundGroupType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Sub-Fund Group Type Lookup" />
-    <property name="instructions" value="Look up a Sub-Fund Group Type" />
-    <property name="defaultSort" >
+    <property name="title" value="Sub-Fund Group Type Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="subFundGroupTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="subFundGroupTypeDescription" />
-        <bean parent="FieldDefinition"
-              p:defaultValue="Y"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="subFundGroupTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="subFundGroupTypeDescription"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="subFundGroupTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="subFundGroupTypeDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="subFundGroupTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="subFundGroupTypeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

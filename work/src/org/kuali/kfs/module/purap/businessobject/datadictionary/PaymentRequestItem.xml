@@ -1,59 +1,50 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PaymentRequestItem" parent="PaymentRequestItem-parentBean" />
+  <bean id="PaymentRequestItem" parent="PaymentRequestItem-parentBean"/>
 
   <bean id="PaymentRequestItem-parentBean" abstract="true" parent="BusinessObjectEntry">
-  	<property name="objectLabel" value="Payment Request Item" />
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PaymentRequestItem" />
-    <property name="inquiryDefinition" >
-      <ref bean="PaymentRequestItem-inquiryDefinition" />
+  	<property name="objectLabel" value="Payment Request Item"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PaymentRequestItem"/>
+    <property name="inquiryDefinition">
+      <ref bean="PaymentRequestItem-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="PaymentRequestItem-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="PaymentRequestItem-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="PaymentRequestItem-itemIdentifier" />
-        <ref bean="PaymentRequestItem-itemLineNumber" />
-        <ref bean="PaymentRequestItem-itemUnitOfMeasureCode" />
-        <ref bean="PaymentRequestItem-purapDocumentIdentifier" />
-        <ref bean="PaymentRequestItem-itemAssignedToTradeInIndicator" />
-        <ref bean="PaymentRequestItem-extendedPrice" />
-        <ref bean="PaymentRequestItem-itemUnitPrice" />
-        <ref bean="PaymentRequestItem-itemTypeCode" />
-        <ref bean="PaymentRequestItem-itemCatalogNumber" />
-        <ref bean="PaymentRequestItem-itemDescription" />
-        <ref bean="PaymentRequestItem-itemAuxiliaryPartIdentifier" />
-        <ref bean="PaymentRequestItem-externalOrganizationB2bProductReferenceNumber" />
-        <ref bean="PaymentRequestItem-externalOrganizationB2bProductTypeName" />
-        <ref bean="PaymentRequestItem-purchaseOrderItemUnitPrice" />
-        <ref bean="PaymentRequestItem-originalAmountfromPO" />
-        <ref bean="PaymentRequestItem-itemOutstandingInvoiceQuantity" />
-        <ref bean="PaymentRequestItem-itemOutstandingInvoiceAmount" />
-        <ref bean="PaymentRequestItem-poOutstandingQuantity" />
-        <ref bean="PaymentRequestItem-poOutstandingAmount" />
-        <ref bean="PaymentRequestItem-itemQuantity" />
-        <ref bean="PaymentRequestItem-itemTaxAmount" />
-        <ref bean="PaymentRequestItem-totalAmount" />
-        <ref bean="PaymentRequestItem-capitalAssetTransactionTypeCode" />
+        <ref bean="PaymentRequestItem-itemIdentifier"/>
+        <ref bean="PaymentRequestItem-itemLineNumber"/>
+        <ref bean="PaymentRequestItem-itemUnitOfMeasureCode"/>
+        <ref bean="PaymentRequestItem-purapDocumentIdentifier"/>
+        <ref bean="PaymentRequestItem-itemAssignedToTradeInIndicator"/>
+        <ref bean="PaymentRequestItem-extendedPrice"/>
+        <ref bean="PaymentRequestItem-itemUnitPrice"/>
+        <ref bean="PaymentRequestItem-itemTypeCode"/>
+        <ref bean="PaymentRequestItem-itemCatalogNumber"/>
+        <ref bean="PaymentRequestItem-itemDescription"/>
+        <ref bean="PaymentRequestItem-itemAuxiliaryPartIdentifier"/>
+        <ref bean="PaymentRequestItem-externalOrganizationB2bProductReferenceNumber"/>
+        <ref bean="PaymentRequestItem-externalOrganizationB2bProductTypeName"/>
+        <ref bean="PaymentRequestItem-purchaseOrderItemUnitPrice"/>
+        <ref bean="PaymentRequestItem-originalAmountfromPO"/>
+        <ref bean="PaymentRequestItem-itemOutstandingInvoiceQuantity"/>
+        <ref bean="PaymentRequestItem-itemOutstandingInvoiceAmount"/>
+        <ref bean="PaymentRequestItem-poOutstandingQuantity"/>
+        <ref bean="PaymentRequestItem-poOutstandingAmount"/>
+        <ref bean="PaymentRequestItem-itemQuantity"/>
+        <ref bean="PaymentRequestItem-itemTaxAmount"/>
+        <ref bean="PaymentRequestItem-totalAmount"/>
+        <ref bean="PaymentRequestItem-capitalAssetTransactionTypeCode"/>
       </list>
     </property>
 	<property name="relationships">
     	<list>
 			<bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="capitalAssetTransactionType" />
-              <property name="primitiveAttributes" >
+              <property name="objectAttributeName" value="capitalAssetTransactionType"/>
+              <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition"
-                        p:sourceName="capitalAssetTransactionTypeCode"
-                        p:targetName="capitalAssetTransactionTypeCode" />
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="capitalAssetTransactionTypeCode" p:targetName="capitalAssetTransactionTypeCode"/>
                 </list>
               </property>
     		</bean>
@@ -64,313 +55,279 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="PaymentRequestItem-itemIdentifier" parent="PaymentRequestItem-itemIdentifier-parentBean" />
+  <bean id="PaymentRequestItem-itemIdentifier" parent="PaymentRequestItem-itemIdentifier-parentBean"/>
 
   <bean id="PaymentRequestItem-itemIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemIdentifier">
-    <property name="name" value="itemIdentifier" />
-    <property name="label" value="Item Identifier" />
+    <property name="name" value="itemIdentifier"/>
+    <property name="label" value="Item Identifier"/>
   </bean>
-  <bean id="PaymentRequestItem-itemLineNumber" parent="PaymentRequestItem-itemLineNumber-parentBean" />
+  <bean id="PaymentRequestItem-itemLineNumber" parent="PaymentRequestItem-itemLineNumber-parentBean"/>
 
   <bean id="PaymentRequestItem-itemLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemLineNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Line Number" />
-    <property name="shortLabel" value="Item Line #" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="itemLineNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Item Line Number"/>
+    <property name="shortLabel" value="Item Line #"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
   </bean>
-  <bean id="PaymentRequestItem-itemUnitOfMeasureCode" parent="PaymentRequestItem-itemUnitOfMeasureCode-parentBean" />
+  <bean id="PaymentRequestItem-itemUnitOfMeasureCode" parent="PaymentRequestItem-itemUnitOfMeasureCode-parentBean"/>
 
   <bean id="PaymentRequestItem-itemUnitOfMeasureCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemUnitOfMeasureCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Unit Of Measure Code" />
-    <property name="shortLabel" value="UOM" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="itemUnitOfMeasureCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Item Unit Of Measure Code"/>
+    <property name="shortLabel" value="UOM"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.UnitOfMeasureValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.UnitOfMeasureValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="PaymentRequestItem-purapDocumentIdentifier" parent="PaymentRequestItem-purapDocumentIdentifier-parentBean" />
+  <bean id="PaymentRequestItem-purapDocumentIdentifier" parent="PaymentRequestItem-purapDocumentIdentifier-parentBean"/>
 
   <bean id="PaymentRequestItem-purapDocumentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purapDocumentIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Requisition Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="purapDocumentIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Requisition Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="PaymentRequestItem-itemAssignedToTradeInIndicator" parent="PaymentRequestItem-itemAssignedToTradeInIndicator-parentBean" />
+  <bean id="PaymentRequestItem-itemAssignedToTradeInIndicator" parent="PaymentRequestItem-itemAssignedToTradeInIndicator-parentBean"/>
 
   <bean id="PaymentRequestItem-itemAssignedToTradeInIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemAssignedToTradeInIndicator" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Assigned To Trade In Indicator" />
-    <property name="shortLabel" value="Assigned To Trade In" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="itemAssignedToTradeInIndicator"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Item Assigned To Trade In Indicator"/>
+    <property name="shortLabel" value="Assigned To Trade In"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="PaymentRequestItem-extendedPrice" parent="PaymentRequestItem-extendedPrice-parentBean" />
+  <bean id="PaymentRequestItem-extendedPrice" parent="PaymentRequestItem-extendedPrice-parentBean"/>
 
   <bean id="PaymentRequestItem-extendedPrice-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="extendedPrice" />
-    <property name="label" value="Extended Price" />
-    <property name="shortLabel" value="Extended Cost" />
+    <property name="name" value="extendedPrice"/>
+    <property name="label" value="Extended Price"/>
+    <property name="shortLabel" value="Extended Cost"/>
   </bean>
-  <bean id="PaymentRequestItem-itemUnitPrice" parent="PaymentRequestItem-itemUnitPrice-parentBean" />
+  <bean id="PaymentRequestItem-itemUnitPrice" parent="PaymentRequestItem-itemUnitPrice-parentBean"/>
 
   <bean id="PaymentRequestItem-itemUnitPrice-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
-    <property name="name" value="itemUnitPrice" />
-    <property name="label" value="Unit Cost" />
-    <property name="shortLabel" value="Unit Cost" />
+    <property name="name" value="itemUnitPrice"/>
+    <property name="label" value="Unit Cost"/>
+    <property name="shortLabel" value="Unit Cost"/>
   </bean>
-  <bean id="PaymentRequestItem-itemTypeCode" parent="PaymentRequestItem-itemTypeCode-parentBean" />
+  <bean id="PaymentRequestItem-itemTypeCode" parent="PaymentRequestItem-itemTypeCode-parentBean"/>
 
   <bean id="PaymentRequestItem-itemTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Type Code" />
-    <property name="shortLabel" value="Item Type" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="itemTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Item Type Code"/>
+    <property name="shortLabel" value="Item Type"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.ItemTypeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.ItemTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="PaymentRequestItem-itemCatalogNumber" parent="PaymentRequestItem-itemCatalogNumber-parentBean" />
+  <bean id="PaymentRequestItem-itemCatalogNumber" parent="PaymentRequestItem-itemCatalogNumber-parentBean"/>
 
   <bean id="PaymentRequestItem-itemCatalogNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemCatalogNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Catalog Number" />
-    <property name="shortLabel" value="Catalog #" />
-    <property name="maxLength" value="30" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="itemCatalogNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Item Catalog Number"/>
+    <property name="shortLabel" value="Catalog #"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="15" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="15"/>
     </property>
   </bean>
-  <bean id="PaymentRequestItem-itemDescription" parent="PaymentRequestItem-itemDescription-parentBean" />
+  <bean id="PaymentRequestItem-itemDescription" parent="PaymentRequestItem-itemDescription-parentBean"/>
 
   <bean id="PaymentRequestItem-itemDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemDescription" />
-    <property name="label" value="Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="4000" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="itemDescription"/>
+    <property name="label" value="Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="4000"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="2"
-            p:cols="20" />
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="2" p:cols="20"/>
     </property>
   </bean>
 
-  <bean id="PaymentRequestItem-itemAuxiliaryPartIdentifier" parent="PaymentRequestItem-itemAuxiliaryPartIdentifier-parentBean" />
+  <bean id="PaymentRequestItem-itemAuxiliaryPartIdentifier" parent="PaymentRequestItem-itemAuxiliaryPartIdentifier-parentBean"/>
 
   <bean id="PaymentRequestItem-itemAuxiliaryPartIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemAuxiliaryPartIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Auxiliary Part Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="300" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="itemAuxiliaryPartIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Item Auxiliary Part Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="300"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="5"
-            p:cols="80" />
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="80"/>
     </property>
   </bean>
-  <bean id="PaymentRequestItem-externalOrganizationB2bProductReferenceNumber" parent="PaymentRequestItem-externalOrganizationB2bProductReferenceNumber-parentBean" />
+  <bean id="PaymentRequestItem-externalOrganizationB2bProductReferenceNumber" parent="PaymentRequestItem-externalOrganizationB2bProductReferenceNumber-parentBean"/>
 
   <bean id="PaymentRequestItem-externalOrganizationB2bProductReferenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="externalOrganizationB2bProductReferenceNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="External OrganizationB2b Product Reference Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="externalOrganizationB2bProductReferenceNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="External OrganizationB2b Product Reference Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
   </bean>
-  <bean id="PaymentRequestItem-externalOrganizationB2bProductTypeName" parent="PaymentRequestItem-externalOrganizationB2bProductTypeName-parentBean" />
+  <bean id="PaymentRequestItem-externalOrganizationB2bProductTypeName" parent="PaymentRequestItem-externalOrganizationB2bProductTypeName-parentBean"/>
 
   <bean id="PaymentRequestItem-externalOrganizationB2bProductTypeName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="externalOrganizationB2bProductTypeName" />
-    <property name="label" value="External OrganizationB2b Product Type Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="15" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="externalOrganizationB2bProductTypeName"/>
+    <property name="label" value="External OrganizationB2b Product Type Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="15"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="17" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="17"/>
     </property>
   </bean>
-  <bean id="PaymentRequestItem-purchaseOrderItemUnitPrice" parent="PaymentRequestItem-purchaseOrderItemUnitPrice-parentBean" />
+  <bean id="PaymentRequestItem-purchaseOrderItemUnitPrice" parent="PaymentRequestItem-purchaseOrderItemUnitPrice-parentBean"/>
 
   <bean id="PaymentRequestItem-purchaseOrderItemUnitPrice-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
-    <property name="name" value="purchaseOrderItemUnitPrice" />
-    <property name="label" value="Purchase Order Item Unit Price" />
-    <property name="shortLabel" value="PO Unit/Ext Price" />
+    <property name="name" value="purchaseOrderItemUnitPrice"/>
+    <property name="label" value="Purchase Order Item Unit Price"/>
+    <property name="shortLabel" value="PO Unit/Ext Price"/>
   </bean>
-  <bean id="PaymentRequestItem-originalAmountfromPO" parent="PaymentRequestItem-originalAmountfromPO-parentBean" />
+  <bean id="PaymentRequestItem-originalAmountfromPO" parent="PaymentRequestItem-originalAmountfromPO-parentBean"/>
 
   <bean id="PaymentRequestItem-originalAmountfromPO-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
-    <property name="name" value="originalAmountfromPO" />
-    <property name="label" value="Original Amount from Purchase Order" />
-    <property name="shortLabel" value="Original Amount from PO" />
+    <property name="name" value="originalAmountfromPO"/>
+    <property name="label" value="Original Amount from Purchase Order"/>
+    <property name="shortLabel" value="Original Amount from PO"/>
   </bean>
-  <bean id="PaymentRequestItem-itemOutstandingInvoiceQuantity" parent="PaymentRequestItem-itemOutstandingInvoiceQuantity-parentBean" />
+  <bean id="PaymentRequestItem-itemOutstandingInvoiceQuantity" parent="PaymentRequestItem-itemOutstandingInvoiceQuantity-parentBean"/>
 
   <bean id="PaymentRequestItem-itemOutstandingInvoiceQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
-    <property name="name" value="itemOutstandingInvoiceQuantity" />
-    <property name="label" value="Item Outstanding Invoice Quantity" />
-    <property name="shortLabel" value="Open Qty" />
+    <property name="name" value="itemOutstandingInvoiceQuantity"/>
+    <property name="label" value="Item Outstanding Invoice Quantity"/>
+    <property name="shortLabel" value="Open Qty"/>
   </bean>
-  <bean id="PaymentRequestItem-itemOutstandingInvoiceAmount" parent="PaymentRequestItem-itemOutstandingInvoiceAmount-parentBean" />
+  <bean id="PaymentRequestItem-itemOutstandingInvoiceAmount" parent="PaymentRequestItem-itemOutstandingInvoiceAmount-parentBean"/>
 
   <bean id="PaymentRequestItem-itemOutstandingInvoiceAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
-    <property name="name" value="itemOutstandingInvoiceAmount" />
-    <property name="label" value="Item Outstanding Invoiced Amount" />
-    <property name="shortLabel" value="Outstanding Invoiced Amount" />
+    <property name="name" value="itemOutstandingInvoiceAmount"/>
+    <property name="label" value="Item Outstanding Invoiced Amount"/>
+    <property name="shortLabel" value="Outstanding Invoiced Amount"/>
   </bean>
-  <bean id="PaymentRequestItem-poOutstandingQuantity" parent="PaymentRequestItem-poOutstandingQuantity-parentBean" />
+  <bean id="PaymentRequestItem-poOutstandingQuantity" parent="PaymentRequestItem-poOutstandingQuantity-parentBean"/>
 
   <bean id="PaymentRequestItem-poOutstandingQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
-    <property name="name" value="poOutstandingQuantity" />
-    <property name="label" value="Item Open Quantity" />
-    <property name="shortLabel" value="Open Qty" />
+    <property name="name" value="poOutstandingQuantity"/>
+    <property name="label" value="Item Open Quantity"/>
+    <property name="shortLabel" value="Open Qty"/>
   </bean>
-  <bean id="PaymentRequestItem-poOutstandingAmount" parent="PaymentRequestItem-poOutstandingAmount-parentBean" />
+  <bean id="PaymentRequestItem-poOutstandingAmount" parent="PaymentRequestItem-poOutstandingAmount-parentBean"/>
 
   <bean id="PaymentRequestItem-poOutstandingAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
-    <property name="name" value="poOutstandingAmount" />
-    <property name="label" value="Item Outstanding Encumbered Amount" />
-    <property name="shortLabel" value="Outstanding Encumbered Amount" />
+    <property name="name" value="poOutstandingAmount"/>
+    <property name="label" value="Item Outstanding Encumbered Amount"/>
+    <property name="shortLabel" value="Outstanding Encumbered Amount"/>
   </bean>
-  <bean id="PaymentRequestItem-itemQuantity" parent="PaymentRequestItem-itemQuantity-parentBean" />
+  <bean id="PaymentRequestItem-itemQuantity" parent="PaymentRequestItem-itemQuantity-parentBean"/>
 
   <bean id="PaymentRequestItem-itemQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
-    <property name="name" value="itemQuantity" />
-    <property name="label" value="Quantity Invoiced" />
-    <property name="shortLabel" value="Qty Invoiced" />
+    <property name="name" value="itemQuantity"/>
+    <property name="label" value="Quantity Invoiced"/>
+    <property name="shortLabel" value="Qty Invoiced"/>
   </bean>
   
-  <bean id="PaymentRequestItem-itemTaxAmount" parent="PaymentRequestItem-itemTaxAmount-parentBean" />
+  <bean id="PaymentRequestItem-itemTaxAmount" parent="PaymentRequestItem-itemTaxAmount-parentBean"/>
   
-  <bean id="PaymentRequestItem-itemTaxAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount" >
-  	<property name="name" value="itemTaxAmount" />
-    <property name="label" value="Tax Amount" />
-    <property name="shortLabel" value="Tax Amount" />  	
+  <bean id="PaymentRequestItem-itemTaxAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="itemTaxAmount"/>
+    <property name="label" value="Tax Amount"/>
+    <property name="shortLabel" value="Tax Amount"/>  	
   </bean>
   
-  <bean id="PaymentRequestItem-totalAmount" parent="PaymentRequestItem-totalAmount-parentBean" />
+  <bean id="PaymentRequestItem-totalAmount" parent="PaymentRequestItem-totalAmount-parentBean"/>
 
   <bean id="PaymentRequestItem-totalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="totalAmount" />
-    <property name="label" value="Total Amount" />
-    <property name="shortLabel" value="Total Amount" />
+    <property name="name" value="totalAmount"/>
+    <property name="label" value="Total Amount"/>
+    <property name="shortLabel" value="Total Amount"/>
   </bean>
   
-  <bean id="PaymentRequestItem-capitalAssetTransactionTypeCode" parent="PaymentRequestItem-capitalAssetTransactionTypeCode-parentBean" />
+  <bean id="PaymentRequestItem-capitalAssetTransactionTypeCode" parent="PaymentRequestItem-capitalAssetTransactionTypeCode-parentBean"/>
   
-  <bean id="PaymentRequestItem-capitalAssetTransactionTypeCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType"
-	p:sourceAttributeName="capitalAssetTransactionTypeCode"> 
-    <property name="name" value="capitalAssetTransactionTypeCode" />
-    <property name="label" value="Capital Asset Transaction Type" />
-    <property name="shortLabel" value="Capital Asset Transaction Type" />
-    <property name="control" >
-          <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.AssetTransactionTypeValuesFinder"
-            p:includeKeyInLabel="false" />
+  <bean id="PaymentRequestItem-capitalAssetTransactionTypeCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType" p:sourceAttributeName="capitalAssetTransactionTypeCode"> 
+    <property name="name" value="capitalAssetTransactionTypeCode"/>
+    <property name="label" value="Capital Asset Transaction Type"/>
+    <property name="shortLabel" value="Capital Asset Transaction Type"/>
+    <property name="control">
+          <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.AssetTransactionTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="PaymentRequestItem-inquiryDefinition" parent="PaymentRequestItem-inquiryDefinition-parentBean" />
+  <bean id="PaymentRequestItem-inquiryDefinition" parent="PaymentRequestItem-inquiryDefinition-parentBean"/>
 
   <bean id="PaymentRequestItem-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Payment Request Item Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Payment Request Item Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemAssignedToTradeInIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemAuxiliaryPartIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemCatalogNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemLineNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemQuantity" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemUnitOfMeasureCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemUnitPrice" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="purapDocumentIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderItemUnitPrice" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="originalAmountfromPO" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemOutstandingInvoiceQuantity" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemOutstandingInvoiceAmount" />
+              <bean parent="FieldDefinition" p:attributeName="itemAssignedToTradeInIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="itemAuxiliaryPartIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="itemCatalogNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="itemDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="itemLineNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="itemQuantity"/>
+              <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="itemUnitOfMeasureCode"/>
+              <bean parent="FieldDefinition" p:attributeName="itemUnitPrice"/>
+              <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="itemIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="purchaseOrderItemUnitPrice"/>
+              <bean parent="FieldDefinition" p:attributeName="originalAmountfromPO"/>
+              <bean parent="FieldDefinition" p:attributeName="itemOutstandingInvoiceQuantity"/>
+              <bean parent="FieldDefinition" p:attributeName="itemOutstandingInvoiceAmount"/>
             </list>
           </property>
         </bean>
@@ -381,81 +338,51 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="PaymentRequestItem-lookupDefinition" parent="PaymentRequestItem-lookupDefinition-parentBean" />
+  <bean id="PaymentRequestItem-lookupDefinition" parent="PaymentRequestItem-lookupDefinition-parentBean"/>
 
   <bean id="PaymentRequestItem-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Payment Request Item Lookup" />
-    <property name="instructions" value="Lookup a Payment Request Item" />
-    <property name="defaultSort" >
+    <property name="title" value="Payment Request Item Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="itemAssignedToTradeInIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemAuxiliaryPartIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemCatalogNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemLineNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemQuantity" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemUnitOfMeasureCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemUnitPrice" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purapDocumentIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderItemUnitPrice" />
-        <bean parent="FieldDefinition"
-              p:attributeName="originalAmountfromPO" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemOutstandingInvoiceQuantity" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemOutstandingInvoiceAmount" />
+        <bean parent="FieldDefinition" p:attributeName="itemAssignedToTradeInIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="itemAuxiliaryPartIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="itemCatalogNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="itemDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="itemLineNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="itemQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemUnitOfMeasureCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemUnitPrice"/>
+        <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="itemIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderItemUnitPrice"/>
+        <bean parent="FieldDefinition" p:attributeName="originalAmountfromPO"/>
+        <bean parent="FieldDefinition" p:attributeName="itemOutstandingInvoiceQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemOutstandingInvoiceAmount"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="itemAssignedToTradeInIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemAuxiliaryPartIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemCatalogNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemLineNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemQuantity" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemUnitOfMeasureCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemUnitPrice" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purapDocumentIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderItemUnitPrice" />
-        <bean parent="FieldDefinition"
-              p:attributeName="originalAmountfromPO" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemOutstandingInvoiceQuantity" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemOutstandingInvoiceAmount" />
+        <bean parent="FieldDefinition" p:attributeName="itemAssignedToTradeInIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="itemAuxiliaryPartIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="itemCatalogNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="itemDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="itemLineNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="itemQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemUnitOfMeasureCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemUnitPrice"/>
+        <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="itemIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderItemUnitPrice"/>
+        <bean parent="FieldDefinition" p:attributeName="originalAmountfromPO"/>
+        <bean parent="FieldDefinition" p:attributeName="itemOutstandingInvoiceQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemOutstandingInvoiceAmount"/>
       </list>
     </property>
   </bean>

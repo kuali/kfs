@@ -1,40 +1,36 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
        
-  <bean id="CustomerCreditMemoDetail" parent="CustomerCreditMemoDetail-parentBean" />
+  <bean id="CustomerCreditMemoDetail" parent="CustomerCreditMemoDetail-parentBean"/>
   <bean id="CustomerCreditMemoDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail" />
-    <property name="objectLabel" value="Customer Credit Memo Detail" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail"/>
+    <property name="objectLabel" value="Customer Credit Memo Detail"/>
+    <property name="attributes">
       <list>
-      	<ref bean="CustomerCreditMemoDetail-referenceInvoiceItemNumber" />
-      	<ref bean="CustomerCreditMemoDetail-creditMemoItemQuantity" />
-        <ref bean="CustomerCreditMemoDetail-creditMemoItemTaxAmount" />
-      	<ref bean="CustomerCreditMemoDetail-creditMemoItemTotalAmount" />
-      	<ref bean="CustomerCreditMemoDetail-creditMemoLineTotalAmount" />
-      	<ref bean="CustomerCreditMemoDetail-invoiceLineTotalAmount" />
-      	<ref bean="CustomerCreditMemoDetail-invoiceOpenItemQuantity" />
-      	<ref bean="CustomerCreditMemoDetail-invoiceOpenItemAmount" />
+      	<ref bean="CustomerCreditMemoDetail-referenceInvoiceItemNumber"/>
+      	<ref bean="CustomerCreditMemoDetail-creditMemoItemQuantity"/>
+        <ref bean="CustomerCreditMemoDetail-creditMemoItemTaxAmount"/>
+      	<ref bean="CustomerCreditMemoDetail-creditMemoItemTotalAmount"/>
+      	<ref bean="CustomerCreditMemoDetail-creditMemoLineTotalAmount"/>
+      	<ref bean="CustomerCreditMemoDetail-invoiceLineTotalAmount"/>
+      	<ref bean="CustomerCreditMemoDetail-invoiceOpenItemQuantity"/>
+      	<ref bean="CustomerCreditMemoDetail-invoiceOpenItemAmount"/>
       </list>
     </property>
   </bean>
   
-  <bean id="CustomerCreditMemoDetail-referenceInvoiceItemNumber" parent="CustomerCreditMemoDetail-referenceInvoiceItemNumber-parentBean" >
-      <property name="control" >
-       <bean parent="TextControlDefinition" p:size="10" />
+  <bean id="CustomerCreditMemoDetail-referenceInvoiceItemNumber" parent="CustomerCreditMemoDetail-referenceInvoiceItemNumber-parentBean">
+      <property name="control">
+       <bean parent="TextControlDefinition" p:size="10"/>
       </property>
   </bean>
   <bean id="CustomerCreditMemoDetail-referenceInvoiceItemNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="referenceInvoiceItemNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Line Number" />
-    <property name="shortLabel" value="Line Number" />
-    <property name="maxLength" value="3" />
+    <property name="name" value="referenceInvoiceItemNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Item Line Number"/>
+    <property name="shortLabel" value="Line Number"/>
+    <property name="maxLength" value="3"/>
     <property name="control">
-    	<bean parent="HiddenControlDefinition" />
+    	<bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
 <!--  Ask Justin about this bean -->
@@ -44,70 +40,69 @@
   </bean>
 -->
 
-  <bean id="CustomerCreditMemoDetail-creditMemoItemQuantity" parent="CustomerCreditMemoDetail-creditMemoItemQuantity-parentBean" />
+  <bean id="CustomerCreditMemoDetail-creditMemoItemQuantity" parent="CustomerCreditMemoDetail-creditMemoItemQuantity-parentBean"/>
 
   <bean id="CustomerCreditMemoDetail-creditMemoItemQuantity-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="creditMemoItemQuantity" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Item Quantity" />
-    <property name="shortLabel" value="Quantity" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="creditMemoItemQuantity"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Item Quantity"/>
+    <property name="shortLabel" value="Quantity"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
   </bean>
   
-  <bean id="CustomerCreditMemoDetail-creditMemoItemTaxAmount" parent="CustomerCreditMemoDetail-creditMemoItemTaxAmount-parentBean" />
+  <bean id="CustomerCreditMemoDetail-creditMemoItemTaxAmount" parent="CustomerCreditMemoDetail-creditMemoItemTaxAmount-parentBean"/>
   <bean id="CustomerCreditMemoDetail-creditMemoItemTaxAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="creditMemoItemTaxAmount" />
-    <property name="label" value="Tax Amount" />
-    <property name="shortLabel" value="Tax Amount" />
-    <property name="required" value="false" />
+    <property name="name" value="creditMemoItemTaxAmount"/>
+    <property name="label" value="Tax Amount"/>
+    <property name="shortLabel" value="Tax Amount"/>
+    <property name="required" value="false"/>
   </bean>
   
-  <bean id="CustomerCreditMemoDetail-creditMemoItemTotalAmount" parent="CustomerCreditMemoDetail-creditMemoItemTotalAmount-parentBean" />
+  <bean id="CustomerCreditMemoDetail-creditMemoItemTotalAmount" parent="CustomerCreditMemoDetail-creditMemoItemTotalAmount-parentBean"/>
   <bean id="CustomerCreditMemoDetail-creditMemoItemTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="creditMemoItemTotalAmount" />
-    <property name="label" value="Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="required" value="false" />
+    <property name="name" value="creditMemoItemTotalAmount"/>
+    <property name="label" value="Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="required" value="false"/>
   </bean>
   
-  <bean id="CustomerCreditMemoDetail-creditMemoLineTotalAmount" parent="CustomerCreditMemoDetail-creditMemoLineTotalAmount-parentBean" />
+  <bean id="CustomerCreditMemoDetail-creditMemoLineTotalAmount" parent="CustomerCreditMemoDetail-creditMemoLineTotalAmount-parentBean"/>
   <bean id="CustomerCreditMemoDetail-creditMemoLineTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="creditMemoLineTotalAmount" />
-    <property name="label" value="Total Amount" />
-    <property name="shortLabel" value="Total Amount" />
-    <property name="required" value="false" />
+    <property name="name" value="creditMemoLineTotalAmount"/>
+    <property name="label" value="Total Amount"/>
+    <property name="shortLabel" value="Total Amount"/>
+    <property name="required" value="false"/>
   </bean>
   
-  <bean id="CustomerCreditMemoDetail-invoiceLineTotalAmount" parent="CustomerCreditMemoDetail-invoiceLineTotalAmount-parentBean" />
+  <bean id="CustomerCreditMemoDetail-invoiceLineTotalAmount" parent="CustomerCreditMemoDetail-invoiceLineTotalAmount-parentBean"/>
   <bean id="CustomerCreditMemoDetail-invoiceLineTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="invoiceLineTotalAmount" />
-    <property name="label" value="Total Amount" />
-    <property name="shortLabel" value="Total Amount" />
-    <property name="required" value="false" />
+    <property name="name" value="invoiceLineTotalAmount"/>
+    <property name="label" value="Total Amount"/>
+    <property name="shortLabel" value="Total Amount"/>
+    <property name="required" value="false"/>
   </bean>
   
-  <bean id="CustomerCreditMemoDetail-invoiceOpenItemQuantity" parent="CustomerCreditMemoDetail-invoiceOpenItemQuantity-parentBean" />
+  <bean id="CustomerCreditMemoDetail-invoiceOpenItemQuantity" parent="CustomerCreditMemoDetail-invoiceOpenItemQuantity-parentBean"/>
   <bean id="CustomerCreditMemoDetail-invoiceOpenItemQuantity-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="invoiceOpenItemQuantity" />
-    <property name="label" value="Open Invoice Quantity" />
-    <property name="shortLabel" value="Open Invoice Quantity" />
-    <property name="required" value="false" />
+    <property name="name" value="invoiceOpenItemQuantity"/>
+    <property name="label" value="Open Invoice Quantity"/>
+    <property name="shortLabel" value="Open Invoice Quantity"/>
+    <property name="required" value="false"/>
   </bean>  
   
-  <bean id="CustomerCreditMemoDetail-invoiceOpenItemAmount" parent="CustomerCreditMemoDetail-invoiceOpenItemAmount-parentBean" />
+  <bean id="CustomerCreditMemoDetail-invoiceOpenItemAmount" parent="CustomerCreditMemoDetail-invoiceOpenItemAmount-parentBean"/>
   <bean id="CustomerCreditMemoDetail-invoiceOpenItemAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="invoiceOpenItemAmount" />
-    <property name="label" value="Open Invoice Amount" />
-    <property name="shortLabel" value="Open Invoice Amount" />
-    <property name="required" value="false" />
+    <property name="name" value="invoiceOpenItemAmount"/>
+    <property name="label" value="Open Invoice Amount"/>
+    <property name="shortLabel" value="Open Invoice Amount"/>
+    <property name="required" value="false"/>
   </bean>
   
-</beans> 
+</beans>

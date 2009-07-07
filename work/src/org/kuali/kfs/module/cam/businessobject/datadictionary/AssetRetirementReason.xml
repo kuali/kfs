@@ -1,26 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AssetRetirementReason" parent="AssetRetirementReason-parentBean" />
+  <bean id="AssetRetirementReason" parent="AssetRetirementReason-parentBean"/>
 
   <bean id="AssetRetirementReason-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetRetirementReason" />
-    <property name="inquiryDefinition" >
-      <ref bean="AssetRetirementReason-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetRetirementReason"/>
+    <property name="inquiryDefinition">
+      <ref bean="AssetRetirementReason-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="AssetRetirementReason-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="AssetRetirementReason-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Asset Retirement Reason" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Asset Retirement Reason"/>
+    <property name="attributes">
       <list>
-        <ref bean="AssetRetirementReason-active" />
-        <ref bean="AssetRetirementReason-retirementReasonCode" />
-        <ref bean="AssetRetirementReason-retirementReasonName" />
-        <ref bean="AssetRetirementReason-retirementReasonRestrictionIndicator" />
+        <ref bean="AssetRetirementReason-active"/>
+        <ref bean="AssetRetirementReason-retirementReasonCode"/>
+        <ref bean="AssetRetirementReason-retirementReasonName"/>
+        <ref bean="AssetRetirementReason-retirementReasonRestrictionIndicator"/>
       </list>
     </property>
   </bean>
@@ -28,79 +24,72 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AssetRetirementReason-active" parent="AssetRetirementReason-active-parentBean" />
+  <bean id="AssetRetirementReason-active" parent="AssetRetirementReason-active-parentBean"/>
 
   <bean id="AssetRetirementReason-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
-  <bean id="AssetRetirementReason-retirementReasonCode" parent="AssetRetirementReason-retirementReasonCode-parentBean" />
+  <bean id="AssetRetirementReason-retirementReasonCode" parent="AssetRetirementReason-retirementReasonCode-parentBean"/>
 
   <bean id="AssetRetirementReason-retirementReasonCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="retirementReasonCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Retirement Reason Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="retirementReasonCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Retirement Reason Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="AssetRetirementReason-retirementReasonName" parent="AssetRetirementReason-retirementReasonName-parentBean" />
+  <bean id="AssetRetirementReason-retirementReasonName" parent="AssetRetirementReason-retirementReasonName-parentBean"/>
 
   <bean id="AssetRetirementReason-retirementReasonName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="retirementReasonName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Retirement Reason Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="retirementReasonName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Retirement Reason Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="42" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="42"/>
     </property>
   </bean>
-  <bean id="AssetRetirementReason-retirementReasonRestrictionIndicator" parent="AssetRetirementReason-retirementReasonRestrictionIndicator-parentBean" />
+  <bean id="AssetRetirementReason-retirementReasonRestrictionIndicator" parent="AssetRetirementReason-retirementReasonRestrictionIndicator-parentBean"/>
 
   <bean id="AssetRetirementReason-retirementReasonRestrictionIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="retirementReasonRestrictionIndicator" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Retirement Reason Restriction Indicator" />
-    <property name="shortLabel" value="Retirement Reason Restriction Indicator" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="retirementReasonRestrictionIndicator"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Retirement Reason Restriction Indicator"/>
+    <property name="shortLabel" value="Retirement Reason Restriction Indicator"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="AssetRetirementReason-inquiryDefinition" parent="AssetRetirementReason-inquiryDefinition-parentBean" />
+  <bean id="AssetRetirementReason-inquiryDefinition" parent="AssetRetirementReason-inquiryDefinition-parentBean"/>
 
   <bean id="AssetRetirementReason-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Asset Retirement Reason Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Asset Retirement Reason Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="retirementReasonCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="retirementReasonName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="retirementReasonRestrictionIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="retirementReasonCode"/>
+              <bean parent="FieldDefinition" p:attributeName="retirementReasonName"/>
+              <bean parent="FieldDefinition" p:attributeName="retirementReasonRestrictionIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -111,39 +100,30 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="AssetRetirementReason-lookupDefinition" parent="AssetRetirementReason-lookupDefinition-parentBean" />
+  <bean id="AssetRetirementReason-lookupDefinition" parent="AssetRetirementReason-lookupDefinition-parentBean"/>
 
   <bean id="AssetRetirementReason-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Asset Retirement Reason Lookup" />
-    <property name="lookupableID" value="assetRetirementReasonLookupable" />
-    <property name="instructions" value="Look up an Asset Retirement Reason" />
-    <property name="defaultSort" >
+    <property name="title" value="Asset Retirement Reason Lookup"/>
+    <property name="lookupableID" value="assetRetirementReasonLookupable"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="retirementReasonCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="retirementReasonName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="retirementReasonRestrictionIndicator" />
-        <bean parent="FieldDefinition"
-              p:defaultValue="Y"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="retirementReasonCode"/>
+        <bean parent="FieldDefinition" p:attributeName="retirementReasonName"/>
+        <bean parent="FieldDefinition" p:attributeName="retirementReasonRestrictionIndicator"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="retirementReasonCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="retirementReasonName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="retirementReasonRestrictionIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="retirementReasonCode"/>
+        <bean parent="FieldDefinition" p:attributeName="retirementReasonName"/>
+        <bean parent="FieldDefinition" p:attributeName="retirementReasonRestrictionIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

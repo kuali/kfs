@@ -1,26 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="NonInvoicedDistribution" parent="NonInvoicedDistribution-parentBean" />
+  <bean id="NonInvoicedDistribution" parent="NonInvoicedDistribution-parentBean"/>
 
   <bean id="NonInvoicedDistribution-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution" />
-    <property name="inquiryDefinition" >
-      <ref bean="NonInvoicedDistribution-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution"/>
+    <property name="inquiryDefinition">
+      <ref bean="NonInvoicedDistribution-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="NonInvoicedDistribution-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="NonInvoicedDistribution-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Non Invoiced Distribution" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Non Invoiced Distribution"/>
+    <property name="attributes">
       <list>
-        <ref bean="NonInvoicedDistribution-documentNumber" />
-        <ref bean="NonInvoicedDistribution-financialDocumentLineAmount" />
-        <ref bean="NonInvoicedDistribution-financialDocumentLineNumber" />
-        <ref bean="NonInvoicedDistribution-referenceFinancialDocumentNumber" />
+        <ref bean="NonInvoicedDistribution-documentNumber"/>
+        <ref bean="NonInvoicedDistribution-financialDocumentLineAmount"/>
+        <ref bean="NonInvoicedDistribution-financialDocumentLineNumber"/>
+        <ref bean="NonInvoicedDistribution-referenceFinancialDocumentNumber"/>
       </list>
     </property>
   </bean>
@@ -28,93 +24,85 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="NonInvoicedDistribution-documentNumber" parent="NonInvoicedDistribution-documentNumber-parentBean" />
+  <bean id="NonInvoicedDistribution-documentNumber" parent="NonInvoicedDistribution-documentNumber-parentBean"/>
 
   <bean id="NonInvoicedDistribution-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Document Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="documentNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Document Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="14"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="16"/>
     </property>
   </bean>
-  <bean id="NonInvoicedDistribution-financialDocumentLineAmount" parent="NonInvoicedDistribution-financialDocumentLineAmount-parentBean" />
+  <bean id="NonInvoicedDistribution-financialDocumentLineAmount" parent="NonInvoicedDistribution-financialDocumentLineAmount-parentBean"/>
 
   <bean id="NonInvoicedDistribution-financialDocumentLineAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentLineAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Document Line Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="financialDocumentLineAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Financial Document Line Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
   </bean>
-  <bean id="NonInvoicedDistribution-financialDocumentLineNumber" parent="NonInvoicedDistribution-financialDocumentLineNumber-parentBean" />
+  <bean id="NonInvoicedDistribution-financialDocumentLineNumber" parent="NonInvoicedDistribution-financialDocumentLineNumber-parentBean"/>
 
   <bean id="NonInvoicedDistribution-financialDocumentLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentLineNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Document Line Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="financialDocumentLineNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Financial Document Line Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
-  <bean id="NonInvoicedDistribution-referenceFinancialDocumentNumber" parent="NonInvoicedDistribution-referenceFinancialDocumentNumber-parentBean" />
+  <bean id="NonInvoicedDistribution-referenceFinancialDocumentNumber" parent="NonInvoicedDistribution-referenceFinancialDocumentNumber-parentBean"/>
 
   <bean id="NonInvoicedDistribution-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="referenceFinancialDocumentNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Reference Financial Document Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="referenceFinancialDocumentNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Reference Financial Document Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="14"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="16"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="NonInvoicedDistribution-inquiryDefinition" parent="NonInvoicedDistribution-inquiryDefinition-parentBean" />
+  <bean id="NonInvoicedDistribution-inquiryDefinition" parent="NonInvoicedDistribution-inquiryDefinition-parentBean"/>
 
   <bean id="NonInvoicedDistribution-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Non-Invoiced Distribution Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Non-Invoiced Distribution Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="documentNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentLineAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentLineNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="referenceFinancialDocumentNumber" />
+              <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentLineAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentLineNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentNumber"/>
             </list>
           </property>
         </bean>
@@ -125,37 +113,29 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="NonInvoicedDistribution-lookupDefinition" parent="NonInvoicedDistribution-lookupDefinition-parentBean" />
+  <bean id="NonInvoicedDistribution-lookupDefinition" parent="NonInvoicedDistribution-lookupDefinition-parentBean"/>
 
   <bean id="NonInvoicedDistribution-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Non-Invoiced Distribution Lookup" />
-    <property name="instructions" value="Look up a Non-Invoiced Distribution" />
-    <property name="defaultSort" >
+    <property name="title" value="Non-Invoiced Distribution Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="documentNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentLineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentLineNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="referenceFinancialDocumentNumber" />
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentLineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentLineNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentNumber"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="documentNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentLineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentLineNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="referenceFinancialDocumentNumber" />
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentLineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentLineNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentNumber"/>
       </list>
     </property>
   </bean>

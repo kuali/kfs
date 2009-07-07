@@ -1,25 +1,21 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="MessageOfTheDay" parent="MessageOfTheDay-parentBean" />
+  <bean id="MessageOfTheDay" parent="MessageOfTheDay-parentBean"/>
 
   <bean id="MessageOfTheDay-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.MessageOfTheDay" />
-    <property name="inquiryDefinition" >
-      <ref bean="MessageOfTheDay-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.MessageOfTheDay"/>
+    <property name="inquiryDefinition">
+      <ref bean="MessageOfTheDay-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="MessageOfTheDay-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="MessageOfTheDay-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="financialSystemOriginationCode" />
-    <property name="objectLabel" value="Message Of The Day" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="financialSystemOriginationCode"/>
+    <property name="objectLabel" value="Message Of The Day"/>
+    <property name="attributes">
       <list>
-        <ref bean="MessageOfTheDay-financialSystemOriginationCode" />
-        <ref bean="MessageOfTheDay-financialSystemMessageOfTheDayText" />
+        <ref bean="MessageOfTheDay-financialSystemOriginationCode"/>
+        <ref bean="MessageOfTheDay-financialSystemMessageOfTheDayText"/>
       </list>
     </property>
   </bean>
@@ -27,46 +23,42 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="MessageOfTheDay-financialSystemOriginationCode" parent="MessageOfTheDay-financialSystemOriginationCode-parentBean" />
+  <bean id="MessageOfTheDay-financialSystemOriginationCode" parent="MessageOfTheDay-financialSystemOriginationCode-parentBean"/>
 
   <bean id="MessageOfTheDay-financialSystemOriginationCode-parentBean" abstract="true" parent="OriginationCode-financialSystemOriginationCode">
-    <property name="label" value="Financial System Origination Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="forceUppercase" value="true" />
+    <property name="label" value="Financial System Origination Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="MessageOfTheDay-financialSystemMessageOfTheDayText" parent="MessageOfTheDay-financialSystemMessageOfTheDayText-parentBean" />
+  <bean id="MessageOfTheDay-financialSystemMessageOfTheDayText" parent="MessageOfTheDay-financialSystemMessageOfTheDayText-parentBean"/>
 
   <bean id="MessageOfTheDay-financialSystemMessageOfTheDayText-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialSystemMessageOfTheDayText" />
-    <property name="label" value="Message Of The Day" />
-    <property name="shortLabel" value="Message" />
-    <property name="maxLength" value="2000" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="5"
-            p:cols="40" />
+    <property name="name" value="financialSystemMessageOfTheDayText"/>
+    <property name="label" value="Message Of The Day"/>
+    <property name="shortLabel" value="Message"/>
+    <property name="maxLength" value="2000"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="40"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="MessageOfTheDay-inquiryDefinition" parent="MessageOfTheDay-inquiryDefinition-parentBean" />
+  <bean id="MessageOfTheDay-inquiryDefinition" parent="MessageOfTheDay-inquiryDefinition-parentBean"/>
 
   <bean id="MessageOfTheDay-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Message Of The Day Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Message Of The Day Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialSystemOriginationCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialSystemMessageOfTheDayText" />
+              <bean parent="FieldDefinition" p:attributeName="financialSystemOriginationCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialSystemMessageOfTheDayText"/>
             </list>
           </property>
         </bean>
@@ -77,32 +69,29 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="MessageOfTheDay-lookupDefinition" parent="MessageOfTheDay-lookupDefinition-parentBean" />
+  <bean id="MessageOfTheDay-lookupDefinition" parent="MessageOfTheDay-lookupDefinition-parentBean"/>
 
   <bean id="MessageOfTheDay-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Message Of The Day Lookup" />
-    <property name="instructions" value="Lookup a Message Of The Day" />
-    <property name="defaultSort" >
+    <property name="title" value="Message Of The Day Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>financialSystemOriginationCode</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSystemOriginationCode" />
+        <bean parent="FieldDefinition" p:attributeName="financialSystemOriginationCode"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSystemOriginationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSystemMessageOfTheDayText" />
+        <bean parent="FieldDefinition" p:attributeName="financialSystemOriginationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSystemMessageOfTheDayText"/>
       </list>
     </property>
   </bean>

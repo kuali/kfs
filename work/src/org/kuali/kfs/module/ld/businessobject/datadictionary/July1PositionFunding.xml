@@ -1,36 +1,32 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="July1PositionFunding" parent="July1PositionFunding-parentBean" />
+  <bean id="July1PositionFunding" parent="July1PositionFunding-parentBean"/>
 
   <bean id="July1PositionFunding-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.July1PositionFunding" />
-    <property name="objectLabel" value="July1 Position Funding" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.July1PositionFunding"/>
+    <property name="objectLabel" value="July1 Position Funding"/>
     
-    <property name="inquiryDefinition" >
-      <ref bean="July1PositionFunding-inquiryDefinition" />
+    <property name="inquiryDefinition">
+      <ref bean="July1PositionFunding-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="July1PositionFunding-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="July1PositionFunding-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="July1PositionFunding-universityFiscalYear" />
-        <ref bean="July1PositionFunding-chartOfAccountsCode" />
-        <ref bean="July1PositionFunding-accountNumber" />
-        <ref bean="July1PositionFunding-subAccountNumber" />
-        <ref bean="July1PositionFunding-financialObjectCode" />
-        <ref bean="July1PositionFunding-financialSubObjectCode" />
-        <ref bean="July1PositionFunding-emplid" />
-        <ref bean="July1PositionFunding-name" />
-        <ref bean="July1PositionFunding-positionNumber" />
-        <ref bean="July1PositionFunding-july1BudgetAmount" />
-        <ref bean="July1PositionFunding-july1BudgetFteQuantity" />
-        <ref bean="July1PositionFunding-july1BudgetTimePercent" />
-        <ref bean="July1PositionFunding-dummyBusinessObject.genericAmount" />
+        <ref bean="July1PositionFunding-universityFiscalYear"/>
+        <ref bean="July1PositionFunding-chartOfAccountsCode"/>
+        <ref bean="July1PositionFunding-accountNumber"/>
+        <ref bean="July1PositionFunding-subAccountNumber"/>
+        <ref bean="July1PositionFunding-financialObjectCode"/>
+        <ref bean="July1PositionFunding-financialSubObjectCode"/>
+        <ref bean="July1PositionFunding-emplid"/>
+        <ref bean="July1PositionFunding-name"/>
+        <ref bean="July1PositionFunding-positionNumber"/>
+        <ref bean="July1PositionFunding-july1BudgetAmount"/>
+        <ref bean="July1PositionFunding-july1BudgetFteQuantity"/>
+        <ref bean="July1PositionFunding-july1BudgetTimePercent"/>
+        <ref bean="July1PositionFunding-dummyBusinessObject.genericAmount"/>
       </list>
     </property>
   </bean>
@@ -38,122 +34,110 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="July1PositionFunding-universityFiscalYear" parent="July1PositionFunding-universityFiscalYear-parentBean" />
+  <bean id="July1PositionFunding-universityFiscalYear" parent="July1PositionFunding-universityFiscalYear-parentBean"/>
 
   <bean id="July1PositionFunding-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="universityFiscalYear" />
-    <property name="label" value="Fiscal Year" />
-    <property name="shortLabel" value="Fiscal Year" />
+    <property name="name" value="universityFiscalYear"/>
+    <property name="label" value="Fiscal Year"/>
+    <property name="shortLabel" value="Fiscal Year"/>
   </bean>
-  <bean id="July1PositionFunding-chartOfAccountsCode" parent="July1PositionFunding-chartOfAccountsCode-parentBean" />
+  <bean id="July1PositionFunding-chartOfAccountsCode" parent="July1PositionFunding-chartOfAccountsCode-parentBean"/>
 
   <bean id="July1PositionFunding-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
   </bean>
-  <bean id="July1PositionFunding-accountNumber" parent="July1PositionFunding-accountNumber-parentBean" />
+  <bean id="July1PositionFunding-accountNumber" parent="July1PositionFunding-accountNumber-parentBean"/>
 
   <bean id="July1PositionFunding-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
   </bean>
-  <bean id="July1PositionFunding-subAccountNumber" parent="July1PositionFunding-subAccountNumber-parentBean" />
+  <bean id="July1PositionFunding-subAccountNumber" parent="July1PositionFunding-subAccountNumber-parentBean"/>
 
   <bean id="July1PositionFunding-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
   </bean>
-  <bean id="July1PositionFunding-financialObjectCode" parent="July1PositionFunding-financialObjectCode-parentBean" />
+  <bean id="July1PositionFunding-financialObjectCode" parent="July1PositionFunding-financialObjectCode-parentBean"/>
 
   <bean id="July1PositionFunding-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
   </bean>
-  <bean id="July1PositionFunding-financialSubObjectCode" parent="July1PositionFunding-financialSubObjectCode-parentBean" />
+  <bean id="July1PositionFunding-financialSubObjectCode" parent="July1PositionFunding-financialSubObjectCode-parentBean"/>
 
   <bean id="July1PositionFunding-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
   </bean>
-  <bean id="July1PositionFunding-emplid" parent="July1PositionFunding-emplid-parentBean" />
+  <bean id="July1PositionFunding-emplid" parent="July1PositionFunding-emplid-parentBean"/>
 
   <bean id="July1PositionFunding-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
-    <property name="name" value="emplid" />
+    <property name="name" value="emplid"/>
   </bean>
-  <bean id="July1PositionFunding-name" parent="July1PositionFunding-name-parentBean" />
+  <bean id="July1PositionFunding-name" parent="July1PositionFunding-name-parentBean"/>
 
   <bean id="July1PositionFunding-name-parentBean" abstract="true" parent="PersonImpl-name">
   </bean>
-  <bean id="July1PositionFunding-positionNumber" parent="July1PositionFunding-positionNumber-parentBean" />
+  <bean id="July1PositionFunding-positionNumber" parent="July1PositionFunding-positionNumber-parentBean"/>
 
   <bean id="July1PositionFunding-positionNumber-parentBean" abstract="true" parent="PositionData-positionNumber">
   </bean>
-  <bean id="July1PositionFunding-july1BudgetAmount" parent="July1PositionFunding-july1BudgetAmount-parentBean" />
+  <bean id="July1PositionFunding-july1BudgetAmount" parent="July1PositionFunding-july1BudgetAmount-parentBean"/>
 
   <bean id="July1PositionFunding-july1BudgetAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="july1BudgetAmount" />
-    <property name="label" value="July1 Budget Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="july1BudgetAmount"/>
+    <property name="label" value="July1 Budget Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="July1PositionFunding-july1BudgetFteQuantity" parent="July1PositionFunding-july1BudgetFteQuantity-parentBean" />
+  <bean id="July1PositionFunding-july1BudgetFteQuantity" parent="July1PositionFunding-july1BudgetFteQuantity-parentBean"/>
 
   <bean id="July1PositionFunding-july1BudgetFteQuantity-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="july1BudgetFteQuantity" />
-    <property name="label" value="July1 Budget FTE Quantity" />
-    <property name="shortLabel" value="Quantity" />
+    <property name="name" value="july1BudgetFteQuantity"/>
+    <property name="label" value="July1 Budget FTE Quantity"/>
+    <property name="shortLabel" value="Quantity"/>
   </bean>
-  <bean id="July1PositionFunding-july1BudgetTimePercent" parent="July1PositionFunding-july1BudgetTimePercent-parentBean" />
+  <bean id="July1PositionFunding-july1BudgetTimePercent" parent="July1PositionFunding-july1BudgetTimePercent-parentBean"/>
 
   <bean id="July1PositionFunding-july1BudgetTimePercent-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="july1BudgetTimePercent" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="July1 Budget Time Percent" />
-    <property name="shortLabel" value="Percent" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="july1BudgetTimePercent"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="July1 Budget Time Percent"/>
+    <property name="shortLabel" value="Percent"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
   </bean>
-  <bean id="July1PositionFunding-dummyBusinessObject.genericAmount" parent="July1PositionFunding-dummyBusinessObject.genericAmount-parentBean" />
+  <bean id="July1PositionFunding-dummyBusinessObject.genericAmount" parent="July1PositionFunding-dummyBusinessObject.genericAmount-parentBean"/>
 
   <bean id="July1PositionFunding-dummyBusinessObject.genericAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="dummyBusinessObject.genericAmount" />
-    <property name="label" value="Year End Close" />
-    <property name="shortLabel" value="Year End Close" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="dummyBusinessObject.genericAmount"/>
+    <property name="label" value="Year End Close"/>
+    <property name="shortLabel" value="Year End Close"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="July1PositionFunding-inquiryDefinition" parent="July1PositionFunding-inquiryDefinition-parentBean" />
+  <bean id="July1PositionFunding-inquiryDefinition" parent="July1PositionFunding-inquiryDefinition-parentBean"/>
 
   <bean id="July1PositionFunding-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="July 1 Position Funding Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="July 1 Position Funding Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="accountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="emplid" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialSubObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="july1BudgetAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="july1BudgetFteQuantity" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="july1BudgetTimePercent" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="positionNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="subAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYear" />
+              <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="emplid"/>
+              <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="july1BudgetAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="july1BudgetFteQuantity"/>
+              <bean parent="FieldDefinition" p:attributeName="july1BudgetTimePercent"/>
+              <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
             </list>
           </property>
         </bean>
@@ -164,60 +148,39 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="July1PositionFunding-lookupDefinition" parent="July1PositionFunding-lookupDefinition-parentBean" />
+  <bean id="July1PositionFunding-lookupDefinition" parent="July1PositionFunding-lookupDefinition-parentBean"/>
 
   <bean id="July1PositionFunding-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="July 1 Position Funding Lookup" />
-    <property name="lookupableID" value="july1PositionFundingLookupable" />
-    <property name="instructions" value="Look up July 1 Position Funding" />
-    <property name="defaultSort" >
+    <property name="title" value="July 1 Position Funding Lookup"/>
+    <property name="lookupableID" value="july1PositionFundingLookupable"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:required="true"
-              p:attributeName="universityFiscalYear"
-              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder" />
-        <bean parent="FieldDefinition"
-              p:required="true"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:required="true"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="subAccountNumber" />
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="universityFiscalYear" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder"/>
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="subAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSubObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="emplid" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="july1BudgetAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="july1BudgetFteQuantity" />
-        <bean parent="FieldDefinition"
-              p:attributeName="july1BudgetTimePercent" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="emplid"/>
+        <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="july1BudgetAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="july1BudgetFteQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="july1BudgetTimePercent"/>
       </list>
     </property>
   </bean>
 </beans>
-

@@ -1,29 +1,25 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AwardOrganization" parent="AwardOrganization-parentBean" />
+  <bean id="AwardOrganization" parent="AwardOrganization-parentBean"/>
 
   <bean id="AwardOrganization-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AwardOrganization" />
-    <property name="inquiryDefinition" >
-      <ref bean="AwardOrganization-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AwardOrganization"/>
+    <property name="inquiryDefinition">
+      <ref bean="AwardOrganization-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="AwardOrganization-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="AwardOrganization-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Award Organization" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Award Organization"/>
+    <property name="attributes">
       <list>
-        <ref bean="AwardOrganization-chartOfAccountsCode" />
-        <ref bean="AwardOrganization-organizationCode" />
-        <ref bean="AwardOrganization-proposalNumber" />
-        <ref bean="AwardOrganization-organization.organizationName" />
-        <ref bean="AwardOrganization-newCollectionRecord" />
-        <ref bean="AwardOrganization-awardPrimaryOrganizationIndicator" />
-        <ref bean="AwardOrganization-active" />
+        <ref bean="AwardOrganization-chartOfAccountsCode"/>
+        <ref bean="AwardOrganization-organizationCode"/>
+        <ref bean="AwardOrganization-proposalNumber"/>
+        <ref bean="AwardOrganization-organization.organizationName"/>
+        <ref bean="AwardOrganization-newCollectionRecord"/>
+        <ref bean="AwardOrganization-awardPrimaryOrganizationIndicator"/>
+        <ref bean="AwardOrganization-active"/>
       </list>
     </property>
   </bean>
@@ -31,78 +27,71 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AwardOrganization-chartOfAccountsCode" parent="AwardOrganization-chartOfAccountsCode-parentBean" />
+  <bean id="AwardOrganization-chartOfAccountsCode" parent="AwardOrganization-chartOfAccountsCode-parentBean"/>
 
   <bean id="AwardOrganization-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Chart Of Accounts Code" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Chart Of Accounts Code"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="AwardOrganization-organizationCode" parent="AwardOrganization-organizationCode-parentBean" />
+  <bean id="AwardOrganization-organizationCode" parent="AwardOrganization-organizationCode-parentBean"/>
 
   <bean id="AwardOrganization-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
-  	<property name="forceUppercase" value="true" />
+  	<property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="AwardOrganization-proposalNumber" parent="AwardOrganization-proposalNumber-parentBean" />
+  <bean id="AwardOrganization-proposalNumber" parent="AwardOrganization-proposalNumber-parentBean"/>
 
   <bean id="AwardOrganization-proposalNumber-parentBean" abstract="true" parent="Award-proposalNumber">
-  	<property name="forceUppercase" value="true" />
+  	<property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="AwardOrganization-organization.organizationName" parent="AwardOrganization-organization.organizationName-parentBean" />
+  <bean id="AwardOrganization-organization.organizationName" parent="AwardOrganization-organization.organizationName-parentBean"/>
 
   <bean id="AwardOrganization-organization.organizationName-parentBean" abstract="true" parent="Organization-organizationName">
-    <property name="name" value="organization.organizationName" />
-    <property name="label" value="Name" />
+    <property name="name" value="organization.organizationName"/>
+    <property name="label" value="Name"/>
   </bean>
-  <bean id="AwardOrganization-newCollectionRecord" parent="AwardOrganization-newCollectionRecord-parentBean" />
+  <bean id="AwardOrganization-newCollectionRecord" parent="AwardOrganization-newCollectionRecord-parentBean"/>
 
   <bean id="AwardOrganization-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
-  <bean id="AwardOrganization-awardPrimaryOrganizationIndicator" parent="AwardOrganization-awardPrimaryOrganizationIndicator-parentBean" />
+  <bean id="AwardOrganization-awardPrimaryOrganizationIndicator" parent="AwardOrganization-awardPrimaryOrganizationIndicator-parentBean"/>
 
   <bean id="AwardOrganization-awardPrimaryOrganizationIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="awardPrimaryOrganizationIndicator" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Primary" />
-    <property name="shortLabel" value="Primary" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="awardPrimaryOrganizationIndicator"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Primary"/>
+    <property name="shortLabel" value="Primary"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
 
-  <bean id="AwardOrganization-active" parent="AwardOrganization-active-parentBean" />
+  <bean id="AwardOrganization-active" parent="AwardOrganization-active-parentBean"/>
   <bean id="AwardOrganization-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-      <property name="name" value="active" />
+      <property name="name" value="active"/>
   </bean>
   
 <!-- Business Object Inquiry Definition -->
 
-  <bean id="AwardOrganization-inquiryDefinition" parent="AwardOrganization-inquiryDefinition-parentBean" />
+  <bean id="AwardOrganization-inquiryDefinition" parent="AwardOrganization-inquiryDefinition-parentBean"/>
 
   <bean id="AwardOrganization-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Award Organization Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Award Organization Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Award Organization Details" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Award Organization Details"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="awardPrimaryOrganizationIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="awardPrimaryOrganizationIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -113,41 +102,31 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="AwardOrganization-lookupDefinition" parent="AwardOrganization-lookupDefinition-parentBean" />
+  <bean id="AwardOrganization-lookupDefinition" parent="AwardOrganization-lookupDefinition-parentBean"/>
 
   <bean id="AwardOrganization-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Award Organization Lookup" />
-    <property name="instructions" value="Look up an Award Organization" />
-    <property name="defaultSort" >
+    <property name="title" value="Award Organization Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="awardPrimaryOrganizationIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="awardPrimaryOrganizationIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="awardPrimaryOrganizationIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="awardPrimaryOrganizationIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

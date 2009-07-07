@@ -136,7 +136,7 @@
 	</property>
 	</bean>
 
-    <bean id="RoutingAttribute-CustomerCreditMemoDocument-crmTotalAmount" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
+    <bean id="RoutingAttribute-CustomerCreditMemoDocument-crmTotalAmount" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
    		<property name="qualificationAttributeName" value="crmTotalAmount"/>
     </bean>
     

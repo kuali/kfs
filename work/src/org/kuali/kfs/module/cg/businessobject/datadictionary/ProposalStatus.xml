@@ -1,25 +1,21 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="ProposalStatus" parent="ProposalStatus-parentBean" />
+  <bean id="ProposalStatus" parent="ProposalStatus-parentBean"/>
 
   <bean id="ProposalStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalStatus" />
-    <property name="inquiryDefinition" >
-      <ref bean="ProposalStatus-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalStatus"/>
+    <property name="inquiryDefinition">
+      <ref bean="ProposalStatus-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="ProposalStatus-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="ProposalStatus-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Proposal Status" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Proposal Status"/>
+    <property name="attributes">
       <list>
-        <ref bean="ProposalStatus-proposalStatusCode" />
-        <ref bean="ProposalStatus-proposalStatusDescription" />
-        <ref bean="ProposalStatus-active" />
+        <ref bean="ProposalStatus-proposalStatusCode"/>
+        <ref bean="ProposalStatus-proposalStatusDescription"/>
+        <ref bean="ProposalStatus-active"/>
       </list>
     </property>
   </bean>
@@ -27,70 +23,64 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="ProposalStatus-proposalStatusCode" parent="ProposalStatus-proposalStatusCode-parentBean" />
+  <bean id="ProposalStatus-proposalStatusCode" parent="ProposalStatus-proposalStatusCode-parentBean"/>
 
   <bean id="ProposalStatus-proposalStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalStatusCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Proposal Status Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="proposalStatusCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Proposal Status Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="ProposalStatus-proposalStatusDescription" parent="ProposalStatus-proposalStatusDescription-parentBean" />
+  <bean id="ProposalStatus-proposalStatusDescription" parent="ProposalStatus-proposalStatusDescription-parentBean"/>
 
   <bean id="ProposalStatus-proposalStatusDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalStatusDescription" />
-    <property name="label" value="Proposal Status Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="15" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="proposalStatusDescription"/>
+    <property name="label" value="Proposal Status Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="15"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="17" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="17"/>
     </property>
   </bean>
-  <bean id="ProposalStatus-active" parent="ProposalStatus-active-parentBean" />
+  <bean id="ProposalStatus-active" parent="ProposalStatus-active-parentBean"/>
 
   <bean id="ProposalStatus-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
-    <property name="label" value="Active" />
-    <property name="shortLabel" value="Active" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="active"/>
+    <property name="label" value="Active"/>
+    <property name="shortLabel" value="Active"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="ProposalStatus-inquiryDefinition" parent="ProposalStatus-inquiryDefinition-parentBean" />
+  <bean id="ProposalStatus-inquiryDefinition" parent="ProposalStatus-inquiryDefinition-parentBean"/>
 
   <bean id="ProposalStatus-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Proposal Status Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Proposal Status Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Proposal Status Details" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Proposal Status Details"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalStatusCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalStatusDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="proposalStatusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalStatusDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -101,33 +91,27 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="ProposalStatus-lookupDefinition" parent="ProposalStatus-lookupDefinition-parentBean" />
+  <bean id="ProposalStatus-lookupDefinition" parent="ProposalStatus-lookupDefinition-parentBean"/>
 
   <bean id="ProposalStatus-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Proposal Status Lookup" />
-    <property name="instructions" value="Look up a Proposal Status" />
-    <property name="defaultSort" >
+    <property name="title" value="Proposal Status Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalStatusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalStatusDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="proposalStatusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalStatusDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalStatusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalStatusDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="proposalStatusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalStatusDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

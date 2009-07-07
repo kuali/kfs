@@ -175,52 +175,42 @@
 	<property name="relationships">
     	<list>
 			<bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="deliveryCampus" />
-              <property name="primitiveAttributes" >
+              <property name="objectAttributeName" value="deliveryCampus"/>
+              <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition"
-                        p:sourceName="deliveryCampusCode"
-                        p:targetName="campusCode" />
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="deliveryCampusCode" p:targetName="campusCode"/>
                 </list>
               </property>
     		</bean>
     		<bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="organization" />
-              <property name="primitiveAttributes" >
+              <property name="objectAttributeName" value="organization"/>
+              <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition"
-                        p:sourceName="documentOrganizationCodeForSearching"
-                        p:targetName="organizationCode" />
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="documentOrganizationCodeForSearching" p:targetName="organizationCode"/>
                 </list>
               </property>
     		</bean>
     		<bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="chartOfAccounts" />
-              <property name="primitiveAttributes" >
+              <property name="objectAttributeName" value="chartOfAccounts"/>
+              <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition"
-                        p:sourceName="documentChartOfAccountsCodeForSearching"
-                        p:targetName="chartOfAccountsCode" />
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="documentChartOfAccountsCodeForSearching" p:targetName="chartOfAccountsCode"/>
                 </list>
               </property>
     		</bean>
     		<bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="deliveryCampus" />
-              <property name="primitiveAttributes" >
+              <property name="objectAttributeName" value="deliveryCampus"/>
+              <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition"
-                        p:sourceName="deliveryCampusCodeForSearch"
-                        p:targetName="campusCode" />
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="deliveryCampusCodeForSearch" p:targetName="campusCode"/>
                 </list>
               </property>
     		</bean>
     		<bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="vendorDetail" />
-              <property name="primitiveAttributes" >
+              <property name="objectAttributeName" value="vendorDetail"/>
+              <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition"
-                        p:sourceName="vendorNumber"
-                        p:targetName="vendorNumber" />
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="vendorNumber" p:targetName="vendorNumber"/>
                 </list>
               </property>
     		</bean>
@@ -251,10 +241,10 @@
   -->
   
   <bean id="PurchaseOrderDocument-assignedUserPrincipalName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="assignedUserPrincipalName" />
-    <property name="label" value="Assigned To User" />
+    <property name="name" value="assignedUserPrincipalName"/>
+    <property name="label" value="Assigned To User"/>
     <property name="shortLabel" value="AssignedTo"/>
-    <property name="required" value="false" />
+    <property name="required" value="false"/>
     <property name="forceUppercase" value="false"/>
     <property name="maxLength" value="100"/>
     <property name="validationPattern">
@@ -589,20 +579,19 @@
     <property name="required" value="true"/>
   </bean>
   
-  <bean id="PurchaseOrderDocument-deliveryCampusCodeForSearch" parent="PurchaseOrderDocument-deliveryCampusCodeForSearch-parentBean" />
+  <bean id="PurchaseOrderDocument-deliveryCampusCodeForSearch" parent="PurchaseOrderDocument-deliveryCampusCodeForSearch-parentBean"/>
 
   <bean id="PurchaseOrderDocument-deliveryCampusCodeForSearch-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="deliveryCampusCodeForSearch" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Delivery Campus" />
-    <property name="shortLabel" value="Delivery Campus" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
+    <property name="name" value="deliveryCampusCodeForSearch"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Delivery Campus"/>
+    <property name="shortLabel" value="Delivery Campus"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
   
@@ -735,7 +724,7 @@
   <bean id="PurchaseOrderDocument-documentFundingSourceCode" parent="PurchaseOrderDocument-documentFundingSourceCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-documentFundingSourceCode-parentBean" abstract="true" parent="FundingSource-fundingSourceCode">
-    <property name="name" value="documentFundingSourceCode" />
+    <property name="name" value="documentFundingSourceCode"/>
     <property name="label" value="Funding Source"/>
     <property name="shortLabel" value="Funding Source"/>
     <property name="required" value="true"/>
@@ -1307,7 +1296,7 @@
     <property name="maxLength" value="8"/>
     <property name="control">
       <bean parent="MultiselectControlDefinition">
-		<property name="valuesFinderClass" value="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderStatusValuesFinder" />
+		<property name="valuesFinderClass" value="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderStatusValuesFinder"/>
 	  </bean>
     </property>
   </bean>
@@ -1322,9 +1311,8 @@
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="50" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="50"/>
     </property>
   </bean>
   
@@ -1338,9 +1326,8 @@
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="50" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="50"/>
     </property>
   </bean>
   
@@ -1386,7 +1373,7 @@
 	    <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/> 
 	    <property name="importingAllowed" value="false"/> 
 	    <property name="accountingLineGroupClass" value="org.kuali.kfs.sys.document.web.CollectionAccountingLineGroupImpl"/>
-	    <property name="accountingLineComparatorClass" value="org.kuali.kfs.module.purap.util.PurapAccountingLineComparator" />      
+	    <property name="accountingLineComparatorClass" value="org.kuali.kfs.module.purap.util.PurapAccountingLineComparator"/>      
     </bean>
 
     <bean id="PurchaseOrderDocument-distributeSourceAccountingLineGroup" parent="PurchaseOrderDocument-distributeSourceAccountingLineGroup-parentBean"/>  
@@ -1508,7 +1495,7 @@
     		</map>
     	</property>
   	    <property name="searchingTypeDefinitions">
-    		<ref bean="SearchingTypeDefinitions-PurchaseOrderDocumentFamily" />
+    		<ref bean="SearchingTypeDefinitions-PurchaseOrderDocumentFamily"/>
     	</property>  	
 	</bean>      
 </beans>

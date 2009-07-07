@@ -1,26 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="TravelPerDiem" parent="TravelPerDiem-parentBean" />
+  <bean id="TravelPerDiem" parent="TravelPerDiem-parentBean"/>
 
   <bean id="TravelPerDiem-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.TravelPerDiem" />
-    <property name="inquiryDefinition" >
-      <ref bean="TravelPerDiem-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.TravelPerDiem"/>
+    <property name="inquiryDefinition">
+      <ref bean="TravelPerDiem-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="TravelPerDiem-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="TravelPerDiem-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="perDiemCountryName" />
-    <property name="objectLabel" value="Disbursement Voucher Travel Per Diem" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="perDiemCountryName"/>
+    <property name="objectLabel" value="Disbursement Voucher Travel Per Diem"/>
+    <property name="attributes">
       <list>
-        <ref bean="TravelPerDiem-universityFiscalYear" />
-        <ref bean="TravelPerDiem-perDiemCountryName" />
-        <ref bean="TravelPerDiem-perDiemCountryText" />
+        <ref bean="TravelPerDiem-universityFiscalYear"/>
+        <ref bean="TravelPerDiem-perDiemCountryName"/>
+        <ref bean="TravelPerDiem-perDiemCountryText"/>
       </list>
     </property>
   </bean>
@@ -28,68 +24,62 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="TravelPerDiem-universityFiscalYear" parent="TravelPerDiem-universityFiscalYear-parentBean" />
+  <bean id="TravelPerDiem-universityFiscalYear" parent="TravelPerDiem-universityFiscalYear-parentBean"/>
 
   <bean id="TravelPerDiem-universityFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="universityFiscalYear" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Fiscal Year" />
-    <property name="shortLabel" value="Year" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="universityFiscalYear"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Fiscal Year"/>
+    <property name="shortLabel" value="Year"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="TravelPerDiem-perDiemCountryName" parent="TravelPerDiem-perDiemCountryName-parentBean" />
+  <bean id="TravelPerDiem-perDiemCountryName" parent="TravelPerDiem-perDiemCountryName-parentBean"/>
 
   <bean id="TravelPerDiem-perDiemCountryName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="perDiemCountryName" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Per Diem Category/Country Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="50" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="name" value="perDiemCountryName"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Per Diem Category/Country Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="50"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="TravelPerDiem-perDiemCountryText" parent="TravelPerDiem-perDiemCountryText-parentBean" />
+  <bean id="TravelPerDiem-perDiemCountryText" parent="TravelPerDiem-perDiemCountryText-parentBean"/>
 
   <bean id="TravelPerDiem-perDiemCountryText-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="perDiemCountryText" />
-    <property name="label" value="Per Diem Category/Country URL" />
-    <property name="shortLabel" value="URL" />
-    <property name="maxLength" value="255" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="75" />
+    <property name="name" value="perDiemCountryText"/>
+    <property name="label" value="Per Diem Category/Country URL"/>
+    <property name="shortLabel" value="URL"/>
+    <property name="maxLength" value="255"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="75"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="TravelPerDiem-inquiryDefinition" parent="TravelPerDiem-inquiryDefinition-parentBean" />
+  <bean id="TravelPerDiem-inquiryDefinition" parent="TravelPerDiem-inquiryDefinition-parentBean"/>
 
   <bean id="TravelPerDiem-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Disbursement Voucher Travel Per Diem Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Disbursement Voucher Travel Per Diem Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYear" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="perDiemCountryName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="perDiemCountryText" />
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+              <bean parent="FieldDefinition" p:attributeName="perDiemCountryName"/>
+              <bean parent="FieldDefinition" p:attributeName="perDiemCountryText"/>
             </list>
           </property>
         </bean>
@@ -100,37 +90,31 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="TravelPerDiem-lookupDefinition" parent="TravelPerDiem-lookupDefinition-parentBean" />
+  <bean id="TravelPerDiem-lookupDefinition" parent="TravelPerDiem-lookupDefinition-parentBean"/>
 
   <bean id="TravelPerDiem-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Disbursement Voucher Travel Per Diem Lookup" />
-    <property name="instructions" value="Lookup a Travel Per Diem Category" />
-    <property name="defaultSort" >
+    <property name="title" value="Disbursement Voucher Travel Per Diem Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>perDiemCountryName</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear"
-              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder" />
-        <bean parent="FieldDefinition"
-              p:attributeName="perDiemCountryName" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder"/>
+        <bean parent="FieldDefinition" p:attributeName="perDiemCountryName"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="perDiemCountryName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="perDiemCountryText" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="perDiemCountryName"/>
+        <bean parent="FieldDefinition" p:attributeName="perDiemCountryText"/>
       </list>
     </property>
   </bean>

@@ -1,26 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AICPAFunction" parent="AICPAFunction-parentBean" />
+  <bean id="AICPAFunction" parent="AICPAFunction-parentBean"/>
 
   <bean id="AICPAFunction-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AICPAFunction" />
-    <property name="inquiryDefinition" >
-      <ref bean="AICPAFunction-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AICPAFunction"/>
+    <property name="inquiryDefinition">
+      <ref bean="AICPAFunction-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="AICPAFunction-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="AICPAFunction-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="financialAicpaFunctionCode" />
-    <property name="objectLabel" value="AICPA Function" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="financialAicpaFunctionCode"/>
+    <property name="objectLabel" value="AICPA Function"/>
+    <property name="attributes">
       <list>
-        <ref bean="AICPAFunction-financialAicpaFunctionCode" />
-        <ref bean="AICPAFunction-financialAicpaFunctionName" />
-        <ref bean="AICPAFunction-active" />
+        <ref bean="AICPAFunction-financialAicpaFunctionCode"/>
+        <ref bean="AICPAFunction-financialAicpaFunctionName"/>
+        <ref bean="AICPAFunction-active"/>
       </list>
     </property>
   </bean>
@@ -28,37 +24,35 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AICPAFunction-financialAicpaFunctionCode" parent="AICPAFunction-financialAicpaFunctionCode-parentBean" />
+  <bean id="AICPAFunction-financialAicpaFunctionCode" parent="AICPAFunction-financialAicpaFunctionCode-parentBean"/>
 
   <bean id="AICPAFunction-financialAicpaFunctionCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialAicpaFunctionCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="AICPA Function Code" />
-    <property name="shortLabel" value="AICPA" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="financialAicpaFunctionCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="AICPA Function Code"/>
+    <property name="shortLabel" value="AICPA"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="AICPAFunction-financialAicpaFunctionName" parent="AICPAFunction-financialAicpaFunctionName-parentBean" />
+  <bean id="AICPAFunction-financialAicpaFunctionName" parent="AICPAFunction-financialAicpaFunctionName-parentBean"/>
 
   <bean id="AICPAFunction-financialAicpaFunctionName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialAicpaFunctionName" />
-    <property name="label" value="AICPA Function Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="financialAicpaFunctionName"/>
+    <property name="label" value="AICPA Function Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
   </bean>
-  <bean id="AICPAFunction-active" parent="AICPAFunction-active-parentBean" />
+  <bean id="AICPAFunction-active" parent="AICPAFunction-active-parentBean"/>
 
   <bean id="AICPAFunction-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active"/>
@@ -68,23 +62,20 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="AICPAFunction-inquiryDefinition" parent="AICPAFunction-inquiryDefinition-parentBean" />
+  <bean id="AICPAFunction-inquiryDefinition" parent="AICPAFunction-inquiryDefinition-parentBean"/>
 
   <bean id="AICPAFunction-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="AICPA Function Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="AICPA Function Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialAicpaFunctionCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialAicpaFunctionName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="financialAicpaFunctionCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialAicpaFunctionName"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -95,39 +86,32 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="AICPAFunction-lookupDefinition" parent="AICPAFunction-lookupDefinition-parentBean" />
+  <bean id="AICPAFunction-lookupDefinition" parent="AICPAFunction-lookupDefinition-parentBean"/>
 
   <bean id="AICPAFunction-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="AICPA Function Lookup" />
-    <property name="instructions" value="Lookup an AICPA Function" />
-    <property name="defaultSort" >
+    <property name="title" value="AICPA Function Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>financialAicpaFunctionCode</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="financialAicpaFunctionCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialAicpaFunctionName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="financialAicpaFunctionCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialAicpaFunctionName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="financialAicpaFunctionCode"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialAicpaFunctionName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="financialAicpaFunctionCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="financialAicpaFunctionName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

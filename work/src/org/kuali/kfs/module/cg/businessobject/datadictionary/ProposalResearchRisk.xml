@@ -1,21 +1,17 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="ProposalResearchRisk" parent="ProposalResearchRisk-parentBean" />
+  <bean id="ProposalResearchRisk" parent="ProposalResearchRisk-parentBean"/>
 
   <bean id="ProposalResearchRisk-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk" />
-    <property name="objectLabel" value="Proposal Research Risk" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk"/>
+    <property name="objectLabel" value="Proposal Research Risk"/>
+    <property name="attributes">
       <list>
-        <ref bean="ProposalResearchRisk-researchRiskTypeCode" />
-        <ref bean="ProposalResearchRisk-proposalNumber" />
-        <ref bean="ProposalResearchRisk-active" />
-        <ref bean="ProposalResearchRisk-newCollectionRecord" />
-        <ref bean="ProposalResearchRisk-researchRiskType.researchRiskTypeDescription" />
+        <ref bean="ProposalResearchRisk-researchRiskTypeCode"/>
+        <ref bean="ProposalResearchRisk-proposalNumber"/>
+        <ref bean="ProposalResearchRisk-active"/>
+        <ref bean="ProposalResearchRisk-newCollectionRecord"/>
+        <ref bean="ProposalResearchRisk-researchRiskType.researchRiskTypeDescription"/>
       </list>
     </property>
   </bean>
@@ -23,32 +19,32 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="ProposalResearchRisk-researchRiskTypeCode" parent="ProposalResearchRisk-researchRiskTypeCode-parentBean" />
+  <bean id="ProposalResearchRisk-researchRiskTypeCode" parent="ProposalResearchRisk-researchRiskTypeCode-parentBean"/>
 
   <bean id="ProposalResearchRisk-researchRiskTypeCode-parentBean" abstract="true" parent="ResearchRiskType-researchRiskTypeCode">
-    <property name="forceUppercase" value="true" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="forceUppercase" value="true"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
-  <bean id="ProposalResearchRisk-proposalNumber" parent="ProposalResearchRisk-proposalNumber-parentBean" />
+  <bean id="ProposalResearchRisk-proposalNumber" parent="ProposalResearchRisk-proposalNumber-parentBean"/>
 
   <bean id="ProposalResearchRisk-proposalNumber-parentBean" abstract="true" parent="Proposal-proposalNumber">
-  	<property name="forceUppercase" value="true" />
+  	<property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="ProposalResearchRisk-active" parent="ProposalResearchRisk-active-parentBean" />
+  <bean id="ProposalResearchRisk-active" parent="ProposalResearchRisk-active-parentBean"/>
 
   <bean id="ProposalResearchRisk-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
-  <bean id="ProposalResearchRisk-newCollectionRecord" parent="ProposalResearchRisk-newCollectionRecord-parentBean" />
+  <bean id="ProposalResearchRisk-newCollectionRecord" parent="ProposalResearchRisk-newCollectionRecord-parentBean"/>
 
   <bean id="ProposalResearchRisk-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
-  <bean id="ProposalResearchRisk-researchRiskType.researchRiskTypeDescription" parent="ProposalResearchRisk-researchRiskType.researchRiskTypeDescription-parentBean" />
+  <bean id="ProposalResearchRisk-researchRiskType.researchRiskTypeDescription" parent="ProposalResearchRisk-researchRiskType.researchRiskTypeDescription-parentBean"/>
 
   <bean id="ProposalResearchRisk-researchRiskType.researchRiskTypeDescription-parentBean" abstract="true" parent="ResearchRiskType-researchRiskTypeDescription">
-    <property name="name" value="researchRiskType.researchRiskTypeDescription" />
-    <property name="label" value="Type" />
+    <property name="name" value="researchRiskType.researchRiskTypeDescription"/>
+    <property name="label" value="Type"/>
   </bean>
 </beans>

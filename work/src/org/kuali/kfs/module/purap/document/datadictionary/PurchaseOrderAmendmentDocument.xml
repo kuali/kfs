@@ -36,12 +36,10 @@
 	<property name="relationships">
     	<list>
 			<bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="deliveryCampus" />
-              <property name="primitiveAttributes" >
+              <property name="objectAttributeName" value="deliveryCampus"/>
+              <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition"
-                        p:sourceName="deliveryCampusCode"
-                        p:targetName="campusCode" />
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="deliveryCampusCode" p:targetName="campusCode"/>
                 </list>
               </property>
     		</bean>
@@ -146,7 +144,7 @@
 
     <bean id="PurchaseOrderAmendmentDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     	<property name="searchingTypeDefinitions">
-    		<ref bean="SearchingTypeDefinitions-PurchaseOrderDocumentFamily" />
+    		<ref bean="SearchingTypeDefinitions-PurchaseOrderDocumentFamily"/>
     	</property>
     	<property name="routingTypeDefinitions">
     		<map>

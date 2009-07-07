@@ -1,23 +1,19 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="Deposit" parent="Deposit-parentBean" />
+  <bean id="Deposit" parent="Deposit-parentBean"/>
 
   <bean id="Deposit-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.Deposit" />
-    <property name="objectLabel" value="Deposit" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.Deposit"/>
+    <property name="objectLabel" value="Deposit"/>
+    <property name="attributes">
       <list>
-        <ref bean="Deposit-documentNumber" />
-        <ref bean="Deposit-financialDocumentDepositLineNumber" />
-        <ref bean="Deposit-depositTypeCode" />
-        <ref bean="Deposit-depositDate" />
-        <ref bean="Deposit-depositAmount" />
-        <ref bean="Deposit-depositTicketNumber" />
-        <ref bean="Deposit-depositBankCode" />
+        <ref bean="Deposit-documentNumber"/>
+        <ref bean="Deposit-financialDocumentDepositLineNumber"/>
+        <ref bean="Deposit-depositTypeCode"/>
+        <ref bean="Deposit-depositDate"/>
+        <ref bean="Deposit-depositAmount"/>
+        <ref bean="Deposit-depositTicketNumber"/>
+        <ref bean="Deposit-depositBankCode"/>
       </list>
     </property>
   </bean>
@@ -25,68 +21,65 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="Deposit-documentNumber" parent="Deposit-documentNumber-parentBean" />
+  <bean id="Deposit-documentNumber" parent="Deposit-documentNumber-parentBean"/>
 
   <bean id="Deposit-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
-  	<property name="forceUppercase" value="true" />
+  	<property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="Deposit-financialDocumentDepositLineNumber" parent="Deposit-financialDocumentDepositLineNumber-parentBean" />
+  <bean id="Deposit-financialDocumentDepositLineNumber" parent="Deposit-financialDocumentDepositLineNumber-parentBean"/>
 
   <bean id="Deposit-financialDocumentDepositLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentDepositLineNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Deposit Number" />
-    <property name="shortLabel" value="Deposit Number" />
-    <property name="maxLength" value="10" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="name" value="financialDocumentDepositLineNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Deposit Number"/>
+    <property name="shortLabel" value="Deposit Number"/>
+    <property name="maxLength" value="10"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
   </bean>
-  <bean id="Deposit-depositTypeCode" parent="Deposit-depositTypeCode-parentBean" />
+  <bean id="Deposit-depositTypeCode" parent="Deposit-depositTypeCode-parentBean"/>
 
   <bean id="Deposit-depositTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="depositTypeCode" />
-    <property name="label" value="Deposit Type" />
-    <property name="shortLabel" value="Deposit Type" />
-    <property name="maxLength" value="10" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="name" value="depositTypeCode"/>
+    <property name="label" value="Deposit Type"/>
+    <property name="shortLabel" value="Deposit Type"/>
+    <property name="maxLength" value="10"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="Deposit-depositDate" parent="Deposit-depositDate-parentBean" />
+  <bean id="Deposit-depositDate" parent="Deposit-depositDate-parentBean"/>
 
   <bean id="Deposit-depositDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
-    <property name="name" value="depositDate" />
-    <property name="label" value="Deposit Date" />
-    <property name="shortLabel" value="Deposit Date" />
-    <property name="required" value="true" />
+    <property name="name" value="depositDate"/>
+    <property name="label" value="Deposit Date"/>
+    <property name="shortLabel" value="Deposit Date"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="Deposit-depositAmount" parent="Deposit-depositAmount-parentBean" />
+  <bean id="Deposit-depositAmount" parent="Deposit-depositAmount-parentBean"/>
 
   <bean id="Deposit-depositAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="depositAmount" />
-    <property name="required" value="true" />
+    <property name="name" value="depositAmount"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="Deposit-depositTicketNumber" parent="Deposit-depositTicketNumber-parentBean" />
+  <bean id="Deposit-depositTicketNumber" parent="Deposit-depositTicketNumber-parentBean"/>
 
   <bean id="Deposit-depositTicketNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="depositTicketNumber" />
-    <property name="label" value="Deposit Ticket #" />
-    <property name="shortLabel" value="Deposit #" />
-    <property name="maxLength" value="20" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="name" value="depositTicketNumber"/>
+    <property name="label" value="Deposit Ticket #"/>
+    <property name="shortLabel" value="Deposit #"/>
+    <property name="maxLength" value="20"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
   
-  <bean id="Deposit-depositBankCode" parent="Deposit-depositBankCode-parentBean" />
+  <bean id="Deposit-depositBankCode" parent="Deposit-depositBankCode-parentBean"/>
   <bean id="Deposit-depositBankCode-parentBean" abstract="true" parent="Bank-bankCode">
-    <property name="name" value="depositBankCode" />
+    <property name="name" value="depositBankCode"/>
   </bean>
 
 </beans>

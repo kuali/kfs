@@ -1,24 +1,17 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="VendorShippingSpecialCondition" parent="VendorShippingSpecialCondition-parentBean" />
+  <bean id="VendorShippingSpecialCondition" parent="VendorShippingSpecialCondition-parentBean"/>
 
   <bean id="VendorShippingSpecialCondition-parentBean" abstract="true" parent="BusinessObjectEntry">
-  	<property name="objectLabel" value="Vendor Shipping Special Condition" />
-    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorShippingSpecialCondition" />
-    <property name="attributes" >
+  	<property name="objectLabel" value="Vendor Shipping Special Condition"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorShippingSpecialCondition"/>
+    <property name="attributes">
       <list>
-        <ref bean="VendorShippingSpecialCondition-vendorShippingSpecialConditionCode" />
-        <ref bean="VendorShippingSpecialCondition-newCollectionRecord" />
-        <ref bean="VendorShippingSpecialCondition-vendorHeaderGeneratedIdentifier" />
-        <ref bean="VendorShippingSpecialCondition-vendorDetailAssignedIdentifier" />
-        <ref bean="VendorShippingSpecialCondition-active" />
+        <ref bean="VendorShippingSpecialCondition-vendorShippingSpecialConditionCode"/>
+        <ref bean="VendorShippingSpecialCondition-newCollectionRecord"/>
+        <ref bean="VendorShippingSpecialCondition-vendorHeaderGeneratedIdentifier"/>
+        <ref bean="VendorShippingSpecialCondition-vendorDetailAssignedIdentifier"/>
+        <ref bean="VendorShippingSpecialCondition-active"/>
       </list>
     </property>
   </bean>
@@ -26,34 +19,32 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="VendorShippingSpecialCondition-vendorShippingSpecialConditionCode" parent="VendorShippingSpecialCondition-vendorShippingSpecialConditionCode-parentBean" />
+  <bean id="VendorShippingSpecialCondition-vendorShippingSpecialConditionCode" parent="VendorShippingSpecialCondition-vendorShippingSpecialConditionCode-parentBean"/>
 
   <bean id="VendorShippingSpecialCondition-vendorShippingSpecialConditionCode-parentBean" abstract="true" parent="ShippingSpecialCondition-vendorShippingSpecialConditionCode">
-    <property name="label" value="Shipping Special Condition" />
-    <property name="shortLabel" value="Shipping Special Condition" />
-    <property name="forceUppercase" value="true" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.ShippingSpecialConditionValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="label" value="Shipping Special Condition"/>
+    <property name="shortLabel" value="Shipping Special Condition"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.ShippingSpecialConditionValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="VendorShippingSpecialCondition-newCollectionRecord" parent="VendorShippingSpecialCondition-newCollectionRecord-parentBean" />
+  <bean id="VendorShippingSpecialCondition-newCollectionRecord" parent="VendorShippingSpecialCondition-newCollectionRecord-parentBean"/>
 
   <bean id="VendorShippingSpecialCondition-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
-  <bean id="VendorShippingSpecialCondition-vendorHeaderGeneratedIdentifier" parent="VendorShippingSpecialCondition-vendorHeaderGeneratedIdentifier-parentBean" />
+  <bean id="VendorShippingSpecialCondition-vendorHeaderGeneratedIdentifier" parent="VendorShippingSpecialCondition-vendorHeaderGeneratedIdentifier-parentBean"/>
 
   <bean id="VendorShippingSpecialCondition-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
   </bean>
-  <bean id="VendorShippingSpecialCondition-vendorDetailAssignedIdentifier" parent="VendorShippingSpecialCondition-vendorDetailAssignedIdentifier-parentBean" />
+  <bean id="VendorShippingSpecialCondition-vendorDetailAssignedIdentifier" parent="VendorShippingSpecialCondition-vendorDetailAssignedIdentifier-parentBean"/>
 
   <bean id="VendorShippingSpecialCondition-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
   </bean>
-  <bean id="VendorShippingSpecialCondition-active" parent="VendorShippingSpecialCondition-active-parentBean" />
+  <bean id="VendorShippingSpecialCondition-active" parent="VendorShippingSpecialCondition-active-parentBean"/>
 
   <bean id="VendorShippingSpecialCondition-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 </beans>

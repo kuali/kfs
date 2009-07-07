@@ -1,106 +1,94 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AssetAcquisitionType" parent="AssetAcquisitionType-parentBean" />
+  <bean id="AssetAcquisitionType" parent="AssetAcquisitionType-parentBean"/>
 
   <bean id="AssetAcquisitionType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType" />
-    <property name="inquiryDefinition" >
-      <ref bean="AssetAcquisitionType-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType"/>
+    <property name="inquiryDefinition">
+      <ref bean="AssetAcquisitionType-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="AssetAcquisitionType-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="AssetAcquisitionType-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Asset Acquisition Type" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Asset Acquisition Type"/>
+    <property name="attributes">
       <list>
-        <ref bean="AssetAcquisitionType-acquisitionTypeCode" />
-        <ref bean="AssetAcquisitionType-acquisitionTypeName" />
-        <ref bean="AssetAcquisitionType-incomeAssetObjectCode" />
-        <ref bean="AssetAcquisitionType-active" />
+        <ref bean="AssetAcquisitionType-acquisitionTypeCode"/>
+        <ref bean="AssetAcquisitionType-acquisitionTypeName"/>
+        <ref bean="AssetAcquisitionType-incomeAssetObjectCode"/>
+        <ref bean="AssetAcquisitionType-active"/>
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
-  <bean id="AssetAcquisitionType-acquisitionTypeCode" parent="AssetAcquisitionType-acquisitionTypeCode-parentBean" />
+  <bean id="AssetAcquisitionType-acquisitionTypeCode" parent="AssetAcquisitionType-acquisitionTypeCode-parentBean"/>
   <bean id="AssetAcquisitionType-acquisitionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="acquisitionTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Acquisition Type Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="acquisitionTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Acquisition Type Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
   </bean>
   
-  <bean id="AssetAcquisitionType-acquisitionTypeName" parent="AssetAcquisitionType-acquisitionTypeName-parentBean" />
+  <bean id="AssetAcquisitionType-acquisitionTypeName" parent="AssetAcquisitionType-acquisitionTypeName-parentBean"/>
   <bean id="AssetAcquisitionType-acquisitionTypeName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="acquisitionTypeName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Acquisition Type Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="acquisitionTypeName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Acquisition Type Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="42" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="42"/>
     </property>
   </bean>
   
-  <bean id="AssetAcquisitionType-incomeAssetObjectCode" parent="AssetAcquisitionType-incomeAssetObjectCode-parentBean" />
+  <bean id="AssetAcquisitionType-incomeAssetObjectCode" parent="AssetAcquisitionType-incomeAssetObjectCode-parentBean"/>
   <bean id="AssetAcquisitionType-incomeAssetObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="incomeAssetObjectCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Income Asset Object Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="incomeAssetObjectCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Income Asset Object Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
   
-  <bean id="AssetAcquisitionType-active" parent="AssetAcquisitionType-active-parentBean" />
+  <bean id="AssetAcquisitionType-active" parent="AssetAcquisitionType-active-parentBean"/>
   <bean id="AssetAcquisitionType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
-  <bean id="AssetAcquisitionType-inquiryDefinition" parent="AssetAcquisitionType-inquiryDefinition-parentBean" />
+  <bean id="AssetAcquisitionType-inquiryDefinition" parent="AssetAcquisitionType-inquiryDefinition-parentBean"/>
   <bean id="AssetAcquisitionType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Asset Acquisition Type" />
-    <property name="inquirySections" >
+    <property name="title" value="Asset Acquisition Type"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="acquisitionTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="acquisitionTypeName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="incomeAssetObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="acquisitionTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="acquisitionTypeName"/>
+              <bean parent="FieldDefinition" p:attributeName="incomeAssetObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -110,38 +98,29 @@
 
 <!-- Business Object Lookup Definition -->
 
-  <bean id="AssetAcquisitionType-lookupDefinition" parent="AssetAcquisitionType-lookupDefinition-parentBean" />
+  <bean id="AssetAcquisitionType-lookupDefinition" parent="AssetAcquisitionType-lookupDefinition-parentBean"/>
   <bean id="AssetAcquisitionType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Asset Acquisition Type" />
-    <property name="lookupableID" value="assetAcquisitionTypeLookupable" />  
-    <property name="instructions" value="Look up an Acquisition Type" />
-    <property name="defaultSort" >
+    <property name="title" value="Asset Acquisition Type"/>
+    <property name="lookupableID" value="assetAcquisitionTypeLookupable"/>  
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="acquisitionTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="acquisitionTypeName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="incomeAssetObjectCode" />
-        <bean parent="FieldDefinition"
-              p:defaultValue="Y"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="acquisitionTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="acquisitionTypeName"/>
+        <bean parent="FieldDefinition" p:attributeName="incomeAssetObjectCode"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="acquisitionTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="acquisitionTypeName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="incomeAssetObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="acquisitionTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="acquisitionTypeName"/>
+        <bean parent="FieldDefinition" p:attributeName="incomeAssetObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

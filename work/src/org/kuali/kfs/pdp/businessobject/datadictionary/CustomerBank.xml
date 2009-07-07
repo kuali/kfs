@@ -1,52 +1,45 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="CustomerBank" parent="CustomerBank-parentBean" />
+  <bean id="CustomerBank" parent="CustomerBank-parentBean"/>
 
   <bean id="CustomerBank-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.CustomerBank" />
-    <property name="objectLabel" value="Customer Bank" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.CustomerBank"/>
+    <property name="objectLabel" value="Customer Bank"/>
+    <property name="attributes">
       <list>
-        <ref bean="CustomerBank-customerId" />
-        <ref bean="CustomerBank-bankCode" />
-        <ref bean="CustomerBank-disbursementTypeCode" />
-        <ref bean="CustomerBank-newCollectionRecord" />
+        <ref bean="CustomerBank-customerId"/>
+        <ref bean="CustomerBank-bankCode"/>
+        <ref bean="CustomerBank-disbursementTypeCode"/>
+        <ref bean="CustomerBank-newCollectionRecord"/>
       </list>
     </property>  
     <property name="inactivationBlockingDefinitions">
       <list>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="bank"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="bank"/>
       </list>
     </property>     
   </bean>
 
 <!-- Attribute Definitions -->
 
-  <bean id="CustomerBank-customerId" parent="CustomerBank-customerId-parentBean" />
+  <bean id="CustomerBank-customerId" parent="CustomerBank-customerId-parentBean"/>
   <bean id="CustomerBank-customerId-parentBean" abstract="true" parent="CustomerProfile-id">
-    <property name="forceUppercase" value="true" />
-    <property name="name" value="customerId" />
+    <property name="forceUppercase" value="true"/>
+    <property name="name" value="customerId"/>
   </bean>
   
-  <bean id="CustomerBank-bankCode" parent="CustomerBank-bankCode-parentBean" />
+  <bean id="CustomerBank-bankCode" parent="CustomerBank-bankCode-parentBean"/>
   <bean id="CustomerBank-bankCode-parentBean" abstract="true" parent="Bank-bankCode">
-    <property name="name" value="bankCode" />
+    <property name="name" value="bankCode"/>
   </bean>
   
-  <bean id="CustomerBank-disbursementTypeCode" parent="CustomerBank-disbursementTypeCode-parentBean" />
+  <bean id="CustomerBank-disbursementTypeCode" parent="CustomerBank-disbursementTypeCode-parentBean"/>
   <bean id="CustomerBank-disbursementTypeCode-parentBean" abstract="true" parent="DisbursementType-code">
-    <property name="forceUppercase" value="true" />
-    <property name="name" value="disbursementTypeCode" />
+    <property name="forceUppercase" value="true"/>
+    <property name="name" value="disbursementTypeCode"/>
   </bean>
   
-  <bean id="CustomerBank-newCollectionRecord" parent="CustomerBank-newCollectionRecord-parentBean" />
+  <bean id="CustomerBank-newCollectionRecord" parent="CustomerBank-newCollectionRecord-parentBean"/>
   <bean id="CustomerBank-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
   

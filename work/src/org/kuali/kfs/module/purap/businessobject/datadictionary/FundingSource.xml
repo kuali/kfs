@@ -1,29 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="FundingSource" parent="FundingSource-parentBean" />
+  <bean id="FundingSource" parent="FundingSource-parentBean"/>
 
   <bean id="FundingSource-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.FundingSource" />
-    <property name="inquiryDefinition" >
-      <ref bean="FundingSource-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.FundingSource"/>
+    <property name="inquiryDefinition">
+      <ref bean="FundingSource-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="FundingSource-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="FundingSource-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="fundingSourceCode" />
-    <property name="objectLabel" value="Funding Source" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="fundingSourceCode"/>
+    <property name="objectLabel" value="Funding Source"/>
+    <property name="attributes">
       <list>
-        <ref bean="FundingSource-fundingSourceCode" />
-        <ref bean="FundingSource-fundingSourceDescription" />
-        <ref bean="FundingSource-active" />
+        <ref bean="FundingSource-fundingSourceCode"/>
+        <ref bean="FundingSource-fundingSourceDescription"/>
+        <ref bean="FundingSource-active"/>
       </list>
     </property>
   </bean>
@@ -31,64 +24,58 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="FundingSource-fundingSourceCode" parent="FundingSource-fundingSourceCode-parentBean" />
+  <bean id="FundingSource-fundingSourceCode" parent="FundingSource-fundingSourceCode-parentBean"/>
 
   <bean id="FundingSource-fundingSourceCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="fundingSourceCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Funding Source Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="fundingSourceCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Funding Source Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
-  <bean id="FundingSource-fundingSourceDescription" parent="FundingSource-fundingSourceDescription-parentBean" />
+  <bean id="FundingSource-fundingSourceDescription" parent="FundingSource-fundingSourceDescription-parentBean"/>
 
   <bean id="FundingSource-fundingSourceDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="fundingSourceDescription" />
-    <property name="label" value="Funding Source Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="fundingSourceDescription"/>
+    <property name="label" value="Funding Source Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="47" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
     </property>
   </bean>
-  <bean id="FundingSource-active" parent="FundingSource-active-parentBean" />
+  <bean id="FundingSource-active" parent="FundingSource-active-parentBean"/>
 
   <bean id="FundingSource-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="FundingSource-inquiryDefinition" parent="FundingSource-inquiryDefinition-parentBean" />
+  <bean id="FundingSource-inquiryDefinition" parent="FundingSource-inquiryDefinition-parentBean"/>
 
   <bean id="FundingSource-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Funding Source Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Funding Source Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="fundingSourceCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="fundingSourceDescription" />
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+              <bean parent="FieldDefinition" p:attributeName="fundingSourceCode"/>
+              <bean parent="FieldDefinition" p:attributeName="fundingSourceDescription"/>
             </list>
           </property>
         </bean>
@@ -99,33 +86,27 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="FundingSource-lookupDefinition" parent="FundingSource-lookupDefinition-parentBean" />
+  <bean id="FundingSource-lookupDefinition" parent="FundingSource-lookupDefinition-parentBean"/>
 
   <bean id="FundingSource-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Funding Source Lookup" />
-    <property name="instructions" value="Lookup a Funding Source" />
-    <property name="defaultSort" >
+    <property name="title" value="Funding Source Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="fundingSourceCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="fundingSourceDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="fundingSourceCode"/>
+        <bean parent="FieldDefinition" p:attributeName="fundingSourceDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="fundingSourceCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="fundingSourceDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="fundingSourceCode"/>
+        <bean parent="FieldDefinition" p:attributeName="fundingSourceDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

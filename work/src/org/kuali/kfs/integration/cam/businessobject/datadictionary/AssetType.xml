@@ -1,53 +1,46 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-  <bean id="AssetType" parent="AssetType-parentBean" />
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+  <bean id="AssetType" parent="AssetType-parentBean"/>
   
   <bean id="AssetType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.integration.cam.businessobject.AssetType" />
-    <property name="objectLabel" value="Asset Type" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.integration.cam.businessobject.AssetType"/>
+    <property name="objectLabel" value="Asset Type"/>
+    <property name="attributes">
       <list>
-        <ref bean="AssetType-capitalAssetTypeCode" />
-        <ref bean="AssetType-capitalAssetTypeDescription" />
+        <ref bean="AssetType-capitalAssetTypeCode"/>
+        <ref bean="AssetType-capitalAssetTypeDescription"/>
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
-  <bean id="AssetType-capitalAssetTypeCode" parent="AssetType-capitalAssetTypeCode-parentBean" />
+  <bean id="AssetType-capitalAssetTypeCode" parent="AssetType-capitalAssetTypeCode-parentBean"/>
   <bean id="AssetType-capitalAssetTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Asset Type" />
-    <property name="shortLabel" value="Asset Type" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="capitalAssetTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Asset Type"/>
+    <property name="shortLabel" value="Asset Type"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
   
-  <bean id="AssetType-capitalAssetTypeDescription" parent="AssetType-capitalAssetTypeDescription-parentBean" />
+  <bean id="AssetType-capitalAssetTypeDescription" parent="AssetType-capitalAssetTypeDescription-parentBean"/>
   <bean id="AssetType-capitalAssetTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetTypeDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Asset Type Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="70" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="capitalAssetTypeDescription"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Asset Type Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="70"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="72" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="72"/>
     </property>
   </bean>
   

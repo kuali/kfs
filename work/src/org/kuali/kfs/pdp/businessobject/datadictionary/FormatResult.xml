@@ -1,24 +1,20 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="FormatResult" parent="FormatResult-parentBean" />
+  <bean id="FormatResult" parent="FormatResult-parentBean"/>
 
   <bean id="FormatResult-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.FormatResult" />
-    <property name="inquiryDefinition" >
-      <ref bean="FormatResult-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.FormatResult"/>
+    <property name="inquiryDefinition">
+      <ref bean="FormatResult-inquiryDefinition"/>
     </property>
-    <property name="titleAttribute" value="procId" />
-    <property name="objectLabel" value="Format Result" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="procId"/>
+    <property name="objectLabel" value="Format Result"/>
+    <property name="attributes">
       <list>
-        <ref bean="FormatResult-procId" />
-        <ref bean="FormatResult-payments" />
-        <ref bean="FormatResult-amount" />
-        <ref bean="FormatResult-sortGroupName" />
+        <ref bean="FormatResult-procId"/>
+        <ref bean="FormatResult-payments"/>
+        <ref bean="FormatResult-amount"/>
+        <ref bean="FormatResult-sortGroupName"/>
       </list>
     </property>
   </bean>
@@ -26,59 +22,56 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="FormatResult-procId" parent="FormatResult-procId-parentBean" />
+  <bean id="FormatResult-procId" parent="FormatResult-procId-parentBean"/>
 
   <bean id="FormatResult-procId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="procId" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Process ID" />
-    <property name="shortLabel" value="Process ID" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-       <bean parent="NumericValidationPattern" />
+    <property name="name" value="procId"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Process ID"/>
+    <property name="shortLabel" value="Process ID"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+       <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
     </property>
   </bean>
-  <bean id="FormatResult-payments" parent="FormatResult-payments-parentBean" />
+  <bean id="FormatResult-payments" parent="FormatResult-payments-parentBean"/>
 
   <bean id="FormatResult-payments-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="payments" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Payments" />
-    <property name="shortLabel" value="Payments" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-       <bean parent="NumericValidationPattern" />
+    <property name="name" value="payments"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Payments"/>
+    <property name="shortLabel" value="Payments"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+       <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
     </property>
   </bean>
-  <bean id="FormatResult-amount" parent="FormatResult-amount-parentBean" />
+  <bean id="FormatResult-amount" parent="FormatResult-amount-parentBean"/>
 
   <bean id="FormatResult-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="amount" />
-    <property name="label" value="Amount" />
-    <property name="shortLabel" value="Amount" />
+    <property name="name" value="amount"/>
+    <property name="label" value="Amount"/>
+    <property name="shortLabel" value="Amount"/>
   </bean>
-  <bean id="FormatResult-sortGroupName" parent="FormatResult-sortGroupName-parentBean" />
+  <bean id="FormatResult-sortGroupName" parent="FormatResult-sortGroupName-parentBean"/>
 
   <bean id="FormatResult-sortGroupName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="sortGroupName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Sort Group Name" />
-    <property name="shortLabel" value="Sort Group" />
-    <property name="maxLength" value="32" />
-    <property name="validationPattern" >
-       <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="sortGroupName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Sort Group Name"/>
+    <property name="shortLabel" value="Sort Group"/>
+    <property name="maxLength" value="32"/>
+    <property name="validationPattern">
+       <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
     </property>
   </bean>
   
@@ -86,25 +79,21 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="FormatResult-inquiryDefinition" parent="FormatResult-inquiryDefinition-parentBean" />
+  <bean id="FormatResult-inquiryDefinition" parent="FormatResult-inquiryDefinition-parentBean"/>
 
   <bean id="FormatResult-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="FormatResult Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="FormatResult Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="sortGroupName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="procId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="payments" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="amount" />
+              <bean parent="FieldDefinition" p:attributeName="sortGroupName"/>
+              <bean parent="FieldDefinition" p:attributeName="procId"/>
+              <bean parent="FieldDefinition" p:attributeName="payments"/>
+              <bean parent="FieldDefinition" p:attributeName="amount"/>
             </list>
           </property>
         </bean>

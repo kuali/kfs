@@ -1,126 +1,114 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="BatchJobStatus" parent="BatchJobStatus-parentBean" />
+  <bean id="BatchJobStatus" parent="BatchJobStatus-parentBean"/>
 
   <bean id="BatchJobStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.sys.batch.BatchJobStatus" />
-    <property name="lookupDefinition" >
-      <ref bean="BatchJobStatus-lookupDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.batch.BatchJobStatus"/>
+    <property name="lookupDefinition">
+      <ref bean="BatchJobStatus-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="name" />
-    <property name="objectLabel" value="Batch Job Status" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="name"/>
+    <property name="objectLabel" value="Batch Job Status"/>
+    <property name="attributes">
       <list>
-        <ref bean="BatchJobStatus-namespaceCode" />
-        <ref bean="BatchJobStatus-name" />
-        <ref bean="BatchJobStatus-group" />
-        <ref bean="BatchJobStatus-dependencyList" />
-        <ref bean="BatchJobStatus-stepList" />
-        <ref bean="BatchJobStatus-nextRunDate" />
-        <ref bean="BatchJobStatus-status" />
+        <ref bean="BatchJobStatus-namespaceCode"/>
+        <ref bean="BatchJobStatus-name"/>
+        <ref bean="BatchJobStatus-group"/>
+        <ref bean="BatchJobStatus-dependencyList"/>
+        <ref bean="BatchJobStatus-stepList"/>
+        <ref bean="BatchJobStatus-nextRunDate"/>
+        <ref bean="BatchJobStatus-status"/>
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
-  <bean id="BatchJobStatus-namespaceCode" parent="BatchJobStatus-namespaceCode-parentBean" />
+  <bean id="BatchJobStatus-namespaceCode" parent="BatchJobStatus-namespaceCode-parentBean"/>
  
-  <bean id="BatchJobStatus-namespaceCode-parentBean" abstract="true" parent="BusinessObjectComponent-namespaceCode" />
+  <bean id="BatchJobStatus-namespaceCode-parentBean" abstract="true" parent="BusinessObjectComponent-namespaceCode"/>
 
-  <bean id="BatchJobStatus-name" parent="BatchJobStatus-name-parentBean" />
+  <bean id="BatchJobStatus-name" parent="BatchJobStatus-name-parentBean"/>
 
   <bean id="BatchJobStatus-name-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="name" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Job Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="20" />
+    <property name="name" value="name"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Job Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
     </property>
     
     
   </bean>
-  <bean id="BatchJobStatus-group" parent="BatchJobStatus-group-parentBean" />
+  <bean id="BatchJobStatus-group" parent="BatchJobStatus-group-parentBean"/>
 
   <bean id="BatchJobStatus-group-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="group" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Job Group" />
-    <property name="shortLabel" value="Group" />
-    <property name="maxLength" value="40" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.SchedulerGroupValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="group"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Job Group"/>
+    <property name="shortLabel" value="Group"/>
+    <property name="maxLength" value="40"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.SchedulerGroupValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     
     
   </bean>
-  <bean id="BatchJobStatus-dependencyList" parent="BatchJobStatus-dependencyList-parentBean" />
+  <bean id="BatchJobStatus-dependencyList" parent="BatchJobStatus-dependencyList-parentBean"/>
 
   <bean id="BatchJobStatus-dependencyList-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="dependencyList" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Dependencies" />
-    <property name="shortLabel" value="Dependencies" />
-    <property name="maxLength" value="40" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="dependencyList"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Dependencies"/>
+    <property name="shortLabel" value="Dependencies"/>
+    <property name="maxLength" value="40"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
     
     
   </bean>
-  <bean id="BatchJobStatus-stepList" parent="BatchJobStatus-stepList-parentBean" />
+  <bean id="BatchJobStatus-stepList" parent="BatchJobStatus-stepList-parentBean"/>
 
   <bean id="BatchJobStatus-stepList-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="stepList" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Steps" />
-    <property name="shortLabel" value="Steps" />
-    <property name="maxLength" value="40" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="stepList"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Steps"/>
+    <property name="shortLabel" value="Steps"/>
+    <property name="maxLength" value="40"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
     
     
   </bean>
-  <bean id="BatchJobStatus-nextRunDate" parent="BatchJobStatus-nextRunDate-parentBean" />
+  <bean id="BatchJobStatus-nextRunDate" parent="BatchJobStatus-nextRunDate-parentBean"/>
 
   <bean id="BatchJobStatus-nextRunDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nextRunDate" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Next Run Time" />
-    <property name="shortLabel" value="Run Time" />
-    <property name="maxLength" value="40" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="nextRunDate"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Next Run Time"/>
+    <property name="shortLabel" value="Run Time"/>
+    <property name="maxLength" value="40"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
     
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter"/>
   </bean>
-  <bean id="BatchJobStatus-status" parent="BatchJobStatus-status-parentBean" />
+  <bean id="BatchJobStatus-status" parent="BatchJobStatus-status-parentBean"/>
 
   <bean id="BatchJobStatus-status-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="status" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Job Status" />
-    <property name="shortLabel" value="Status" />
-    <property name="maxLength" value="40" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.ScheduledJobStatusValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="status"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Job Status"/>
+    <property name="shortLabel" value="Status"/>
+    <property name="maxLength" value="40"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.ScheduledJobStatusValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     
     
@@ -129,44 +117,33 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="BatchJobStatus-lookupDefinition" parent="BatchJobStatus-lookupDefinition-parentBean" />
+  <bean id="BatchJobStatus-lookupDefinition" parent="BatchJobStatus-lookupDefinition-parentBean"/>
 
   <bean id="BatchJobStatus-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Batch Job Lookup" />
-    <property name="lookupableID" value="batchJobStatusLookupable" />
-    <property name="instructions" value="Batch Job Lookup" />
-    <property name="defaultSort" >
+    <property name="title" value="Batch Job Lookup"/>
+    <property name="lookupableID" value="batchJobStatusLookupable"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="namespaceCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="group" />
-        <bean parent="FieldDefinition"
-              p:attributeName="status" />
+        <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="group"/>
+        <bean parent="FieldDefinition" p:attributeName="status"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="namespaceCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="group" />
-        <bean parent="FieldDefinition"
-              p:attributeName="status" />
-        <bean parent="FieldDefinition"
-              p:attributeName="nextRunDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="stepList" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dependencyList" />
+        <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="group"/>
+        <bean parent="FieldDefinition" p:attributeName="status"/>
+        <bean parent="FieldDefinition" p:attributeName="nextRunDate"/>
+        <bean parent="FieldDefinition" p:attributeName="stepList"/>
+        <bean parent="FieldDefinition" p:attributeName="dependencyList"/>
       </list>
     </property>
   </bean>

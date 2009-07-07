@@ -1,26 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="ControlAttributeType" parent="ControlAttributeType-parentBean" />
+  <bean id="ControlAttributeType" parent="ControlAttributeType-parentBean"/>
 
   <bean id="ControlAttributeType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ControlAttributeType" />
-    <property name="inquiryDefinition" >
-      <ref bean="ControlAttributeType-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ControlAttributeType"/>
+    <property name="inquiryDefinition">
+      <ref bean="ControlAttributeType-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="ControlAttributeType-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="ControlAttributeType-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Control Attribute Type" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Control Attribute Type"/>
+    <property name="attributes">
       <list>
-        <ref bean="ControlAttributeType-controlAttributeTypeCode" />
-        <ref bean="ControlAttributeType-controlAttributeTypeDescription" />
-        <ref bean="ControlAttributeType-active" />
-        <ref bean="ControlAttributeType-requiredIndicator" />
+        <ref bean="ControlAttributeType-controlAttributeTypeCode"/>
+        <ref bean="ControlAttributeType-controlAttributeTypeDescription"/>
+        <ref bean="ControlAttributeType-active"/>
+        <ref bean="ControlAttributeType-requiredIndicator"/>
       </list>
     </property>
   </bean>
@@ -28,56 +24,53 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="ControlAttributeType-controlAttributeTypeCode" parent="ControlAttributeType-controlAttributeTypeCode-parentBean" />
+  <bean id="ControlAttributeType-controlAttributeTypeCode" parent="ControlAttributeType-controlAttributeTypeCode-parentBean"/>
 
   <bean id="ControlAttributeType-controlAttributeTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="controlAttributeTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Control Attribute Type Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="controlAttributeTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Control Attribute Type Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
     
     
   </bean>
-  <bean id="ControlAttributeType-controlAttributeTypeDescription" parent="ControlAttributeType-controlAttributeTypeDescription-parentBean" />
+  <bean id="ControlAttributeType-controlAttributeTypeDescription" parent="ControlAttributeType-controlAttributeTypeDescription-parentBean"/>
 
   <bean id="ControlAttributeType-controlAttributeTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="controlAttributeTypeDescription" />
-    <property name="label" value="Control Attribute Type Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="100" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="controlAttributeTypeDescription"/>
+    <property name="label" value="Control Attribute Type Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="100"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="20" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
     </property>
     
     
   </bean>
-  <bean id="ControlAttributeType-active" parent="ControlAttributeType-active-parentBean" />
+  <bean id="ControlAttributeType-active" parent="ControlAttributeType-active-parentBean"/>
 
   <bean id="ControlAttributeType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
-  <bean id="ControlAttributeType-requiredIndicator" parent="ControlAttributeType-requiredIndicator-parentBean" />
+  <bean id="ControlAttributeType-requiredIndicator" parent="ControlAttributeType-requiredIndicator-parentBean"/>
 
   <bean id="ControlAttributeType-requiredIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="requiredIndicator" />
-    <property name="label" value="Required Indicator" />
-    <property name="shortLabel" value="Indicator" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="requiredIndicator"/>
+    <property name="label" value="Required Indicator"/>
+    <property name="shortLabel" value="Indicator"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
     
     
@@ -86,25 +79,21 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="ControlAttributeType-inquiryDefinition" parent="ControlAttributeType-inquiryDefinition-parentBean" />
+  <bean id="ControlAttributeType-inquiryDefinition" parent="ControlAttributeType-inquiryDefinition-parentBean"/>
 
   <bean id="ControlAttributeType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Control Attribute Type Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Control Attribute Type Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="controlAttributeTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="controlAttributeTypeDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="requiredIndicator" />
+              <bean parent="FieldDefinition" p:attributeName="controlAttributeTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="controlAttributeTypeDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+              <bean parent="FieldDefinition" p:attributeName="requiredIndicator"/>
             </list>
           </property>
         </bean>
@@ -115,38 +104,29 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="ControlAttributeType-lookupDefinition" parent="ControlAttributeType-lookupDefinition-parentBean" />
+  <bean id="ControlAttributeType-lookupDefinition" parent="ControlAttributeType-lookupDefinition-parentBean"/>
 
   <bean id="ControlAttributeType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Control Attribute Type Lookup" />
-    <property name="instructions" value="Look up a Control Attribute Type" />
-    <property name="defaultSort" >
+    <property name="title" value="Control Attribute Type Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="controlAttributeTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="controlAttributeTypeDescription" />
-        <bean parent="FieldDefinition"
-              p:defaultValue="Y"
-              p:attributeName="active" />
-        <bean parent="FieldDefinition"
-              p:attributeName="requiredIndicator" />
+        <bean parent="FieldDefinition" p:attributeName="controlAttributeTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="controlAttributeTypeDescription"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="requiredIndicator"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="controlAttributeTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="controlAttributeTypeDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
-        <bean parent="FieldDefinition"
-              p:attributeName="requiredIndicator" />
+        <bean parent="FieldDefinition" p:attributeName="controlAttributeTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="controlAttributeTypeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="requiredIndicator"/>
       </list>
     </property>
   </bean>

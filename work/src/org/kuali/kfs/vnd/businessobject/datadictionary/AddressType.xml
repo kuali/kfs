@@ -1,30 +1,23 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
         
-  <bean id="AddressType" parent="AddressType-parentBean" />
+  <bean id="AddressType" parent="AddressType-parentBean"/>
 
   <bean id="AddressType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.AddressType" />
-    <property name="inquiryDefinition" >
-      <ref bean="AddressType-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.AddressType"/>
+    <property name="inquiryDefinition">
+      <ref bean="AddressType-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="AddressType-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="AddressType-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="vendorAddressTypeCode" />
-    <property name="objectLabel" value="Address Type" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="vendorAddressTypeCode"/>
+    <property name="objectLabel" value="Address Type"/>
+    <property name="attributes">
       <list>
-        <ref bean="AddressType-vendorAddressTypeCode" />
-        <ref bean="AddressType-vendorAddressTypeDescription" />
-        <ref bean="AddressType-vendorDefaultIndicator" />
-        <ref bean="AddressType-active" />
+        <ref bean="AddressType-vendorAddressTypeCode"/>
+        <ref bean="AddressType-vendorAddressTypeDescription"/>
+        <ref bean="AddressType-vendorDefaultIndicator"/>
+        <ref bean="AddressType-active"/>
       </list>
     </property>
   </bean>
@@ -32,81 +25,74 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AddressType-vendorAddressTypeCode" parent="AddressType-vendorAddressTypeCode-parentBean" />
+  <bean id="AddressType-vendorAddressTypeCode" parent="AddressType-vendorAddressTypeCode-parentBean"/>
 
   <bean id="AddressType-vendorAddressTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorAddressTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Address Type Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="vendorAddressTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Address Type Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
-  <bean id="AddressType-vendorAddressTypeDescription" parent="AddressType-vendorAddressTypeDescription-parentBean" />
+  <bean id="AddressType-vendorAddressTypeDescription" parent="AddressType-vendorAddressTypeDescription-parentBean"/>
 
   <bean id="AddressType-vendorAddressTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorAddressTypeDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Address Type Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="vendorAddressTypeDescription"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Address Type Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="47" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
     </property>
   </bean>
-  <bean id="AddressType-vendorDefaultIndicator" parent="AddressType-vendorDefaultIndicator-parentBean" />
+  <bean id="AddressType-vendorDefaultIndicator" parent="AddressType-vendorDefaultIndicator-parentBean"/>
 
   <bean id="AddressType-vendorDefaultIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorDefaultIndicator" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Default Indicator" />
-    <property name="shortLabel" value="Default" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="vendorDefaultIndicator"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Default Indicator"/>
+    <property name="shortLabel" value="Default"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="AddressType-active" parent="AddressType-active-parentBean" />
+  <bean id="AddressType-active" parent="AddressType-active-parentBean"/>
 
   <bean id="AddressType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="AddressType-inquiryDefinition" parent="AddressType-inquiryDefinition-parentBean" />
+  <bean id="AddressType-inquiryDefinition" parent="AddressType-inquiryDefinition-parentBean"/>
 
   <bean id="AddressType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Address Type Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Address Type Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorAddressTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorAddressTypeDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorDefaultIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="vendorAddressTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorAddressTypeDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorDefaultIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -117,37 +103,29 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="AddressType-lookupDefinition" parent="AddressType-lookupDefinition-parentBean" />
+  <bean id="AddressType-lookupDefinition" parent="AddressType-lookupDefinition-parentBean"/>
 
   <bean id="AddressType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Address Type Lookup" />
-    <property name="instructions" value="Lookup an Address Type" />
-    <property name="defaultSort" >
+    <property name="title" value="Address Type Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorAddressTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorAddressTypeDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorDefaultIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="vendorAddressTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorAddressTypeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorDefaultIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorAddressTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorAddressTypeDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorDefaultIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="vendorAddressTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorAddressTypeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorDefaultIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

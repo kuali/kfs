@@ -47,8 +47,8 @@
         <bean parent="MaintainableFieldDefinition" p:name="receivingLine1Address" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="receivingLine2Address"/>
         <bean parent="MaintainableFieldDefinition" p:name="receivingCityName" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="receivingStateCode" />
-        <bean parent="MaintainableFieldDefinition" p:name="receivingPostalCode" />
+        <bean parent="MaintainableFieldDefinition" p:name="receivingStateCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="receivingPostalCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="receivingCountryCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="useReceivingIndicator" p:defaultValue="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="defaultIndicator" p:defaultValue="true"/>

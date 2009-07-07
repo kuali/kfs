@@ -1,50 +1,44 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="ACHBank" parent="ACHBank-parentBean" />
+  <bean id="ACHBank" parent="ACHBank-parentBean"/>
 
   <bean id="ACHBank-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.ACHBank" />
-    <property name="inquiryDefinition" >
-      <ref bean="ACHBank-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.ACHBank"/>
+    <property name="inquiryDefinition">
+      <ref bean="ACHBank-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="ACHBank-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="ACHBank-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="bankRoutingNumber" />
-    <property name="objectLabel" value="Account Clearing House Bank" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="bankRoutingNumber"/>
+    <property name="objectLabel" value="Account Clearing House Bank"/>
+    <property name="attributes">
       <list>
-        <ref bean="ACHBank-bankRoutingNumber" />
-        <ref bean="ACHBank-bankOfficeCode" />
-        <ref bean="ACHBank-bankServiceNumber" />
-        <ref bean="ACHBank-bankTypeCode" />
-        <ref bean="ACHBank-bankNewRoutingNumber" />
-        <ref bean="ACHBank-bankName" />
-        <ref bean="ACHBank-bankStreetAddress" />
-        <ref bean="ACHBank-bankCityName" />
-        <ref bean="ACHBank-bankStateCode" />
-        <ref bean="ACHBank-bankZipCode" />
-        <ref bean="ACHBank-bankPhoneAreaCode" />
-        <ref bean="ACHBank-bankPhonePrefixNumber" />
-        <ref bean="ACHBank-bankPhoneSuffixNumber" />
-        <ref bean="ACHBank-bankInstitutionStatusCode" />
-        <ref bean="ACHBank-bankDataViewCode" />
-        <ref bean="ACHBank-active" />
+        <ref bean="ACHBank-bankRoutingNumber"/>
+        <ref bean="ACHBank-bankOfficeCode"/>
+        <ref bean="ACHBank-bankServiceNumber"/>
+        <ref bean="ACHBank-bankTypeCode"/>
+        <ref bean="ACHBank-bankNewRoutingNumber"/>
+        <ref bean="ACHBank-bankName"/>
+        <ref bean="ACHBank-bankStreetAddress"/>
+        <ref bean="ACHBank-bankCityName"/>
+        <ref bean="ACHBank-bankStateCode"/>
+        <ref bean="ACHBank-bankZipCode"/>
+        <ref bean="ACHBank-bankPhoneAreaCode"/>
+        <ref bean="ACHBank-bankPhonePrefixNumber"/>
+        <ref bean="ACHBank-bankPhoneSuffixNumber"/>
+        <ref bean="ACHBank-bankInstitutionStatusCode"/>
+        <ref bean="ACHBank-bankDataViewCode"/>
+        <ref bean="ACHBank-active"/>
       </list>
     </property>
-	<property name="relationships" >
+	<property name="relationships">
       <list>
         <dd:relationship objectAttribute="bankState">
-            <dd:primitiveAttribute source="bankStateCode" target="postalStateCode" />
+            <dd:primitiveAttribute source="bankStateCode" target="postalStateCode"/>
         </dd:relationship> 
         <dd:relationship objectAttribute="postalCode">
-            <dd:primitiveAttribute source="bankZipCode" target="postalCode" />
+            <dd:primitiveAttribute source="bankZipCode" target="postalCode"/>
         </dd:relationship> 
       </list>
     </property>    
@@ -53,307 +47,268 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Attribute Definitions -->
 
 
-  <bean id="ACHBank-bankRoutingNumber" parent="ACHBank-bankRoutingNumber-parentBean" />
+  <bean id="ACHBank-bankRoutingNumber" parent="ACHBank-bankRoutingNumber-parentBean"/>
 
   <bean id="ACHBank-bankRoutingNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="bankRoutingNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Bank Routing Number" />
-    <property name="shortLabel" value="Bank Routing Number" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="bankRoutingNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Bank Routing Number"/>
+    <property name="shortLabel" value="Bank Routing Number"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
     <property name="attributeSecurity">
 		<bean parent="AttributeSecurity">
-  			<property name="mask" value="true" /> 
+  			<property name="mask" value="true"/> 
 			<property name="maskFormatter">
-  			<bean parent="MaskFormatterLiteral" p:literal="*********" /> 
+  			<bean parent="MaskFormatterLiteral" p:literal="*********"/> 
   			</property>
   		</bean>
   	</property>
   </bean>
-  <bean id="ACHBank-bankOfficeCode" parent="ACHBank-bankOfficeCode-parentBean" />
+  <bean id="ACHBank-bankOfficeCode" parent="ACHBank-bankOfficeCode-parentBean"/>
 
   <bean id="ACHBank-bankOfficeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="bankOfficeCode" />
-    <property name="label" value="Bank Office Code" />
-    <property name="shortLabel" value="Office Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="bankOfficeCode"/>
+    <property name="label" value="Bank Office Code"/>
+    <property name="shortLabel" value="Office Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-     <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.AchBankOfficeCodeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="required" value="true"/>
+    <property name="control">
+     <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.AchBankOfficeCodeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="ACHBank-bankServiceNumber" parent="ACHBank-bankServiceNumber-parentBean" />
+  <bean id="ACHBank-bankServiceNumber" parent="ACHBank-bankServiceNumber-parentBean"/>
 
   <bean id="ACHBank-bankServiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="bankServiceNumber" />
-    <property name="label" value="Bank Service Number" />
-    <property name="shortLabel" value="Bank Service Number" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="bankServiceNumber"/>
+    <property name="label" value="Bank Service Number"/>
+    <property name="shortLabel" value="Bank Service Number"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
-  <bean id="ACHBank-bankTypeCode" parent="ACHBank-bankTypeCode-parentBean" />
+  <bean id="ACHBank-bankTypeCode" parent="ACHBank-bankTypeCode-parentBean"/>
 
   <bean id="ACHBank-bankTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="bankTypeCode" />
-    <property name="label" value="Record Type Code" />
-    <property name="shortLabel" value="Record Type Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="bankTypeCode"/>
+    <property name="label" value="Record Type Code"/>
+    <property name="shortLabel" value="Record Type Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-     <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.AchBankTypeCodeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="required" value="true"/>
+    <property name="control">
+     <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.AchBankTypeCodeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="ACHBank-bankNewRoutingNumber" parent="ACHBank-bankNewRoutingNumber-parentBean" />
+  <bean id="ACHBank-bankNewRoutingNumber" parent="ACHBank-bankNewRoutingNumber-parentBean"/>
 
   <bean id="ACHBank-bankNewRoutingNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="bankNewRoutingNumber" />
-    <property name="label" value="Bank New Routing Number" />
-    <property name="shortLabel" value="Bank New Routing Number" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="bankNewRoutingNumber"/>
+    <property name="label" value="Bank New Routing Number"/>
+    <property name="shortLabel" value="Bank New Routing Number"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
-  <bean id="ACHBank-bankName" parent="ACHBank-bankName-parentBean" />
+  <bean id="ACHBank-bankName" parent="ACHBank-bankName-parentBean"/>
 
   <bean id="ACHBank-bankName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="bankName" />
-    <property name="label" value="Bank Name" />
-    <property name="shortLabel" value="Bank Name" />
-    <property name="maxLength" value="36" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="bankName"/>
+    <property name="label" value="Bank Name"/>
+    <property name="shortLabel" value="Bank Name"/>
+    <property name="maxLength" value="36"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="38" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="38"/>
     </property>
   </bean>
-  <bean id="ACHBank-bankStreetAddress" parent="ACHBank-bankStreetAddress-parentBean" />
+  <bean id="ACHBank-bankStreetAddress" parent="ACHBank-bankStreetAddress-parentBean"/>
 
   <bean id="ACHBank-bankStreetAddress-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="bankStreetAddress" />
-    <property name="label" value="Bank Street Address" />
-    <property name="shortLabel" value="Bank Street Address" />
-    <property name="maxLength" value="36" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="bankStreetAddress"/>
+    <property name="label" value="Bank Street Address"/>
+    <property name="shortLabel" value="Bank Street Address"/>
+    <property name="maxLength" value="36"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="38" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="38"/>
     </property>
   </bean>
-  <bean id="ACHBank-bankCityName" parent="ACHBank-bankCityName-parentBean" />
+  <bean id="ACHBank-bankCityName" parent="ACHBank-bankCityName-parentBean"/>
 
   <bean id="ACHBank-bankCityName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="bankCityName" />
-    <property name="label" value="Bank City Name" />
-    <property name="shortLabel" value="Bank City Name" />
-    <property name="maxLength" value="50" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="bankCityName"/>
+    <property name="label" value="Bank City Name"/>
+    <property name="shortLabel" value="Bank City Name"/>
+    <property name="maxLength" value="50"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="50" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="50"/>
     </property>
   </bean>
-  <bean id="ACHBank-bankStateCode" parent="ACHBank-bankStateCode-parentBean" />
+  <bean id="ACHBank-bankStateCode" parent="ACHBank-bankStateCode-parentBean"/>
 
-  <bean id="ACHBank-bankStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
-	p:sourceAttributeName="postalStateCode">
-    <property name="name" value="bankStateCode" />
+  <bean id="ACHBank-bankStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State" p:sourceAttributeName="postalStateCode">
+    <property name="name" value="bankStateCode"/>
   </bean>
-  <bean id="ACHBank-bankZipCode" parent="ACHBank-bankZipCode-parentBean" />
+  <bean id="ACHBank-bankZipCode" parent="ACHBank-bankZipCode-parentBean"/>
 
-  <bean id="ACHBank-bankZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
-	p:sourceAttributeName="postalCode">
-    <property name="name" value="bankZipCode" />
-    <property name="label" value="Bank Zip Code" />
-    <property name="shortLabel" value="Bank Zip Code" />
-    <property name="maxLength" value="20" />
+  <bean id="ACHBank-bankZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode" p:sourceAttributeName="postalCode">
+    <property name="name" value="bankZipCode"/>
+    <property name="label" value="Bank Zip Code"/>
+    <property name="shortLabel" value="Bank Zip Code"/>
+    <property name="maxLength" value="20"/>
     <!--property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property-->
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="20" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
     </property>
   </bean>
   
-  <bean id="ACHBank-bankPhoneAreaCode" parent="ACHBank-bankPhoneAreaCode-parentBean" />
+  <bean id="ACHBank-bankPhoneAreaCode" parent="ACHBank-bankPhoneAreaCode-parentBean"/>
 
   <bean id="ACHBank-bankPhoneAreaCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="bankPhoneAreaCode" />
-    <property name="label" value="Bank Phone Area Code" />
-    <property name="shortLabel" value="Bank Phone Area Code" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="bankPhoneAreaCode"/>
+    <property name="label" value="Bank Phone Area Code"/>
+    <property name="shortLabel" value="Bank Phone Area Code"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="ACHBank-bankPhonePrefixNumber" parent="ACHBank-bankPhonePrefixNumber-parentBean" />
+  <bean id="ACHBank-bankPhonePrefixNumber" parent="ACHBank-bankPhonePrefixNumber-parentBean"/>
 
   <bean id="ACHBank-bankPhonePrefixNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="bankPhonePrefixNumber" />
-    <property name="label" value="Bank Phone Prefix Number" />
-    <property name="shortLabel" value="Bank Phone Prefix Number" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="bankPhonePrefixNumber"/>
+    <property name="label" value="Bank Phone Prefix Number"/>
+    <property name="shortLabel" value="Bank Phone Prefix Number"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="ACHBank-bankPhoneSuffixNumber" parent="ACHBank-bankPhoneSuffixNumber-parentBean" />
+  <bean id="ACHBank-bankPhoneSuffixNumber" parent="ACHBank-bankPhoneSuffixNumber-parentBean"/>
 
   <bean id="ACHBank-bankPhoneSuffixNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="bankPhoneSuffixNumber" />
-    <property name="label" value="Bank Phone Suffix Number" />
-    <property name="shortLabel" value="Bank Phone Suffix Number" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="bankPhoneSuffixNumber"/>
+    <property name="label" value="Bank Phone Suffix Number"/>
+    <property name="shortLabel" value="Bank Phone Suffix Number"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="ACHBank-bankInstitutionStatusCode" parent="ACHBank-bankInstitutionStatusCode-parentBean" />
+  <bean id="ACHBank-bankInstitutionStatusCode" parent="ACHBank-bankInstitutionStatusCode-parentBean"/>
 
   <bean id="ACHBank-bankInstitutionStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="bankInstitutionStatusCode" />
-    <property name="label" value="Bank Institution Status Code" />
-    <property name="shortLabel" value="Bank Institution Status Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="bankInstitutionStatusCode"/>
+    <property name="label" value="Bank Institution Status Code"/>
+    <property name="shortLabel" value="Bank Institution Status Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="1"/>
     </property>
   </bean>
-  <bean id="ACHBank-bankDataViewCode" parent="ACHBank-bankDataViewCode-parentBean" />
+  <bean id="ACHBank-bankDataViewCode" parent="ACHBank-bankDataViewCode-parentBean"/>
 
   <bean id="ACHBank-bankDataViewCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="bankDataViewCode" />
-    <property name="label" value="Bank Data View Code" />
-    <property name="shortLabel" value="Bank Data View Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="bankDataViewCode"/>
+    <property name="label" value="Bank Data View Code"/>
+    <property name="shortLabel" value="Bank Data View Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="1"/>
     </property>
   </bean>
   
-  <bean id="ACHBank-active" parent="ACHBank-active-parentBean" />
+  <bean id="ACHBank-active" parent="ACHBank-active-parentBean"/>
 
   <bean id="ACHBank-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
   
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="ACHBank-inquiryDefinition" parent="ACHBank-inquiryDefinition-parentBean" />
+  <bean id="ACHBank-inquiryDefinition" parent="ACHBank-inquiryDefinition-parentBean"/>
 
   <bean id="ACHBank-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="ACH Bank Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="ACH Bank Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankRoutingNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankOfficeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankServiceNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankNewRoutingNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankStreetAddress" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankCityName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankStateCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankZipCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankPhoneAreaCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankPhonePrefixNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankPhoneSuffixNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankInstitutionStatusCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankDataViewCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="bankRoutingNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="bankOfficeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="bankServiceNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="bankTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="bankNewRoutingNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="bankName"/>
+              <bean parent="FieldDefinition" p:attributeName="bankStreetAddress"/>
+              <bean parent="FieldDefinition" p:attributeName="bankCityName"/>
+              <bean parent="FieldDefinition" p:attributeName="bankStateCode"/>
+              <bean parent="FieldDefinition" p:attributeName="bankZipCode"/>
+              <bean parent="FieldDefinition" p:attributeName="bankPhoneAreaCode"/>
+              <bean parent="FieldDefinition" p:attributeName="bankPhonePrefixNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="bankPhoneSuffixNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="bankInstitutionStatusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="bankDataViewCode"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -364,44 +319,35 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="ACHBank-lookupDefinition" parent="ACHBank-lookupDefinition-parentBean" />
+  <bean id="ACHBank-lookupDefinition" parent="ACHBank-lookupDefinition-parentBean"/>
 
   <bean id="ACHBank-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="ACH Bank Lookup" />
-    <property name="instructions" value="Lookup an ACH Bank" />
-    <property name="defaultSort" >
+    <property name="title" value="ACH Bank Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>bankRoutingNumber</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="bankRoutingNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="bankName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="bankRoutingNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="bankName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="bankRoutingNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="bankName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="bankCityName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="bankStateCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="bankZipCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="bankRoutingNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="bankName"/>
+        <bean parent="FieldDefinition" p:attributeName="bankCityName"/>
+        <bean parent="FieldDefinition" p:attributeName="bankStateCode"/>
+        <bean parent="FieldDefinition" p:attributeName="bankZipCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

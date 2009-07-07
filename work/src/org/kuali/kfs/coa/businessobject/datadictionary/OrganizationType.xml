@@ -1,26 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="OrganizationType" parent="OrganizationType-parentBean" />
+  <bean id="OrganizationType" parent="OrganizationType-parentBean"/>
 
   <bean id="OrganizationType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.OrganizationType" />
-    <property name="inquiryDefinition" >
-      <ref bean="OrganizationType-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.OrganizationType"/>
+    <property name="inquiryDefinition">
+      <ref bean="OrganizationType-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="OrganizationType-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="OrganizationType-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="organizationTypeCode" />
-    <property name="objectLabel" value="Organization Type" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="organizationTypeCode"/>
+    <property name="objectLabel" value="Organization Type"/>
+    <property name="attributes">
       <list>
-        <ref bean="OrganizationType-organizationTypeCode" />
-        <ref bean="OrganizationType-organizationTypeName" />
-        <ref bean="OrganizationType-active" />
+        <ref bean="OrganizationType-organizationTypeCode"/>
+        <ref bean="OrganizationType-organizationTypeName"/>
+        <ref bean="OrganizationType-active"/>
       </list>
     </property>
   </bean>
@@ -28,62 +24,57 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="OrganizationType-organizationTypeCode" parent="OrganizationType-organizationTypeCode-parentBean" />
+  <bean id="OrganizationType-organizationTypeCode" parent="OrganizationType-organizationTypeCode-parentBean"/>
 
   <bean id="OrganizationType-organizationTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Organization Type Code" />
-    <property name="shortLabel" value="Organization Type" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="organizationTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Organization Type Code"/>
+    <property name="shortLabel" value="Organization Type"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="1"/>
     </property>
   </bean>
-  <bean id="OrganizationType-organizationTypeName" parent="OrganizationType-organizationTypeName-parentBean" />
+  <bean id="OrganizationType-organizationTypeName" parent="OrganizationType-organizationTypeName-parentBean"/>
 
   <bean id="OrganizationType-organizationTypeName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationTypeName" />
-    <property name="label" value="Organization Type Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="organizationTypeName"/>
+    <property name="label" value="Organization Type Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
   </bean>
-  <bean id="OrganizationType-active" parent="OrganizationType-active-parentBean" />
+  <bean id="OrganizationType-active" parent="OrganizationType-active-parentBean"/>
 
   <bean id="OrganizationType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="OrganizationType-inquiryDefinition" parent="OrganizationType-inquiryDefinition-parentBean" />
+  <bean id="OrganizationType-inquiryDefinition" parent="OrganizationType-inquiryDefinition-parentBean"/>
 
   <bean id="OrganizationType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Organization Type Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Organization Type Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationTypeName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="organizationTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationTypeName"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -94,38 +85,32 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="OrganizationType-lookupDefinition" parent="OrganizationType-lookupDefinition-parentBean" />
+  <bean id="OrganizationType-lookupDefinition" parent="OrganizationType-lookupDefinition-parentBean"/>
 
   <bean id="OrganizationType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Organization Type Lookup" />
-    <property name="instructions" value="Lookup an Organization Type" />
-    <property name="defaultSort" >
+    <property name="title" value="Organization Type Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>organizationTypeCode</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationTypeName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="organizationTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationTypeName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationTypeName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="organizationTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationTypeName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

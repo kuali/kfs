@@ -1,26 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="FiscalYearFunctionControl" parent="FiscalYearFunctionControl-parentBean" />
+  <bean id="FiscalYearFunctionControl" parent="FiscalYearFunctionControl-parentBean"/>
 
   <bean id="FiscalYearFunctionControl-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.FiscalYearFunctionControl" />
-    <property name="inquiryDefinition" >
-      <ref bean="FiscalYearFunctionControl-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.FiscalYearFunctionControl"/>
+    <property name="inquiryDefinition">
+      <ref bean="FiscalYearFunctionControl-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="FiscalYearFunctionControl-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="FiscalYearFunctionControl-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="financialSystemFunctionControlCode" />
-    <property name="objectLabel" value="Fiscal Year Function Control" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="financialSystemFunctionControlCode"/>
+    <property name="objectLabel" value="Fiscal Year Function Control"/>
+    <property name="attributes">
       <list>
-        <ref bean="FiscalYearFunctionControl-universityFiscalYear" />
-        <ref bean="FiscalYearFunctionControl-financialSystemFunctionControlCode" />
-        <ref bean="FiscalYearFunctionControl-financialSystemFunctionActiveIndicator" />
+        <ref bean="FiscalYearFunctionControl-universityFiscalYear"/>
+        <ref bean="FiscalYearFunctionControl-financialSystemFunctionControlCode"/>
+        <ref bean="FiscalYearFunctionControl-financialSystemFunctionActiveIndicator"/>
       </list>
     </property>
   </bean>
@@ -28,62 +24,58 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="FiscalYearFunctionControl-universityFiscalYear" parent="FiscalYearFunctionControl-universityFiscalYear-parentBean" />
+  <bean id="FiscalYearFunctionControl-universityFiscalYear" parent="FiscalYearFunctionControl-universityFiscalYear-parentBean"/>
 
   <bean id="FiscalYearFunctionControl-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="universityFiscalYear" />
-    <property name="required" value="true" />
-    <property name="forceUppercase" value="true" />
+    <property name="name" value="universityFiscalYear"/>
+    <property name="required" value="true"/>
+    <property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="FiscalYearFunctionControl-financialSystemFunctionControlCode" parent="FiscalYearFunctionControl-financialSystemFunctionControlCode-parentBean" />
+  <bean id="FiscalYearFunctionControl-financialSystemFunctionControlCode" parent="FiscalYearFunctionControl-financialSystemFunctionControlCode-parentBean"/>
 
   <bean id="FiscalYearFunctionControl-financialSystemFunctionControlCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialSystemFunctionControlCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial System Function Control Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="6" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="financialSystemFunctionControlCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Financial System Function Control Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="6"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="8"/>
     </property>
   </bean>
-  <bean id="FiscalYearFunctionControl-financialSystemFunctionActiveIndicator" parent="FiscalYearFunctionControl-financialSystemFunctionActiveIndicator-parentBean" />
+  <bean id="FiscalYearFunctionControl-financialSystemFunctionActiveIndicator" parent="FiscalYearFunctionControl-financialSystemFunctionActiveIndicator-parentBean"/>
 
   <bean id="FiscalYearFunctionControl-financialSystemFunctionActiveIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialSystemFunctionActiveIndicator" />
-    <property name="label" value="Financial System Function Active Indicator" />
-    <property name="shortLabel" value="Indicator" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="financialSystemFunctionActiveIndicator"/>
+    <property name="label" value="Financial System Function Active Indicator"/>
+    <property name="shortLabel" value="Indicator"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="FiscalYearFunctionControl-inquiryDefinition" parent="FiscalYearFunctionControl-inquiryDefinition-parentBean" />
+  <bean id="FiscalYearFunctionControl-inquiryDefinition" parent="FiscalYearFunctionControl-inquiryDefinition-parentBean"/>
 
   <bean id="FiscalYearFunctionControl-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Fiscal Year Function Control Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Fiscal Year Function Control Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYear" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialSystemFunctionControlCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialSystemFunctionActiveIndicator" />
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+              <bean parent="FieldDefinition" p:attributeName="financialSystemFunctionControlCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialSystemFunctionActiveIndicator"/>
             </list>
           </property>
         </bean>
@@ -94,33 +86,27 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="FiscalYearFunctionControl-lookupDefinition" parent="FiscalYearFunctionControl-lookupDefinition-parentBean" />
+  <bean id="FiscalYearFunctionControl-lookupDefinition" parent="FiscalYearFunctionControl-lookupDefinition-parentBean"/>
 
   <bean id="FiscalYearFunctionControl-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Fiscal Year Function Control Lookup" />
-    <property name="instructions" value="Lookup an Fiscal Year Function Control" />
-    <property name="defaultSort" >
+    <property name="title" value="Fiscal Year Function Control Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSystemFunctionControlCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSystemFunctionActiveIndicator" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSystemFunctionControlCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSystemFunctionActiveIndicator"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSystemFunctionControlCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSystemFunctionActiveIndicator" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSystemFunctionControlCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSystemFunctionActiveIndicator"/>
       </list>
     </property>
   </bean>

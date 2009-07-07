@@ -61,7 +61,7 @@
     <property name="required" value="false"/>    
     <property name="attributeSecurity">
         <bean parent="AttributeSecurity">
-           <property name="readOnly" value="false" />
+           <property name="readOnly" value="false"/>
        </bean>
 	</property>
   </bean>
@@ -118,7 +118,7 @@
     <property name="required" value="false"/>
     <property name="attributeSecurity">
         <bean parent="AttributeSecurity">
-           <property name="readOnly" value="false" />
+           <property name="readOnly" value="false"/>
        </bean>
 	</property>    
   </bean>

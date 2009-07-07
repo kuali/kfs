@@ -1,29 +1,25 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="BudgetConstructionIntendedIncumbent" parent="BudgetConstructionIntendedIncumbent-parentBean" />
+  <bean id="BudgetConstructionIntendedIncumbent" parent="BudgetConstructionIntendedIncumbent-parentBean"/>
 
   <bean id="BudgetConstructionIntendedIncumbent-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent" />
-    <property name="inquiryDefinition" >
-      <ref bean="BudgetConstructionIntendedIncumbent-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent"/>
+    <property name="inquiryDefinition">
+      <ref bean="BudgetConstructionIntendedIncumbent-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="BudgetConstructionIntendedIncumbent-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="BudgetConstructionIntendedIncumbent-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Budget Construction Intended Incumbent" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Budget Construction Intended Incumbent"/>
+    <property name="attributes">
       <list>
-        <ref bean="BudgetConstructionIntendedIncumbent-emplid" />
-        <ref bean="BudgetConstructionIntendedIncumbent-grade" />
-        <ref bean="BudgetConstructionIntendedIncumbent-iuClassificationLevel" />
-        <ref bean="BudgetConstructionIntendedIncumbent-name" />
-        <ref bean="BudgetConstructionIntendedIncumbent-salaryAdministrationPlan" />
-        <ref bean="BudgetConstructionIntendedIncumbent-setidSalary" />
-        <ref bean="BudgetConstructionIntendedIncumbent-active" />
+        <ref bean="BudgetConstructionIntendedIncumbent-emplid"/>
+        <ref bean="BudgetConstructionIntendedIncumbent-grade"/>
+        <ref bean="BudgetConstructionIntendedIncumbent-iuClassificationLevel"/>
+        <ref bean="BudgetConstructionIntendedIncumbent-name"/>
+        <ref bean="BudgetConstructionIntendedIncumbent-salaryAdministrationPlan"/>
+        <ref bean="BudgetConstructionIntendedIncumbent-setidSalary"/>
+        <ref bean="BudgetConstructionIntendedIncumbent-active"/>
       </list>
     </property>
   </bean>
@@ -31,150 +27,136 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="BudgetConstructionIntendedIncumbent-emplid" parent="BudgetConstructionIntendedIncumbent-emplid-parentBean" />
+  <bean id="BudgetConstructionIntendedIncumbent-emplid" parent="BudgetConstructionIntendedIncumbent-emplid-parentBean"/>
 
   <bean id="BudgetConstructionIntendedIncumbent-emplid-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="emplid" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Employee Id" />
-    <property name="shortLabel" value="Emplid" />
-    <property name="maxLength" value="11" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="emplid"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Employee Id"/>
+    <property name="shortLabel" value="Emplid"/>
+    <property name="maxLength" value="11"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="13" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="13"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionIntendedIncumbent-grade" parent="BudgetConstructionIntendedIncumbent-grade-parentBean" />
+  <bean id="BudgetConstructionIntendedIncumbent-grade" parent="BudgetConstructionIntendedIncumbent-grade-parentBean"/>
 
   <bean id="BudgetConstructionIntendedIncumbent-grade-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="grade" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Salary Grade" />
-    <property name="shortLabel" value="Sal Grade" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="grade"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Salary Grade"/>
+    <property name="shortLabel" value="Sal Grade"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionIntendedIncumbent-iuClassificationLevel" parent="BudgetConstructionIntendedIncumbent-iuClassificationLevel-parentBean" />
+  <bean id="BudgetConstructionIntendedIncumbent-iuClassificationLevel" parent="BudgetConstructionIntendedIncumbent-iuClassificationLevel-parentBean"/>
 
   <bean id="BudgetConstructionIntendedIncumbent-iuClassificationLevel-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="iuClassificationLevel" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Iu Classification Level" />
-    <property name="shortLabel" value="Cls" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="iuClassificationLevel"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Iu Classification Level"/>
+    <property name="shortLabel" value="Cls"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionIntendedIncumbent-name" parent="BudgetConstructionIntendedIncumbent-name-parentBean" />
+  <bean id="BudgetConstructionIntendedIncumbent-name" parent="BudgetConstructionIntendedIncumbent-name-parentBean"/>
 
   <bean id="BudgetConstructionIntendedIncumbent-name-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="name" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Person Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="50" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="name"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Person Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="50"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="52" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="52"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionIntendedIncumbent-salaryAdministrationPlan" parent="BudgetConstructionIntendedIncumbent-salaryAdministrationPlan-parentBean" />
+  <bean id="BudgetConstructionIntendedIncumbent-salaryAdministrationPlan" parent="BudgetConstructionIntendedIncumbent-salaryAdministrationPlan-parentBean"/>
 
   <bean id="BudgetConstructionIntendedIncumbent-salaryAdministrationPlan-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="salaryAdministrationPlan" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Salary Administration Plan" />
-    <property name="shortLabel" value="Plan" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="salaryAdministrationPlan"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Salary Administration Plan"/>
+    <property name="shortLabel" value="Plan"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionIntendedIncumbent-setidSalary" parent="BudgetConstructionIntendedIncumbent-setidSalary-parentBean" />
+  <bean id="BudgetConstructionIntendedIncumbent-setidSalary" parent="BudgetConstructionIntendedIncumbent-setidSalary-parentBean"/>
 
   <bean id="BudgetConstructionIntendedIncumbent-setidSalary-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="setidSalary" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Salary Setid" />
-    <property name="shortLabel" value="Sal Setid" />
-    <property name="maxLength" value="5" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="setidSalary"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Salary Setid"/>
+    <property name="shortLabel" value="Sal Setid"/>
+    <property name="maxLength" value="5"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="7"/>
     </property>
     
     
   </bean>
   
-  <bean id="BudgetConstructionIntendedIncumbent-active" parent="BudgetConstructionIntendedIncumbent-active-parentBean" />
+  <bean id="BudgetConstructionIntendedIncumbent-active" parent="BudgetConstructionIntendedIncumbent-active-parentBean"/>
   <bean id="BudgetConstructionIntendedIncumbent-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="BudgetConstructionIntendedIncumbent-inquiryDefinition" parent="BudgetConstructionIntendedIncumbent-inquiryDefinition-parentBean" />
+  <bean id="BudgetConstructionIntendedIncumbent-inquiryDefinition" parent="BudgetConstructionIntendedIncumbent-inquiryDefinition-parentBean"/>
 
   <bean id="BudgetConstructionIntendedIncumbent-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Intended Incumbent Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Intended Incumbent Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="emplid" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="grade" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="iuClassificationLevel" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="name" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="salaryAdministrationPlan" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="setidSalary" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="emplid"/>
+              <bean parent="FieldDefinition" p:attributeName="grade"/>
+              <bean parent="FieldDefinition" p:attributeName="iuClassificationLevel"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
+              <bean parent="FieldDefinition" p:attributeName="salaryAdministrationPlan"/>
+              <bean parent="FieldDefinition" p:attributeName="setidSalary"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -184,44 +166,33 @@
 
 <!-- Business Object Lookup Definition -->
 
-  <bean id="BudgetConstructionIntendedIncumbent-lookupDefinition" parent="BudgetConstructionIntendedIncumbent-lookupDefinition-parentBean" />
+  <bean id="BudgetConstructionIntendedIncumbent-lookupDefinition" parent="BudgetConstructionIntendedIncumbent-lookupDefinition-parentBean"/>
 
   <bean id="BudgetConstructionIntendedIncumbent-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Intended Incumbent Lookup" />
-    <property name="lookupableID" value="budgetIntendedIncumbentLookupable" />
-    <property name="instructions" value="Look up a Budget Construction Intended Incumbent" />
-    <property name="defaultSort" >
+    <property name="title" value="Intended Incumbent Lookup"/>
+    <property name="lookupableID" value="budgetIntendedIncumbentLookupable"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="emplid" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="emplid"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="emplid" />
-        <bean parent="FieldDefinition"
-              p:attributeName="grade" />
-        <bean parent="FieldDefinition"
-              p:attributeName="iuClassificationLevel" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="salaryAdministrationPlan" />
-        <bean parent="FieldDefinition"
-              p:attributeName="setidSalary" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="emplid"/>
+        <bean parent="FieldDefinition" p:attributeName="grade"/>
+        <bean parent="FieldDefinition" p:attributeName="iuClassificationLevel"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="salaryAdministrationPlan"/>
+        <bean parent="FieldDefinition" p:attributeName="setidSalary"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>
 </beans>
-

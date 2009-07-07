@@ -26,15 +26,13 @@
         <ref bean="EffortCertificationDocument-versionNumber"/>
       </list>
     </property>
-    <property name="relationships" >
+    <property name="relationships">
       <list>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="ledgerPerson" />
-          <property name="primitiveAttributes" >
+          <property name="objectAttributeName" value="ledgerPerson"/>
+          <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="emplid"
-                    p:targetName="employeeId" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="emplid" p:targetName="employeeId"/>
             </list>
           </property>
         </bean>
@@ -125,8 +123,8 @@
   				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
-    						<property name="attributeName" value="chartOfAccountsCode" />					        
+    						<property name="businessObjectClassName" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine"/>
+    						<property name="attributeName" value="chartOfAccountsCode"/>					        
     						<property name="showAttributeInSearchCriteria" value="true"/>
 					        <property name="showAttributeInResultSet" value="true"/>
                         </bean>
@@ -140,8 +138,8 @@
   				<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-			    			<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization" />
-    						<property name="attributeName" value="organizationCode" />
+			    			<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization"/>
+    						<property name="attributeName" value="organizationCode"/>
     						<property name="showAttributeInSearchCriteria" value="true"/>
 					        <property name="showAttributeInResultSet" value="true"/>
                         </bean>
@@ -261,7 +259,7 @@
     	</property>
   </bean>	
 
-  <bean id="RoutingType-EffortCertificationDocument-OrganizationHierarchy" parent="RoutingType-EffortCertificationDocument-OrganizationHierarchy-parentBean" />  
+  <bean id="RoutingType-EffortCertificationDocument-OrganizationHierarchy" parent="RoutingType-EffortCertificationDocument-OrganizationHierarchy-parentBean"/>  
   <bean id="RoutingType-EffortCertificationDocument-OrganizationHierarchy-parentBean" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition" abstract="true">
     	<property name="routingAttributes">
     		<list>

@@ -1,26 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="TaxRegionType" parent="TaxRegionType-parentBean" />
+  <bean id="TaxRegionType" parent="TaxRegionType-parentBean"/>
 
   <bean id="TaxRegionType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.TaxRegionType" />
-	<property name="inquiryDefinition" >
-      <ref bean="TaxRegionType-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.TaxRegionType"/>
+	<property name="inquiryDefinition">
+      <ref bean="TaxRegionType-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="TaxRegionType-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="TaxRegionType-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="taxTaxRegionType" />
-    <property name="objectLabel" value="Tax Region Type" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="taxTaxRegionType"/>
+    <property name="objectLabel" value="Tax Region Type"/>
+    <property name="attributes">
       <list>
-        <ref bean="TaxRegionType-taxRegionTypeCode" />
-        <ref bean="TaxRegionType-taxRegionTypeName" />
-        <ref bean="TaxRegionType-active" />
+        <ref bean="TaxRegionType-taxRegionTypeCode"/>
+        <ref bean="TaxRegionType-taxRegionTypeName"/>
+        <ref bean="TaxRegionType-active"/>
       </list>
     </property>
   </bean>
@@ -28,66 +24,63 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="TaxRegionType-taxRegionTypeCode" parent="TaxRegionType-taxRegionTypeCode-parentBean" />
+  <bean id="TaxRegionType-taxRegionTypeCode" parent="TaxRegionType-taxRegionTypeCode-parentBean"/>
 
   <bean id="TaxRegionType-taxRegionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="taxRegionTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Tax Region Type Code" />
-    <property name="shortLabel" value="Tax Region Type" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="taxRegionTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Tax Region Type Code"/>
+    <property name="shortLabel" value="Tax Region Type"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
     
     
   </bean>
   
-  <bean id="TaxRegionType-taxRegionTypeName" parent="TaxRegionType-taxRegionTypeName-parentBean" />
+  <bean id="TaxRegionType-taxRegionTypeName" parent="TaxRegionType-taxRegionTypeName-parentBean"/>
 
   <bean id="TaxRegionType-taxRegionTypeName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="taxRegionTypeName" />
-    <property name="label" value="Tax Region Type Name" />
-    <property name="shortLabel" value="Region Type Name" />
-    <property name="maxLength" value="100" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="taxRegionTypeName"/>
+    <property name="label" value="Tax Region Type Name"/>
+    <property name="shortLabel" value="Region Type Name"/>
+    <property name="maxLength" value="100"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="100" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="100"/>
     </property>
     
     
   </bean>
   
-  <bean id="TaxRegionType-active" parent="TaxRegionType-active-parentBean" />
+  <bean id="TaxRegionType-active" parent="TaxRegionType-active-parentBean"/>
 
-  <bean id="TaxRegionType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" >
-      <property name="name" value="active" />
+  <bean id="TaxRegionType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+      <property name="name" value="active"/>
   </bean>
   
   
-  <bean id="TaxRegionType-inquiryDefinition" parent="TaxRegionType-inquiryDefinition-parentBean" />
+  <bean id="TaxRegionType-inquiryDefinition" parent="TaxRegionType-inquiryDefinition-parentBean"/>
 
-  <bean id="TaxRegionType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" 
-  	p:title="Tax Region Type Inquiry">
-    <property name="inquirySections" >
+  <bean id="TaxRegionType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Tax Region Type Inquiry">
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Tax Region Type Attributes" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Tax Region Type Attributes"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition" p:attributeName="taxRegionTypeCode" p:noInquiry="true" />
-              <bean parent="FieldDefinition" p:attributeName="taxRegionTypeName" />
-              <bean parent="FieldDefinition" p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="taxRegionTypeCode" p:noInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="taxRegionTypeName"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -95,15 +88,15 @@
     </property>
   </bean>
   
-  <bean id="TaxRegionType-lookupDefinition" parent="TaxRegionType-lookupDefinition-parentBean" />
+  <bean id="TaxRegionType-lookupDefinition" parent="TaxRegionType-lookupDefinition-parentBean"/>
 
   <bean id="TaxRegionType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Tax Region Type Lookup" />
-    <property name="instructions" value="Lookup a Tax Region Type" />
-    <property name="lookupableID" value="taxRegionTypeLookupable" />
-    <property name="defaultSort" >
+    <property name="title" value="Tax Region Type Lookup"/>
+    
+    <property name="lookupableID" value="taxRegionTypeLookupable"/>
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>taxRegionTypeCode</value>
             <value>taxRegionTypeName</value>
@@ -111,29 +104,20 @@
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="taxRegionTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="taxRegionTypeName" />
-        <bean parent="FieldDefinition"
-              p:defaultValue="Y"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="taxRegionTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="taxRegionTypeName"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="taxRegionTypeCode"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="taxRegionTypeName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="taxRegionTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="taxRegionTypeName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
            
       </list>
     </property>
   </bean>
   </beans>
-  

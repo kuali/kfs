@@ -84,7 +84,7 @@
           		<bean parent="MaintainableFieldDefinition" p:name="subAccountNumber"/>
           		<bean parent="MaintainableFieldDefinition" p:name="financialObjectCode"/>
           		<bean parent="MaintainableFieldDefinition" p:name="financialSubObjectCode"/>
-          		<bean parent="MaintainableFieldDefinition" p:name="transactionDebitIndicator" />
+          		<bean parent="MaintainableFieldDefinition" p:name="transactionDebitIndicator"/>
           		<bean parent="MaintainableFieldDefinition" p:name="awardIndrCostRcvyRatePct"/>
           		
           	</list>

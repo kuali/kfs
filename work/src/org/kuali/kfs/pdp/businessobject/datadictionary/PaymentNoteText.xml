@@ -1,78 +1,69 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="PaymentNoteText" parent="PaymentNoteText-parentBean" />
+  <bean id="PaymentNoteText" parent="PaymentNoteText-parentBean"/>
 
   <bean id="PaymentNoteText-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentNoteText" />
-    <property name="inquiryDefinition" >
-      <ref bean="PaymentNoteText-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentNoteText"/>
+    <property name="inquiryDefinition">
+      <ref bean="PaymentNoteText-inquiryDefinition"/>
     </property>
-    <property name="titleAttribute" value="code" />
-    <property name="objectLabel" value="Payment Note Text" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="code"/>
+    <property name="objectLabel" value="Payment Note Text"/>
+    <property name="attributes">
       <list>
-        <ref bean="PaymentNoteText-customerNoteLineNbr" />
-        <ref bean="PaymentNoteText-customerNoteText" />
+        <ref bean="PaymentNoteText-customerNoteLineNbr"/>
+        <ref bean="PaymentNoteText-customerNoteText"/>
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
-  <bean id="PaymentNoteText-customerNoteLineNbr" parent="PaymentNoteText-customerNoteLineNbr-parentBean" />
+  <bean id="PaymentNoteText-customerNoteLineNbr" parent="PaymentNoteText-customerNoteLineNbr-parentBean"/>
 
   <bean id="PaymentNoteText-customerNoteLineNbr-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="customerNoteLineNbr" />
-    <property name="label" value="Note Line Number" />
-    <property name="shortLabel" value="Note Line Nbr" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-       <bean parent="NumericValidationPattern" />
+    <property name="name" value="customerNoteLineNbr"/>
+    <property name="label" value="Note Line Number"/>
+    <property name="shortLabel" value="Note Line Nbr"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+       <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
   </bean>
-  <bean id="PaymentNoteText-customerNoteText" parent="PaymentNoteText-customerNoteText-parentBean" />
+  <bean id="PaymentNoteText-customerNoteText" parent="PaymentNoteText-customerNoteText-parentBean"/>
 
   <bean id="PaymentNoteText-customerNoteText-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="customerNoteText" />
-    <property name="label" value="Note Text" />
-    <property name="shortLabel" value="Note Text" />
-    <property name="maxLength" value="90" />
-    <property name="validationPattern" >
-       <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="customerNoteText"/>
+    <property name="label" value="Note Text"/>
+    <property name="shortLabel" value="Note Text"/>
+    <property name="maxLength" value="90"/>
+    <property name="validationPattern">
+       <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:cols="50"
-            p:rows="3" />
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:cols="50" p:rows="3"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="PaymentNoteText-inquiryDefinition" parent="PaymentNoteText-inquiryDefinition-parentBean" />
+  <bean id="PaymentNoteText-inquiryDefinition" parent="PaymentNoteText-inquiryDefinition-parentBean"/>
 
   <bean id="PaymentNoteText-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="PaymentNoteText Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="PaymentNoteText Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="customerNoteLineNbr" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="customerNoteText" />                                                      
+              <bean parent="FieldDefinition" p:attributeName="customerNoteLineNbr"/>
+              <bean parent="FieldDefinition" p:attributeName="customerNoteText"/>                                                      
             </list>
           </property>
         </bean>

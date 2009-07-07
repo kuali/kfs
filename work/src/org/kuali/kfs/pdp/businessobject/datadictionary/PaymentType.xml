@@ -1,26 +1,20 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PaymentType" parent="PaymentType-parentBean" />
+  <bean id="PaymentType" parent="PaymentType-parentBean"/>
 
   <bean id="PaymentType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentType" />
-    <property name="inquiryDefinition" >
-      <ref bean="PaymentType-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentType"/>
+    <property name="inquiryDefinition">
+      <ref bean="PaymentType-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="PaymentType-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="PaymentType-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Payment Type" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Payment Type"/>
+    <property name="attributes">
       <list>
-        <ref bean="PaymentType-code" />
-        <ref bean="PaymentType-name" />
+        <ref bean="PaymentType-code"/>
+        <ref bean="PaymentType-name"/>
       </list>
     </property>
   </bean>
@@ -28,53 +22,49 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Attribute Definitions -->
 
 
-  <bean id="PaymentType-code" parent="PaymentType-code-parentBean" />
+  <bean id="PaymentType-code" parent="PaymentType-code-parentBean"/>
 
   <bean id="PaymentType-code-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="code" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Payment Type Code" />
-    <property name="shortLabel" value="Payment Type Code" />
-    <property name="maxLength" value="100" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="50" />
+    <property name="name" value="code"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Payment Type Code"/>
+    <property name="shortLabel" value="Payment Type Code"/>
+    <property name="maxLength" value="100"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="50"/>
     </property>
   </bean>
   
-  <bean id="PaymentType-name" parent="PaymentType-name-parentBean" />
+  <bean id="PaymentType-name" parent="PaymentType-name-parentBean"/>
 
   <bean id="PaymentType-name-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="name" />
-    <property name="label" value="Payment Type Description" />
-    <property name="shortLabel" value="Payment Type Description" />
-    <property name="maxLength" value="200" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="name"/>
+    <property name="label" value="Payment Type Description"/>
+    <property name="shortLabel" value="Payment Type Description"/>
+    <property name="maxLength" value="200"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
   </bean>
   
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="PaymentType-inquiryDefinition" parent="PaymentType-inquiryDefinition-parentBean" />
+  <bean id="PaymentType-inquiryDefinition" parent="PaymentType-inquiryDefinition-parentBean"/>
 
   <bean id="PaymentType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="PaymentType Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="PaymentType Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="code" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="name" />
+              <bean parent="FieldDefinition" p:attributeName="code"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
               
             </list>
           </property>
@@ -86,35 +76,31 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="PaymentType-lookupDefinition" parent="PaymentType-lookupDefinition-parentBean" />
+  <bean id="PaymentType-lookupDefinition" parent="PaymentType-lookupDefinition-parentBean"/>
 
   <bean id="PaymentType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Payment Type Lookup" />
-    <property name="instructions" value="Lookup a Payment Type" />
-    <property name="defaultSort" >
+    <property name="title" value="Payment Type Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>code</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
         
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
       </list>
     </property>
   </bean>

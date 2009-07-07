@@ -1,37 +1,33 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="OriginationCode" parent="OriginationCode-parentBean" />
+  <bean id="OriginationCode" parent="OriginationCode-parentBean"/>
 
   <bean id="OriginationCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.OriginationCode" />
-    <property name="inquiryDefinition" >
-      <ref bean="OriginationCode-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.OriginationCode"/>
+    <property name="inquiryDefinition">
+      <ref bean="OriginationCode-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="OriginationCode-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="OriginationCode-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="financialSystemOriginationCode" />
-    <property name="objectLabel" value="Origination Code" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="financialSystemOriginationCode"/>
+    <property name="objectLabel" value="Origination Code"/>
+    <property name="attributes">
       <list>
-        <ref bean="OriginationCode-financialSystemOriginationCode" />
-        <ref bean="OriginationCode-financialSystemServerName" />
-        <ref bean="OriginationCode-financialSystemDatabaseName" />
-        <ref bean="OriginationCode-financialSystemDatabaseDesc" />
-        <ref bean="OriginationCode-nextCapitalAssetNumber" />
-        <ref bean="OriginationCode-nextNonCapitalAssetNumber" />
-        <ref bean="OriginationCode-nextCgProposalNumber" />
-        <ref bean="OriginationCode-nextContractsAndGrantsAgencyNumber" />
-        <ref bean="OriginationCode-nextContractsAndGrantsSubcontractorNumber" />
-        <ref bean="OriginationCode-nextDisbVchrPayeeIdNbr" />
-        <ref bean="OriginationCode-nextFdocAttachmentIdentifier" />
-        <ref bean="OriginationCode-acctRcvbNextCustomerNumber" />
-        <ref bean="OriginationCode-financialDocumentNextItemIdentifier" />
-        <ref bean="OriginationCode-active" />
+        <ref bean="OriginationCode-financialSystemOriginationCode"/>
+        <ref bean="OriginationCode-financialSystemServerName"/>
+        <ref bean="OriginationCode-financialSystemDatabaseName"/>
+        <ref bean="OriginationCode-financialSystemDatabaseDesc"/>
+        <ref bean="OriginationCode-nextCapitalAssetNumber"/>
+        <ref bean="OriginationCode-nextNonCapitalAssetNumber"/>
+        <ref bean="OriginationCode-nextCgProposalNumber"/>
+        <ref bean="OriginationCode-nextContractsAndGrantsAgencyNumber"/>
+        <ref bean="OriginationCode-nextContractsAndGrantsSubcontractorNumber"/>
+        <ref bean="OriginationCode-nextDisbVchrPayeeIdNbr"/>
+        <ref bean="OriginationCode-nextFdocAttachmentIdentifier"/>
+        <ref bean="OriginationCode-acctRcvbNextCustomerNumber"/>
+        <ref bean="OriginationCode-financialDocumentNextItemIdentifier"/>
+        <ref bean="OriginationCode-active"/>
       </list>
     </property>
   </bean>
@@ -39,282 +35,254 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="OriginationCode-financialSystemOriginationCode" parent="OriginationCode-financialSystemOriginationCode-parentBean" />
+  <bean id="OriginationCode-financialSystemOriginationCode" parent="OriginationCode-financialSystemOriginationCode-parentBean"/>
 
   <bean id="OriginationCode-financialSystemOriginationCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialSystemOriginationCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Origination Code" />
-    <property name="shortLabel" value="Origin Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="financialSystemOriginationCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Origination Code"/>
+    <property name="shortLabel" value="Origin Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
   
-  <bean id="OriginationCode-financialSystemServerName" parent="OriginationCode-financialSystemServerName-parentBean" />
+  <bean id="OriginationCode-financialSystemServerName" parent="OriginationCode-financialSystemServerName-parentBean"/>
 
   <bean id="OriginationCode-financialSystemServerName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialSystemServerName" />
-    <property name="label" value="Server Name" />
-    <property name="shortLabel" value="Server Name" />
-    <property name="maxLength" value="20" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="financialSystemServerName"/>
+    <property name="label" value="Server Name"/>
+    <property name="shortLabel" value="Server Name"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="20" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
     </property>
     
     
   </bean>
-  <bean id="OriginationCode-financialSystemDatabaseName" parent="OriginationCode-financialSystemDatabaseName-parentBean" />
+  <bean id="OriginationCode-financialSystemDatabaseName" parent="OriginationCode-financialSystemDatabaseName-parentBean"/>
 
   <bean id="OriginationCode-financialSystemDatabaseName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialSystemDatabaseName" />
-    <property name="label" value="Database Name" />
-    <property name="shortLabel" value="DB Name" />
-    <property name="maxLength" value="15" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="financialSystemDatabaseName"/>
+    <property name="label" value="Database Name"/>
+    <property name="shortLabel" value="DB Name"/>
+    <property name="maxLength" value="15"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="15" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="15"/>
     </property>
     
     
   </bean>
-  <bean id="OriginationCode-financialSystemDatabaseDesc" parent="OriginationCode-financialSystemDatabaseDesc-parentBean" />
+  <bean id="OriginationCode-financialSystemDatabaseDesc" parent="OriginationCode-financialSystemDatabaseDesc-parentBean"/>
 
   <bean id="OriginationCode-financialSystemDatabaseDesc-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialSystemDatabaseDesc" />
-    <property name="label" value="Database Description" />
-    <property name="shortLabel" value="DB Desc" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="financialSystemDatabaseDesc"/>
+    <property name="label" value="Database Description"/>
+    <property name="shortLabel" value="DB Desc"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
     
     
   </bean>
-  <bean id="OriginationCode-nextCapitalAssetNumber" parent="OriginationCode-nextCapitalAssetNumber-parentBean" />
+  <bean id="OriginationCode-nextCapitalAssetNumber" parent="OriginationCode-nextCapitalAssetNumber-parentBean"/>
 
   <bean id="OriginationCode-nextCapitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nextCapitalAssetNumber" />
-    <property name="label" value="Next Capital Asset Number" />
-    <property name="shortLabel" value="Next Cap Asset No" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="nextCapitalAssetNumber"/>
+    <property name="label" value="Next Capital Asset Number"/>
+    <property name="shortLabel" value="Next Cap Asset No"/>
+    <property name="maxLength" value="12"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
     
     
   </bean>
-  <bean id="OriginationCode-nextNonCapitalAssetNumber" parent="OriginationCode-nextNonCapitalAssetNumber-parentBean" />
+  <bean id="OriginationCode-nextNonCapitalAssetNumber" parent="OriginationCode-nextNonCapitalAssetNumber-parentBean"/>
 
   <bean id="OriginationCode-nextNonCapitalAssetNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nextNonCapitalAssetNumber" />
-    <property name="label" value="Next Non-Capital Asset Number" />
-    <property name="shortLabel" value="Next Non-Cap Asset No" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="nextNonCapitalAssetNumber"/>
+    <property name="label" value="Next Non-Capital Asset Number"/>
+    <property name="shortLabel" value="Next Non-Cap Asset No"/>
+    <property name="maxLength" value="12"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
     
     
   </bean>
-  <bean id="OriginationCode-nextCgProposalNumber" parent="OriginationCode-nextCgProposalNumber-parentBean" />
+  <bean id="OriginationCode-nextCgProposalNumber" parent="OriginationCode-nextCgProposalNumber-parentBean"/>
 
   <bean id="OriginationCode-nextCgProposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nextCgProposalNumber" />
-    <property name="label" value="Next CG Proposal Number" />
-    <property name="shortLabel" value="Next CG Proposal No" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="nextCgProposalNumber"/>
+    <property name="label" value="Next CG Proposal Number"/>
+    <property name="shortLabel" value="Next CG Proposal No"/>
+    <property name="maxLength" value="12"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
     
     
   </bean>
-  <bean id="OriginationCode-nextContractsAndGrantsAgencyNumber" parent="OriginationCode-nextContractsAndGrantsAgencyNumber-parentBean" />
+  <bean id="OriginationCode-nextContractsAndGrantsAgencyNumber" parent="OriginationCode-nextContractsAndGrantsAgencyNumber-parentBean"/>
 
   <bean id="OriginationCode-nextContractsAndGrantsAgencyNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nextContractsAndGrantsAgencyNumber" />
-    <property name="label" value="Next Contract and Grants Agency Number" />
-    <property name="shortLabel" value="Next CG Agency No" />
-    <property name="maxLength" value="5" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="nextContractsAndGrantsAgencyNumber"/>
+    <property name="label" value="Next Contract and Grants Agency Number"/>
+    <property name="shortLabel" value="Next CG Agency No"/>
+    <property name="maxLength" value="5"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
     
     
   </bean>
-  <bean id="OriginationCode-nextContractsAndGrantsSubcontractorNumber" parent="OriginationCode-nextContractsAndGrantsSubcontractorNumber-parentBean" />
+  <bean id="OriginationCode-nextContractsAndGrantsSubcontractorNumber" parent="OriginationCode-nextContractsAndGrantsSubcontractorNumber-parentBean"/>
 
   <bean id="OriginationCode-nextContractsAndGrantsSubcontractorNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nextContractsAndGrantsSubcontractorNumber" />
-    <property name="label" value="Next Contract and Grants Subcontractor Number" />
-    <property name="shortLabel" value="Next CG Agency Subcontractor No" />
-    <property name="maxLength" value="5" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="nextContractsAndGrantsSubcontractorNumber"/>
+    <property name="label" value="Next Contract and Grants Subcontractor Number"/>
+    <property name="shortLabel" value="Next CG Agency Subcontractor No"/>
+    <property name="maxLength" value="5"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
     
     
   </bean>
-  <bean id="OriginationCode-nextDisbVchrPayeeIdNbr" parent="OriginationCode-nextDisbVchrPayeeIdNbr-parentBean" />
+  <bean id="OriginationCode-nextDisbVchrPayeeIdNbr" parent="OriginationCode-nextDisbVchrPayeeIdNbr-parentBean"/>
 
   <bean id="OriginationCode-nextDisbVchrPayeeIdNbr-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nextDisbVchrPayeeIdNbr" />
-    <property name="label" value="Next Disbursement Voucher Payee Id Number" />
-    <property name="shortLabel" value="Next DV Payee Id No" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="nextDisbVchrPayeeIdNbr"/>
+    <property name="label" value="Next Disbursement Voucher Payee Id Number"/>
+    <property name="shortLabel" value="Next DV Payee Id No"/>
+    <property name="maxLength" value="12"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
     
     
   </bean>
-  <bean id="OriginationCode-nextFdocAttachmentIdentifier" parent="OriginationCode-nextFdocAttachmentIdentifier-parentBean" />
+  <bean id="OriginationCode-nextFdocAttachmentIdentifier" parent="OriginationCode-nextFdocAttachmentIdentifier-parentBean"/>
 
   <bean id="OriginationCode-nextFdocAttachmentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nextFdocAttachmentIdentifier" />
-    <property name="label" value="Next Attachment Identifier" />
-    <property name="shortLabel" value="Next Atchmt Id" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="nextFdocAttachmentIdentifier"/>
+    <property name="label" value="Next Attachment Identifier"/>
+    <property name="shortLabel" value="Next Atchmt Id"/>
+    <property name="maxLength" value="12"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
     
     
   </bean>
-  <bean id="OriginationCode-acctRcvbNextCustomerNumber" parent="OriginationCode-acctRcvbNextCustomerNumber-parentBean" />
+  <bean id="OriginationCode-acctRcvbNextCustomerNumber" parent="OriginationCode-acctRcvbNextCustomerNumber-parentBean"/>
 
   <bean id="OriginationCode-acctRcvbNextCustomerNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="acctRcvbNextCustomerNumber" />
-    <property name="label" value="Next Accounts Receivable Customer Number" />
-    <property name="shortLabel" value="Next AR Cust No" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="acctRcvbNextCustomerNumber"/>
+    <property name="label" value="Next Accounts Receivable Customer Number"/>
+    <property name="shortLabel" value="Next AR Cust No"/>
+    <property name="maxLength" value="12"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
     
     
   </bean>
-  <bean id="OriginationCode-financialDocumentNextItemIdentifier" parent="OriginationCode-financialDocumentNextItemIdentifier-parentBean" />
+  <bean id="OriginationCode-financialDocumentNextItemIdentifier" parent="OriginationCode-financialDocumentNextItemIdentifier-parentBean"/>
 
   <bean id="OriginationCode-financialDocumentNextItemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentNextItemIdentifier" />
-    <property name="label" value="Next Item Identifier" />
-    <property name="shortLabel" value="Next Item Id" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="financialDocumentNextItemIdentifier"/>
+    <property name="label" value="Next Item Identifier"/>
+    <property name="shortLabel" value="Next Item Id"/>
+    <property name="maxLength" value="12"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
     
     
   </bean>
-  <bean id="OriginationCode-active" parent="OriginationCode-active-parentBean" />
+  <bean id="OriginationCode-active" parent="OriginationCode-active-parentBean"/>
 
   <bean id="OriginationCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="OriginationCode-inquiryDefinition" parent="OriginationCode-inquiryDefinition-parentBean" />
+  <bean id="OriginationCode-inquiryDefinition" parent="OriginationCode-inquiryDefinition-parentBean"/>
 
   <bean id="OriginationCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Origination Code Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Origination Code Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialSystemOriginationCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialSystemServerName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialSystemDatabaseName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialSystemDatabaseDesc" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="nextCapitalAssetNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="nextNonCapitalAssetNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="nextCgProposalNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="nextContractsAndGrantsAgencyNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="nextContractsAndGrantsSubcontractorNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="nextDisbVchrPayeeIdNbr" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="nextFdocAttachmentIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="acctRcvbNextCustomerNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentNextItemIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="financialSystemOriginationCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialSystemServerName"/>
+              <bean parent="FieldDefinition" p:attributeName="financialSystemDatabaseName"/>
+              <bean parent="FieldDefinition" p:attributeName="financialSystemDatabaseDesc"/>
+              <bean parent="FieldDefinition" p:attributeName="nextCapitalAssetNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="nextNonCapitalAssetNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="nextCgProposalNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="nextContractsAndGrantsAgencyNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="nextContractsAndGrantsSubcontractorNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="nextDisbVchrPayeeIdNbr"/>
+              <bean parent="FieldDefinition" p:attributeName="nextFdocAttachmentIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="acctRcvbNextCustomerNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentNextItemIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -325,82 +293,54 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="OriginationCode-lookupDefinition" parent="OriginationCode-lookupDefinition-parentBean" />
+  <bean id="OriginationCode-lookupDefinition" parent="OriginationCode-lookupDefinition-parentBean"/>
 
   <bean id="OriginationCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Origination Code Lookup" />
-    <property name="instructions" value="Lookup an Origination Code" />
-    <property name="defaultSort" >
+    <property name="title" value="Origination Code Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>financialSystemOriginationCode</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSystemOriginationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSystemServerName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSystemDatabaseName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSystemDatabaseDesc" />
-        <bean parent="FieldDefinition"
-              p:attributeName="nextCapitalAssetNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="nextNonCapitalAssetNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="nextCgProposalNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="nextContractsAndGrantsAgencyNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="nextContractsAndGrantsSubcontractorNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="nextDisbVchrPayeeIdNbr" />
-        <bean parent="FieldDefinition"
-              p:attributeName="nextFdocAttachmentIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="acctRcvbNextCustomerNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentNextItemIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="financialSystemOriginationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSystemServerName"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSystemDatabaseName"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSystemDatabaseDesc"/>
+        <bean parent="FieldDefinition" p:attributeName="nextCapitalAssetNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="nextNonCapitalAssetNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="nextCgProposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="nextContractsAndGrantsAgencyNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="nextContractsAndGrantsSubcontractorNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="nextDisbVchrPayeeIdNbr"/>
+        <bean parent="FieldDefinition" p:attributeName="nextFdocAttachmentIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="acctRcvbNextCustomerNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentNextItemIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSystemOriginationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSystemServerName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSystemDatabaseName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSystemDatabaseDesc" />
-        <bean parent="FieldDefinition"
-              p:attributeName="nextCapitalAssetNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="nextNonCapitalAssetNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="nextCgProposalNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="nextContractsAndGrantsAgencyNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="nextContractsAndGrantsSubcontractorNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="nextDisbVchrPayeeIdNbr" />
-        <bean parent="FieldDefinition"
-              p:attributeName="nextFdocAttachmentIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="acctRcvbNextCustomerNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentNextItemIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="financialSystemOriginationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSystemServerName"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSystemDatabaseName"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSystemDatabaseDesc"/>
+        <bean parent="FieldDefinition" p:attributeName="nextCapitalAssetNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="nextNonCapitalAssetNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="nextCgProposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="nextContractsAndGrantsAgencyNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="nextContractsAndGrantsSubcontractorNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="nextDisbVchrPayeeIdNbr"/>
+        <bean parent="FieldDefinition" p:attributeName="nextFdocAttachmentIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="acctRcvbNextCustomerNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentNextItemIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

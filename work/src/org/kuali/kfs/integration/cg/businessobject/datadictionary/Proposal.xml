@@ -1,41 +1,37 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="Proposal" parent="Proposal-parentBean" />
+  <bean id="Proposal" parent="Proposal-parentBean"/>
 
   <bean id="Proposal-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.integration.cg.businessobject.Proposal" />
-    <property name="titleAttribute" value="proposalNumber" />
-    <property name="objectLabel" value="Proposal" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.integration.cg.businessobject.Proposal"/>
+    <property name="titleAttribute" value="proposalNumber"/>
+    <property name="objectLabel" value="Proposal"/>
+    <property name="attributes">
       <list>
-        <ref bean="Proposal-agencyNumber" />
-        <ref bean="Proposal-cfdaNumber" />
-        <ref bean="Proposal-federalPassThroughAgencyNumber" />
-        <ref bean="Proposal-grantNumber" />
-        <ref bean="Proposal-oldProposalNumber" />
-        <ref bean="Proposal-proposalAwardTypeCode" />
-        <ref bean="Proposal-proposalBeginningDate" />
-        <ref bean="Proposal-proposalClosingDate" />
-        <ref bean="Proposal-proposalDirectCostAmount" />
-        <ref bean="Proposal-proposalDueDate" />
-        <ref bean="Proposal-proposalEndingDate" />
-        <ref bean="Proposal-proposalFederalPassThroughIndicator" />
-        <ref bean="Proposal-proposalFellowName" />
-        <ref bean="Proposal-proposalIndirectCostAmount" />
-        <ref bean="Proposal-proposalLastUpdateDate" />
-        <ref bean="Proposal-proposalNumber" />
-        <ref bean="Proposal-proposalProjectTitle" />
-        <ref bean="Proposal-proposalPurposeCode" />
-        <ref bean="Proposal-proposalRejectedDate" />
-        <ref bean="Proposal-proposalStatusCode" />
-        <ref bean="Proposal-proposalSubmissionDate" />
-        <ref bean="Proposal-proposalTotalAmount" />
-        <ref bean="Proposal-proposalTotalProjectAmount" />
-        <ref bean="Proposal-active" />
+        <ref bean="Proposal-agencyNumber"/>
+        <ref bean="Proposal-cfdaNumber"/>
+        <ref bean="Proposal-federalPassThroughAgencyNumber"/>
+        <ref bean="Proposal-grantNumber"/>
+        <ref bean="Proposal-oldProposalNumber"/>
+        <ref bean="Proposal-proposalAwardTypeCode"/>
+        <ref bean="Proposal-proposalBeginningDate"/>
+        <ref bean="Proposal-proposalClosingDate"/>
+        <ref bean="Proposal-proposalDirectCostAmount"/>
+        <ref bean="Proposal-proposalDueDate"/>
+        <ref bean="Proposal-proposalEndingDate"/>
+        <ref bean="Proposal-proposalFederalPassThroughIndicator"/>
+        <ref bean="Proposal-proposalFellowName"/>
+        <ref bean="Proposal-proposalIndirectCostAmount"/>
+        <ref bean="Proposal-proposalLastUpdateDate"/>
+        <ref bean="Proposal-proposalNumber"/>
+        <ref bean="Proposal-proposalProjectTitle"/>
+        <ref bean="Proposal-proposalPurposeCode"/>
+        <ref bean="Proposal-proposalRejectedDate"/>
+        <ref bean="Proposal-proposalStatusCode"/>
+        <ref bean="Proposal-proposalSubmissionDate"/>
+        <ref bean="Proposal-proposalTotalAmount"/>
+        <ref bean="Proposal-proposalTotalProjectAmount"/>
+        <ref bean="Proposal-active"/>
       </list>
     </property>
   </bean>
@@ -43,275 +39,258 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="Proposal-agencyNumber" parent="Proposal-agencyNumber-parentBean" />
+  <bean id="Proposal-agencyNumber" parent="Proposal-agencyNumber-parentBean"/>
 
   <bean id="Proposal-agencyNumber-parentBean" abstract="true" parent="Agency-agencyNumber">
   </bean>
-  <bean id="Proposal-agency.reportingName" parent="Proposal-agency.reportingName-parentBean" />
+  <bean id="Proposal-agency.reportingName" parent="Proposal-agency.reportingName-parentBean"/>
 
   <bean id="Proposal-agency.reportingName-parentBean" abstract="true" parent="Agency-reportingName">
-    <property name="name" value="agency.reportingName" />
+    <property name="name" value="agency.reportingName"/>
   </bean>
-  <bean id="Proposal-cfdaNumber" parent="Proposal-cfdaNumber-parentBean" />
+  <bean id="Proposal-cfdaNumber" parent="Proposal-cfdaNumber-parentBean"/>
 
   <bean id="Proposal-cfdaNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="cfdaNumber" />
-    <property name="label" value="CFDA Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="6" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="cfdaNumber"/>
+    <property name="label" value="CFDA Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="6"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="8"/>
     </property>
   </bean>
-  <bean id="Proposal-federalPassThroughAgencyNumber" parent="Proposal-federalPassThroughAgencyNumber-parentBean" />
+  <bean id="Proposal-federalPassThroughAgencyNumber" parent="Proposal-federalPassThroughAgencyNumber-parentBean"/>
 
   <bean id="Proposal-federalPassThroughAgencyNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="federalPassThroughAgencyNumber" />
-    <property name="label" value="Federal Pass Through Agency Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="5" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="federalPassThroughAgencyNumber"/>
+    <property name="label" value="Federal Pass Through Agency Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="5"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="7"/>
     </property>
   </bean>
-  <bean id="Proposal-grantNumber" parent="Proposal-grantNumber-parentBean" />
+  <bean id="Proposal-grantNumber" parent="Proposal-grantNumber-parentBean"/>
 
   <bean id="Proposal-grantNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="grantNumber" />
-    <property name="label" value="Grant Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="27" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="grantNumber"/>
+    <property name="label" value="Grant Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="27"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="29" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="29"/>
     </property>
   </bean>
-  <bean id="Proposal-oldProposalNumber" parent="Proposal-oldProposalNumber-parentBean" />
+  <bean id="Proposal-oldProposalNumber" parent="Proposal-oldProposalNumber-parentBean"/>
 
   <bean id="Proposal-oldProposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="oldProposalNumber" />
-    <property name="label" value="Old Proposal Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="oldProposalNumber"/>
+    <property name="label" value="Old Proposal Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="Proposal-proposalAwardTypeCode" parent="Proposal-proposalAwardTypeCode-parentBean" />
+  <bean id="Proposal-proposalAwardTypeCode" parent="Proposal-proposalAwardTypeCode-parentBean"/>
 
   <bean id="Proposal-proposalAwardTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalAwardTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Proposal Award Type Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AlphaValidationPattern"
-            p:exactLength="1" />
+    <property name="name" value="proposalAwardTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Proposal Award Type Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AlphaValidationPattern" p:exactLength="1"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="Proposal-proposalBeginningDate" parent="Proposal-proposalBeginningDate-parentBean" />
+  <bean id="Proposal-proposalBeginningDate" parent="Proposal-proposalBeginningDate-parentBean"/>
 
   <bean id="Proposal-proposalBeginningDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="proposalBeginningDate" />
-    <property name="label" value="Start Date" />
-    <property name="shortLabel" value="Start" />
+    <property name="name" value="proposalBeginningDate"/>
+    <property name="label" value="Start Date"/>
+    <property name="shortLabel" value="Start"/>
   </bean>
-  <bean id="Proposal-proposalClosingDate" parent="Proposal-proposalClosingDate-parentBean" />
+  <bean id="Proposal-proposalClosingDate" parent="Proposal-proposalClosingDate-parentBean"/>
 
   <bean id="Proposal-proposalClosingDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="proposalClosingDate" />
-    <property name="label" value="Close Date" />
-    <property name="shortLabel" value="Close" />
+    <property name="name" value="proposalClosingDate"/>
+    <property name="label" value="Close Date"/>
+    <property name="shortLabel" value="Close"/>
   </bean>
-  <bean id="Proposal-proposalDirectCostAmount" parent="Proposal-proposalDirectCostAmount-parentBean" />
+  <bean id="Proposal-proposalDirectCostAmount" parent="Proposal-proposalDirectCostAmount-parentBean"/>
 
   <bean id="Proposal-proposalDirectCostAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="proposalDirectCostAmount" />
-    <property name="label" value="Direct Cost Amount" />
-    <property name="shortLabel" value="Direct" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
-    <property name="exclusiveMin" value="-0.001" />
+    <property name="name" value="proposalDirectCostAmount"/>
+    <property name="label" value="Direct Cost Amount"/>
+    <property name="shortLabel" value="Direct"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="exclusiveMin" value="-0.001"/>
   </bean>
-  <bean id="Proposal-proposalDueDate" parent="Proposal-proposalDueDate-parentBean" />
+  <bean id="Proposal-proposalDueDate" parent="Proposal-proposalDueDate-parentBean"/>
 
   <bean id="Proposal-proposalDueDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="proposalDueDate" />
-    <property name="label" value="Due Date" />
-    <property name="shortLabel" value="Due" />
+    <property name="name" value="proposalDueDate"/>
+    <property name="label" value="Due Date"/>
+    <property name="shortLabel" value="Due"/>
   </bean>
-  <bean id="Proposal-proposalEndingDate" parent="Proposal-proposalEndingDate-parentBean" />
+  <bean id="Proposal-proposalEndingDate" parent="Proposal-proposalEndingDate-parentBean"/>
 
   <bean id="Proposal-proposalEndingDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="proposalEndingDate" />
-    <property name="label" value="Stop Date" />
-    <property name="shortLabel" value="Stop" />
+    <property name="name" value="proposalEndingDate"/>
+    <property name="label" value="Stop Date"/>
+    <property name="shortLabel" value="Stop"/>
   </bean>
-  <bean id="Proposal-proposalFederalPassThroughIndicator" parent="Proposal-proposalFederalPassThroughIndicator-parentBean" />
+  <bean id="Proposal-proposalFederalPassThroughIndicator" parent="Proposal-proposalFederalPassThroughIndicator-parentBean"/>
 
   <bean id="Proposal-proposalFederalPassThroughIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalFederalPassThroughIndicator" />
-    <property name="label" value="Federal Pass Through" />
-    <property name="shortLabel" value="FPT" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="proposalFederalPassThroughIndicator"/>
+    <property name="label" value="Federal Pass Through"/>
+    <property name="shortLabel" value="FPT"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="Proposal-proposalFellowName" parent="Proposal-proposalFellowName-parentBean" />
+  <bean id="Proposal-proposalFellowName" parent="Proposal-proposalFellowName-parentBean"/>
 
   <bean id="Proposal-proposalFellowName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalFellowName" />
-    <property name="label" value="Fellow Name" />
-    <property name="shortLabel" value="Fellow" />
-    <property name="maxLength" value="30" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="proposalFellowName"/>
+    <property name="label" value="Fellow Name"/>
+    <property name="shortLabel" value="Fellow"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
     </property>
   </bean>
-  <bean id="Proposal-proposalIndirectCostAmount" parent="Proposal-proposalIndirectCostAmount-parentBean" />
+  <bean id="Proposal-proposalIndirectCostAmount" parent="Proposal-proposalIndirectCostAmount-parentBean"/>
 
   <bean id="Proposal-proposalIndirectCostAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="proposalIndirectCostAmount" />
-    <property name="label" value="Indirect Cost Amount" />
-    <property name="shortLabel" value="Indirect" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
-    <property name="exclusiveMin" value="-0.001" />
+    <property name="name" value="proposalIndirectCostAmount"/>
+    <property name="label" value="Indirect Cost Amount"/>
+    <property name="shortLabel" value="Indirect"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="exclusiveMin" value="-0.001"/>
   </bean>
-  <bean id="Proposal-proposalLastUpdateDate" parent="Proposal-proposalLastUpdateDate-parentBean" />
+  <bean id="Proposal-proposalLastUpdateDate" parent="Proposal-proposalLastUpdateDate-parentBean"/>
 
   <bean id="Proposal-proposalLastUpdateDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="proposalLastUpdateDate" />
-    <property name="label" value="Last Update" />
-    <property name="shortLabel" value="Update" />
+    <property name="name" value="proposalLastUpdateDate"/>
+    <property name="label" value="Last Update"/>
+    <property name="shortLabel" value="Update"/>
   </bean>
-  <bean id="Proposal-proposalNumber" parent="Proposal-proposalNumber-parentBean" />
+  <bean id="Proposal-proposalNumber" parent="Proposal-proposalNumber-parentBean"/>
 
   <bean id="Proposal-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Proposal Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="proposalNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Proposal Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="12"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="14" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="14"/>
     </property>
   </bean>
-  <bean id="Proposal-proposalProjectTitle" parent="Proposal-proposalProjectTitle-parentBean" />
+  <bean id="Proposal-proposalProjectTitle" parent="Proposal-proposalProjectTitle-parentBean"/>
 
   <bean id="Proposal-proposalProjectTitle-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalProjectTitle" />
-    <property name="label" value="Project Title" />
-    <property name="shortLabel" value="Title" />
-    <property name="maxLength" value="250" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="proposalProjectTitle"/>
+    <property name="label" value="Project Title"/>
+    <property name="shortLabel" value="Title"/>
+    <property name="maxLength" value="250"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="3"
-            p:cols="40" />
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="40"/>
     </property>
   </bean>
-  <bean id="Proposal-proposalPurposeCode" parent="Proposal-proposalPurposeCode-parentBean" />
+  <bean id="Proposal-proposalPurposeCode" parent="Proposal-proposalPurposeCode-parentBean"/>
 
   <bean id="Proposal-proposalPurposeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalPurposeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Proposal Purpose Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AlphaValidationPattern"
-            p:exactLength="1" />
+    <property name="name" value="proposalPurposeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Proposal Purpose Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AlphaValidationPattern" p:exactLength="1"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="Proposal-proposalRejectedDate" parent="Proposal-proposalRejectedDate-parentBean" />
+  <bean id="Proposal-proposalRejectedDate" parent="Proposal-proposalRejectedDate-parentBean"/>
 
   <bean id="Proposal-proposalRejectedDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="proposalRejectedDate" />
-    <property name="label" value="Rejected Date" />
-    <property name="shortLabel" value="Rejected" />
+    <property name="name" value="proposalRejectedDate"/>
+    <property name="label" value="Rejected Date"/>
+    <property name="shortLabel" value="Rejected"/>
   </bean>
-  <bean id="Proposal-proposalStatusCode" parent="Proposal-proposalStatusCode-parentBean" />
+  <bean id="Proposal-proposalStatusCode" parent="Proposal-proposalStatusCode-parentBean"/>
 
   <bean id="Proposal-proposalStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalStatusCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Proposal Status Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="proposalStatusCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Proposal Status Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="Proposal-proposalSubmissionDate" parent="Proposal-proposalSubmissionDate-parentBean" />
+  <bean id="Proposal-proposalSubmissionDate" parent="Proposal-proposalSubmissionDate-parentBean"/>
 
   <bean id="Proposal-proposalSubmissionDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="proposalSubmissionDate" />
-    <property name="label" value="Submission Date" />
-    <property name="shortLabel" value="Submit" />
+    <property name="name" value="proposalSubmissionDate"/>
+    <property name="label" value="Submission Date"/>
+    <property name="shortLabel" value="Submit"/>
   </bean>
-  <bean id="Proposal-proposalTotalAmount" parent="Proposal-proposalTotalAmount-parentBean" />
+  <bean id="Proposal-proposalTotalAmount" parent="Proposal-proposalTotalAmount-parentBean"/>
 
   <bean id="Proposal-proposalTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="proposalTotalAmount" />
-    <property name="label" value="Total Amount" />
-    <property name="shortLabel" value="Total" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
-    <property name="exclusiveMin" value="-0.001" />
+    <property name="name" value="proposalTotalAmount"/>
+    <property name="label" value="Total Amount"/>
+    <property name="shortLabel" value="Total"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="exclusiveMin" value="-0.001"/>
   </bean>
-  <bean id="Proposal-proposalTotalProjectAmount" parent="Proposal-proposalTotalProjectAmount-parentBean" />
+  <bean id="Proposal-proposalTotalProjectAmount" parent="Proposal-proposalTotalProjectAmount-parentBean"/>
 
   <bean id="Proposal-proposalTotalProjectAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="proposalTotalProjectAmount" />
-    <property name="label" value="Total Project Amount" />
-    <property name="shortLabel" value="Total Project" />
-    <property name="exclusiveMin" value="-0.001" />
+    <property name="name" value="proposalTotalProjectAmount"/>
+    <property name="label" value="Total Project Amount"/>
+    <property name="shortLabel" value="Total Project"/>
+    <property name="exclusiveMin" value="-0.001"/>
   </bean>
-  <bean id="Proposal-active" parent="Proposal-active-parentBean" />
+  <bean id="Proposal-active" parent="Proposal-active-parentBean"/>
 
   <bean id="Proposal-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-	<property name="name" value="active" />
+	<property name="name" value="active"/>
   </bean>
 
 </beans>
-

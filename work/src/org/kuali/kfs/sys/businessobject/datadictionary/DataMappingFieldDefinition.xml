@@ -1,24 +1,13 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="DataMappingFieldDefinition"
-		parent="DataMappingFieldDefinition-parentBean" />
+	<bean id="DataMappingFieldDefinition" parent="DataMappingFieldDefinition-parentBean"/>
 
-	<bean id="DataMappingFieldDefinition-parentBean" abstract="true"
-		parent="BusinessObjectEntry">
-		<property name="businessObjectClass"
-			value="org.kuali.kfs.sys.businessobject.DataMappingFieldDefinition" />
-		<property name="inquiryDefinition"
-			ref="DataMappingFieldDefinition-inquiryDefinition" />
-		<property name="lookupDefinition"
-			ref="DataMappingFieldDefinition-lookupDefinition" />
-		<property name="titleAttribute"
-			value="functionalFieldDescription.businessObjectProperty.propertyLabel" />
-		<property name="objectLabel"
-			value="Data Mapping Field Definition" />
+	<bean id="DataMappingFieldDefinition-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.DataMappingFieldDefinition"/>
+		<property name="inquiryDefinition" ref="DataMappingFieldDefinition-inquiryDefinition"/>
+		<property name="lookupDefinition" ref="DataMappingFieldDefinition-lookupDefinition"/>
+		<property name="titleAttribute" value="functionalFieldDescription.businessObjectProperty.propertyLabel"/>
+		<property name="objectLabel" value="Data Mapping Field Definition"/>
 		<property name="primaryKeys">
 		  <list>
 		    <value>componentClass</value>
@@ -27,83 +16,66 @@
 		</property> 
 		<property name="attributes">
 			<list>
-				<ref bean="DataMappingFieldDefinition-namespaceCode" />
-				<ref bean="DataMappingFieldDefinition-componentClass" />
-				<ref
-					bean="DataMappingFieldDefinition-functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel" />
-				<ref bean="DataMappingFieldDefinition-propertyName" />
-				<ref
-					bean="DataMappingFieldDefinition-functionalFieldDescription.businessObjectProperty.propertyLabel" />
-				<ref
-					bean="DataMappingFieldDefinition-functionalFieldDescription.description" />
-				<ref bean="DataMappingFieldDefinition-tableName" />
-				<ref bean="DataMappingFieldDefinition-fieldName" />
-				<ref bean="DataMappingFieldDefinition-databaseDataType" />
-				<ref bean="DataMappingFieldDefinition-applicationDataType" />
-				<ref bean="DataMappingFieldDefinition-databaseDefinedLength" />
-				<ref bean="DataMappingFieldDefinition-applicationDefinedLength" />
-				<ref bean="DataMappingFieldDefinition-decimalPlaces" />
-				<ref bean="DataMappingFieldDefinition-referenceComponent" />
-				<ref bean="DataMappingFieldDefinition-required" />
-				<ref bean="DataMappingFieldDefinition-validationPattern" />
-				<ref bean="DataMappingFieldDefinition-encrypted" />
-				<ref bean="DataMappingFieldDefinition-maskPattern" />
+				<ref bean="DataMappingFieldDefinition-namespaceCode"/>
+				<ref bean="DataMappingFieldDefinition-componentClass"/>
+				<ref bean="DataMappingFieldDefinition-functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel"/>
+				<ref bean="DataMappingFieldDefinition-propertyName"/>
+				<ref bean="DataMappingFieldDefinition-functionalFieldDescription.businessObjectProperty.propertyLabel"/>
+				<ref bean="DataMappingFieldDefinition-functionalFieldDescription.description"/>
+				<ref bean="DataMappingFieldDefinition-tableName"/>
+				<ref bean="DataMappingFieldDefinition-fieldName"/>
+				<ref bean="DataMappingFieldDefinition-databaseDataType"/>
+				<ref bean="DataMappingFieldDefinition-applicationDataType"/>
+				<ref bean="DataMappingFieldDefinition-databaseDefinedLength"/>
+				<ref bean="DataMappingFieldDefinition-applicationDefinedLength"/>
+				<ref bean="DataMappingFieldDefinition-decimalPlaces"/>
+				<ref bean="DataMappingFieldDefinition-referenceComponent"/>
+				<ref bean="DataMappingFieldDefinition-required"/>
+				<ref bean="DataMappingFieldDefinition-validationPattern"/>
+				<ref bean="DataMappingFieldDefinition-encrypted"/>
+				<ref bean="DataMappingFieldDefinition-maskPattern"/>
 			</list>
 		</property>
 		<property name="relationships">
 			<list>
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName"
-						value="functionalFieldDescription.businessObjectProperty.businessObjectComponent" />
+					<property name="objectAttributeName" value="functionalFieldDescription.businessObjectProperty.businessObjectComponent"/>
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition"
-								p:sourceName="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel" p:targetName="componentLabel" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel" p:targetName="componentLabel"/>
 						</list>
 					</property>
 					<property name="supportAttributes">
 						<list>
-							<bean parent="SupportAttributeDefinition"
-								p:sourceName="namespaceCode" p:targetName="namespaceCode" />
+							<bean parent="SupportAttributeDefinition" p:sourceName="namespaceCode" p:targetName="namespaceCode"/>
 						</list>
 					</property>
 				</bean>
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName"
-						value="functionalFieldDescription.businessObjectProperty" />
+					<property name="objectAttributeName" value="functionalFieldDescription.businessObjectProperty"/>
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition"
-								p:sourceName="functionalFieldDescription.businessObjectProperty.propertyLabel" p:targetName="propertyLabel" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="functionalFieldDescription.businessObjectProperty.propertyLabel" p:targetName="propertyLabel"/>
 						</list>
 					</property>
 					<property name="supportAttributes">
 						<list>
-							<bean parent="SupportAttributeDefinition"
-								p:sourceName="namespaceCode" p:targetName="namespaceCode" />
-							<bean parent="SupportAttributeDefinition"
-								p:sourceName="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel"
-								p:targetName="businessObjectComponent.componentLabel" />
+							<bean parent="SupportAttributeDefinition" p:sourceName="namespaceCode" p:targetName="namespaceCode"/>
+							<bean parent="SupportAttributeDefinition" p:sourceName="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel" p:targetName="businessObjectComponent.componentLabel"/>
 						</list>
 					</property>
 				</bean>
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName"
-						value="functionalFieldDescription" />
+					<property name="objectAttributeName" value="functionalFieldDescription"/>
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition"
-								p:sourceName="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel" 
-								p:targetName="businessObjectProperty.businessObjectComponent.componentLabel" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel" p:targetName="businessObjectProperty.businessObjectComponent.componentLabel"/>
 						</list>
 					</property>
 					<property name="supportAttributes">
 						<list>
-							<bean parent="SupportAttributeDefinition"
-								p:sourceName="namespaceCode" p:targetName="namespaceCode" />
-							<bean parent="SupportAttributeDefinition"
-								p:sourceName="functionalFieldDescription.businessObjectProperty.propertyLabel"
-								p:targetName="businessObjectProperty.propertyLabel" />
+							<bean parent="SupportAttributeDefinition" p:sourceName="namespaceCode" p:targetName="namespaceCode"/>
+							<bean parent="SupportAttributeDefinition" p:sourceName="functionalFieldDescription.businessObjectProperty.propertyLabel" p:targetName="businessObjectProperty.propertyLabel"/>
 						</list>
 					</property>
 				</bean>
@@ -112,308 +84,221 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-	<bean id="DataMappingFieldDefinition-namespaceCode"
-		parent="DataMappingFieldDefinition-namespaceCode-parentBean" />
+	<bean id="DataMappingFieldDefinition-namespaceCode" parent="DataMappingFieldDefinition-namespaceCode-parentBean"/>
 
-	<bean id="DataMappingFieldDefinition-namespaceCode-parentBean"
-		abstract="true" parent="BusinessObjectComponent-namespaceCode" />
+	<bean id="DataMappingFieldDefinition-namespaceCode-parentBean" abstract="true" parent="BusinessObjectComponent-namespaceCode"/>
 
-	<bean id="DataMappingFieldDefinition-componentClass"
-		parent="DataMappingFieldDefinition-componentClass-parentBean" />
+	<bean id="DataMappingFieldDefinition-componentClass" parent="DataMappingFieldDefinition-componentClass-parentBean"/>
 
-	<bean id="DataMappingFieldDefinition-componentClass-parentBean"
-		abstract="true" parent="BusinessObjectComponent-componentClass">
+	<bean id="DataMappingFieldDefinition-componentClass-parentBean" abstract="true" parent="BusinessObjectComponent-componentClass">
 		<property name="control">
-			<bean parent="HiddenControlDefinition" />
+			<bean parent="HiddenControlDefinition"/>
 		</property>
 	</bean>
 
-	<bean
-		id="DataMappingFieldDefinition-functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel"
-		parent="DataMappingFieldDefinition-functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel-parentBean" />
+	<bean id="DataMappingFieldDefinition-functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel" parent="DataMappingFieldDefinition-functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel-parentBean"/>
 
-	<bean
-		id="DataMappingFieldDefinition-functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel-parentBean"
-		abstract="true"
-		parent="FunctionalFieldDescription-businessObjectProperty.businessObjectComponent.componentLabel">
-		<property name="name"
-			value="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel" />
+	<bean id="DataMappingFieldDefinition-functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel-parentBean" abstract="true" parent="FunctionalFieldDescription-businessObjectProperty.businessObjectComponent.componentLabel">
+		<property name="name" value="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel"/>
 	</bean>
 
-	<bean id="DataMappingFieldDefinition-propertyName"
-		parent="DataMappingFieldDefinition-propertyName-parentBean" />
+	<bean id="DataMappingFieldDefinition-propertyName" parent="DataMappingFieldDefinition-propertyName-parentBean"/>
 
-	<bean id="DataMappingFieldDefinition-propertyName-parentBean"
-		abstract="true" parent="BusinessObjectProperty-propertyName" />
+	<bean id="DataMappingFieldDefinition-propertyName-parentBean" abstract="true" parent="BusinessObjectProperty-propertyName"/>
 
-	<bean
-		id="DataMappingFieldDefinition-functionalFieldDescription.businessObjectProperty.propertyLabel"
-		parent="DataMappingFieldDefinition-functionalFieldDescription.businessObjectProperty.propertyLabel-parentBean" />
+	<bean id="DataMappingFieldDefinition-functionalFieldDescription.businessObjectProperty.propertyLabel" parent="DataMappingFieldDefinition-functionalFieldDescription.businessObjectProperty.propertyLabel-parentBean"/>
 
-	<bean
-		id="DataMappingFieldDefinition-functionalFieldDescription.businessObjectProperty.propertyLabel-parentBean"
-		abstract="true"
-		parent="FunctionalFieldDescription-businessObjectProperty.propertyLabel">
-		<property name="name"
-			value="functionalFieldDescription.businessObjectProperty.propertyLabel" />
+	<bean id="DataMappingFieldDefinition-functionalFieldDescription.businessObjectProperty.propertyLabel-parentBean" abstract="true" parent="FunctionalFieldDescription-businessObjectProperty.propertyLabel">
+		<property name="name" value="functionalFieldDescription.businessObjectProperty.propertyLabel"/>
 	</bean>
 
-	<bean
-		id="DataMappingFieldDefinition-functionalFieldDescription.description"
-		parent="DataMappingFieldDefinition-functionalFieldDescription.description-parentBean" />
+	<bean id="DataMappingFieldDefinition-functionalFieldDescription.description" parent="DataMappingFieldDefinition-functionalFieldDescription.description-parentBean"/>
 
-	<bean
-		id="DataMappingFieldDefinition-functionalFieldDescription.description-parentBean"
-		abstract="true"
-		parent="FunctionalFieldDescription-description">
-		<property name="name"
-			value="functionalFieldDescription.description" />
+	<bean id="DataMappingFieldDefinition-functionalFieldDescription.description-parentBean" abstract="true" parent="FunctionalFieldDescription-description">
+		<property name="name" value="functionalFieldDescription.description"/>
 	</bean>
 
-	<bean id="DataMappingFieldDefinition-tableName"
-		parent="DataMappingFieldDefinition-tableName-parentBean" />
+	<bean id="DataMappingFieldDefinition-tableName" parent="DataMappingFieldDefinition-tableName-parentBean"/>
 
-	<bean id="DataMappingFieldDefinition-tableName-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="tableName" />
-		<property name="label" value="Database Table Name" />
-		<property name="maxLength" value="50" />
+	<bean id="DataMappingFieldDefinition-tableName-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="tableName"/>
+		<property name="label" value="Database Table Name"/>
+		<property name="maxLength" value="50"/>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
+			<bean parent="TextControlDefinition" p:size="30"/>
 		</property>
 	</bean>
 
-	<bean id="DataMappingFieldDefinition-fieldName"
-		parent="DataMappingFieldDefinition-fieldName-parentBean" />
+	<bean id="DataMappingFieldDefinition-fieldName" parent="DataMappingFieldDefinition-fieldName-parentBean"/>
 
-	<bean id="DataMappingFieldDefinition-fieldName-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="fieldName" />
-		<property name="label" value="Database Field Name" />
-		<property name="maxLength" value="50" />
+	<bean id="DataMappingFieldDefinition-fieldName-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="fieldName"/>
+		<property name="label" value="Database Field Name"/>
+		<property name="maxLength" value="50"/>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
+			<bean parent="TextControlDefinition" p:size="30"/>
 		</property>
 	</bean>
 
-	<bean id="DataMappingFieldDefinition-databaseDataType"
-		parent="DataMappingFieldDefinition-databaseDataType-parentBean" />
+	<bean id="DataMappingFieldDefinition-databaseDataType" parent="DataMappingFieldDefinition-databaseDataType-parentBean"/>
 
-	<bean id="DataMappingFieldDefinition-databaseDataType-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="databaseDataType" />
-		<property name="label" value="Database Data Type" />
-		<property name="maxLength" value="50" />
+	<bean id="DataMappingFieldDefinition-databaseDataType-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="databaseDataType"/>
+		<property name="label" value="Database Data Type"/>
+		<property name="maxLength" value="50"/>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
+			<bean parent="TextControlDefinition" p:size="30"/>
 		</property>
 	</bean>
 
-	<bean id="DataMappingFieldDefinition-applicationDataType"
-		parent="DataMappingFieldDefinition-applicationDataType-parentBean" />
+	<bean id="DataMappingFieldDefinition-applicationDataType" parent="DataMappingFieldDefinition-applicationDataType-parentBean"/>
 
-	<bean id="DataMappingFieldDefinition-applicationDataType-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="applicationDataType" />
-		<property name="label" value="Application Data Type" />
-		<property name="maxLength" value="50" />
+	<bean id="DataMappingFieldDefinition-applicationDataType-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="applicationDataType"/>
+		<property name="label" value="Application Data Type"/>
+		<property name="maxLength" value="50"/>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
+			<bean parent="TextControlDefinition" p:size="30"/>
 		</property>
 	</bean>
 
-	<bean id="DataMappingFieldDefinition-databaseDefinedLength"
-		parent="DataMappingFieldDefinition-databaseDefinedLength-parentBean" />
+	<bean id="DataMappingFieldDefinition-databaseDefinedLength" parent="DataMappingFieldDefinition-databaseDefinedLength-parentBean"/>
 
-	<bean id="DataMappingFieldDefinition-databaseDefinedLength-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="databaseDefinedLength" />
-		<property name="label" value="Database Defined Length" />
-		<property name="maxLength" value="50" />
+	<bean id="DataMappingFieldDefinition-databaseDefinedLength-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="databaseDefinedLength"/>
+		<property name="label" value="Database Defined Length"/>
+		<property name="maxLength" value="50"/>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
+			<bean parent="TextControlDefinition" p:size="30"/>
 		</property>
 	</bean>
 	
-	<bean id="DataMappingFieldDefinition-applicationDefinedLength"
-		parent="DataMappingFieldDefinition-applicationDefinedLength-parentBean" />
+	<bean id="DataMappingFieldDefinition-applicationDefinedLength" parent="DataMappingFieldDefinition-applicationDefinedLength-parentBean"/>
 
-	<bean id="DataMappingFieldDefinition-applicationDefinedLength-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="applicationDefinedLength" />
-		<property name="label" value="Application Defined Length" />
-		<property name="maxLength" value="50" />
+	<bean id="DataMappingFieldDefinition-applicationDefinedLength-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="applicationDefinedLength"/>
+		<property name="label" value="Application Defined Length"/>
+		<property name="maxLength" value="50"/>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
+			<bean parent="TextControlDefinition" p:size="30"/>
 		</property>
 	</bean>
 	
-	<bean id="DataMappingFieldDefinition-decimalPlaces"
-		parent="DataMappingFieldDefinition-decimalPlaces-parentBean" />
+	<bean id="DataMappingFieldDefinition-decimalPlaces" parent="DataMappingFieldDefinition-decimalPlaces-parentBean"/>
 
-	<bean id="DataMappingFieldDefinition-decimalPlaces-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="decimalPlaces" />
-		<property name="label" value="Decimal Places" />
-		<property name="maxLength" value="50" />
+	<bean id="DataMappingFieldDefinition-decimalPlaces-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="decimalPlaces"/>
+		<property name="label" value="Decimal Places"/>
+		<property name="maxLength" value="50"/>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
+			<bean parent="TextControlDefinition" p:size="30"/>
 		</property>
 	</bean>
 
-	<bean id="DataMappingFieldDefinition-referenceComponent"
-		parent="DataMappingFieldDefinition-referenceComponent-parentBean" />
+	<bean id="DataMappingFieldDefinition-referenceComponent" parent="DataMappingFieldDefinition-referenceComponent-parentBean"/>
 
-	<bean id="DataMappingFieldDefinition-referenceComponent-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="referenceComponent" />
-		<property name="label" value="Reference Component" />
-		<property name="maxLength" value="50" />
+	<bean id="DataMappingFieldDefinition-referenceComponent-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="referenceComponent"/>
+		<property name="label" value="Reference Component"/>
+		<property name="maxLength" value="50"/>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
+			<bean parent="TextControlDefinition" p:size="30"/>
 		</property>
 	</bean>
 
-	<bean id="DataMappingFieldDefinition-required"
-		parent="DataMappingFieldDefinition-required-parentBean" />
+	<bean id="DataMappingFieldDefinition-required" parent="DataMappingFieldDefinition-required-parentBean"/>
 
-	<bean id="DataMappingFieldDefinition-required-parentBean"
-		abstract="true" parent="GenericAttributes-genericBoolean">
-		<property name="name" value="required" />
-		<property name="label" value="Required" />
+	<bean id="DataMappingFieldDefinition-required-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="required"/>
+		<property name="label" value="Required"/>
 	</bean>
 
-	<bean id="DataMappingFieldDefinition-validationPattern"
-		parent="DataMappingFieldDefinition-validationPattern-parentBean" />
+	<bean id="DataMappingFieldDefinition-validationPattern" parent="DataMappingFieldDefinition-validationPattern-parentBean"/>
 
-	<bean id="DataMappingFieldDefinition-validationPattern-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="validationPattern" />
-		<property name="label" value="Validation Pattern" />
-		<property name="maxLength" value="50" />
+	<bean id="DataMappingFieldDefinition-validationPattern-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="validationPattern"/>
+		<property name="label" value="Validation Pattern"/>
+		<property name="maxLength" value="50"/>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
+			<bean parent="TextControlDefinition" p:size="30"/>
 		</property>
 	</bean>
 
-	<bean id="DataMappingFieldDefinition-encrypted"
-		parent="DataMappingFieldDefinition-encrypted-parentBean" />
+	<bean id="DataMappingFieldDefinition-encrypted" parent="DataMappingFieldDefinition-encrypted-parentBean"/>
 
-	<bean id="DataMappingFieldDefinition-encrypted-parentBean"
-		abstract="true" parent="GenericAttributes-genericBoolean">
-		<property name="name" value="encrypted" />
-		<property name="label" value="Encrypted" />
+	<bean id="DataMappingFieldDefinition-encrypted-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="encrypted"/>
+		<property name="label" value="Encrypted"/>
 	</bean>
 
-	<bean id="DataMappingFieldDefinition-maskPattern"
-		parent="DataMappingFieldDefinition-maskPattern-parentBean" />
+	<bean id="DataMappingFieldDefinition-maskPattern" parent="DataMappingFieldDefinition-maskPattern-parentBean"/>
 
-	<bean id="DataMappingFieldDefinition-maskPattern-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="maskPattern" />
-		<property name="label" value="Mask Pattern" />
-		<property name="maxLength" value="50" />
+	<bean id="DataMappingFieldDefinition-maskPattern-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="maskPattern"/>
+		<property name="label" value="Mask Pattern"/>
+		<property name="maxLength" value="50"/>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
+			<bean parent="TextControlDefinition" p:size="30"/>
 		</property>
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
-	<bean id="DataMappingFieldDefinition-lookupDefinition"
-		parent="DataMappingFieldDefinition-lookupDefinition-parentBean" />
+	<bean id="DataMappingFieldDefinition-lookupDefinition" parent="DataMappingFieldDefinition-lookupDefinition-parentBean"/>
 
-	<bean id="DataMappingFieldDefinition-lookupDefinition-parentBean"
-		abstract="true" parent="LookupDefinition">
-		<property name="lookupableID"
-			value="dataMappingFieldDefinitionLookupable" />
-		<property name="title"
-			value="Data Mapping Field Definition Lookup" />
-		<property name="instructions"
-			value="Lookup a Data Mapping Field Definition" />
+	<bean id="DataMappingFieldDefinition-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="lookupableID" value="dataMappingFieldDefinitionLookupable"/>
+		<property name="title" value="Data Mapping Field Definition Lookup"/>
+		
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="namespaceCode" p:noLookup="true"
-					p:required="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel"
-					p:required="true" />
-				<bean parent="FieldDefinition"
-					p:attributeName="functionalFieldDescription.businessObjectProperty.propertyLabel" />
-				<bean parent="FieldDefinition"
-					p:attributeName="functionalFieldDescription.description" />
-				<bean parent="FieldDefinition"
-					p:attributeName="tableName" />
-				<bean parent="FieldDefinition"
-					p:attributeName="fieldName" />
+				<bean parent="FieldDefinition" p:attributeName="namespaceCode" p:noLookup="true" p:required="true"/>
+				<bean parent="FieldDefinition" p:attributeName="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel" p:required="true"/>
+				<bean parent="FieldDefinition" p:attributeName="functionalFieldDescription.businessObjectProperty.propertyLabel"/>
+				<bean parent="FieldDefinition" p:attributeName="functionalFieldDescription.description"/>
+				<bean parent="FieldDefinition" p:attributeName="tableName"/>
+				<bean parent="FieldDefinition" p:attributeName="fieldName"/>
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="namespaceCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel" />
-				<bean parent="FieldDefinition"
-					p:attributeName="functionalFieldDescription.businessObjectProperty.propertyLabel" />
-				<bean parent="FieldDefinition"
-					p:attributeName="functionalFieldDescription.description" />
-				<bean parent="FieldDefinition"
-					p:attributeName="tableName" />
-				<bean parent="FieldDefinition"
-					p:attributeName="fieldName" />
+				<bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+				<bean parent="FieldDefinition" p:attributeName="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel"/>
+				<bean parent="FieldDefinition" p:attributeName="functionalFieldDescription.businessObjectProperty.propertyLabel"/>
+				<bean parent="FieldDefinition" p:attributeName="functionalFieldDescription.description"/>
+				<bean parent="FieldDefinition" p:attributeName="tableName"/>
+				<bean parent="FieldDefinition" p:attributeName="fieldName"/>
 			</list>
 		</property>
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->
-	<bean id="DataMappingFieldDefinition-inquiryDefinition"
-		parent="DataMappingFieldDefinition-inquiryDefinition-parentBean" />
+	<bean id="DataMappingFieldDefinition-inquiryDefinition" parent="DataMappingFieldDefinition-inquiryDefinition-parentBean"/>
 
-	<bean id="DataMappingFieldDefinition-inquiryDefinition-parentBean"
-		abstract="true" parent="InquiryDefinition">
-		<property name="title"
-			value="Data Mapping Field Definition Inquiry" />
-		<property name="inquirableClass" value="org.kuali.kfs.sys.businessobject.inquiry.DataMappingFieldDefinitionInquirable" />
+	<bean id="DataMappingFieldDefinition-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Data Mapping Field Definition Inquiry"/>
+		<property name="inquirableClass" value="org.kuali.kfs.sys.businessobject.inquiry.DataMappingFieldDefinitionInquirable"/>
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="numberOfColumns" value="2" />
+					<property name="numberOfColumns" value="2"/>
 					<property name="inquiryFields">
 						<list>
-							<bean parent="FieldDefinition"
-								p:attributeName="namespaceCode" />
-							<bean parent="FieldDefinition"
-								p:attributeName="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel" />
-							<bean parent="FieldDefinition"
-								p:attributeName="functionalFieldDescription.businessObjectProperty.propertyLabel"
-								p:noInquiry="true" />
-							<bean parent="FieldDefinition"
-								p:attributeName="functionalFieldDescription.description" />
-							<bean parent="FieldDefinition"
-								p:attributeName="tableName" />
-							<bean parent="FieldDefinition"
-								p:attributeName="fieldName" />
-							<bean parent="FieldDefinition"
-								p:attributeName="databaseDataType" />
-							<bean parent="FieldDefinition"
-								p:attributeName="applicationDataType" />
-							<bean parent="FieldDefinition"
-								p:attributeName="databaseDefinedLength" />
-							<bean parent="FieldDefinition"
-								p:attributeName="applicationDefinedLength" />
-							<bean parent="FieldDefinition"
-								p:attributeName="decimalPlaces" />
-							<bean parent="FieldDefinition"
-								p:attributeName="referenceComponent" />
-							<bean parent="FieldDefinition"
-								p:attributeName="required" />
-							<bean parent="FieldDefinition"
-								p:attributeName="validationPattern" />
-							<bean parent="FieldDefinition"
-								p:attributeName="encrypted" />
-							<bean parent="FieldDefinition"
-								p:attributeName="maskPattern" />
+							<bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+							<bean parent="FieldDefinition" p:attributeName="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel"/>
+							<bean parent="FieldDefinition" p:attributeName="functionalFieldDescription.businessObjectProperty.propertyLabel" p:noInquiry="true"/>
+							<bean parent="FieldDefinition" p:attributeName="functionalFieldDescription.description"/>
+							<bean parent="FieldDefinition" p:attributeName="tableName"/>
+							<bean parent="FieldDefinition" p:attributeName="fieldName"/>
+							<bean parent="FieldDefinition" p:attributeName="databaseDataType"/>
+							<bean parent="FieldDefinition" p:attributeName="applicationDataType"/>
+							<bean parent="FieldDefinition" p:attributeName="databaseDefinedLength"/>
+							<bean parent="FieldDefinition" p:attributeName="applicationDefinedLength"/>
+							<bean parent="FieldDefinition" p:attributeName="decimalPlaces"/>
+							<bean parent="FieldDefinition" p:attributeName="referenceComponent"/>
+							<bean parent="FieldDefinition" p:attributeName="required"/>
+							<bean parent="FieldDefinition" p:attributeName="validationPattern"/>
+							<bean parent="FieldDefinition" p:attributeName="encrypted"/>
+							<bean parent="FieldDefinition" p:attributeName="maskPattern"/>
 						</list>
 					</property>
 				</bean>

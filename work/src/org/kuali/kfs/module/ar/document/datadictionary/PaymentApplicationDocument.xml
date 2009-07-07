@@ -31,25 +31,25 @@
     
     <bean id="PaymentApplicationDocument-unappliedCustomerNumber" parent="PaymentApplicationDocument-unappliedCustomerNumber-parentBean"/>
     <bean id="PaymentApplicationDocument-unappliedCustomerNumber-parentBean" abstract="true" parent="Customer-customerNumber">
-		<property name="name" value="unappliedCustomerNumber" />
+		<property name="name" value="unappliedCustomerNumber"/>
     	<property name="label" value="Unapplied Customer Number"/>
     </bean>
     
     <bean id="PaymentApplicationDocument-appliedCustomerNumber" parent="PaymentApplicationDocument-appliedCustomerNumber-parentBean"/>
     <bean id="PaymentApplicationDocument-appliedCustomerNumber-parentBean" abstract="true" parent="Customer-customerNumber">
-		<property name="name" value="invoiceAppliedCustomerNumber" />
+		<property name="name" value="invoiceAppliedCustomerNumber"/>
     	<property name="label" value="Invoice Applied Customer Number"/>
     </bean>
     
     <bean id="PaymentApplicationDocument-unappliedCustomerName" parent="PaymentApplicationDocument-unappliedCustomerName-parentBean"/>
     <bean id="PaymentApplicationDocument-unappliedCustomerName-parentBean" abstract="true" parent="Customer-customerName">
-		<property name="name" value="unappliedCustomerName" />
+		<property name="name" value="unappliedCustomerName"/>
     	<property name="label" value="Unapplied Customer Name"/>
     </bean>
     
     <bean id="PaymentApplicationDocument-appliedCustomerName" parent="PaymentApplicationDocument-appliedCustomerName-parentBean"/>
     <bean id="PaymentApplicationDocument-appliedCustomerName-parentBean" abstract="true" parent="Customer-customerName">
-		<property name="name" value="invoiceAppliedCustomerName" />
+		<property name="name" value="invoiceAppliedCustomerName"/>
     	<property name="label" value="Invoice Applied Customer Name"/>
     </bean>
     
@@ -121,12 +121,12 @@
 	   			<ref bean="SearchingType-AccountsReceivableDocument-processingChartOfAccountsCode-criteriaOnly"/>
    				<ref bean="SearchingType-AccountsReceivableDocument-processingOrganizationCode-criteriaOnly"/>
 
-    			<ref bean="SearchingType-PaymentApplicationDocument-billingChartOfAccountsCode-criteriaOnly" />
-    			<ref bean="SearchingType-PaymentApplicationDocument-billingOrganizationCode-criteriaOnly" />
-    			<ref bean="SearchingType-PaymentApplicationDocument-chartOfAccountsCode-sourceOnly" />
-    			<ref bean="SearchingType-PaymentApplicationDocument-accountNumber-sourceOnly" />
-    			<ref bean="SearchingType-PaymentApplicationDocument-financialDocumentReferenceInvoiceNumber-criteriaOnly" />
-    			<ref bean="SearchingType-PaymentApplicationDocument-customerPaymentMediumIdentifier-criteriaOnly" />
+    			<ref bean="SearchingType-PaymentApplicationDocument-billingChartOfAccountsCode-criteriaOnly"/>
+    			<ref bean="SearchingType-PaymentApplicationDocument-billingOrganizationCode-criteriaOnly"/>
+    			<ref bean="SearchingType-PaymentApplicationDocument-chartOfAccountsCode-sourceOnly"/>
+    			<ref bean="SearchingType-PaymentApplicationDocument-accountNumber-sourceOnly"/>
+    			<ref bean="SearchingType-PaymentApplicationDocument-financialDocumentReferenceInvoiceNumber-criteriaOnly"/>
+    			<ref bean="SearchingType-PaymentApplicationDocument-customerPaymentMediumIdentifier-criteriaOnly"/>
 
     		</list>
     	</property>

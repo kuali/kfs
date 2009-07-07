@@ -1,31 +1,27 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="CashieringItemInProcess" parent="CashieringItemInProcess-parentBean" />
+  <bean id="CashieringItemInProcess" parent="CashieringItemInProcess-parentBean"/>
 
   <bean id="CashieringItemInProcess-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.CashieringItemInProcess" />
-    <property name="inquiryDefinition" >
-      <ref bean="CashieringItemInProcess-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.CashieringItemInProcess"/>
+    <property name="inquiryDefinition">
+      <ref bean="CashieringItemInProcess-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="CashieringItemInProcess-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="CashieringItemInProcess-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Cashiering Item In Process" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Cashiering Item In Process"/>
+    <property name="attributes">
       <list>
-        <ref bean="CashieringItemInProcess-campusCode" />
-        <ref bean="CashieringItemInProcess-itemIdentifier" />
-        <ref bean="CashieringItemInProcess-itemAmount" />
-        <ref bean="CashieringItemInProcess-itemReducedAmount" />
-        <ref bean="CashieringItemInProcess-itemRemainingAmount" />
-        <ref bean="CashieringItemInProcess-itemOpenDate" />
-        <ref bean="CashieringItemInProcess-itemClosedDate" />
-        <ref bean="CashieringItemInProcess-itemDescription" />
-        <ref bean="CashieringItemInProcess-currentPayment" />
+        <ref bean="CashieringItemInProcess-campusCode"/>
+        <ref bean="CashieringItemInProcess-itemIdentifier"/>
+        <ref bean="CashieringItemInProcess-itemAmount"/>
+        <ref bean="CashieringItemInProcess-itemReducedAmount"/>
+        <ref bean="CashieringItemInProcess-itemRemainingAmount"/>
+        <ref bean="CashieringItemInProcess-itemOpenDate"/>
+        <ref bean="CashieringItemInProcess-itemClosedDate"/>
+        <ref bean="CashieringItemInProcess-itemDescription"/>
+        <ref bean="CashieringItemInProcess-currentPayment"/>
       </list>
     </property>
   </bean>
@@ -33,166 +29,149 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="CashieringItemInProcess-campusCode" parent="CashieringItemInProcess-campusCode-parentBean" />
+  <bean id="CashieringItemInProcess-campusCode" parent="CashieringItemInProcess-campusCode-parentBean"/>
 
   <bean id="CashieringItemInProcess-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="campusCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Campus Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="70" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="campusCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Campus Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="70"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="72" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="72"/>
     </property>
   </bean>
-  <bean id="CashieringItemInProcess-itemIdentifier" parent="CashieringItemInProcess-itemIdentifier-parentBean" />
+  <bean id="CashieringItemInProcess-itemIdentifier" parent="CashieringItemInProcess-itemIdentifier-parentBean"/>
 
   <bean id="CashieringItemInProcess-itemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="itemIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Item Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
   </bean>
-  <bean id="CashieringItemInProcess-itemAmount" parent="CashieringItemInProcess-itemAmount-parentBean" />
+  <bean id="CashieringItemInProcess-itemAmount" parent="CashieringItemInProcess-itemAmount-parentBean"/>
 
   <bean id="CashieringItemInProcess-itemAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemAmount" />
-    <property name="label" value="Item Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="itemAmount"/>
+    <property name="label" value="Item Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
   </bean>
-  <bean id="CashieringItemInProcess-itemReducedAmount" parent="CashieringItemInProcess-itemReducedAmount-parentBean" />
+  <bean id="CashieringItemInProcess-itemReducedAmount" parent="CashieringItemInProcess-itemReducedAmount-parentBean"/>
 
   <bean id="CashieringItemInProcess-itemReducedAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemReducedAmount" />
-    <property name="label" value="Item Reduced Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="itemReducedAmount"/>
+    <property name="label" value="Item Reduced Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
   </bean>
-  <bean id="CashieringItemInProcess-itemRemainingAmount" parent="CashieringItemInProcess-itemRemainingAmount-parentBean" />
+  <bean id="CashieringItemInProcess-itemRemainingAmount" parent="CashieringItemInProcess-itemRemainingAmount-parentBean"/>
 
   <bean id="CashieringItemInProcess-itemRemainingAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemRemainingAmount" />
-    <property name="label" value="Item Remaining Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="itemRemainingAmount"/>
+    <property name="label" value="Item Remaining Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
   </bean>
-  <bean id="CashieringItemInProcess-itemOpenDate" parent="CashieringItemInProcess-itemOpenDate-parentBean" />
+  <bean id="CashieringItemInProcess-itemOpenDate" parent="CashieringItemInProcess-itemOpenDate-parentBean"/>
 
   <bean id="CashieringItemInProcess-itemOpenDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
-    <property name="name" value="itemOpenDate" />
-    <property name="label" value="Item Open Date" />
-    <property name="shortLabel" value="Date" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="name" value="itemOpenDate"/>
+    <property name="label" value="Item Open Date"/>
+    <property name="shortLabel" value="Date"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
-  <bean id="CashieringItemInProcess-itemClosedDate" parent="CashieringItemInProcess-itemClosedDate-parentBean" />
+  <bean id="CashieringItemInProcess-itemClosedDate" parent="CashieringItemInProcess-itemClosedDate-parentBean"/>
 
   <bean id="CashieringItemInProcess-itemClosedDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
-    <property name="name" value="itemClosedDate" />
-    <property name="label" value="Item Closed Date" />
-    <property name="shortLabel" value="Date" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="name" value="itemClosedDate"/>
+    <property name="label" value="Item Closed Date"/>
+    <property name="shortLabel" value="Date"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
-  <bean id="CashieringItemInProcess-itemDescription" parent="CashieringItemInProcess-itemDescription-parentBean" />
+  <bean id="CashieringItemInProcess-itemDescription" parent="CashieringItemInProcess-itemDescription-parentBean"/>
 
   <bean id="CashieringItemInProcess-itemDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemDescription" />
-    <property name="label" value="Item Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="200" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="itemDescription"/>
+    <property name="label" value="Item Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="200"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="80" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="80"/>
     </property>
   </bean>
-  <bean id="CashieringItemInProcess-currentPayment" parent="CashieringItemInProcess-currentPayment-parentBean" />
+  <bean id="CashieringItemInProcess-currentPayment" parent="CashieringItemInProcess-currentPayment-parentBean"/>
 
   <bean id="CashieringItemInProcess-currentPayment-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="currentPayment" />
-    <property name="label" value="Current Payment" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="currentPayment"/>
+    <property name="label" value="Current Payment"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="CashieringItemInProcess-inquiryDefinition" parent="CashieringItemInProcess-inquiryDefinition-parentBean" />
+  <bean id="CashieringItemInProcess-inquiryDefinition" parent="CashieringItemInProcess-inquiryDefinition-parentBean"/>
 
   <bean id="CashieringItemInProcess-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Cashiering Items In Process" />
-    <property name="inquirySections" >
+    <property name="title" value="Cashiering Items In Process"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Item In Process" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Item In Process"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="campusCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemReducedAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemRemainingAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemOpenDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemClosedDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemDescription" />
+              <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="itemIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="itemAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="itemReducedAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="itemRemainingAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="itemOpenDate"/>
+              <bean parent="FieldDefinition" p:attributeName="itemClosedDate"/>
+              <bean parent="FieldDefinition" p:attributeName="itemDescription"/>
             </list>
           </property>
         </bean>
@@ -203,49 +182,35 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="CashieringItemInProcess-lookupDefinition" parent="CashieringItemInProcess-lookupDefinition-parentBean" />
+  <bean id="CashieringItemInProcess-lookupDefinition" parent="CashieringItemInProcess-lookupDefinition-parentBean"/>
 
   <bean id="CashieringItemInProcess-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Cashiering Items In Process Lookup" />
-    <property name="instructions" value="Look up Cashiering Items In Process" />
-    <property name="defaultSort" >
+    <property name="title" value="Cashiering Items In Process Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="campusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemRemainingAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemOpenDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemClosedDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemDescription" />
+        <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="itemAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="itemRemainingAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="itemOpenDate"/>
+        <bean parent="FieldDefinition" p:attributeName="itemClosedDate"/>
+        <bean parent="FieldDefinition" p:attributeName="itemDescription"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="campusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemRemainingAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemOpenDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemClosedDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemDescription" />
+        <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="itemAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="itemRemainingAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="itemOpenDate"/>
+        <bean parent="FieldDefinition" p:attributeName="itemClosedDate"/>
+        <bean parent="FieldDefinition" p:attributeName="itemDescription"/>
       </list>
     </property>
   </bean>

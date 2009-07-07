@@ -1,28 +1,24 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="BudgetConstructionAccountReports" parent="BudgetConstructionAccountReports-parentBean" />
+  <bean id="BudgetConstructionAccountReports" parent="BudgetConstructionAccountReports-parentBean"/>
 
   <bean id="BudgetConstructionAccountReports-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports" />
-    <property name="inquiryDefinition" >
-      <ref bean="BudgetConstructionAccountReports-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports"/>
+    <property name="inquiryDefinition">
+      <ref bean="BudgetConstructionAccountReports-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="BudgetConstructionAccountReports-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="BudgetConstructionAccountReports-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Budget Construction Account Reports" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Budget Construction Account Reports"/>
+    <property name="attributes">
       <list>
-        <ref bean="BudgetConstructionAccountReports-accountNumber" />
-        <ref bean="BudgetConstructionAccountReports-chartOfAccountsCode" />
-        <ref bean="BudgetConstructionAccountReports-chartOfAccounts.codeAndDescription" />
-        <ref bean="BudgetConstructionAccountReports-reportsToChartOfAccountsCode" />
-        <ref bean="BudgetConstructionAccountReports-reportsToChartOfAccounts.codeAndDescription" />
-        <ref bean="BudgetConstructionAccountReports-reportsToOrganizationCode" />
+        <ref bean="BudgetConstructionAccountReports-accountNumber"/>
+        <ref bean="BudgetConstructionAccountReports-chartOfAccountsCode"/>
+        <ref bean="BudgetConstructionAccountReports-chartOfAccounts.codeAndDescription"/>
+        <ref bean="BudgetConstructionAccountReports-reportsToChartOfAccountsCode"/>
+        <ref bean="BudgetConstructionAccountReports-reportsToChartOfAccounts.codeAndDescription"/>
+        <ref bean="BudgetConstructionAccountReports-reportsToOrganizationCode"/>
       </list>
     </property>
   </bean>
@@ -30,79 +26,74 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="BudgetConstructionAccountReports-accountNumber" parent="BudgetConstructionAccountReports-accountNumber-parentBean" />
+  <bean id="BudgetConstructionAccountReports-accountNumber" parent="BudgetConstructionAccountReports-accountNumber-parentBean"/>
 
   <bean id="BudgetConstructionAccountReports-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
   </bean>
-  <bean id="BudgetConstructionAccountReports-chartOfAccountsCode" parent="BudgetConstructionAccountReports-chartOfAccountsCode-parentBean" />
+  <bean id="BudgetConstructionAccountReports-chartOfAccountsCode" parent="BudgetConstructionAccountReports-chartOfAccountsCode-parentBean"/>
 
   <bean id="BudgetConstructionAccountReports-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
   </bean>
-  <bean id="BudgetConstructionAccountReports-chartOfAccounts.codeAndDescription" parent="BudgetConstructionAccountReports-chartOfAccounts.codeAndDescription-parentBean" />
+  <bean id="BudgetConstructionAccountReports-chartOfAccounts.codeAndDescription" parent="BudgetConstructionAccountReports-chartOfAccounts.codeAndDescription-parentBean"/>
 
   <bean id="BudgetConstructionAccountReports-chartOfAccounts.codeAndDescription-parentBean" abstract="true" parent="Chart-codeAndDescription">
-    <property name="name" value="chartOfAccounts.codeAndDescription" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="chartOfAccounts.codeAndDescription"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionAccountReports-reportsToChartOfAccountsCode" parent="BudgetConstructionAccountReports-reportsToChartOfAccountsCode-parentBean" />
+  <bean id="BudgetConstructionAccountReports-reportsToChartOfAccountsCode" parent="BudgetConstructionAccountReports-reportsToChartOfAccountsCode-parentBean"/>
 
   <bean id="BudgetConstructionAccountReports-reportsToChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="name" value="reportsToChartOfAccountsCode" />
-    <property name="label" value="Reports To Chart" />
-    <property name="shortLabel" value="Repts to Cht" />
+    <property name="name" value="reportsToChartOfAccountsCode"/>
+    <property name="label" value="Reports To Chart"/>
+    <property name="shortLabel" value="Repts to Cht"/>
     
   </bean>
-  <bean id="BudgetConstructionAccountReports-reportsToChartOfAccounts.codeAndDescription" parent="BudgetConstructionAccountReports-reportsToChartOfAccounts.codeAndDescription-parentBean" />
+  <bean id="BudgetConstructionAccountReports-reportsToChartOfAccounts.codeAndDescription" parent="BudgetConstructionAccountReports-reportsToChartOfAccounts.codeAndDescription-parentBean"/>
 
   <bean id="BudgetConstructionAccountReports-reportsToChartOfAccounts.codeAndDescription-parentBean" abstract="true" parent="Chart-codeAndDescription">
-    <property name="name" value="reportsToChartOfAccounts.codeAndDescription" />
-    <property name="label" value="Reports To Chart" />
-    <property name="shortLabel" value="Repts to Cht" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="reportsToChartOfAccounts.codeAndDescription"/>
+    <property name="label" value="Reports To Chart"/>
+    <property name="shortLabel" value="Repts to Cht"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
     
     
   </bean>
-  <bean id="BudgetConstructionAccountReports-reportsToOrganizationCode" parent="BudgetConstructionAccountReports-reportsToOrganizationCode-parentBean" />
+  <bean id="BudgetConstructionAccountReports-reportsToOrganizationCode" parent="BudgetConstructionAccountReports-reportsToOrganizationCode-parentBean"/>
 
   <bean id="BudgetConstructionAccountReports-reportsToOrganizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
-    <property name="name" value="reportsToOrganizationCode" />
-    <property name="label" value="Reports To Organization" />
-    <property name="shortLabel" value="Rpts To Org" />
+    <property name="name" value="reportsToOrganizationCode"/>
+    <property name="label" value="Reports To Organization"/>
+    <property name="shortLabel" value="Rpts To Org"/>
     
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="BudgetConstructionAccountReports-inquiryDefinition" parent="BudgetConstructionAccountReports-inquiryDefinition-parentBean" />
+  <bean id="BudgetConstructionAccountReports-inquiryDefinition" parent="BudgetConstructionAccountReports-inquiryDefinition-parentBean"/>
 
   <bean id="BudgetConstructionAccountReports-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Account Reports Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Account Reports Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccounts.codeAndDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="accountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="reportsToChartOfAccounts.codeAndDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="reportsToOrganizationCode" />
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccounts.codeAndDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="reportsToChartOfAccounts.codeAndDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="reportsToOrganizationCode"/>
             </list>
           </property>
         </bean>
@@ -113,37 +104,29 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="BudgetConstructionAccountReports-lookupDefinition" parent="BudgetConstructionAccountReports-lookupDefinition-parentBean" />
+  <bean id="BudgetConstructionAccountReports-lookupDefinition" parent="BudgetConstructionAccountReports-lookupDefinition-parentBean"/>
 
   <bean id="BudgetConstructionAccountReports-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Account Reports Lookup" />
-    <property name="instructions" value="Look up a Budget Construction Account Report" />
-    <property name="defaultSort" >
+    <property name="title" value="Account Reports Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="reportsToChartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="reportsToOrganizationCode" />
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="reportsToChartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="reportsToOrganizationCode"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="reportsToChartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="reportsToOrganizationCode" />
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="reportsToChartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="reportsToOrganizationCode"/>
       </list>
     </property>
   </bean>

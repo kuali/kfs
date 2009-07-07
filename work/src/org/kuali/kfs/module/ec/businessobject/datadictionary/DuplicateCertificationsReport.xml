@@ -1,68 +1,51 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="DuplicateCertificationsReport" parent="DuplicateCertificationsReport-parentBean" />
+  <bean id="DuplicateCertificationsReport" parent="DuplicateCertificationsReport-parentBean"/>
 
   <bean id="DuplicateCertificationsReport-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.DuplicateCertificationsReport" />
-    <property name="objectLabel" value="Duplicate Certifications Report" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.DuplicateCertificationsReport"/>
+    <property name="objectLabel" value="Duplicate Certifications Report"/>
     
-    <property name="lookupDefinition" >
-      <ref bean="DuplicateCertificationsReport-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="DuplicateCertificationsReport-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="DuplicateCertificationsReport-universityFiscalYear" />
-        <ref bean="DuplicateCertificationsReport-effortCertificationReportNumber" />
-        <ref bean="DuplicateCertificationsReport-emplid" />
+        <ref bean="DuplicateCertificationsReport-universityFiscalYear"/>
+        <ref bean="DuplicateCertificationsReport-effortCertificationReportNumber"/>
+        <ref bean="DuplicateCertificationsReport-emplid"/>
       </list>
     </property>
-    <property name="relationships" >
+    <property name="relationships">
       <list>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="employee" />
-          <property name="primitiveAttributes" >
+          <property name="objectAttributeName" value="employee"/>
+          <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="emplid"
-                    p:targetName="employeeId" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="emplid" p:targetName="employeeId"/>
             </list>
           </property>
-          <property name="supportAttributes" >
+          <property name="supportAttributes">
             <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="employee.principalName"
-                    p:targetName="principalName" />
-              <bean parent="SupportAttributeDefinition"
-                    p:sourceName="employee.name"
-                    p:targetName="name" />
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="employee.principalName" p:targetName="principalName"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="employee.name" p:targetName="name"/>
             </list>
           </property>
         </bean>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="options" />
-          <property name="primitiveAttributes" >
+          <property name="objectAttributeName" value="options"/>
+          <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="universityFiscalYear"
-                    p:targetName="universityFiscalYear" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="universityFiscalYear" p:targetName="universityFiscalYear"/>
             </list>
           </property>
         </bean>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="effortCertificationReportDefinition" />
-          <property name="primitiveAttributes" >
+          <property name="objectAttributeName" value="effortCertificationReportDefinition"/>
+          <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="effortCertificationReportNumber"
-                    p:targetName="effortCertificationReportNumber" />
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="universityFiscalYear"
-                    p:targetName="universityFiscalYear" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="effortCertificationReportNumber" p:targetName="effortCertificationReportNumber"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="universityFiscalYear" p:targetName="universityFiscalYear"/>
             </list>
           </property>
         </bean>
@@ -73,51 +56,45 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="DuplicateCertificationsReport-universityFiscalYear" parent="DuplicateCertificationsReport-universityFiscalYear-parentBean" />
+  <bean id="DuplicateCertificationsReport-universityFiscalYear" parent="DuplicateCertificationsReport-universityFiscalYear-parentBean"/>
 
   <bean id="DuplicateCertificationsReport-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="universityFiscalYear" />
+    <property name="name" value="universityFiscalYear"/>
   </bean>
-  <bean id="DuplicateCertificationsReport-effortCertificationReportNumber" parent="DuplicateCertificationsReport-effortCertificationReportNumber-parentBean" />
+  <bean id="DuplicateCertificationsReport-effortCertificationReportNumber" parent="DuplicateCertificationsReport-effortCertificationReportNumber-parentBean"/>
 
   <bean id="DuplicateCertificationsReport-effortCertificationReportNumber-parentBean" abstract="true" parent="EffortCertificationReportDefinition-effortCertificationReportNumber">
   </bean>
-  <bean id="DuplicateCertificationsReport-emplid" parent="DuplicateCertificationsReport-emplid-parentBean" />
+  <bean id="DuplicateCertificationsReport-emplid" parent="DuplicateCertificationsReport-emplid-parentBean"/>
 
   <bean id="DuplicateCertificationsReport-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
-    <property name="name" value="emplid" />
+    <property name="name" value="emplid"/>
   </bean>
 
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="DuplicateCertificationsReport-lookupDefinition" parent="DuplicateCertificationsReport-lookupDefinition-parentBean" />
+  <bean id="DuplicateCertificationsReport-lookupDefinition" parent="DuplicateCertificationsReport-lookupDefinition-parentBean"/>
 
   <bean id="DuplicateCertificationsReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Duplicate Certifications Report" />
-    <property name="lookupableID" value="duplicateCertificationsReportLookupable" />
-    <property name="instructions" value="Find Outstanding Reports" />
-    <property name="defaultSort" >
+    <property name="title" value="Duplicate Certifications Report"/>
+    <property name="lookupableID" value="duplicateCertificationsReportLookupable"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:required="true"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationReportNumber" />
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationReportNumber"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="emplid" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationReportNumber" />
+        <bean parent="FieldDefinition" p:attributeName="emplid"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationReportNumber"/>
       </list>
     </property>
   </bean>
 </beans>
-

@@ -19,7 +19,7 @@
       </list>
     </property>
     <property name="documentTypeName" value="CDS"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CashDrawerMaintenanceDocumentAuthorizer" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CashDrawerMaintenanceDocumentAuthorizer"/>
     <property name="workflowAttributes">
     	<ref bean="CashDrawerMaintenanceDocument-workflowAttributes"/>
     </property>
@@ -34,7 +34,7 @@
     <property name="title" value="Edit Campus"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="campusCode" p:unconditionallyReadOnly="true" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.fp.businessobject.defaultvalue.CashDrawerCampusDefaultValueFinder" />
+        <bean parent="MaintainableFieldDefinition" p:name="campusCode" p:unconditionallyReadOnly="true" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.fp.businessobject.defaultvalue.CashDrawerCampusDefaultValueFinder"/>
       </list>
     </property>
   </bean>

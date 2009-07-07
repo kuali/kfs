@@ -1,70 +1,58 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-	<bean id="PaymentRequestItemUseTax"
-		parent="PaymentRequestItemUseTax-parentBean" />
+	<bean id="PaymentRequestItemUseTax" parent="PaymentRequestItemUseTax-parentBean"/>
 
-	<bean id="PaymentRequestItemUseTax-parentBean" abstract="true"
-		parent="BusinessObjectEntry">
-		<property name="businessObjectClass"
-			value="org.kuali.kfs.module.purap.businessobject.PaymentRequestItemUseTax" />
+	<bean id="PaymentRequestItemUseTax-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PaymentRequestItemUseTax"/>
 		<!-- <property name="inquiryDefinition">
 			<ref bean="PaymentRequestItemUseTax-inquiryDefinition" />
 		</property>
 		<property name="lookupDefinition">
 			<ref bean="PaymentRequestItemUseTax-lookupDefinition" />
 		</property>-->
-		<property name="titleAttribute"
-			value="PaymentRequestItemUseTaxCode" />
-		<property name="objectLabel"
-			value="Delivery Required Date Reason" />
+		<property name="titleAttribute" value="PaymentRequestItemUseTaxCode"/>
+		<property name="objectLabel" value="Delivery Required Date Reason"/>
 		<property name="attributes">
 			<list>
-				<ref bean="PaymentRequestItemUseTax-paymentRequestItemUseTaxId" />
-				<ref bean="PaymentRequestItemUseTax-itemIdentifier" />
-				<ref bean="PaymentRequestItemUseTax-rateCode" />
-				<ref bean="PaymentRequestItemUseTax-taxAmount" />
-				<ref bean="PaymentRequestItemUseTax-chartOfAccountsCode" />
-				<ref bean="PaymentRequestItemUseTax-accountNumber" />
-				<ref bean="PaymentRequestItemUseTax-financialObjectCode" />
+				<ref bean="PaymentRequestItemUseTax-paymentRequestItemUseTaxId"/>
+				<ref bean="PaymentRequestItemUseTax-itemIdentifier"/>
+				<ref bean="PaymentRequestItemUseTax-rateCode"/>
+				<ref bean="PaymentRequestItemUseTax-taxAmount"/>
+				<ref bean="PaymentRequestItemUseTax-chartOfAccountsCode"/>
+				<ref bean="PaymentRequestItemUseTax-accountNumber"/>
+				<ref bean="PaymentRequestItemUseTax-financialObjectCode"/>
 			</list>
 		</property>
 	</bean>
 
-	<bean id="PaymentRequestItemUseTax-paymentRequestItemUseTaxId"	parent="PaymentRequestItemUseTax-paymentRequestItemUseTaxId-parentBean" />
+	<bean id="PaymentRequestItemUseTax-paymentRequestItemUseTaxId" parent="PaymentRequestItemUseTax-paymentRequestItemUseTaxId-parentBean"/>
 
-	<bean id="PaymentRequestItemUseTax-paymentRequestItemUseTaxId-parentBean" abstract="true" parent="PurchaseOrderItemUseTax-purchaseOrderItemUseTaxId" />
+	<bean id="PaymentRequestItemUseTax-paymentRequestItemUseTaxId-parentBean" abstract="true" parent="PurchaseOrderItemUseTax-purchaseOrderItemUseTaxId"/>
 
-	<bean id="PaymentRequestItemUseTax-itemIdentifier"	parent="PaymentRequestItemUseTax-itemIdentifier-parentBean" />
+	<bean id="PaymentRequestItemUseTax-itemIdentifier" parent="PaymentRequestItemUseTax-itemIdentifier-parentBean"/>
 
-	<bean id="PaymentRequestItemUseTax-itemIdentifier-parentBean" parent="PurchaseOrderItem-itemIdentifier" />
+	<bean id="PaymentRequestItemUseTax-itemIdentifier-parentBean" parent="PurchaseOrderItem-itemIdentifier"/>
 
-	<bean id="PaymentRequestItemUseTax-rateCode"	parent="PaymentRequestItemUseTax-rateCode-parentBean" />
+	<bean id="PaymentRequestItemUseTax-rateCode" parent="PaymentRequestItemUseTax-rateCode-parentBean"/>
 
-	<bean id="PaymentRequestItemUseTax-rateCode-parentBean"	abstract="true" parent="PurchaseOrderItemUseTax-rateCode" />
+	<bean id="PaymentRequestItemUseTax-rateCode-parentBean" abstract="true" parent="PurchaseOrderItemUseTax-rateCode"/>
 
-	<bean id="PaymentRequestItemUseTax-taxAmount" parent="PaymentRequestItemUseTax-taxAmount-parentBean" />
+	<bean id="PaymentRequestItemUseTax-taxAmount" parent="PaymentRequestItemUseTax-taxAmount-parentBean"/>
 
-	<bean id="PaymentRequestItemUseTax-taxAmount-parentBean"	abstract="true" parent="PurchaseOrderItemUseTax-taxAmount" />
+	<bean id="PaymentRequestItemUseTax-taxAmount-parentBean" abstract="true" parent="PurchaseOrderItemUseTax-taxAmount"/>
 
-	<bean id="PaymentRequestItemUseTax-chartOfAccountsCode"	parent="PaymentRequestItemUseTax-chartOfAccountsCode-parentBean" />
+	<bean id="PaymentRequestItemUseTax-chartOfAccountsCode" parent="PaymentRequestItemUseTax-chartOfAccountsCode-parentBean"/>
 
-	<bean id="PaymentRequestItemUseTax-chartOfAccountsCode-parentBean"	abstract="true" parent="Chart-chartOfAccountsCode" />
-
-
-	<bean id="PaymentRequestItemUseTax-accountNumber" parent="PaymentRequestItemUseTax-accountNumber-parentBean" />
-
-	<bean id="PaymentRequestItemUseTax-accountNumber-parentBean"	abstract="true" parent="Account-accountNumber" />
+	<bean id="PaymentRequestItemUseTax-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode"/>
 
 
-	<bean id="PaymentRequestItemUseTax-financialObjectCode"	parent="PaymentRequestItemUseTax-financialObjectCode-parentBean" />
+	<bean id="PaymentRequestItemUseTax-accountNumber" parent="PaymentRequestItemUseTax-accountNumber-parentBean"/>
 
-	<bean id="PaymentRequestItemUseTax-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode" />
+	<bean id="PaymentRequestItemUseTax-accountNumber-parentBean" abstract="true" parent="Account-accountNumber"/>
+
+
+	<bean id="PaymentRequestItemUseTax-financialObjectCode" parent="PaymentRequestItemUseTax-financialObjectCode-parentBean"/>
+
+	<bean id="PaymentRequestItemUseTax-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode"/>
 
 </beans>

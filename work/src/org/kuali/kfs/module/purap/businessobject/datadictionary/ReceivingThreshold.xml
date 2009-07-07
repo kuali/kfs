@@ -1,60 +1,47 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="ReceivingThreshold" parent="ReceivingThreshold-parentBean" />
+  <bean id="ReceivingThreshold" parent="ReceivingThreshold-parentBean"/>
 
   <bean id="ReceivingThreshold-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.ReceivingThreshold" />
-    <property name="inquiryDefinition" >
-      <ref bean="ReceivingThreshold-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.ReceivingThreshold"/>
+    <property name="inquiryDefinition">
+      <ref bean="ReceivingThreshold-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="ReceivingThreshold-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="ReceivingThreshold-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="thresholdAmount" />
-    <property name="objectLabel" value="ReceivingThreshold" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="thresholdAmount"/>
+    <property name="objectLabel" value="ReceivingThreshold"/>
+    <property name="attributes">
       <list>
-        <ref bean="ReceivingThreshold-thresholdIdentifier" />
-        <ref bean="ReceivingThreshold-chartOfAccountsCode" />
-        <ref bean="ReceivingThreshold-accountTypeCode" />
-        <ref bean="ReceivingThreshold-subFundGroupCode" />
-        <ref bean="ReceivingThreshold-purchasingCommodityCode" />
-		<ref bean="ReceivingThreshold-financialObjectCode" />
-        <ref bean="ReceivingThreshold-organizationCode" />
-        <ref bean="ReceivingThreshold-vendorHeaderGeneratedIdentifier" />        
-	    <ref bean="ReceivingThreshold-vendorDetailAssignedIdentifier" />        
-  	    <ref bean="ReceivingThreshold-vendorNumber" />  
-	    <ref bean="ReceivingThreshold-thresholdAmount" />    
-        <ref bean="ReceivingThreshold-active" />                                
+        <ref bean="ReceivingThreshold-thresholdIdentifier"/>
+        <ref bean="ReceivingThreshold-chartOfAccountsCode"/>
+        <ref bean="ReceivingThreshold-accountTypeCode"/>
+        <ref bean="ReceivingThreshold-subFundGroupCode"/>
+        <ref bean="ReceivingThreshold-purchasingCommodityCode"/>
+		<ref bean="ReceivingThreshold-financialObjectCode"/>
+        <ref bean="ReceivingThreshold-organizationCode"/>
+        <ref bean="ReceivingThreshold-vendorHeaderGeneratedIdentifier"/>        
+	    <ref bean="ReceivingThreshold-vendorDetailAssignedIdentifier"/>        
+  	    <ref bean="ReceivingThreshold-vendorNumber"/>  
+	    <ref bean="ReceivingThreshold-thresholdAmount"/>    
+        <ref bean="ReceivingThreshold-active"/>                                
       </list>
     </property>
     
-    <property name="relationships" >
+    <property name="relationships">
       <list>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="vendorDetail" />
-          <property name="primitiveAttributes" >
+          <property name="objectAttributeName" value="vendorDetail"/>
+          <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="vendorNumber"
-                    p:targetName="vendorNumber" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="vendorNumber" p:targetName="vendorNumber"/>
             </list>
           </property>
-          <property name="supportAttributes" >
+          <property name="supportAttributes">
             <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:sourceName="vendorHeaderGeneratedIdentifier"
-                    p:targetName="vendorHeaderGeneratedIdentifier" />
-              <bean parent="SupportAttributeDefinition"
-                    p:sourceName="vendorDetailAssignedIdentifier"
-                    p:targetName="vendorDetailAssignedIdentifier" />
+              <bean parent="SupportAttributeDefinition" p:sourceName="vendorHeaderGeneratedIdentifier" p:targetName="vendorHeaderGeneratedIdentifier"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="vendorDetailAssignedIdentifier" p:targetName="vendorDetailAssignedIdentifier"/>
             </list>
           </property>
         </bean>
@@ -65,129 +52,116 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="ReceivingThreshold-thresholdIdentifier" parent="ReceivingThreshold-thresholdIdentifier-parentBean" />
+  <bean id="ReceivingThreshold-thresholdIdentifier" parent="ReceivingThreshold-thresholdIdentifier-parentBean"/>
 
   <bean id="ReceivingThreshold-thresholdIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="thresholdIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Threshold Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="thresholdIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Threshold Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
+    <property name="control">
       <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
   
-  <bean id="ReceivingThreshold-thresholdAmount" parent="ReceivingThreshold-thresholdAmount-parentBean" />
+  <bean id="ReceivingThreshold-thresholdAmount" parent="ReceivingThreshold-thresholdAmount-parentBean"/>
 
   <bean id="ReceivingThreshold-thresholdAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
-    <property name="name" value="thresholdAmount" />
-    <property name="label" value="Threshold Amount" />
-    <property name="shortLabel" value="Amount" />
+    <property name="name" value="thresholdAmount"/>
+    <property name="label" value="Threshold Amount"/>
+    <property name="shortLabel" value="Amount"/>
   </bean>
   
-  <bean id="ReceivingThreshold-accountTypeCode" parent="ReceivingThreshold-accountTypeCode-parentBean" />
+  <bean id="ReceivingThreshold-accountTypeCode" parent="ReceivingThreshold-accountTypeCode-parentBean"/>
 
   <bean id="ReceivingThreshold-accountTypeCode-parentBean" abstract="true" parent="AccountType-accountTypeCode">
-	  <property name="control" >
-	      <bean parent="SelectControlDefinition"
-	            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.AcctTypeValuesFinder"
-	            p:includeKeyInLabel="false" />
+	  <property name="control">
+	      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.AcctTypeValuesFinder" p:includeKeyInLabel="false"/>
 	  </property>
   </bean>
 
-  <bean id="ReceivingThreshold-chartOfAccountsCode" parent="ReceivingThreshold-chartOfAccountsCode-parentBean" />
+  <bean id="ReceivingThreshold-chartOfAccountsCode" parent="ReceivingThreshold-chartOfAccountsCode-parentBean"/>
 
   <bean id="ReceivingThreshold-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
   </bean>
 
-  <bean id="ReceivingThreshold-financialObjectCode" parent="ReceivingThreshold-financialObjectCode-parentBean" />
+  <bean id="ReceivingThreshold-financialObjectCode" parent="ReceivingThreshold-financialObjectCode-parentBean"/>
 
   <bean id="ReceivingThreshold-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
   </bean>
   
-  <bean id="ReceivingThreshold-organizationCode" parent="ReceivingThreshold-organizationCode-parentBean" />
+  <bean id="ReceivingThreshold-organizationCode" parent="ReceivingThreshold-organizationCode-parentBean"/>
 
   <bean id="ReceivingThreshold-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
   </bean>
 	
-  <bean id="ReceivingThreshold-purchasingCommodityCode" parent="ReceivingThreshold-purchasingCommodityCode-parentBean" />
+  <bean id="ReceivingThreshold-purchasingCommodityCode" parent="ReceivingThreshold-purchasingCommodityCode-parentBean"/>
 
   <bean id="ReceivingThreshold-purchasingCommodityCode-parentBean" abstract="true" parent="CommodityCode-purchasingCommodityCode">
   </bean>
 	
-  <bean id="ReceivingThreshold-subFundGroupCode" parent="ReceivingThreshold-subFundGroupCode-parentBean" />
+  <bean id="ReceivingThreshold-subFundGroupCode" parent="ReceivingThreshold-subFundGroupCode-parentBean"/>
   
   <bean id="ReceivingThreshold-subFundGroupCode-parentBean" abstract="true" parent="SubFundGroup-subFundGroupCode">
   </bean>	
 	
-  <bean id="ReceivingThreshold-vendorHeaderGeneratedIdentifier" parent="ReceivingThreshold-vendorHeaderGeneratedIdentifier-parentBean" />
+  <bean id="ReceivingThreshold-vendorHeaderGeneratedIdentifier" parent="ReceivingThreshold-vendorHeaderGeneratedIdentifier-parentBean"/>
   
   <bean id="ReceivingThreshold-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
-    <property name="control" >
+    <property name="control">
       <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>	
 	
-  <bean id="ReceivingThreshold-vendorDetailAssignedIdentifier" parent="ReceivingThreshold-vendorDetailAssignedIdentifier-parentBean" />
+  <bean id="ReceivingThreshold-vendorDetailAssignedIdentifier" parent="ReceivingThreshold-vendorDetailAssignedIdentifier-parentBean"/>
   
   <bean id="ReceivingThreshold-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
-    <property name="control" >
+    <property name="control">
       <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>	
 	
-  <bean id="ReceivingThreshold-active" parent="ReceivingThreshold-active-parentBean" />
+  <bean id="ReceivingThreshold-active" parent="ReceivingThreshold-active-parentBean"/>
   
   <bean id="ReceivingThreshold-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-	  <property name="name" value="active" />
+	  <property name="name" value="active"/>
   </bean>
 	
 	
-  <bean id="ReceivingThreshold-vendorNumber" parent="ReceivingThreshold-vendorNumber-parentBean" />
+  <bean id="ReceivingThreshold-vendorNumber" parent="ReceivingThreshold-vendorNumber-parentBean"/>
   
   <bean id="ReceivingThreshold-vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
-    <property name="required" value="false" />
+    <property name="required" value="false"/>
   </bean>	
 	
 <!-- Business Object Inquiry Definition -->
 
-  <bean id="ReceivingThreshold-inquiryDefinition" parent="ReceivingThreshold-inquiryDefinition-parentBean" />
+  <bean id="ReceivingThreshold-inquiryDefinition" parent="ReceivingThreshold-inquiryDefinition-parentBean"/>
 
   <bean id="ReceivingThreshold-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Receiving Threshold" />
-    <property name="inquirySections" >
+    <property name="title" value="Receiving Threshold"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="thresholdIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="accountTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="subFundGroupCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchasingCommodityCode" />                    
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorHeaderGeneratedIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorDetailAssignedIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorNumber" />      
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="thresholdIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="accountTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="subFundGroupCode"/>
+              <bean parent="FieldDefinition" p:attributeName="purchasingCommodityCode"/>                    
+              <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorNumber"/>      
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -198,62 +172,42 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="ReceivingThreshold-lookupDefinition" parent="ReceivingThreshold-lookupDefinition-parentBean" />
+  <bean id="ReceivingThreshold-lookupDefinition" parent="ReceivingThreshold-lookupDefinition-parentBean"/>
 
   <bean id="ReceivingThreshold-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Receiving Threshold Lookup" />
-    <property name="instructions" value="Lookup a Receiving Threshold" />
-    <property name="lookupableID" value="thresholdLookupable" />
-    <property name="defaultSort" >
+    <property name="title" value="Receiving Threshold Lookup"/>
+    
+    <property name="lookupableID" value="thresholdLookupable"/>
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-    	 <bean parent="FieldDefinition"
-                p:attributeName="thresholdIdentifier" />
-         <bean parent="FieldDefinition"
-                p:attributeName="chartOfAccountsCode" />
-         <bean parent="FieldDefinition"
-                p:attributeName="accountTypeCode" />
-         <bean parent="FieldDefinition"
-                p:attributeName="subFundGroupCode" />
-         <bean parent="FieldDefinition"
-                p:attributeName="purchasingCommodityCode" />
-         <bean parent="FieldDefinition"
-                p:attributeName="financialObjectCode" />
-         <bean parent="FieldDefinition"
-                p:attributeName="organizationCode" />
-         <bean parent="FieldDefinition"
-                p:attributeName="vendorHeaderGeneratedIdentifier" />
-         <bean parent="FieldDefinition"
-                p:attributeName="vendorDetailAssignedIdentifier" />
-         <bean parent="FieldDefinition"
-                p:attributeName="vendorNumber" />
-         <bean parent="FieldDefinition"
-                p:attributeName="active" />
+    	 <bean parent="FieldDefinition" p:attributeName="thresholdIdentifier"/>
+         <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+         <bean parent="FieldDefinition" p:attributeName="accountTypeCode"/>
+         <bean parent="FieldDefinition" p:attributeName="subFundGroupCode"/>
+         <bean parent="FieldDefinition" p:attributeName="purchasingCommodityCode"/>
+         <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+         <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+         <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
+         <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
+         <bean parent="FieldDefinition" p:attributeName="vendorNumber"/>
+         <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-         <bean parent="FieldDefinition"
-                p:attributeName="chartOfAccountsCode" />
-         <bean parent="FieldDefinition"
-                p:attributeName="accountTypeCode" />
-         <bean parent="FieldDefinition"
-                p:attributeName="subFundGroupCode" />
-         <bean parent="FieldDefinition"
-                p:attributeName="purchasingCommodityCode" />
-         <bean parent="FieldDefinition"
-                p:attributeName="financialObjectCode" />
-         <bean parent="FieldDefinition"
-                p:attributeName="organizationCode" />
-         <bean parent="FieldDefinition"
-                p:attributeName="vendorNumber" />
-         <bean parent="FieldDefinition"
-                p:attributeName="thresholdAmount" />
-         <bean parent="FieldDefinition"
-                p:attributeName="active" />
+         <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+         <bean parent="FieldDefinition" p:attributeName="accountTypeCode"/>
+         <bean parent="FieldDefinition" p:attributeName="subFundGroupCode"/>
+         <bean parent="FieldDefinition" p:attributeName="purchasingCommodityCode"/>
+         <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+         <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+         <bean parent="FieldDefinition" p:attributeName="vendorNumber"/>
+         <bean parent="FieldDefinition" p:attributeName="thresholdAmount"/>
+         <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

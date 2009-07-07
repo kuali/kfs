@@ -1,99 +1,95 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="LedgerEntryForReporting" parent="LedgerEntryForReporting-parentBean" />
+  <bean id="LedgerEntryForReporting" parent="LedgerEntryForReporting-parentBean"/>
   <bean id="LedgerEntryForReporting-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.LedgerEntryForReporting" />
-    <property name="objectLabel" value="Ledger Entry For Reporting" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.LedgerEntryForReporting"/>
+    <property name="objectLabel" value="Ledger Entry For Reporting"/>
+    <property name="attributes">
       <list>      
-        <ref bean="LedgerEntryForReporting-financialBalanceTypeCode" />
-        <ref bean="LedgerEntryForReporting-financialSystemOriginationCode" />
-        <ref bean="LedgerEntryForReporting-universityFiscalYear" />
-        <ref bean="LedgerEntryForReporting-universityFiscalPeriodCode" />
+        <ref bean="LedgerEntryForReporting-financialBalanceTypeCode"/>
+        <ref bean="LedgerEntryForReporting-financialSystemOriginationCode"/>
+        <ref bean="LedgerEntryForReporting-universityFiscalYear"/>
+        <ref bean="LedgerEntryForReporting-universityFiscalPeriodCode"/>
         
-        <ref bean="LedgerEntryForReporting-recordCount" />
-        <ref bean="LedgerEntryForReporting-debitAmount" />
-        <ref bean="LedgerEntryForReporting-debitCount" />
-        <ref bean="LedgerEntryForReporting-creditAmount" />
-        <ref bean="LedgerEntryForReporting-creditCount" />
-        <ref bean="LedgerEntryForReporting-noDCAmount" />
-        <ref bean="LedgerEntryForReporting-noDCCount" />
+        <ref bean="LedgerEntryForReporting-recordCount"/>
+        <ref bean="LedgerEntryForReporting-debitAmount"/>
+        <ref bean="LedgerEntryForReporting-debitCount"/>
+        <ref bean="LedgerEntryForReporting-creditAmount"/>
+        <ref bean="LedgerEntryForReporting-creditCount"/>
+        <ref bean="LedgerEntryForReporting-noDCAmount"/>
+        <ref bean="LedgerEntryForReporting-noDCCount"/>
       </list>
     </property>
   </bean>
 
   <!-- Attribute Definitions -->
-  <bean id="LedgerEntryForReporting-financialBalanceTypeCode" parent="LedgerEntryForReporting-financialBalanceTypeCode-parentBean" />
+  <bean id="LedgerEntryForReporting-financialBalanceTypeCode" parent="LedgerEntryForReporting-financialBalanceTypeCode-parentBean"/>
   <bean id="LedgerEntryForReporting-financialBalanceTypeCode-parentBean" abstract="true" parent="Entry-financialBalanceTypeCode">
-    <property name="name" value="balanceType" />
+    <property name="name" value="balanceType"/>
   </bean>
     
-  <bean id="LedgerEntryForReporting-financialSystemOriginationCode" parent="LedgerEntryForReporting-financialSystemOriginationCode-parentBean" />
+  <bean id="LedgerEntryForReporting-financialSystemOriginationCode" parent="LedgerEntryForReporting-financialSystemOriginationCode-parentBean"/>
   <bean id="LedgerEntryForReporting-financialSystemOriginationCode-parentBean" abstract="true" parent="Entry-financialSystemOriginationCode">
-    <property name="name" value="originCode" />
+    <property name="name" value="originCode"/>
   </bean>
     
-  <bean id="LedgerEntryForReporting-universityFiscalYear" parent="LedgerEntryForReporting-universityFiscalYear-parentBean" />
+  <bean id="LedgerEntryForReporting-universityFiscalYear" parent="LedgerEntryForReporting-universityFiscalYear-parentBean"/>
   <bean id="LedgerEntryForReporting-universityFiscalYear-parentBean" abstract="true" parent="Entry-universityFiscalYear">
-    <property name="name" value="fiscalYear" />
+    <property name="name" value="fiscalYear"/>
   </bean>
 
-  <bean id="LedgerEntryForReporting-universityFiscalPeriodCode" parent="LedgerEntryForReporting-universityFiscalPeriodCode-parentBean" />
+  <bean id="LedgerEntryForReporting-universityFiscalPeriodCode" parent="LedgerEntryForReporting-universityFiscalPeriodCode-parentBean"/>
   <bean id="LedgerEntryForReporting-universityFiscalPeriodCode-parentBean" abstract="true" parent="Entry-universityFiscalPeriodCode">
-    <property name="name" value="period" />
+    <property name="name" value="period"/>
   </bean>
   
-  <bean id="LedgerEntryForReporting-recordCount" parent="LedgerEntryForReporting-recordCount-parentBean" />
+  <bean id="LedgerEntryForReporting-recordCount" parent="LedgerEntryForReporting-recordCount-parentBean"/>
   <bean id="LedgerEntryForReporting-recordCount-parentBean" abstract="true" parent="Entry-transactionLedgerEntryAmount">
-    <property name="name" value="recordCount" />
-    <property name="label" value="Record Count" />
-    <property name="maxLength" value="7" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter" />    
+    <property name="name" value="recordCount"/>
+    <property name="label" value="Record Count"/>
+    <property name="maxLength" value="7"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter"/>    
   </bean>  
   
-  <bean id="LedgerEntryForReporting-debitAmount" parent="LedgerEntryForReporting-debitAmount-parentBean" />
+  <bean id="LedgerEntryForReporting-debitAmount" parent="LedgerEntryForReporting-debitAmount-parentBean"/>
   <bean id="LedgerEntryForReporting-debitAmount-parentBean" abstract="true" parent="Entry-transactionLedgerEntryAmount">
-    <property name="name" value="debitAmount" />
-    <property name="label" value="Debit Amount" />
+    <property name="name" value="debitAmount"/>
+    <property name="label" value="Debit Amount"/>
   </bean>
   
-  <bean id="LedgerEntryForReporting-debitCount" parent="LedgerEntryForReporting-debitCount-parentBean" />
+  <bean id="LedgerEntryForReporting-debitCount" parent="LedgerEntryForReporting-debitCount-parentBean"/>
   <bean id="LedgerEntryForReporting-debitCount-parentBean" abstract="true" parent="Entry-transactionLedgerEntryAmount">
-    <property name="name" value="debitCount" />
-    <property name="label" value="Debit Count" />
-    <property name="maxLength" value="6" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter" />    
+    <property name="name" value="debitCount"/>
+    <property name="label" value="Debit Count"/>
+    <property name="maxLength" value="6"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter"/>    
   </bean>
   
-  <bean id="LedgerEntryForReporting-creditAmount" parent="LedgerEntryForReporting-creditAmount-parentBean" />
+  <bean id="LedgerEntryForReporting-creditAmount" parent="LedgerEntryForReporting-creditAmount-parentBean"/>
   <bean id="LedgerEntryForReporting-creditAmount-parentBean" abstract="true" parent="Entry-transactionLedgerEntryAmount">
-    <property name="name" value="creditAmount" />
-    <property name="label" value="Credit Amount" />
+    <property name="name" value="creditAmount"/>
+    <property name="label" value="Credit Amount"/>
   </bean>
   
-  <bean id="LedgerEntryForReporting-creditCount" parent="LedgerEntryForReporting-creditCount-parentBean" />
+  <bean id="LedgerEntryForReporting-creditCount" parent="LedgerEntryForReporting-creditCount-parentBean"/>
   <bean id="LedgerEntryForReporting-creditCount-parentBean" abstract="true" parent="Entry-transactionLedgerEntryAmount">
-    <property name="name" value="creditCount" />
-    <property name="label" value="Credit Count" />
-    <property name="maxLength" value="6" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter" />    
+    <property name="name" value="creditCount"/>
+    <property name="label" value="Credit Count"/>
+    <property name="maxLength" value="6"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter"/>    
   </bean>
 
-  <bean id="LedgerEntryForReporting-noDCAmount" parent="LedgerEntryForReporting-noDCAmount-parentBean" />
+  <bean id="LedgerEntryForReporting-noDCAmount" parent="LedgerEntryForReporting-noDCAmount-parentBean"/>
   <bean id="LedgerEntryForReporting-noDCAmount-parentBean" abstract="true" parent="Entry-transactionLedgerEntryAmount">
-    <property name="name" value="noDCAmount" />
-    <property name="label" value="No D/C Code Amount" />
+    <property name="name" value="noDCAmount"/>
+    <property name="label" value="No D/C Code Amount"/>
   </bean>
   
-  <bean id="LedgerEntryForReporting-noDCCount" parent="LedgerEntryForReporting-noDCCount-parentBean" />
+  <bean id="LedgerEntryForReporting-noDCCount" parent="LedgerEntryForReporting-noDCCount-parentBean"/>
   <bean id="LedgerEntryForReporting-noDCCount-parentBean" abstract="true" parent="Entry-transactionLedgerEntryAmount">
-    <property name="name" value="noDCCount" />
-    <property name="label" value="No D/C Code Count" />
-    <property name="maxLength" value="6" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter" />    
+    <property name="name" value="noDCCount"/>
+    <property name="label" value="No D/C Code Count"/>
+    <property name="maxLength" value="6"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.IntegerFormatter"/>    
   </bean>    
 </beans>

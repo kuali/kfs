@@ -1,28 +1,24 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="FundGroup" parent="FundGroup-parentBean" />
+  <bean id="FundGroup" parent="FundGroup-parentBean"/>
 
   <bean id="FundGroup-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.FundGroup" />
-    <property name="inquiryDefinition" >
-      <ref bean="FundGroup-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.FundGroup"/>
+    <property name="inquiryDefinition">
+      <ref bean="FundGroup-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="FundGroup-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="FundGroup-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="code" />
-    <property name="objectLabel" value="Fund Group" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="code"/>
+    <property name="objectLabel" value="Fund Group"/>
+    <property name="attributes">
       <list>
-        <ref bean="FundGroup-code" />
-        <ref bean="FundGroup-active" />
-        <ref bean="FundGroup-financialReportingSortCode" />
-        <ref bean="FundGroup-name" />
-        <ref bean="FundGroup-fundGroupBudgetAdjustmentRestrictionLevelCode" />
+        <ref bean="FundGroup-code"/>
+        <ref bean="FundGroup-active"/>
+        <ref bean="FundGroup-financialReportingSortCode"/>
+        <ref bean="FundGroup-name"/>
+        <ref bean="FundGroup-fundGroupBudgetAdjustmentRestrictionLevelCode"/>
       </list>
     </property>
   </bean>
@@ -30,103 +26,89 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="FundGroup-code" parent="FundGroup-code-parentBean" />
+  <bean id="FundGroup-code" parent="FundGroup-code-parentBean"/>
 
   <bean id="FundGroup-code-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="code" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Fund Group Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern"
-            p:exactLength="2" />
+    <property name="name" value="code"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Fund Group Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern" p:exactLength="2"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="FundGroup-active" parent="FundGroup-active-parentBean" />
+  <bean id="FundGroup-active" parent="FundGroup-active-parentBean"/>
 
   <bean id="FundGroup-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
-  <bean id="FundGroup-financialReportingSortCode" parent="FundGroup-financialReportingSortCode-parentBean" />
+  <bean id="FundGroup-financialReportingSortCode" parent="FundGroup-financialReportingSortCode-parentBean"/>
 
   <bean id="FundGroup-financialReportingSortCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialReportingSortCode" />
-    <property name="label" value="Financial Reporting Sort Code" />
-    <property name="shortLabel" value="Fin. Rpt. Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern"
-            p:exactLength="2" />
+    <property name="name" value="financialReportingSortCode"/>
+    <property name="label" value="Financial Reporting Sort Code"/>
+    <property name="shortLabel" value="Fin. Rpt. Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern" p:exactLength="2"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="FundGroup-name" parent="FundGroup-name-parentBean" />
+  <bean id="FundGroup-name" parent="FundGroup-name-parentBean"/>
 
   <bean id="FundGroup-name-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="name" />
-    <property name="label" value="Fund Group Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="name"/>
+    <property name="label" value="Fund Group Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="42" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="42"/>
     </property>
   </bean>
-  <bean id="FundGroup-fundGroupBudgetAdjustmentRestrictionLevelCode" parent="FundGroup-fundGroupBudgetAdjustmentRestrictionLevelCode-parentBean" />
+  <bean id="FundGroup-fundGroupBudgetAdjustmentRestrictionLevelCode" parent="FundGroup-fundGroupBudgetAdjustmentRestrictionLevelCode-parentBean"/>
 
   <bean id="FundGroup-fundGroupBudgetAdjustmentRestrictionLevelCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="fundGroupBudgetAdjustmentRestrictionLevelCode" />
-    <property name="label" value="Budget Adjustment Restriction Code" />
-    <property name="shortLabel" value="BA Code" />
-    <property name="maxLength" value="1" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.BudgetAdjustmentFundRestrictionsValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="fundGroupBudgetAdjustmentRestrictionLevelCode"/>
+    <property name="label" value="Budget Adjustment Restriction Code"/>
+    <property name="shortLabel" value="BA Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.BudgetAdjustmentFundRestrictionsValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="FundGroup-inquiryDefinition" parent="FundGroup-inquiryDefinition-parentBean" />
+  <bean id="FundGroup-inquiryDefinition" parent="FundGroup-inquiryDefinition-parentBean"/>
 
   <bean id="FundGroup-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Fund Group Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Fund Group Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="code"
-                    p:noInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="name" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialReportingSortCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="fundGroupBudgetAdjustmentRestrictionLevelCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="code" p:noInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
+              <bean parent="FieldDefinition" p:attributeName="financialReportingSortCode"/>
+              <bean parent="FieldDefinition" p:attributeName="fundGroupBudgetAdjustmentRestrictionLevelCode"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -137,46 +119,36 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="FundGroup-lookupDefinition" parent="FundGroup-lookupDefinition-parentBean" />
+  <bean id="FundGroup-lookupDefinition" parent="FundGroup-lookupDefinition-parentBean"/>
 
   <bean id="FundGroup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Fund Group Lookup" />
-    <property name="instructions" value="Lookup a Fund Group" />
-    <property name="defaultSort" >
+    <property name="title" value="Fund Group Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>code</value>
           </list>
         </property>
-        <property name="sortAscending" value="false" />
+        <property name="sortAscending" value="false"/>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialReportingSortCode" />
-        <bean parent="FieldDefinition"
-              p:defaultValue="Y"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="financialReportingSortCode"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialReportingSortCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="fundGroupBudgetAdjustmentRestrictionLevelCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="financialReportingSortCode"/>
+        <bean parent="FieldDefinition" p:attributeName="fundGroupBudgetAdjustmentRestrictionLevelCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

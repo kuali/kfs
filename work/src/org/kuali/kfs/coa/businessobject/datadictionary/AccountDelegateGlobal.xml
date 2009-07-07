@@ -1,19 +1,15 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AccountDelegateGlobal" parent="AccountDelegateGlobal-parentBean" />
+  <bean id="AccountDelegateGlobal" parent="AccountDelegateGlobal-parentBean"/>
 
   <bean id="AccountDelegateGlobal-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountDelegateGlobal" />
-    <property name="objectLabel" value="Account Delegate Global" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountDelegateGlobal"/>
+    <property name="objectLabel" value="Account Delegate Global"/>
+    <property name="attributes">
       <list>
-        <ref bean="AccountDelegateGlobal-model.chartOfAccountsCode" />
-        <ref bean="AccountDelegateGlobal-model.organizationCode" />
-        <ref bean="AccountDelegateGlobal-model.accountDelegateModelName" />
+        <ref bean="AccountDelegateGlobal-model.chartOfAccountsCode"/>
+        <ref bean="AccountDelegateGlobal-model.organizationCode"/>
+        <ref bean="AccountDelegateGlobal-model.accountDelegateModelName"/>
       </list>
     </property>
   </bean>
@@ -21,29 +17,27 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AccountDelegateGlobal-model.chartOfAccountsCode" parent="AccountDelegateGlobal-model.chartOfAccountsCode-parentBean" />
+  <bean id="AccountDelegateGlobal-model.chartOfAccountsCode" parent="AccountDelegateGlobal-model.chartOfAccountsCode-parentBean"/>
 
   <bean id="AccountDelegateGlobal-model.chartOfAccountsCode-parentBean" abstract="true" parent="AccountDelegateModel-chartOfAccountsCode">
-    <property name="name" value="model.chartOfAccountsCode" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="model.chartOfAccountsCode"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="AccountDelegateGlobal-model.organizationCode" parent="AccountDelegateGlobal-model.organizationCode-parentBean" />
+  <bean id="AccountDelegateGlobal-model.organizationCode" parent="AccountDelegateGlobal-model.organizationCode-parentBean"/>
 
   <bean id="AccountDelegateGlobal-model.organizationCode-parentBean" abstract="true" parent="AccountDelegateModel-organizationCode">
-    <property name="name" value="model.organizationCode" />
-    <property name="shortLabel" value="Org" />
+    <property name="name" value="model.organizationCode"/>
+    <property name="shortLabel" value="Org"/>
   </bean>
-  <bean id="AccountDelegateGlobal-model.accountDelegateModelName" parent="AccountDelegateGlobal-model.accountDelegateModelName-parentBean" />
+  <bean id="AccountDelegateGlobal-model.accountDelegateModelName" parent="AccountDelegateGlobal-model.accountDelegateModelName-parentBean"/>
 
   <bean id="AccountDelegateGlobal-model.accountDelegateModelName-parentBean" abstract="true" parent="AccountDelegateModel-accountDelegateModelName">
-    <property name="name" value="model.accountDelegateModelName" />
-    <property name="label" value="Model Name" />
-    <property name="shortLabel" value="Load" />
-    <property name="required" value="false" />
+    <property name="name" value="model.accountDelegateModelName"/>
+    <property name="label" value="Model Name"/>
+    <property name="shortLabel" value="Load"/>
+    <property name="required" value="false"/>
   </bean>
 </beans>

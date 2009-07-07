@@ -1,60 +1,51 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="EffortCertificationDetailBuild" parent="EffortCertificationDetailBuild-parentBean" />
+  <bean id="EffortCertificationDetailBuild" parent="EffortCertificationDetailBuild-parentBean"/>
 
   <bean id="EffortCertificationDetailBuild-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailBuild" />
-    <property name="objectLabel" value="Effort Certification Detail Line Build" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailBuild"/>
+    <property name="objectLabel" value="Effort Certification Detail Line Build"/>
     
-    <property name="inquiryDefinition" >
-      <ref bean="EffortCertificationDetailBuild-inquiryDefinition" />
+    <property name="inquiryDefinition">
+      <ref bean="EffortCertificationDetailBuild-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="EffortCertificationDetailBuild-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="EffortCertificationDetailBuild-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="EffortCertificationDetailBuild-effortCertificationBuildNumber" />
-        <ref bean="EffortCertificationDetailBuild-effortCertificationOriginalPayrollAmount" />
-        <ref bean="EffortCertificationDetailBuild-effortCertificationPayrollAmount" />
-        <ref bean="EffortCertificationDetailBuild-effortCertificationCalculatedOverallPercent" />
-        <ref bean="EffortCertificationDetailBuild-effortCertificationUpdatedOverallPercent" />
-        <ref bean="EffortCertificationDetailBuild-universityFiscalYear" />
-        <ref bean="EffortCertificationDetailBuild-accountNumber" />
-        <ref bean="EffortCertificationDetailBuild-chartOfAccountsCode" />
-        <ref bean="EffortCertificationDetailBuild-subAccountNumber" />
-        <ref bean="EffortCertificationDetailBuild-financialObjectCode" />
-        <ref bean="EffortCertificationDetailBuild-positionNumber" />
-        <ref bean="EffortCertificationDetailBuild-sourceAccountNumber" />
-        <ref bean="EffortCertificationDetailBuild-sourceChartOfAccountsCode" />
-        <ref bean="EffortCertificationDetailBuild-costShareSourceSubAccountNumber" />
-        <ref bean="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationBuildNumber" />
-        <ref bean="EffortCertificationDetailBuild-effortCertificationDocumentBuild.emplid" />
-        <ref bean="EffortCertificationDetailBuild-effortCertificationDocumentBuild.universityFiscalYear" />
-        <ref bean="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationReportNumber" />
+        <ref bean="EffortCertificationDetailBuild-effortCertificationBuildNumber"/>
+        <ref bean="EffortCertificationDetailBuild-effortCertificationOriginalPayrollAmount"/>
+        <ref bean="EffortCertificationDetailBuild-effortCertificationPayrollAmount"/>
+        <ref bean="EffortCertificationDetailBuild-effortCertificationCalculatedOverallPercent"/>
+        <ref bean="EffortCertificationDetailBuild-effortCertificationUpdatedOverallPercent"/>
+        <ref bean="EffortCertificationDetailBuild-universityFiscalYear"/>
+        <ref bean="EffortCertificationDetailBuild-accountNumber"/>
+        <ref bean="EffortCertificationDetailBuild-chartOfAccountsCode"/>
+        <ref bean="EffortCertificationDetailBuild-subAccountNumber"/>
+        <ref bean="EffortCertificationDetailBuild-financialObjectCode"/>
+        <ref bean="EffortCertificationDetailBuild-positionNumber"/>
+        <ref bean="EffortCertificationDetailBuild-sourceAccountNumber"/>
+        <ref bean="EffortCertificationDetailBuild-sourceChartOfAccountsCode"/>
+        <ref bean="EffortCertificationDetailBuild-costShareSourceSubAccountNumber"/>
+        <ref bean="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationBuildNumber"/>
+        <ref bean="EffortCertificationDetailBuild-effortCertificationDocumentBuild.emplid"/>
+        <ref bean="EffortCertificationDetailBuild-effortCertificationDocumentBuild.universityFiscalYear"/>
+        <ref bean="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationReportNumber"/>
       </list>
     </property>
-    <property name="relationships" >
+    <property name="relationships">
       <list>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="effortCertificationDocumentBuild.employee" />
-          <property name="primitiveAttributes" >
+          <property name="objectAttributeName" value="effortCertificationDocumentBuild.employee"/>
+          <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="effortCertificationDocumentBuild.employee.principalId"
-                    p:targetName="principalId" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="effortCertificationDocumentBuild.employee.principalId" p:targetName="principalId"/>
             </list>
           </property>
-          <property name="supportAttributes" >
+          <property name="supportAttributes">
             <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="effortCertificationDocumentBuild.emplid"
-                    p:targetName="employeeId" />
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="effortCertificationDocumentBuild.emplid" p:targetName="employeeId"/>
             </list>
           </property>
         </bean>
@@ -65,131 +56,114 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="EffortCertificationDetailBuild-effortCertificationBuildNumber" parent="EffortCertificationDetailBuild-effortCertificationBuildNumber-parentBean" />
+  <bean id="EffortCertificationDetailBuild-effortCertificationBuildNumber" parent="EffortCertificationDetailBuild-effortCertificationBuildNumber-parentBean"/>
 
   <bean id="EffortCertificationDetailBuild-effortCertificationBuildNumber-parentBean" abstract="true" parent="EffortCertificationDocumentBuild-effortCertificationBuildNumber">
   </bean>
-  <bean id="EffortCertificationDetailBuild-effortCertificationOriginalPayrollAmount" parent="EffortCertificationDetailBuild-effortCertificationOriginalPayrollAmount-parentBean" />
+  <bean id="EffortCertificationDetailBuild-effortCertificationOriginalPayrollAmount" parent="EffortCertificationDetailBuild-effortCertificationOriginalPayrollAmount-parentBean"/>
 
   <bean id="EffortCertificationDetailBuild-effortCertificationOriginalPayrollAmount-parentBean" abstract="true" parent="EffortCertificationDetail-effortCertificationOriginalPayrollAmount">
   </bean>
-  <bean id="EffortCertificationDetailBuild-effortCertificationPayrollAmount" parent="EffortCertificationDetailBuild-effortCertificationPayrollAmount-parentBean" />
+  <bean id="EffortCertificationDetailBuild-effortCertificationPayrollAmount" parent="EffortCertificationDetailBuild-effortCertificationPayrollAmount-parentBean"/>
 
   <bean id="EffortCertificationDetailBuild-effortCertificationPayrollAmount-parentBean" abstract="true" parent="EffortCertificationDetail-effortCertificationPayrollAmount">
   </bean>
-  <bean id="EffortCertificationDetailBuild-effortCertificationCalculatedOverallPercent" parent="EffortCertificationDetailBuild-effortCertificationCalculatedOverallPercent-parentBean" />
+  <bean id="EffortCertificationDetailBuild-effortCertificationCalculatedOverallPercent" parent="EffortCertificationDetailBuild-effortCertificationCalculatedOverallPercent-parentBean"/>
 
   <bean id="EffortCertificationDetailBuild-effortCertificationCalculatedOverallPercent-parentBean" abstract="true" parent="EffortCertificationDetail-effortCertificationCalculatedOverallPercent">
   </bean>
-  <bean id="EffortCertificationDetailBuild-effortCertificationUpdatedOverallPercent" parent="EffortCertificationDetailBuild-effortCertificationUpdatedOverallPercent-parentBean" />
+  <bean id="EffortCertificationDetailBuild-effortCertificationUpdatedOverallPercent" parent="EffortCertificationDetailBuild-effortCertificationUpdatedOverallPercent-parentBean"/>
 
   <bean id="EffortCertificationDetailBuild-effortCertificationUpdatedOverallPercent-parentBean" abstract="true" parent="EffortCertificationDetail-effortCertificationUpdatedOverallPercent">
   </bean>
-  <bean id="EffortCertificationDetailBuild-universityFiscalYear" parent="EffortCertificationDetailBuild-universityFiscalYear-parentBean" />
+  <bean id="EffortCertificationDetailBuild-universityFiscalYear" parent="EffortCertificationDetailBuild-universityFiscalYear-parentBean"/>
 
   <bean id="EffortCertificationDetailBuild-universityFiscalYear-parentBean" abstract="true" parent="EffortCertificationDetail-universityFiscalYear">
   </bean>
-  <bean id="EffortCertificationDetailBuild-accountNumber" parent="EffortCertificationDetailBuild-accountNumber-parentBean" />
+  <bean id="EffortCertificationDetailBuild-accountNumber" parent="EffortCertificationDetailBuild-accountNumber-parentBean"/>
 
   <bean id="EffortCertificationDetailBuild-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
   </bean>
-  <bean id="EffortCertificationDetailBuild-chartOfAccountsCode" parent="EffortCertificationDetailBuild-chartOfAccountsCode-parentBean" />
+  <bean id="EffortCertificationDetailBuild-chartOfAccountsCode" parent="EffortCertificationDetailBuild-chartOfAccountsCode-parentBean"/>
 
   <bean id="EffortCertificationDetailBuild-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
   </bean>
-  <bean id="EffortCertificationDetailBuild-subAccountNumber" parent="EffortCertificationDetailBuild-subAccountNumber-parentBean" />
+  <bean id="EffortCertificationDetailBuild-subAccountNumber" parent="EffortCertificationDetailBuild-subAccountNumber-parentBean"/>
 
   <bean id="EffortCertificationDetailBuild-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
   </bean>
-  <bean id="EffortCertificationDetailBuild-financialObjectCode" parent="EffortCertificationDetailBuild-financialObjectCode-parentBean" />
+  <bean id="EffortCertificationDetailBuild-financialObjectCode" parent="EffortCertificationDetailBuild-financialObjectCode-parentBean"/>
 
   <bean id="EffortCertificationDetailBuild-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
   </bean>
-  <bean id="EffortCertificationDetailBuild-positionNumber" parent="EffortCertificationDetailBuild-positionNumber-parentBean" />
+  <bean id="EffortCertificationDetailBuild-positionNumber" parent="EffortCertificationDetailBuild-positionNumber-parentBean"/>
 
   <bean id="EffortCertificationDetailBuild-positionNumber-parentBean" abstract="true" parent="PositionData-positionNumber">
   </bean>
-  <bean id="EffortCertificationDetailBuild-sourceAccountNumber" parent="EffortCertificationDetailBuild-sourceAccountNumber-parentBean" />
+  <bean id="EffortCertificationDetailBuild-sourceAccountNumber" parent="EffortCertificationDetailBuild-sourceAccountNumber-parentBean"/>
 
   <bean id="EffortCertificationDetailBuild-sourceAccountNumber-parentBean" abstract="true" parent="EffortCertificationDetail-sourceAccountNumber">
   </bean>
-  <bean id="EffortCertificationDetailBuild-sourceChartOfAccountsCode" parent="EffortCertificationDetailBuild-sourceChartOfAccountsCode-parentBean" />
+  <bean id="EffortCertificationDetailBuild-sourceChartOfAccountsCode" parent="EffortCertificationDetailBuild-sourceChartOfAccountsCode-parentBean"/>
 
   <bean id="EffortCertificationDetailBuild-sourceChartOfAccountsCode-parentBean" abstract="true" parent="EffortCertificationDetail-sourceChartOfAccountsCode">
   </bean>
-  <bean id="EffortCertificationDetailBuild-costShareSourceSubAccountNumber" parent="EffortCertificationDetailBuild-costShareSourceSubAccountNumber-parentBean" />
+  <bean id="EffortCertificationDetailBuild-costShareSourceSubAccountNumber" parent="EffortCertificationDetailBuild-costShareSourceSubAccountNumber-parentBean"/>
 
   <bean id="EffortCertificationDetailBuild-costShareSourceSubAccountNumber-parentBean" abstract="true" parent="EffortCertificationDetail-costShareSourceSubAccountNumber">
   </bean>
-  <bean id="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationBuildNumber" parent="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationBuildNumber-parentBean" />
+  <bean id="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationBuildNumber" parent="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationBuildNumber-parentBean"/>
 
   <bean id="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationBuildNumber-parentBean" abstract="true" parent="EffortCertificationDocumentBuild-effortCertificationBuildNumber">
-    <property name="name" value="effortCertificationDocumentBuild.effortCertificationBuildNumber" />
+    <property name="name" value="effortCertificationDocumentBuild.effortCertificationBuildNumber"/>
   </bean>
-  <bean id="EffortCertificationDetailBuild-effortCertificationDocumentBuild.emplid" parent="EffortCertificationDetailBuild-effortCertificationDocumentBuild.emplid-parentBean" />
+  <bean id="EffortCertificationDetailBuild-effortCertificationDocumentBuild.emplid" parent="EffortCertificationDetailBuild-effortCertificationDocumentBuild.emplid-parentBean"/>
 
   <bean id="EffortCertificationDetailBuild-effortCertificationDocumentBuild.emplid-parentBean" abstract="true" parent="EffortCertificationDocumentBuild-emplid">
-    <property name="name" value="effortCertificationDocumentBuild.emplid" />
+    <property name="name" value="effortCertificationDocumentBuild.emplid"/>
   </bean>
-  <bean id="EffortCertificationDetailBuild-effortCertificationDocumentBuild.universityFiscalYear" parent="EffortCertificationDetailBuild-effortCertificationDocumentBuild.universityFiscalYear-parentBean" />
+  <bean id="EffortCertificationDetailBuild-effortCertificationDocumentBuild.universityFiscalYear" parent="EffortCertificationDetailBuild-effortCertificationDocumentBuild.universityFiscalYear-parentBean"/>
 
   <bean id="EffortCertificationDetailBuild-effortCertificationDocumentBuild.universityFiscalYear-parentBean" abstract="true" parent="EffortCertificationDocumentBuild-universityFiscalYear">
-    <property name="name" value="effortCertificationDocumentBuild.universityFiscalYear" />
+    <property name="name" value="effortCertificationDocumentBuild.universityFiscalYear"/>
   </bean>
-  <bean id="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationReportNumber" parent="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationReportNumber-parentBean" />
+  <bean id="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationReportNumber" parent="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationReportNumber-parentBean"/>
 
   <bean id="EffortCertificationDetailBuild-effortCertificationDocumentBuild.effortCertificationReportNumber-parentBean" abstract="true" parent="EffortCertificationDocumentBuild-effortCertificationReportNumber">
-    <property name="name" value="effortCertificationDocumentBuild.effortCertificationReportNumber" />
+    <property name="name" value="effortCertificationDocumentBuild.effortCertificationReportNumber"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="EffortCertificationDetailBuild-inquiryDefinition" parent="EffortCertificationDetailBuild-inquiryDefinition-parentBean" />
+  <bean id="EffortCertificationDetailBuild-inquiryDefinition" parent="EffortCertificationDetailBuild-inquiryDefinition-parentBean"/>
 
   <bean id="EffortCertificationDetailBuild-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Effort Certification Extract Line Build Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Effort Certification Extract Line Build Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationDocumentBuild.universityFiscalYear" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationBuildNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationDocumentBuild.effortCertificationReportNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationDocumentBuild.emplid" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="accountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="subAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="positionNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="sourceChartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="sourceAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="costShareSourceSubAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYear" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationUpdatedOverallPercent" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationCalculatedOverallPercent" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationPayrollAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationOriginalPayrollAmount" />
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationDocumentBuild.universityFiscalYear"/>
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationBuildNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationDocumentBuild.effortCertificationReportNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationDocumentBuild.emplid"/>
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="sourceChartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="sourceAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="costShareSourceSubAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationUpdatedOverallPercent"/>
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationCalculatedOverallPercent"/>
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationPayrollAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationOriginalPayrollAmount"/>
             </list>
           </property>
         </bean>
@@ -200,53 +174,37 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="EffortCertificationDetailBuild-lookupDefinition" parent="EffortCertificationDetailBuild-lookupDefinition-parentBean" />
+  <bean id="EffortCertificationDetailBuild-lookupDefinition" parent="EffortCertificationDetailBuild-lookupDefinition-parentBean"/>
 
   <bean id="EffortCertificationDetailBuild-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Effort Certification Extract Build Lookup" />
-    <property name="lookupableID" value="effortCertificationDetailBuildLookupable" />
-    <property name="instructions" value="Look up an Effort Certification Extract Build" />
-    <property name="defaultSort" >
+    <property name="title" value="Effort Certification Extract Build Lookup"/>
+    <property name="lookupableID" value="effortCertificationDetailBuildLookupable"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:required="true"
-              p:attributeName="effortCertificationDocumentBuild.universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationDocumentBuild.effortCertificationReportNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationDocumentBuild.emplid" />
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="effortCertificationDocumentBuild.universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationDocumentBuild.effortCertificationReportNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationDocumentBuild.emplid"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationBuildNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationDocumentBuild.universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationDocumentBuild.effortCertificationReportNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationDocumentBuild.emplid" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="subAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="sourceChartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="sourceAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationCalculatedOverallPercent" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationPayrollAmount" />
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationBuildNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationDocumentBuild.universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationDocumentBuild.effortCertificationReportNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationDocumentBuild.emplid"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="sourceChartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="sourceAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationCalculatedOverallPercent"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationPayrollAmount"/>
       </list>
     </property>
   </bean>
 </beans>
-

@@ -1,57 +1,53 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="ExpenseTransferTargetAccountingLine" parent="ExpenseTransferTargetAccountingLine-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine" parent="ExpenseTransferTargetAccountingLine-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine" />
-    <property name="objectLabel" value="Expense Transfer Target Accounting Line" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine"/>
+    <property name="objectLabel" value="Expense Transfer Target Accounting Line"/>
     
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="ExpenseTransferTargetAccountingLine-emplid" />
-        <ref bean="ExpenseTransferTargetAccountingLine-payrollEndDateFiscalPeriodCode" />
-        <ref bean="ExpenseTransferTargetAccountingLine-payrollEndDateFiscalYear" />
-        <ref bean="ExpenseTransferTargetAccountingLine-payrollTotalHours" />
-        <ref bean="ExpenseTransferTargetAccountingLine-positionNumber" />
-        <ref bean="ExpenseTransferTargetAccountingLine-objectCode.financialObjectTypeCode" />
-        <ref bean="ExpenseTransferTargetAccountingLine-objectCode.financialObjectSubTypeCode" />
-        <ref bean="ExpenseTransferTargetAccountingLine-objectCode.financialObjectLevelCode" />
-        <ref bean="ExpenseTransferTargetAccountingLine-account.financialHigherEdFunctionCd" />
-        <ref bean="ExpenseTransferTargetAccountingLine-account.subFundGroupCode" />
-        <ref bean="ExpenseTransferTargetAccountingLine-account.subFundGroup.fundGroupCode" />
-        <ref bean="ExpenseTransferTargetAccountingLine-balanceTypeCode" />
-        <ref bean="ExpenseTransferTargetAccountingLine-referenceNumber" />
-        <ref bean="ExpenseTransferTargetAccountingLine-sequenceNumber" />
-        <ref bean="ExpenseTransferTargetAccountingLine-financialObjectCode" />
-        <ref bean="ExpenseTransferTargetAccountingLine-accountNumber" />
-        <ref bean="ExpenseTransferTargetAccountingLine-organizationReferenceId" />
-        <ref bean="ExpenseTransferTargetAccountingLine-chartOfAccountsCode" />
-        <ref bean="ExpenseTransferTargetAccountingLine-postingYear" />
-        <ref bean="ExpenseTransferTargetAccountingLine-referenceOriginCode" />
-        <ref bean="ExpenseTransferTargetAccountingLine-overrideCode" />
-        <ref bean="ExpenseTransferTargetAccountingLine-amount" />
-        <ref bean="ExpenseTransferTargetAccountingLine-subAccountNumber" />
-        <ref bean="ExpenseTransferTargetAccountingLine-referenceTypeCode" />
-        <ref bean="ExpenseTransferTargetAccountingLine-projectCode" />
-        <ref bean="ExpenseTransferTargetAccountingLine-financialSubObjectCode" />
-        <ref bean="ExpenseTransferTargetAccountingLine-documentNumber" />
-        <ref bean="ExpenseTransferTargetAccountingLine-debitCreditCode" />
-        <ref bean="ExpenseTransferTargetAccountingLine-encumbranceUpdateCode" />
-        <ref bean="ExpenseTransferTargetAccountingLine-objectTypeCode" />
-        <ref bean="ExpenseTransferTargetAccountingLine-accountExpiredOverride" />
-        <ref bean="ExpenseTransferTargetAccountingLine-nonFringeAccountOverride" />
-        <ref bean="ExpenseTransferTargetAccountingLine-objectBudgetOverride" />
-        <ref bean="ExpenseTransferTargetAccountingLine-financialDocumentLineDescription" />
-        <ref bean="ExpenseTransferTargetAccountingLine-salesTaxRequired" />
-        <ref bean="ExpenseTransferTargetAccountingLine-salesTax.chartOfAccountsCode" />
-        <ref bean="ExpenseTransferTargetAccountingLine-salesTax.accountNumber" />
-        <ref bean="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentGrossSalesAmount" />
-        <ref bean="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount" />
-        <ref bean="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentSaleDate" />
+        <ref bean="ExpenseTransferTargetAccountingLine-emplid"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-payrollEndDateFiscalPeriodCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-payrollEndDateFiscalYear"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-payrollTotalHours"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-positionNumber"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-objectCode.financialObjectTypeCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-objectCode.financialObjectSubTypeCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-objectCode.financialObjectLevelCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-account.financialHigherEdFunctionCd"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-account.subFundGroupCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-account.subFundGroup.fundGroupCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-balanceTypeCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-referenceNumber"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-sequenceNumber"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-financialObjectCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-accountNumber"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-organizationReferenceId"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-chartOfAccountsCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-postingYear"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-referenceOriginCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-overrideCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-amount"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-subAccountNumber"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-referenceTypeCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-projectCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-financialSubObjectCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-documentNumber"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-debitCreditCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-encumbranceUpdateCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-objectTypeCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-accountExpiredOverride"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-nonFringeAccountOverride"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-objectBudgetOverride"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-financialDocumentLineDescription"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-salesTaxRequired"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-salesTax.chartOfAccountsCode"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-salesTax.accountNumber"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentGrossSalesAmount"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount"/>
+        <ref bean="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentSaleDate"/>
       </list>
     </property>
   </bean>
@@ -59,396 +55,384 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="ExpenseTransferTargetAccountingLine-emplid" parent="ExpenseTransferTargetAccountingLine-emplid-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-emplid" parent="ExpenseTransferTargetAccountingLine-emplid-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-emplid-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="emplid" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Employee ID" />
-    <property name="shortLabel" value="Empl ID" />
-    <property name="maxLength" value="11" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="13" />
+    <property name="name" value="emplid"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Employee ID"/>
+    <property name="shortLabel" value="Empl ID"/>
+    <property name="maxLength" value="11"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="13"/>
     </property>
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-payrollEndDateFiscalPeriodCode" parent="ExpenseTransferTargetAccountingLine-payrollEndDateFiscalPeriodCode-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-payrollEndDateFiscalPeriodCode" parent="ExpenseTransferTargetAccountingLine-payrollEndDateFiscalPeriodCode-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-payrollEndDateFiscalPeriodCode-parentBean" abstract="true" parent="GenericAttributes-universityFiscalAccountingPeriod">
-    <property name="name" value="payrollEndDateFiscalPeriodCode" />
-    <property name="label" value="Payroll End Date Fiscal Period Code" />
-    <property name="shortLabel" value="Pay Per" />
+    <property name="name" value="payrollEndDateFiscalPeriodCode"/>
+    <property name="label" value="Payroll End Date Fiscal Period Code"/>
+    <property name="shortLabel" value="Pay Per"/>
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-payrollEndDateFiscalYear" parent="ExpenseTransferTargetAccountingLine-payrollEndDateFiscalYear-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-payrollEndDateFiscalYear" parent="ExpenseTransferTargetAccountingLine-payrollEndDateFiscalYear-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-payrollEndDateFiscalYear-parentBean" abstract="true" parent="TargetAccountingLine-postingYear">
-    <property name="name" value="payrollEndDateFiscalYear" />
-    <property name="label" value="Payroll End Date Fiscal Year" />
-    <property name="shortLabel" value="Pay FY" />
+    <property name="name" value="payrollEndDateFiscalYear"/>
+    <property name="label" value="Payroll End Date Fiscal Year"/>
+    <property name="shortLabel" value="Pay FY"/>
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-payrollTotalHours" parent="ExpenseTransferTargetAccountingLine-payrollTotalHours-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-payrollTotalHours" parent="ExpenseTransferTargetAccountingLine-payrollTotalHours-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-payrollTotalHours-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="payrollTotalHours" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Payroll Total Hours" />
-    <property name="shortLabel" value="Pay Hrs" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="payrollTotalHours"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Payroll Total Hours"/>
+    <property name="shortLabel" value="Pay Hrs"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-positionNumber" parent="ExpenseTransferTargetAccountingLine-positionNumber-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-positionNumber" parent="ExpenseTransferTargetAccountingLine-positionNumber-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-positionNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="positionNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Position Number" />
-    <property name="shortLabel" value="Position" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="positionNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Position Number"/>
+    <property name="shortLabel" value="Position"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-objectCode.financialObjectTypeCode" parent="ExpenseTransferTargetAccountingLine-objectCode.financialObjectTypeCode-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-objectCode.financialObjectTypeCode" parent="ExpenseTransferTargetAccountingLine-objectCode.financialObjectTypeCode-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-objectCode.financialObjectTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectTypeCode">
-    <property name="name" value="objectCode.financialObjectTypeCode" />
+    <property name="name" value="objectCode.financialObjectTypeCode"/>
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-objectCode.financialObjectSubTypeCode" parent="ExpenseTransferTargetAccountingLine-objectCode.financialObjectSubTypeCode-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-objectCode.financialObjectSubTypeCode" parent="ExpenseTransferTargetAccountingLine-objectCode.financialObjectSubTypeCode-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-objectCode.financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectSubTypeCode">
-    <property name="name" value="objectCode.financialObjectSubTypeCode" />
+    <property name="name" value="objectCode.financialObjectSubTypeCode"/>
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-objectCode.financialObjectLevelCode" parent="ExpenseTransferTargetAccountingLine-objectCode.financialObjectLevelCode-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-objectCode.financialObjectLevelCode" parent="ExpenseTransferTargetAccountingLine-objectCode.financialObjectLevelCode-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectCode-financialObjectLevelCode">
-    <property name="name" value="objectCode.financialObjectLevelCode" />
+    <property name="name" value="objectCode.financialObjectLevelCode"/>
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-account.financialHigherEdFunctionCd" parent="ExpenseTransferTargetAccountingLine-account.financialHigherEdFunctionCd-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-account.financialHigherEdFunctionCd" parent="ExpenseTransferTargetAccountingLine-account.financialHigherEdFunctionCd-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-account.financialHigherEdFunctionCd-parentBean" abstract="true" parent="Account-financialHigherEdFunctionCd">
-    <property name="name" value="account.financialHigherEdFunctionCd" />
+    <property name="name" value="account.financialHigherEdFunctionCd"/>
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-account.subFundGroupCode" parent="ExpenseTransferTargetAccountingLine-account.subFundGroupCode-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-account.subFundGroupCode" parent="ExpenseTransferTargetAccountingLine-account.subFundGroupCode-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-account.subFundGroupCode-parentBean" abstract="true" parent="Account-subFundGroupCode">
-    <property name="name" value="account.subFundGroupCode" />
+    <property name="name" value="account.subFundGroupCode"/>
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-account.subFundGroup.fundGroupCode" parent="ExpenseTransferTargetAccountingLine-account.subFundGroup.fundGroupCode-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-account.subFundGroup.fundGroupCode" parent="ExpenseTransferTargetAccountingLine-account.subFundGroup.fundGroupCode-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-account.subFundGroup.fundGroupCode-parentBean" abstract="true" parent="SubFundGroup-fundGroupCode">
-    <property name="name" value="account.subFundGroup.fundGroupCode" />
+    <property name="name" value="account.subFundGroup.fundGroupCode"/>
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-balanceTypeCode" parent="ExpenseTransferTargetAccountingLine-balanceTypeCode-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-balanceTypeCode" parent="ExpenseTransferTargetAccountingLine-balanceTypeCode-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-balanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
-    <property name="name" value="balanceTypeCode" />
-    <property name="required" value="false" />
+    <property name="name" value="balanceTypeCode"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-referenceNumber" parent="ExpenseTransferTargetAccountingLine-referenceNumber-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-referenceNumber" parent="ExpenseTransferTargetAccountingLine-referenceNumber-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-referenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="referenceNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Reference Number" />
-    <property name="shortLabel" value="Ref Number" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="referenceNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Reference Number"/>
+    <property name="shortLabel" value="Ref Number"/>
+    <property name="maxLength" value="14"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="16"/>
     </property>
     
     
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-sequenceNumber" parent="ExpenseTransferTargetAccountingLine-sequenceNumber-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-sequenceNumber" parent="ExpenseTransferTargetAccountingLine-sequenceNumber-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
-    <property name="name" value="sequenceNumber" />
-    <property name="required" value="false" />
+    <property name="name" value="sequenceNumber"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-financialObjectCode" parent="ExpenseTransferTargetAccountingLine-financialObjectCode-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-financialObjectCode" parent="ExpenseTransferTargetAccountingLine-financialObjectCode-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
     
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-accountNumber" parent="ExpenseTransferTargetAccountingLine-accountNumber-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-accountNumber" parent="ExpenseTransferTargetAccountingLine-accountNumber-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-organizationReferenceId" parent="ExpenseTransferTargetAccountingLine-organizationReferenceId-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-organizationReferenceId" parent="ExpenseTransferTargetAccountingLine-organizationReferenceId-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationReferenceId" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Organization Reference Id" />
-    <property name="shortLabel" value="Org Ref Id" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="organizationReferenceId"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Organization Reference Id"/>
+    <property name="shortLabel" value="Org Ref Id"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
     
     
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-chartOfAccountsCode" parent="ExpenseTransferTargetAccountingLine-chartOfAccountsCode-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-chartOfAccountsCode" parent="ExpenseTransferTargetAccountingLine-chartOfAccountsCode-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-postingYear" parent="ExpenseTransferTargetAccountingLine-postingYear-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-postingYear" parent="ExpenseTransferTargetAccountingLine-postingYear-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="postingYear" />
-    <property name="required" value="true" />
+    <property name="name" value="postingYear"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-referenceOriginCode" parent="ExpenseTransferTargetAccountingLine-referenceOriginCode-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-referenceOriginCode" parent="ExpenseTransferTargetAccountingLine-referenceOriginCode-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-referenceOriginCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="referenceOriginCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Reference Origin Code" />
-    <property name="shortLabel" value="Ref Origin Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="referenceOriginCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Reference Origin Code"/>
+    <property name="shortLabel" value="Ref Origin Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
     
     
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-overrideCode" parent="ExpenseTransferTargetAccountingLine-overrideCode-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-overrideCode" parent="ExpenseTransferTargetAccountingLine-overrideCode-parentBean"/>
 
-  <bean id="ExpenseTransferTargetAccountingLine-overrideCode-parentBean" abstract="true" parent="TargetAccountingLine-overrideCode" />
+  <bean id="ExpenseTransferTargetAccountingLine-overrideCode-parentBean" abstract="true" parent="TargetAccountingLine-overrideCode"/>
     
-  <bean id="ExpenseTransferTargetAccountingLine-amount" parent="ExpenseTransferTargetAccountingLine-amount-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-amount" parent="ExpenseTransferTargetAccountingLine-amount-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="amount" />
-    <property name="required" value="true" />
+    <property name="name" value="amount"/>
+    <property name="required" value="true"/>
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-subAccountNumber" parent="ExpenseTransferTargetAccountingLine-subAccountNumber-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-subAccountNumber" parent="ExpenseTransferTargetAccountingLine-subAccountNumber-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
-    <property name="label" value="Sub-Account Code" />
-    <property name="required" value="false" />
+    <property name="label" value="Sub-Account Code"/>
+    <property name="required" value="false"/>
     
     
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-referenceTypeCode" parent="ExpenseTransferTargetAccountingLine-referenceTypeCode-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-referenceTypeCode" parent="ExpenseTransferTargetAccountingLine-referenceTypeCode-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-referenceTypeCode"/>
 
-  <bean id="ExpenseTransferTargetAccountingLine-projectCode" parent="ExpenseTransferTargetAccountingLine-projectCode-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-projectCode" parent="ExpenseTransferTargetAccountingLine-projectCode-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
-    <property name="name" value="projectCode" />
-    <property name="required" value="false" />
+    <property name="name" value="projectCode"/>
+    <property name="required" value="false"/>
     
     
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-financialSubObjectCode" parent="ExpenseTransferTargetAccountingLine-financialSubObjectCode-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-financialSubObjectCode" parent="ExpenseTransferTargetAccountingLine-financialSubObjectCode-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
-    <property name="required" value="false" />
+    <property name="required" value="false"/>
     
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-documentNumber" parent="ExpenseTransferTargetAccountingLine-documentNumber-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-documentNumber" parent="ExpenseTransferTargetAccountingLine-documentNumber-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
-    <property name="required" value="false" />
+    <property name="required" value="false"/>
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-debitCreditCode" parent="ExpenseTransferTargetAccountingLine-debitCreditCode-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-debitCreditCode" parent="ExpenseTransferTargetAccountingLine-debitCreditCode-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-debitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="debitCreditCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Credit or Debit Code" />
-    <property name="shortLabel" value="Credit/Debit" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="CharsetValidationPattern"
-            p:validChars="DC" />
+    <property name="name" value="debitCreditCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Credit or Debit Code"/>
+    <property name="shortLabel" value="Credit/Debit"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="CharsetValidationPattern" p:validChars="DC"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-encumbranceUpdateCode" parent="ExpenseTransferTargetAccountingLine-encumbranceUpdateCode-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-encumbranceUpdateCode" parent="ExpenseTransferTargetAccountingLine-encumbranceUpdateCode-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-encumbranceUpdateCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="encumbranceUpdateCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Encumbrance Update Code" />
-    <property name="shortLabel" value="Encumbrance Update" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AlphaValidationPattern" />
+    <property name="name" value="encumbranceUpdateCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Encumbrance Update Code"/>
+    <property name="shortLabel" value="Encumbrance Update"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AlphaValidationPattern"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
     
     
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-objectTypeCode" parent="ExpenseTransferTargetAccountingLine-objectTypeCode-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-objectTypeCode" parent="ExpenseTransferTargetAccountingLine-objectTypeCode-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-objectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
-    <property name="name" value="objectTypeCode" />
-    <property name="required" value="false" />
+    <property name="name" value="objectTypeCode"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-accountExpiredOverride" parent="ExpenseTransferTargetAccountingLine-accountExpiredOverride-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-accountExpiredOverride" parent="ExpenseTransferTargetAccountingLine-accountExpiredOverride-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-accountExpiredOverride-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountExpiredOverride" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Account Expired Override" />
-    <property name="shortLabel" value="Expired Override" />
-    <property name="maxLength" value="1" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="accountExpiredOverride"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Account Expired Override"/>
+    <property name="shortLabel" value="Expired Override"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
     
     
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-nonFringeAccountOverride" parent="ExpenseTransferTargetAccountingLine-nonFringeAccountOverride-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-nonFringeAccountOverride" parent="ExpenseTransferTargetAccountingLine-nonFringeAccountOverride-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-nonFringeAccountOverride-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nonFringeAccountOverride" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Non-fringe Account Override" />
-    <property name="shortLabel" value="Non-fringe Override" />
-    <property name="maxLength" value="1" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="nonFringeAccountOverride"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Non-fringe Account Override"/>
+    <property name="shortLabel" value="Non-fringe Override"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
     
     
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-objectBudgetOverride" parent="ExpenseTransferTargetAccountingLine-objectBudgetOverride-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-objectBudgetOverride" parent="ExpenseTransferTargetAccountingLine-objectBudgetOverride-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-objectBudgetOverride-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="objectBudgetOverride" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Object Non-Budgeted Override" />
-    <property name="shortLabel" value="Non-Budgeted Override" />
-    <property name="maxLength" value="1" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="objectBudgetOverride"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Object Non-Budgeted Override"/>
+    <property name="shortLabel" value="Non-Budgeted Override"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
     
     
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-financialDocumentLineDescription" parent="ExpenseTransferTargetAccountingLine-financialDocumentLineDescription-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-financialDocumentLineDescription" parent="ExpenseTransferTargetAccountingLine-financialDocumentLineDescription-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-financialDocumentLineDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentLineDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Line Description" />
-    <property name="shortLabel" value="Line Desc" />
-    <property name="maxLength" value="40" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="financialDocumentLineDescription"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Line Description"/>
+    <property name="shortLabel" value="Line Desc"/>
+    <property name="maxLength" value="40"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
     
     
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-salesTaxRequired" parent="ExpenseTransferTargetAccountingLine-salesTaxRequired-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-salesTaxRequired" parent="ExpenseTransferTargetAccountingLine-salesTaxRequired-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-salesTaxRequired-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="salesTaxRequired" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Sales Tax Required" />
-    <property name="shortLabel" value="Sales Tax Reqd" />
-    <property name="maxLength" value="10" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="salesTaxRequired"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Sales Tax Required"/>
+    <property name="shortLabel" value="Sales Tax Reqd"/>
+    <property name="maxLength" value="10"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
     
     
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-salesTax.chartOfAccountsCode" parent="ExpenseTransferTargetAccountingLine-salesTax.chartOfAccountsCode-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-salesTax.chartOfAccountsCode" parent="ExpenseTransferTargetAccountingLine-salesTax.chartOfAccountsCode-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-salesTax.chartOfAccountsCode-parentBean" abstract="true" parent="SalesTax-chartOfAccountsCode">
-    <property name="name" value="salesTax.chartOfAccountsCode" />
-    <property name="label" value="Sales Tax Chart of Accounts Code" />
-    <property name="shortLabel" value="Sales Tax Chart" />
+    <property name="name" value="salesTax.chartOfAccountsCode"/>
+    <property name="label" value="Sales Tax Chart of Accounts Code"/>
+    <property name="shortLabel" value="Sales Tax Chart"/>
     
     
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-salesTax.accountNumber" parent="ExpenseTransferTargetAccountingLine-salesTax.accountNumber-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-salesTax.accountNumber" parent="ExpenseTransferTargetAccountingLine-salesTax.accountNumber-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-salesTax.accountNumber-parentBean" abstract="true" parent="SalesTax-accountNumber">
-    <property name="name" value="salesTax.accountNumber" />
-    <property name="label" value="Sales Tax Account Number" />
-    <property name="shortLabel" value="Sales Tax Account" />
+    <property name="name" value="salesTax.accountNumber"/>
+    <property name="label" value="Sales Tax Account Number"/>
+    <property name="shortLabel" value="Sales Tax Account"/>
     
     
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentGrossSalesAmount" parent="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentGrossSalesAmount" parent="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean" abstract="true" parent="SalesTax-financialDocumentGrossSalesAmount">
-    <property name="name" value="salesTax.financialDocumentGrossSalesAmount" />
-    <property name="label" value="Gross Sales Amount" />
-    <property name="shortLabel" value="Gross Sales Amt." />
+    <property name="name" value="salesTax.financialDocumentGrossSalesAmount"/>
+    <property name="label" value="Gross Sales Amount"/>
+    <property name="shortLabel" value="Gross Sales Amt."/>
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount" parent="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount" parent="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean" abstract="true" parent="SalesTax-financialDocumentTaxableSalesAmount">
-    <property name="name" value="salesTax.financialDocumentTaxableSalesAmount" />
-    <property name="label" value="Taxable Sales Amount" />
-    <property name="shortLabel" value="Taxable Sales Amt." />
+    <property name="name" value="salesTax.financialDocumentTaxableSalesAmount"/>
+    <property name="label" value="Taxable Sales Amount"/>
+    <property name="shortLabel" value="Taxable Sales Amt."/>
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentSaleDate" parent="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentSaleDate-parentBean" />
+  <bean id="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentSaleDate" parent="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentSaleDate-parentBean"/>
 
   <bean id="ExpenseTransferTargetAccountingLine-salesTax.financialDocumentSaleDate-parentBean" abstract="true" parent="SalesTax-financialDocumentSaleDate">
-    <property name="name" value="salesTax.financialDocumentSaleDate" />
-    <property name="label" value="Sale Date" />
+    <property name="name" value="salesTax.financialDocumentSaleDate"/>
+    <property name="label" value="Sale Date"/>
     
   </bean>
 </beans>

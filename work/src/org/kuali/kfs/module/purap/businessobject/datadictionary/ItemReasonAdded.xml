@@ -1,29 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="ItemReasonAdded" parent="ItemReasonAdded-parentBean" />
+  <bean id="ItemReasonAdded" parent="ItemReasonAdded-parentBean"/>
 
   <bean id="ItemReasonAdded-parentBean" abstract="true" parent="BusinessObjectEntry">
-  	<property name="objectLabel" value="Item Reason Added" />
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.ItemReasonAdded" />
-    <property name="inquiryDefinition" >
-      <ref bean="ItemReasonAdded-inquiryDefinition" />
+  	<property name="objectLabel" value="Item Reason Added"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.ItemReasonAdded"/>
+    <property name="inquiryDefinition">
+      <ref bean="ItemReasonAdded-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="ItemReasonAdded-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="ItemReasonAdded-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="itemReasonAddedCode" />   
-    <property name="attributes" >
+    <property name="titleAttribute" value="itemReasonAddedCode"/>   
+    <property name="attributes">
       <list>
-        <ref bean="ItemReasonAdded-active" />
-        <ref bean="ItemReasonAdded-itemReasonAddedCode" />
-        <ref bean="ItemReasonAdded-itemReasonAddedDescription" />
+        <ref bean="ItemReasonAdded-active"/>
+        <ref bean="ItemReasonAdded-itemReasonAddedCode"/>
+        <ref bean="ItemReasonAdded-itemReasonAddedDescription"/>
       </list>
     </property>
   </bean>
@@ -31,70 +24,64 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="ItemReasonAdded-active" parent="ItemReasonAdded-active-parentBean" />
+  <bean id="ItemReasonAdded-active" parent="ItemReasonAdded-active-parentBean"/>
 
   <bean id="ItemReasonAdded-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
-    <property name="label" value="Active" />
-    <property name="shortLabel" value="Active" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="active"/>
+    <property name="label" value="Active"/>
+    <property name="shortLabel" value="Active"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="ItemReasonAdded-itemReasonAddedCode" parent="ItemReasonAdded-itemReasonAddedCode-parentBean" />
+  <bean id="ItemReasonAdded-itemReasonAddedCode" parent="ItemReasonAdded-itemReasonAddedCode-parentBean"/>
 
   <bean id="ItemReasonAdded-itemReasonAddedCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemReasonAddedCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Reason Added Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="itemReasonAddedCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Item Reason Added Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
-  <bean id="ItemReasonAdded-itemReasonAddedDescription" parent="ItemReasonAdded-itemReasonAddedDescription-parentBean" />
+  <bean id="ItemReasonAdded-itemReasonAddedDescription" parent="ItemReasonAdded-itemReasonAddedDescription-parentBean"/>
 
   <bean id="ItemReasonAdded-itemReasonAddedDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemReasonAddedDescription" />
-    <property name="label" value="Item Reason Added Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" 
-      	p:allowWhitespace="true" />
+    <property name="name" value="itemReasonAddedDescription"/>
+    <property name="label" value="Item Reason Added Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="47" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="ItemReasonAdded-inquiryDefinition" parent="ItemReasonAdded-inquiryDefinition-parentBean" />
+  <bean id="ItemReasonAdded-inquiryDefinition" parent="ItemReasonAdded-inquiryDefinition-parentBean"/>
 
   <bean id="ItemReasonAdded-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Item Reason Added Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Item Reason Added Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemReasonAddedCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemReasonAddedDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="itemReasonAddedCode"/>
+              <bean parent="FieldDefinition" p:attributeName="itemReasonAddedDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -105,33 +92,27 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="ItemReasonAdded-lookupDefinition" parent="ItemReasonAdded-lookupDefinition-parentBean" />
+  <bean id="ItemReasonAdded-lookupDefinition" parent="ItemReasonAdded-lookupDefinition-parentBean"/>
 
   <bean id="ItemReasonAdded-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Item Reason Added Lookup" />
-    <property name="instructions" value="Look up an Item Reason Added" />
-    <property name="defaultSort" >
+    <property name="title" value="Item Reason Added Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="itemReasonAddedCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemReasonAddedDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="itemReasonAddedCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemReasonAddedDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="itemReasonAddedCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemReasonAddedDescription" />
-	    <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="itemReasonAddedCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemReasonAddedDescription"/>
+	    <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

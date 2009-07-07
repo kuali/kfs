@@ -1,21 +1,17 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="DisbursementVoucherPreConferenceDetail" parent="DisbursementVoucherPreConferenceDetail-parentBean" />
+  <bean id="DisbursementVoucherPreConferenceDetail" parent="DisbursementVoucherPreConferenceDetail-parentBean"/>
 
   <bean id="DisbursementVoucherPreConferenceDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceDetail" />
-    <property name="objectLabel" value="Disbursement Voucher PreConference Detail" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceDetail"/>
+    <property name="objectLabel" value="Disbursement Voucher PreConference Detail"/>
+    <property name="attributes">
       <list>
-        <ref bean="DisbursementVoucherPreConferenceDetail-dvConferenceDestinationName" />
-        <ref bean="DisbursementVoucherPreConferenceDetail-disbVchrExpenseCode" />
-        <ref bean="DisbursementVoucherPreConferenceDetail-disbVchrConferenceStartDate" />
-        <ref bean="DisbursementVoucherPreConferenceDetail-disbVchrConferenceEndDate" />
-        <ref bean="DisbursementVoucherPreConferenceDetail-disbVchrConferenceTotalAmt" />
+        <ref bean="DisbursementVoucherPreConferenceDetail-dvConferenceDestinationName"/>
+        <ref bean="DisbursementVoucherPreConferenceDetail-disbVchrExpenseCode"/>
+        <ref bean="DisbursementVoucherPreConferenceDetail-disbVchrConferenceStartDate"/>
+        <ref bean="DisbursementVoucherPreConferenceDetail-disbVchrConferenceEndDate"/>
+        <ref bean="DisbursementVoucherPreConferenceDetail-disbVchrConferenceTotalAmt"/>
       </list>
     </property>
   </bean>
@@ -23,75 +19,69 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="DisbursementVoucherPreConferenceDetail-dvConferenceDestinationName" parent="DisbursementVoucherPreConferenceDetail-dvConferenceDestinationName-parentBean" />
+  <bean id="DisbursementVoucherPreConferenceDetail-dvConferenceDestinationName" parent="DisbursementVoucherPreConferenceDetail-dvConferenceDestinationName-parentBean"/>
 
   <bean id="DisbursementVoucherPreConferenceDetail-dvConferenceDestinationName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="dvConferenceDestinationName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Location" />
-    <property name="shortLabel" value="Loc" />
-    <property name="maxLength" value="40" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="dvConferenceDestinationName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Location"/>
+    <property name="shortLabel" value="Loc"/>
+    <property name="maxLength" value="40"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherPreConferenceDetail-disbVchrExpenseCode" parent="DisbursementVoucherPreConferenceDetail-disbVchrExpenseCode-parentBean" />
+  <bean id="DisbursementVoucherPreConferenceDetail-disbVchrExpenseCode" parent="DisbursementVoucherPreConferenceDetail-disbVchrExpenseCode-parentBean"/>
 
   <bean id="DisbursementVoucherPreConferenceDetail-disbVchrExpenseCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="disbVchrExpenseCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Type" />
-    <property name="shortLabel" value="Typ" />
-    <property name="maxLength" value="2" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.TravelPrePaidExpenseTypeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="disbVchrExpenseCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Type"/>
+    <property name="shortLabel" value="Typ"/>
+    <property name="maxLength" value="2"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.TravelPrePaidExpenseTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherPreConferenceDetail-disbVchrConferenceStartDate" parent="DisbursementVoucherPreConferenceDetail-disbVchrConferenceStartDate-parentBean" />
+  <bean id="DisbursementVoucherPreConferenceDetail-disbVchrConferenceStartDate" parent="DisbursementVoucherPreConferenceDetail-disbVchrConferenceStartDate-parentBean"/>
 
   <bean id="DisbursementVoucherPreConferenceDetail-disbVchrConferenceStartDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="disbVchrConferenceStartDate" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Start Date" />
-    <property name="shortLabel" value="Start Dt" />
-    <property name="maxLength" value="11" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="name" value="disbVchrConferenceStartDate"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Start Date"/>
+    <property name="shortLabel" value="Start Dt"/>
+    <property name="maxLength" value="11"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherPreConferenceDetail-disbVchrConferenceEndDate" parent="DisbursementVoucherPreConferenceDetail-disbVchrConferenceEndDate-parentBean" />
+  <bean id="DisbursementVoucherPreConferenceDetail-disbVchrConferenceEndDate" parent="DisbursementVoucherPreConferenceDetail-disbVchrConferenceEndDate-parentBean"/>
 
   <bean id="DisbursementVoucherPreConferenceDetail-disbVchrConferenceEndDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="disbVchrConferenceEndDate" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="End Date" />
-    <property name="shortLabel" value="End Dt" />
-    <property name="maxLength" value="11" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="name" value="disbVchrConferenceEndDate"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="End Date"/>
+    <property name="shortLabel" value="End Dt"/>
+    <property name="maxLength" value="11"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherPreConferenceDetail-disbVchrConferenceTotalAmt" parent="DisbursementVoucherPreConferenceDetail-disbVchrConferenceTotalAmt-parentBean" />
+  <bean id="DisbursementVoucherPreConferenceDetail-disbVchrConferenceTotalAmt" parent="DisbursementVoucherPreConferenceDetail-disbVchrConferenceTotalAmt-parentBean"/>
 
   <bean id="DisbursementVoucherPreConferenceDetail-disbVchrConferenceTotalAmt-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="disbVchrConferenceTotalAmt" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Total" />
-    <property name="shortLabel" value="Total" />
-    <property name="maxLength" value="22" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="name" value="disbVchrConferenceTotalAmt"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Total"/>
+    <property name="shortLabel" value="Total"/>
+    <property name="maxLength" value="22"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
 </beans>

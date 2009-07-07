@@ -1,92 +1,77 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="LedgerBalance" parent="LedgerBalance-parentBean" />
+  <bean id="LedgerBalance" parent="LedgerBalance-parentBean"/>
 
   <bean id="LedgerBalance-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.LedgerBalance" />
-    <property name="objectLabel" value="Labor Ledger Balance" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.LedgerBalance"/>
+    <property name="objectLabel" value="Labor Ledger Balance"/>
     
-    <property name="inquiryDefinition" >
-      <ref bean="LedgerBalance-inquiryDefinition" />
+    <property name="inquiryDefinition">
+      <ref bean="LedgerBalance-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="LedgerBalance-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="LedgerBalance-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="LedgerBalance-laborObject.financialObjectFringeOrSalaryCode" />
-        <ref bean="LedgerBalance-emplid" />
-        <ref bean="LedgerBalance-ledgerPerson.principalId" />
-        <ref bean="LedgerBalance-ledgerPerson.principalName" />
-        <ref bean="LedgerBalance-ledgerPerson.name" />
-        <ref bean="LedgerBalance-positionNumber" />
-        <ref bean="LedgerBalance-universityFiscalYear" />
-        <ref bean="LedgerBalance-subAccountNumber" />
-        <ref bean="LedgerBalance-accountNumber" />
-        <ref bean="LedgerBalance-chartOfAccountsCode" />
-        <ref bean="LedgerBalance-financialBalanceTypeCode" />
-        <ref bean="LedgerBalance-financialObjectCode" />
-        <ref bean="LedgerBalance-financialObjectTypeCode" />
-        <ref bean="LedgerBalance-financialSubObjectCode" />
-        <ref bean="LedgerBalance-accountLineAnnualBalanceAmount" />
-        <ref bean="LedgerBalance-financialBeginningBalanceLineAmount" />
-        <ref bean="LedgerBalance-contractsGrantsBeginningBalanceAmount" />
-        <ref bean="LedgerBalance-month1Amount" />
-        <ref bean="LedgerBalance-month2Amount" />
-        <ref bean="LedgerBalance-month3Amount" />
-        <ref bean="LedgerBalance-month4Amount" />
-        <ref bean="LedgerBalance-month5Amount" />
-        <ref bean="LedgerBalance-month6Amount" />
-        <ref bean="LedgerBalance-month7Amount" />
-        <ref bean="LedgerBalance-month8Amount" />
-        <ref bean="LedgerBalance-month9Amount" />
-        <ref bean="LedgerBalance-month10Amount" />
-        <ref bean="LedgerBalance-month11Amount" />
-        <ref bean="LedgerBalance-month12Amount" />
-        <ref bean="LedgerBalance-month13Amount" />
-        <ref bean="LedgerBalance-transactionDateTimeStamp" />
-        <ref bean="LedgerBalance-dummyBusinessObject.genericAmount" />
-        <ref bean="LedgerBalance-dummyBusinessObject.consolidationOption" />
-        <ref bean="LedgerBalance-dummyBusinessObject.pendingEntryOption" />
+        <ref bean="LedgerBalance-laborObject.financialObjectFringeOrSalaryCode"/>
+        <ref bean="LedgerBalance-emplid"/>
+        <ref bean="LedgerBalance-ledgerPerson.principalId"/>
+        <ref bean="LedgerBalance-ledgerPerson.principalName"/>
+        <ref bean="LedgerBalance-ledgerPerson.name"/>
+        <ref bean="LedgerBalance-positionNumber"/>
+        <ref bean="LedgerBalance-universityFiscalYear"/>
+        <ref bean="LedgerBalance-subAccountNumber"/>
+        <ref bean="LedgerBalance-accountNumber"/>
+        <ref bean="LedgerBalance-chartOfAccountsCode"/>
+        <ref bean="LedgerBalance-financialBalanceTypeCode"/>
+        <ref bean="LedgerBalance-financialObjectCode"/>
+        <ref bean="LedgerBalance-financialObjectTypeCode"/>
+        <ref bean="LedgerBalance-financialSubObjectCode"/>
+        <ref bean="LedgerBalance-accountLineAnnualBalanceAmount"/>
+        <ref bean="LedgerBalance-financialBeginningBalanceLineAmount"/>
+        <ref bean="LedgerBalance-contractsGrantsBeginningBalanceAmount"/>
+        <ref bean="LedgerBalance-month1Amount"/>
+        <ref bean="LedgerBalance-month2Amount"/>
+        <ref bean="LedgerBalance-month3Amount"/>
+        <ref bean="LedgerBalance-month4Amount"/>
+        <ref bean="LedgerBalance-month5Amount"/>
+        <ref bean="LedgerBalance-month6Amount"/>
+        <ref bean="LedgerBalance-month7Amount"/>
+        <ref bean="LedgerBalance-month8Amount"/>
+        <ref bean="LedgerBalance-month9Amount"/>
+        <ref bean="LedgerBalance-month10Amount"/>
+        <ref bean="LedgerBalance-month11Amount"/>
+        <ref bean="LedgerBalance-month12Amount"/>
+        <ref bean="LedgerBalance-month13Amount"/>
+        <ref bean="LedgerBalance-transactionDateTimeStamp"/>
+        <ref bean="LedgerBalance-dummyBusinessObject.genericAmount"/>
+        <ref bean="LedgerBalance-dummyBusinessObject.consolidationOption"/>
+        <ref bean="LedgerBalance-dummyBusinessObject.pendingEntryOption"/>
       </list>
     </property>
-    <property name="relationships" >
+    <property name="relationships">
       <list>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="ledgerPerson" />
-          <property name="primitiveAttributes" >
+          <property name="objectAttributeName" value="ledgerPerson"/>
+          <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="emplid"
-                    p:targetName="employeeId" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="emplid" p:targetName="employeeId"/>
             </list>
           </property>
         </bean>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="laborObject" />
-          <property name="primitiveAttributes" >
+          <property name="objectAttributeName" value="laborObject"/>
+          <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="laborObject.chartOfAccountsCode"
-                    p:targetName="chartOfAccountsCode" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="laborObject.chartOfAccountsCode" p:targetName="chartOfAccountsCode"/>
             </list>
           </property>
-          <property name="supportAttributes" >
+          <property name="supportAttributes">
             <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:sourceName="laborObject.financialObjectFringeOrSalaryCode"
-                    p:targetName="financialObjectFringeOrSalaryCode" />
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="laborObject.financialObjectCode"
-                    p:targetName="financialObjectCode" />
-              <bean parent="SupportAttributeDefinition"
-                    p:sourceName="laborObject.universityFiscalYear"
-                    p:targetName="universityFiscalYear" />
+              <bean parent="SupportAttributeDefinition" p:sourceName="laborObject.financialObjectFringeOrSalaryCode" p:targetName="financialObjectFringeOrSalaryCode"/>
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="laborObject.financialObjectCode" p:targetName="financialObjectCode"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="laborObject.universityFiscalYear" p:targetName="universityFiscalYear"/>
             </list>
           </property>
         </bean>
@@ -97,338 +82,304 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="LedgerBalance-laborObject.financialObjectFringeOrSalaryCode" parent="LedgerBalance-laborObject.financialObjectFringeOrSalaryCode-parentBean" />
+  <bean id="LedgerBalance-laborObject.financialObjectFringeOrSalaryCode" parent="LedgerBalance-laborObject.financialObjectFringeOrSalaryCode-parentBean"/>
 
   <bean id="LedgerBalance-laborObject.financialObjectFringeOrSalaryCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="laborObject.financialObjectFringeOrSalaryCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Financial Object Fringe Or Salary Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="laborObject.financialObjectFringeOrSalaryCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Financial Object Fringe Or Salary Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
-  <bean id="LedgerBalance-emplid" parent="LedgerBalance-emplid-parentBean" />
+  <bean id="LedgerBalance-emplid" parent="LedgerBalance-emplid-parentBean"/>
 
   <bean id="LedgerBalance-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
-    <property name="name" value="emplid" />
+    <property name="name" value="emplid"/>
   </bean>
-  <bean id="LedgerBalance-ledgerPerson.principalId" parent="LedgerBalance-ledgerPerson.principalId-parentBean" />
+  <bean id="LedgerBalance-ledgerPerson.principalId" parent="LedgerBalance-ledgerPerson.principalId-parentBean"/>
 
   <bean id="LedgerBalance-ledgerPerson.principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="ledgerPerson.principalId" />
-    <property name="label" value="Employee Univ ID" />
-    <property name="shortLabel" value="EmplUnvId" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="ledgerPerson.principalId"/>
+    <property name="label" value="Employee Univ ID"/>
+    <property name="shortLabel" value="EmplUnvId"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
-    <property name="displayLabelAttribute" value="ledgerPerson.principalName" />
+    <property name="displayLabelAttribute" value="ledgerPerson.principalName"/>
   </bean>
-  <bean id="LedgerBalance-ledgerPerson.principalName" parent="LedgerBalance-ledgerPerson.principalName-parentBean" />
+  <bean id="LedgerBalance-ledgerPerson.principalName" parent="LedgerBalance-ledgerPerson.principalName-parentBean"/>
 
   <bean id="LedgerBalance-ledgerPerson.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="ledgerPerson.principalName" />
-    <property name="label" value="Employee Principal Name" />
-    <property name="shortLabel" value="Principal Name" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="ledgerPerson.name"
-            p:universalIdAttributeName="ledgerPerson.principalId"
-            p:userIdAttributeName="ledgerPerson.principalName" />
+    <property name="name" value="ledgerPerson.principalName"/>
+    <property name="label" value="Employee Principal Name"/>
+    <property name="shortLabel" value="Principal Name"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="ledgerPerson.name" p:universalIdAttributeName="ledgerPerson.principalId" p:userIdAttributeName="ledgerPerson.principalName"/>
     </property>
   </bean>
-  <bean id="LedgerBalance-ledgerPerson.name" parent="LedgerBalance-ledgerPerson.name-parentBean" />
+  <bean id="LedgerBalance-ledgerPerson.name" parent="LedgerBalance-ledgerPerson.name-parentBean"/>
 
   <bean id="LedgerBalance-ledgerPerson.name-parentBean" abstract="true" parent="PersonImpl-name">
-    <property name="name" value="ledgerPerson.name" />
-    <property name="label" value="Employee Name" />
-    <property name="required" value="false" />
+    <property name="name" value="ledgerPerson.name"/>
+    <property name="label" value="Employee Name"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="LedgerBalance-positionNumber" parent="LedgerBalance-positionNumber-parentBean" />
+  <bean id="LedgerBalance-positionNumber" parent="LedgerBalance-positionNumber-parentBean"/>
 
   <bean id="LedgerBalance-positionNumber-parentBean" abstract="true" parent="PositionData-positionNumber">
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
-  <bean id="LedgerBalance-universityFiscalYear" parent="LedgerBalance-universityFiscalYear-parentBean" />
+  <bean id="LedgerBalance-universityFiscalYear" parent="LedgerBalance-universityFiscalYear-parentBean"/>
 
   <bean id="LedgerBalance-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="universityFiscalYear" />
-    <property name="label" value="Fiscal Year" />
-    <property name="shortLabel" value="Fiscal Year" />
+    <property name="name" value="universityFiscalYear"/>
+    <property name="label" value="Fiscal Year"/>
+    <property name="shortLabel" value="Fiscal Year"/>
   </bean>
-  <bean id="LedgerBalance-subAccountNumber" parent="LedgerBalance-subAccountNumber-parentBean" />
+  <bean id="LedgerBalance-subAccountNumber" parent="LedgerBalance-subAccountNumber-parentBean"/>
 
   <bean id="LedgerBalance-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
-  <bean id="LedgerBalance-accountNumber" parent="LedgerBalance-accountNumber-parentBean" />
+  <bean id="LedgerBalance-accountNumber" parent="LedgerBalance-accountNumber-parentBean"/>
 
   <bean id="LedgerBalance-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
-  <bean id="LedgerBalance-chartOfAccountsCode" parent="LedgerBalance-chartOfAccountsCode-parentBean" />
+  <bean id="LedgerBalance-chartOfAccountsCode" parent="LedgerBalance-chartOfAccountsCode-parentBean"/>
 
   <bean id="LedgerBalance-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
-  <bean id="LedgerBalance-financialBalanceTypeCode" parent="LedgerBalance-financialBalanceTypeCode-parentBean" />
+  <bean id="LedgerBalance-financialBalanceTypeCode" parent="LedgerBalance-financialBalanceTypeCode-parentBean"/>
 
   <bean id="LedgerBalance-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
-    <property name="name" value="financialBalanceTypeCode" />
-    <property name="control" >
-      <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.ld.businessobject.options.BalanceTypeCodeOptionFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="financialBalanceTypeCode"/>
+    <property name="control">
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ld.businessobject.options.BalanceTypeCodeOptionFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="LedgerBalance-financialObjectCode" parent="LedgerBalance-financialObjectCode-parentBean" />
+  <bean id="LedgerBalance-financialObjectCode" parent="LedgerBalance-financialObjectCode-parentBean"/>
 
   <bean id="LedgerBalance-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
-  <bean id="LedgerBalance-financialObjectTypeCode" parent="LedgerBalance-financialObjectTypeCode-parentBean" />
+  <bean id="LedgerBalance-financialObjectTypeCode" parent="LedgerBalance-financialObjectTypeCode-parentBean"/>
 
   <bean id="LedgerBalance-financialObjectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
-    <property name="name" value="financialObjectTypeCode" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="financialObjectTypeCode"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
-  <bean id="LedgerBalance-financialSubObjectCode" parent="LedgerBalance-financialSubObjectCode-parentBean" />
+  <bean id="LedgerBalance-financialSubObjectCode" parent="LedgerBalance-financialSubObjectCode-parentBean"/>
 
   <bean id="LedgerBalance-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
-  <bean id="LedgerBalance-accountLineAnnualBalanceAmount" parent="LedgerBalance-accountLineAnnualBalanceAmount-parentBean" />
+  <bean id="LedgerBalance-accountLineAnnualBalanceAmount" parent="LedgerBalance-accountLineAnnualBalanceAmount-parentBean"/>
 
   <bean id="LedgerBalance-accountLineAnnualBalanceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="accountLineAnnualBalanceAmount" />
-    <property name="label" value="Account Line Annual Balance Amount" />
-    <property name="shortLabel" value="Account Line Annual Balance Amount" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="accountLineAnnualBalanceAmount"/>
+    <property name="label" value="Account Line Annual Balance Amount"/>
+    <property name="shortLabel" value="Account Line Annual Balance Amount"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalance-financialBeginningBalanceLineAmount" parent="LedgerBalance-financialBeginningBalanceLineAmount-parentBean" />
+  <bean id="LedgerBalance-financialBeginningBalanceLineAmount" parent="LedgerBalance-financialBeginningBalanceLineAmount-parentBean"/>
 
   <bean id="LedgerBalance-financialBeginningBalanceLineAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="financialBeginningBalanceLineAmount" />
-    <property name="label" value="Beginning Balance Line Amount" />
-    <property name="shortLabel" value="Beginning Balance Line Amount" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="financialBeginningBalanceLineAmount"/>
+    <property name="label" value="Beginning Balance Line Amount"/>
+    <property name="shortLabel" value="Beginning Balance Line Amount"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalance-contractsGrantsBeginningBalanceAmount" parent="LedgerBalance-contractsGrantsBeginningBalanceAmount-parentBean" />
+  <bean id="LedgerBalance-contractsGrantsBeginningBalanceAmount" parent="LedgerBalance-contractsGrantsBeginningBalanceAmount-parentBean"/>
 
   <bean id="LedgerBalance-contractsGrantsBeginningBalanceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="contractsGrantsBeginningBalanceAmount" />
-    <property name="label" value="Contracts Grants Beginning Balance Amount" />
-    <property name="shortLabel" value="CG Amount" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="contractsGrantsBeginningBalanceAmount"/>
+    <property name="label" value="Contracts Grants Beginning Balance Amount"/>
+    <property name="shortLabel" value="CG Amount"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalance-month1Amount" parent="LedgerBalance-month1Amount-parentBean" />
+  <bean id="LedgerBalance-month1Amount" parent="LedgerBalance-month1Amount-parentBean"/>
 
   <bean id="LedgerBalance-month1Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month1Amount" />
-    <property name="label" value="July" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month1Amount"/>
+    <property name="label" value="July"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalance-month2Amount" parent="LedgerBalance-month2Amount-parentBean" />
+  <bean id="LedgerBalance-month2Amount" parent="LedgerBalance-month2Amount-parentBean"/>
 
   <bean id="LedgerBalance-month2Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month2Amount" />
-    <property name="label" value="August" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month2Amount"/>
+    <property name="label" value="August"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalance-month3Amount" parent="LedgerBalance-month3Amount-parentBean" />
+  <bean id="LedgerBalance-month3Amount" parent="LedgerBalance-month3Amount-parentBean"/>
 
   <bean id="LedgerBalance-month3Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month3Amount" />
-    <property name="label" value="September" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month3Amount"/>
+    <property name="label" value="September"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalance-month4Amount" parent="LedgerBalance-month4Amount-parentBean" />
+  <bean id="LedgerBalance-month4Amount" parent="LedgerBalance-month4Amount-parentBean"/>
 
   <bean id="LedgerBalance-month4Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month4Amount" />
-    <property name="label" value="October" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month4Amount"/>
+    <property name="label" value="October"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalance-month5Amount" parent="LedgerBalance-month5Amount-parentBean" />
+  <bean id="LedgerBalance-month5Amount" parent="LedgerBalance-month5Amount-parentBean"/>
 
   <bean id="LedgerBalance-month5Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month5Amount" />
-    <property name="label" value="November" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month5Amount"/>
+    <property name="label" value="November"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalance-month6Amount" parent="LedgerBalance-month6Amount-parentBean" />
+  <bean id="LedgerBalance-month6Amount" parent="LedgerBalance-month6Amount-parentBean"/>
 
   <bean id="LedgerBalance-month6Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month6Amount" />
-    <property name="label" value="December" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month6Amount"/>
+    <property name="label" value="December"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalance-month7Amount" parent="LedgerBalance-month7Amount-parentBean" />
+  <bean id="LedgerBalance-month7Amount" parent="LedgerBalance-month7Amount-parentBean"/>
 
   <bean id="LedgerBalance-month7Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month7Amount" />
-    <property name="label" value="January" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month7Amount"/>
+    <property name="label" value="January"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalance-month8Amount" parent="LedgerBalance-month8Amount-parentBean" />
+  <bean id="LedgerBalance-month8Amount" parent="LedgerBalance-month8Amount-parentBean"/>
 
   <bean id="LedgerBalance-month8Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month8Amount" />
-    <property name="label" value="February" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month8Amount"/>
+    <property name="label" value="February"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalance-month9Amount" parent="LedgerBalance-month9Amount-parentBean" />
+  <bean id="LedgerBalance-month9Amount" parent="LedgerBalance-month9Amount-parentBean"/>
 
   <bean id="LedgerBalance-month9Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month9Amount" />
-    <property name="label" value="March" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month9Amount"/>
+    <property name="label" value="March"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalance-month10Amount" parent="LedgerBalance-month10Amount-parentBean" />
+  <bean id="LedgerBalance-month10Amount" parent="LedgerBalance-month10Amount-parentBean"/>
 
   <bean id="LedgerBalance-month10Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month10Amount" />
-    <property name="label" value="April" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month10Amount"/>
+    <property name="label" value="April"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalance-month11Amount" parent="LedgerBalance-month11Amount-parentBean" />
+  <bean id="LedgerBalance-month11Amount" parent="LedgerBalance-month11Amount-parentBean"/>
 
   <bean id="LedgerBalance-month11Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month11Amount" />
-    <property name="label" value="May" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month11Amount"/>
+    <property name="label" value="May"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalance-month12Amount" parent="LedgerBalance-month12Amount-parentBean" />
+  <bean id="LedgerBalance-month12Amount" parent="LedgerBalance-month12Amount-parentBean"/>
 
   <bean id="LedgerBalance-month12Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month12Amount" />
-    <property name="label" value="June" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month12Amount"/>
+    <property name="label" value="June"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalance-month13Amount" parent="LedgerBalance-month13Amount-parentBean" />
+  <bean id="LedgerBalance-month13Amount" parent="LedgerBalance-month13Amount-parentBean"/>
 
   <bean id="LedgerBalance-month13Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month13Amount" />
-    <property name="label" value="Year End" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month13Amount"/>
+    <property name="label" value="Year End"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalance-transactionDateTimeStamp" parent="LedgerBalance-transactionDateTimeStamp-parentBean" />
+  <bean id="LedgerBalance-transactionDateTimeStamp" parent="LedgerBalance-transactionDateTimeStamp-parentBean"/>
 
   <bean id="LedgerBalance-transactionDateTimeStamp-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
-    <property name="name" value="transactionDateTimeStamp" />
-    <property name="label" value="Transaction Entry Processed" />
-    <property name="shortLabel" value="Entry Processed" />
+    <property name="name" value="transactionDateTimeStamp"/>
+    <property name="label" value="Transaction Entry Processed"/>
+    <property name="shortLabel" value="Entry Processed"/>
   </bean>
-  <bean id="LedgerBalance-dummyBusinessObject.genericAmount" parent="LedgerBalance-dummyBusinessObject.genericAmount-parentBean" />
+  <bean id="LedgerBalance-dummyBusinessObject.genericAmount" parent="LedgerBalance-dummyBusinessObject.genericAmount-parentBean"/>
 
   <bean id="LedgerBalance-dummyBusinessObject.genericAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="dummyBusinessObject.genericAmount" />
-    <property name="label" value="Year End Close" />
-    <property name="shortLabel" value="Year End Close" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="dummyBusinessObject.genericAmount"/>
+    <property name="label" value="Year End Close"/>
+    <property name="shortLabel" value="Year End Close"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalance-dummyBusinessObject.consolidationOption" parent="LedgerBalance-dummyBusinessObject.consolidationOption-parentBean" />
+  <bean id="LedgerBalance-dummyBusinessObject.consolidationOption" parent="LedgerBalance-dummyBusinessObject.consolidationOption-parentBean"/>
 
   <bean id="LedgerBalance-dummyBusinessObject.consolidationOption-parentBean" abstract="true" parent="TransientBalanceInquiryAttributes-consolidationOption">
-    <property name="name" value="dummyBusinessObject.consolidationOption" />
+    <property name="name" value="dummyBusinessObject.consolidationOption"/>
   </bean>
-  <bean id="LedgerBalance-dummyBusinessObject.pendingEntryOption" parent="LedgerBalance-dummyBusinessObject.pendingEntryOption-parentBean" />
+  <bean id="LedgerBalance-dummyBusinessObject.pendingEntryOption" parent="LedgerBalance-dummyBusinessObject.pendingEntryOption-parentBean"/>
 
   <bean id="LedgerBalance-dummyBusinessObject.pendingEntryOption-parentBean" abstract="true" parent="TransientBalanceInquiryAttributes-pendingEntryOption">
-    <property name="name" value="dummyBusinessObject.pendingEntryOption" />
+    <property name="name" value="dummyBusinessObject.pendingEntryOption"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="LedgerBalance-inquiryDefinition" parent="LedgerBalance-inquiryDefinition-parentBean" />
+  <bean id="LedgerBalance-inquiryDefinition" parent="LedgerBalance-inquiryDefinition-parentBean"/>
 
   <bean id="LedgerBalance-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Labor Ledger A21 View" />
-    <property name="inquirySections" >
+    <property name="title" value="Labor Ledger A21 View"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="accountLineAnnualBalanceAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="accountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialBeginningBalanceLineAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="emplid" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialBalanceTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="contractsGrantsBeginningBalanceAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialSubObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month10Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month11Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month12Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month13Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month1Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month2Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month3Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month4Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month5Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month6Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month7Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month8Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month9Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="positionNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="subAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="transactionDateTimeStamp" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYear" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="dummyBusinessObject.consolidationOption"
-                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition" p:attributeName="accountLineAnnualBalanceAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="financialBeginningBalanceLineAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="emplid"/>
+              <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="contractsGrantsBeginningBalanceAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="month10Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month11Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month12Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month13Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month1Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month2Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month3Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month4Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month5Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month6Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month7Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month8Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month9Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="transactionDateTimeStamp"/>
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+              <bean parent="FieldDefinition" p:attributeName="dummyBusinessObject.consolidationOption" p:forceInquiry="true"/>
             </list>
           </property>
         </bean>
@@ -439,107 +390,61 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="LedgerBalance-lookupDefinition" parent="LedgerBalance-lookupDefinition-parentBean" />
+  <bean id="LedgerBalance-lookupDefinition" parent="LedgerBalance-lookupDefinition-parentBean"/>
 
   <bean id="LedgerBalance-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Labor Ledger View" />
-    <property name="lookupableID" value="laborLedgerBalanceLookupable" />
-    <property name="instructions" value="Look up a Ledger Balance" />
-    <property name="defaultSort" >
+    <property name="title" value="Labor Ledger View"/>
+    <property name="lookupableID" value="laborLedgerBalanceLookupable"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:required="true"
-              p:attributeName="universityFiscalYear"
-              p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder" />
-        <bean parent="FieldDefinition"
-              p:attributeName="laborObject.financialObjectFringeOrSalaryCode" />
-        <bean parent="FieldDefinition"
-              p:required="true"
-              p:attributeName="emplid" />
-        <bean parent="FieldDefinition"
-        	  p:noLookup="true"
-        	  p:attributeName="financialBalanceTypeCode"
-              p:defaultValueFinderClass="org.kuali.kfs.module.ld.businessobject.options.BalanceTypeCodeOptionFinder" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dummyBusinessObject.consolidationOption"
-              p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.ConsolidationOptionFinder" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dummyBusinessObject.pendingEntryOption"
-              p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.PendingEntryOptionFinder" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="subAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSubObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionNumber" />
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="universityFiscalYear" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder"/>
+        <bean parent="FieldDefinition" p:attributeName="laborObject.financialObjectFringeOrSalaryCode"/>
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="emplid"/>
+        <bean parent="FieldDefinition" p:noLookup="true" p:attributeName="financialBalanceTypeCode" p:defaultValueFinderClass="org.kuali.kfs.module.ld.businessobject.options.BalanceTypeCodeOptionFinder"/>
+        <bean parent="FieldDefinition" p:attributeName="dummyBusinessObject.consolidationOption" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.ConsolidationOptionFinder"/>
+        <bean parent="FieldDefinition" p:attributeName="dummyBusinessObject.pendingEntryOption" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.PendingEntryOptionFinder"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="subAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSubObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialBalanceTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="ledgerPerson.name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialBeginningBalanceLineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="contractsGrantsBeginningBalanceAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountLineAnnualBalanceAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month3Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month4Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month5Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month6Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month7Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month8Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month9Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month10Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month11Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month12Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month13Amount" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="ledgerPerson.name"/>
+        <bean parent="FieldDefinition" p:attributeName="financialBeginningBalanceLineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="contractsGrantsBeginningBalanceAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="accountLineAnnualBalanceAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="month1Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month2Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month3Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month4Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month5Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month6Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month7Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month8Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month9Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month10Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month11Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month12Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month13Amount"/>
       </list>
     </property>
   </bean>
 </beans>
-

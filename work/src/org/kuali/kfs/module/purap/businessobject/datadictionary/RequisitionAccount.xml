@@ -1,56 +1,49 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="RequisitionAccount" parent="RequisitionAccount-parentBean" />
+  <bean id="RequisitionAccount" parent="RequisitionAccount-parentBean"/>
 
   <bean id="RequisitionAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
-  	<property name="objectLabel" value="Requisition Account" />
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.RequisitionAccount" />
-    <property name="attributes" >
+  	<property name="objectLabel" value="Requisition Account"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.RequisitionAccount"/>
+    <property name="attributes">
       <list>
-        <ref bean="RequisitionAccount-objectCode.financialObjectTypeCode" />
-        <ref bean="RequisitionAccount-objectCode.financialObjectSubTypeCode" />
-        <ref bean="RequisitionAccount-objectCode.financialObjectLevelCode" />
-        <ref bean="RequisitionAccount-account.financialHigherEdFunctionCd" />
-        <ref bean="RequisitionAccount-account.subFundGroupCode" />
-        <ref bean="RequisitionAccount-account.subFundGroup.fundGroupCode" />
-        <ref bean="RequisitionAccount-balanceTypeCode" />
-        <ref bean="RequisitionAccount-referenceNumber" />
-        <ref bean="RequisitionAccount-sequenceNumber" />
-        <ref bean="RequisitionAccount-financialObjectCode" />
-        <ref bean="RequisitionAccount-accountNumber" />
-        <ref bean="RequisitionAccount-organizationReferenceId" />
-        <ref bean="RequisitionAccount-chartOfAccountsCode" />
-        <ref bean="RequisitionAccount-postingYear" />
-        <ref bean="RequisitionAccount-referenceOriginCode" />
-        <ref bean="RequisitionAccount-overrideCode" />
-        <ref bean="RequisitionAccount-amount" />
-        <ref bean="RequisitionAccount-subAccountNumber" />
-        <ref bean="RequisitionAccount-projectCode" />
-        <ref bean="RequisitionAccount-financialSubObjectCode" />
-        <ref bean="RequisitionAccount-documentNumber" />
-        <ref bean="RequisitionAccount-debitCreditCode" />
-        <ref bean="RequisitionAccount-encumbranceUpdateCode" />
-        <ref bean="RequisitionAccount-objectTypeCode" />
-        <ref bean="RequisitionAccount-accountExpiredOverride" />
-        <ref bean="RequisitionAccount-nonFringeAccountOverride" />
-        <ref bean="RequisitionAccount-objectBudgetOverride" />
-        <ref bean="RequisitionAccount-financialDocumentLineDescription" />
-        <ref bean="RequisitionAccount-salesTaxRequired" />
-        <ref bean="RequisitionAccount-salesTax.chartOfAccountsCode" />
-        <ref bean="RequisitionAccount-salesTax.accountNumber" />
-        <ref bean="RequisitionAccount-salesTax.financialDocumentGrossSalesAmount" />
-        <ref bean="RequisitionAccount-salesTax.financialDocumentTaxableSalesAmount" />
-        <ref bean="RequisitionAccount-salesTax.financialDocumentSaleDate" />
-        <ref bean="RequisitionAccount-itemIdentifier" />
-        <ref bean="RequisitionAccount-accountLinePercent" />
-        <ref bean="RequisitionAccount-accountIdentifier" />
+        <ref bean="RequisitionAccount-objectCode.financialObjectTypeCode"/>
+        <ref bean="RequisitionAccount-objectCode.financialObjectSubTypeCode"/>
+        <ref bean="RequisitionAccount-objectCode.financialObjectLevelCode"/>
+        <ref bean="RequisitionAccount-account.financialHigherEdFunctionCd"/>
+        <ref bean="RequisitionAccount-account.subFundGroupCode"/>
+        <ref bean="RequisitionAccount-account.subFundGroup.fundGroupCode"/>
+        <ref bean="RequisitionAccount-balanceTypeCode"/>
+        <ref bean="RequisitionAccount-referenceNumber"/>
+        <ref bean="RequisitionAccount-sequenceNumber"/>
+        <ref bean="RequisitionAccount-financialObjectCode"/>
+        <ref bean="RequisitionAccount-accountNumber"/>
+        <ref bean="RequisitionAccount-organizationReferenceId"/>
+        <ref bean="RequisitionAccount-chartOfAccountsCode"/>
+        <ref bean="RequisitionAccount-postingYear"/>
+        <ref bean="RequisitionAccount-referenceOriginCode"/>
+        <ref bean="RequisitionAccount-overrideCode"/>
+        <ref bean="RequisitionAccount-amount"/>
+        <ref bean="RequisitionAccount-subAccountNumber"/>
+        <ref bean="RequisitionAccount-projectCode"/>
+        <ref bean="RequisitionAccount-financialSubObjectCode"/>
+        <ref bean="RequisitionAccount-documentNumber"/>
+        <ref bean="RequisitionAccount-debitCreditCode"/>
+        <ref bean="RequisitionAccount-encumbranceUpdateCode"/>
+        <ref bean="RequisitionAccount-objectTypeCode"/>
+        <ref bean="RequisitionAccount-accountExpiredOverride"/>
+        <ref bean="RequisitionAccount-nonFringeAccountOverride"/>
+        <ref bean="RequisitionAccount-objectBudgetOverride"/>
+        <ref bean="RequisitionAccount-financialDocumentLineDescription"/>
+        <ref bean="RequisitionAccount-salesTaxRequired"/>
+        <ref bean="RequisitionAccount-salesTax.chartOfAccountsCode"/>
+        <ref bean="RequisitionAccount-salesTax.accountNumber"/>
+        <ref bean="RequisitionAccount-salesTax.financialDocumentGrossSalesAmount"/>
+        <ref bean="RequisitionAccount-salesTax.financialDocumentTaxableSalesAmount"/>
+        <ref bean="RequisitionAccount-salesTax.financialDocumentSaleDate"/>
+        <ref bean="RequisitionAccount-itemIdentifier"/>
+        <ref bean="RequisitionAccount-accountLinePercent"/>
+        <ref bean="RequisitionAccount-accountIdentifier"/>
       </list>
     </property>
   </bean>
@@ -58,334 +51,323 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="RequisitionAccount-objectCode.financialObjectTypeCode" parent="RequisitionAccount-objectCode.financialObjectTypeCode-parentBean" />
+  <bean id="RequisitionAccount-objectCode.financialObjectTypeCode" parent="RequisitionAccount-objectCode.financialObjectTypeCode-parentBean"/>
 
   <bean id="RequisitionAccount-objectCode.financialObjectTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectTypeCode">
-    <property name="name" value="objectCode.financialObjectTypeCode" />
+    <property name="name" value="objectCode.financialObjectTypeCode"/>
   </bean>
-  <bean id="RequisitionAccount-objectCode.financialObjectSubTypeCode" parent="RequisitionAccount-objectCode.financialObjectSubTypeCode-parentBean" />
+  <bean id="RequisitionAccount-objectCode.financialObjectSubTypeCode" parent="RequisitionAccount-objectCode.financialObjectSubTypeCode-parentBean"/>
 
   <bean id="RequisitionAccount-objectCode.financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectSubTypeCode">
-    <property name="name" value="objectCode.financialObjectSubTypeCode" />
+    <property name="name" value="objectCode.financialObjectSubTypeCode"/>
   </bean>
-  <bean id="RequisitionAccount-objectCode.financialObjectLevelCode" parent="RequisitionAccount-objectCode.financialObjectLevelCode-parentBean" />
+  <bean id="RequisitionAccount-objectCode.financialObjectLevelCode" parent="RequisitionAccount-objectCode.financialObjectLevelCode-parentBean"/>
 
   <bean id="RequisitionAccount-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectCode-financialObjectLevelCode">
-    <property name="name" value="objectCode.financialObjectLevelCode" />
+    <property name="name" value="objectCode.financialObjectLevelCode"/>
   </bean>
-  <bean id="RequisitionAccount-account.financialHigherEdFunctionCd" parent="RequisitionAccount-account.financialHigherEdFunctionCd-parentBean" />
+  <bean id="RequisitionAccount-account.financialHigherEdFunctionCd" parent="RequisitionAccount-account.financialHigherEdFunctionCd-parentBean"/>
 
   <bean id="RequisitionAccount-account.financialHigherEdFunctionCd-parentBean" abstract="true" parent="Account-financialHigherEdFunctionCd">
-    <property name="name" value="account.financialHigherEdFunctionCd" />
+    <property name="name" value="account.financialHigherEdFunctionCd"/>
   </bean>
-  <bean id="RequisitionAccount-account.subFundGroupCode" parent="RequisitionAccount-account.subFundGroupCode-parentBean" />
+  <bean id="RequisitionAccount-account.subFundGroupCode" parent="RequisitionAccount-account.subFundGroupCode-parentBean"/>
 
   <bean id="RequisitionAccount-account.subFundGroupCode-parentBean" abstract="true" parent="Account-subFundGroupCode">
-    <property name="name" value="account.subFundGroupCode" />
+    <property name="name" value="account.subFundGroupCode"/>
   </bean>
-  <bean id="RequisitionAccount-account.subFundGroup.fundGroupCode" parent="RequisitionAccount-account.subFundGroup.fundGroupCode-parentBean" />
+  <bean id="RequisitionAccount-account.subFundGroup.fundGroupCode" parent="RequisitionAccount-account.subFundGroup.fundGroupCode-parentBean"/>
 
   <bean id="RequisitionAccount-account.subFundGroup.fundGroupCode-parentBean" abstract="true" parent="SubFundGroup-fundGroupCode">
-    <property name="name" value="account.subFundGroup.fundGroupCode" />
+    <property name="name" value="account.subFundGroup.fundGroupCode"/>
   </bean>
-  <bean id="RequisitionAccount-balanceTypeCode" parent="RequisitionAccount-balanceTypeCode-parentBean" />
+  <bean id="RequisitionAccount-balanceTypeCode" parent="RequisitionAccount-balanceTypeCode-parentBean"/>
 
   <bean id="RequisitionAccount-balanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
-    <property name="name" value="balanceTypeCode" />
-    <property name="required" value="false" />
+    <property name="name" value="balanceTypeCode"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="RequisitionAccount-referenceNumber" parent="RequisitionAccount-referenceNumber-parentBean" />
+  <bean id="RequisitionAccount-referenceNumber" parent="RequisitionAccount-referenceNumber-parentBean"/>
 
   <bean id="RequisitionAccount-referenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="referenceNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Reference Number" />
-    <property name="shortLabel" value="Ref Number" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="referenceNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Reference Number"/>
+    <property name="shortLabel" value="Ref Number"/>
+    <property name="maxLength" value="14"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="16"/>
     </property>
   </bean>
-  <bean id="RequisitionAccount-sequenceNumber" parent="RequisitionAccount-sequenceNumber-parentBean" />
+  <bean id="RequisitionAccount-sequenceNumber" parent="RequisitionAccount-sequenceNumber-parentBean"/>
 
   <bean id="RequisitionAccount-sequenceNumber-parentBean" abstract="true" parent="PurApGenericAttributes-sequenceId">
-    <property name="name" value="sequenceNumber" />
-    <property name="required" value="false" />
+    <property name="name" value="sequenceNumber"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="RequisitionAccount-financialObjectCode" parent="RequisitionAccount-financialObjectCode-parentBean" />
+  <bean id="RequisitionAccount-financialObjectCode" parent="RequisitionAccount-financialObjectCode-parentBean"/>
 
   <bean id="RequisitionAccount-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
   </bean>
-  <bean id="RequisitionAccount-accountNumber" parent="RequisitionAccount-accountNumber-parentBean" />
+  <bean id="RequisitionAccount-accountNumber" parent="RequisitionAccount-accountNumber-parentBean"/>
 
   <bean id="RequisitionAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
   </bean>
-  <bean id="RequisitionAccount-organizationReferenceId" parent="RequisitionAccount-organizationReferenceId-parentBean" />
+  <bean id="RequisitionAccount-organizationReferenceId" parent="RequisitionAccount-organizationReferenceId-parentBean"/>
 
   <bean id="RequisitionAccount-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationReferenceId" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Organization Reference Id" />
-    <property name="shortLabel" value="Org Ref Id" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="organizationReferenceId"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Organization Reference Id"/>
+    <property name="shortLabel" value="Org Ref Id"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="RequisitionAccount-chartOfAccountsCode" parent="RequisitionAccount-chartOfAccountsCode-parentBean" />
+  <bean id="RequisitionAccount-chartOfAccountsCode" parent="RequisitionAccount-chartOfAccountsCode-parentBean"/>
 
   <bean id="RequisitionAccount-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SimpleChartValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="RequisitionAccount-postingYear" parent="RequisitionAccount-postingYear-parentBean" />
+  <bean id="RequisitionAccount-postingYear" parent="RequisitionAccount-postingYear-parentBean"/>
 
   <bean id="RequisitionAccount-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="postingYear" />
-    <property name="required" value="true" />
+    <property name="name" value="postingYear"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="RequisitionAccount-referenceOriginCode" parent="RequisitionAccount-referenceOriginCode-parentBean" />
+  <bean id="RequisitionAccount-referenceOriginCode" parent="RequisitionAccount-referenceOriginCode-parentBean"/>
 
   <bean id="RequisitionAccount-referenceOriginCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="referenceOriginCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Reference Origin Code" />
-    <property name="shortLabel" value="Ref Origin Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="referenceOriginCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Reference Origin Code"/>
+    <property name="shortLabel" value="Ref Origin Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="RequisitionAccount-overrideCode" parent="RequisitionAccount-overrideCode-parentBean" />
+  <bean id="RequisitionAccount-overrideCode" parent="RequisitionAccount-overrideCode-parentBean"/>
 
-  <bean id="RequisitionAccount-overrideCode-parentBean" abstract="true" parent="SourceAccountingLine-overrideCode" />
+  <bean id="RequisitionAccount-overrideCode-parentBean" abstract="true" parent="SourceAccountingLine-overrideCode"/>
    
-  <bean id="RequisitionAccount-amount" parent="RequisitionAccount-amount-parentBean" />
+  <bean id="RequisitionAccount-amount" parent="RequisitionAccount-amount-parentBean"/>
 
   <bean id="RequisitionAccount-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="amount" />
-    <property name="required" value="true" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="amount"/>
+    <property name="required" value="true"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="RequisitionAccount-subAccountNumber" parent="RequisitionAccount-subAccountNumber-parentBean" />
+  <bean id="RequisitionAccount-subAccountNumber" parent="RequisitionAccount-subAccountNumber-parentBean"/>
 
   <bean id="RequisitionAccount-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
-    <property name="label" value="Sub-Account Code" />
-    <property name="required" value="false" />
+    <property name="label" value="Sub-Account Code"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="RequisitionAccount-projectCode" parent="RequisitionAccount-projectCode-parentBean" />
+  <bean id="RequisitionAccount-projectCode" parent="RequisitionAccount-projectCode-parentBean"/>
 
   <bean id="RequisitionAccount-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
-    <property name="name" value="projectCode" />
-    <property name="required" value="false" />
+    <property name="name" value="projectCode"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="RequisitionAccount-financialSubObjectCode" parent="RequisitionAccount-financialSubObjectCode-parentBean" />
+  <bean id="RequisitionAccount-financialSubObjectCode" parent="RequisitionAccount-financialSubObjectCode-parentBean"/>
 
   <bean id="RequisitionAccount-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
-    <property name="required" value="false" />
+    <property name="required" value="false"/>
   </bean>
-  <bean id="RequisitionAccount-documentNumber" parent="RequisitionAccount-documentNumber-parentBean" />
+  <bean id="RequisitionAccount-documentNumber" parent="RequisitionAccount-documentNumber-parentBean"/>
 
   <bean id="RequisitionAccount-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
-    <property name="required" value="false" />
+    <property name="required" value="false"/>
   </bean>
-  <bean id="RequisitionAccount-debitCreditCode" parent="RequisitionAccount-debitCreditCode-parentBean" />
+  <bean id="RequisitionAccount-debitCreditCode" parent="RequisitionAccount-debitCreditCode-parentBean"/>
 
   <bean id="RequisitionAccount-debitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="debitCreditCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Credit or Debit Code" />
-    <property name="shortLabel" value="Credit/Debit" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="CharsetValidationPattern"
-            p:validChars="DC" />
+    <property name="name" value="debitCreditCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Credit or Debit Code"/>
+    <property name="shortLabel" value="Credit/Debit"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="CharsetValidationPattern" p:validChars="DC"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
   </bean>
-  <bean id="RequisitionAccount-encumbranceUpdateCode" parent="RequisitionAccount-encumbranceUpdateCode-parentBean" />
+  <bean id="RequisitionAccount-encumbranceUpdateCode" parent="RequisitionAccount-encumbranceUpdateCode-parentBean"/>
 
   <bean id="RequisitionAccount-encumbranceUpdateCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="encumbranceUpdateCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Encumbrance Update Code" />
-    <property name="shortLabel" value="Encumbrance Update" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AlphaValidationPattern" />
+    <property name="name" value="encumbranceUpdateCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Encumbrance Update Code"/>
+    <property name="shortLabel" value="Encumbrance Update"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AlphaValidationPattern"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
   </bean>
-  <bean id="RequisitionAccount-objectTypeCode" parent="RequisitionAccount-objectTypeCode-parentBean" />
+  <bean id="RequisitionAccount-objectTypeCode" parent="RequisitionAccount-objectTypeCode-parentBean"/>
 
   <bean id="RequisitionAccount-objectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
-    <property name="name" value="objectTypeCode" />
-    <property name="required" value="false" />
+    <property name="name" value="objectTypeCode"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="RequisitionAccount-accountExpiredOverride" parent="RequisitionAccount-accountExpiredOverride-parentBean" />
+  <bean id="RequisitionAccount-accountExpiredOverride" parent="RequisitionAccount-accountExpiredOverride-parentBean"/>
 
   <bean id="RequisitionAccount-accountExpiredOverride-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountExpiredOverride" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Account Expired Override" />
-    <property name="shortLabel" value="Expired Override" />
-    <property name="maxLength" value="1" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="accountExpiredOverride"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Account Expired Override"/>
+    <property name="shortLabel" value="Expired Override"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="RequisitionAccount-nonFringeAccountOverride" parent="RequisitionAccount-nonFringeAccountOverride-parentBean" />
+  <bean id="RequisitionAccount-nonFringeAccountOverride" parent="RequisitionAccount-nonFringeAccountOverride-parentBean"/>
 
   <bean id="RequisitionAccount-nonFringeAccountOverride-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nonFringeAccountOverride" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Non-fringe Account Override" />
-    <property name="shortLabel" value="Non-fringe Override" />
-    <property name="maxLength" value="1" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="nonFringeAccountOverride"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Non-fringe Account Override"/>
+    <property name="shortLabel" value="Non-fringe Override"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="RequisitionAccount-objectBudgetOverride" parent="RequisitionAccount-objectBudgetOverride-parentBean" />
+  <bean id="RequisitionAccount-objectBudgetOverride" parent="RequisitionAccount-objectBudgetOverride-parentBean"/>
 
   <bean id="RequisitionAccount-objectBudgetOverride-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="objectBudgetOverride" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Object Non-Budgeted Override" />
-    <property name="shortLabel" value="Non-Budgeted Override" />
-    <property name="maxLength" value="1" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="objectBudgetOverride"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Object Non-Budgeted Override"/>
+    <property name="shortLabel" value="Non-Budgeted Override"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="RequisitionAccount-financialDocumentLineDescription" parent="RequisitionAccount-financialDocumentLineDescription-parentBean" />
+  <bean id="RequisitionAccount-financialDocumentLineDescription" parent="RequisitionAccount-financialDocumentLineDescription-parentBean"/>
 
   <bean id="RequisitionAccount-financialDocumentLineDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentLineDescription" />
-    <property name="label" value="Line Description" />
-    <property name="shortLabel" value="Line Desc" />
-    <property name="maxLength" value="40" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="financialDocumentLineDescription"/>
+    <property name="label" value="Line Description"/>
+    <property name="shortLabel" value="Line Desc"/>
+    <property name="maxLength" value="40"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
   </bean>
-  <bean id="RequisitionAccount-salesTaxRequired" parent="RequisitionAccount-salesTaxRequired-parentBean" />
+  <bean id="RequisitionAccount-salesTaxRequired" parent="RequisitionAccount-salesTaxRequired-parentBean"/>
 
   <bean id="RequisitionAccount-salesTaxRequired-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="salesTaxRequired" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Sales Tax Required" />
-    <property name="shortLabel" value="Sales Tax Reqd" />
-    <property name="maxLength" value="10" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="salesTaxRequired"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Sales Tax Required"/>
+    <property name="shortLabel" value="Sales Tax Reqd"/>
+    <property name="maxLength" value="10"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
-  <bean id="RequisitionAccount-salesTax.chartOfAccountsCode" parent="RequisitionAccount-salesTax.chartOfAccountsCode-parentBean" />
+  <bean id="RequisitionAccount-salesTax.chartOfAccountsCode" parent="RequisitionAccount-salesTax.chartOfAccountsCode-parentBean"/>
 
   <bean id="RequisitionAccount-salesTax.chartOfAccountsCode-parentBean" abstract="true" parent="SalesTax-chartOfAccountsCode">
-    <property name="name" value="salesTax.chartOfAccountsCode" />
-    <property name="label" value="Sales Tax Chart of Accounts Code" />
-    <property name="shortLabel" value="Sales Tax Chart" />
+    <property name="name" value="salesTax.chartOfAccountsCode"/>
+    <property name="label" value="Sales Tax Chart of Accounts Code"/>
+    <property name="shortLabel" value="Sales Tax Chart"/>
   </bean>
-  <bean id="RequisitionAccount-salesTax.accountNumber" parent="RequisitionAccount-salesTax.accountNumber-parentBean" />
+  <bean id="RequisitionAccount-salesTax.accountNumber" parent="RequisitionAccount-salesTax.accountNumber-parentBean"/>
 
   <bean id="RequisitionAccount-salesTax.accountNumber-parentBean" abstract="true" parent="SalesTax-accountNumber">
-    <property name="name" value="salesTax.accountNumber" />
-    <property name="label" value="Sales Tax Account Number" />
-    <property name="shortLabel" value="Sales Tax Account" />
+    <property name="name" value="salesTax.accountNumber"/>
+    <property name="label" value="Sales Tax Account Number"/>
+    <property name="shortLabel" value="Sales Tax Account"/>
   </bean>
-  <bean id="RequisitionAccount-salesTax.financialDocumentGrossSalesAmount" parent="RequisitionAccount-salesTax.financialDocumentGrossSalesAmount-parentBean" />
+  <bean id="RequisitionAccount-salesTax.financialDocumentGrossSalesAmount" parent="RequisitionAccount-salesTax.financialDocumentGrossSalesAmount-parentBean"/>
 
   <bean id="RequisitionAccount-salesTax.financialDocumentGrossSalesAmount-parentBean" abstract="true" parent="SalesTax-financialDocumentGrossSalesAmount">
-    <property name="name" value="salesTax.financialDocumentGrossSalesAmount" />
-    <property name="label" value="Gross Sales Amount" />
-    <property name="shortLabel" value="Gross Sales Amt." />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="salesTax.financialDocumentGrossSalesAmount"/>
+    <property name="label" value="Gross Sales Amount"/>
+    <property name="shortLabel" value="Gross Sales Amt."/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="RequisitionAccount-salesTax.financialDocumentTaxableSalesAmount" parent="RequisitionAccount-salesTax.financialDocumentTaxableSalesAmount-parentBean" />
+  <bean id="RequisitionAccount-salesTax.financialDocumentTaxableSalesAmount" parent="RequisitionAccount-salesTax.financialDocumentTaxableSalesAmount-parentBean"/>
 
   <bean id="RequisitionAccount-salesTax.financialDocumentTaxableSalesAmount-parentBean" abstract="true" parent="SalesTax-financialDocumentTaxableSalesAmount">
-    <property name="name" value="salesTax.financialDocumentTaxableSalesAmount" />
-    <property name="label" value="Taxable Sales Amount" />
-    <property name="shortLabel" value="Taxable Sales Amt." />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="salesTax.financialDocumentTaxableSalesAmount"/>
+    <property name="label" value="Taxable Sales Amount"/>
+    <property name="shortLabel" value="Taxable Sales Amt."/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="RequisitionAccount-salesTax.financialDocumentSaleDate" parent="RequisitionAccount-salesTax.financialDocumentSaleDate-parentBean" />
+  <bean id="RequisitionAccount-salesTax.financialDocumentSaleDate" parent="RequisitionAccount-salesTax.financialDocumentSaleDate-parentBean"/>
 
   <bean id="RequisitionAccount-salesTax.financialDocumentSaleDate-parentBean" abstract="true" parent="SalesTax-financialDocumentSaleDate">
-    <property name="name" value="salesTax.financialDocumentSaleDate" />
-    <property name="label" value="Sale Date" />
+    <property name="name" value="salesTax.financialDocumentSaleDate"/>
+    <property name="label" value="Sale Date"/>
   </bean>
-  <bean id="RequisitionAccount-itemIdentifier" parent="RequisitionAccount-itemIdentifier-parentBean" />
+  <bean id="RequisitionAccount-itemIdentifier" parent="RequisitionAccount-itemIdentifier-parentBean"/>
 
   <bean id="RequisitionAccount-itemIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemIdentifier">
-    <property name="name" value="itemIdentifier" />
-    <property name="label" value="Item Identifier" />
+    <property name="name" value="itemIdentifier"/>
+    <property name="label" value="Item Identifier"/>
   </bean>
-  <bean id="RequisitionAccount-accountLinePercent" parent="RequisitionAccount-accountLinePercent-parentBean" />
+  <bean id="RequisitionAccount-accountLinePercent" parent="RequisitionAccount-accountLinePercent-parentBean"/>
 
   <bean id="RequisitionAccount-accountLinePercent-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountLinePercent" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Account Line Percent" />
-    <property name="shortLabel" value="Percent" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="accountLinePercent"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Account Line Percent"/>
+    <property name="shortLabel" value="Percent"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
   </bean>
-  <bean id="RequisitionAccount-accountIdentifier" parent="RequisitionAccount-accountIdentifier-parentBean" />
+  <bean id="RequisitionAccount-accountIdentifier" parent="RequisitionAccount-accountIdentifier-parentBean"/>
 
   <bean id="RequisitionAccount-accountIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Account Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="accountIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Account Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
   </bean>
 </beans>

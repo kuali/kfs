@@ -1,46 +1,40 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="AccountDelegateGlobalDetail" parent="AccountDelegateGlobalDetail-parentBean" />
+  <bean id="AccountDelegateGlobalDetail" parent="AccountDelegateGlobalDetail-parentBean"/>
 
   <bean id="AccountDelegateGlobalDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountDelegateGlobalDetail" />
-    <property name="inquiryDefinition" >
-      <ref bean="AccountDelegateGlobalDetail-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountDelegateGlobalDetail"/>
+    <property name="inquiryDefinition">
+      <ref bean="AccountDelegateGlobalDetail-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="AccountDelegateGlobalDetail-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="AccountDelegateGlobalDetail-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Delegate Change Document" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Delegate Change Document"/>
+    <property name="attributes">
       <list>
-        <ref bean="AccountDelegateGlobalDetail-financialDocumentTypeCode" />
-        <ref bean="AccountDelegateGlobalDetail-accountDelegatePrimaryRoutingIndicator" />
-        <ref bean="AccountDelegateGlobalDetail-accountDelegateStartDate" />
-        <ref bean="AccountDelegateGlobalDetail-accountDelegateUniversalId" />
-        <ref bean="AccountDelegateGlobalDetail-accountDelegate.principalName" />
-        <ref bean="AccountDelegateGlobalDetail-accountDelegate.name" />
-        <ref bean="AccountDelegateGlobalDetail-approvalFromThisAmount" />
-        <ref bean="AccountDelegateGlobalDetail-approvalToThisAmount" />
-        <ref bean="AccountDelegateGlobalDetail-documentNumber" />
-        <ref bean="AccountDelegateGlobalDetail-newCollectionRecord" />
+        <ref bean="AccountDelegateGlobalDetail-financialDocumentTypeCode"/>
+        <ref bean="AccountDelegateGlobalDetail-accountDelegatePrimaryRoutingIndicator"/>
+        <ref bean="AccountDelegateGlobalDetail-accountDelegateStartDate"/>
+        <ref bean="AccountDelegateGlobalDetail-accountDelegateUniversalId"/>
+        <ref bean="AccountDelegateGlobalDetail-accountDelegate.principalName"/>
+        <ref bean="AccountDelegateGlobalDetail-accountDelegate.name"/>
+        <ref bean="AccountDelegateGlobalDetail-approvalFromThisAmount"/>
+        <ref bean="AccountDelegateGlobalDetail-approvalToThisAmount"/>
+        <ref bean="AccountDelegateGlobalDetail-documentNumber"/>
+        <ref bean="AccountDelegateGlobalDetail-newCollectionRecord"/>
       </list>
     </property>
-    <property name="relationships" >
+    <property name="relationships">
       <list>
         <dd:relationship objectAttribute="accountDelegate">
-            <dd:primitiveAttribute source="accountDelegateUniversalId" target="principalId" />
-            <dd:supportAttribute source="accountDelegate.principalName" target="principalName" identifier="true" />
-            <dd:supportAttribute source="accountDelegate.name" target="name" />
+            <dd:primitiveAttribute source="accountDelegateUniversalId" target="principalId"/>
+            <dd:supportAttribute source="accountDelegate.principalName" target="principalName" identifier="true"/>
+            <dd:supportAttribute source="accountDelegate.name" target="name"/>
         </dd:relationship>
 
         <dd:relationship objectAttribute="financialSystemDocumentTypeCode">
-            <dd:primitiveAttribute source="financialDocumentTypeCode" target="name" />
+            <dd:primitiveAttribute source="financialDocumentTypeCode" target="name"/>
         </dd:relationship>
       </list>
     </property>
@@ -49,106 +43,100 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Attribute Definitions -->
 
 
-  <bean id="AccountDelegateGlobalDetail-financialDocumentTypeCode" parent="AccountDelegateGlobalDetail-financialDocumentTypeCode-parentBean" />
+  <bean id="AccountDelegateGlobalDetail-financialDocumentTypeCode" parent="AccountDelegateGlobalDetail-financialDocumentTypeCode-parentBean"/>
 
-  <bean id="AccountDelegateGlobalDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="AccountDelegate-financialDocumentTypeCode" />
+  <bean id="AccountDelegateGlobalDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="AccountDelegate-financialDocumentTypeCode"/>
   
-  <bean id="AccountDelegateGlobalDetail-accountDelegatePrimaryRoutingIndicator" parent="AccountDelegateGlobalDetail-accountDelegatePrimaryRoutingIndicator-parentBean" />
+  <bean id="AccountDelegateGlobalDetail-accountDelegatePrimaryRoutingIndicator" parent="AccountDelegateGlobalDetail-accountDelegatePrimaryRoutingIndicator-parentBean"/>
 
   <bean id="AccountDelegateGlobalDetail-accountDelegatePrimaryRoutingIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
-    <property name="name" value="accountDelegatePrimaryRoutingIndicator" />
-    <property name="label" value="Account Delegate Primary Route" />
-    <property name="shortLabel" value="PrimaryRoute" />
+    <property name="name" value="accountDelegatePrimaryRoutingIndicator"/>
+    <property name="label" value="Account Delegate Primary Route"/>
+    <property name="shortLabel" value="PrimaryRoute"/>
   </bean>
-  <bean id="AccountDelegateGlobalDetail-accountDelegateStartDate" parent="AccountDelegateGlobalDetail-accountDelegateStartDate-parentBean" />
+  <bean id="AccountDelegateGlobalDetail-accountDelegateStartDate" parent="AccountDelegateGlobalDetail-accountDelegateStartDate-parentBean"/>
 
   <bean id="AccountDelegateGlobalDetail-accountDelegateStartDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
-    <property name="name" value="accountDelegateStartDate" />
-    <property name="label" value="Account Delegate Start Date" />
-    <property name="shortLabel" value="DelegateStartDt" />
-    <property name="required" value="true" />
+    <property name="name" value="accountDelegateStartDate"/>
+    <property name="label" value="Account Delegate Start Date"/>
+    <property name="shortLabel" value="DelegateStartDt"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="AccountDelegateGlobalDetail-accountDelegateUniversalId" parent="AccountDelegateGlobalDetail-accountDelegateUniversalId-parentBean" />
+  <bean id="AccountDelegateGlobalDetail-accountDelegateUniversalId" parent="AccountDelegateGlobalDetail-accountDelegateUniversalId-parentBean"/>
 
   <bean id="AccountDelegateGlobalDetail-accountDelegateUniversalId-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="accountDelegateUniversalId" />
-    <property name="label" value="Account Delegate Unvl ID" />
-    <property name="shortLabel" value="AccDelegateID" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="accountDelegateUniversalId"/>
+    <property name="label" value="Account Delegate Unvl ID"/>
+    <property name="shortLabel" value="AccDelegateID"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
-    <property name="displayLabelAttribute" value="accountDelegate.principalName" />
+    <property name="displayLabelAttribute" value="accountDelegate.principalName"/>
   </bean>
-  <bean id="AccountDelegateGlobalDetail-accountDelegate.principalName" parent="AccountDelegateGlobalDetail-accountDelegate.principalName-parentBean" />
+  <bean id="AccountDelegateGlobalDetail-accountDelegate.principalName" parent="AccountDelegateGlobalDetail-accountDelegate.principalName-parentBean"/>
 
   <bean id="AccountDelegateGlobalDetail-accountDelegate.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="accountDelegate.principalName" />
-    <property name="label" value="Account Delegate Principal Name" />
-    <property name="shortLabel" value="Principal Name" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="accountDelegate.name"
-            p:universalIdAttributeName="accountDelegateUniversalId"
-            p:userIdAttributeName="accountDelegate.principalName" />
+    <property name="name" value="accountDelegate.principalName"/>
+    <property name="label" value="Account Delegate Principal Name"/>
+    <property name="shortLabel" value="Principal Name"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="accountDelegate.name" p:universalIdAttributeName="accountDelegateUniversalId" p:userIdAttributeName="accountDelegate.principalName"/>
     </property>
   </bean>
-  <bean id="AccountDelegateGlobalDetail-accountDelegate.name" parent="AccountDelegateGlobalDetail-accountDelegate.name-parentBean" />
+  <bean id="AccountDelegateGlobalDetail-accountDelegate.name" parent="AccountDelegateGlobalDetail-accountDelegate.name-parentBean"/>
 
   <bean id="AccountDelegateGlobalDetail-accountDelegate.name-parentBean" abstract="true" parent="PersonImpl-name">
-    <property name="name" value="accountDelegate.name" />
-    <property name="label" value="Account Delegate User Name" />
-    <property name="required" value="false" />
+    <property name="name" value="accountDelegate.name"/>
+    <property name="label" value="Account Delegate User Name"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="AccountDelegateGlobalDetail-approvalFromThisAmount" parent="AccountDelegateGlobalDetail-approvalFromThisAmount-parentBean" />
+  <bean id="AccountDelegateGlobalDetail-approvalFromThisAmount" parent="AccountDelegateGlobalDetail-approvalFromThisAmount-parentBean"/>
 
   <bean id="AccountDelegateGlobalDetail-approvalFromThisAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="approvalFromThisAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Approval From This Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="approvalFromThisAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Approval From This Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
   </bean>
-  <bean id="AccountDelegateGlobalDetail-approvalToThisAmount" parent="AccountDelegateGlobalDetail-approvalToThisAmount-parentBean" />
+  <bean id="AccountDelegateGlobalDetail-approvalToThisAmount" parent="AccountDelegateGlobalDetail-approvalToThisAmount-parentBean"/>
 
   <bean id="AccountDelegateGlobalDetail-approvalToThisAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="approvalToThisAmount" />
-    <property name="forceUppercase" value="true" />    
-    <property name="label" value="Approval To This Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="approvalToThisAmount"/>
+    <property name="forceUppercase" value="true"/>    
+    <property name="label" value="Approval To This Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
   </bean>
-  <bean id="AccountDelegateGlobalDetail-documentNumber" parent="AccountDelegateGlobalDetail-documentNumber-parentBean" />
+  <bean id="AccountDelegateGlobalDetail-documentNumber" parent="AccountDelegateGlobalDetail-documentNumber-parentBean"/>
 
   <bean id="AccountDelegateGlobalDetail-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Document Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="documentNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Document Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="14"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="16"/>
     </property>
   </bean>
-  <bean id="AccountDelegateGlobalDetail-newCollectionRecord" parent="AccountDelegateGlobalDetail-newCollectionRecord-parentBean" />
+  <bean id="AccountDelegateGlobalDetail-newCollectionRecord" parent="AccountDelegateGlobalDetail-newCollectionRecord-parentBean"/>
 
   <bean id="AccountDelegateGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
@@ -156,31 +144,24 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="AccountDelegateGlobalDetail-inquiryDefinition" parent="AccountDelegateGlobalDetail-inquiryDefinition-parentBean" />
+  <bean id="AccountDelegateGlobalDetail-inquiryDefinition" parent="AccountDelegateGlobalDetail-inquiryDefinition-parentBean"/>
 
   <bean id="AccountDelegateGlobalDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Delegate Change Document Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Delegate Change Document Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="accountDelegatePrimaryRoutingIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="accountDelegateStartDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="accountDelegateUniversalId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="approvalFromThisAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="approvalToThisAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="documentNumber" />
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="accountDelegatePrimaryRoutingIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="accountDelegateStartDate"/>
+              <bean parent="FieldDefinition" p:attributeName="accountDelegateUniversalId"/>
+              <bean parent="FieldDefinition" p:attributeName="approvalFromThisAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="approvalToThisAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
             </list>
           </property>
         </bean>
@@ -191,51 +172,36 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="AccountDelegateGlobalDetail-lookupDefinition" parent="AccountDelegateGlobalDetail-lookupDefinition-parentBean" />
+  <bean id="AccountDelegateGlobalDetail-lookupDefinition" parent="AccountDelegateGlobalDetail-lookupDefinition-parentBean"/>
 
   <bean id="AccountDelegateGlobalDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Delegate Change Document Lookup" />
-    <property name="instructions" value="Lookup an Delegate Change Document" />
-    <property name="defaultSort" >
+    <property name="title" value="Delegate Change Document Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountDelegatePrimaryRoutingIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountDelegateStartDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountDelegateUniversalId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="approvalFromThisAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="approvalToThisAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountDelegatePrimaryRoutingIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="accountDelegateStartDate"/>
+        <bean parent="FieldDefinition" p:attributeName="accountDelegateUniversalId"/>
+        <bean parent="FieldDefinition" p:attributeName="approvalFromThisAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="approvalToThisAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountDelegatePrimaryRoutingIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountDelegateStartDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountDelegateUniversalId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="approvalFromThisAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="approvalToThisAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="documentNumber" />
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountDelegatePrimaryRoutingIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="accountDelegateStartDate"/>
+        <bean parent="FieldDefinition" p:attributeName="accountDelegateUniversalId"/>
+        <bean parent="FieldDefinition" p:attributeName="approvalFromThisAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="approvalToThisAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
       </list>
     </property>
   </bean>
 </beans>
-

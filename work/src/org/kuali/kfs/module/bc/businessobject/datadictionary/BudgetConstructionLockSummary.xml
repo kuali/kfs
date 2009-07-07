@@ -1,40 +1,34 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="BudgetConstructionLockSummary" parent="BudgetConstructionLockSummary-parentBean" />
+  <bean id="BudgetConstructionLockSummary" parent="BudgetConstructionLockSummary-parentBean"/>
 
   <bean id="BudgetConstructionLockSummary-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockSummary" />
-    <property name="lookupDefinition" >
-      <ref bean="BudgetConstructionLockSummary-lookupDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockSummary"/>
+    <property name="lookupDefinition">
+      <ref bean="BudgetConstructionLockSummary-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Budget Construction Lock Summary" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Budget Construction Lock Summary"/>
+    <property name="attributes">
       <list>
-        <ref bean="BudgetConstructionLockSummary-lockType" />
-        <ref bean="BudgetConstructionLockSummary-lockUserId" />
-        <ref bean="BudgetConstructionLockSummary-universityFiscalYear" />
-        <ref bean="BudgetConstructionLockSummary-documentNumber" />
-        <ref bean="BudgetConstructionLockSummary-chartOfAccountsCode" />
-        <ref bean="BudgetConstructionLockSummary-accountNumber" />
-        <ref bean="BudgetConstructionLockSummary-subAccountNumber" />
-        <ref bean="BudgetConstructionLockSummary-positionNumber" />
-        <ref bean="BudgetConstructionLockSummary-positionDescription" />
-        <ref bean="BudgetConstructionLockSummary-lockUser.principalName" />
+        <ref bean="BudgetConstructionLockSummary-lockType"/>
+        <ref bean="BudgetConstructionLockSummary-lockUserId"/>
+        <ref bean="BudgetConstructionLockSummary-universityFiscalYear"/>
+        <ref bean="BudgetConstructionLockSummary-documentNumber"/>
+        <ref bean="BudgetConstructionLockSummary-chartOfAccountsCode"/>
+        <ref bean="BudgetConstructionLockSummary-accountNumber"/>
+        <ref bean="BudgetConstructionLockSummary-subAccountNumber"/>
+        <ref bean="BudgetConstructionLockSummary-positionNumber"/>
+        <ref bean="BudgetConstructionLockSummary-positionDescription"/>
+        <ref bean="BudgetConstructionLockSummary-lockUser.principalName"/>
       </list>
     </property>
-    <property name="relationships" >
+    <property name="relationships">
       <list>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="lockUser" />
-          <property name="primitiveAttributes" >
+          <property name="objectAttributeName" value="lockUser"/>
+          <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="lockUserId"
-                    p:targetName="principalName" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="lockUserId" p:targetName="principalName"/>
             </list>
           </property>
         </bean>
@@ -44,85 +38,73 @@
 
 <!-- Attribute Definitions -->
 
-  <bean id="BudgetConstructionLockSummary-lockType" parent="BudgetConstructionLockSummary-lockType-parentBean" />
+  <bean id="BudgetConstructionLockSummary-lockType" parent="BudgetConstructionLockSummary-lockType-parentBean"/>
 
   <bean id="BudgetConstructionLockSummary-lockType-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="lockType" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Lock Type" />
-    <property name="shortLabel" value="Type" />
-    <property name="maxLength" value="20" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="name" value="lockType"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Lock Type"/>
+    <property name="shortLabel" value="Type"/>
+    <property name="maxLength" value="20"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
     
     
   </bean>
   
-  <bean id="BudgetConstructionLockSummary-lockUserId" parent="BudgetConstructionLockSummary-lockUserId-parentBean" />
+  <bean id="BudgetConstructionLockSummary-lockUserId" parent="BudgetConstructionLockSummary-lockUserId-parentBean"/>
 
   <bean id="BudgetConstructionLockSummary-lockUserId-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="lockUserId" />
-    <property name="label" value="Lock User Id" />
-    <property name="shortLabel" value="Id" />
+    <property name="name" value="lockUserId"/>
+    <property name="label" value="Lock User Id"/>
+    <property name="shortLabel" value="Id"/>
     <property name="required" value="false"/>
     
   </bean>
   
-  <bean id="BudgetConstructionLockSummary-universityFiscalYear" parent="BudgetConstructionHeader-universityFiscalYear-parentBean" />  
-  <bean id="BudgetConstructionLockSummary-documentNumber" parent="BudgetConstructionHeader-documentNumber-parentBean" />
-  <bean id="BudgetConstructionLockSummary-chartOfAccountsCode" parent="BudgetConstructionHeader-chartOfAccountsCode-parentBean" />
-  <bean id="BudgetConstructionLockSummary-accountNumber" parent="BudgetConstructionHeader-accountNumber-parentBean" />
-  <bean id="BudgetConstructionLockSummary-subAccountNumber" parent="BudgetConstructionHeader-subAccountNumber-parentBean" />
-  <bean id="BudgetConstructionLockSummary-positionNumber" parent="BudgetConstructionPosition-positionNumber-parentBean" />  
-  <bean id="BudgetConstructionLockSummary-positionDescription" parent="BudgetConstructionPosition-positionDescription-parentBean" />
+  <bean id="BudgetConstructionLockSummary-universityFiscalYear" parent="BudgetConstructionHeader-universityFiscalYear-parentBean"/>  
+  <bean id="BudgetConstructionLockSummary-documentNumber" parent="BudgetConstructionHeader-documentNumber-parentBean"/>
+  <bean id="BudgetConstructionLockSummary-chartOfAccountsCode" parent="BudgetConstructionHeader-chartOfAccountsCode-parentBean"/>
+  <bean id="BudgetConstructionLockSummary-accountNumber" parent="BudgetConstructionHeader-accountNumber-parentBean"/>
+  <bean id="BudgetConstructionLockSummary-subAccountNumber" parent="BudgetConstructionHeader-subAccountNumber-parentBean"/>
+  <bean id="BudgetConstructionLockSummary-positionNumber" parent="BudgetConstructionPosition-positionNumber-parentBean"/>  
+  <bean id="BudgetConstructionLockSummary-positionDescription" parent="BudgetConstructionPosition-positionDescription-parentBean"/>
   
   <bean id="BudgetConstructionLockSummary-lockUser.principalName" parent="PersonImpl-principalName">
-    <property name="name" value="lockUser.principalName" />
-    <property name="label" value="Lock Principal Name" />
+    <property name="name" value="lockUser.principalName"/>
+    <property name="label" value="Lock Principal Name"/>
   </bean>
   
 <!-- Business Object Lookup Definition -->
 
-  <bean id="BudgetConstructionLockSummary-lookupDefinition" parent="BudgetConstructionLockSummary-lookupDefinition-parentBean" />
+  <bean id="BudgetConstructionLockSummary-lookupDefinition" parent="BudgetConstructionLockSummary-lookupDefinition-parentBean"/>
 
   <bean id="BudgetConstructionLockSummary-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="lookupableID" value="lockMonitorLookupable" />
-    <property name="title" value="Budget Construction Lock Lookup" />
-    <property name="instructions" value="Look up a Budget Construction Lock" />
-    <property name="defaultSort" >
+    <property name="lookupableID" value="lockMonitorLookupable"/>
+    <property name="title" value="Budget Construction Lock Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="lockUserId" />
+        <bean parent="FieldDefinition" p:attributeName="lockUserId"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="lockType" />
-        <bean parent="FieldDefinition"
-              p:attributeName="lockUser.principalName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="documentNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="subAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionDescription" />
+        <bean parent="FieldDefinition" p:attributeName="lockType"/>
+        <bean parent="FieldDefinition" p:attributeName="lockUser.principalName"/>
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="positionDescription"/>
       </list>
     </property>
   </bean>
 </beans>
-

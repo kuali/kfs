@@ -1,23 +1,19 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="TransientBalanceInquiryAttributes" parent="TransientBalanceInquiryAttributes-parentBean" />
+  <bean id="TransientBalanceInquiryAttributes" parent="TransientBalanceInquiryAttributes-parentBean"/>
 
   <bean id="TransientBalanceInquiryAttributes-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes" />
-    <property name="objectLabel" value="Transient Balance Inquiry Attributes" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes"/>
+    <property name="objectLabel" value="Transient Balance Inquiry Attributes"/>
+    <property name="attributes">
       <list>
-        <ref bean="TransientBalanceInquiryAttributes-pendingEntryOption" />
-        <ref bean="TransientBalanceInquiryAttributes-consolidationOption" />
-        <ref bean="TransientBalanceInquiryAttributes-amountViewOption" />
-        <ref bean="TransientBalanceInquiryAttributes-blankLineOption" />
-        <ref bean="TransientBalanceInquiryAttributes-costShareOption" />
-        <ref bean="TransientBalanceInquiryAttributes-linkButtonOption" />
-        <ref bean="TransientBalanceInquiryAttributes-genericText" />
+        <ref bean="TransientBalanceInquiryAttributes-pendingEntryOption"/>
+        <ref bean="TransientBalanceInquiryAttributes-consolidationOption"/>
+        <ref bean="TransientBalanceInquiryAttributes-amountViewOption"/>
+        <ref bean="TransientBalanceInquiryAttributes-blankLineOption"/>
+        <ref bean="TransientBalanceInquiryAttributes-costShareOption"/>
+        <ref bean="TransientBalanceInquiryAttributes-linkButtonOption"/>
+        <ref bean="TransientBalanceInquiryAttributes-genericText"/>
       </list>
     </property>
   </bean>
@@ -25,101 +21,89 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="TransientBalanceInquiryAttributes-pendingEntryOption" parent="TransientBalanceInquiryAttributes-pendingEntryOption-parentBean" />
+  <bean id="TransientBalanceInquiryAttributes-pendingEntryOption" parent="TransientBalanceInquiryAttributes-pendingEntryOption-parentBean"/>
 
   <bean id="TransientBalanceInquiryAttributes-pendingEntryOption-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="pendingEntryOption" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Include Pending Ledger Entry" />
-    <property name="shortLabel" value="Include Pending Ledger Entry" />
-    <property name="maxLength" value="20" />
-    <property name="control" >
-      <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.gl.businessobject.options.PendingEntryOptionFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="pendingEntryOption"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Include Pending Ledger Entry"/>
+    <property name="shortLabel" value="Include Pending Ledger Entry"/>
+    <property name="maxLength" value="20"/>
+    <property name="control">
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.gl.businessobject.options.PendingEntryOptionFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="TransientBalanceInquiryAttributes-consolidationOption" parent="TransientBalanceInquiryAttributes-consolidationOption-parentBean" />
+  <bean id="TransientBalanceInquiryAttributes-consolidationOption" parent="TransientBalanceInquiryAttributes-consolidationOption-parentBean"/>
 
   <bean id="TransientBalanceInquiryAttributes-consolidationOption-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="consolidationOption" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Consolidation Option" />
-    <property name="shortLabel" value="Consolidation Option" />
-    <property name="maxLength" value="20" />
-    <property name="control" >
-      <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.gl.businessobject.options.ConsolidationOptionFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="consolidationOption"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Consolidation Option"/>
+    <property name="shortLabel" value="Consolidation Option"/>
+    <property name="maxLength" value="20"/>
+    <property name="control">
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.gl.businessobject.options.ConsolidationOptionFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="TransientBalanceInquiryAttributes-amountViewOption" parent="TransientBalanceInquiryAttributes-amountViewOption-parentBean" />
+  <bean id="TransientBalanceInquiryAttributes-amountViewOption" parent="TransientBalanceInquiryAttributes-amountViewOption-parentBean"/>
 
   <bean id="TransientBalanceInquiryAttributes-amountViewOption-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="amountViewOption" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Amount View Option" />
-    <property name="shortLabel" value="Amount View" />
-    <property name="maxLength" value="20" />
-    <property name="control" >
-      <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.gl.businessobject.options.AmountViewOptionFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="amountViewOption"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Amount View Option"/>
+    <property name="shortLabel" value="Amount View"/>
+    <property name="maxLength" value="20"/>
+    <property name="control">
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.gl.businessobject.options.AmountViewOptionFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   
-  <bean id="TransientBalanceInquiryAttributes-blankLineOption" parent="TransientBalanceInquiryAttributes-blankLineOption-parentBean" />
+  <bean id="TransientBalanceInquiryAttributes-blankLineOption" parent="TransientBalanceInquiryAttributes-blankLineOption-parentBean"/>
   <bean id="TransientBalanceInquiryAttributes-blankLineOption-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="blankLineOption" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Show Blank Lines" />
-    <property name="shortLabel" value="Show Blank Lines" />
-    <property name="maxLength" value="20" />
-    <property name="control" >
-      <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.gl.businessobject.options.BlankLineOptionFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="blankLineOption"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Show Blank Lines"/>
+    <property name="shortLabel" value="Show Blank Lines"/>
+    <property name="maxLength" value="20"/>
+    <property name="control">
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.gl.businessobject.options.BlankLineOptionFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   
-  <bean id="TransientBalanceInquiryAttributes-costShareOption" parent="TransientBalanceInquiryAttributes-costShareOption-parentBean" />
+  <bean id="TransientBalanceInquiryAttributes-costShareOption" parent="TransientBalanceInquiryAttributes-costShareOption-parentBean"/>
 
   <bean id="TransientBalanceInquiryAttributes-costShareOption-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="costShareOption" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Include Cost Share Sub-Accounts" />
-    <property name="shortLabel" value="Cost Share" />
-    <property name="maxLength" value="20" />
-    <property name="control" >
-      <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.gl.businessobject.options.CostShareOptionFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="costShareOption"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Include Cost Share Sub-Accounts"/>
+    <property name="shortLabel" value="Cost Share"/>
+    <property name="maxLength" value="20"/>
+    <property name="control">
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.gl.businessobject.options.CostShareOptionFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="TransientBalanceInquiryAttributes-linkButtonOption" parent="TransientBalanceInquiryAttributes-linkButtonOption-parentBean" />
+  <bean id="TransientBalanceInquiryAttributes-linkButtonOption" parent="TransientBalanceInquiryAttributes-linkButtonOption-parentBean"/>
 
   <bean id="TransientBalanceInquiryAttributes-linkButtonOption-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="linkButtonOption" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="linkButtonOption" />
-    <property name="shortLabel" value="linkButtonOption" />
-    <property name="maxLength" value="20" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="name" value="linkButtonOption"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="linkButtonOption"/>
+    <property name="shortLabel" value="linkButtonOption"/>
+    <property name="maxLength" value="20"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
   </bean>
-  <bean id="TransientBalanceInquiryAttributes-genericText" parent="TransientBalanceInquiryAttributes-genericText-parentBean" />
+  <bean id="TransientBalanceInquiryAttributes-genericText" parent="TransientBalanceInquiryAttributes-genericText-parentBean"/>
 
   <bean id="TransientBalanceInquiryAttributes-genericText-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="genericText" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="genericText" />
-    <property name="shortLabel" value="genericText" />
-    <property name="maxLength" value="10" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="name" value="genericText"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="genericText"/>
+    <property name="shortLabel" value="genericText"/>
+    <property name="maxLength" value="10"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
 </beans>

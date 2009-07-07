@@ -1,58 +1,47 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AwardAccount" parent="AwardAccount-parentBean" />
+  <bean id="AwardAccount" parent="AwardAccount-parentBean"/>
 
   <bean id="AwardAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AwardAccount" />
-    <property name="inquiryDefinition" >
-      <ref bean="AwardAccount-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AwardAccount"/>
+    <property name="inquiryDefinition">
+      <ref bean="AwardAccount-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="AwardAccount-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="AwardAccount-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Award Account" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Award Account"/>
+    <property name="attributes">
       <list>
-        <ref bean="AwardAccount-proposalNumber" />
-        <ref bean="AwardAccount-principalId" />
-        <ref bean="AwardAccount-projectDirector.principalName" />
-        <ref bean="AwardAccount-projectDirector.name" />
-        <ref bean="AwardAccount-projectDirectorName" />
-        <ref bean="AwardAccount-chartOfAccountsCode" />
-        <ref bean="AwardAccount-accountNumber" />
-        <ref bean="AwardAccount-account.accountName" />
-        <ref bean="AwardAccount-award.proposal.federalPassThroughAgencyNumber" />
-        <ref bean="AwardAccount-award.proposal.proposalFederalPassThroughIndicator" />
-        <ref bean="AwardAccount-award.proposal.grantNumber" />
-        <ref bean="AwardAccount-newCollectionRecord" />
-        <ref bean="AwardAccount-active" />
+        <ref bean="AwardAccount-proposalNumber"/>
+        <ref bean="AwardAccount-principalId"/>
+        <ref bean="AwardAccount-projectDirector.principalName"/>
+        <ref bean="AwardAccount-projectDirector.name"/>
+        <ref bean="AwardAccount-projectDirectorName"/>
+        <ref bean="AwardAccount-chartOfAccountsCode"/>
+        <ref bean="AwardAccount-accountNumber"/>
+        <ref bean="AwardAccount-account.accountName"/>
+        <ref bean="AwardAccount-award.proposal.federalPassThroughAgencyNumber"/>
+        <ref bean="AwardAccount-award.proposal.proposalFederalPassThroughIndicator"/>
+        <ref bean="AwardAccount-award.proposal.grantNumber"/>
+        <ref bean="AwardAccount-newCollectionRecord"/>
+        <ref bean="AwardAccount-active"/>
         <ref bean="AwardAccount-award.agency.reportingName"/>
       </list>
     </property>
-    <property name="relationships" >
+    <property name="relationships">
       <list>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="projectDirector" />
-          <property name="primitiveAttributes" >
+          <property name="objectAttributeName" value="projectDirector"/>
+          <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="principalId"
-                    p:targetName="principalId" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
             </list>
           </property>
-          <property name="supportAttributes" >
+          <property name="supportAttributes">
             <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="projectDirector.principalName"
-                    p:targetName="principalName" />
-              <bean parent="SupportAttributeDefinition"
-                    p:sourceName="projectDirector.name"
-                    p:targetName="name" />
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="projectDirector.principalName" p:targetName="principalName"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="projectDirector.name" p:targetName="name"/>
             </list>
           </property>
         </bean>
@@ -63,105 +52,102 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="AwardAccount-proposalNumber" parent="AwardAccount-proposalNumber-parentBean" />
+  <bean id="AwardAccount-proposalNumber" parent="AwardAccount-proposalNumber-parentBean"/>
 
   <bean id="AwardAccount-proposalNumber-parentBean" abstract="true" parent="Proposal-proposalNumber">
-  	<property name="forceUppercase" value="true" />
+  	<property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="AwardAccount-principalId" parent="AwardAccount-principalId-parentBean" />
+  <bean id="AwardAccount-principalId" parent="AwardAccount-principalId-parentBean"/>
 
   <bean id="AwardAccount-principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="label" value="Project Director ID" />
-    <property name="shortLabel" value="Proj Dir ID" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="label" value="Project Director ID"/>
+    <property name="shortLabel" value="Proj Dir ID"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
-  <bean id="AwardAccount-projectDirector.principalName" parent="AwardAccount-projectDirector.principalName-parentBean" />
+  <bean id="AwardAccount-projectDirector.principalName" parent="AwardAccount-projectDirector.principalName-parentBean"/>
 
   <bean id="AwardAccount-projectDirector.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="projectDirector.principalName" />
-    <property name="label" value="Project Director Principal Name" />
-    <property name="required" value="false" />
+    <property name="name" value="projectDirector.principalName"/>
+    <property name="label" value="Project Director Principal Name"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="AwardAccount-projectDirector.name" parent="AwardAccount-projectDirector.name-parentBean" />
+  <bean id="AwardAccount-projectDirector.name" parent="AwardAccount-projectDirector.name-parentBean"/>
 
   <bean id="AwardAccount-projectDirector.name-parentBean" abstract="true" parent="PersonImpl-name">
-    <property name="name" value="projectDirector.name" />
-    <property name="label" value="Director Name" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="projectDirector.name"/>
+    <property name="label" value="Director Name"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
   </bean>
-  <bean id="AwardAccount-projectDirectorName" parent="AwardAccount-projectDirectorName-parentBean" />
+  <bean id="AwardAccount-projectDirectorName" parent="AwardAccount-projectDirectorName-parentBean"/>
 
   <bean id="AwardAccount-projectDirectorName-parentBean" abstract="true" parent="AwardAccount-projectDirector.name">
-    <property name="name" value="projectDirectorName" />
+    <property name="name" value="projectDirectorName"/>
   </bean>
-  <bean id="AwardAccount-chartOfAccountsCode" parent="AwardAccount-chartOfAccountsCode-parentBean" />
+  <bean id="AwardAccount-chartOfAccountsCode" parent="AwardAccount-chartOfAccountsCode-parentBean"/>
 
   <bean id="AwardAccount-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="chartOfAccountsCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Chart Of Accounts Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="chartOfAccountsCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Chart Of Accounts Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="AwardAccount-accountNumber" parent="AwardAccount-accountNumber-parentBean" />
+  <bean id="AwardAccount-accountNumber" parent="AwardAccount-accountNumber-parentBean"/>
 
   <bean id="AwardAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-  	<property name="forceUppercase" value="true" />
+  	<property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="AwardAccount-account.accountName" parent="AwardAccount-account.accountName-parentBean" />
+  <bean id="AwardAccount-account.accountName" parent="AwardAccount-account.accountName-parentBean"/>
 
   <bean id="AwardAccount-account.accountName-parentBean" abstract="true" parent="Account-accountName">
-    <property name="name" value="account.accountName" />
+    <property name="name" value="account.accountName"/>
   </bean>
-  <bean id="AwardAccount-award.proposal.federalPassThroughAgencyNumber" parent="AwardAccount-award.proposal.federalPassThroughAgencyNumber-parentBean" />
+  <bean id="AwardAccount-award.proposal.federalPassThroughAgencyNumber" parent="AwardAccount-award.proposal.federalPassThroughAgencyNumber-parentBean"/>
 
   <bean id="AwardAccount-award.proposal.federalPassThroughAgencyNumber-parentBean" abstract="true" parent="Proposal-federalPassThroughAgencyNumber">
-    <property name="name" value="award.proposal.federalPassThroughAgencyNumber" />
-    <property name="label" value="Proposal Federal Pass Through Agency Number" />
-    <property name="shortLabel" value="Proposal Fed Pass Agency Num" />
+    <property name="name" value="award.proposal.federalPassThroughAgencyNumber"/>
+    <property name="label" value="Proposal Federal Pass Through Agency Number"/>
+    <property name="shortLabel" value="Proposal Fed Pass Agency Num"/>
   </bean>
-  <bean id="AwardAccount-award.proposal.proposalFederalPassThroughIndicator" parent="AwardAccount-award.proposal.proposalFederalPassThroughIndicator-parentBean" />
+  <bean id="AwardAccount-award.proposal.proposalFederalPassThroughIndicator" parent="AwardAccount-award.proposal.proposalFederalPassThroughIndicator-parentBean"/>
 
   <bean id="AwardAccount-award.proposal.proposalFederalPassThroughIndicator-parentBean" abstract="true" parent="Proposal-proposalFederalPassThroughIndicator">
-    <property name="name" value="award.proposal.proposalFederalPassThroughIndicator" />
+    <property name="name" value="award.proposal.proposalFederalPassThroughIndicator"/>
   </bean>
   
-  <bean id="AwardAccount-award.proposal.grantNumber" parent="AwardAccount-award.proposal.grantNumber-parentBean" />
+  <bean id="AwardAccount-award.proposal.grantNumber" parent="AwardAccount-award.proposal.grantNumber-parentBean"/>
 
   <bean id="AwardAccount-award.proposal.grantNumber-parentBean" abstract="true" parent="Proposal-grantNumber">
-    <property name="name" value="award.proposal.grantNumber" />
+    <property name="name" value="award.proposal.grantNumber"/>
   </bean>
 
-  <bean id="AwardAccount-newCollectionRecord" parent="AwardAccount-newCollectionRecord-parentBean" />
+  <bean id="AwardAccount-newCollectionRecord" parent="AwardAccount-newCollectionRecord-parentBean"/>
 
   <bean id="AwardAccount-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
-  <bean id="AwardAccount-active" parent="AwardAccount-active-parentBean" />
+  <bean id="AwardAccount-active" parent="AwardAccount-active-parentBean"/>
 
   <bean id="AwardAccount-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!--KFSMI-861 -->
 
-  <bean id="AwardAccount-award.agency.reportingName" parent="AwardAccount-award.agency.reportingName-parentBean" />
+  <bean id="AwardAccount-award.agency.reportingName" parent="AwardAccount-award.agency.reportingName-parentBean"/>
 
   <bean id="AwardAccount-award.agency.reportingName-parentBean" abstract="true" parent="Agency-reportingName">
-    <property name="name" value="award.agency.reportingName" />
+    <property name="name" value="award.agency.reportingName"/>
     <property name="label" value="Sponsor Name"/>
 	<property name="shortLabel" value="Sponsor"/>
   </bean>
@@ -170,27 +156,22 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="AwardAccount-inquiryDefinition" parent="AwardAccount-inquiryDefinition-parentBean" />
+  <bean id="AwardAccount-inquiryDefinition" parent="AwardAccount-inquiryDefinition-parentBean"/>
 
   <bean id="AwardAccount-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Award Account Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Award Account Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Award Account Details" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Award Account Details"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="accountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="principalId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" /> 
+              <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="principalId"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/> 
             </list>
           </property>
         </bean>
@@ -201,43 +182,32 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="AwardAccount-lookupDefinition" parent="AwardAccount-lookupDefinition-parentBean" />
+  <bean id="AwardAccount-lookupDefinition" parent="AwardAccount-lookupDefinition-parentBean"/>
 
   <bean id="AwardAccount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Award Account Lookup" />
-    <property name="instructions" value="Look up an Award Account" />
-    <property name="defaultSort" >
+    <property name="title" value="Award Account Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="principalId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" /> 
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="principalId"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/> 
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="principalId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" /> 
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="principalId"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/> 
       </list>
     </property>
   </bean>
 </beans>
-

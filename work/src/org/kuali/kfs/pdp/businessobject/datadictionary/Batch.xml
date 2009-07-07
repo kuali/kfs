@@ -1,34 +1,30 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="Batch" parent="Batch-parentBean" />
+  <bean id="Batch" parent="Batch-parentBean"/>
 
   <bean id="Batch-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.Batch" />
-    <property name="inquiryDefinition" >
-      <ref bean="Batch-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.Batch"/>
+    <property name="inquiryDefinition">
+      <ref bean="Batch-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="Batch-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="Batch-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="id" />
-    <property name="objectLabel" value="Batch" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="id"/>
+    <property name="objectLabel" value="Batch"/>
+    <property name="attributes">
       <list>
-        <ref bean="Batch-customerProfile.chartCode" />
-        <ref bean="Batch-id" />
-        <ref bean="Batch-customerProfile.unitCode" />
-        <ref bean="Batch-paymentCount" />
-        <ref bean="Batch-customerProfile.subUnitCode" />
-        <ref bean="Batch-paymentTotalAmount" />
-        <ref bean="Batch-customerFileCreateTimestamp" />
-        <ref bean="Batch-customerProfile.customerShortName" />
-        <ref bean="Batch-paymentFileName" />
-        <ref bean="Batch-fileProcessTimestamp" />
-        <ref bean="Batch-submiterUser.principalName" />
+        <ref bean="Batch-customerProfile.chartCode"/>
+        <ref bean="Batch-id"/>
+        <ref bean="Batch-customerProfile.unitCode"/>
+        <ref bean="Batch-paymentCount"/>
+        <ref bean="Batch-customerProfile.subUnitCode"/>
+        <ref bean="Batch-paymentTotalAmount"/>
+        <ref bean="Batch-customerFileCreateTimestamp"/>
+        <ref bean="Batch-customerProfile.customerShortName"/>
+        <ref bean="Batch-paymentFileName"/>
+        <ref bean="Batch-fileProcessTimestamp"/>
+        <ref bean="Batch-submiterUser.principalName"/>
         
         
       </list>
@@ -38,133 +34,124 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="Batch-customerProfile.chartCode" parent="Batch-customerProfile.chartCode-parentBean" />
+  <bean id="Batch-customerProfile.chartCode" parent="Batch-customerProfile.chartCode-parentBean"/>
 
   <bean id="Batch-customerProfile.chartCode-parentBean" abstract="true" parent="CustomerProfile-chartCode">
-    <property name="name" value="customerProfile.chartCode" />
+    <property name="name" value="customerProfile.chartCode"/>
   </bean>
 
-  <bean id="Batch-id" parent="Batch-id-parentBean" />
+  <bean id="Batch-id" parent="Batch-id-parentBean"/>
 
   <bean id="Batch-id-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="id" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Batch ID" />
-    <property name="shortLabel" value="Batch ID" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-       <bean parent="NumericValidationPattern" />
+    <property name="name" value="id"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Batch ID"/>
+    <property name="shortLabel" value="Batch ID"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+       <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
     </property>
   </bean>
-  <bean id="Batch-customerProfile.unitCode" parent="Batch-customerProfile.unitCode-parentBean" />
+  <bean id="Batch-customerProfile.unitCode" parent="Batch-customerProfile.unitCode-parentBean"/>
 
   <bean id="Batch-customerProfile.unitCode-parentBean" abstract="true" parent="CustomerProfile-unitCode">
-    <property name="name" value="customerProfile.unitCode" />
+    <property name="name" value="customerProfile.unitCode"/>
   </bean>
-  <bean id="Batch-paymentCount" parent="Batch-paymentCount-parentBean" />
+  <bean id="Batch-paymentCount" parent="Batch-paymentCount-parentBean"/>
 
   <bean id="Batch-paymentCount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="paymentCount" />
-    <property name="label" value="Total Payment Count" />
-    <property name="shortLabel" value="Payment Count" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-       <bean parent="NumericValidationPattern" />
+    <property name="name" value="paymentCount"/>
+    <property name="label" value="Total Payment Count"/>
+    <property name="shortLabel" value="Payment Count"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+       <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
     </property>
   </bean>
-  <bean id="Batch-customerProfile.subUnitCode" parent="Batch-customerProfile.subUnitCode-parentBean" />
+  <bean id="Batch-customerProfile.subUnitCode" parent="Batch-customerProfile.subUnitCode-parentBean"/>
 
   <bean id="Batch-customerProfile.subUnitCode-parentBean" abstract="true" parent="CustomerProfile-subUnitCode">
-    <property name="name" value="customerProfile.subUnitCode" />
+    <property name="name" value="customerProfile.subUnitCode"/>
     
   </bean>
-  <bean id="Batch-paymentTotalAmount" parent="Batch-paymentTotalAmount-parentBean" />
+  <bean id="Batch-paymentTotalAmount" parent="Batch-paymentTotalAmount-parentBean"/>
 
   <bean id="Batch-paymentTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="paymentTotalAmount" />
-    <property name="label" value="Total Payment Amount" />
-    <property name="shortLabel" value="Payment Amount" />
-    <property name="required" value="true" />
+    <property name="name" value="paymentTotalAmount"/>
+    <property name="label" value="Total Payment Amount"/>
+    <property name="shortLabel" value="Payment Amount"/>
+    <property name="required" value="true"/>
   </bean>
   
-  <bean id="Batch-customerFileCreateTimestamp" parent="Batch-customerFileCreateTimestamp-parentBean" />
+  <bean id="Batch-customerFileCreateTimestamp" parent="Batch-customerFileCreateTimestamp-parentBean"/>
 
   <bean id="Batch-customerFileCreateTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
-    <property name="name" value="customerFileCreateTimestamp" />
-    <property name="label" value="File Creation Date" />
-    <property name="shortLabel" value="Creation Date" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter" />
+    <property name="name" value="customerFileCreateTimestamp"/>
+    <property name="label" value="File Creation Date"/>
+    <property name="shortLabel" value="Creation Date"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter"/>
   </bean>
-  <bean id="Batch-customerProfile.customerShortName" parent="Batch-customerProfile.customerShortName-parentBean" />
+  <bean id="Batch-customerProfile.customerShortName" parent="Batch-customerProfile.customerShortName-parentBean"/>
 
   <bean id="Batch-customerProfile.customerShortName-parentBean" abstract="true" parent="CustomerProfile-customerShortName">
-    <property name="name" value="customerProfile.customerShortName" />
+    <property name="name" value="customerProfile.customerShortName"/>
   </bean>
-  <bean id="Batch-paymentFileName" parent="Batch-paymentFileName-parentBean" />
+  <bean id="Batch-paymentFileName" parent="Batch-paymentFileName-parentBean"/>
 
   <bean id="Batch-paymentFileName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="paymentFileName" />
-    <property name="label" value="Pyment File Name" />
-    <property name="shortLabel" value="File Name" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-       <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="paymentFileName"/>
+    <property name="label" value="Pyment File Name"/>
+    <property name="shortLabel" value="File Name"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+       <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
     </property>
   </bean>
-  <bean id="Batch-fileProcessTimestamp" parent="Batch-fileProcessTimestamp-parentBean" />
+  <bean id="Batch-fileProcessTimestamp" parent="Batch-fileProcessTimestamp-parentBean"/>
 
   <bean id="Batch-fileProcessTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
-    <property name="name" value="fileProcessTimestamp" />
-    <property name="label" value="File Processed Time" />
-    <property name="shortLabel" value="File Processed Time" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter" />
+    <property name="name" value="fileProcessTimestamp"/>
+    <property name="label" value="File Processed Time"/>
+    <property name="shortLabel" value="File Processed Time"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter"/>
   </bean>
-  <bean id="Batch-submiterUser.principalName" parent="Batch-submiterUser.principalName-parentBean" />
+  <bean id="Batch-submiterUser.principalName" parent="Batch-submiterUser.principalName-parentBean"/>
 
   <bean id="Batch-submiterUser.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="submiterUser.principalName" />
-    <property name="label" value="Submiter Principal Name" />
-    <property name="shortLabel" value="Submiter Principal Name" />
+    <property name="name" value="submiterUser.principalName"/>
+    <property name="label" value="Submiter Principal Name"/>
+    <property name="shortLabel" value="Submiter Principal Name"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="Batch-inquiryDefinition" parent="Batch-inquiryDefinition-parentBean" />
+  <bean id="Batch-inquiryDefinition" parent="Batch-inquiryDefinition-parentBean"/>
 
   <bean id="Batch-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Batch Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Batch Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="customerProfile.chartCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="id" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="customerProfile.unitCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="paymentCount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="customerProfile.subUnitCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="paymentTotalAmount" />
+              <bean parent="FieldDefinition" p:attributeName="customerProfile.chartCode"/>
+              <bean parent="FieldDefinition" p:attributeName="id"/>
+              <bean parent="FieldDefinition" p:attributeName="customerProfile.unitCode"/>
+              <bean parent="FieldDefinition" p:attributeName="paymentCount"/>
+              <bean parent="FieldDefinition" p:attributeName="customerProfile.subUnitCode"/>
+              <bean parent="FieldDefinition" p:attributeName="paymentTotalAmount"/>
             </list>
           </property>
         </bean>
@@ -175,52 +162,37 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="Batch-lookupDefinition" parent="Batch-lookupDefinition-parentBean" />
+  <bean id="Batch-lookupDefinition" parent="Batch-lookupDefinition-parentBean"/>
 
   <bean id="Batch-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Search For Batch" />
-    <property name="lookupableID" value="batchLookupable" />
-    <property name="instructions" value="Look up a Batch" />
-    <property name="defaultSort" >
+    <property name="title" value="Search For Batch"/>
+    <property name="lookupableID" value="batchLookupable"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="customerProfile.chartCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="customerProfile.unitCode" p:noLookup="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="customerProfile.subUnitCode" p:noLookup="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="customerFileCreateTimestamp" />
-        <bean parent="FieldDefinition"
-              p:attributeName="id" />
-        <bean parent="FieldDefinition"
-              p:attributeName="paymentCount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="paymentTotalAmount" />
+        <bean parent="FieldDefinition" p:attributeName="customerProfile.chartCode"/>
+        <bean parent="FieldDefinition" p:attributeName="customerProfile.unitCode" p:noLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="customerProfile.subUnitCode" p:noLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="customerFileCreateTimestamp"/>
+        <bean parent="FieldDefinition" p:attributeName="id"/>
+        <bean parent="FieldDefinition" p:attributeName="paymentCount"/>
+        <bean parent="FieldDefinition" p:attributeName="paymentTotalAmount"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="id" />
-        <bean parent="FieldDefinition"
-              p:attributeName="customerProfile.chartCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="customerProfile.unitCode" p:noInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="customerProfile.subUnitCode" p:noInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="customerFileCreateTimestamp" />
-        <bean parent="FieldDefinition"
-              p:attributeName="paymentCount" />             
-        <bean parent="FieldDefinition"
-              p:attributeName="paymentTotalAmount" />
+        <bean parent="FieldDefinition" p:attributeName="id"/>
+        <bean parent="FieldDefinition" p:attributeName="customerProfile.chartCode"/>
+        <bean parent="FieldDefinition" p:attributeName="customerProfile.unitCode" p:noInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="customerProfile.subUnitCode" p:noInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="customerFileCreateTimestamp"/>
+        <bean parent="FieldDefinition" p:attributeName="paymentCount"/>             
+        <bean parent="FieldDefinition" p:attributeName="paymentTotalAmount"/>
       </list>
     </property>
   </bean>
 </beans>
-

@@ -1,31 +1,24 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PurchaseOrderCostSource" parent="PurchaseOrderCostSource-parentBean" />
+  <bean id="PurchaseOrderCostSource" parent="PurchaseOrderCostSource-parentBean"/>
 
   <bean id="PurchaseOrderCostSource-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.PurchaseOrderCostSource" />
-    <property name="inquiryDefinition" >
-      <ref bean="PurchaseOrderCostSource-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.PurchaseOrderCostSource"/>
+    <property name="inquiryDefinition">
+      <ref bean="PurchaseOrderCostSource-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="PurchaseOrderCostSource-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="PurchaseOrderCostSource-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="purchaseOrderCostSourceCode" />
-    <property name="objectLabel" value="Cost Source" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="purchaseOrderCostSourceCode"/>
+    <property name="objectLabel" value="Cost Source"/>
+    <property name="attributes">
       <list>
-        <ref bean="PurchaseOrderCostSource-purchaseOrderCostSourceCode" />
-        <ref bean="PurchaseOrderCostSource-purchaseOrderCostSourceDescription" />
-        <ref bean="PurchaseOrderCostSource-active" />
-        <ref bean="PurchaseOrderCostSource-itemUnitPriceUpperVariancePercent" />
-        <ref bean="PurchaseOrderCostSource-itemUnitPriceLowerVariancePercent" />
+        <ref bean="PurchaseOrderCostSource-purchaseOrderCostSourceCode"/>
+        <ref bean="PurchaseOrderCostSource-purchaseOrderCostSourceDescription"/>
+        <ref bean="PurchaseOrderCostSource-active"/>
+        <ref bean="PurchaseOrderCostSource-itemUnitPriceUpperVariancePercent"/>
+        <ref bean="PurchaseOrderCostSource-itemUnitPriceLowerVariancePercent"/>
       </list>
     </property>
   </bean>
@@ -33,103 +26,93 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="PurchaseOrderCostSource-purchaseOrderCostSourceCode" parent="PurchaseOrderCostSource-purchaseOrderCostSourceCode-parentBean" />
+  <bean id="PurchaseOrderCostSource-purchaseOrderCostSourceCode" parent="PurchaseOrderCostSource-purchaseOrderCostSourceCode-parentBean"/>
 
   <bean id="PurchaseOrderCostSource-purchaseOrderCostSourceCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderCostSourceCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Cost Source Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="purchaseOrderCostSourceCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Cost Source Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderCostSource-purchaseOrderCostSourceDescription" parent="PurchaseOrderCostSource-purchaseOrderCostSourceDescription-parentBean" />
+  <bean id="PurchaseOrderCostSource-purchaseOrderCostSourceDescription" parent="PurchaseOrderCostSource-purchaseOrderCostSourceDescription-parentBean"/>
 
   <bean id="PurchaseOrderCostSource-purchaseOrderCostSourceDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderCostSourceDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Cost Source Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="purchaseOrderCostSourceDescription"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Cost Source Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="47" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
     </property>
   </bean>
-  <bean id="PurchaseOrderCostSource-active" parent="PurchaseOrderCostSource-active-parentBean" />
+  <bean id="PurchaseOrderCostSource-active" parent="PurchaseOrderCostSource-active-parentBean"/>
 
   <bean id="PurchaseOrderCostSource-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
-  <bean id="PurchaseOrderCostSource-itemUnitPriceUpperVariancePercent" parent="PurchaseOrderCostSource-itemUnitPriceUpperVariancePercent-parentBean" />
+  <bean id="PurchaseOrderCostSource-itemUnitPriceUpperVariancePercent" parent="PurchaseOrderCostSource-itemUnitPriceUpperVariancePercent-parentBean"/>
 
   <bean id="PurchaseOrderCostSource-itemUnitPriceUpperVariancePercent-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemUnitPriceUpperVariancePercent" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Unit Price Upper Variance Percent" />
-    <property name="shortLabel" value="Percent" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="itemUnitPriceUpperVariancePercent"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Item Unit Price Upper Variance Percent"/>
+    <property name="shortLabel" value="Percent"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
   </bean>
   
-  <bean id="PurchaseOrderCostSource-itemUnitPriceLowerVariancePercent" parent="PurchaseOrderCostSource-itemUnitPriceLowerVariancePercent-parentBean" />
+  <bean id="PurchaseOrderCostSource-itemUnitPriceLowerVariancePercent" parent="PurchaseOrderCostSource-itemUnitPriceLowerVariancePercent-parentBean"/>
 
   <bean id="PurchaseOrderCostSource-itemUnitPriceLowerVariancePercent-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemUnitPriceLowerVariancePercent" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Unit Price Lower Variance Percent" />
-    <property name="shortLabel" value="Percent" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="itemUnitPriceLowerVariancePercent"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Item Unit Price Lower Variance Percent"/>
+    <property name="shortLabel" value="Percent"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
   </bean>
   
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="PurchaseOrderCostSource-inquiryDefinition" parent="PurchaseOrderCostSource-inquiryDefinition-parentBean" />
+  <bean id="PurchaseOrderCostSource-inquiryDefinition" parent="PurchaseOrderCostSource-inquiryDefinition-parentBean"/>
 
   <bean id="PurchaseOrderCostSource-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Cost Source Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Cost Source Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderCostSourceCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderCostSourceDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemUnitPriceLowerVariancePercent" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemUnitPriceUpperVariancePercent" />            
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="purchaseOrderCostSourceCode"/>
+              <bean parent="FieldDefinition" p:attributeName="purchaseOrderCostSourceDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="itemUnitPriceLowerVariancePercent"/>
+              <bean parent="FieldDefinition" p:attributeName="itemUnitPriceUpperVariancePercent"/>            
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -140,37 +123,29 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="PurchaseOrderCostSource-lookupDefinition" parent="PurchaseOrderCostSource-lookupDefinition-parentBean" />
+  <bean id="PurchaseOrderCostSource-lookupDefinition" parent="PurchaseOrderCostSource-lookupDefinition-parentBean"/>
 
   <bean id="PurchaseOrderCostSource-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Cost Source Lookup" />
-    <property name="instructions" value="Lookup a Cost Source" />
-    <property name="defaultSort" >
+    <property name="title" value="Cost Source Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderCostSourceCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderCostSourceDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderCostSourceCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderCostSourceDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderCostSourceCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderCostSourceDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemUnitPriceLowerVariancePercent" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemUnitPriceUpperVariancePercent" />            
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderCostSourceCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderCostSourceDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="itemUnitPriceLowerVariancePercent"/>
+        <bean parent="FieldDefinition" p:attributeName="itemUnitPriceUpperVariancePercent"/>            
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

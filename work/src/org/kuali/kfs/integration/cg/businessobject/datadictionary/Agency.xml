@@ -1,24 +1,20 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="Agency" parent="Agency-parentBean" />
+  <bean id="Agency" parent="Agency-parentBean"/>
 
   <bean id="Agency-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.integration.cg.businessobject.Agency" />
-    <property name="titleAttribute" value="agencyNumber" />
-    <property name="objectLabel" value="Agency" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.integration.cg.businessobject.Agency"/>
+    <property name="titleAttribute" value="agencyNumber"/>
+    <property name="objectLabel" value="Agency"/>
+    <property name="attributes">
       <list>
-        <ref bean="Agency-agencyNumber" />
-        <ref bean="Agency-reportingName" />
-        <ref bean="Agency-fullName" />
-        <ref bean="Agency-inStateIndicator" />
-        <ref bean="Agency-indirectAmount" />
-        <ref bean="Agency-reportsToAgencyNumber" />
-        <ref bean="Agency-active" />
+        <ref bean="Agency-agencyNumber"/>
+        <ref bean="Agency-reportingName"/>
+        <ref bean="Agency-fullName"/>
+        <ref bean="Agency-inStateIndicator"/>
+        <ref bean="Agency-indirectAmount"/>
+        <ref bean="Agency-reportsToAgencyNumber"/>
+        <ref bean="Agency-active"/>
       </list>
     </property>
   </bean>
@@ -26,97 +22,89 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="Agency-agencyNumber" parent="Agency-agencyNumber-parentBean" />
+  <bean id="Agency-agencyNumber" parent="Agency-agencyNumber-parentBean"/>
 
   <bean id="Agency-agencyNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="agencyNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Agency Number" />
-    <property name="shortLabel" value="AgencyNbr" />
-    <property name="maxLength" value="5" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern"
-            p:exactLength="5" />
+    <property name="name" value="agencyNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Agency Number"/>
+    <property name="shortLabel" value="AgencyNbr"/>
+    <property name="maxLength" value="5"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern" p:exactLength="5"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
   </bean>
-  <bean id="Agency-reportingName" parent="Agency-reportingName-parentBean" />
+  <bean id="Agency-reportingName" parent="Agency-reportingName-parentBean"/>
 
   <bean id="Agency-reportingName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="reportingName" />
-    <property name="label" value="Agency Reporting Name" />
-    <property name="shortLabel" value="ReportingNm" />
-    <property name="maxLength" value="30" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="reportingName"/>
+    <property name="label" value="Agency Reporting Name"/>
+    <property name="shortLabel" value="ReportingNm"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="30" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
     </property>
   </bean>
-  <bean id="Agency-fullName" parent="Agency-fullName-parentBean" />
+  <bean id="Agency-fullName" parent="Agency-fullName-parentBean"/>
 
   <bean id="Agency-fullName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="fullName" />
-    <property name="label" value="Agency Full Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="50" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="fullName"/>
+    <property name="label" value="Agency Full Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="50"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="50" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="50"/>
     </property>
   </bean>
 
-  <bean id="Agency-inStateIndicator" parent="Agency-inStateIndicator-parentBean" />
+  <bean id="Agency-inStateIndicator" parent="Agency-inStateIndicator-parentBean"/>
 
   <bean id="Agency-inStateIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="inStateIndicator" />
-    <property name="label" value="In State Indicator" />
-    <property name="shortLabel" value="In State" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="inStateIndicator"/>
+    <property name="label" value="In State Indicator"/>
+    <property name="shortLabel" value="In State"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="Agency-indirectAmount" parent="Agency-indirectAmount-parentBean" />
+  <bean id="Agency-indirectAmount" parent="Agency-indirectAmount-parentBean"/>
 
   <bean id="Agency-indirectAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="indirectAmount" />
-    <property name="label" value="Indirect Amount" />
-    <property name="shortLabel" value="IndAmt" />
-    <property name="maxLength" value="20" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="indirectAmount"/>
+    <property name="label" value="Indirect Amount"/>
+    <property name="shortLabel" value="IndAmt"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="CurrencyControlDefinition"
-            p:formattedMaxLength="12"
-            p:size="20" />
+    <property name="control">
+      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="12" p:size="20"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="Agency-reportsToAgencyNumber" parent="Agency-reportsToAgencyNumber-parentBean" />
+  <bean id="Agency-reportsToAgencyNumber" parent="Agency-reportsToAgencyNumber-parentBean"/>
 
   <bean id="Agency-reportsToAgencyNumber-parentBean" abstract="true" parent="Agency-agencyNumber">
-    <property name="name" value="reportsToAgencyNumber" />
-    <property name="label" value="Reports To Agency Number" />
-    <property name="shortLabel" value="Reports To Agency Number" />
+    <property name="name" value="reportsToAgencyNumber"/>
+    <property name="label" value="Reports To Agency Number"/>
+    <property name="shortLabel" value="Reports To Agency Number"/>
   </bean>
-  <bean id="Agency-active" parent="Agency-active-parentBean" />
+  <bean id="Agency-active" parent="Agency-active-parentBean"/>
 
   <bean id="Agency-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 </beans>

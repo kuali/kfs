@@ -132,12 +132,12 @@
           <property name="summaryTitle" value="Asset Retired"/>
           <property name="summaryFields">
             <list>
-              <bean parent="MaintainableFieldDefinition" p:name="capitalAssetNumber" />
+              <bean parent="MaintainableFieldDefinition" p:name="capitalAssetNumber"/>
             </list>
           </property>
           <property name="duplicateIdentificationFields">
           	<list>
-          		<bean parent="MaintainableFieldDefinition" p:name="capitalAssetNumber" />
+          		<bean parent="MaintainableFieldDefinition" p:name="capitalAssetNumber"/>
           	</list>
           </property>
           <property name="maintainableFields">
@@ -244,7 +244,7 @@
     		<entry key="Account" value-ref="RoutingType-AssetRetirementGlobalMaintenanceDocument-Account"/>
     		<entry key="ExternalTransfer" value-ref="RoutingType-AssetRetirementGlobalMaintenanceDocument-ExternalTransfer"/>
     		<entry key="OrganizationHierarchy" value-ref="RoutingType-AssetRetirementGlobalMaintenanceDocument-OrganizationHierarchy"/>
-    		<entry key="Purchasing" value-ref="RoutingType-AssetRetirementGlobalMaintenanceDocument-Purchasing" />
+    		<entry key="Purchasing" value-ref="RoutingType-AssetRetirementGlobalMaintenanceDocument-Purchasing"/>
     	</map>
     </property>
   </bean>

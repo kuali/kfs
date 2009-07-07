@@ -1,26 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="TravelMileageRate" parent="TravelMileageRate-parentBean" />
+  <bean id="TravelMileageRate" parent="TravelMileageRate-parentBean"/>
 
   <bean id="TravelMileageRate-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.TravelMileageRate" />
-    <property name="inquiryDefinition" >
-      <ref bean="TravelMileageRate-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.TravelMileageRate"/>
+    <property name="inquiryDefinition">
+      <ref bean="TravelMileageRate-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="TravelMileageRate-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="TravelMileageRate-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="disbursementVoucherMileageEffectiveDate" />
-    <property name="objectLabel" value="Disbursement Voucher Travel Mileage Rate" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="disbursementVoucherMileageEffectiveDate"/>
+    <property name="objectLabel" value="Disbursement Voucher Travel Mileage Rate"/>
+    <property name="attributes">
       <list>
-        <ref bean="TravelMileageRate-disbursementVoucherMileageEffectiveDate" />
-        <ref bean="TravelMileageRate-mileageLimitAmount" />
-        <ref bean="TravelMileageRate-mileageRate" />
+        <ref bean="TravelMileageRate-disbursementVoucherMileageEffectiveDate"/>
+        <ref bean="TravelMileageRate-mileageLimitAmount"/>
+        <ref bean="TravelMileageRate-mileageRate"/>
       </list>
     </property>
   </bean>
@@ -28,61 +24,54 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="TravelMileageRate-disbursementVoucherMileageEffectiveDate" parent="TravelMileageRate-disbursementVoucherMileageEffectiveDate-parentBean" />
+  <bean id="TravelMileageRate-disbursementVoucherMileageEffectiveDate" parent="TravelMileageRate-disbursementVoucherMileageEffectiveDate-parentBean"/>
 
   <bean id="TravelMileageRate-disbursementVoucherMileageEffectiveDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="disbursementVoucherMileageEffectiveDate" />
-    <property name="label" value="Rate Effective Date" />
-    <property name="shortLabel" value="Effective Dt" />
-    <property name="forceUppercase" value="true" />
+    <property name="name" value="disbursementVoucherMileageEffectiveDate"/>
+    <property name="label" value="Rate Effective Date"/>
+    <property name="shortLabel" value="Effective Dt"/>
+    <property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="TravelMileageRate-mileageLimitAmount" parent="TravelMileageRate-mileageLimitAmount-parentBean" />
+  <bean id="TravelMileageRate-mileageLimitAmount" parent="TravelMileageRate-mileageLimitAmount-parentBean"/>
 
   <bean id="TravelMileageRate-mileageLimitAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="mileageLimitAmount" />
-    <property name="label" value="Travel Mileage Limit Amount" />
-    <property name="shortLabel" value="Limit Amount" />
-    <property name="forceUppercase" value="true" />
+    <property name="name" value="mileageLimitAmount"/>
+    <property name="label" value="Travel Mileage Limit Amount"/>
+    <property name="shortLabel" value="Limit Amount"/>
+    <property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="TravelMileageRate-mileageRate" parent="TravelMileageRate-mileageRate-parentBean" />
+  <bean id="TravelMileageRate-mileageRate" parent="TravelMileageRate-mileageRate-parentBean"/>
 
   <bean id="TravelMileageRate-mileageRate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="mileageRate" />
-    <property name="label" value="Travel Mileage Rate" />
-    <property name="shortLabel" value="Rate" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern"
-            p:precision="19"
-            p:scale="4" />
+    <property name="name" value="mileageRate"/>
+    <property name="label" value="Travel Mileage Rate"/>
+    <property name="shortLabel" value="Rate"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="FixedPointValidationPattern" p:precision="19" p:scale="4"/>
     </property>
-    <property name="control" >
-      <bean parent="CurrencyControlDefinition"
-            p:formattedMaxLength="26"
-            p:size="10" />
+    <property name="control">
+      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="26" p:size="10"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="TravelMileageRate-inquiryDefinition" parent="TravelMileageRate-inquiryDefinition-parentBean" />
+  <bean id="TravelMileageRate-inquiryDefinition" parent="TravelMileageRate-inquiryDefinition-parentBean"/>
 
   <bean id="TravelMileageRate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Disbursement Voucher Travel Mileage Rate Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Disbursement Voucher Travel Mileage Rate Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="disbursementVoucherMileageEffectiveDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="mileageLimitAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="mileageRate" />
+              <bean parent="FieldDefinition" p:attributeName="disbursementVoucherMileageEffectiveDate"/>
+              <bean parent="FieldDefinition" p:attributeName="mileageLimitAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="mileageRate"/>
             </list>
           </property>
         </bean>
@@ -93,34 +82,30 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="TravelMileageRate-lookupDefinition" parent="TravelMileageRate-lookupDefinition-parentBean" />
+  <bean id="TravelMileageRate-lookupDefinition" parent="TravelMileageRate-lookupDefinition-parentBean"/>
 
   <bean id="TravelMileageRate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Disbursement Voucher Travel Mileage Rate Lookup" />
-    <property name="instructions" value="Lookup a Travel Mileage Rate" />
-    <property name="defaultSort" >
+    <property name="title" value="Disbursement Voucher Travel Mileage Rate Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>disbursementVoucherMileageEffectiveDate</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="disbursementVoucherMileageEffectiveDate" />
+        <bean parent="FieldDefinition" p:attributeName="disbursementVoucherMileageEffectiveDate"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="disbursementVoucherMileageEffectiveDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="mileageLimitAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="mileageRate" />
+        <bean parent="FieldDefinition" p:attributeName="disbursementVoucherMileageEffectiveDate"/>
+        <bean parent="FieldDefinition" p:attributeName="mileageLimitAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="mileageRate"/>
       </list>
     </property>
   </bean>

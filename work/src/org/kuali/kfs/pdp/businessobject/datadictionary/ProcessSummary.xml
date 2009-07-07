@@ -1,263 +1,240 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="ProcessSummary" parent="ProcessSummary-parentBean" />
+  <bean id="ProcessSummary" parent="ProcessSummary-parentBean"/>
 
   <bean id="ProcessSummary-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.ProcessSummary" />
-    <property name="inquiryDefinition" >
-      <ref bean="ProcessSummary-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.ProcessSummary"/>
+    <property name="inquiryDefinition">
+      <ref bean="ProcessSummary-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="ProcessSummary-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="ProcessSummary-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Process Summary" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Process Summary"/>
+    <property name="attributes">
       <list>
-        <ref bean="ProcessSummary-id" />
-        <ref bean="ProcessSummary-customerId" />
-        <ref bean="ProcessSummary-disbursementTypeCode" />
-        <ref bean="ProcessSummary-processId" />
-        <ref bean="ProcessSummary-sortGroupId" />
-        <ref bean="ProcessSummary-sortGroupName" />
-        <ref bean="ProcessSummary-beginDisbursementNbr" />
-        <ref bean="ProcessSummary-endDisbursementNbr" />
-        <ref bean="ProcessSummary-processTotalAmount" />
-        <ref bean="ProcessSummary-processTotalCount" />
-        <ref bean="ProcessSummary-process.campusCode" />
-        <ref bean="ProcessSummary-process.processTimestamp" />
-        <ref bean="ProcessSummary-process.processUser.name" />
-        <ref bean="ProcessSummary-customer.chartCode" />
-        <ref bean="ProcessSummary-customer.unitCode" />
-        <ref bean="ProcessSummary-customer.subUnitCode" />
-        <ref bean="ProcessSummary-customer.customerDescription" />
-        <ref bean="ProcessSummary-disbursementType.name" />
-        <ref bean="ProcessSummary-process.extractedInd" />
-        <ref bean="ProcessSummary-process.formattedIndicator" />
-        <ref bean="ProcessSummary-process.id" />
+        <ref bean="ProcessSummary-id"/>
+        <ref bean="ProcessSummary-customerId"/>
+        <ref bean="ProcessSummary-disbursementTypeCode"/>
+        <ref bean="ProcessSummary-processId"/>
+        <ref bean="ProcessSummary-sortGroupId"/>
+        <ref bean="ProcessSummary-sortGroupName"/>
+        <ref bean="ProcessSummary-beginDisbursementNbr"/>
+        <ref bean="ProcessSummary-endDisbursementNbr"/>
+        <ref bean="ProcessSummary-processTotalAmount"/>
+        <ref bean="ProcessSummary-processTotalCount"/>
+        <ref bean="ProcessSummary-process.campusCode"/>
+        <ref bean="ProcessSummary-process.processTimestamp"/>
+        <ref bean="ProcessSummary-process.processUser.name"/>
+        <ref bean="ProcessSummary-customer.chartCode"/>
+        <ref bean="ProcessSummary-customer.unitCode"/>
+        <ref bean="ProcessSummary-customer.subUnitCode"/>
+        <ref bean="ProcessSummary-customer.customerDescription"/>
+        <ref bean="ProcessSummary-disbursementType.name"/>
+        <ref bean="ProcessSummary-process.extractedInd"/>
+        <ref bean="ProcessSummary-process.formattedIndicator"/>
+        <ref bean="ProcessSummary-process.id"/>
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
-  <bean id="ProcessSummary-id" parent="ProcessSummary-id-parentBean" />
+  <bean id="ProcessSummary-id" parent="ProcessSummary-id-parentBean"/>
 
   <bean id="ProcessSummary-id-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="id" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Process Summary ID" />
-    <property name="shortLabel" value="Process ID" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-       <bean parent="NumericValidationPattern" />
+    <property name="name" value="id"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Process Summary ID"/>
+    <property name="shortLabel" value="Process ID"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+       <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
     </property>
   </bean>
-  <bean id="ProcessSummary-customerId" parent="ProcessSummary-customerId-parentBean" />
+  <bean id="ProcessSummary-customerId" parent="ProcessSummary-customerId-parentBean"/>
 
   <bean id="ProcessSummary-customerId-parentBean" abstract="true" parent="CustomerProfile-id">
-    <property name="name" value="customerId" />
+    <property name="name" value="customerId"/>
   </bean>
-  <bean id="ProcessSummary-disbursementTypeCode" parent="ProcessSummary-disbursementTypeCode-parentBean" />
+  <bean id="ProcessSummary-disbursementTypeCode" parent="ProcessSummary-disbursementTypeCode-parentBean"/>
 
   <bean id="ProcessSummary-disbursementTypeCode-parentBean" abstract="true" parent="DisbursementType-code">
-    <property name="name" value="disbursementTypeCode" />
+    <property name="name" value="disbursementTypeCode"/>
   </bean>
-  <bean id="ProcessSummary-processId" parent="ProcessSummary-processId-parentBean" />
+  <bean id="ProcessSummary-processId" parent="ProcessSummary-processId-parentBean"/>
 
   <bean id="ProcessSummary-processId-parentBean" abstract="true" parent="PaymentProcess-id">
-    <property name="name" value="processId" />
+    <property name="name" value="processId"/>
   </bean>
-  <bean id="ProcessSummary-sortGroupId" parent="ProcessSummary-sortGroupId-parentBean" />
+  <bean id="ProcessSummary-sortGroupId" parent="ProcessSummary-sortGroupId-parentBean"/>
 
   <bean id="ProcessSummary-sortGroupId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="sortGroupId" />
-    <property name="label" value="Sort Group Id" />
-    <property name="shortLabel" value="Group Id" />
-    <property name="maxLength" value="32" />
-    <property name="validationPattern" >
-       <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="sortGroupId"/>
+    <property name="label" value="Sort Group Id"/>
+    <property name="shortLabel" value="Group Id"/>
+    <property name="maxLength" value="32"/>
+    <property name="validationPattern">
+       <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
     </property>
   </bean>
-  <bean id="ProcessSummary-sortGroupName" parent="ProcessSummary-sortGroupName-parentBean" />
+  <bean id="ProcessSummary-sortGroupName" parent="ProcessSummary-sortGroupName-parentBean"/>
 
   <bean id="ProcessSummary-sortGroupName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="sortGroupName" />
-    <property name="label" value="Sort Group Name" />
-    <property name="shortLabel" value="Sort Group" />
-    <property name="maxLength" value="32" />
-    <property name="validationPattern" >
-       <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="sortGroupName"/>
+    <property name="label" value="Sort Group Name"/>
+    <property name="shortLabel" value="Sort Group"/>
+    <property name="maxLength" value="32"/>
+    <property name="validationPattern">
+       <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
     </property>
   </bean>
-  <bean id="ProcessSummary-beginDisbursementNbr" parent="ProcessSummary-beginDisbursementNbr-parentBean" />
+  <bean id="ProcessSummary-beginDisbursementNbr" parent="ProcessSummary-beginDisbursementNbr-parentBean"/>
 
   <bean id="ProcessSummary-beginDisbursementNbr-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="beginDisbursementNbr" />
-    <property name="label" value="Begin Disbursement Number" />
-    <property name="shortLabel" value="Begin Disbursement Nbr" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-       <bean parent="NumericValidationPattern" />
+    <property name="name" value="beginDisbursementNbr"/>
+    <property name="label" value="Begin Disbursement Number"/>
+    <property name="shortLabel" value="Begin Disbursement Nbr"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+       <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
     </property>
   </bean>   
-  <bean id="ProcessSummary-endDisbursementNbr" parent="ProcessSummary-endDisbursementNbr-parentBean" />
+  <bean id="ProcessSummary-endDisbursementNbr" parent="ProcessSummary-endDisbursementNbr-parentBean"/>
 
   <bean id="ProcessSummary-endDisbursementNbr-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="endDisbursementNbr" />
-    <property name="label" value="End Disbursement Number" />
-    <property name="shortLabel" value="End Disbursement Nbr" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-       <bean parent="NumericValidationPattern" />
+    <property name="name" value="endDisbursementNbr"/>
+    <property name="label" value="End Disbursement Number"/>
+    <property name="shortLabel" value="End Disbursement Nbr"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+       <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
     </property>
   </bean> 
-  <bean id="ProcessSummary-processTotalAmount" parent="ProcessSummary-processTotalAmount-parentBean" />
+  <bean id="ProcessSummary-processTotalAmount" parent="ProcessSummary-processTotalAmount-parentBean"/>
 
   <bean id="ProcessSummary-processTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="processTotalAmount" />
-    <property name="label" value="Process Total Amount" />
+    <property name="name" value="processTotalAmount"/>
+    <property name="label" value="Process Total Amount"/>
   </bean> 
-    <bean id="ProcessSummary-processTotalCount" parent="ProcessSummary-processTotalCount-parentBean" />
+    <bean id="ProcessSummary-processTotalCount" parent="ProcessSummary-processTotalCount-parentBean"/>
 
   <bean id="ProcessSummary-processTotalCount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="processTotalCount" />
-    <property name="label" value="Process Total Count" />
-    <property name="shortLabel" value="Process Total Count" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-       <bean parent="NumericValidationPattern" />
+    <property name="name" value="processTotalCount"/>
+    <property name="label" value="Process Total Count"/>
+    <property name="shortLabel" value="Process Total Count"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+       <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
     </property>
   </bean>
-  <bean id="ProcessSummary-process.campusCode" parent="ProcessSummary-process.campusCode-parentBean" />
+  <bean id="ProcessSummary-process.campusCode" parent="ProcessSummary-process.campusCode-parentBean"/>
 
   <bean id="ProcessSummary-process.campusCode-parentBean" abstract="true" parent="PaymentProcess-campusCode">
-    <property name="name" value="process.campusCode" />
-    <property name="label" value="Campus" />
-    <property name="shortLabel" value="Campus" />
+    <property name="name" value="process.campusCode"/>
+    <property name="label" value="Campus"/>
+    <property name="shortLabel" value="Campus"/>
   </bean>
-  <bean id="ProcessSummary-process.processTimestamp" parent="ProcessSummary-process.processTimestamp-parentBean" />
+  <bean id="ProcessSummary-process.processTimestamp" parent="ProcessSummary-process.processTimestamp-parentBean"/>
 
   <bean id="ProcessSummary-process.processTimestamp-parentBean" abstract="true" parent="PaymentProcess-processTimestamp">
-    <property name="name" value="process.processTimestamp" />
-    <property name="label" value="Format Date" />
-    <property name="shortLabel" value="Format Date" />
+    <property name="name" value="process.processTimestamp"/>
+    <property name="label" value="Format Date"/>
+    <property name="shortLabel" value="Format Date"/>
   </bean>
-  <bean id="ProcessSummary-process.processUser.name" parent="ProcessSummary-process.processUser.name-parentBean" />
+  <bean id="ProcessSummary-process.processUser.name" parent="ProcessSummary-process.processUser.name-parentBean"/>
   
   <bean id="ProcessSummary-process.processUser.name-parentBean" abstract="true" parent="PaymentProcess-processUser.name">
-    <property name="name" value="process.processUser.name" />
-    <property name="label" value="Format User" />
-    <property name="shortLabel" value="Format User" />
+    <property name="name" value="process.processUser.name"/>
+    <property name="label" value="Format User"/>
+    <property name="shortLabel" value="Format User"/>
   </bean>
-  <bean id="ProcessSummary-customer.chartCode" parent="ProcessSummary-customer.chartCode-parentBean" />
+  <bean id="ProcessSummary-customer.chartCode" parent="ProcessSummary-customer.chartCode-parentBean"/>
 
   <bean id="ProcessSummary-customer.chartCode-parentBean" abstract="true" parent="CustomerProfile-chartCode">
-    <property name="name" value="customer.chartCode" />
+    <property name="name" value="customer.chartCode"/>
   </bean>
-  <bean id="ProcessSummary-customer.unitCode" parent="ProcessSummary-customer.unitCode-parentBean" />
+  <bean id="ProcessSummary-customer.unitCode" parent="ProcessSummary-customer.unitCode-parentBean"/>
 
   <bean id="ProcessSummary-customer.unitCode-parentBean" abstract="true" parent="CustomerProfile-unitCode">
-    <property name="name" value="customer.unitCode" />
+    <property name="name" value="customer.unitCode"/>
   </bean>
-  <bean id="ProcessSummary-customer.subUnitCode" parent="ProcessSummary-customer.subUnitCode-parentBean" />
+  <bean id="ProcessSummary-customer.subUnitCode" parent="ProcessSummary-customer.subUnitCode-parentBean"/>
 
   <bean id="ProcessSummary-customer.subUnitCode-parentBean" abstract="true" parent="CustomerProfile-subUnitCode">
-    <property name="name" value="customer.subUnitCode" />
+    <property name="name" value="customer.subUnitCode"/>
   </bean>
-  <bean id="ProcessSummary-customer.customerDescription" parent="ProcessSummary-customer.customerDescription-parentBean" />
+  <bean id="ProcessSummary-customer.customerDescription" parent="ProcessSummary-customer.customerDescription-parentBean"/>
 
   <bean id="ProcessSummary-customer.customerDescription-parentBean" abstract="true" parent="CustomerProfile-customerDescription">
-    <property name="name" value="customer.customerDescription" />
+    <property name="name" value="customer.customerDescription"/>
   </bean>
-  <bean id="ProcessSummary-disbursementType.name" parent="ProcessSummary-disbursementType.name-parentBean" />
+  <bean id="ProcessSummary-disbursementType.name" parent="ProcessSummary-disbursementType.name-parentBean"/>
 
   <bean id="ProcessSummary-disbursementType.name-parentBean" abstract="true" parent="DisbursementType-name">
-    <property name="name" value="disbursementType.name" />
+    <property name="name" value="disbursementType.name"/>
   </bean>
-  <bean id="ProcessSummary-process.extractedInd" parent="ProcessSummary-process.extractedInd-parentBean" />
+  <bean id="ProcessSummary-process.extractedInd" parent="ProcessSummary-process.extractedInd-parentBean"/>
 
   <bean id="ProcessSummary-process.extractedInd-parentBean" abstract="true" parent="PaymentProcess-extractedInd">
-    <property name="name" value="process.extractedInd" />
+    <property name="name" value="process.extractedInd"/>
   </bean>  
-  <bean id="ProcessSummary-process.formattedIndicator" parent="ProcessSummary-process.formattedIndicator-parentBean" />
+  <bean id="ProcessSummary-process.formattedIndicator" parent="ProcessSummary-process.formattedIndicator-parentBean"/>
 
   <bean id="ProcessSummary-process.formattedIndicator-parentBean" abstract="true" parent="PaymentProcess-formattedIndicator">
-    <property name="name" value="process.formattedIndicator" />
+    <property name="name" value="process.formattedIndicator"/>
   </bean>  
-  <bean id="ProcessSummary-process.id" parent="ProcessSummary-process.id-parentBean" />
+  <bean id="ProcessSummary-process.id" parent="ProcessSummary-process.id-parentBean"/>
 
   <bean id="ProcessSummary-process.id-parentBean" abstract="true" parent="PaymentProcess-id">
-    <property name="name" value="process.id" />
+    <property name="name" value="process.id"/>
   </bean>  
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="ProcessSummary-inquiryDefinition" parent="ProcessSummary-inquiryDefinition-parentBean" />
+  <bean id="ProcessSummary-inquiryDefinition" parent="ProcessSummary-inquiryDefinition-parentBean"/>
 
   <bean id="ProcessSummary-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Process Summary Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Process Summary Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="sortGroupId" />    
-              <bean parent="FieldDefinition"
-                    p:attributeName="customer.chartCode" />  
-              <bean parent="FieldDefinition"
-                    p:attributeName="customer.unitCode" />                                                                                           
-              <bean parent="FieldDefinition"
-                    p:attributeName="customer.subUnitCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="customer.customerDescription" />                    
-              <bean parent="FieldDefinition"
-                    p:attributeName="disbursementType.name" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="beginDisbursementNbr" />   
-              <bean parent="FieldDefinition"
-                    p:attributeName="endDisbursementNbr" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="processTotalCount" />   
-              <bean parent="FieldDefinition"
-                    p:attributeName="processTotalAmount" />            
-              <bean parent="FieldDefinition"
-                    p:attributeName="process.id" />                      
-              <bean parent="FieldDefinition"
-                    p:attributeName="process.extractedInd" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="process.formattedIndicator" />                                                  
+              <bean parent="FieldDefinition" p:attributeName="sortGroupId"/>    
+              <bean parent="FieldDefinition" p:attributeName="customer.chartCode"/>  
+              <bean parent="FieldDefinition" p:attributeName="customer.unitCode"/>                                                                                           
+              <bean parent="FieldDefinition" p:attributeName="customer.subUnitCode"/>
+              <bean parent="FieldDefinition" p:attributeName="customer.customerDescription"/>                    
+              <bean parent="FieldDefinition" p:attributeName="disbursementType.name"/>
+              <bean parent="FieldDefinition" p:attributeName="beginDisbursementNbr"/>   
+              <bean parent="FieldDefinition" p:attributeName="endDisbursementNbr"/>
+              <bean parent="FieldDefinition" p:attributeName="processTotalCount"/>   
+              <bean parent="FieldDefinition" p:attributeName="processTotalAmount"/>            
+              <bean parent="FieldDefinition" p:attributeName="process.id"/>                      
+              <bean parent="FieldDefinition" p:attributeName="process.extractedInd"/>
+              <bean parent="FieldDefinition" p:attributeName="process.formattedIndicator"/>                                                  
             </list>
           </property>
         </bean>
@@ -268,61 +245,44 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="ProcessSummary-lookupDefinition" parent="ProcessSummary-lookupDefinition-parentBean" />
+  <bean id="ProcessSummary-lookupDefinition" parent="ProcessSummary-lookupDefinition-parentBean"/>
 
   <bean id="ProcessSummary-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Format Summary Lookup" />
-    <property name="instructions" value="Look up a Format Summary" />
-    <property name="defaultSort" >
+    <property name="title" value="Format Summary Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>id</value>
           </list>
         </property>
-        <property name="sortAscending" value="true" />
+        <property name="sortAscending" value="true"/>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="processId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="process.campusCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="process.processUser.name" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="process.processTimestamp" />
+              <bean parent="FieldDefinition" p:attributeName="processId"/>
+              <bean parent="FieldDefinition" p:attributeName="process.campusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="process.processUser.name"/>
+              <bean parent="FieldDefinition" p:attributeName="process.processTimestamp"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>         
-              <bean parent="FieldDefinition"
-                    p:attributeName="sortGroupName" />    
-              <bean parent="FieldDefinition"
-                    p:attributeName="customer.chartCode" />  
-              <bean parent="FieldDefinition"
-                    p:attributeName="customer.unitCode" />                                                                                           
-              <bean parent="FieldDefinition"
-                    p:attributeName="customer.subUnitCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="customer.customerDescription" />                    
-              <bean parent="FieldDefinition"
-                    p:attributeName="disbursementType.name" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="beginDisbursementNbr" />   
-              <bean parent="FieldDefinition"
-                    p:attributeName="endDisbursementNbr" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="processTotalCount" />   
-              <bean parent="FieldDefinition"
-                    p:attributeName="processTotalAmount" />                    
-              <bean parent="FieldDefinition"
-                    p:attributeName="process.id" />                     
-              <bean parent="FieldDefinition"
-                    p:attributeName="process.extractedInd" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="process.formattedIndicator" />                                        
+              <bean parent="FieldDefinition" p:attributeName="sortGroupName"/>    
+              <bean parent="FieldDefinition" p:attributeName="customer.chartCode"/>  
+              <bean parent="FieldDefinition" p:attributeName="customer.unitCode"/>                                                                                           
+              <bean parent="FieldDefinition" p:attributeName="customer.subUnitCode"/>
+              <bean parent="FieldDefinition" p:attributeName="customer.customerDescription"/>                    
+              <bean parent="FieldDefinition" p:attributeName="disbursementType.name"/>
+              <bean parent="FieldDefinition" p:attributeName="beginDisbursementNbr"/>   
+              <bean parent="FieldDefinition" p:attributeName="endDisbursementNbr"/>
+              <bean parent="FieldDefinition" p:attributeName="processTotalCount"/>   
+              <bean parent="FieldDefinition" p:attributeName="processTotalAmount"/>                    
+              <bean parent="FieldDefinition" p:attributeName="process.id"/>                     
+              <bean parent="FieldDefinition" p:attributeName="process.extractedInd"/>
+              <bean parent="FieldDefinition" p:attributeName="process.formattedIndicator"/>                                        
       </list>
     </property>
   </bean>

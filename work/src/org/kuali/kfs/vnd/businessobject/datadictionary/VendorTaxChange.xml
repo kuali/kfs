@@ -1,27 +1,20 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="VendorTaxChange" parent="VendorTaxChange-parentBean" />
+  <bean id="VendorTaxChange" parent="VendorTaxChange-parentBean"/>
 
   <bean id="VendorTaxChange-parentBean" abstract="true" parent="BusinessObjectEntry">
-  	<property name="objectLabel" value="Vendor Tax Change" />
-    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorTaxChange" />
-    <property name="attributes" >
+  	<property name="objectLabel" value="Vendor Tax Change"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorTaxChange"/>
+    <property name="attributes">
       <list>
-        <ref bean="VendorTaxChange-vendorTaxChangeGeneratedIdentifier" />
-        <ref bean="VendorTaxChange-vendorTaxChangePersonIdentifier" />
-        <ref bean="VendorTaxChange-vendorTaxChangePerson.principalName" />
-        <ref bean="VendorTaxChange-vendorTaxChangePerson.name" />
-        <ref bean="VendorTaxChange-vendorTaxChangeTimestamp" />
-        <ref bean="VendorTaxChange-vendorPreviousTaxTypeCode" />
-        <ref bean="VendorTaxChange-vendorPreviousTaxNumber" />
-        <ref bean="VendorTaxChange-vendorHeaderGeneratedIdentifier" />
+        <ref bean="VendorTaxChange-vendorTaxChangeGeneratedIdentifier"/>
+        <ref bean="VendorTaxChange-vendorTaxChangePersonIdentifier"/>
+        <ref bean="VendorTaxChange-vendorTaxChangePerson.principalName"/>
+        <ref bean="VendorTaxChange-vendorTaxChangePerson.name"/>
+        <ref bean="VendorTaxChange-vendorTaxChangeTimestamp"/>
+        <ref bean="VendorTaxChange-vendorPreviousTaxTypeCode"/>
+        <ref bean="VendorTaxChange-vendorPreviousTaxNumber"/>
+        <ref bean="VendorTaxChange-vendorHeaderGeneratedIdentifier"/>
       </list>
     </property>
   </bean>
@@ -29,78 +22,73 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="VendorTaxChange-vendorTaxChangeGeneratedIdentifier" parent="VendorTaxChange-vendorTaxChangeGeneratedIdentifier-parentBean" />
+  <bean id="VendorTaxChange-vendorTaxChangeGeneratedIdentifier" parent="VendorTaxChange-vendorTaxChangeGeneratedIdentifier-parentBean"/>
 
   <bean id="VendorTaxChange-vendorTaxChangeGeneratedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorTaxChangeGeneratedIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Vendor Tax Change Generated Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="vendorTaxChangeGeneratedIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Vendor Tax Change Generated Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
   </bean>
-  <bean id="VendorTaxChange-vendorTaxChangePersonIdentifier" parent="VendorTaxChange-vendorTaxChangePersonIdentifier-parentBean" />
+  <bean id="VendorTaxChange-vendorTaxChangePersonIdentifier" parent="VendorTaxChange-vendorTaxChangePersonIdentifier-parentBean"/>
 
   <bean id="VendorTaxChange-vendorTaxChangePersonIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="vendorTaxChangePersonIdentifier" />
-    <property name="label" value="Vendor Tax Change Person Identifier" />
-    <property name="shortLabel" value="Vendor Tax Change Person ID" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="vendorTaxChangePersonIdentifier"/>
+    <property name="label" value="Vendor Tax Change Person Identifier"/>
+    <property name="shortLabel" value="Vendor Tax Change Person ID"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
-    <property name="displayLabelAttribute" value="vendorTaxChangePerson.principalName" />
+    <property name="displayLabelAttribute" value="vendorTaxChangePerson.principalName"/>
   </bean>
-  <bean id="VendorTaxChange-vendorTaxChangePerson.principalName" parent="VendorTaxChange-vendorTaxChangePerson.principalName-parentBean" />
+  <bean id="VendorTaxChange-vendorTaxChangePerson.principalName" parent="VendorTaxChange-vendorTaxChangePerson.principalName-parentBean"/>
 
   <bean id="VendorTaxChange-vendorTaxChangePerson.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="vendorTaxChangePerson.principalName" />
-    <property name="label" value="Vendor Tax Change Principal Name" />
-    <property name="shortLabel" value="Vendor Tax Change Principal Name" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="vendorRestrictedPerson.name"
-            p:universalIdAttributeName="vendorRestrictedPersonIdentifier"
-            p:userIdAttributeName="vendorRestrictedPerson.principalName" />
+    <property name="name" value="vendorTaxChangePerson.principalName"/>
+    <property name="label" value="Vendor Tax Change Principal Name"/>
+    <property name="shortLabel" value="Vendor Tax Change Principal Name"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="vendorRestrictedPerson.name" p:universalIdAttributeName="vendorRestrictedPersonIdentifier" p:userIdAttributeName="vendorRestrictedPerson.principalName"/>
     </property>
   </bean>
-  <bean id="VendorTaxChange-vendorTaxChangePerson.name" parent="VendorTaxChange-vendorTaxChangePerson.name-parentBean" />
+  <bean id="VendorTaxChange-vendorTaxChangePerson.name" parent="VendorTaxChange-vendorTaxChangePerson.name-parentBean"/>
 
   <bean id="VendorTaxChange-vendorTaxChangePerson.name-parentBean" abstract="true" parent="PersonImpl-name">
-    <property name="name" value="vendorTaxChangePerson.name" />
-    <property name="label" value="Vendor Tax Change Person" />
-    <property name="required" value="false" />
+    <property name="name" value="vendorTaxChangePerson.name"/>
+    <property name="label" value="Vendor Tax Change Person"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="VendorTaxChange-vendorTaxChangeTimestamp" parent="VendorTaxChange-vendorTaxChangeTimestamp-parentBean" />
+  <bean id="VendorTaxChange-vendorTaxChangeTimestamp" parent="VendorTaxChange-vendorTaxChangeTimestamp-parentBean"/>
 
   <bean id="VendorTaxChange-vendorTaxChangeTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="vendorTaxChangeTimestamp" />
-    <property name="label" value="Vendor Tax Change Date" />
-    <property name="shortLabel" value="Vendor Tax Change Date" />
+    <property name="name" value="vendorTaxChangeTimestamp"/>
+    <property name="label" value="Vendor Tax Change Date"/>
+    <property name="shortLabel" value="Vendor Tax Change Date"/>
   </bean>
-  <bean id="VendorTaxChange-vendorPreviousTaxTypeCode" parent="VendorTaxChange-vendorPreviousTaxTypeCode-parentBean" />
+  <bean id="VendorTaxChange-vendorPreviousTaxTypeCode" parent="VendorTaxChange-vendorPreviousTaxTypeCode-parentBean"/>
 
   <bean id="VendorTaxChange-vendorPreviousTaxTypeCode-parentBean" abstract="true" parent="VendorHeader-vendorTaxTypeCode">
-    <property name="name" value="vendorPreviousTaxTypeCode" />
-    <property name="label" value="Vendor Previous Tax Type Code" />
-    <property name="shortLabel" value="Vendor Previous Tax Type Code" />
+    <property name="name" value="vendorPreviousTaxTypeCode"/>
+    <property name="label" value="Vendor Previous Tax Type Code"/>
+    <property name="shortLabel" value="Vendor Previous Tax Type Code"/>
   </bean>
-  <bean id="VendorTaxChange-vendorPreviousTaxNumber" parent="VendorTaxChange-vendorPreviousTaxNumber-parentBean" />
+  <bean id="VendorTaxChange-vendorPreviousTaxNumber" parent="VendorTaxChange-vendorPreviousTaxNumber-parentBean"/>
 
   <bean id="VendorTaxChange-vendorPreviousTaxNumber-parentBean" abstract="true" parent="VendorHeader-vendorTaxNumber">
-    <property name="name" value="vendorPreviousTaxNumber" />
-    <property name="label" value="Vendor Previous Tax Number" />
-    <property name="shortLabel" value="Vendor Previous Tax Number" />
+    <property name="name" value="vendorPreviousTaxNumber"/>
+    <property name="label" value="Vendor Previous Tax Number"/>
+    <property name="shortLabel" value="Vendor Previous Tax Number"/>
   </bean>
-  <bean id="VendorTaxChange-vendorHeaderGeneratedIdentifier" parent="VendorTaxChange-vendorHeaderGeneratedIdentifier-parentBean" />
+  <bean id="VendorTaxChange-vendorHeaderGeneratedIdentifier" parent="VendorTaxChange-vendorHeaderGeneratedIdentifier-parentBean"/>
 
   <bean id="VendorTaxChange-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
   </bean>
 </beans>
-

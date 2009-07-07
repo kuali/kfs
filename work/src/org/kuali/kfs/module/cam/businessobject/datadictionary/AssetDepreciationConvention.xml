@@ -1,76 +1,67 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AssetDepreciationConvention" parent="AssetDepreciationConvention-parentBean" />
+  <bean id="AssetDepreciationConvention" parent="AssetDepreciationConvention-parentBean"/>
 
   <bean id="AssetDepreciationConvention-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetDepreciationConvention" />
-    <property name="inquiryDefinition" >
-      <ref bean="AssetDepreciationConvention-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetDepreciationConvention"/>
+    <property name="inquiryDefinition">
+      <ref bean="AssetDepreciationConvention-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="AssetDepreciationConvention-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="AssetDepreciationConvention-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Asset Depreciation Convention" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Asset Depreciation Convention"/>
+    <property name="attributes">
       <list>
-        <ref bean="AssetDepreciationConvention-financialObjectSubTypeCode" />
-        <ref bean="AssetDepreciationConvention-depreciationConventionCode" />
-        <ref bean="AssetDepreciationConvention-active" />
+        <ref bean="AssetDepreciationConvention-financialObjectSubTypeCode"/>
+        <ref bean="AssetDepreciationConvention-depreciationConventionCode"/>
+        <ref bean="AssetDepreciationConvention-active"/>
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
-  <bean id="AssetDepreciationConvention-financialObjectSubTypeCode" parent="AssetDepreciationConvention-financialObjectSubTypeCode-parentBean" />
+  <bean id="AssetDepreciationConvention-financialObjectSubTypeCode" parent="AssetDepreciationConvention-financialObjectSubTypeCode-parentBean"/>
   <bean id="AssetDepreciationConvention-financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjectSubType-code">
-    <property name="name" value="financialObjectSubTypeCode" />
-    <property name="label" value="Financial Object Sub Type Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="name" value="financialObjectSubTypeCode"/>
+    <property name="label" value="Financial Object Sub Type Code"/>
+    <property name="shortLabel" value="Code"/>
   </bean>
   
-  <bean id="AssetDepreciationConvention-depreciationConventionCode" parent="AssetDepreciationConvention-depreciationConventionCode-parentBean" />
+  <bean id="AssetDepreciationConvention-depreciationConventionCode" parent="AssetDepreciationConvention-depreciationConventionCode-parentBean"/>
   <bean id="AssetDepreciationConvention-depreciationConventionCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="depreciationConventionCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Depreciation Convention Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.cam.businessobject.options.AssetDepreciationConventionValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="depreciationConventionCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Depreciation Convention Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.cam.businessobject.options.AssetDepreciationConventionValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   
-  <bean id="AssetDepreciationConvention-active" parent="AssetDepreciationConvention-active-parentBean" />
+  <bean id="AssetDepreciationConvention-active" parent="AssetDepreciationConvention-active-parentBean"/>
   <bean id="AssetDepreciationConvention-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
-  <bean id="AssetDepreciationConvention-inquiryDefinition" parent="AssetDepreciationConvention-inquiryDefinition-parentBean" />
+  <bean id="AssetDepreciationConvention-inquiryDefinition" parent="AssetDepreciationConvention-inquiryDefinition-parentBean"/>
   <bean id="AssetDepreciationConvention-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Asset Depreciation Convention Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Asset Depreciation Convention Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectSubTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="depreciationConventionCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="financialObjectSubTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="depreciationConventionCode"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -80,33 +71,26 @@
 
 <!-- Business Object Lookup Definition -->
 
-  <bean id="AssetDepreciationConvention-lookupDefinition" parent="AssetDepreciationConvention-lookupDefinition-parentBean" />
+  <bean id="AssetDepreciationConvention-lookupDefinition" parent="AssetDepreciationConvention-lookupDefinition-parentBean"/>
   <bean id="AssetDepreciationConvention-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Asset Depreciation Convention Lookup" />
-    <property name="instructions" value="Look up an Asset Depreciation Convention" />
-    <property name="defaultSort" >
+    <property name="title" value="Asset Depreciation Convention Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectSubTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="depreciationConventionCode" />
-        <bean parent="FieldDefinition"
-              p:defaultValue="Y"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="financialObjectSubTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="depreciationConventionCode"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectSubTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="depreciationConventionCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="financialObjectSubTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="depreciationConventionCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

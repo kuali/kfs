@@ -1,76 +1,68 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="GeneralLedgerEntryAsset" parent="GeneralLedgerEntryAsset-parentBean" />
+  <bean id="GeneralLedgerEntryAsset" parent="GeneralLedgerEntryAsset-parentBean"/>
 
   <bean id="GeneralLedgerEntryAsset-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset" />
-    <property name="inquiryDefinition" >
-      <ref bean="GeneralLedgerEntryAsset-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset"/>
+    <property name="inquiryDefinition">
+      <ref bean="GeneralLedgerEntryAsset-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="GeneralLedgerEntryAsset-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="GeneralLedgerEntryAsset-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="General Ledger Entry Asset" />
-    <property name="attributes" >
+    <property name="objectLabel" value="General Ledger Entry Asset"/>
+    <property name="attributes">
       <list>
-        <ref bean="GeneralLedgerEntryAsset-generalLedgerAccountIdentifier" />
-        <ref bean="GeneralLedgerEntryAsset-capitalAssetBuilderLineNumber" />
-        <ref bean="GeneralLedgerEntryAsset-capitalAssetManagementDocumentNumber" />
+        <ref bean="GeneralLedgerEntryAsset-generalLedgerAccountIdentifier"/>
+        <ref bean="GeneralLedgerEntryAsset-capitalAssetBuilderLineNumber"/>
+        <ref bean="GeneralLedgerEntryAsset-capitalAssetManagementDocumentNumber"/>
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
-  <bean id="GeneralLedgerEntryAsset-generalLedgerAccountIdentifier" parent="GeneralLedgerEntryAsset-generalLedgerAccountIdentifier-parentBean" />
+  <bean id="GeneralLedgerEntryAsset-generalLedgerAccountIdentifier" parent="GeneralLedgerEntryAsset-generalLedgerAccountIdentifier-parentBean"/>
   <bean id="GeneralLedgerEntryAsset-generalLedgerAccountIdentifier-parentBean" abstract="true" parent="GeneralLedgerEntry-generalLedgerAccountIdentifier">
   </bean>
   
-  <bean id="GeneralLedgerEntryAsset-capitalAssetBuilderLineNumber" parent="GeneralLedgerEntryAsset-capitalAssetBuilderLineNumber-parentBean" />
+  <bean id="GeneralLedgerEntryAsset-capitalAssetBuilderLineNumber" parent="GeneralLedgerEntryAsset-capitalAssetBuilderLineNumber-parentBean"/>
   <bean id="GeneralLedgerEntryAsset-capitalAssetBuilderLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetBuilderLineNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Capital Asset Builder Line Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="capitalAssetBuilderLineNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Capital Asset Builder Line Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
   </bean>
 
-  <bean id="GeneralLedgerEntryAsset-capitalAssetManagementDocumentNumber" parent="GeneralLedgerEntryAsset-capitalAssetManagementDocumentNumber-parentBean" />
+  <bean id="GeneralLedgerEntryAsset-capitalAssetManagementDocumentNumber" parent="GeneralLedgerEntryAsset-capitalAssetManagementDocumentNumber-parentBean"/>
   <bean id="GeneralLedgerEntryAsset-capitalAssetManagementDocumentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
-    <property name="name" value="capitalAssetManagementDocumentNumber" />
-    <property name="label" value="Capital Asset Management Document Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="name" value="capitalAssetManagementDocumentNumber"/>
+    <property name="label" value="Capital Asset Management Document Number"/>
+    <property name="shortLabel" value="Number"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
-  <bean id="GeneralLedgerEntryAsset-inquiryDefinition" parent="GeneralLedgerEntryAsset-inquiryDefinition-parentBean" />
+  <bean id="GeneralLedgerEntryAsset-inquiryDefinition" parent="GeneralLedgerEntryAsset-inquiryDefinition-parentBean"/>
   <bean id="GeneralLedgerEntryAsset-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="General Ledger Entry Asset Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="General Ledger Entry Asset Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="generalLedgerAccountIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="capitalAssetBuilderLineNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="capitalAssetManagementDocumentNumber" />
+              <bean parent="FieldDefinition" p:attributeName="generalLedgerAccountIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="capitalAssetBuilderLineNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="capitalAssetManagementDocumentNumber"/>
             </list>
           </property>
         </bean>
@@ -80,32 +72,26 @@
 
 <!-- Business Object Lookup Definition -->
 
-  <bean id="GeneralLedgerEntryAsset-lookupDefinition" parent="GeneralLedgerEntryAsset-lookupDefinition-parentBean" />
+  <bean id="GeneralLedgerEntryAsset-lookupDefinition" parent="GeneralLedgerEntryAsset-lookupDefinition-parentBean"/>
   <bean id="GeneralLedgerEntryAsset-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="General Ledger Entry Asset Lookup" />
-    <property name="instructions" value="Look up an General Ledger Entry Asset" />
-    <property name="defaultSort" >
+    <property name="title" value="General Ledger Entry Asset Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="generalLedgerAccountIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetBuilderLineNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetManagementDocumentNumber" />
+        <bean parent="FieldDefinition" p:attributeName="generalLedgerAccountIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetBuilderLineNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetManagementDocumentNumber"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="generalLedgerAccountIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetBuilderLineNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetManagementDocumentNumber" />
+        <bean parent="FieldDefinition" p:attributeName="generalLedgerAccountIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetBuilderLineNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetManagementDocumentNumber"/>
       </list>
     </property>
   </bean>

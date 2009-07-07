@@ -26,7 +26,7 @@
     <property name="workflowAttributes">
       <ref bean="YearEndTransferOfFundsDocument-workflowAttributes"/>
     </property>
-    <property name="validationMap" ref="YearEndTransferOfFundsDocument-validations" />
+    <property name="validationMap" ref="YearEndTransferOfFundsDocument-validations"/>
   </bean>
   
   <!-- Validations -->

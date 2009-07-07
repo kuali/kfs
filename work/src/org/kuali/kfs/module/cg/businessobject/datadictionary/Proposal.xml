@@ -1,118 +1,92 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="Proposal" parent="Proposal-parentBean" />
+  <bean id="Proposal" parent="Proposal-parentBean"/>
 
   <bean id="Proposal-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.Proposal" />
-    <property name="inquiryDefinition" >
-      <ref bean="Proposal-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.Proposal"/>
+    <property name="inquiryDefinition">
+      <ref bean="Proposal-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="Proposal-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="Proposal-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="proposalNumber" />
-    <property name="objectLabel" value="Proposal" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="proposalNumber"/>
+    <property name="objectLabel" value="Proposal"/>
+    <property name="attributes">
       <list>
-        <ref bean="Proposal-routingChart" />
-        <ref bean="Proposal-routingOrg" />
-        <ref bean="Proposal-award.awardInquiryTitle" />
-        <ref bean="Proposal-proposalOrganizations.organization.organizationCode" />
-        <ref bean="Proposal-proposalSubcontractors.subcontractor.subcontractorNumber" />
-        <ref bean="Proposal-proposalProjectDirectors.principalId" />
-        <ref bean="Proposal-lookupPersonUniversalIdentifier" />
-        <ref bean="Proposal-lookupPerson.principalName" />
-        <ref bean="Proposal-lookupPerson.name" />
-        <ref bean="Proposal-userLookupRoleNamespaceCode" />
-        <ref bean="Proposal-userLookupRoleName" />
-        <ref bean="Proposal-proposal.grantNumber" />
-        <ref bean="Proposal-agency.fullName" />
-        <ref bean="Proposal-agencyNumber" />
-        <ref bean="Proposal-agency.reportingName" />
-        <ref bean="Proposal-cfdaNumber" />
-        <ref bean="Proposal-federalPassThroughAgencyNumber" />
-        <ref bean="Proposal-federalPassThroughAgency.fullName" />
-        <ref bean="Proposal-grantNumber" />
-        <ref bean="Proposal-oldProposalNumber" />
-        <ref bean="Proposal-proposalAwardTypeCode" />
-        <ref bean="Proposal-proposalBeginningDate" />
-        <ref bean="Proposal-proposalClosingDate" />
-        <ref bean="Proposal-proposalDirectCostAmount" />
-        <ref bean="Proposal-proposalDueDate" />
-        <ref bean="Proposal-proposalEndingDate" />
-        <ref bean="Proposal-proposalFederalPassThroughIndicator" />
-        <ref bean="Proposal-proposalFellowName" />
-        <ref bean="Proposal-proposalIndirectCostAmount" />
-        <ref bean="Proposal-proposalLastUpdateDate" />
-        <ref bean="Proposal-proposalNumber" />
-        <ref bean="Proposal-proposalProjectTitle" />
-        <ref bean="Proposal-proposalPurposeCode" />
-        <ref bean="Proposal-proposalRejectedDate" />
-        <ref bean="Proposal-proposalStatusCode" />
-        <ref bean="Proposal-proposalSubmissionDate" />
-        <ref bean="Proposal-proposalTotalAmount" />
-        <ref bean="Proposal-proposalTotalProjectAmount" />
-        <ref bean="Proposal-active" />
+        <ref bean="Proposal-routingChart"/>
+        <ref bean="Proposal-routingOrg"/>
+        <ref bean="Proposal-award.awardInquiryTitle"/>
+        <ref bean="Proposal-proposalOrganizations.organization.organizationCode"/>
+        <ref bean="Proposal-proposalSubcontractors.subcontractor.subcontractorNumber"/>
+        <ref bean="Proposal-proposalProjectDirectors.principalId"/>
+        <ref bean="Proposal-lookupPersonUniversalIdentifier"/>
+        <ref bean="Proposal-lookupPerson.principalName"/>
+        <ref bean="Proposal-lookupPerson.name"/>
+        <ref bean="Proposal-userLookupRoleNamespaceCode"/>
+        <ref bean="Proposal-userLookupRoleName"/>
+        <ref bean="Proposal-proposal.grantNumber"/>
+        <ref bean="Proposal-agency.fullName"/>
+        <ref bean="Proposal-agencyNumber"/>
+        <ref bean="Proposal-agency.reportingName"/>
+        <ref bean="Proposal-cfdaNumber"/>
+        <ref bean="Proposal-federalPassThroughAgencyNumber"/>
+        <ref bean="Proposal-federalPassThroughAgency.fullName"/>
+        <ref bean="Proposal-grantNumber"/>
+        <ref bean="Proposal-oldProposalNumber"/>
+        <ref bean="Proposal-proposalAwardTypeCode"/>
+        <ref bean="Proposal-proposalBeginningDate"/>
+        <ref bean="Proposal-proposalClosingDate"/>
+        <ref bean="Proposal-proposalDirectCostAmount"/>
+        <ref bean="Proposal-proposalDueDate"/>
+        <ref bean="Proposal-proposalEndingDate"/>
+        <ref bean="Proposal-proposalFederalPassThroughIndicator"/>
+        <ref bean="Proposal-proposalFellowName"/>
+        <ref bean="Proposal-proposalIndirectCostAmount"/>
+        <ref bean="Proposal-proposalLastUpdateDate"/>
+        <ref bean="Proposal-proposalNumber"/>
+        <ref bean="Proposal-proposalProjectTitle"/>
+        <ref bean="Proposal-proposalPurposeCode"/>
+        <ref bean="Proposal-proposalRejectedDate"/>
+        <ref bean="Proposal-proposalStatusCode"/>
+        <ref bean="Proposal-proposalSubmissionDate"/>
+        <ref bean="Proposal-proposalTotalAmount"/>
+        <ref bean="Proposal-proposalTotalProjectAmount"/>
+        <ref bean="Proposal-active"/>
       </list>
     </property>
-    <property name="collections" >
+    <property name="collections">
       <list>
-        <bean parent="CollectionDefinition"
-              p:name="proposalOrganizations"
-              p:label="Proposal Organizations"
-              p:shortLabel="Organizations"
-              p:elementLabel="Organization" />
-        <bean parent="CollectionDefinition"
-              p:name="proposalProjectDirectors"
-              p:label="Proposal Project Directors"
-              p:shortLabel="Project Directors"
-              p:elementLabel="Project Director" />
-        <bean parent="CollectionDefinition"
-              p:name="proposalSubcontractors"
-              p:label="Proposal Subcontractor"
-              p:shortLabel="Subcontractors"
-              p:elementLabel="Subcontractor" />
-        <bean parent="CollectionDefinition"
-              p:name="proposalResearchRisks"
-              p:label="Proposal Research Risks"
-              p:shortLabel="Research Risks"
-              p:elementLabel="Research Risk" />
+        <bean parent="CollectionDefinition" p:name="proposalOrganizations" p:label="Proposal Organizations" p:shortLabel="Organizations" p:elementLabel="Organization"/>
+        <bean parent="CollectionDefinition" p:name="proposalProjectDirectors" p:label="Proposal Project Directors" p:shortLabel="Project Directors" p:elementLabel="Project Director"/>
+        <bean parent="CollectionDefinition" p:name="proposalSubcontractors" p:label="Proposal Subcontractor" p:shortLabel="Subcontractors" p:elementLabel="Subcontractor"/>
+        <bean parent="CollectionDefinition" p:name="proposalResearchRisks" p:label="Proposal Research Risks" p:shortLabel="Research Risks" p:elementLabel="Research Risk"/>
       </list>
     </property>
-    <property name="relationships" >
+    <property name="relationships">
       <list>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="proposalOrganizations.organization" />
-          <property name="primitiveAttributes" >
+          <property name="objectAttributeName" value="proposalOrganizations.organization"/>
+          <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="proposalOrganizations.organization.organizationCode"
-                    p:targetName="organizationCode" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="proposalOrganizations.organization.organizationCode" p:targetName="organizationCode"/>
             </list>
           </property>
         </bean>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="proposalSubcontractors.subcontractor" />
-          <property name="primitiveAttributes" >
+          <property name="objectAttributeName" value="proposalSubcontractors.subcontractor"/>
+          <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="proposalSubcontractors.subcontractor.subcontractorNumber"
-                    p:targetName="subcontractorNumber" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="proposalSubcontractors.subcontractor.subcontractorNumber" p:targetName="subcontractorNumber"/>
             </list>
           </property>
         </bean>
       
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="lookupPerson" />
-          <property name="primitiveAttributes" >
+          <property name="objectAttributeName" value="lookupPerson"/>
+          <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="lookupPersonUniversalIdentifier"
-                    p:targetName="principalId" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="lookupPersonUniversalIdentifier" p:targetName="principalId"/>
             </list>
           </property>
         </bean>
@@ -120,10 +94,8 @@
     </property>
     <property name="inactivationBlockingDefinitions">
       <list>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="proposalAwardType"/>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="award"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="proposalAwardType"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="award"/>
       </list>
     </property>
   </bean>
@@ -131,476 +103,423 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="Proposal-routingChart" parent="Proposal-routingChart-parentBean" />
+  <bean id="Proposal-routingChart" parent="Proposal-routingChart-parentBean"/>
 
   <bean id="Proposal-routingChart-parentBean" abstract="true" parent="Organization-chartOfAccountsCode">
-    <property name="name" value="routingChart" />
-    <property name="label" value="Chart" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="routingChart"/>
+    <property name="label" value="Chart"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
-  <bean id="Proposal-routingOrg" parent="Proposal-routingOrg-parentBean" />
+  <bean id="Proposal-routingOrg" parent="Proposal-routingOrg-parentBean"/>
 
   <bean id="Proposal-routingOrg-parentBean" abstract="true" parent="Organization-organizationCode">
-    <property name="name" value="routingOrg" />
-    <property name="label" value="Organization" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="routingOrg"/>
+    <property name="label" value="Organization"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
-  <bean id="Proposal-award.awardInquiryTitle" parent="Proposal-award.awardInquiryTitle-parentBean" />
+  <bean id="Proposal-award.awardInquiryTitle" parent="Proposal-award.awardInquiryTitle-parentBean"/>
 
   <bean id="Proposal-award.awardInquiryTitle-parentBean" abstract="true" parent="Award-awardInquiryTitle">
-    <property name="name" value="award.awardInquiryTitle" />
-    <property name="label" value="Link to Award" />
-    <property name="shortLabel" value="Award Link" />
+    <property name="name" value="award.awardInquiryTitle"/>
+    <property name="label" value="Link to Award"/>
+    <property name="shortLabel" value="Award Link"/>
   </bean>
-  <bean id="Proposal-proposalOrganizations.organization.organizationCode" parent="Proposal-proposalOrganizations.organization.organizationCode-parentBean" />
+  <bean id="Proposal-proposalOrganizations.organization.organizationCode" parent="Proposal-proposalOrganizations.organization.organizationCode-parentBean"/>
 
   <bean id="Proposal-proposalOrganizations.organization.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
-    <property name="name" value="proposalOrganizations.organization.organizationCode" />
-    <property name="shortLabel" value="Org Cd" />
+    <property name="name" value="proposalOrganizations.organization.organizationCode"/>
+    <property name="shortLabel" value="Org Cd"/>
   </bean>
-  <bean id="Proposal-proposalSubcontractors.subcontractor.subcontractorNumber" parent="Proposal-proposalSubcontractors.subcontractor.subcontractorNumber-parentBean" />
+  <bean id="Proposal-proposalSubcontractors.subcontractor.subcontractorNumber" parent="Proposal-proposalSubcontractors.subcontractor.subcontractorNumber-parentBean"/>
 
   <bean id="Proposal-proposalSubcontractors.subcontractor.subcontractorNumber-parentBean" abstract="true" parent="SubContractor-subcontractorNumber">
-    <property name="name" value="proposalSubcontractors.subcontractor.subcontractorNumber" />
-    <property name="shortLabel" value="Subcontr Num" />
+    <property name="name" value="proposalSubcontractors.subcontractor.subcontractorNumber"/>
+    <property name="shortLabel" value="Subcontr Num"/>
   </bean>
-  <bean id="Proposal-proposalProjectDirectors.principalId" parent="Proposal-proposalProjectDirectors.principalId-parentBean" />
+  <bean id="Proposal-proposalProjectDirectors.principalId" parent="Proposal-proposalProjectDirectors.principalId-parentBean"/>
 
   <bean id="Proposal-proposalProjectDirectors.principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="proposalProjectDirectors.principalId" />
-    <property name="label" value="Project Director ID" />
-    <property name="shortLabel" value="Proj Dir ID" />
+    <property name="name" value="proposalProjectDirectors.principalId"/>
+    <property name="label" value="Project Director ID"/>
+    <property name="shortLabel" value="Proj Dir ID"/>
   </bean>
-  <bean id="Proposal-lookupPersonUniversalIdentifier" parent="Proposal-lookupPersonUniversalIdentifier-parentBean" />
+  <bean id="Proposal-lookupPersonUniversalIdentifier" parent="Proposal-lookupPersonUniversalIdentifier-parentBean"/>
 
   <bean id="Proposal-lookupPersonUniversalIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="lookupPersonUniversalIdentifier" />
-    <property name="label" value="Project Director Unvl ID" />
-    <property name="shortLabel" value="ProjDirUnvlId" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="lookupPersonUniversalIdentifier"/>
+    <property name="label" value="Project Director Unvl ID"/>
+    <property name="shortLabel" value="ProjDirUnvlId"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
-    <property name="displayLabelAttribute" value="lookupPerson.principalName" />
+    <property name="displayLabelAttribute" value="lookupPerson.principalName"/>
   </bean>
-  <bean id="Proposal-lookupPerson.principalName" parent="Proposal-lookupPerson.principalName-parentBean" />
+  <bean id="Proposal-lookupPerson.principalName" parent="Proposal-lookupPerson.principalName-parentBean"/>
 
   <bean id="Proposal-lookupPerson.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="lookupPerson.principalName" />
-    <property name="label" value="Project Director Principal Name" />
-    <property name="shortLabel" value="Proj Dir Principal Name" />
-    <property name="control" >
-      <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="lookupPerson.name"
-            p:universalIdAttributeName="lookupPersonUniversalIdentifier"
-            p:userIdAttributeName="lookupPerson.principalName" />
+    <property name="name" value="lookupPerson.principalName"/>
+    <property name="label" value="Project Director Principal Name"/>
+    <property name="shortLabel" value="Proj Dir Principal Name"/>
+    <property name="control">
+      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="lookupPerson.name" p:universalIdAttributeName="lookupPersonUniversalIdentifier" p:userIdAttributeName="lookupPerson.principalName"/>
     </property>
   </bean>
-  <bean id="Proposal-lookupPerson.name" parent="Proposal-lookupPerson.name-parentBean" />
+  <bean id="Proposal-lookupPerson.name" parent="Proposal-lookupPerson.name-parentBean"/>
 
   <bean id="Proposal-lookupPerson.name-parentBean" abstract="true" parent="PersonImpl-name">
-    <property name="name" value="lookupPerson.name" />
-    <property name="label" value="Project Director User Name" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="lookupPerson.name"/>
+    <property name="label" value="Project Director User Name"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
   
   <bean id="Proposal-userLookupRoleNamespaceCode" parent="AttributeDefinition">
-    <property name="name" value="userLookupRoleNamespaceCode" />
-    <property name="label" value="Role Namespace Code" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="userLookupRoleNamespaceCode"/>
+    <property name="label" value="Role Namespace Code"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
   
   <bean id="Proposal-userLookupRoleName" parent="AttributeDefinition">
-    <property name="name" value="userLookupRoleName" />
-    <property name="label" value="Role Name" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="userLookupRoleName"/>
+    <property name="label" value="Role Name"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
   
   
-  <bean id="Proposal-proposal.grantNumber" parent="Proposal-proposal.grantNumber-parentBean" />
+  <bean id="Proposal-proposal.grantNumber" parent="Proposal-proposal.grantNumber-parentBean"/>
 
   <bean id="Proposal-proposal.grantNumber-parentBean" abstract="true" parent="Proposal-grantNumber">
-    <property name="name" value="proposal.grantNumber" />
+    <property name="name" value="proposal.grantNumber"/>
   </bean>
-  <bean id="Proposal-agency.fullName" parent="Proposal-agency.fullName-parentBean" />
+  <bean id="Proposal-agency.fullName" parent="Proposal-agency.fullName-parentBean"/>
 
   <bean id="Proposal-agency.fullName-parentBean" abstract="true" parent="Agency-fullName">
-    <property name="name" value="agency.fullName" />
-    <property name="label" value="Agency Name" />
+    <property name="name" value="agency.fullName"/>
+    <property name="label" value="Agency Name"/>
   </bean>
-  <bean id="Proposal-agencyNumber" parent="Proposal-agencyNumber-parentBean" />
+  <bean id="Proposal-agencyNumber" parent="Proposal-agencyNumber-parentBean"/>
 
   <bean id="Proposal-agencyNumber-parentBean" abstract="true" parent="Agency-agencyNumber">
   </bean>
-  <bean id="Proposal-agency.reportingName" parent="Proposal-agency.reportingName-parentBean" />
+  <bean id="Proposal-agency.reportingName" parent="Proposal-agency.reportingName-parentBean"/>
 
   <bean id="Proposal-agency.reportingName-parentBean" abstract="true" parent="Agency-reportingName">
-    <property name="name" value="agency.reportingName" />
+    <property name="name" value="agency.reportingName"/>
   </bean>
-  <bean id="Proposal-cfdaNumber" parent="Proposal-cfdaNumber-parentBean" />
+  <bean id="Proposal-cfdaNumber" parent="Proposal-cfdaNumber-parentBean"/>
 
   <bean id="Proposal-cfdaNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="cfdaNumber" />
-    <property name="label" value="CFDA Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="6" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="cfdaNumber"/>
+    <property name="label" value="CFDA Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="6"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="8"/>
     </property>
   </bean>
-  <bean id="Proposal-federalPassThroughAgencyNumber" parent="Proposal-federalPassThroughAgencyNumber-parentBean" />
+  <bean id="Proposal-federalPassThroughAgencyNumber" parent="Proposal-federalPassThroughAgencyNumber-parentBean"/>
 
   <bean id="Proposal-federalPassThroughAgencyNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="federalPassThroughAgencyNumber" />
-    <property name="label" value="Federal Pass Through Agency Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="5" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="federalPassThroughAgencyNumber"/>
+    <property name="label" value="Federal Pass Through Agency Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="5"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="7"/>
     </property>
   </bean>
-  <bean id="Proposal-federalPassThroughAgency.fullName" parent="Proposal-federalPassThroughAgency.fullName-parentBean" />
+  <bean id="Proposal-federalPassThroughAgency.fullName" parent="Proposal-federalPassThroughAgency.fullName-parentBean"/>
 
   <bean id="Proposal-federalPassThroughAgency.fullName-parentBean" abstract="true" parent="Agency-fullName">
-    <property name="name" value="federalPassThroughAgency.fullName" />
-    <property name="label" value="Federal Pass Through Agency Name" />
-    <property name="shortLabel" value="FPT Agency Name" />
+    <property name="name" value="federalPassThroughAgency.fullName"/>
+    <property name="label" value="Federal Pass Through Agency Name"/>
+    <property name="shortLabel" value="FPT Agency Name"/>
   </bean>
-  <bean id="Proposal-grantNumber" parent="Proposal-grantNumber-parentBean" />
+  <bean id="Proposal-grantNumber" parent="Proposal-grantNumber-parentBean"/>
 
   <bean id="Proposal-grantNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="grantNumber" />
-    <property name="label" value="Grant Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="27" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="grantNumber"/>
+    <property name="label" value="Grant Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="27"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="29" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="29"/>
     </property>
   </bean>
-  <bean id="Proposal-oldProposalNumber" parent="Proposal-oldProposalNumber-parentBean" />
+  <bean id="Proposal-oldProposalNumber" parent="Proposal-oldProposalNumber-parentBean"/>
 
   <bean id="Proposal-oldProposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="oldProposalNumber" />
-    <property name="label" value="Old Proposal Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="oldProposalNumber"/>
+    <property name="label" value="Old Proposal Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="Proposal-proposalAwardTypeCode" parent="Proposal-proposalAwardTypeCode-parentBean" />
+  <bean id="Proposal-proposalAwardTypeCode" parent="Proposal-proposalAwardTypeCode-parentBean"/>
 
   <bean id="Proposal-proposalAwardTypeCode-parentBean" abstract="true" parent="ProposalAwardType-proposalAwardTypeCode">
-    <property name="label" value="Type" />
-    <property name="shortLabel" value="Type" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.ProposalAwardTypeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="label" value="Type"/>
+    <property name="shortLabel" value="Type"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.ProposalAwardTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="Proposal-proposalBeginningDate" parent="Proposal-proposalBeginningDate-parentBean" />
+  <bean id="Proposal-proposalBeginningDate" parent="Proposal-proposalBeginningDate-parentBean"/>
 
   <bean id="Proposal-proposalBeginningDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="proposalBeginningDate" />
-    <property name="label" value="Start Date" />
-    <property name="shortLabel" value="Start" />
+    <property name="name" value="proposalBeginningDate"/>
+    <property name="label" value="Start Date"/>
+    <property name="shortLabel" value="Start"/>
   </bean>
-  <bean id="Proposal-proposalClosingDate" parent="Proposal-proposalClosingDate-parentBean" />
+  <bean id="Proposal-proposalClosingDate" parent="Proposal-proposalClosingDate-parentBean"/>
 
   <bean id="Proposal-proposalClosingDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="proposalClosingDate" />
-    <property name="label" value="Close Date" />
-    <property name="shortLabel" value="Close" />
+    <property name="name" value="proposalClosingDate"/>
+    <property name="label" value="Close Date"/>
+    <property name="shortLabel" value="Close"/>
   </bean>
-  <bean id="Proposal-proposalDirectCostAmount" parent="Proposal-proposalDirectCostAmount-parentBean" />
+  <bean id="Proposal-proposalDirectCostAmount" parent="Proposal-proposalDirectCostAmount-parentBean"/>
 
   <bean id="Proposal-proposalDirectCostAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="proposalDirectCostAmount" />
-    <property name="label" value="Direct Cost Amount" />
-    <property name="shortLabel" value="Direct" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
-    <property name="exclusiveMin" value="-0.001" />
+    <property name="name" value="proposalDirectCostAmount"/>
+    <property name="label" value="Direct Cost Amount"/>
+    <property name="shortLabel" value="Direct"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="exclusiveMin" value="-0.001"/>
   </bean>
-  <bean id="Proposal-proposalDueDate" parent="Proposal-proposalDueDate-parentBean" />
+  <bean id="Proposal-proposalDueDate" parent="Proposal-proposalDueDate-parentBean"/>
 
   <bean id="Proposal-proposalDueDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="proposalDueDate" />
-    <property name="label" value="Due Date" />
-    <property name="shortLabel" value="Due" />
+    <property name="name" value="proposalDueDate"/>
+    <property name="label" value="Due Date"/>
+    <property name="shortLabel" value="Due"/>
   </bean>
-  <bean id="Proposal-proposalEndingDate" parent="Proposal-proposalEndingDate-parentBean" />
+  <bean id="Proposal-proposalEndingDate" parent="Proposal-proposalEndingDate-parentBean"/>
 
   <bean id="Proposal-proposalEndingDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="proposalEndingDate" />
-    <property name="label" value="Stop Date" />
-    <property name="shortLabel" value="Stop" />
+    <property name="name" value="proposalEndingDate"/>
+    <property name="label" value="Stop Date"/>
+    <property name="shortLabel" value="Stop"/>
   </bean>
-  <bean id="Proposal-proposalFederalPassThroughIndicator" parent="Proposal-proposalFederalPassThroughIndicator-parentBean" />
+  <bean id="Proposal-proposalFederalPassThroughIndicator" parent="Proposal-proposalFederalPassThroughIndicator-parentBean"/>
 
   <bean id="Proposal-proposalFederalPassThroughIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalFederalPassThroughIndicator" />
-    <property name="label" value="Federal Pass Through" />
-    <property name="shortLabel" value="FPT" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="proposalFederalPassThroughIndicator"/>
+    <property name="label" value="Federal Pass Through"/>
+    <property name="shortLabel" value="FPT"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="Proposal-proposalFellowName" parent="Proposal-proposalFellowName-parentBean" />
+  <bean id="Proposal-proposalFellowName" parent="Proposal-proposalFellowName-parentBean"/>
 
   <bean id="Proposal-proposalFellowName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalFellowName" />
-    <property name="label" value="Fellow Name" />
-    <property name="shortLabel" value="Fellow" />
-    <property name="maxLength" value="30" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="proposalFellowName"/>
+    <property name="label" value="Fellow Name"/>
+    <property name="shortLabel" value="Fellow"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
     </property>
   </bean>
-  <bean id="Proposal-proposalIndirectCostAmount" parent="Proposal-proposalIndirectCostAmount-parentBean" />
+  <bean id="Proposal-proposalIndirectCostAmount" parent="Proposal-proposalIndirectCostAmount-parentBean"/>
 
   <bean id="Proposal-proposalIndirectCostAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="proposalIndirectCostAmount" />
-    <property name="label" value="Indirect Cost Amount" />
-    <property name="shortLabel" value="Indirect" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
-    <property name="exclusiveMin" value="-0.001" />
+    <property name="name" value="proposalIndirectCostAmount"/>
+    <property name="label" value="Indirect Cost Amount"/>
+    <property name="shortLabel" value="Indirect"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="exclusiveMin" value="-0.001"/>
   </bean>
-  <bean id="Proposal-proposalLastUpdateDate" parent="Proposal-proposalLastUpdateDate-parentBean" />
+  <bean id="Proposal-proposalLastUpdateDate" parent="Proposal-proposalLastUpdateDate-parentBean"/>
 
   <bean id="Proposal-proposalLastUpdateDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="proposalLastUpdateDate" />
-    <property name="label" value="Last Update" />
-    <property name="shortLabel" value="Update" />
+    <property name="name" value="proposalLastUpdateDate"/>
+    <property name="label" value="Last Update"/>
+    <property name="shortLabel" value="Update"/>
   </bean>
-  <bean id="Proposal-proposalNumber" parent="Proposal-proposalNumber-parentBean" />
+  <bean id="Proposal-proposalNumber" parent="Proposal-proposalNumber-parentBean"/>
 
   <bean id="Proposal-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Proposal Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="proposalNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Proposal Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="12"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="14" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="14"/>
     </property>
   </bean>
-  <bean id="Proposal-proposalProjectTitle" parent="Proposal-proposalProjectTitle-parentBean" />
+  <bean id="Proposal-proposalProjectTitle" parent="Proposal-proposalProjectTitle-parentBean"/>
 
   <bean id="Proposal-proposalProjectTitle-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalProjectTitle" />
-    <property name="label" value="Project Title" />
-    <property name="shortLabel" value="Title" />
-    <property name="maxLength" value="250" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="proposalProjectTitle"/>
+    <property name="label" value="Project Title"/>
+    <property name="shortLabel" value="Title"/>
+    <property name="maxLength" value="250"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="3"
-            p:cols="40" />
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="40"/>
     </property>
   </bean>
-  <bean id="Proposal-proposalPurposeCode" parent="Proposal-proposalPurposeCode-parentBean" />
+  <bean id="Proposal-proposalPurposeCode" parent="Proposal-proposalPurposeCode-parentBean"/>
 
   <bean id="Proposal-proposalPurposeCode-parentBean" abstract="true" parent="ProposalPurpose-proposalPurposeCode">
-    <property name="label" value="Purpose" />
-    <property name="shortLabel" value="Purpose" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.ProposalPurposeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="label" value="Purpose"/>
+    <property name="shortLabel" value="Purpose"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.ProposalPurposeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="Proposal-proposalRejectedDate" parent="Proposal-proposalRejectedDate-parentBean" />
+  <bean id="Proposal-proposalRejectedDate" parent="Proposal-proposalRejectedDate-parentBean"/>
 
   <bean id="Proposal-proposalRejectedDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="proposalRejectedDate" />
-    <property name="label" value="Rejected Date" />
-    <property name="shortLabel" value="Rejected" />
+    <property name="name" value="proposalRejectedDate"/>
+    <property name="label" value="Rejected Date"/>
+    <property name="shortLabel" value="Rejected"/>
   </bean>
-  <bean id="Proposal-proposalStatusCode" parent="Proposal-proposalStatusCode-parentBean" />
+  <bean id="Proposal-proposalStatusCode" parent="Proposal-proposalStatusCode-parentBean"/>
 
   <bean id="Proposal-proposalStatusCode-parentBean" abstract="true" parent="ProposalStatus-proposalStatusCode">
-    <property name="label" value="Status" />
-    <property name="shortLabel" value="Status" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.ProposalStatusValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="label" value="Status"/>
+    <property name="shortLabel" value="Status"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.ProposalStatusValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="Proposal-proposalSubmissionDate" parent="Proposal-proposalSubmissionDate-parentBean" />
+  <bean id="Proposal-proposalSubmissionDate" parent="Proposal-proposalSubmissionDate-parentBean"/>
 
   <bean id="Proposal-proposalSubmissionDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="proposalSubmissionDate" />
-    <property name="label" value="Submission Date" />
-    <property name="shortLabel" value="Submit" />
+    <property name="name" value="proposalSubmissionDate"/>
+    <property name="label" value="Submission Date"/>
+    <property name="shortLabel" value="Submit"/>
   </bean>
-  <bean id="Proposal-proposalTotalAmount" parent="Proposal-proposalTotalAmount-parentBean" />
+  <bean id="Proposal-proposalTotalAmount" parent="Proposal-proposalTotalAmount-parentBean"/>
 
   <bean id="Proposal-proposalTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="proposalTotalAmount" />
-    <property name="label" value="Total Amount" />
-    <property name="shortLabel" value="Total" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
-    <property name="exclusiveMin" value="-0.001" />
+    <property name="name" value="proposalTotalAmount"/>
+    <property name="label" value="Total Amount"/>
+    <property name="shortLabel" value="Total"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="exclusiveMin" value="-0.001"/>
   </bean>
-  <bean id="Proposal-proposalTotalProjectAmount" parent="Proposal-proposalTotalProjectAmount-parentBean" />
+  <bean id="Proposal-proposalTotalProjectAmount" parent="Proposal-proposalTotalProjectAmount-parentBean"/>
 
   <bean id="Proposal-proposalTotalProjectAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="proposalTotalProjectAmount" />
-    <property name="label" value="Total Project Amount" />
-    <property name="shortLabel" value="Total Project" />
-    <property name="exclusiveMin" value="-0.001" />
+    <property name="name" value="proposalTotalProjectAmount"/>
+    <property name="label" value="Total Project Amount"/>
+    <property name="shortLabel" value="Total Project"/>
+    <property name="exclusiveMin" value="-0.001"/>
   </bean>
-  <bean id="Proposal-active" parent="Proposal-active-parentBean" />
+  <bean id="Proposal-active" parent="Proposal-active-parentBean"/>
 
   <bean id="Proposal-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-	<property name="name" value="active" />
+	<property name="name" value="active"/>
   </bean>
 
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="Proposal-inquiryDefinition" parent="Proposal-inquiryDefinition-parentBean" />
+  <bean id="Proposal-inquiryDefinition" parent="Proposal-inquiryDefinition-parentBean"/>
 
   <bean id="Proposal-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Proposal Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Proposal Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Proposal Details" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Proposal Details"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="oldProposalNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="award.awardInquiryTitle" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="agencyNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="agency.reportingName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalProjectTitle" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalStatusCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="grantNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalBeginningDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalEndingDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalSubmissionDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalClosingDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalRejectedDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalLastUpdateDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalDirectCostAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalIndirectCostAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalTotalAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalTotalProjectAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalAwardTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalPurposeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="cfdaNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalFellowName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalDueDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalFederalPassThroughIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="federalPassThroughAgencyNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="federalPassThroughAgency.fullName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="oldProposalNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="award.awardInquiryTitle"/>
+              <bean parent="FieldDefinition" p:attributeName="agencyNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="agency.reportingName"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalProjectTitle"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalStatusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="grantNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalBeginningDate"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalEndingDate"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalSubmissionDate"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalClosingDate"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalRejectedDate"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalLastUpdateDate"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalDirectCostAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalIndirectCostAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalTotalAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalTotalProjectAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalAwardTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalPurposeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="cfdaNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalFellowName"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalDueDate"/>
+              <bean parent="FieldDefinition" p:attributeName="proposalFederalPassThroughIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="federalPassThroughAgencyNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="federalPassThroughAgency.fullName"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Organizations" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Organizations"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
               <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="proposalOrganizations" />
-                <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalOrganization" />
-                <property name="numberOfColumns" value="1" />
-                <property name="inquiryFields" >
+                <property name="attributeName" value="proposalOrganizations"/>
+                <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalOrganization"/>
+                <property name="numberOfColumns" value="1"/>
+                <property name="inquiryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="chartOfAccountsCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="organizationCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="proposalPrimaryOrganizationIndicator" />
+                    <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="proposalPrimaryOrganizationIndicator"/>
                   </list>
                 </property>
-                <property name="summaryFields" >
+                <property name="summaryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="chartOfAccountsCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="organizationCode" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="proposalPrimaryOrganizationIndicator" />
+                    <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="proposalPrimaryOrganizationIndicator"/>
                   </list>
                 </property>
               </bean>
@@ -608,34 +527,27 @@
           </property>
         </bean>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Project Directors" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Project Directors"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
               <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="proposalProjectDirectors" />
-                <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector" />
-                <property name="numberOfColumns" value="1" />
-                <property name="inquiryFields" >
+                <property name="attributeName" value="proposalProjectDirectors"/>
+                <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector"/>
+                <property name="numberOfColumns" value="1"/>
+                <property name="inquiryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="projectDirector.principalName" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="projectDirector.name" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="proposalPrimaryProjectDirectorIndicator" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="proposalProjectDirectorProjectTitle" />
+                    <bean parent="FieldDefinition" p:attributeName="projectDirector.principalName"/>
+                    <bean parent="FieldDefinition" p:attributeName="projectDirector.name"/>
+                    <bean parent="FieldDefinition" p:attributeName="proposalPrimaryProjectDirectorIndicator"/>
+                    <bean parent="FieldDefinition" p:attributeName="proposalProjectDirectorProjectTitle"/>
                   </list>
                 </property>
-                <property name="summaryFields" >
+                <property name="summaryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="projectDirector.name" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="proposalPrimaryProjectDirectorIndicator" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="proposalProjectDirectorProjectTitle" />
+                    <bean parent="FieldDefinition" p:attributeName="projectDirector.name"/>
+                    <bean parent="FieldDefinition" p:attributeName="proposalPrimaryProjectDirectorIndicator"/>
+                    <bean parent="FieldDefinition" p:attributeName="proposalProjectDirectorProjectTitle"/>
                   </list>
                 </property>
               </bean>
@@ -643,32 +555,26 @@
           </property>
         </bean>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Subcontractors" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Subcontractors"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
               <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="proposalSubcontractors" />
-                <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalSubcontractor" />
-                <property name="numberOfColumns" value="1" />
-                <property name="inquiryFields" >
+                <property name="attributeName" value="proposalSubcontractors"/>
+                <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalSubcontractor"/>
+                <property name="numberOfColumns" value="1"/>
+                <property name="inquiryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="subcontractorNumber" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="subcontractor.subcontractorName" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="proposalSubcontractorDescription" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="proposalSubcontractorAmount" />
+                    <bean parent="FieldDefinition" p:attributeName="subcontractorNumber"/>
+                    <bean parent="FieldDefinition" p:attributeName="subcontractor.subcontractorName"/>
+                    <bean parent="FieldDefinition" p:attributeName="proposalSubcontractorDescription"/>
+                    <bean parent="FieldDefinition" p:attributeName="proposalSubcontractorAmount"/>
                   </list>
                 </property>
-                <property name="summaryFields" >
+                <property name="summaryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="subcontractor.subcontractorName" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="proposalSubcontractorAmount" />
+                    <bean parent="FieldDefinition" p:attributeName="subcontractor.subcontractorName"/>
+                    <bean parent="FieldDefinition" p:attributeName="proposalSubcontractorAmount"/>
                   </list>
                 </property>
               </bean>
@@ -676,28 +582,24 @@
           </property>
         </bean>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Research Risks" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Research Risks"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
               <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="proposalResearchRisks" />
-                <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk" />
-                <property name="numberOfColumns" value="1" />
-                <property name="inquiryFields" >
+                <property name="attributeName" value="proposalResearchRisks"/>
+                <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk"/>
+                <property name="numberOfColumns" value="1"/>
+                <property name="inquiryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="researchRiskType.researchRiskTypeDescription" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="active" />
+                    <bean parent="FieldDefinition" p:attributeName="researchRiskType.researchRiskTypeDescription"/>
+                    <bean parent="FieldDefinition" p:attributeName="active"/>
                   </list>
                 </property>
-                <property name="summaryFields" >
+                <property name="summaryFields">
                   <list>
-                    <bean parent="FieldDefinition"
-                          p:attributeName="researchRiskType.researchRiskTypeDescription" />
-                    <bean parent="FieldDefinition"
-                          p:attributeName="active" />
+                    <bean parent="FieldDefinition" p:attributeName="researchRiskType.researchRiskTypeDescription"/>
+                    <bean parent="FieldDefinition" p:attributeName="active"/>
                   </list>
                 </property>
               </bean>
@@ -706,91 +608,60 @@
         </bean>
       </list>
     </property>
-    <property name="inquirableClass" value="org.kuali.kfs.module.cg.businessobject.inquiry.ProposalInquirable" />
-    <property name="authorizerClass" value="org.kuali.kfs.module.cg.businessobject.authorization.ProposalInquiryAuthorizer" />
+    <property name="inquirableClass" value="org.kuali.kfs.module.cg.businessobject.inquiry.ProposalInquirable"/>
+    <property name="authorizerClass" value="org.kuali.kfs.module.cg.businessobject.authorization.ProposalInquiryAuthorizer"/>
   </bean>
 
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="Proposal-lookupDefinition" parent="Proposal-lookupDefinition-parentBean" />
+  <bean id="Proposal-lookupDefinition" parent="Proposal-lookupDefinition-parentBean"/>
 
   <bean id="Proposal-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Proposal Lookup" />
-    <property name="lookupableID" value="proposalLookupable" />
-    <property name="instructions" value="Look up a Proposal" />
-    <property name="defaultSort" >
+    <property name="title" value="Proposal Lookup"/>
+    <property name="lookupableID" value="proposalLookupable"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber" p:noLookup="true"/>
-        <bean parent="FieldDefinition"
-              p:attributeName="agencyNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalTotalAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="agency.reportingName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalBeginningDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalEndingDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalProjectTitle" />
-        <bean parent="FieldDefinition"
-              p:attributeName="grantNumber" p:noLookup="true"/>
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalStatusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="federalPassThroughAgencyNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalPurposeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalFellowName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalOrganizations.organization.organizationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalSubcontractors.subcontractor.subcontractorNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="lookupPersonUniversalIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="lookupPerson.principalName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="lookupPerson.name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="userLookupRoleNamespaceCode" p:defaultValue="KFS-SYS" />
-        <bean parent="FieldDefinition"
-              p:attributeName="userLookupRoleName" p:defaultValue="Contracts &amp; Grants Project Director" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:noLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="agencyNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalTotalAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="agency.reportingName"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalBeginningDate"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalEndingDate"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalProjectTitle"/>
+        <bean parent="FieldDefinition" p:attributeName="grantNumber" p:noLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalStatusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="federalPassThroughAgencyNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalPurposeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalFellowName"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalOrganizations.organization.organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalSubcontractors.subcontractor.subcontractorNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="lookupPersonUniversalIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="lookupPerson.principalName"/>
+        <bean parent="FieldDefinition" p:attributeName="lookupPerson.name"/>
+        <bean parent="FieldDefinition" p:attributeName="userLookupRoleNamespaceCode" p:defaultValue="KFS-SYS"/>
+        <bean parent="FieldDefinition" p:attributeName="userLookupRoleName" p:defaultValue="Contracts &amp; Grants Project Director"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="agency.fullName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalTotalAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalBeginningDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalEndingDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="grantNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalStatusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalOrganizations" />
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalProjectDirectors" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="agency.fullName"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalTotalAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalBeginningDate"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalEndingDate"/>
+        <bean parent="FieldDefinition" p:attributeName="grantNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalStatusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalOrganizations"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalProjectDirectors"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>
 </beans>
-

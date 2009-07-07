@@ -1,115 +1,105 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="OffsetAccount" parent="OffsetAccount-parentBean" />
+  <bean id="OffsetAccount" parent="OffsetAccount-parentBean"/>
 
   <bean id="OffsetAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.OffsetAccount" />
-    <property name="inquiryDefinition" >
-      <ref bean="OffsetAccount-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.OffsetAccount"/>
+    <property name="inquiryDefinition">
+      <ref bean="OffsetAccount-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="OffsetAccount-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="OffsetAccount-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="offsetAccountViewer" />       
-    <property name="objectLabel" value="Offset Account" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="offsetAccountViewer"/>       
+    <property name="objectLabel" value="Offset Account"/>
+    <property name="attributes">
       <list>
-        <ref bean="OffsetAccount-accountDelegateViewer" />
-        <ref bean="OffsetAccount-chartOfAccountsCode" />
-        <ref bean="OffsetAccount-accountNumber" />
-        <ref bean="OffsetAccount-financialOffsetChartOfAccountCode" />
-        <ref bean="OffsetAccount-financialOffsetAccountNumber" />
-        <ref bean="OffsetAccount-financialOffsetObjectCode" />
-        <ref bean="OffsetAccount-active" />
+        <ref bean="OffsetAccount-accountDelegateViewer"/>
+        <ref bean="OffsetAccount-chartOfAccountsCode"/>
+        <ref bean="OffsetAccount-accountNumber"/>
+        <ref bean="OffsetAccount-financialOffsetChartOfAccountCode"/>
+        <ref bean="OffsetAccount-financialOffsetAccountNumber"/>
+        <ref bean="OffsetAccount-financialOffsetObjectCode"/>
+        <ref bean="OffsetAccount-active"/>
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
-  <bean id="OffsetAccount-accountDelegateViewer" parent="OffsetAccount-accountDelegateViewer-parentBean" />
+  <bean id="OffsetAccount-accountDelegateViewer" parent="OffsetAccount-accountDelegateViewer-parentBean"/>
 
   <bean id="OffsetAccount-accountDelegateViewer-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="offsetAccountViewer" />
-    <property name="label" value="View" />
-    <property name="shortLabel" value="View" />
-    <property name="maxLength" value="100" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="offsetAccountViewer"/>
+    <property name="label" value="View"/>
+    <property name="shortLabel" value="View"/>
+    <property name="maxLength" value="100"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
 
-  <bean id="OffsetAccount-chartOfAccountsCode" parent="OffsetAccount-chartOfAccountsCode-parentBean" />
+  <bean id="OffsetAccount-chartOfAccountsCode" parent="OffsetAccount-chartOfAccountsCode-parentBean"/>
 
   <bean id="OffsetAccount-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-  	<property name="forceUppercase" value="true" />
+  	<property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="OffsetAccount-accountNumber" parent="OffsetAccount-accountNumber-parentBean" />
+  <bean id="OffsetAccount-accountNumber" parent="OffsetAccount-accountNumber-parentBean"/>
 
   <bean id="OffsetAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-  	<property name="forceUppercase" value="true" />
+  	<property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="OffsetAccount-financialOffsetChartOfAccountCode" parent="OffsetAccount-financialOffsetChartOfAccountCode-parentBean" />
+  <bean id="OffsetAccount-financialOffsetChartOfAccountCode" parent="OffsetAccount-financialOffsetChartOfAccountCode-parentBean"/>
 
   <bean id="OffsetAccount-financialOffsetChartOfAccountCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="name" value="financialOffsetChartOfAccountCode" />
-    <property name="label" value="Offset Chart" />
-    <property name="shortLabel" value="Offset Chart" />
+    <property name="name" value="financialOffsetChartOfAccountCode"/>
+    <property name="label" value="Offset Chart"/>
+    <property name="shortLabel" value="Offset Chart"/>
   </bean>
-  <bean id="OffsetAccount-financialOffsetAccountNumber" parent="OffsetAccount-financialOffsetAccountNumber-parentBean" />
+  <bean id="OffsetAccount-financialOffsetAccountNumber" parent="OffsetAccount-financialOffsetAccountNumber-parentBean"/>
 
   <bean id="OffsetAccount-financialOffsetAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="name" value="financialOffsetAccountNumber" />
-    <property name="label" value="Offset Account" />
-    <property name="shortLabel" value="Offset Account" />
+    <property name="name" value="financialOffsetAccountNumber"/>
+    <property name="label" value="Offset Account"/>
+    <property name="shortLabel" value="Offset Account"/>
   </bean>
-  <bean id="OffsetAccount-financialOffsetObjectCode" parent="OffsetAccount-financialOffsetObjectCode-parentBean" />
+  <bean id="OffsetAccount-financialOffsetObjectCode" parent="OffsetAccount-financialOffsetObjectCode-parentBean"/>
 
   <bean id="OffsetAccount-financialOffsetObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    <property name="name" value="financialOffsetObjectCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Offset Object Code" />
-    <property name="shortLabel" value="Obj Cd" />
-    <property name="required" value="false" />
+    <property name="name" value="financialOffsetObjectCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Offset Object Code"/>
+    <property name="shortLabel" value="Obj Cd"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="OffsetAccount-active" parent="OffsetAccount-active-parentBean" />
+  <bean id="OffsetAccount-active" parent="OffsetAccount-active-parentBean"/>
 
   <bean id="OffsetAccount-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="OffsetAccount-inquiryDefinition" parent="OffsetAccount-inquiryDefinition-parentBean" />
+  <bean id="OffsetAccount-inquiryDefinition" parent="OffsetAccount-inquiryDefinition-parentBean"/>
 
   <bean id="OffsetAccount-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Offset Account Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Offset Account Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="accountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialOffsetObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialOffsetChartOfAccountCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialOffsetAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="financialOffsetObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialOffsetChartOfAccountCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialOffsetAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -120,52 +110,39 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="OffsetAccount-lookupDefinition" parent="OffsetAccount-lookupDefinition-parentBean" />
+  <bean id="OffsetAccount-lookupDefinition" parent="OffsetAccount-lookupDefinition-parentBean"/>
 
   <bean id="OffsetAccount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Offset Account Lookup" />
-    <property name="instructions" value="Lookup an Offset Acount" />
-    <property name="defaultSort" >
+    <property name="title" value="Offset Account Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>accountNumber</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialOffsetObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialOffsetChartOfAccountCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialOffsetAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialOffsetObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialOffsetChartOfAccountCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialOffsetAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="offsetAccountViewer" />            
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialOffsetObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialOffsetChartOfAccountCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialOffsetAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="offsetAccountViewer"/>            
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialOffsetObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialOffsetChartOfAccountCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialOffsetAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

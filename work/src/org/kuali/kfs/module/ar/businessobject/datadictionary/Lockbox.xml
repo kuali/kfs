@@ -1,34 +1,30 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="Lockbox" parent="Lockbox-parentBean" />
+  <bean id="Lockbox" parent="Lockbox-parentBean"/>
 
   <bean id="Lockbox-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.Lockbox" />
-    <property name="inquiryDefinition" >
-      <ref bean="Lockbox-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.Lockbox"/>
+    <property name="inquiryDefinition">
+      <ref bean="Lockbox-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="Lockbox-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="Lockbox-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Lockbox" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Lockbox"/>
+    <property name="attributes">
       <list>
-        <ref bean="Lockbox-batchSequenceNumber" />
-        <ref bean="Lockbox-billingDate" />
-        <ref bean="Lockbox-customerNumber" />
-        <ref bean="Lockbox-customerPaymentMediumCode" />
-        <ref bean="Lockbox-financialDocumentReferenceInvoiceNumber" />
-        <ref bean="Lockbox-invoicePaidOrAppliedAmount" />
-        <ref bean="Lockbox-invoiceSequenceNumber" />
-        <ref bean="Lockbox-invoiceTotalAmount" />
-        <ref bean="Lockbox-lockboxNumber" />
-        <ref bean="Lockbox-processedInvoiceDate" />
-        <ref bean="Lockbox-scannedInvoiceDate" />
-        <ref bean="Lockbox-bankCode" />
+        <ref bean="Lockbox-batchSequenceNumber"/>
+        <ref bean="Lockbox-billingDate"/>
+        <ref bean="Lockbox-customerNumber"/>
+        <ref bean="Lockbox-customerPaymentMediumCode"/>
+        <ref bean="Lockbox-financialDocumentReferenceInvoiceNumber"/>
+        <ref bean="Lockbox-invoicePaidOrAppliedAmount"/>
+        <ref bean="Lockbox-invoiceSequenceNumber"/>
+        <ref bean="Lockbox-invoiceTotalAmount"/>
+        <ref bean="Lockbox-lockboxNumber"/>
+        <ref bean="Lockbox-processedInvoiceDate"/>
+        <ref bean="Lockbox-scannedInvoiceDate"/>
+        <ref bean="Lockbox-bankCode"/>
       </list>
     </property>
   </bean>
@@ -36,230 +32,207 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="Lockbox-batchSequenceNumber" parent="Lockbox-batchSequenceNumber-parentBean" />
+  <bean id="Lockbox-batchSequenceNumber" parent="Lockbox-batchSequenceNumber-parentBean"/>
 
   <bean id="Lockbox-batchSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="batchSequenceNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Batch Sequence Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="5" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="batchSequenceNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Batch Sequence Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="5"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="7"/>
     </property>
   </bean>
-  <bean id="Lockbox-billingDate" parent="Lockbox-billingDate-parentBean" />
+  <bean id="Lockbox-billingDate" parent="Lockbox-billingDate-parentBean"/>
 
   <bean id="Lockbox-billingDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="billingDate" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Billing Date" />
-    <property name="shortLabel" value="Date" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
+    <property name="name" value="billingDate"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Billing Date"/>
+    <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+      <bean parent="DateValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
-  <bean id="Lockbox-customerNumber" parent="Lockbox-customerNumber-parentBean" />
+  <bean id="Lockbox-customerNumber" parent="Lockbox-customerNumber-parentBean"/>
 
   <bean id="Lockbox-customerNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="customerNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Customer Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="customerNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Customer Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
   </bean>
-  <bean id="Lockbox-customerPaymentMediumCode" parent="Lockbox-customerPaymentMediumCode-parentBean" />
+  <bean id="Lockbox-customerPaymentMediumCode" parent="Lockbox-customerPaymentMediumCode-parentBean"/>
 
   <bean id="Lockbox-customerPaymentMediumCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="customerPaymentMediumCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Customer Payment Medium Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="customerPaymentMediumCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Customer Payment Medium Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="Lockbox-financialDocumentReferenceInvoiceNumber" parent="Lockbox-financialDocumentReferenceInvoiceNumber-parentBean" />
+  <bean id="Lockbox-financialDocumentReferenceInvoiceNumber" parent="Lockbox-financialDocumentReferenceInvoiceNumber-parentBean"/>
 
   <bean id="Lockbox-financialDocumentReferenceInvoiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentReferenceInvoiceNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Financial Document Reference Invoice Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="financialDocumentReferenceInvoiceNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Financial Document Reference Invoice Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="14"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="16"/>
     </property>
   </bean>
-  <bean id="Lockbox-invoicePaidOrAppliedAmount" parent="Lockbox-invoicePaidOrAppliedAmount-parentBean" />
+  <bean id="Lockbox-invoicePaidOrAppliedAmount" parent="Lockbox-invoicePaidOrAppliedAmount-parentBean"/>
 
   <bean id="Lockbox-invoicePaidOrAppliedAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoicePaidOrAppliedAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Paid Or Applied Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="invoicePaidOrAppliedAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Paid Or Applied Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
   </bean>
-  <bean id="Lockbox-invoiceSequenceNumber" parent="Lockbox-invoiceSequenceNumber-parentBean" />
+  <bean id="Lockbox-invoiceSequenceNumber" parent="Lockbox-invoiceSequenceNumber-parentBean"/>
 
   <bean id="Lockbox-invoiceSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceSequenceNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Sequence Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="invoiceSequenceNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Sequence Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="12"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="14" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="14"/>
     </property>
   </bean>
-  <bean id="Lockbox-invoiceTotalAmount" parent="Lockbox-invoiceTotalAmount-parentBean" />
+  <bean id="Lockbox-invoiceTotalAmount" parent="Lockbox-invoiceTotalAmount-parentBean"/>
 
   <bean id="Lockbox-invoiceTotalAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceTotalAmount" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Invoice Total Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="19" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="invoiceTotalAmount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Total Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
   </bean>
-  <bean id="Lockbox-lockboxNumber" parent="Lockbox-lockboxNumber-parentBean" />
+  <bean id="Lockbox-lockboxNumber" parent="Lockbox-lockboxNumber-parentBean"/>
 
   <bean id="Lockbox-lockboxNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="lockboxNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Lockbox Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="lockboxNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Lockbox Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
   </bean>
-  <bean id="Lockbox-processedInvoiceDate" parent="Lockbox-processedInvoiceDate-parentBean" />
+  <bean id="Lockbox-processedInvoiceDate" parent="Lockbox-processedInvoiceDate-parentBean"/>
 
   <bean id="Lockbox-processedInvoiceDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="processedInvoiceDate" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Processed Invoice Date" />
-    <property name="shortLabel" value="Date" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
+    <property name="name" value="processedInvoiceDate"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Processed Invoice Date"/>
+    <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+      <bean parent="DateValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
-  <bean id="Lockbox-scannedInvoiceDate" parent="Lockbox-scannedInvoiceDate-parentBean" />
+  <bean id="Lockbox-scannedInvoiceDate" parent="Lockbox-scannedInvoiceDate-parentBean"/>
 
   <bean id="Lockbox-scannedInvoiceDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="scannedInvoiceDate" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Scanned Invoice Date" />
-    <property name="shortLabel" value="Date" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
+    <property name="name" value="scannedInvoiceDate"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Scanned Invoice Date"/>
+    <property name="shortLabel" value="Date"/>
+    <property name="maxLength" value="7"/>
+    <property name="validationPattern">
+      <bean parent="DateValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
 
-  <bean id="Lockbox-bankCode" parent="Lockbox-bankCode-parentBean" />
+  <bean id="Lockbox-bankCode" parent="Lockbox-bankCode-parentBean"/>
 
   <bean id="Lockbox-bankCode-parentBean" abstract="true" parent="Bank-bankCode">
-    <property name="name" value="bankCode" />
-    <property name="label" value="Bank Code" />
-    <property name="shortLabel" value="Bank Cd" />
-    <property name="required" value="true" />
+    <property name="name" value="bankCode"/>
+    <property name="label" value="Bank Code"/>
+    <property name="shortLabel" value="Bank Cd"/>
+    <property name="required" value="true"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="Lockbox-inquiryDefinition" parent="Lockbox-inquiryDefinition-parentBean" />
+  <bean id="Lockbox-inquiryDefinition" parent="Lockbox-inquiryDefinition-parentBean"/>
 
   <bean id="Lockbox-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Lockbox Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Lockbox Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="batchSequenceNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="billingDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="customerNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="customerPaymentMediumCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentReferenceInvoiceNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoicePaidOrAppliedAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceSequenceNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="invoiceTotalAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="lockboxNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="processedInvoiceDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="scannedInvoiceDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankCode" />
+              <bean parent="FieldDefinition" p:attributeName="batchSequenceNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="billingDate"/>
+              <bean parent="FieldDefinition" p:attributeName="customerNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="customerPaymentMediumCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentReferenceInvoiceNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="invoicePaidOrAppliedAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceSequenceNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="invoiceTotalAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="lockboxNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="processedInvoiceDate"/>
+              <bean parent="FieldDefinition" p:attributeName="scannedInvoiceDate"/>
+              <bean parent="FieldDefinition" p:attributeName="bankCode"/>
             </list>
           </property>
         </bean>
@@ -270,67 +243,44 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="Lockbox-lookupDefinition" parent="Lockbox-lookupDefinition-parentBean" />
+  <bean id="Lockbox-lookupDefinition" parent="Lockbox-lookupDefinition-parentBean"/>
 
   <bean id="Lockbox-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Lockbox Lookup" />
-    <property name="instructions" value="Look up a Lockbox" />
-    <property name="defaultSort" >
+    <property name="title" value="Lockbox Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="batchSequenceNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="billingDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="customerNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="customerPaymentMediumCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentReferenceInvoiceNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoicePaidOrAppliedAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceSequenceNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceTotalAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="lockboxNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="processedInvoiceDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="scannedInvoiceDate" />
+        <bean parent="FieldDefinition" p:attributeName="batchSequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="billingDate"/>
+        <bean parent="FieldDefinition" p:attributeName="customerNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="customerPaymentMediumCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentReferenceInvoiceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="invoicePaidOrAppliedAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceSequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceTotalAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="lockboxNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="processedInvoiceDate"/>
+        <bean parent="FieldDefinition" p:attributeName="scannedInvoiceDate"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="batchSequenceNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="billingDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="customerNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="customerPaymentMediumCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentReferenceInvoiceNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoicePaidOrAppliedAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceSequenceNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="invoiceTotalAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="lockboxNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="processedInvoiceDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="scannedInvoiceDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="bankCode" />
+        <bean parent="FieldDefinition" p:attributeName="batchSequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="billingDate"/>
+        <bean parent="FieldDefinition" p:attributeName="customerNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="customerPaymentMediumCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentReferenceInvoiceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="invoicePaidOrAppliedAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceSequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceTotalAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="lockboxNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="processedInvoiceDate"/>
+        <bean parent="FieldDefinition" p:attributeName="scannedInvoiceDate"/>
+        <bean parent="FieldDefinition" p:attributeName="bankCode"/>
       </list>
     </property>
   </bean>

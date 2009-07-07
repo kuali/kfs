@@ -1,43 +1,38 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="CreditCardVendor" parent="CreditCardVendor-parentBean" />
+  <bean id="CreditCardVendor" parent="CreditCardVendor-parentBean"/>
 
   <bean id="CreditCardVendor-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.CreditCardVendor" />
-    <property name="inquiryDefinition" >
-      <ref bean="CreditCardVendor-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.CreditCardVendor"/>
+    <property name="inquiryDefinition">
+      <ref bean="CreditCardVendor-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="CreditCardVendor-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="CreditCardVendor-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="financialDocumentCreditCardVendorNumber" />
-    <property name="objectLabel" value="Credit Card Vendor" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="financialDocumentCreditCardVendorNumber"/>
+    <property name="objectLabel" value="Credit Card Vendor"/>
+    <property name="attributes">
       <list>
-        <ref bean="CreditCardVendor-financialDocumentCreditCardVendorNumber" />
-        <ref bean="CreditCardVendor-financialDocumentCreditCardVendorName" />
-        <ref bean="CreditCardVendor-financialDocumentCreditCardTypeCode" />
-        <ref bean="CreditCardVendor-incomeFinancialChartOfAccountsCode" />
-        <ref bean="CreditCardVendor-incomeAccountNumber" />
-        <ref bean="CreditCardVendor-incomeSubAccountNumber" />
-        <ref bean="CreditCardVendor-incomeFinancialObjectCode" />
-        <ref bean="CreditCardVendor-incomeFinancialSubObjectCode" />
-        <ref bean="CreditCardVendor-expenseFinancialChartOfAccountsCode" />
-        <ref bean="CreditCardVendor-expenseAccountNumber" />
-        <ref bean="CreditCardVendor-expenseSubAccountNumber" />
-        <ref bean="CreditCardVendor-expenseFinancialObjectCode" />
-        <ref bean="CreditCardVendor-expenseFinancialSubObjectCode" />
-        <ref bean="CreditCardVendor-active" />
+        <ref bean="CreditCardVendor-financialDocumentCreditCardVendorNumber"/>
+        <ref bean="CreditCardVendor-financialDocumentCreditCardVendorName"/>
+        <ref bean="CreditCardVendor-financialDocumentCreditCardTypeCode"/>
+        <ref bean="CreditCardVendor-incomeFinancialChartOfAccountsCode"/>
+        <ref bean="CreditCardVendor-incomeAccountNumber"/>
+        <ref bean="CreditCardVendor-incomeSubAccountNumber"/>
+        <ref bean="CreditCardVendor-incomeFinancialObjectCode"/>
+        <ref bean="CreditCardVendor-incomeFinancialSubObjectCode"/>
+        <ref bean="CreditCardVendor-expenseFinancialChartOfAccountsCode"/>
+        <ref bean="CreditCardVendor-expenseAccountNumber"/>
+        <ref bean="CreditCardVendor-expenseSubAccountNumber"/>
+        <ref bean="CreditCardVendor-expenseFinancialObjectCode"/>
+        <ref bean="CreditCardVendor-expenseFinancialSubObjectCode"/>
+        <ref bean="CreditCardVendor-active"/>
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
       <list>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="financialDocumentCreditCardType"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="financialDocumentCreditCardType"/>
       </list>
     </property>
   </bean>
@@ -45,180 +40,158 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="CreditCardVendor-financialDocumentCreditCardVendorNumber" parent="CreditCardVendor-financialDocumentCreditCardVendorNumber-parentBean" />
+  <bean id="CreditCardVendor-financialDocumentCreditCardVendorNumber" parent="CreditCardVendor-financialDocumentCreditCardVendorNumber-parentBean"/>
 
   <bean id="CreditCardVendor-financialDocumentCreditCardVendorNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentCreditCardVendorNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Vendor Number" />
-    <property name="shortLabel" value="Vendor Number" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="financialDocumentCreditCardVendorNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Vendor Number"/>
+    <property name="shortLabel" value="Vendor Number"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="CreditCardVendor-financialDocumentCreditCardVendorName" parent="CreditCardVendor-financialDocumentCreditCardVendorName-parentBean" />
+  <bean id="CreditCardVendor-financialDocumentCreditCardVendorName" parent="CreditCardVendor-financialDocumentCreditCardVendorName-parentBean"/>
 
   <bean id="CreditCardVendor-financialDocumentCreditCardVendorName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentCreditCardVendorName" />
-    <property name="label" value="Vendor Name" />
-    <property name="shortLabel" value="Vendor Name" />
-    <property name="maxLength" value="40" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="financialDocumentCreditCardVendorName"/>
+    <property name="label" value="Vendor Name"/>
+    <property name="shortLabel" value="Vendor Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
   </bean>
-  <bean id="CreditCardVendor-financialDocumentCreditCardTypeCode" parent="CreditCardVendor-financialDocumentCreditCardTypeCode-parentBean" />
+  <bean id="CreditCardVendor-financialDocumentCreditCardTypeCode" parent="CreditCardVendor-financialDocumentCreditCardTypeCode-parentBean"/>
 
   <bean id="CreditCardVendor-financialDocumentCreditCardTypeCode-parentBean" abstract="true" parent="CreditCardType-financialDocumentCreditCardTypeCode">
-    <property name="label" value="Credit Card Type" />
-    <property name="shortLabel" value="Type" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.CreditCardTypeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="label" value="Credit Card Type"/>
+    <property name="shortLabel" value="Type"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.CreditCardTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="CreditCardVendor-incomeFinancialChartOfAccountsCode" parent="CreditCardVendor-incomeFinancialChartOfAccountsCode-parentBean" />
+  <bean id="CreditCardVendor-incomeFinancialChartOfAccountsCode" parent="CreditCardVendor-incomeFinancialChartOfAccountsCode-parentBean"/>
 
   <bean id="CreditCardVendor-incomeFinancialChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="name" value="incomeFinancialChartOfAccountsCode" />
-    <property name="label" value="Income Chart" />
-    <property name="shortLabel" value="Income Chart" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="incomeFinancialChartOfAccountsCode"/>
+    <property name="label" value="Income Chart"/>
+    <property name="shortLabel" value="Income Chart"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="CreditCardVendor-incomeAccountNumber" parent="CreditCardVendor-incomeAccountNumber-parentBean" />
+  <bean id="CreditCardVendor-incomeAccountNumber" parent="CreditCardVendor-incomeAccountNumber-parentBean"/>
 
   <bean id="CreditCardVendor-incomeAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="name" value="incomeAccountNumber" />
-    <property name="label" value="Income Account Number" />
-    <property name="shortLabel" value="Income Account" />
+    <property name="name" value="incomeAccountNumber"/>
+    <property name="label" value="Income Account Number"/>
+    <property name="shortLabel" value="Income Account"/>
   </bean>
-  <bean id="CreditCardVendor-incomeSubAccountNumber" parent="CreditCardVendor-incomeSubAccountNumber-parentBean" />
+  <bean id="CreditCardVendor-incomeSubAccountNumber" parent="CreditCardVendor-incomeSubAccountNumber-parentBean"/>
 
   <bean id="CreditCardVendor-incomeSubAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
-    <property name="name" value="incomeSubAccountNumber" />
-    <property name="label" value="Income Sub-Account Number" />
-    <property name="shortLabel" value="Income Sub-Account" />
-    <property name="required" value="false" />
+    <property name="name" value="incomeSubAccountNumber"/>
+    <property name="label" value="Income Sub-Account Number"/>
+    <property name="shortLabel" value="Income Sub-Account"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="CreditCardVendor-incomeFinancialObjectCode" parent="CreditCardVendor-incomeFinancialObjectCode-parentBean" />
+  <bean id="CreditCardVendor-incomeFinancialObjectCode" parent="CreditCardVendor-incomeFinancialObjectCode-parentBean"/>
 
   <bean id="CreditCardVendor-incomeFinancialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    <property name="name" value="incomeFinancialObjectCode" />
-    <property name="label" value="Income Object Code" />
-    <property name="shortLabel" value="Inc Obj Cd" />
+    <property name="name" value="incomeFinancialObjectCode"/>
+    <property name="label" value="Income Object Code"/>
+    <property name="shortLabel" value="Inc Obj Cd"/>
   </bean>
-  <bean id="CreditCardVendor-incomeFinancialSubObjectCode" parent="CreditCardVendor-incomeFinancialSubObjectCode-parentBean" />
+  <bean id="CreditCardVendor-incomeFinancialSubObjectCode" parent="CreditCardVendor-incomeFinancialSubObjectCode-parentBean"/>
 
   <bean id="CreditCardVendor-incomeFinancialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
-    <property name="name" value="incomeFinancialSubObjectCode" />
-    <property name="label" value="Income Sub-Object Code" />
-    <property name="shortLabel" value="Inc Sub-Object" />
-    <property name="required" value="false" />
+    <property name="name" value="incomeFinancialSubObjectCode"/>
+    <property name="label" value="Income Sub-Object Code"/>
+    <property name="shortLabel" value="Inc Sub-Object"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="CreditCardVendor-expenseFinancialChartOfAccountsCode" parent="CreditCardVendor-expenseFinancialChartOfAccountsCode-parentBean" />
+  <bean id="CreditCardVendor-expenseFinancialChartOfAccountsCode" parent="CreditCardVendor-expenseFinancialChartOfAccountsCode-parentBean"/>
 
   <bean id="CreditCardVendor-expenseFinancialChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="name" value="expenseFinancialChartOfAccountsCode" />
-    <property name="label" value="Expense Chart" />
-    <property name="shortLabel" value="Expense Chart" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="expenseFinancialChartOfAccountsCode"/>
+    <property name="label" value="Expense Chart"/>
+    <property name="shortLabel" value="Expense Chart"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="CreditCardVendor-expenseAccountNumber" parent="CreditCardVendor-expenseAccountNumber-parentBean" />
+  <bean id="CreditCardVendor-expenseAccountNumber" parent="CreditCardVendor-expenseAccountNumber-parentBean"/>
 
   <bean id="CreditCardVendor-expenseAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="name" value="expenseAccountNumber" />
-    <property name="label" value="Expense Account Number" />
-    <property name="shortLabel" value="Expense Account" />
+    <property name="name" value="expenseAccountNumber"/>
+    <property name="label" value="Expense Account Number"/>
+    <property name="shortLabel" value="Expense Account"/>
   </bean>
-  <bean id="CreditCardVendor-expenseSubAccountNumber" parent="CreditCardVendor-expenseSubAccountNumber-parentBean" />
+  <bean id="CreditCardVendor-expenseSubAccountNumber" parent="CreditCardVendor-expenseSubAccountNumber-parentBean"/>
 
   <bean id="CreditCardVendor-expenseSubAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
-    <property name="name" value="expenseSubAccountNumber" />
-    <property name="label" value="Expense Sub-Account Number" />
-    <property name="shortLabel" value="Expense Sub-Account" />
-    <property name="required" value="false" />
+    <property name="name" value="expenseSubAccountNumber"/>
+    <property name="label" value="Expense Sub-Account Number"/>
+    <property name="shortLabel" value="Expense Sub-Account"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="CreditCardVendor-expenseFinancialObjectCode" parent="CreditCardVendor-expenseFinancialObjectCode-parentBean" />
+  <bean id="CreditCardVendor-expenseFinancialObjectCode" parent="CreditCardVendor-expenseFinancialObjectCode-parentBean"/>
 
   <bean id="CreditCardVendor-expenseFinancialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    <property name="name" value="expenseFinancialObjectCode" />
-    <property name="label" value="Expense Object Code" />
-    <property name="shortLabel" value="Exp Obj Cd" />
+    <property name="name" value="expenseFinancialObjectCode"/>
+    <property name="label" value="Expense Object Code"/>
+    <property name="shortLabel" value="Exp Obj Cd"/>
   </bean>
-  <bean id="CreditCardVendor-expenseFinancialSubObjectCode" parent="CreditCardVendor-expenseFinancialSubObjectCode-parentBean" />
+  <bean id="CreditCardVendor-expenseFinancialSubObjectCode" parent="CreditCardVendor-expenseFinancialSubObjectCode-parentBean"/>
 
   <bean id="CreditCardVendor-expenseFinancialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
-    <property name="name" value="expenseFinancialSubObjectCode" />
-    <property name="label" value="Expense Sub-Object Code" />
-    <property name="shortLabel" value="Exp Sub-Object" />
-    <property name="required" value="false" />
+    <property name="name" value="expenseFinancialSubObjectCode"/>
+    <property name="label" value="Expense Sub-Object Code"/>
+    <property name="shortLabel" value="Exp Sub-Object"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="CreditCardVendor-active" parent="CreditCardVendor-active-parentBean" />
+  <bean id="CreditCardVendor-active" parent="CreditCardVendor-active-parentBean"/>
 
   <bean id="CreditCardVendor-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="CreditCardVendor-inquiryDefinition" parent="CreditCardVendor-inquiryDefinition-parentBean" />
+  <bean id="CreditCardVendor-inquiryDefinition" parent="CreditCardVendor-inquiryDefinition-parentBean"/>
 
   <bean id="CreditCardVendor-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Credit Card Vendor Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Credit Card Vendor Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentCreditCardVendorNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentCreditCardVendorName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentCreditCardTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="incomeFinancialChartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="incomeAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="incomeFinancialObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="incomeFinancialSubObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="incomeSubAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="expenseFinancialChartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="expenseAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="expenseFinancialObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="expenseFinancialSubObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="expenseSubAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentCreditCardVendorNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentCreditCardVendorName"/>
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentCreditCardTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="incomeFinancialChartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="incomeAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="incomeFinancialObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="incomeFinancialSubObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="incomeSubAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="expenseFinancialChartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="expenseAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="expenseFinancialObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="expenseFinancialSubObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="expenseSubAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -229,62 +202,44 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="CreditCardVendor-lookupDefinition" parent="CreditCardVendor-lookupDefinition-parentBean" />
+  <bean id="CreditCardVendor-lookupDefinition" parent="CreditCardVendor-lookupDefinition-parentBean"/>
 
   <bean id="CreditCardVendor-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Credit Card Vendor Lookup" />
-    <property name="instructions" value="Lookup a Credit Card Vendor" />
-    <property name="defaultSort" >
+    <property name="title" value="Credit Card Vendor Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>financialDocumentCreditCardVendorName</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentCreditCardVendorNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentCreditCardVendorName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentCreditCardTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentCreditCardVendorNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentCreditCardVendorName"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentCreditCardTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentCreditCardVendorNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentCreditCardVendorName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentCreditCardTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="incomeFinancialChartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="incomeAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="incomeFinancialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="incomeFinancialSubObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="incomeSubAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="expenseFinancialChartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="expenseAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="expenseFinancialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="expenseFinancialSubObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="expenseSubAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentCreditCardVendorNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentCreditCardVendorName"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentCreditCardTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="incomeFinancialChartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="incomeAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="incomeFinancialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="incomeFinancialSubObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="incomeSubAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="expenseFinancialChartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="expenseAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="expenseFinancialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="expenseFinancialSubObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="expenseSubAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

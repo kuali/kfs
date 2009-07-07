@@ -62,8 +62,7 @@
           </property>
           <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition" p:name="vendorDetail.vendorNumber" p:readOnlyAfterAdd="true" p:required="true" 
-              		p:overrideLookupClass="org.kuali.kfs.vnd.businessobject.VendorDetail" p:overrideFieldConversions="vendorNumber:vendorDetail.vendorNumber,vendorName:vendorDetail.vendorName"/>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorDetail.vendorNumber" p:readOnlyAfterAdd="true" p:required="true" p:overrideLookupClass="org.kuali.kfs.vnd.businessobject.VendorDetail" p:overrideFieldConversions="vendorNumber:vendorDetail.vendorNumber,vendorName:vendorDetail.vendorName"/>
               <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>                    
               <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier" p:template="vendorHeaderGeneratedIdentifier"/>
               <bean parent="MaintainableFieldDefinition" p:name="vendorDetailAssignedIdentifier" p:template="vendorDetailAssignedIdentifier"/>

@@ -1,33 +1,26 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="VendorPhoneNumber" parent="VendorPhoneNumber-parentBean" />
+  <bean id="VendorPhoneNumber" parent="VendorPhoneNumber-parentBean"/>
 
   <bean id="VendorPhoneNumber-parentBean" abstract="true" parent="BusinessObjectEntry">
-  	<property name="objectLabel" value="Vendor Phone Number" />
-    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorPhoneNumber" />
-    <property name="inquiryDefinition" >
-      <ref bean="VendorPhoneNumber-inquiryDefinition" />
+  	<property name="objectLabel" value="Vendor Phone Number"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorPhoneNumber"/>
+    <property name="inquiryDefinition">
+      <ref bean="VendorPhoneNumber-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="VendorPhoneNumber-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="VendorPhoneNumber-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="VendorPhoneNumber-vendorPhoneGeneratedIdentifier" />
-        <ref bean="VendorPhoneNumber-vendorPhoneTypeCode" />
-        <ref bean="VendorPhoneNumber-vendorPhoneNumber" />
-        <ref bean="VendorPhoneNumber-vendorPhoneExtensionNumber" />
-        <ref bean="VendorPhoneNumber-newCollectionRecord" />
-        <ref bean="VendorPhoneNumber-vendorHeaderGeneratedIdentifier" />
-        <ref bean="VendorPhoneNumber-vendorDetailAssignedIdentifier" />
-        <ref bean="VendorPhoneNumber-active" />
+        <ref bean="VendorPhoneNumber-vendorPhoneGeneratedIdentifier"/>
+        <ref bean="VendorPhoneNumber-vendorPhoneTypeCode"/>
+        <ref bean="VendorPhoneNumber-vendorPhoneNumber"/>
+        <ref bean="VendorPhoneNumber-vendorPhoneExtensionNumber"/>
+        <ref bean="VendorPhoneNumber-newCollectionRecord"/>
+        <ref bean="VendorPhoneNumber-vendorHeaderGeneratedIdentifier"/>
+        <ref bean="VendorPhoneNumber-vendorDetailAssignedIdentifier"/>
+        <ref bean="VendorPhoneNumber-active"/>
       </list>
     </property>
   </bean>
@@ -35,102 +28,91 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="VendorPhoneNumber-vendorPhoneGeneratedIdentifier" parent="VendorPhoneNumber-vendorPhoneGeneratedIdentifier-parentBean" />
+  <bean id="VendorPhoneNumber-vendorPhoneGeneratedIdentifier" parent="VendorPhoneNumber-vendorPhoneGeneratedIdentifier-parentBean"/>
 
   <bean id="VendorPhoneNumber-vendorPhoneGeneratedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorPhoneGeneratedIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Vendor Phone Generated Identifier" />
-    <property name="shortLabel" value="Phone Gen. ID" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="vendorPhoneGeneratedIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Vendor Phone Generated Identifier"/>
+    <property name="shortLabel" value="Phone Gen. ID"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
-  <bean id="VendorPhoneNumber-vendorPhoneTypeCode" parent="VendorPhoneNumber-vendorPhoneTypeCode-parentBean" />
+  <bean id="VendorPhoneNumber-vendorPhoneTypeCode" parent="VendorPhoneNumber-vendorPhoneTypeCode-parentBean"/>
 
   <bean id="VendorPhoneNumber-vendorPhoneTypeCode-parentBean" abstract="true" parent="PhoneType-vendorPhoneTypeCode">
-    <property name="label" value="Phone Type" />
-    <property name="shortLabel" value="Phone Type" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.PhoneTypeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="label" value="Phone Type"/>
+    <property name="shortLabel" value="Phone Type"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.PhoneTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="VendorPhoneNumber-vendorPhoneNumber" parent="VendorPhoneNumber-vendorPhoneNumber-parentBean" />
+  <bean id="VendorPhoneNumber-vendorPhoneNumber" parent="VendorPhoneNumber-vendorPhoneNumber-parentBean"/>
 
   <bean id="VendorPhoneNumber-vendorPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberNoValidation">
-    <property name="name" value="vendorPhoneNumber" />
-    <property name="required" value="true" />
+    <property name="name" value="vendorPhoneNumber"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="VendorPhoneNumber-vendorPhoneExtensionNumber" parent="VendorPhoneNumber-vendorPhoneExtensionNumber-parentBean" />
+  <bean id="VendorPhoneNumber-vendorPhoneExtensionNumber" parent="VendorPhoneNumber-vendorPhoneExtensionNumber-parentBean"/>
 
   <bean id="VendorPhoneNumber-vendorPhoneExtensionNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorPhoneExtensionNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Extension" />
-    <property name="shortLabel" value="Extension" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="vendorPhoneExtensionNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Extension"/>
+    <property name="shortLabel" value="Extension"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
   </bean>
-  <bean id="VendorPhoneNumber-newCollectionRecord" parent="VendorPhoneNumber-newCollectionRecord-parentBean" />
+  <bean id="VendorPhoneNumber-newCollectionRecord" parent="VendorPhoneNumber-newCollectionRecord-parentBean"/>
 
   <bean id="VendorPhoneNumber-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
-  <bean id="VendorPhoneNumber-vendorHeaderGeneratedIdentifier" parent="VendorPhoneNumber-vendorHeaderGeneratedIdentifier-parentBean" />
+  <bean id="VendorPhoneNumber-vendorHeaderGeneratedIdentifier" parent="VendorPhoneNumber-vendorHeaderGeneratedIdentifier-parentBean"/>
 
   <bean id="VendorPhoneNumber-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
   </bean>
-  <bean id="VendorPhoneNumber-vendorDetailAssignedIdentifier" parent="VendorPhoneNumber-vendorDetailAssignedIdentifier-parentBean" />
+  <bean id="VendorPhoneNumber-vendorDetailAssignedIdentifier" parent="VendorPhoneNumber-vendorDetailAssignedIdentifier-parentBean"/>
 
   <bean id="VendorPhoneNumber-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
   </bean>
-  <bean id="VendorPhoneNumber-active" parent="VendorPhoneNumber-active-parentBean" />
+  <bean id="VendorPhoneNumber-active" parent="VendorPhoneNumber-active-parentBean"/>
 
   <bean id="VendorPhoneNumber-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="VendorPhoneNumber-inquiryDefinition" parent="VendorPhoneNumber-inquiryDefinition-parentBean" />
+  <bean id="VendorPhoneNumber-inquiryDefinition" parent="VendorPhoneNumber-inquiryDefinition-parentBean"/>
 
   <bean id="VendorPhoneNumber-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Vendor Phone Number Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Vendor Phone Number Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorPhoneTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorPhoneNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorPhoneExtensionNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorPhoneGeneratedIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorDetailAssignedIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorHeaderGeneratedIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="vendorPhoneTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorPhoneNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorPhoneExtensionNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorPhoneGeneratedIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -141,47 +123,34 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="VendorPhoneNumber-lookupDefinition" parent="VendorPhoneNumber-lookupDefinition-parentBean" />
+  <bean id="VendorPhoneNumber-lookupDefinition" parent="VendorPhoneNumber-lookupDefinition-parentBean"/>
 
   <bean id="VendorPhoneNumber-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Vendor Phone Number Lookup" />
-    <property name="lookupableID" value="vendorPhoneLookupable" />
-    <property name="instructions" value="Lookup a Vendor Phone Number" />
-    <property name="defaultSort" >
+    <property name="title" value="Vendor Phone Number Lookup"/>
+    <property name="lookupableID" value="vendorPhoneLookupable"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorPhoneNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorHeaderGeneratedIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorDetailAssignedIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorPhoneTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorPhoneExtensionNumber" />
-        <bean parent="FieldDefinition"
-              p:defaultValue="Y"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="vendorPhoneNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorPhoneTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorPhoneExtensionNumber"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorPhoneNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorHeaderGeneratedIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorDetailAssignedIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorPhoneTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorPhoneExtensionNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="vendorPhoneNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorPhoneTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorPhoneExtensionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

@@ -1,441 +1,375 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="AssetComponent" parent="AssetComponent-parentBean" />
+  <bean id="AssetComponent" parent="AssetComponent-parentBean"/>
 
   <bean id="AssetComponent-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetComponent" />
-    <property name="inquiryDefinition" >
-      <ref bean="AssetComponent-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetComponent"/>
+    <property name="inquiryDefinition">
+      <ref bean="AssetComponent-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="AssetComponent-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="AssetComponent-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Asset Component" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Asset Component"/>
+    <property name="attributes">
       <list>
-        <ref bean="AssetComponent-capitalAssetNumber" />
-        <ref bean="AssetComponent-componentConditionCode" />
-        <ref bean="AssetComponent-componentContactPhoneNumber" />
-        <ref bean="AssetComponent-componentDescription" />
-        <ref bean="AssetComponent-componentEstimatedLifetimeLimit" />
-        <ref bean="AssetComponent-componentManufacturerModelNumber" />
-        <ref bean="AssetComponent-componentManufacturerName" />
-        <ref bean="AssetComponent-componentNumber" />
-        <ref bean="AssetComponent-componentOrganizationTagNumber" />
-        <ref bean="AssetComponent-componentOrganizationText" />
-        <ref bean="AssetComponent-componentReplacementAmount" />
-        <ref bean="AssetComponent-componentSerialNumber" />
-        <ref bean="AssetComponent-componentVendorName" />
-        <ref bean="AssetComponent-componentWarrantyBeginningDate" />
-        <ref bean="AssetComponent-componentWarrantyEndingDate" />
-        <ref bean="AssetComponent-componentWarrantyContactName" />
-        <ref bean="AssetComponent-componentWarrantyNumber" />
-        <ref bean="AssetComponent-componentWarrantyPurchaseOrderNumber" />
-        <ref bean="AssetComponent-componentWarrantyText" />
-        <ref bean="AssetComponent-componentWarrantyPhoneNumber" />
-        <ref bean="AssetComponent-governmentTagNumber" />
-        <ref bean="AssetComponent-nationalStockNumber" />
-        <ref bean="AssetComponent-newCollectionRecord" />
+        <ref bean="AssetComponent-capitalAssetNumber"/>
+        <ref bean="AssetComponent-componentConditionCode"/>
+        <ref bean="AssetComponent-componentContactPhoneNumber"/>
+        <ref bean="AssetComponent-componentDescription"/>
+        <ref bean="AssetComponent-componentEstimatedLifetimeLimit"/>
+        <ref bean="AssetComponent-componentManufacturerModelNumber"/>
+        <ref bean="AssetComponent-componentManufacturerName"/>
+        <ref bean="AssetComponent-componentNumber"/>
+        <ref bean="AssetComponent-componentOrganizationTagNumber"/>
+        <ref bean="AssetComponent-componentOrganizationText"/>
+        <ref bean="AssetComponent-componentReplacementAmount"/>
+        <ref bean="AssetComponent-componentSerialNumber"/>
+        <ref bean="AssetComponent-componentVendorName"/>
+        <ref bean="AssetComponent-componentWarrantyBeginningDate"/>
+        <ref bean="AssetComponent-componentWarrantyEndingDate"/>
+        <ref bean="AssetComponent-componentWarrantyContactName"/>
+        <ref bean="AssetComponent-componentWarrantyNumber"/>
+        <ref bean="AssetComponent-componentWarrantyPurchaseOrderNumber"/>
+        <ref bean="AssetComponent-componentWarrantyText"/>
+        <ref bean="AssetComponent-componentWarrantyPhoneNumber"/>
+        <ref bean="AssetComponent-governmentTagNumber"/>
+        <ref bean="AssetComponent-nationalStockNumber"/>
+        <ref bean="AssetComponent-newCollectionRecord"/>
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->
 
-  <bean id="AssetComponent-capitalAssetNumber" parent="AssetComponent-capitalAssetNumber-parentBean" />
+  <bean id="AssetComponent-capitalAssetNumber" parent="AssetComponent-capitalAssetNumber-parentBean"/>
   <bean id="AssetComponent-capitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber">
   </bean>
   
-  <bean id="AssetComponent-componentConditionCode" parent="AssetComponent-componentConditionCode-parentBean" />
+  <bean id="AssetComponent-componentConditionCode" parent="AssetComponent-componentConditionCode-parentBean"/>
   <bean id="AssetComponent-componentConditionCode-parentBean" abstract="true" parent="AssetCondition-assetConditionCode">
-    <property name="name" value="componentConditionCode" />
-    <property name="label" value="Component Condition Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetCondition"
-            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-			p:includeBlankRow="true"            
-            p:keyAttribute="assetConditionCode"
-            p:labelAttribute="assetConditionName" />
+    <property name="name" value="componentConditionCode"/>
+    <property name="label" value="Component Condition Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetCondition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="true" p:keyAttribute="assetConditionCode" p:labelAttribute="assetConditionName"/>
     </property>
   </bean>
   
-  <bean id="AssetComponent-componentContactPhoneNumber" parent="AssetComponent-componentContactPhoneNumber-parentBean" />
+  <bean id="AssetComponent-componentContactPhoneNumber" parent="AssetComponent-componentContactPhoneNumber-parentBean"/>
   <bean id="AssetComponent-componentContactPhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="componentContactPhoneNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Component Contact Phone Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="componentContactPhoneNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Component Contact Phone Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
   </bean>
   
-  <bean id="AssetComponent-componentDescription" parent="AssetComponent-componentDescription-parentBean" />
+  <bean id="AssetComponent-componentDescription" parent="AssetComponent-componentDescription-parentBean"/>
   <bean id="AssetComponent-componentDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="componentDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Component Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="255" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="componentDescription"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Component Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="255"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="5"
-            p:cols="80" />
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="80"/>
     </property>
   </bean>
   
-  <bean id="AssetComponent-componentEstimatedLifetimeLimit" parent="AssetComponent-componentEstimatedLifetimeLimit-parentBean" />
+  <bean id="AssetComponent-componentEstimatedLifetimeLimit" parent="AssetComponent-componentEstimatedLifetimeLimit-parentBean"/>
   <bean id="AssetComponent-componentEstimatedLifetimeLimit-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="componentEstimatedLifetimeLimit" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Component Estimated Lifetime Limit" />
-    <property name="shortLabel" value="Limit" />
-    <property name="maxLength" value="5" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="componentEstimatedLifetimeLimit"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Component Estimated Lifetime Limit"/>
+    <property name="shortLabel" value="Limit"/>
+    <property name="maxLength" value="5"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="7"/>
     </property>
   </bean>
   
-  <bean id="AssetComponent-componentManufacturerModelNumber" parent="AssetComponent-componentManufacturerModelNumber-parentBean" />
+  <bean id="AssetComponent-componentManufacturerModelNumber" parent="AssetComponent-componentManufacturerModelNumber-parentBean"/>
   <bean id="AssetComponent-componentManufacturerModelNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="componentManufacturerModelNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Component Model Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="25" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="componentManufacturerModelNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Component Model Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="25"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="27" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="27"/>
     </property>
   </bean>
   
-  <bean id="AssetComponent-componentManufacturerName" parent="AssetComponent-componentManufacturerName-parentBean" />
+  <bean id="AssetComponent-componentManufacturerName" parent="AssetComponent-componentManufacturerName-parentBean"/>
   <bean id="AssetComponent-componentManufacturerName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="componentManufacturerName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Component Manufacturer Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="componentManufacturerName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Component Manufacturer Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="42" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="42"/>
     </property>
   </bean>
   
-  <bean id="AssetComponent-componentNumber" parent="AssetComponent-componentNumber-parentBean" />
+  <bean id="AssetComponent-componentNumber" parent="AssetComponent-componentNumber-parentBean"/>
   <bean id="AssetComponent-componentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="componentNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Component Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="5" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="componentNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Component Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="5"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="7"/>
     </property>
   </bean>
   
-  <bean id="AssetComponent-componentOrganizationTagNumber" parent="AssetComponent-componentOrganizationTagNumber-parentBean" />
+  <bean id="AssetComponent-componentOrganizationTagNumber" parent="AssetComponent-componentOrganizationTagNumber-parentBean"/>
   <bean id="AssetComponent-componentOrganizationTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="componentOrganizationTagNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Component Organization Tag Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="componentOrganizationTagNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Component Organization Tag Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
   
-  <bean id="AssetComponent-componentOrganizationText" parent="AssetComponent-componentOrganizationText-parentBean" />
+  <bean id="AssetComponent-componentOrganizationText" parent="AssetComponent-componentOrganizationText-parentBean"/>
   <bean id="AssetComponent-componentOrganizationText-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="componentOrganizationText" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Component Organization Text" />
-    <property name="shortLabel" value="Text" />
-    <property name="maxLength" value="255" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="componentOrganizationText"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Component Organization Text"/>
+    <property name="shortLabel" value="Text"/>
+    <property name="maxLength" value="255"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="5"
-            p:cols="80" />
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="80"/>
     </property>
   </bean>
   
-  <bean id="AssetComponent-componentReplacementAmount" parent="AssetComponent-componentReplacementAmount-parentBean" />
+  <bean id="AssetComponent-componentReplacementAmount" parent="AssetComponent-componentReplacementAmount-parentBean"/>
   <bean id="AssetComponent-componentReplacementAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="componentReplacementAmount" />
-    <property name="label" value="Replacement Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="componentReplacementAmount"/>
+    <property name="label" value="Replacement Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
   
-  <bean id="AssetComponent-componentSerialNumber" parent="AssetComponent-componentSerialNumber-parentBean" />
+  <bean id="AssetComponent-componentSerialNumber" parent="AssetComponent-componentSerialNumber-parentBean"/>
   <bean id="AssetComponent-componentSerialNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="componentSerialNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Component Serial Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="25" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="componentSerialNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Component Serial Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="25"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="27" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="27"/>
     </property>
   </bean>
   
-  <bean id="AssetComponent-componentVendorName" parent="AssetComponent-componentVendorName-parentBean" />
+  <bean id="AssetComponent-componentVendorName" parent="AssetComponent-componentVendorName-parentBean"/>
   <bean id="AssetComponent-componentVendorName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="componentVendorName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Component Vendor Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="componentVendorName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Component Vendor Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="42" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="42"/>
     </property>
   </bean>
   
-  <bean id="AssetComponent-componentWarrantyBeginningDate" parent="AssetComponent-componentWarrantyBeginningDate-parentBean" />
+  <bean id="AssetComponent-componentWarrantyBeginningDate" parent="AssetComponent-componentWarrantyBeginningDate-parentBean"/>
   <bean id="AssetComponent-componentWarrantyBeginningDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="componentWarrantyBeginningDate" />
-    <property name="label" value="Warranty Beginning Date" />
-    <property name="shortLabel" value="Date" />
+    <property name="name" value="componentWarrantyBeginningDate"/>
+    <property name="label" value="Warranty Beginning Date"/>
+    <property name="shortLabel" value="Date"/>
   </bean>
   
-  <bean id="AssetComponent-componentWarrantyEndingDate" parent="AssetComponent-componentWarrantyEndingDate-parentBean" />
+  <bean id="AssetComponent-componentWarrantyEndingDate" parent="AssetComponent-componentWarrantyEndingDate-parentBean"/>
   <bean id="AssetComponent-componentWarrantyEndingDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="componentWarrantyEndingDate" />
-    <property name="label" value="Warranty Ending Date" />
-    <property name="shortLabel" value="Date" />
+    <property name="name" value="componentWarrantyEndingDate"/>
+    <property name="label" value="Warranty Ending Date"/>
+    <property name="shortLabel" value="Date"/>
   </bean>
   
-  <bean id="AssetComponent-componentWarrantyContactName" parent="AssetComponent-componentWarrantyContactName-parentBean" />
+  <bean id="AssetComponent-componentWarrantyContactName" parent="AssetComponent-componentWarrantyContactName-parentBean"/>
   <bean id="AssetComponent-componentWarrantyContactName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="componentWarrantyContactName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Component Warranty Contact Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="componentWarrantyContactName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Component Warranty Contact Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="42" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="42"/>
     </property>
   </bean>
   
-  <bean id="AssetComponent-componentWarrantyNumber" parent="AssetComponent-componentWarrantyNumber-parentBean" />
+  <bean id="AssetComponent-componentWarrantyNumber" parent="AssetComponent-componentWarrantyNumber-parentBean"/>
   <bean id="AssetComponent-componentWarrantyNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="componentWarrantyNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Component Warranty Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="25" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="componentWarrantyNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Component Warranty Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="25"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="27" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="27"/>
     </property>
   </bean>
   
-  <bean id="AssetComponent-componentWarrantyPurchaseOrderNumber" parent="AssetComponent-componentWarrantyPurchaseOrderNumber-parentBean" />
+  <bean id="AssetComponent-componentWarrantyPurchaseOrderNumber" parent="AssetComponent-componentWarrantyPurchaseOrderNumber-parentBean"/>
   <bean id="AssetComponent-componentWarrantyPurchaseOrderNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="componentWarrantyPurchaseOrderNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Component Warranty Purchase Order Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="componentWarrantyPurchaseOrderNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Component Warranty Purchase Order Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
   </bean>
   
-  <bean id="AssetComponent-componentWarrantyText" parent="AssetComponent-componentWarrantyText-parentBean" />
+  <bean id="AssetComponent-componentWarrantyText" parent="AssetComponent-componentWarrantyText-parentBean"/>
   <bean id="AssetComponent-componentWarrantyText-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="componentWarrantyText" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Component Warranty Text" />
-    <property name="shortLabel" value="Text" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="componentWarrantyText"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Component Warranty Text"/>
+    <property name="shortLabel" value="Text"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="42" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="42"/>
     </property>
   </bean>
   
-  <bean id="AssetComponent-componentWarrantyPhoneNumber" parent="AssetComponent-componentWarrantyPhoneNumber-parentBean" />
+  <bean id="AssetComponent-componentWarrantyPhoneNumber" parent="AssetComponent-componentWarrantyPhoneNumber-parentBean"/>
   <bean id="AssetComponent-componentWarrantyPhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="componentWarrantyPhoneNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Component Warranty Phone Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="13" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="componentWarrantyPhoneNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Component Warranty Phone Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="13"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="15" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="15"/>
     </property>
   </bean>
   
-  <bean id="AssetComponent-governmentTagNumber" parent="AssetComponent-governmentTagNumber-parentBean" />
+  <bean id="AssetComponent-governmentTagNumber" parent="AssetComponent-governmentTagNumber-parentBean"/>
   <bean id="AssetComponent-governmentTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="governmentTagNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Government Tag Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="governmentTagNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Government Tag Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="12"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="14" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="14"/>
     </property>
   </bean>
   
-  <bean id="AssetComponent-nationalStockNumber" parent="AssetComponent-nationalStockNumber-parentBean" />
+  <bean id="AssetComponent-nationalStockNumber" parent="AssetComponent-nationalStockNumber-parentBean"/>
   <bean id="AssetComponent-nationalStockNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nationalStockNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="National Stock Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="25" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="nationalStockNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="National Stock Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="25"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="27" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="27"/>
     </property>
   </bean>
 
-  <bean id="AssetComponent-newCollectionRecord" parent="AssetComponent-newCollectionRecord-parentBean" />
+  <bean id="AssetComponent-newCollectionRecord" parent="AssetComponent-newCollectionRecord-parentBean"/>
   <bean id="AssetComponent-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
 <!-- Business Object Inquiry Definition -->
 
-  <bean id="AssetComponent-inquiryDefinition" parent="AssetComponent-inquiryDefinition-parentBean" />
+  <bean id="AssetComponent-inquiryDefinition" parent="AssetComponent-inquiryDefinition-parentBean"/>
   <bean id="AssetComponent-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Asset Component Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Asset Component Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="capitalAssetNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="componentConditionCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="componentContactPhoneNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="componentDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="componentEstimatedLifetimeLimit" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="componentManufacturerModelNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="componentManufacturerName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="componentNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="componentOrganizationTagNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="componentOrganizationText" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="componentReplacementAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="componentSerialNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="componentVendorName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="componentWarrantyBeginningDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="componentWarrantyContactName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="componentWarrantyEndingDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="componentWarrantyNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="componentWarrantyPurchaseOrderNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="componentWarrantyText" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="componentWarrantyPhoneNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="governmentTagNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="nationalStockNumber" />
+              <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="componentConditionCode"/>
+              <bean parent="FieldDefinition" p:attributeName="componentContactPhoneNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="componentDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="componentEstimatedLifetimeLimit"/>
+              <bean parent="FieldDefinition" p:attributeName="componentManufacturerModelNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="componentManufacturerName"/>
+              <bean parent="FieldDefinition" p:attributeName="componentNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="componentOrganizationTagNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="componentOrganizationText"/>
+              <bean parent="FieldDefinition" p:attributeName="componentReplacementAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="componentSerialNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="componentVendorName"/>
+              <bean parent="FieldDefinition" p:attributeName="componentWarrantyBeginningDate"/>
+              <bean parent="FieldDefinition" p:attributeName="componentWarrantyContactName"/>
+              <bean parent="FieldDefinition" p:attributeName="componentWarrantyEndingDate"/>
+              <bean parent="FieldDefinition" p:attributeName="componentWarrantyNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="componentWarrantyPurchaseOrderNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="componentWarrantyText"/>
+              <bean parent="FieldDefinition" p:attributeName="componentWarrantyPhoneNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="governmentTagNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="nationalStockNumber"/>
             </list>
           </property>
         </bean>
@@ -445,108 +379,64 @@
 
 <!-- Business Object Lookup Definition -->
 
-  <bean id="AssetComponent-lookupDefinition" parent="AssetComponent-lookupDefinition-parentBean" />
+  <bean id="AssetComponent-lookupDefinition" parent="AssetComponent-lookupDefinition-parentBean"/>
   <bean id="AssetComponent-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Asset Component Lookup" />
-    <property name="instructions" value="Look up an Asset Component" />
-    <property name="defaultSort" >
+    <property name="title" value="Asset Component Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentConditionCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentContactPhoneNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentEstimatedLifetimeLimit" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentManufacturerModelNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentManufacturerName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentOrganizationTagNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentOrganizationText" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentReplacementAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentSerialNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentVendorName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentWarrantyBeginningDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentWarrantyContactName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentWarrantyEndingDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentWarrantyNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentWarrantyPurchaseOrderNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentWarrantyText" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentWarrantyPhoneNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="governmentTagNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="nationalStockNumber" />
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="componentConditionCode"/>
+        <bean parent="FieldDefinition" p:attributeName="componentContactPhoneNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="componentDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="componentEstimatedLifetimeLimit"/>
+        <bean parent="FieldDefinition" p:attributeName="componentManufacturerModelNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="componentManufacturerName"/>
+        <bean parent="FieldDefinition" p:attributeName="componentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="componentOrganizationTagNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="componentOrganizationText"/>
+        <bean parent="FieldDefinition" p:attributeName="componentReplacementAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="componentSerialNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="componentVendorName"/>
+        <bean parent="FieldDefinition" p:attributeName="componentWarrantyBeginningDate"/>
+        <bean parent="FieldDefinition" p:attributeName="componentWarrantyContactName"/>
+        <bean parent="FieldDefinition" p:attributeName="componentWarrantyEndingDate"/>
+        <bean parent="FieldDefinition" p:attributeName="componentWarrantyNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="componentWarrantyPurchaseOrderNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="componentWarrantyText"/>
+        <bean parent="FieldDefinition" p:attributeName="componentWarrantyPhoneNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="governmentTagNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="nationalStockNumber"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentConditionCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentContactPhoneNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentEstimatedLifetimeLimit" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentManufacturerModelNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentManufacturerName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentOrganizationTagNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentOrganizationText" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentReplacementAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentSerialNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentVendorName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentWarrantyBeginningDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentWarrantyContactName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentWarrantyEndingDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentWarrantyNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentWarrantyPurchaseOrderNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentWarrantyText" />
-        <bean parent="FieldDefinition"
-              p:attributeName="componentWarrantyPhoneNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="governmentTagNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="nationalStockNumber" />
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="componentConditionCode"/>
+        <bean parent="FieldDefinition" p:attributeName="componentContactPhoneNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="componentDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="componentEstimatedLifetimeLimit"/>
+        <bean parent="FieldDefinition" p:attributeName="componentManufacturerModelNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="componentManufacturerName"/>
+        <bean parent="FieldDefinition" p:attributeName="componentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="componentOrganizationTagNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="componentOrganizationText"/>
+        <bean parent="FieldDefinition" p:attributeName="componentReplacementAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="componentSerialNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="componentVendorName"/>
+        <bean parent="FieldDefinition" p:attributeName="componentWarrantyBeginningDate"/>
+        <bean parent="FieldDefinition" p:attributeName="componentWarrantyContactName"/>
+        <bean parent="FieldDefinition" p:attributeName="componentWarrantyEndingDate"/>
+        <bean parent="FieldDefinition" p:attributeName="componentWarrantyNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="componentWarrantyPurchaseOrderNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="componentWarrantyText"/>
+        <bean parent="FieldDefinition" p:attributeName="componentWarrantyPhoneNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="governmentTagNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="nationalStockNumber"/>
       </list>
     </property>
   </bean>

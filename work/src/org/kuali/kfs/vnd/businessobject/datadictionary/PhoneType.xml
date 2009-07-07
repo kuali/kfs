@@ -1,29 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PhoneType" parent="PhoneType-parentBean" />
+  <bean id="PhoneType" parent="PhoneType-parentBean"/>
 
   <bean id="PhoneType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.PhoneType" />
-    <property name="inquiryDefinition" >
-      <ref bean="PhoneType-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.PhoneType"/>
+    <property name="inquiryDefinition">
+      <ref bean="PhoneType-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="PhoneType-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="PhoneType-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="vendorPhoneTypeCode" />
-    <property name="objectLabel" value="Phone Type" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="vendorPhoneTypeCode"/>
+    <property name="objectLabel" value="Phone Type"/>
+    <property name="attributes">
       <list>
-        <ref bean="PhoneType-vendorPhoneTypeCode" />
-        <ref bean="PhoneType-vendorPhoneTypeDescription" />
-        <ref bean="PhoneType-active" />
+        <ref bean="PhoneType-vendorPhoneTypeCode"/>
+        <ref bean="PhoneType-vendorPhoneTypeDescription"/>
+        <ref bean="PhoneType-active"/>
       </list>
     </property>
   </bean>
@@ -31,65 +24,59 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="PhoneType-vendorPhoneTypeCode" parent="PhoneType-vendorPhoneTypeCode-parentBean" />
+  <bean id="PhoneType-vendorPhoneTypeCode" parent="PhoneType-vendorPhoneTypeCode-parentBean"/>
 
   <bean id="PhoneType-vendorPhoneTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorPhoneTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Phone Type Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="vendorPhoneTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Phone Type Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
-  <bean id="PhoneType-vendorPhoneTypeDescription" parent="PhoneType-vendorPhoneTypeDescription-parentBean" />
+  <bean id="PhoneType-vendorPhoneTypeDescription" parent="PhoneType-vendorPhoneTypeDescription-parentBean"/>
 
   <bean id="PhoneType-vendorPhoneTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorPhoneTypeDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Phone Type Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="vendorPhoneTypeDescription"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Phone Type Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="47" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
     </property>
   </bean>
-  <bean id="PhoneType-active" parent="PhoneType-active-parentBean" />
+  <bean id="PhoneType-active" parent="PhoneType-active-parentBean"/>
 
   <bean id="PhoneType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="PhoneType-inquiryDefinition" parent="PhoneType-inquiryDefinition-parentBean" />
+  <bean id="PhoneType-inquiryDefinition" parent="PhoneType-inquiryDefinition-parentBean"/>
 
   <bean id="PhoneType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Phone Type Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Phone Type Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorPhoneTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorPhoneTypeDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="vendorPhoneTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorPhoneTypeDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -100,33 +87,27 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="PhoneType-lookupDefinition" parent="PhoneType-lookupDefinition-parentBean" />
+  <bean id="PhoneType-lookupDefinition" parent="PhoneType-lookupDefinition-parentBean"/>
 
   <bean id="PhoneType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Phone Type Lookup" />
-    <property name="instructions" value="Lookup a Phone Type" />
-    <property name="defaultSort" >
+    <property name="title" value="Phone Type Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorPhoneTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorPhoneTypeDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="vendorPhoneTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorPhoneTypeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorPhoneTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorPhoneTypeDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="vendorPhoneTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorPhoneTypeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

@@ -1,29 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="RequisitionSource" parent="RequisitionSource-parentBean" />
+  <bean id="RequisitionSource" parent="RequisitionSource-parentBean"/>
 
   <bean id="RequisitionSource-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.RequisitionSource" />
-    <property name="inquiryDefinition" >
-      <ref bean="RequisitionSource-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.RequisitionSource"/>
+    <property name="inquiryDefinition">
+      <ref bean="RequisitionSource-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="RequisitionSource-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="RequisitionSource-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="requisitionSourceCode" />
-    <property name="objectLabel" value="Requisition Source" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="requisitionSourceCode"/>
+    <property name="objectLabel" value="Requisition Source"/>
+    <property name="attributes">
       <list>
-        <ref bean="RequisitionSource-requisitionSourceCode" />
-        <ref bean="RequisitionSource-requisitionSourceDescription" />
-        <ref bean="RequisitionSource-active" />
+        <ref bean="RequisitionSource-requisitionSourceCode"/>
+        <ref bean="RequisitionSource-requisitionSourceDescription"/>
+        <ref bean="RequisitionSource-active"/>
       </list>
     </property>
   </bean>
@@ -31,64 +24,58 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="RequisitionSource-requisitionSourceCode" parent="RequisitionSource-requisitionSourceCode-parentBean" />
+  <bean id="RequisitionSource-requisitionSourceCode" parent="RequisitionSource-requisitionSourceCode-parentBean"/>
 
   <bean id="RequisitionSource-requisitionSourceCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="requisitionSourceCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Requisition Source Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="requisitionSourceCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Requisition Source Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
-  <bean id="RequisitionSource-requisitionSourceDescription" parent="RequisitionSource-requisitionSourceDescription-parentBean" />
+  <bean id="RequisitionSource-requisitionSourceDescription" parent="RequisitionSource-requisitionSourceDescription-parentBean"/>
 
   <bean id="RequisitionSource-requisitionSourceDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="requisitionSourceDescription" />
-    <property name="label" value="Requisition Source Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="requisitionSourceDescription"/>
+    <property name="label" value="Requisition Source Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="47" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
     </property>
   </bean>
-  <bean id="RequisitionSource-active" parent="RequisitionSource-active-parentBean" />
+  <bean id="RequisitionSource-active" parent="RequisitionSource-active-parentBean"/>
 
   <bean id="RequisitionSource-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="RequisitionSource-inquiryDefinition" parent="RequisitionSource-inquiryDefinition-parentBean" />
+  <bean id="RequisitionSource-inquiryDefinition" parent="RequisitionSource-inquiryDefinition-parentBean"/>
 
   <bean id="RequisitionSource-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Requisition Source Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Requisition Source Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="requisitionSourceCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="requisitionSourceDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="requisitionSourceCode"/>
+              <bean parent="FieldDefinition" p:attributeName="requisitionSourceDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -99,33 +86,27 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="RequisitionSource-lookupDefinition" parent="RequisitionSource-lookupDefinition-parentBean" />
+  <bean id="RequisitionSource-lookupDefinition" parent="RequisitionSource-lookupDefinition-parentBean"/>
 
   <bean id="RequisitionSource-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Requisition Source Lookup" />
-    <property name="instructions" value="Lookup an Requisition Source" />
-    <property name="defaultSort" >
+    <property name="title" value="Requisition Source Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="requisitionSourceCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="requisitionSourceDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="requisitionSourceCode"/>
+        <bean parent="FieldDefinition" p:attributeName="requisitionSourceDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="requisitionSourceCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="requisitionSourceDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="requisitionSourceCode"/>
+        <bean parent="FieldDefinition" p:attributeName="requisitionSourceDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

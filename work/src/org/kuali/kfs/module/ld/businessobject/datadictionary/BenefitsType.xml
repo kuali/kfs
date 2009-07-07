@@ -1,28 +1,24 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="BenefitsType" parent="BenefitsType-parentBean" />
+  <bean id="BenefitsType" parent="BenefitsType-parentBean"/>
 
   <bean id="BenefitsType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.BenefitsType" />
-    <property name="objectLabel" value="Benefits Type" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.BenefitsType"/>
+    <property name="objectLabel" value="Benefits Type"/>
     
-    <property name="inquiryDefinition" >
-      <ref bean="BenefitsType-inquiryDefinition" />
+    <property name="inquiryDefinition">
+      <ref bean="BenefitsType-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="BenefitsType-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="BenefitsType-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="positionBenefitTypeCode" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="positionBenefitTypeCode"/>
+    <property name="attributes">
       <list>
-        <ref bean="BenefitsType-positionBenefitRetirementIndicator" />
-        <ref bean="BenefitsType-positionBenefitTypeCode" />
-        <ref bean="BenefitsType-positionBenefitTypeDescription" />
-        <ref bean="BenefitsType-active" />
+        <ref bean="BenefitsType-positionBenefitRetirementIndicator"/>
+        <ref bean="BenefitsType-positionBenefitTypeCode"/>
+        <ref bean="BenefitsType-positionBenefitTypeDescription"/>
+        <ref bean="BenefitsType-active"/>
       </list>
     </property>
   </bean>
@@ -30,75 +26,69 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="BenefitsType-positionBenefitRetirementIndicator" parent="BenefitsType-positionBenefitRetirementIndicator-parentBean" />
+  <bean id="BenefitsType-positionBenefitRetirementIndicator" parent="BenefitsType-positionBenefitRetirementIndicator-parentBean"/>
 
   <bean id="BenefitsType-positionBenefitRetirementIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="positionBenefitRetirementIndicator" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Labor Benefits Retirement Indicator" />
-    <property name="shortLabel" value="Indicator" />
-    <property name="maxLength" value="0" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="positionBenefitRetirementIndicator"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Labor Benefits Retirement Indicator"/>
+    <property name="shortLabel" value="Indicator"/>
+    <property name="maxLength" value="0"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="BenefitsType-positionBenefitTypeCode" parent="BenefitsType-positionBenefitTypeCode-parentBean" />
+  <bean id="BenefitsType-positionBenefitTypeCode" parent="BenefitsType-positionBenefitTypeCode-parentBean"/>
 
   <bean id="BenefitsType-positionBenefitTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="positionBenefitTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Labor Benefits Type Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="positionBenefitTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Labor Benefits Type Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="BenefitsType-positionBenefitTypeDescription" parent="BenefitsType-positionBenefitTypeDescription-parentBean" />
+  <bean id="BenefitsType-positionBenefitTypeDescription" parent="BenefitsType-positionBenefitTypeDescription-parentBean"/>
 
   <bean id="BenefitsType-positionBenefitTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="positionBenefitTypeDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Labor Benefits Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="40" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="42" />
+    <property name="name" value="positionBenefitTypeDescription"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Labor Benefits Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="40"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="42"/>
     </property>
   </bean>
   
-  <bean id="BenefitsType-active" parent="BenefitsType-active-parentBean" />
+  <bean id="BenefitsType-active" parent="BenefitsType-active-parentBean"/>
   <bean id="BenefitsType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="BenefitsType-inquiryDefinition" parent="BenefitsType-inquiryDefinition-parentBean" />
+  <bean id="BenefitsType-inquiryDefinition" parent="BenefitsType-inquiryDefinition-parentBean"/>
 
   <bean id="BenefitsType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Labor Benefits Type Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Labor Benefits Type Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="positionBenefitTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="positionBenefitTypeDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="positionBenefitRetirementIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="positionBenefitTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="positionBenefitTypeDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="positionBenefitRetirementIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -109,37 +99,29 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="BenefitsType-lookupDefinition" parent="BenefitsType-lookupDefinition-parentBean" />
+  <bean id="BenefitsType-lookupDefinition" parent="BenefitsType-lookupDefinition-parentBean"/>
 
   <bean id="BenefitsType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Labor Benefits Type Lookup" />
-    <property name="instructions" value="Lookup an Benefits Type" />
-    <property name="defaultSort" >
+    <property name="title" value="Labor Benefits Type Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="positionBenefitTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionBenefitTypeDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionBenefitRetirementIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="positionBenefitTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="positionBenefitTypeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="positionBenefitRetirementIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="positionBenefitTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionBenefitTypeDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionBenefitRetirementIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="positionBenefitTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="positionBenefitTypeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="positionBenefitRetirementIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

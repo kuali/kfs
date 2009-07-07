@@ -1,26 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="FederalFundedCode" parent="FederalFundedCode-parentBean" />
+  <bean id="FederalFundedCode" parent="FederalFundedCode-parentBean"/>
 
   <bean id="FederalFundedCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.FederalFundedCode" />
-    <property name="inquiryDefinition" >
-      <ref bean="FederalFundedCode-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.FederalFundedCode"/>
+    <property name="inquiryDefinition">
+      <ref bean="FederalFundedCode-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="FederalFundedCode-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="FederalFundedCode-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="code" />
-    <property name="objectLabel" value="Federal Funded Code" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="code"/>
+    <property name="objectLabel" value="Federal Funded Code"/>
+    <property name="attributes">
       <list>
-        <ref bean="FederalFundedCode-code" />
-        <ref bean="FederalFundedCode-name" />
-        <ref bean="FederalFundedCode-active" />
+        <ref bean="FederalFundedCode-code"/>
+        <ref bean="FederalFundedCode-name"/>
+        <ref bean="FederalFundedCode-active"/>
       </list>
     </property>
   </bean>
@@ -28,63 +24,58 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="FederalFundedCode-code" parent="FederalFundedCode-code-parentBean" />
+  <bean id="FederalFundedCode-code" parent="FederalFundedCode-code-parentBean"/>
 
   <bean id="FederalFundedCode-code-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="code" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Federal Funded Code" />
-    <property name="shortLabel" value="Federal Funded Code" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="code"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Federal Funded Code"/>
+    <property name="shortLabel" value="Federal Funded Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
   </bean>
-  <bean id="FederalFundedCode-name" parent="FederalFundedCode-name-parentBean" />
+  <bean id="FederalFundedCode-name" parent="FederalFundedCode-name-parentBean"/>
 
   <bean id="FederalFundedCode-name-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="name" />
-    <property name="label" value="Federal Funded Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="name"/>
+    <property name="label" value="Federal Funded Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
   </bean>
-  <bean id="FederalFundedCode-active" parent="FederalFundedCode-active-parentBean" />
+  <bean id="FederalFundedCode-active" parent="FederalFundedCode-active-parentBean"/>
 
   <bean id="FederalFundedCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="FederalFundedCode-inquiryDefinition" parent="FederalFundedCode-inquiryDefinition-parentBean" />
+  <bean id="FederalFundedCode-inquiryDefinition" parent="FederalFundedCode-inquiryDefinition-parentBean"/>
 
   <bean id="FederalFundedCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Federal Funded Code Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Federal Funded Code Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="code" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="name" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="code"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -95,38 +86,32 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="FederalFundedCode-lookupDefinition" parent="FederalFundedCode-lookupDefinition-parentBean" />
+  <bean id="FederalFundedCode-lookupDefinition" parent="FederalFundedCode-lookupDefinition-parentBean"/>
 
   <bean id="FederalFundedCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Federal Funded Code Lookup" />
-    <property name="instructions" value="Lookup a Federal Funded Code" />
-    <property name="defaultSort" >
+    <property name="title" value="Federal Funded Code Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>code</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="code" />
-        <bean parent="FieldDefinition"
-              p:attributeName="name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

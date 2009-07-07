@@ -1,104 +1,81 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="LedgerBalanceForEffortCertification" parent="LedgerBalanceForEffortCertification-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification" parent="LedgerBalanceForEffortCertification-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.LedgerBalanceForEffortCertification" />
-    <property name="objectLabel" value="Labor Ledger Balance for Effort certification" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.LedgerBalanceForEffortCertification"/>
+    <property name="objectLabel" value="Labor Ledger Balance for Effort certification"/>
     
-    <property name="inquiryDefinition" >
-      <ref bean="LedgerBalanceForEffortCertification-inquiryDefinition" />
+    <property name="inquiryDefinition">
+      <ref bean="LedgerBalanceForEffortCertification-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="LedgerBalanceForEffortCertification-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="LedgerBalanceForEffortCertification-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="LedgerBalanceForEffortCertification-effortCertificationReportNumber" />
-        <ref bean="LedgerBalanceForEffortCertification-emplid" />
-        <ref bean="LedgerBalanceForEffortCertification-ledgerPerson.principalId" />
-        <ref bean="LedgerBalanceForEffortCertification-ledgerPerson.principalName" />
-        <ref bean="LedgerBalanceForEffortCertification-ledgerPerson.name" />
-        <ref bean="LedgerBalanceForEffortCertification-positionNumber" />
-        <ref bean="LedgerBalanceForEffortCertification-universityFiscalYear" />
-        <ref bean="LedgerBalanceForEffortCertification-subAccountNumber" />
-        <ref bean="LedgerBalanceForEffortCertification-accountNumber" />
-        <ref bean="LedgerBalanceForEffortCertification-chartOfAccountsCode" />
-        <ref bean="LedgerBalanceForEffortCertification-financialBalanceTypeCode" />
-        <ref bean="LedgerBalanceForEffortCertification-financialObjectCode" />
-        <ref bean="LedgerBalanceForEffortCertification-financialObjectTypeCode" />
-        <ref bean="LedgerBalanceForEffortCertification-financialSubObjectCode" />
-        <ref bean="LedgerBalanceForEffortCertification-accountLineAnnualBalanceAmount" />
-        <ref bean="LedgerBalanceForEffortCertification-financialBeginningBalanceLineAmount" />
-        <ref bean="LedgerBalanceForEffortCertification-contractsGrantsBeginningBalanceAmount" />
-        <ref bean="LedgerBalanceForEffortCertification-month1Amount" />
-        <ref bean="LedgerBalanceForEffortCertification-month2Amount" />
-        <ref bean="LedgerBalanceForEffortCertification-month3Amount" />
-        <ref bean="LedgerBalanceForEffortCertification-month4Amount" />
-        <ref bean="LedgerBalanceForEffortCertification-month5Amount" />
-        <ref bean="LedgerBalanceForEffortCertification-month6Amount" />
-        <ref bean="LedgerBalanceForEffortCertification-month7Amount" />
-        <ref bean="LedgerBalanceForEffortCertification-month8Amount" />
-        <ref bean="LedgerBalanceForEffortCertification-month9Amount" />
-        <ref bean="LedgerBalanceForEffortCertification-month10Amount" />
-        <ref bean="LedgerBalanceForEffortCertification-month11Amount" />
-        <ref bean="LedgerBalanceForEffortCertification-month12Amount" />
-        <ref bean="LedgerBalanceForEffortCertification-month13Amount" />
-        <ref bean="LedgerBalanceForEffortCertification-transactionDateTimeStamp" />
+        <ref bean="LedgerBalanceForEffortCertification-effortCertificationReportNumber"/>
+        <ref bean="LedgerBalanceForEffortCertification-emplid"/>
+        <ref bean="LedgerBalanceForEffortCertification-ledgerPerson.principalId"/>
+        <ref bean="LedgerBalanceForEffortCertification-ledgerPerson.principalName"/>
+        <ref bean="LedgerBalanceForEffortCertification-ledgerPerson.name"/>
+        <ref bean="LedgerBalanceForEffortCertification-positionNumber"/>
+        <ref bean="LedgerBalanceForEffortCertification-universityFiscalYear"/>
+        <ref bean="LedgerBalanceForEffortCertification-subAccountNumber"/>
+        <ref bean="LedgerBalanceForEffortCertification-accountNumber"/>
+        <ref bean="LedgerBalanceForEffortCertification-chartOfAccountsCode"/>
+        <ref bean="LedgerBalanceForEffortCertification-financialBalanceTypeCode"/>
+        <ref bean="LedgerBalanceForEffortCertification-financialObjectCode"/>
+        <ref bean="LedgerBalanceForEffortCertification-financialObjectTypeCode"/>
+        <ref bean="LedgerBalanceForEffortCertification-financialSubObjectCode"/>
+        <ref bean="LedgerBalanceForEffortCertification-accountLineAnnualBalanceAmount"/>
+        <ref bean="LedgerBalanceForEffortCertification-financialBeginningBalanceLineAmount"/>
+        <ref bean="LedgerBalanceForEffortCertification-contractsGrantsBeginningBalanceAmount"/>
+        <ref bean="LedgerBalanceForEffortCertification-month1Amount"/>
+        <ref bean="LedgerBalanceForEffortCertification-month2Amount"/>
+        <ref bean="LedgerBalanceForEffortCertification-month3Amount"/>
+        <ref bean="LedgerBalanceForEffortCertification-month4Amount"/>
+        <ref bean="LedgerBalanceForEffortCertification-month5Amount"/>
+        <ref bean="LedgerBalanceForEffortCertification-month6Amount"/>
+        <ref bean="LedgerBalanceForEffortCertification-month7Amount"/>
+        <ref bean="LedgerBalanceForEffortCertification-month8Amount"/>
+        <ref bean="LedgerBalanceForEffortCertification-month9Amount"/>
+        <ref bean="LedgerBalanceForEffortCertification-month10Amount"/>
+        <ref bean="LedgerBalanceForEffortCertification-month11Amount"/>
+        <ref bean="LedgerBalanceForEffortCertification-month12Amount"/>
+        <ref bean="LedgerBalanceForEffortCertification-month13Amount"/>
+        <ref bean="LedgerBalanceForEffortCertification-transactionDateTimeStamp"/>
       </list>
     </property>
-    <property name="relationships" >
+    <property name="relationships">
       <list>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="ledgerPerson" />
-          <property name="primitiveAttributes" >
+          <property name="objectAttributeName" value="ledgerPerson"/>
+          <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="ledgerPerson.principalId"
-                    p:targetName="principalId" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="ledgerPerson.principalId" p:targetName="principalId"/>
             </list>
           </property>
-          <property name="supportAttributes" >
+          <property name="supportAttributes">
             <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="emplid"
-                    p:targetName="employeeId" />
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="ledgerPerson.principalName"
-                    p:targetName="principalName" />
-              <bean parent="SupportAttributeDefinition"
-                    p:sourceName="ledgerPerson.name"
-                    p:targetName="name" />
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="emplid" p:targetName="employeeId"/>
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="ledgerPerson.principalName" p:targetName="principalName"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="ledgerPerson.name" p:targetName="name"/>
             </list>
           </property>
         </bean>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="laborObject" />
-          <property name="primitiveAttributes" >
+          <property name="objectAttributeName" value="laborObject"/>
+          <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="laborObject.chartOfAccountsCode"
-                    p:targetName="chartOfAccountsCode" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="laborObject.chartOfAccountsCode" p:targetName="chartOfAccountsCode"/>
             </list>
           </property>
-          <property name="supportAttributes" >
+          <property name="supportAttributes">
             <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:sourceName="laborObject.financialObjectFringeOrSalaryCode"
-                    p:targetName="financialObjectFringeOrSalaryCode" />
-              <bean parent="SupportAttributeDefinition"
-                    p:identifier="true"
-                    p:sourceName="laborObject.financialObjectCode"
-                    p:targetName="financialObjectCode" />
-              <bean parent="SupportAttributeDefinition"
-                    p:sourceName="laborObject.universityFiscalYear"
-                    p:targetName="universityFiscalYear" />
+              <bean parent="SupportAttributeDefinition" p:sourceName="laborObject.financialObjectFringeOrSalaryCode" p:targetName="financialObjectFringeOrSalaryCode"/>
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="laborObject.financialObjectCode" p:targetName="financialObjectCode"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="laborObject.universityFiscalYear" p:targetName="universityFiscalYear"/>
             </list>
           </property>
         </bean>
@@ -109,294 +86,263 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="LedgerBalanceForEffortCertification-effortCertificationReportNumber" parent="LedgerBalanceForEffortCertification-effortCertificationReportNumber-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-effortCertificationReportNumber" parent="LedgerBalanceForEffortCertification-effortCertificationReportNumber-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-effortCertificationReportNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="effortCertificationReportNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Effort Certification Report Number" />
-    <property name="shortLabel" value="Report Number" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="effortCertificationReportNumber"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Effort Certification Report Number"/>
+    <property name="shortLabel" value="Report Number"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
     
     
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-emplid" parent="LedgerBalanceForEffortCertification-emplid-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-emplid" parent="LedgerBalanceForEffortCertification-emplid-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
-    <property name="name" value="emplid" />
+    <property name="name" value="emplid"/>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-ledgerPerson.principalId" parent="LedgerBalanceForEffortCertification-ledgerPerson.principalId-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-ledgerPerson.principalId" parent="LedgerBalanceForEffortCertification-ledgerPerson.principalId-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-ledgerPerson.principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="ledgerPerson.principalId" />
-    <property name="label" value="Employee Univ ID" />
-    <property name="shortLabel" value="EmplUnvId" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="ledgerPerson.principalId"/>
+    <property name="label" value="Employee Univ ID"/>
+    <property name="shortLabel" value="EmplUnvId"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
-    <property name="displayLabelAttribute" value="ledgerPerson.principalName" />
+    <property name="displayLabelAttribute" value="ledgerPerson.principalName"/>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-ledgerPerson.principalName" parent="LedgerBalanceForEffortCertification-ledgerPerson.principalName-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-ledgerPerson.principalName" parent="LedgerBalanceForEffortCertification-ledgerPerson.principalName-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-ledgerPerson.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="ledgerPerson.principalName" />
-    <property name="label" value="Employee Principal Name" />
-    <property name="shortLabel" value="Principal Name" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="ledgerPerson.name"
-            p:universalIdAttributeName="ledgerPerson.principalId"
-            p:userIdAttributeName="ledgerPerson.principalName" />
+    <property name="name" value="ledgerPerson.principalName"/>
+    <property name="label" value="Employee Principal Name"/>
+    <property name="shortLabel" value="Principal Name"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="ledgerPerson.name" p:universalIdAttributeName="ledgerPerson.principalId" p:userIdAttributeName="ledgerPerson.principalName"/>
     </property>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-ledgerPerson.name" parent="LedgerBalanceForEffortCertification-ledgerPerson.name-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-ledgerPerson.name" parent="LedgerBalanceForEffortCertification-ledgerPerson.name-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-ledgerPerson.name-parentBean" abstract="true" parent="PersonImpl-name">
-    <property name="name" value="ledgerPerson.name" />
-    <property name="label" value="Employee Name" />
-    <property name="required" value="false" />
+    <property name="name" value="ledgerPerson.name"/>
+    <property name="label" value="Employee Name"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-positionNumber" parent="LedgerBalanceForEffortCertification-positionNumber-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-positionNumber" parent="LedgerBalanceForEffortCertification-positionNumber-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-positionNumber-parentBean" abstract="true" parent="PositionData-positionNumber">
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-universityFiscalYear" parent="LedgerBalanceForEffortCertification-universityFiscalYear-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-universityFiscalYear" parent="LedgerBalanceForEffortCertification-universityFiscalYear-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="universityFiscalYear" />
-    <property name="label" value="Fiscal Year" />
-    <property name="shortLabel" value="Fiscal Year" />
+    <property name="name" value="universityFiscalYear"/>
+    <property name="label" value="Fiscal Year"/>
+    <property name="shortLabel" value="Fiscal Year"/>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-subAccountNumber" parent="LedgerBalanceForEffortCertification-subAccountNumber-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-subAccountNumber" parent="LedgerBalanceForEffortCertification-subAccountNumber-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-accountNumber" parent="LedgerBalanceForEffortCertification-accountNumber-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-accountNumber" parent="LedgerBalanceForEffortCertification-accountNumber-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-chartOfAccountsCode" parent="LedgerBalanceForEffortCertification-chartOfAccountsCode-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-chartOfAccountsCode" parent="LedgerBalanceForEffortCertification-chartOfAccountsCode-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-financialBalanceTypeCode" parent="LedgerBalanceForEffortCertification-financialBalanceTypeCode-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-financialBalanceTypeCode" parent="LedgerBalanceForEffortCertification-financialBalanceTypeCode-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
-    <property name="name" value="financialBalanceTypeCode" />
+    <property name="name" value="financialBalanceTypeCode"/>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-financialObjectCode" parent="LedgerBalanceForEffortCertification-financialObjectCode-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-financialObjectCode" parent="LedgerBalanceForEffortCertification-financialObjectCode-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-financialObjectTypeCode" parent="LedgerBalanceForEffortCertification-financialObjectTypeCode-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-financialObjectTypeCode" parent="LedgerBalanceForEffortCertification-financialObjectTypeCode-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-financialObjectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
-    <property name="name" value="financialObjectTypeCode" />
+    <property name="name" value="financialObjectTypeCode"/>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-financialSubObjectCode" parent="LedgerBalanceForEffortCertification-financialSubObjectCode-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-financialSubObjectCode" parent="LedgerBalanceForEffortCertification-financialSubObjectCode-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-accountLineAnnualBalanceAmount" parent="LedgerBalanceForEffortCertification-accountLineAnnualBalanceAmount-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-accountLineAnnualBalanceAmount" parent="LedgerBalanceForEffortCertification-accountLineAnnualBalanceAmount-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-accountLineAnnualBalanceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="accountLineAnnualBalanceAmount" />
-    <property name="label" value="Account Line Annual Balance Amount" />
-    <property name="shortLabel" value="Account Line Annual Balance Amount" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="accountLineAnnualBalanceAmount"/>
+    <property name="label" value="Account Line Annual Balance Amount"/>
+    <property name="shortLabel" value="Account Line Annual Balance Amount"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-financialBeginningBalanceLineAmount" parent="LedgerBalanceForEffortCertification-financialBeginningBalanceLineAmount-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-financialBeginningBalanceLineAmount" parent="LedgerBalanceForEffortCertification-financialBeginningBalanceLineAmount-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-financialBeginningBalanceLineAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="financialBeginningBalanceLineAmount" />
-    <property name="label" value="Beginning Balance Line Amount" />
-    <property name="shortLabel" value="Beginning Balance Line Amount" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="financialBeginningBalanceLineAmount"/>
+    <property name="label" value="Beginning Balance Line Amount"/>
+    <property name="shortLabel" value="Beginning Balance Line Amount"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-contractsGrantsBeginningBalanceAmount" parent="LedgerBalanceForEffortCertification-contractsGrantsBeginningBalanceAmount-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-contractsGrantsBeginningBalanceAmount" parent="LedgerBalanceForEffortCertification-contractsGrantsBeginningBalanceAmount-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-contractsGrantsBeginningBalanceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="contractsGrantsBeginningBalanceAmount" />
-    <property name="label" value="Contracts Grants Beginning Balance Amount" />
-    <property name="shortLabel" value="CG Amount" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="contractsGrantsBeginningBalanceAmount"/>
+    <property name="label" value="Contracts Grants Beginning Balance Amount"/>
+    <property name="shortLabel" value="CG Amount"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-month1Amount" parent="LedgerBalanceForEffortCertification-month1Amount-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-month1Amount" parent="LedgerBalanceForEffortCertification-month1Amount-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-month1Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month1Amount" />
-    <property name="label" value="July" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month1Amount"/>
+    <property name="label" value="July"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-month2Amount" parent="LedgerBalanceForEffortCertification-month2Amount-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-month2Amount" parent="LedgerBalanceForEffortCertification-month2Amount-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-month2Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month2Amount" />
-    <property name="label" value="August" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month2Amount"/>
+    <property name="label" value="August"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-month3Amount" parent="LedgerBalanceForEffortCertification-month3Amount-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-month3Amount" parent="LedgerBalanceForEffortCertification-month3Amount-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-month3Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month3Amount" />
-    <property name="label" value="September" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month3Amount"/>
+    <property name="label" value="September"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-month4Amount" parent="LedgerBalanceForEffortCertification-month4Amount-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-month4Amount" parent="LedgerBalanceForEffortCertification-month4Amount-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-month4Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month4Amount" />
-    <property name="label" value="October" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month4Amount"/>
+    <property name="label" value="October"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-month5Amount" parent="LedgerBalanceForEffortCertification-month5Amount-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-month5Amount" parent="LedgerBalanceForEffortCertification-month5Amount-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-month5Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month5Amount" />
-    <property name="label" value="November" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month5Amount"/>
+    <property name="label" value="November"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-month6Amount" parent="LedgerBalanceForEffortCertification-month6Amount-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-month6Amount" parent="LedgerBalanceForEffortCertification-month6Amount-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-month6Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month6Amount" />
-    <property name="label" value="December" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month6Amount"/>
+    <property name="label" value="December"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-month7Amount" parent="LedgerBalanceForEffortCertification-month7Amount-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-month7Amount" parent="LedgerBalanceForEffortCertification-month7Amount-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-month7Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month7Amount" />
-    <property name="label" value="January" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month7Amount"/>
+    <property name="label" value="January"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-month8Amount" parent="LedgerBalanceForEffortCertification-month8Amount-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-month8Amount" parent="LedgerBalanceForEffortCertification-month8Amount-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-month8Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month8Amount" />
-    <property name="label" value="February" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month8Amount"/>
+    <property name="label" value="February"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-month9Amount" parent="LedgerBalanceForEffortCertification-month9Amount-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-month9Amount" parent="LedgerBalanceForEffortCertification-month9Amount-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-month9Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month9Amount" />
-    <property name="label" value="March" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month9Amount"/>
+    <property name="label" value="March"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-month10Amount" parent="LedgerBalanceForEffortCertification-month10Amount-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-month10Amount" parent="LedgerBalanceForEffortCertification-month10Amount-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-month10Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month10Amount" />
-    <property name="label" value="April" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month10Amount"/>
+    <property name="label" value="April"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-month11Amount" parent="LedgerBalanceForEffortCertification-month11Amount-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-month11Amount" parent="LedgerBalanceForEffortCertification-month11Amount-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-month11Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month11Amount" />
-    <property name="label" value="May" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month11Amount"/>
+    <property name="label" value="May"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-month12Amount" parent="LedgerBalanceForEffortCertification-month12Amount-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-month12Amount" parent="LedgerBalanceForEffortCertification-month12Amount-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-month12Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month12Amount" />
-    <property name="label" value="June" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month12Amount"/>
+    <property name="label" value="June"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-month13Amount" parent="LedgerBalanceForEffortCertification-month13Amount-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-month13Amount" parent="LedgerBalanceForEffortCertification-month13Amount-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-month13Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="month13Amount" />
-    <property name="label" value="Year End" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="name" value="month13Amount"/>
+    <property name="label" value="Year End"/>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="LedgerBalanceForEffortCertification-transactionDateTimeStamp" parent="LedgerBalanceForEffortCertification-transactionDateTimeStamp-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-transactionDateTimeStamp" parent="LedgerBalanceForEffortCertification-transactionDateTimeStamp-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-transactionDateTimeStamp-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
-    <property name="name" value="transactionDateTimeStamp" />
-    <property name="label" value="Transaction Entry Processed" />
-    <property name="shortLabel" value="Entry Processed" />
+    <property name="name" value="transactionDateTimeStamp"/>
+    <property name="label" value="Transaction Entry Processed"/>
+    <property name="shortLabel" value="Entry Processed"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="LedgerBalanceForEffortCertification-inquiryDefinition" parent="LedgerBalanceForEffortCertification-inquiryDefinition-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-inquiryDefinition" parent="LedgerBalanceForEffortCertification-inquiryDefinition-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Labor Ledger A21 View" />
-    <property name="inquirySections" >
+    <property name="title" value="Labor Ledger A21 View"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="accountLineAnnualBalanceAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="accountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialBeginningBalanceLineAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="emplid" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialBalanceTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="contractsGrantsBeginningBalanceAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialSubObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month10Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month11Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month12Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month13Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month1Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month2Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month3Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month4Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month5Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month6Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month7Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month8Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="month9Amount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="positionNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="subAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="transactionDateTimeStamp" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYear" />
+              <bean parent="FieldDefinition" p:attributeName="accountLineAnnualBalanceAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="financialBeginningBalanceLineAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="emplid"/>
+              <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="contractsGrantsBeginningBalanceAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="month10Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month11Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month12Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month13Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month1Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month2Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month3Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month4Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month5Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month6Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month7Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month8Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="month9Amount"/>
+              <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="transactionDateTimeStamp"/>
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
             </list>
           </property>
         </bean>
@@ -407,102 +353,59 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="LedgerBalanceForEffortCertification-lookupDefinition" parent="LedgerBalanceForEffortCertification-lookupDefinition-parentBean" />
+  <bean id="LedgerBalanceForEffortCertification-lookupDefinition" parent="LedgerBalanceForEffortCertification-lookupDefinition-parentBean"/>
 
   <bean id="LedgerBalanceForEffortCertification-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Labor Ledger View for Effort Certification" />
-    <property name="lookupableID" value="laborLedgerBalanceForEffortCertificationLookupable" />
-    <property name="instructions" value="Look up a Ledger Balance" />
-    <property name="defaultSort" >
+    <property name="title" value="Labor Ledger View for Effort Certification"/>
+    <property name="lookupableID" value="laborLedgerBalanceForEffortCertificationLookupable"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:required="true"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:required="true"
-              p:attributeName="emplid" />
-        <bean parent="FieldDefinition"
-              p:required="true"
-              p:attributeName="effortCertificationReportNumber" />
-        <bean parent="FieldDefinition"
-              p:required="true"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:required="true"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:required="true"
-              p:attributeName="subAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialBalanceTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectTypeCode" />
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="emplid"/>
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="effortCertificationReportNumber"/>
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="subAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="subAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSubObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialBalanceTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="positionNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="ledgerPerson.name" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialBeginningBalanceLineAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="contractsGrantsBeginningBalanceAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="accountLineAnnualBalanceAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month1Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month2Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month3Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month4Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month5Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month6Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month7Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month8Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month9Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month10Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month11Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month12Amount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="month13Amount" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="ledgerPerson.name"/>
+        <bean parent="FieldDefinition" p:attributeName="financialBeginningBalanceLineAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="contractsGrantsBeginningBalanceAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="accountLineAnnualBalanceAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="month1Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month2Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month3Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month4Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month5Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month6Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month7Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month8Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month9Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month10Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month11Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month12Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="month13Amount"/>
       </list>
     </property>
   </bean>
 </beans>
-

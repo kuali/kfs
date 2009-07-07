@@ -1,31 +1,25 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="A21SubAccount" parent="A21SubAccount-parentBean" />
+  <bean id="A21SubAccount" parent="A21SubAccount-parentBean"/>
 
   <bean id="A21SubAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.A21SubAccount" />
-    <property name="titleAttribute" value="A21SubAccountNumber" />
-    <property name="objectLabel" value="A21 Sub-Account" />
-    <property name="attributes" >
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.A21SubAccount"/>
+    <property name="titleAttribute" value="A21SubAccountNumber"/>
+    <property name="objectLabel" value="A21 Sub-Account"/>
+    <property name="attributes">
       <list>
-        <ref bean="A21SubAccount-chartOfAccountsCode" />
-        <ref bean="A21SubAccount-accountNumber" />
-        <ref bean="A21SubAccount-subAccountNumber" />
-        <ref bean="A21SubAccount-subAccountTypeCode" />
-        <ref bean="A21SubAccount-indirectCostRecoveryTypeCode" />
-        <ref bean="A21SubAccount-financialIcrSeriesIdentifier" />
-        <ref bean="A21SubAccount-indirectCostRecoveryChartOfAccountsCode" />
-        <ref bean="A21SubAccount-indirectCostRecoveryAccountNumber" />
-        <ref bean="A21SubAccount-offCampusCode" />
-        <ref bean="A21SubAccount-costShareChartOfAccountCode" />
-        <ref bean="A21SubAccount-costShareSourceAccountNumber" />
-        <ref bean="A21SubAccount-costShareSourceSubAccountNumber" />
+        <ref bean="A21SubAccount-chartOfAccountsCode"/>
+        <ref bean="A21SubAccount-accountNumber"/>
+        <ref bean="A21SubAccount-subAccountNumber"/>
+        <ref bean="A21SubAccount-subAccountTypeCode"/>
+        <ref bean="A21SubAccount-indirectCostRecoveryTypeCode"/>
+        <ref bean="A21SubAccount-financialIcrSeriesIdentifier"/>
+        <ref bean="A21SubAccount-indirectCostRecoveryChartOfAccountsCode"/>
+        <ref bean="A21SubAccount-indirectCostRecoveryAccountNumber"/>
+        <ref bean="A21SubAccount-offCampusCode"/>
+        <ref bean="A21SubAccount-costShareChartOfAccountCode"/>
+        <ref bean="A21SubAccount-costShareSourceAccountNumber"/>
+        <ref bean="A21SubAccount-costShareSourceSubAccountNumber"/>
       </list>
     </property>
   </bean>
@@ -33,104 +27,97 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Attribute Definitions -->
 
 
-  <bean id="A21SubAccount-chartOfAccountsCode" parent="A21SubAccount-chartOfAccountsCode-parentBean" />
+  <bean id="A21SubAccount-chartOfAccountsCode" parent="A21SubAccount-chartOfAccountsCode-parentBean"/>
   <bean id="A21SubAccount-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="forceUppercase" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="forceUppercase" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   
-  <bean id="A21SubAccount-accountNumber" parent="A21SubAccount-accountNumber-parentBean" />
+  <bean id="A21SubAccount-accountNumber" parent="A21SubAccount-accountNumber-parentBean"/>
   <bean id="A21SubAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber"/>
   
-  <bean id="A21SubAccount-subAccountNumber" parent="A21SubAccount-subAccountNumber-parentBean" >
-    	<property name="forceUppercase" value="true" />
+  <bean id="A21SubAccount-subAccountNumber" parent="A21SubAccount-subAccountNumber-parentBean">
+    	<property name="forceUppercase" value="true"/>
   </bean>
 
   <bean id="A21SubAccount-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
   </bean>
-  <bean id="A21SubAccount-subAccountTypeCode" parent="A21SubAccount-subAccountTypeCode-parentBean" />
+  <bean id="A21SubAccount-subAccountTypeCode" parent="A21SubAccount-subAccountTypeCode-parentBean"/>
 
   <bean id="A21SubAccount-subAccountTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="subAccountTypeCode" />
-	<property name="forceUppercase" value="false" />    
-    <property name="label" value="Sub-Account Type Code" />
-    <property name="shortLabel" value="Type Code" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
+    <property name="name" value="subAccountTypeCode"/>
+	<property name="forceUppercase" value="false"/>    
+    <property name="label" value="Sub-Account Type Code"/>
+    <property name="shortLabel" value="Type Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
   </bean>
   
-  <bean id="A21SubAccount-indirectCostRecoveryTypeCode" parent="A21SubAccount-indirectCostRecoveryTypeCode-parentBean" />
+  <bean id="A21SubAccount-indirectCostRecoveryTypeCode" parent="A21SubAccount-indirectCostRecoveryTypeCode-parentBean"/>
   <bean id="A21SubAccount-indirectCostRecoveryTypeCode-parentBean" abstract="true" parent="IndirectCostRecoveryType-code">
-    <property name="name" value="indirectCostRecoveryTypeCode" />
+    <property name="name" value="indirectCostRecoveryTypeCode"/>
   </bean>
   
-  <bean id="A21SubAccount-financialIcrSeriesIdentifier" parent="A21SubAccount-financialIcrSeriesIdentifier-parentBean" />
+  <bean id="A21SubAccount-financialIcrSeriesIdentifier" parent="A21SubAccount-financialIcrSeriesIdentifier-parentBean"/>
   <bean id="A21SubAccount-financialIcrSeriesIdentifier-parentBean" abstract="true" parent="IndirectCostRecoveryRate-financialIcrSeriesIdentifier">
-    <property name="name" value="financialIcrSeriesIdentifier" />
-    <property name="label" value="Indirect Cost Rate Id" />
+    <property name="name" value="financialIcrSeriesIdentifier"/>
+    <property name="label" value="Indirect Cost Rate Id"/>
   </bean>
   
-  <bean id="A21SubAccount-indirectCostRecoveryChartOfAccountsCode" parent="A21SubAccount-indirectCostRecoveryChartOfAccountsCode-parentBean" />
+  <bean id="A21SubAccount-indirectCostRecoveryChartOfAccountsCode" parent="A21SubAccount-indirectCostRecoveryChartOfAccountsCode-parentBean"/>
 
   <bean id="A21SubAccount-indirectCostRecoveryChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="name" value="indirectCostRecoveryChartOfAccountsCode" />
-    <property name="label" value="ICR Chart" />
-    <property name="shortLabel" value="ICR Chart" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="indirectCostRecoveryChartOfAccountsCode"/>
+    <property name="label" value="ICR Chart"/>
+    <property name="shortLabel" value="ICR Chart"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="A21SubAccount-indirectCostRecoveryAccountNumber" parent="A21SubAccount-indirectCostRecoveryAccountNumber-parentBean" />
+  <bean id="A21SubAccount-indirectCostRecoveryAccountNumber" parent="A21SubAccount-indirectCostRecoveryAccountNumber-parentBean"/>
 
   <bean id="A21SubAccount-indirectCostRecoveryAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="name" value="indirectCostRecoveryAccountNumber" />
+    <property name="name" value="indirectCostRecoveryAccountNumber"/>
     
-    <property name="label" value="ICR Account" />
-    <property name="shortLabel" value="ICR Account" />
+    <property name="label" value="ICR Account"/>
+    <property name="shortLabel" value="ICR Account"/>
   </bean>
-  <bean id="A21SubAccount-offCampusCode" parent="A21SubAccount-offCampusCode-parentBean" />
+  <bean id="A21SubAccount-offCampusCode" parent="A21SubAccount-offCampusCode-parentBean"/>
 
   <bean id="A21SubAccount-offCampusCode-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="offCampusCode" />
-    <property name="label" value="Off Campus Indicator" />
-    <property name="shortLabel" value="Off Campus" />
+    <property name="name" value="offCampusCode"/>
+    <property name="label" value="Off Campus Indicator"/>
+    <property name="shortLabel" value="Off Campus"/>
   </bean>
-  <bean id="A21SubAccount-costShareChartOfAccountCode" parent="A21SubAccount-costShareChartOfAccountCode-parentBean" />
+  <bean id="A21SubAccount-costShareChartOfAccountCode" parent="A21SubAccount-costShareChartOfAccountCode-parentBean"/>
 
   <bean id="A21SubAccount-costShareChartOfAccountCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="name" value="costShareChartOfAccountCode" />
-    <property name="label" value="Cost Sharing Chart of Accounts Code" />
-    <property name="shortLabel" value="Cost Sharting Chart Code" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="costShareChartOfAccountCode"/>
+    <property name="label" value="Cost Sharing Chart of Accounts Code"/>
+    <property name="shortLabel" value="Cost Sharting Chart Code"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="A21SubAccount-costShareSourceAccountNumber" parent="A21SubAccount-costShareSourceAccountNumber-parentBean" />
+  <bean id="A21SubAccount-costShareSourceAccountNumber" parent="A21SubAccount-costShareSourceAccountNumber-parentBean"/>
 
   <bean id="A21SubAccount-costShareSourceAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="name" value="costShareSourceAccountNumber" />
-    <property name="label" value="Cost Sharing Account Number" />
-    <property name="shortLabel" value="Cost Sharing Account" />
+    <property name="name" value="costShareSourceAccountNumber"/>
+    <property name="label" value="Cost Sharing Account Number"/>
+    <property name="shortLabel" value="Cost Sharing Account"/>
   </bean>
-  <bean id="A21SubAccount-costShareSourceSubAccountNumber" parent="A21SubAccount-costShareSourceSubAccountNumber-parentBean" />
+  <bean id="A21SubAccount-costShareSourceSubAccountNumber" parent="A21SubAccount-costShareSourceSubAccountNumber-parentBean"/>
 
   <bean id="A21SubAccount-costShareSourceSubAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
-    <property name="name" value="costShareSourceSubAccountNumber" />
-    <property name="label" value="Cost Sharing Sub-Account Number" />
-    <property name="shortLabel" value="Cost Sharing Sub-Account" />
+    <property name="name" value="costShareSourceSubAccountNumber"/>
+    <property name="label" value="Cost Sharing Sub-Account Number"/>
+    <property name="shortLabel" value="Cost Sharing Sub-Account"/>
   </bean>
 </beans>

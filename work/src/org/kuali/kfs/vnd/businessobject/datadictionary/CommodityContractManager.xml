@@ -1,35 +1,28 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="CommodityContractManager" parent="CommodityContractManager-parentBean" />
+  <bean id="CommodityContractManager" parent="CommodityContractManager-parentBean"/>
 
   <bean id="CommodityContractManager-parentBean" abstract="true" parent="BusinessObjectEntry">
-  	<property name="objectLabel" value="Commodity Contract Manager" />
-    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.CommodityContractManager" />
-    <property name="inquiryDefinition" >
-      <ref bean="CommodityContractManager-inquiryDefinition" />
+  	<property name="objectLabel" value="Commodity Contract Manager"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.CommodityContractManager"/>
+    <property name="inquiryDefinition">
+      <ref bean="CommodityContractManager-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="CommodityContractManager-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="CommodityContractManager-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="CommodityContractManager-campusCode" />
-        <ref bean="CommodityContractManager-contractManagerCode" />
-        <ref bean="CommodityContractManager-newCollectionRecord" />
-        <ref bean="CommodityContractManager-purchasingCommodityCode" />
+        <ref bean="CommodityContractManager-campusCode"/>
+        <ref bean="CommodityContractManager-contractManagerCode"/>
+        <ref bean="CommodityContractManager-newCollectionRecord"/>
+        <ref bean="CommodityContractManager-purchasingCommodityCode"/>
       </list>
     </property>
-    <property name="relationships" >
+    <property name="relationships">
       <list>
 		<dd:relationship objectAttribute="campus">
-        	<dd:primitiveAttribute source="campusCode" target="campusCode" />
+        	<dd:primitiveAttribute source="campusCode" target="campusCode"/>
 		</dd:relationship> 
  	  </list>
 	</property>
@@ -38,45 +31,41 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="CommodityContractManager-campusCode" parent="CommodityContractManager-campusCode-parentBean" />
+  <bean id="CommodityContractManager-campusCode" parent="CommodityContractManager-campusCode-parentBean"/>
 
   <bean id="CommodityContractManager-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="campusCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Campus Code" />
-    <property name="shortLabel" value="Campus" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="campusCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Campus Code"/>
+    <property name="shortLabel" value="Campus"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.CampusNoBlankValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.CampusNoBlankValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="CommodityContractManager-contractManagerCode" parent="CommodityContractManager-contractManagerCode-parentBean" />
+  <bean id="CommodityContractManager-contractManagerCode" parent="CommodityContractManager-contractManagerCode-parentBean"/>
 
   <bean id="CommodityContractManager-contractManagerCode-parentBean" abstract="true" parent="ContractManager-contractManagerCode">
-    <property name="name" value="contractManagerCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Contract Manager" />
-    <property name="shortLabel" value="Contract Manager" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="contractManagerCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Contract Manager"/>
+    <property name="shortLabel" value="Contract Manager"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.ContractManagerValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.ContractManagerValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="CommodityContractManager-newCollectionRecord" parent="CommodityContractManager-newCollectionRecord-parentBean" />
+  <bean id="CommodityContractManager-newCollectionRecord" parent="CommodityContractManager-newCollectionRecord-parentBean"/>
 
   <bean id="CommodityContractManager-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
-  <bean id="CommodityContractManager-purchasingCommodityCode" parent="CommodityContractManager-purchasingCommodityCode-parentBean" />
+  <bean id="CommodityContractManager-purchasingCommodityCode" parent="CommodityContractManager-purchasingCommodityCode-parentBean"/>
 
   <bean id="CommodityContractManager-purchasingCommodityCode-parentBean" abstract="true" parent="CommodityCode-purchasingCommodityCode">
   </bean>
@@ -84,23 +73,20 @@
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="CommodityContractManager-inquiryDefinition" parent="CommodityContractManager-inquiryDefinition-parentBean" />
+  <bean id="CommodityContractManager-inquiryDefinition" parent="CommodityContractManager-inquiryDefinition-parentBean"/>
 
   <bean id="CommodityContractManager-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Commodity Contract Manager Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Commodity Contract Manager Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="campusCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchasingCommodityCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="contractManagerCode" />
+              <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="purchasingCommodityCode"/>
+              <bean parent="FieldDefinition" p:attributeName="contractManagerCode"/>
             </list>
           </property>
         </bean>
@@ -111,33 +97,27 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="CommodityContractManager-lookupDefinition" parent="CommodityContractManager-lookupDefinition-parentBean" />
+  <bean id="CommodityContractManager-lookupDefinition" parent="CommodityContractManager-lookupDefinition-parentBean"/>
 
   <bean id="CommodityContractManager-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Commodity Contract Manager Lookup" />
-    <property name="instructions" value="Look up a Commodity Contract Manager" />
-    <property name="defaultSort" >
+    <property name="title" value="Commodity Contract Manager Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="campusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchasingCommodityCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="contractManagerCode" />
+        <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchasingCommodityCode"/>
+        <bean parent="FieldDefinition" p:attributeName="contractManagerCode"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="campusCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchasingCommodityCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="contractManagerCode" />
+        <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchasingCommodityCode"/>
+        <bean parent="FieldDefinition" p:attributeName="contractManagerCode"/>
       </list>
     </property>
   </bean>

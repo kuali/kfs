@@ -1,70 +1,62 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="OriginEntryFull" parent="OriginEntryFull-parentBean" />
+  <bean id="OriginEntryFull" parent="OriginEntryFull-parentBean"/>
 
   <bean id="OriginEntryFull-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.OriginEntryFull" />
-    <property name="inquiryDefinition" >
-      <ref bean="OriginEntryFull-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.OriginEntryFull"/>
+    <property name="inquiryDefinition">
+      <ref bean="OriginEntryFull-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="OriginEntryFull-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="OriginEntryFull-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Origin Entry Full" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Origin Entry Full"/>
+    <property name="attributes">
       <list>
-        <ref bean="OriginEntryFull-accountNumber" />
-        <ref bean="OriginEntryFull-financialBalanceTypeCode" />
-        <ref bean="OriginEntryFull-chartOfAccountsCode" />
-        <ref bean="OriginEntryFull-transactionDebitCreditCode" />
-        <ref bean="OriginEntryFull-documentNumber" />
-        <ref bean="OriginEntryFull-financialDocumentReversalDate" />
-        <ref bean="OriginEntryFull-financialDocumentTypeCode" />
-        <ref bean="OriginEntryFull-transactionEncumbranceUpdateCode" />
-        <ref bean="OriginEntryFull-entryGroupId" />
-        <ref bean="OriginEntryFull-entryId" />
-        <ref bean="OriginEntryFull-financialObjectCode" />
-        <ref bean="OriginEntryFull-financialObjectTypeCode" />
-        <ref bean="OriginEntryFull-organizationDocumentNumber" />
-        <ref bean="OriginEntryFull-organizationReferenceId" />
-        <ref bean="OriginEntryFull-financialSystemOriginationCode" />
-        <ref bean="OriginEntryFull-projectCode" />
-        <ref bean="OriginEntryFull-referenceFinancialDocumentNumber" />
-        <ref bean="OriginEntryFull-referenceFinancialDocumentTypeCode" />
-        <ref bean="OriginEntryFull-referenceFinancialSystemOriginationCode" />
-        <ref bean="OriginEntryFull-subAccountNumber" />
-        <ref bean="OriginEntryFull-financialSubObjectCode" />
-        <ref bean="OriginEntryFull-transactionDate" />
-        <ref bean="OriginEntryFull-transactionLedgerEntrySequenceNumber" />
-        <ref bean="OriginEntryFull-transactionLedgerEntryAmount" />
-        <ref bean="OriginEntryFull-transactionLedgerEntryDescription" />
-        <ref bean="OriginEntryFull-universityFiscalPeriodCode" />
-        <ref bean="OriginEntryFull-universityFiscalYear" />
+        <ref bean="OriginEntryFull-accountNumber"/>
+        <ref bean="OriginEntryFull-financialBalanceTypeCode"/>
+        <ref bean="OriginEntryFull-chartOfAccountsCode"/>
+        <ref bean="OriginEntryFull-transactionDebitCreditCode"/>
+        <ref bean="OriginEntryFull-documentNumber"/>
+        <ref bean="OriginEntryFull-financialDocumentReversalDate"/>
+        <ref bean="OriginEntryFull-financialDocumentTypeCode"/>
+        <ref bean="OriginEntryFull-transactionEncumbranceUpdateCode"/>
+        <ref bean="OriginEntryFull-entryGroupId"/>
+        <ref bean="OriginEntryFull-entryId"/>
+        <ref bean="OriginEntryFull-financialObjectCode"/>
+        <ref bean="OriginEntryFull-financialObjectTypeCode"/>
+        <ref bean="OriginEntryFull-organizationDocumentNumber"/>
+        <ref bean="OriginEntryFull-organizationReferenceId"/>
+        <ref bean="OriginEntryFull-financialSystemOriginationCode"/>
+        <ref bean="OriginEntryFull-projectCode"/>
+        <ref bean="OriginEntryFull-referenceFinancialDocumentNumber"/>
+        <ref bean="OriginEntryFull-referenceFinancialDocumentTypeCode"/>
+        <ref bean="OriginEntryFull-referenceFinancialSystemOriginationCode"/>
+        <ref bean="OriginEntryFull-subAccountNumber"/>
+        <ref bean="OriginEntryFull-financialSubObjectCode"/>
+        <ref bean="OriginEntryFull-transactionDate"/>
+        <ref bean="OriginEntryFull-transactionLedgerEntrySequenceNumber"/>
+        <ref bean="OriginEntryFull-transactionLedgerEntryAmount"/>
+        <ref bean="OriginEntryFull-transactionLedgerEntryDescription"/>
+        <ref bean="OriginEntryFull-universityFiscalPeriodCode"/>
+        <ref bean="OriginEntryFull-universityFiscalYear"/>
       </list>
     </property>
     <property name="relationships">
     	<list>
     		<bean parent="RelationshipDefinition">
-    			<property name="objectAttributeName" value="financialSystemDocumentTypeCode" />
-		        <property name="primitiveAttributes" >
+    			<property name="objectAttributeName" value="financialSystemDocumentTypeCode"/>
+		        <property name="primitiveAttributes">
 		        	<list>
-		            	<bean parent="PrimitiveAttributeDefinition"
-		                    p:sourceName="financialDocumentTypeCode"
-		                    p:targetName="name" />
+		            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="financialDocumentTypeCode" p:targetName="name"/>
 		            </list>
 		        </property>
     		</bean>
     		<bean parent="RelationshipDefinition">
-    			<property name="objectAttributeName" value="referenceFinancialSystemDocumentTypeCode" />
-		        <property name="primitiveAttributes" >
+    			<property name="objectAttributeName" value="referenceFinancialSystemDocumentTypeCode"/>
+		        <property name="primitiveAttributes">
 		        	<list>
-		            	<bean parent="PrimitiveAttributeDefinition"
-		                    p:sourceName="referenceFinancialDocumentTypeCode"
-		                    p:targetName="name" />
+		            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="referenceFinancialDocumentTypeCode" p:targetName="name"/>
 		            </list>
 		        </property>
     		</bean>
@@ -75,333 +67,289 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="OriginEntryFull-accountNumber" parent="OriginEntryFull-accountNumber-parentBean" />
+  <bean id="OriginEntryFull-accountNumber" parent="OriginEntryFull-accountNumber-parentBean"/>
 
   <bean id="OriginEntryFull-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="shortLabel" value="AcctNum" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="7" />
+    <property name="shortLabel" value="AcctNum"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="7"/>
     </property>
   </bean>
-  <bean id="OriginEntryFull-financialBalanceTypeCode" parent="OriginEntryFull-financialBalanceTypeCode-parentBean" />
+  <bean id="OriginEntryFull-financialBalanceTypeCode" parent="OriginEntryFull-financialBalanceTypeCode-parentBean"/>
 
   <bean id="OriginEntryFull-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
-    <property name="name" value="financialBalanceTypeCode" />
-    <property name="label" value="Balance Type" />
-    <property name="shortLabel" value="BalTyp" />
+    <property name="name" value="financialBalanceTypeCode"/>
+    <property name="label" value="Balance Type"/>
+    <property name="shortLabel" value="BalTyp"/>
   </bean>
-  <bean id="OriginEntryFull-chartOfAccountsCode" parent="OriginEntryFull-chartOfAccountsCode-parentBean" />
+  <bean id="OriginEntryFull-chartOfAccountsCode" parent="OriginEntryFull-chartOfAccountsCode-parentBean"/>
 
   <bean id="OriginEntryFull-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="label" value="Chart" />
+    <property name="label" value="Chart"/>
   </bean>
-  <bean id="OriginEntryFull-transactionDebitCreditCode" parent="OriginEntryFull-transactionDebitCreditCode-parentBean" />
+  <bean id="OriginEntryFull-transactionDebitCreditCode" parent="OriginEntryFull-transactionDebitCreditCode-parentBean"/>
 
   <bean id="OriginEntryFull-transactionDebitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="transactionDebitCreditCode" />
-    <property name="label" value="Debit/Credit Code" />
-    <property name="shortLabel" value="D/C" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
+    <property name="name" value="transactionDebitCreditCode"/>
+    <property name="label" value="Debit/Credit Code"/>
+    <property name="shortLabel" value="D/C"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="1"/>
     </property>
   </bean>
-  <bean id="OriginEntryFull-documentNumber" parent="OriginEntryFull-documentNumber-parentBean" />
+  <bean id="OriginEntryFull-documentNumber" parent="OriginEntryFull-documentNumber-parentBean"/>
 
   <bean id="OriginEntryFull-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentNumber" />
-    <property name="label" value="Document Number" />
-    <property name="shortLabel" value="DocNum" />
-    <property name="maxLength" value="14" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="14" />
+    <property name="name" value="documentNumber"/>
+    <property name="label" value="Document Number"/>
+    <property name="shortLabel" value="DocNum"/>
+    <property name="maxLength" value="14"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="14"/>
     </property>
   </bean>
-  <bean id="OriginEntryFull-financialDocumentReversalDate" parent="OriginEntryFull-financialDocumentReversalDate-parentBean" />
+  <bean id="OriginEntryFull-financialDocumentReversalDate" parent="OriginEntryFull-financialDocumentReversalDate-parentBean"/>
 
   <bean id="OriginEntryFull-financialDocumentReversalDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentReversalDate" />
-    <property name="label" value="Document Reversal Date" />
-    <property name="shortLabel" value="DocRevDt" />
-    <property name="maxLength" value="10" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="name" value="financialDocumentReversalDate"/>
+    <property name="label" value="Document Reversal Date"/>
+    <property name="shortLabel" value="DocRevDt"/>
+    <property name="maxLength" value="10"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="OriginEntryFull-financialDocumentTypeCode" parent="OriginEntryFull-financialDocumentTypeCode-parentBean" />
+  <bean id="OriginEntryFull-financialDocumentTypeCode" parent="OriginEntryFull-financialDocumentTypeCode-parentBean"/>
 
   <bean id="OriginEntryFull-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-generalLedgerFinancialSystemDocumentTypeCode">
-    <property name="name" value="financialDocumentTypeCode" />
+    <property name="name" value="financialDocumentTypeCode"/>
   </bean>
-  <bean id="OriginEntryFull-transactionEncumbranceUpdateCode" parent="OriginEntryFull-transactionEncumbranceUpdateCode-parentBean" />
+  <bean id="OriginEntryFull-transactionEncumbranceUpdateCode" parent="OriginEntryFull-transactionEncumbranceUpdateCode-parentBean"/>
 
   <bean id="OriginEntryFull-transactionEncumbranceUpdateCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="transactionEncumbranceUpdateCode" />
-    <property name="label" value="Encumbrance Update Code" />
-    <property name="shortLabel" value="EncUpdtCd" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="1" />
+    <property name="name" value="transactionEncumbranceUpdateCode"/>
+    <property name="label" value="Encumbrance Update Code"/>
+    <property name="shortLabel" value="EncUpdtCd"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="1"/>
     </property>
   </bean>
-  <bean id="OriginEntryFull-entryGroupId" parent="OriginEntryFull-entryGroupId-parentBean" />
+  <bean id="OriginEntryFull-entryGroupId" parent="OriginEntryFull-entryGroupId-parentBean"/>
 
   <bean id="OriginEntryFull-entryGroupId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="entryGroupId" />
-    <property name="label" value="Entry Group ID" />
-    <property name="shortLabel" value="EntryGrpID" />
-    <property name="maxLength" value="14" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="14" />
+    <property name="name" value="entryGroupId"/>
+    <property name="label" value="Entry Group ID"/>
+    <property name="shortLabel" value="EntryGrpID"/>
+    <property name="maxLength" value="14"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="14"/>
     </property>
   </bean>
-  <bean id="OriginEntryFull-entryId" parent="OriginEntryFull-entryId-parentBean" />
+  <bean id="OriginEntryFull-entryId" parent="OriginEntryFull-entryId-parentBean"/>
 
   <bean id="OriginEntryFull-entryId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="entryId" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Entry ID" />
-    <property name="shortLabel" value="EntryID" />
-    <property name="maxLength" value="14" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="14" />
+    <property name="name" value="entryId"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Entry ID"/>
+    <property name="shortLabel" value="EntryID"/>
+    <property name="maxLength" value="14"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="14"/>
     </property>
   </bean>
-  <bean id="OriginEntryFull-financialObjectCode" parent="OriginEntryFull-financialObjectCode-parentBean" />
+  <bean id="OriginEntryFull-financialObjectCode" parent="OriginEntryFull-financialObjectCode-parentBean"/>
 
   <bean id="OriginEntryFull-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    <property name="shortLabel" value="ObjCd" />
+    <property name="shortLabel" value="ObjCd"/>
   </bean>
-  <bean id="OriginEntryFull-financialObjectTypeCode" parent="OriginEntryFull-financialObjectTypeCode-parentBean" />
+  <bean id="OriginEntryFull-financialObjectTypeCode" parent="OriginEntryFull-financialObjectTypeCode-parentBean"/>
 
   <bean id="OriginEntryFull-financialObjectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
-    <property name="name" value="financialObjectTypeCode" />
-    <property name="shortLabel" value="ObjTypCd" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="name" value="financialObjectTypeCode"/>
+    <property name="shortLabel" value="ObjTypCd"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
   </bean>
-  <bean id="OriginEntryFull-organizationDocumentNumber" parent="OriginEntryFull-organizationDocumentNumber-parentBean" />
+  <bean id="OriginEntryFull-organizationDocumentNumber" parent="OriginEntryFull-organizationDocumentNumber-parentBean"/>
 
   <bean id="OriginEntryFull-organizationDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationDocumentNumber" />
-    <property name="label" value="Org. Document Number" />
-    <property name="shortLabel" value="OrgDocNbr" />
-    <property name="maxLength" value="10" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="name" value="organizationDocumentNumber"/>
+    <property name="label" value="Org. Document Number"/>
+    <property name="shortLabel" value="OrgDocNbr"/>
+    <property name="maxLength" value="10"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="OriginEntryFull-organizationReferenceId" parent="OriginEntryFull-organizationReferenceId-parentBean" />
+  <bean id="OriginEntryFull-organizationReferenceId" parent="OriginEntryFull-organizationReferenceId-parentBean"/>
 
   <bean id="OriginEntryFull-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationReferenceId" />
-    <property name="label" value="Org. Reference ID" />
-    <property name="shortLabel" value="OrgRefID" />
-    <property name="maxLength" value="8" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="8" />
+    <property name="name" value="organizationReferenceId"/>
+    <property name="label" value="Org. Reference ID"/>
+    <property name="shortLabel" value="OrgRefID"/>
+    <property name="maxLength" value="8"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="8"/>
     </property>
   </bean>
-  <bean id="OriginEntryFull-financialSystemOriginationCode" parent="OriginEntryFull-financialSystemOriginationCode-parentBean" />
+  <bean id="OriginEntryFull-financialSystemOriginationCode" parent="OriginEntryFull-financialSystemOriginationCode-parentBean"/>
 
   <bean id="OriginEntryFull-financialSystemOriginationCode-parentBean" abstract="true" parent="OriginationCode-financialSystemOriginationCode">
-    <property name="label" value="Origin Code" />
-    <property name="shortLabel" value="OriginCd" />
+    <property name="label" value="Origin Code"/>
+    <property name="shortLabel" value="OriginCd"/>
   </bean>
-  <bean id="OriginEntryFull-projectCode" parent="OriginEntryFull-projectCode-parentBean" />
+  <bean id="OriginEntryFull-projectCode" parent="OriginEntryFull-projectCode-parentBean"/>
 
   <bean id="OriginEntryFull-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
-    <property name="name" value="projectCode" />
-    <property name="shortLabel" value="PrjCd" />
+    <property name="name" value="projectCode"/>
+    <property name="shortLabel" value="PrjCd"/>
   </bean>
-  <bean id="OriginEntryFull-referenceFinancialDocumentNumber" parent="OriginEntryFull-referenceFinancialDocumentNumber-parentBean" />
+  <bean id="OriginEntryFull-referenceFinancialDocumentNumber" parent="OriginEntryFull-referenceFinancialDocumentNumber-parentBean"/>
 
   <bean id="OriginEntryFull-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="referenceFinancialDocumentNumber" />
-    <property name="label" value="Ref. Document Number" />
-    <property name="shortLabel" value="RefDocNbr" />
-    <property name="maxLength" value="14" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="14" />
+    <property name="name" value="referenceFinancialDocumentNumber"/>
+    <property name="label" value="Ref. Document Number"/>
+    <property name="shortLabel" value="RefDocNbr"/>
+    <property name="maxLength" value="14"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="14"/>
     </property>
   </bean>
-  <bean id="OriginEntryFull-referenceFinancialDocumentTypeCode" parent="OriginEntryFull-referenceFinancialDocumentTypeCode-parentBean" />
+  <bean id="OriginEntryFull-referenceFinancialDocumentTypeCode" parent="OriginEntryFull-referenceFinancialDocumentTypeCode-parentBean"/>
 
   <bean id="OriginEntryFull-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-referenceTypeCode">
-    <property name="name" value="referenceFinancialDocumentTypeCode" />
-    <property name="maxLength" value="4" />
+    <property name="name" value="referenceFinancialDocumentTypeCode"/>
+    <property name="maxLength" value="4"/>
   </bean>
-  <bean id="OriginEntryFull-referenceFinancialSystemOriginationCode" parent="OriginEntryFull-referenceFinancialSystemOriginationCode-parentBean" />
+  <bean id="OriginEntryFull-referenceFinancialSystemOriginationCode" parent="OriginEntryFull-referenceFinancialSystemOriginationCode-parentBean"/>
 
   <bean id="OriginEntryFull-referenceFinancialSystemOriginationCode-parentBean" abstract="true" parent="OriginationCode-financialSystemOriginationCode">
-    <property name="name" value="referenceFinancialSystemOriginationCode" />
-    <property name="label" value="Reference Origin Code" />
-    <property name="shortLabel" value="RefOriginCd" />
+    <property name="name" value="referenceFinancialSystemOriginationCode"/>
+    <property name="label" value="Reference Origin Code"/>
+    <property name="shortLabel" value="RefOriginCd"/>
   </bean>
-  <bean id="OriginEntryFull-subAccountNumber" parent="OriginEntryFull-subAccountNumber-parentBean" />
+  <bean id="OriginEntryFull-subAccountNumber" parent="OriginEntryFull-subAccountNumber-parentBean"/>
 
   <bean id="OriginEntryFull-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
-    <property name="label" value="Sub Account Number" />
-    <property name="shortLabel" value="RefDocTypCd" />
+    <property name="label" value="Sub Account Number"/>
+    <property name="shortLabel" value="RefDocTypCd"/>
   </bean>
-  <bean id="OriginEntryFull-financialSubObjectCode" parent="OriginEntryFull-financialSubObjectCode-parentBean" />
+  <bean id="OriginEntryFull-financialSubObjectCode" parent="OriginEntryFull-financialSubObjectCode-parentBean"/>
 
   <bean id="OriginEntryFull-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
-    <property name="label" value="Sub Object Code" />
-    <property name="shortLabel" value="SubObjectCode" />
+    <property name="label" value="Sub Object Code"/>
+    <property name="shortLabel" value="SubObjectCode"/>
   </bean>
-  <bean id="OriginEntryFull-transactionDate" parent="OriginEntryFull-transactionDate-parentBean" />
+  <bean id="OriginEntryFull-transactionDate" parent="OriginEntryFull-transactionDate-parentBean"/>
 
   <bean id="OriginEntryFull-transactionDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="transactionDate" />
-    <property name="label" value="Transaction Date" />
-    <property name="shortLabel" value="TxnDt" />
-    <property name="maxLength" value="10" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="name" value="transactionDate"/>
+    <property name="label" value="Transaction Date"/>
+    <property name="shortLabel" value="TxnDt"/>
+    <property name="maxLength" value="10"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="OriginEntryFull-transactionLedgerEntrySequenceNumber" parent="OriginEntryFull-transactionLedgerEntrySequenceNumber-parentBean" />
+  <bean id="OriginEntryFull-transactionLedgerEntrySequenceNumber" parent="OriginEntryFull-transactionLedgerEntrySequenceNumber-parentBean"/>
 
   <bean id="OriginEntryFull-transactionLedgerEntrySequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="transactionLedgerEntrySequenceNumber" />
-    <property name="label" value="Transaction Entry Sequence ID" />
-    <property name="shortLabel" value="TxnEntrySeqId" />
-    <property name="maxLength" value="5" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="name" value="transactionLedgerEntrySequenceNumber"/>
+    <property name="label" value="Transaction Entry Sequence ID"/>
+    <property name="shortLabel" value="TxnEntrySeqId"/>
+    <property name="maxLength" value="5"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
   </bean>
-  <bean id="OriginEntryFull-transactionLedgerEntryAmount" parent="OriginEntryFull-transactionLedgerEntryAmount-parentBean" />
+  <bean id="OriginEntryFull-transactionLedgerEntryAmount" parent="OriginEntryFull-transactionLedgerEntryAmount-parentBean"/>
 
   <bean id="OriginEntryFull-transactionLedgerEntryAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="transactionLedgerEntryAmount" />
-    <property name="label" value="Transaction Ledger Entry Amount" />
-    <property name="shortLabel" value="TxnLdgrEntryAmt" />
-    <property name="maxLength" value="19" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="19" />
+    <property name="name" value="transactionLedgerEntryAmount"/>
+    <property name="label" value="Transaction Ledger Entry Amount"/>
+    <property name="shortLabel" value="TxnLdgrEntryAmt"/>
+    <property name="maxLength" value="19"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="19"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-  <bean id="OriginEntryFull-transactionLedgerEntryDescription" parent="OriginEntryFull-transactionLedgerEntryDescription-parentBean" />
+  <bean id="OriginEntryFull-transactionLedgerEntryDescription" parent="OriginEntryFull-transactionLedgerEntryDescription-parentBean"/>
 
   <bean id="OriginEntryFull-transactionLedgerEntryDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="transactionLedgerEntryDescription" />
-    <property name="label" value="Transaction Ledger Entry Description" />
-    <property name="shortLabel" value="TxnLdgrEntryDesc" />
-    <property name="maxLength" value="40" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="name" value="transactionLedgerEntryDescription"/>
+    <property name="label" value="Transaction Ledger Entry Description"/>
+    <property name="shortLabel" value="TxnLdgrEntryDesc"/>
+    <property name="maxLength" value="40"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
   </bean>
-  <bean id="OriginEntryFull-universityFiscalPeriodCode" parent="OriginEntryFull-universityFiscalPeriodCode-parentBean" />
+  <bean id="OriginEntryFull-universityFiscalPeriodCode" parent="OriginEntryFull-universityFiscalPeriodCode-parentBean"/>
 
   <bean id="OriginEntryFull-universityFiscalPeriodCode-parentBean" abstract="true" parent="AccountingPeriod-universityFiscalPeriodCode">
-    <property name="label" value="Fiscal Period" />
-    <property name="shortLabel" value="UnivFsclAcctPrd" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="label" value="Fiscal Period"/>
+    <property name="shortLabel" value="UnivFsclAcctPrd"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
   </bean>
-  <bean id="OriginEntryFull-universityFiscalYear" parent="OriginEntryFull-universityFiscalYear-parentBean" />
+  <bean id="OriginEntryFull-universityFiscalYear" parent="OriginEntryFull-universityFiscalYear-parentBean"/>
 
   <bean id="OriginEntryFull-universityFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="universityFiscalYear" />
-    <property name="label" value="Fiscal Year" />
-    <property name="shortLabel" value="Fiscal Year" />
-    <property name="maxLength" value="4" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="name" value="universityFiscalYear"/>
+    <property name="label" value="Fiscal Year"/>
+    <property name="shortLabel" value="Fiscal Year"/>
+    <property name="maxLength" value="4"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="OriginEntryFull-inquiryDefinition" parent="OriginEntryFull-inquiryDefinition-parentBean" />
+  <bean id="OriginEntryFull-inquiryDefinition" parent="OriginEntryFull-inquiryDefinition-parentBean"/>
 
   <bean id="OriginEntryFull-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Origin Entry" />
-    <property name="inquirySections" >
+    <property name="title" value="Origin Entry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="accountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialBalanceTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="transactionDebitCreditCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="documentNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentReversalDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="transactionEncumbranceUpdateCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="entryGroupId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="entryId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationDocumentNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationReferenceId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialSystemOriginationCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="projectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="referenceFinancialDocumentNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="referenceFinancialDocumentTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="referenceFinancialSystemOriginationCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="subAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialSubObjectCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="transactionDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="transactionLedgerEntrySequenceNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="transactionLedgerEntryAmount" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="transactionLedgerEntryDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalPeriodCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYear" />
+              <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="transactionDebitCreditCode"/>
+              <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentReversalDate"/>
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="transactionEncumbranceUpdateCode"/>
+              <bean parent="FieldDefinition" p:attributeName="entryGroupId"/>
+              <bean parent="FieldDefinition" p:attributeName="entryId"/>
+              <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationDocumentNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationReferenceId"/>
+              <bean parent="FieldDefinition" p:attributeName="financialSystemOriginationCode"/>
+              <bean parent="FieldDefinition" p:attributeName="projectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="referenceFinancialSystemOriginationCode"/>
+              <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="transactionDate"/>
+              <bean parent="FieldDefinition" p:attributeName="transactionLedgerEntrySequenceNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="transactionLedgerEntryAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="transactionLedgerEntryDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode"/>
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
             </list>
           </property>
         </bean>
@@ -412,135 +360,81 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="OriginEntryFull-lookupDefinition" parent="OriginEntryFull-lookupDefinition-parentBean" />
+  <bean id="OriginEntryFull-lookupDefinition" parent="OriginEntryFull-lookupDefinition-parentBean"/>
 
   <bean id="OriginEntryFull-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Origin Entry Lookup" />
-    <property name="instructions" value="Lookup Origin Entries" />
-    <property name="defaultSort" >
+    <property name="title" value="Origin Entry Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>transactionDate</value>
           </list>
         </property>
-        <property name="sortAscending" value="false" />
+        <property name="sortAscending" value="false"/>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialBalanceTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="transactionDebitCreditCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="documentNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentReversalDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="transactionEncumbranceUpdateCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="entryGroupId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="entryId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationDocumentNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationReferenceId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSystemOriginationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="projectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="referenceFinancialDocumentNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="referenceFinancialDocumentTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="referenceFinancialSystemOriginationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="subAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSubObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="transactionDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="transactionLedgerEntrySequenceNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="transactionLedgerEntryAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="transactionLedgerEntryDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalPeriodCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="transactionDebitCreditCode"/>
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentReversalDate"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="transactionEncumbranceUpdateCode"/>
+        <bean parent="FieldDefinition" p:attributeName="entryGroupId"/>
+        <bean parent="FieldDefinition" p:attributeName="entryId"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationDocumentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationReferenceId"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSystemOriginationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="projectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="referenceFinancialSystemOriginationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="transactionDate"/>
+        <bean parent="FieldDefinition" p:attributeName="transactionLedgerEntrySequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="transactionLedgerEntryAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="transactionLedgerEntryDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialBalanceTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="transactionDebitCreditCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="documentNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentReversalDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="transactionEncumbranceUpdateCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="entryGroupId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="entryId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationDocumentNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationReferenceId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSystemOriginationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="projectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="referenceFinancialDocumentNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="referenceFinancialDocumentTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="referenceFinancialSystemOriginationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="subAccountNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialSubObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="transactionDate" />
-        <bean parent="FieldDefinition"
-              p:attributeName="transactionLedgerEntrySequenceNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="transactionLedgerEntryAmount" />
-        <bean parent="FieldDefinition"
-              p:attributeName="transactionLedgerEntryDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalPeriodCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="transactionDebitCreditCode"/>
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentReversalDate"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="transactionEncumbranceUpdateCode"/>
+        <bean parent="FieldDefinition" p:attributeName="entryGroupId"/>
+        <bean parent="FieldDefinition" p:attributeName="entryId"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationDocumentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationReferenceId"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSystemOriginationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="projectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="referenceFinancialSystemOriginationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="transactionDate"/>
+        <bean parent="FieldDefinition" p:attributeName="transactionLedgerEntrySequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="transactionLedgerEntryAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="transactionLedgerEntryDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
       </list>
     </property>
   </bean>

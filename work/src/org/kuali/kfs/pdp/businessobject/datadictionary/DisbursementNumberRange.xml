@@ -1,47 +1,40 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="DisbursementNumberRange" parent="DisbursementNumberRange-parentBean" />
+  <bean id="DisbursementNumberRange" parent="DisbursementNumberRange-parentBean"/>
 
   <bean id="DisbursementNumberRange-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.DisbursementNumberRange" />
-    <property name="inquiryDefinition" >
-      <ref bean="DisbursementNumberRange-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.DisbursementNumberRange"/>
+    <property name="inquiryDefinition">
+      <ref bean="DisbursementNumberRange-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="DisbursementNumberRange-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="DisbursementNumberRange-lookupDefinition"/>
     </property>
-    <property name="objectLabel" value="Disbursement Number Range" />
-    <property name="attributes" >
+    <property name="objectLabel" value="Disbursement Number Range"/>
+    <property name="attributes">
       <list>
-        <ref bean="DisbursementNumberRange-physCampusProcCode" />
-        <ref bean="DisbursementNumberRange-beginDisbursementNbr" />
-        <ref bean="DisbursementNumberRange-lastAssignedDisbNbr" />
-        <ref bean="DisbursementNumberRange-endDisbursementNbr" />
-        <ref bean="DisbursementNumberRange-disbNbrRangeStartDt" />
-        <ref bean="DisbursementNumberRange-bankCode" />
-        <ref bean="DisbursementNumberRange-disbursementTypeCode" />
-        <ref bean="DisbursementNumberRange-active" />
+        <ref bean="DisbursementNumberRange-physCampusProcCode"/>
+        <ref bean="DisbursementNumberRange-beginDisbursementNbr"/>
+        <ref bean="DisbursementNumberRange-lastAssignedDisbNbr"/>
+        <ref bean="DisbursementNumberRange-endDisbursementNbr"/>
+        <ref bean="DisbursementNumberRange-disbNbrRangeStartDt"/>
+        <ref bean="DisbursementNumberRange-bankCode"/>
+        <ref bean="DisbursementNumberRange-disbursementTypeCode"/>
+        <ref bean="DisbursementNumberRange-active"/>
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
       <list>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="bank"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="bank"/>
       </list>
     </property>
 	<property name="relationships">
     	<list>
 			<bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="campus" />
-              <property name="primitiveAttributes" >
+              <property name="objectAttributeName" value="campus"/>
+              <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition"
-                        p:sourceName="physCampusProcCode"
-                        p:targetName="campusCode" />
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="physCampusProcCode" p:targetName="campusCode"/>
                 </list>
               </property>
     		</bean>
@@ -51,114 +44,103 @@
 
 <!-- Attribute Definitions -->
   
-  <bean id="DisbursementNumberRange-physCampusProcCode" parent="DisbursementNumberRange-physCampusProcCode-parentBean" />
+  <bean id="DisbursementNumberRange-physCampusProcCode" parent="DisbursementNumberRange-physCampusProcCode-parentBean"/>
   <bean id="DisbursementNumberRange-physCampusProcCode-parentBean" abstract="true" parent="Campus-campusCode">
-    <property name="name" value="physCampusProcCode" />
-    <property name="label" value="Campus Processing Location" />
-    <property name="shortLabel" value="Campus Processing Location" />
+    <property name="name" value="physCampusProcCode"/>
+    <property name="label" value="Campus Processing Location"/>
+    <property name="shortLabel" value="Campus Processing Location"/>
   </bean>
   
-  <bean id="DisbursementNumberRange-beginDisbursementNbr" parent="DisbursementNumberRange-beginDisbursementNbr-parentBean" />
+  <bean id="DisbursementNumberRange-beginDisbursementNbr" parent="DisbursementNumberRange-beginDisbursementNbr-parentBean"/>
   <bean id="DisbursementNumberRange-beginDisbursementNbr-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="beginDisbursementNbr" />
-    <property name="label" value="Beginning Disbursement Number" />
-    <property name="shortLabel" value="Beginning Disbursement Number" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="beginDisbursementNbr"/>
+    <property name="label" value="Beginning Disbursement Number"/>
+    <property name="shortLabel" value="Beginning Disbursement Number"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
   
-  <bean id="DisbursementNumberRange-endDisbursementNbr" parent="DisbursementNumberRange-endDisbursementNbr-parentBean" />
+  <bean id="DisbursementNumberRange-endDisbursementNbr" parent="DisbursementNumberRange-endDisbursementNbr-parentBean"/>
   <bean id="DisbursementNumberRange-endDisbursementNbr-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="endDisbursementNbr" />
-    <property name="label" value="End Disbursement Number" />
-    <property name="shortLabel" value="End Disbursement Number" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="endDisbursementNbr"/>
+    <property name="label" value="End Disbursement Number"/>
+    <property name="shortLabel" value="End Disbursement Number"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean> 
   
-  <bean id="DisbursementNumberRange-lastAssignedDisbNbr" parent="DisbursementNumberRange-lastAssignedDisbNbr-parentBean" />
+  <bean id="DisbursementNumberRange-lastAssignedDisbNbr" parent="DisbursementNumberRange-lastAssignedDisbNbr-parentBean"/>
   <bean id="DisbursementNumberRange-lastAssignedDisbNbr-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="lastAssignedDisbNbr" />
-    <property name="label" value="Last Assigned Disbursement Number" />
-    <property name="shortLabel" value="Last Assigned Disbursement Number" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="lastAssignedDisbNbr"/>
+    <property name="label" value="Last Assigned Disbursement Number"/>
+    <property name="shortLabel" value="Last Assigned Disbursement Number"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
   
-  <bean id="DisbursementNumberRange-disbNbrRangeStartDt" parent="DisbursementNumberRange-disbNbrRangeStartDt-parentBean" />
+  <bean id="DisbursementNumberRange-disbNbrRangeStartDt" parent="DisbursementNumberRange-disbNbrRangeStartDt-parentBean"/>
   <bean id="DisbursementNumberRange-disbNbrRangeStartDt-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="forceUppercase" value="true" />
-    <property name="name" value="disbNbrRangeStartDt" />
-    <property name="label" value="Range Start Date" />
-    <property name="shortLabel" value="Start Dt" />
+    <property name="forceUppercase" value="true"/>
+    <property name="name" value="disbNbrRangeStartDt"/>
+    <property name="label" value="Range Start Date"/>
+    <property name="shortLabel" value="Start Dt"/>
   </bean>
   
-  <bean id="DisbursementNumberRange-bankCode" parent="DisbursementNumberRange-bankCode-parentBean" />
-  <bean id="DisbursementNumberRange-bankCode-parentBean" abstract="true" parent="Bank-bankCode" >
-  	<property name="forceUppercase" value="true" />
+  <bean id="DisbursementNumberRange-bankCode" parent="DisbursementNumberRange-bankCode-parentBean"/>
+  <bean id="DisbursementNumberRange-bankCode-parentBean" abstract="true" parent="Bank-bankCode">
+  	<property name="forceUppercase" value="true"/>
   </bean>
   
-  <bean id="DisbursementNumberRange-disbursementTypeCode" parent="DisbursementNumberRange-disbursementTypeCode-parentBean" />
+  <bean id="DisbursementNumberRange-disbursementTypeCode" parent="DisbursementNumberRange-disbursementTypeCode-parentBean"/>
   <bean id="DisbursementNumberRange-disbursementTypeCode-parentBean" abstract="true" parent="DisbursementType-code">
-	<property name="forceUppercase" value="true" />
-	<property name="name" value="disbursementTypeCode" />
+	<property name="forceUppercase" value="true"/>
+	<property name="name" value="disbursementTypeCode"/>
   </bean>
 
-  <bean id="DisbursementNumberRange-active" parent="DisbursementNumberRange-active-parentBean" />
+  <bean id="DisbursementNumberRange-active" parent="DisbursementNumberRange-active-parentBean"/>
 
   <bean id="DisbursementNumberRange-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="DisbursementNumberRange-inquiryDefinition" parent="DisbursementNumberRange-inquiryDefinition-parentBean" />
+  <bean id="DisbursementNumberRange-inquiryDefinition" parent="DisbursementNumberRange-inquiryDefinition-parentBean"/>
   <bean id="DisbursementNumberRange-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Disbursement Number Range Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Disbursement Number Range Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="physCampusProcCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="bankCode" />                   
-              <bean parent="FieldDefinition"
-                    p:attributeName="disbursementTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="disbNbrRangeStartDt" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="beginDisbursementNbr" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="endDisbursementNbr" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="lastAssignedDisbNbr" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="physCampusProcCode"/>
+              <bean parent="FieldDefinition" p:attributeName="bankCode"/>                   
+              <bean parent="FieldDefinition" p:attributeName="disbursementTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="disbNbrRangeStartDt"/>
+              <bean parent="FieldDefinition" p:attributeName="beginDisbursementNbr"/>
+              <bean parent="FieldDefinition" p:attributeName="endDisbursementNbr"/>
+              <bean parent="FieldDefinition" p:attributeName="lastAssignedDisbNbr"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -169,49 +151,37 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="DisbursementNumberRange-lookupDefinition" parent="DisbursementNumberRange-lookupDefinition-parentBean" />
+  <bean id="DisbursementNumberRange-lookupDefinition" parent="DisbursementNumberRange-lookupDefinition-parentBean"/>
   <bean id="DisbursementNumberRange-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Disbursement Number Range Lookup" />
-    <property name="instructions" value="Lookup an Disbursement Number Range" />
-    <property name="defaultSort" >
+    <property name="title" value="Disbursement Number Range Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>physCampusProcCode</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="physCampusProcCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="bankCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="disbursementTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="physCampusProcCode"/>
+        <bean parent="FieldDefinition" p:attributeName="bankCode"/>
+        <bean parent="FieldDefinition" p:attributeName="disbursementTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="physCampusProcCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="bankCode" /> 
-        <bean parent="FieldDefinition"
-              p:attributeName="disbursementTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="disbNbrRangeStartDt" />
-        <bean parent="FieldDefinition"
-              p:attributeName="beginDisbursementNbr" />
-        <bean parent="FieldDefinition"
-              p:attributeName="endDisbursementNbr" />
-        <bean parent="FieldDefinition"
-              p:attributeName="lastAssignedDisbNbr" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="physCampusProcCode"/>
+        <bean parent="FieldDefinition" p:attributeName="bankCode"/> 
+        <bean parent="FieldDefinition" p:attributeName="disbursementTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="disbNbrRangeStartDt"/>
+        <bean parent="FieldDefinition" p:attributeName="beginDisbursementNbr"/>
+        <bean parent="FieldDefinition" p:attributeName="endDisbursementNbr"/>
+        <bean parent="FieldDefinition" p:attributeName="lastAssignedDisbNbr"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

@@ -1,40 +1,34 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="OffsetDefinition" parent="OffsetDefinition-parentBean" />
+  <bean id="OffsetDefinition" parent="OffsetDefinition-parentBean"/>
 
   <bean id="OffsetDefinition-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.OffsetDefinition" />
-    <property name="inquiryDefinition" >
-      <ref bean="OffsetDefinition-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.OffsetDefinition"/>
+    <property name="inquiryDefinition">
+      <ref bean="OffsetDefinition-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="OffsetDefinition-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="OffsetDefinition-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="offsetDefinitionViewer" />
-    <property name="objectLabel" value="Offset Definition" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="offsetDefinitionViewer"/>
+    <property name="objectLabel" value="Offset Definition"/>
+    <property name="attributes">
       <list>
-      	<ref bean="OffsetDefinition-offsetDefinitionViewer" />
-        <ref bean="OffsetDefinition-universityFiscalYear" />
-        <ref bean="OffsetDefinition-chartOfAccountsCode" />
-        <ref bean="OffsetDefinition-financialObjectCode" />
-        <ref bean="OffsetDefinition-financialDocumentTypeCode" />
-        <ref bean="OffsetDefinition-financialBalanceTypeCode" />
+      	<ref bean="OffsetDefinition-offsetDefinitionViewer"/>
+        <ref bean="OffsetDefinition-universityFiscalYear"/>
+        <ref bean="OffsetDefinition-chartOfAccountsCode"/>
+        <ref bean="OffsetDefinition-financialObjectCode"/>
+        <ref bean="OffsetDefinition-financialDocumentTypeCode"/>
+        <ref bean="OffsetDefinition-financialBalanceTypeCode"/>
       </list>
     </property>
     <property name="relationships">
     	<list>
     		<bean parent="RelationshipDefinition">
-    			<property name="objectAttributeName" value="financialSystemDocumentTypeCode" />
-		        <property name="primitiveAttributes" >
+    			<property name="objectAttributeName" value="financialSystemDocumentTypeCode"/>
+		        <property name="primitiveAttributes">
 		        	<list>
-		            	<bean parent="PrimitiveAttributeDefinition"
-		                    p:sourceName="financialDocumentTypeCode"
-		                    p:targetName="name" />
+		            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="financialDocumentTypeCode" p:targetName="name"/>
 		            </list>
 		        </property>
     		</bean>
@@ -44,74 +38,67 @@
 
 <!-- Attribute Definitions -->
 
-  <bean id="OffsetDefinition-offsetDefinitionViewer" parent="OffsetDefinition-offsetDefinitionViewer-parentBean" />
+  <bean id="OffsetDefinition-offsetDefinitionViewer" parent="OffsetDefinition-offsetDefinitionViewer-parentBean"/>
 
   <bean id="OffsetDefinition-offsetDefinitionViewer-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="offsetDefinitionViewer" />
-    <property name="label" value="View" />
-    <property name="shortLabel" value="View" />
-    <property name="maxLength" value="100" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="offsetDefinitionViewer"/>
+    <property name="label" value="View"/>
+    <property name="shortLabel" value="View"/>
+    <property name="maxLength" value="100"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
 
-  <bean id="OffsetDefinition-universityFiscalYear" parent="OffsetDefinition-universityFiscalYear-parentBean" />
+  <bean id="OffsetDefinition-universityFiscalYear" parent="OffsetDefinition-universityFiscalYear-parentBean"/>
 
   <bean id="OffsetDefinition-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="universityFiscalYear" />
-    <property name="required" value="true" />
-    <property name="forceUppercase" value="true" />
+    <property name="name" value="universityFiscalYear"/>
+    <property name="required" value="true"/>
+    <property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="OffsetDefinition-chartOfAccountsCode" parent="OffsetDefinition-chartOfAccountsCode-parentBean" />
+  <bean id="OffsetDefinition-chartOfAccountsCode" parent="OffsetDefinition-chartOfAccountsCode-parentBean"/>
 
   <bean id="OffsetDefinition-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-  	<property name="forceUppercase" value="true" />
+  	<property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="OffsetDefinition-financialObjectCode" parent="OffsetDefinition-financialObjectCode-parentBean" />
+  <bean id="OffsetDefinition-financialObjectCode" parent="OffsetDefinition-financialObjectCode-parentBean"/>
 
   <bean id="OffsetDefinition-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
   </bean>
-  <bean id="OffsetDefinition-financialDocumentTypeCode" parent="OffsetDefinition-financialDocumentTypeCode-parentBean" />
+  <bean id="OffsetDefinition-financialDocumentTypeCode" parent="OffsetDefinition-financialDocumentTypeCode-parentBean"/>
 
   <bean id="OffsetDefinition-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
-    <property name="name" value="financialDocumentTypeCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="name" value="financialDocumentTypeCode"/>
+    <property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="OffsetDefinition-financialBalanceTypeCode" parent="OffsetDefinition-financialBalanceTypeCode-parentBean" />
+  <bean id="OffsetDefinition-financialBalanceTypeCode" parent="OffsetDefinition-financialBalanceTypeCode-parentBean"/>
 
   <bean id="OffsetDefinition-financialBalanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
-    <property name="name" value="financialBalanceTypeCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="name" value="financialBalanceTypeCode"/>
+    <property name="forceUppercase" value="true"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="OffsetDefinition-inquiryDefinition" parent="OffsetDefinition-inquiryDefinition-parentBean" />
+  <bean id="OffsetDefinition-inquiryDefinition" parent="OffsetDefinition-inquiryDefinition-parentBean"/>
 
   <bean id="OffsetDefinition-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Offset Definition Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Offset Definition Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYear" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialDocumentTypeCode"
-                    p:noInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialBalanceTypeCode"
-                    p:noInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectCode" />
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode" p:noInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode" p:noInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
             </list>
           </property>
         </bean>
@@ -122,50 +109,37 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="OffsetDefinition-lookupDefinition" parent="OffsetDefinition-lookupDefinition-parentBean" />
+  <bean id="OffsetDefinition-lookupDefinition" parent="OffsetDefinition-lookupDefinition-parentBean"/>
 
   <bean id="OffsetDefinition-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Offset Definition Lookup" />
-    <property name="instructions" value="Lookup an Offset Definition" />
-    <property name="defaultSort" >
+    <property name="title" value="Offset Definition Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>financialDocumentTypeCode</value>
           </list>
         </property>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialBalanceTypeCode" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-      <bean parent="FieldDefinition" 
-      		p:attributeName="offsetDefinitionViewer" />
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentTypeCode"
-              p:noInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="financialBalanceTypeCode"
-              p:noInquiry="true" />
+      <bean parent="FieldDefinition" p:attributeName="offsetDefinitionViewer"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode" p:noInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode" p:noInquiry="true"/>
       </list>
     </property>
   </bean>

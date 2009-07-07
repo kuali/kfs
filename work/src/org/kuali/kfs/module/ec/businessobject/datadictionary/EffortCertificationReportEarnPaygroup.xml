@@ -1,34 +1,29 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="EffortCertificationReportEarnPaygroup" parent="EffortCertificationReportEarnPaygroup-parentBean" />
+  <bean id="EffortCertificationReportEarnPaygroup" parent="EffortCertificationReportEarnPaygroup-parentBean"/>
 
   <bean id="EffortCertificationReportEarnPaygroup-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationReportEarnPaygroup" />
-    <property name="objectLabel" value="Effort Certification Report Earn Pay Group" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationReportEarnPaygroup"/>
+    <property name="objectLabel" value="Effort Certification Report Earn Pay Group"/>
     
-    <property name="inquiryDefinition" >
-      <ref bean="EffortCertificationReportEarnPaygroup-inquiryDefinition" />
+    <property name="inquiryDefinition">
+      <ref bean="EffortCertificationReportEarnPaygroup-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="EffortCertificationReportEarnPaygroup-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="EffortCertificationReportEarnPaygroup-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="EffortCertificationReportEarnPaygroup-effortCertificationReportTypeCode" />
-        <ref bean="EffortCertificationReportEarnPaygroup-earnCode" />
-        <ref bean="EffortCertificationReportEarnPaygroup-payGroup" />
-        <ref bean="EffortCertificationReportEarnPaygroup-universityFiscalYear" />
-        <ref bean="EffortCertificationReportEarnPaygroup-active" />
+        <ref bean="EffortCertificationReportEarnPaygroup-effortCertificationReportTypeCode"/>
+        <ref bean="EffortCertificationReportEarnPaygroup-earnCode"/>
+        <ref bean="EffortCertificationReportEarnPaygroup-payGroup"/>
+        <ref bean="EffortCertificationReportEarnPaygroup-universityFiscalYear"/>
+        <ref bean="EffortCertificationReportEarnPaygroup-active"/>
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
       <list>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="effortCertificationReportType"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="effortCertificationReportType"/>
       </list>
     </property>
   </bean>
@@ -36,81 +31,74 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="EffortCertificationReportEarnPaygroup-effortCertificationReportTypeCode" parent="EffortCertificationReportEarnPaygroup-effortCertificationReportTypeCode-parentBean" />
+  <bean id="EffortCertificationReportEarnPaygroup-effortCertificationReportTypeCode" parent="EffortCertificationReportEarnPaygroup-effortCertificationReportTypeCode-parentBean"/>
 
   <bean id="EffortCertificationReportEarnPaygroup-effortCertificationReportTypeCode-parentBean" abstract="true" parent="EffortCertificationReportType-effortCertificationReportTypeCode">
   </bean>
-  <bean id="EffortCertificationReportEarnPaygroup-earnCode" parent="EffortCertificationReportEarnPaygroup-earnCode-parentBean" />
+  <bean id="EffortCertificationReportEarnPaygroup-earnCode" parent="EffortCertificationReportEarnPaygroup-earnCode-parentBean"/>
 
   <bean id="EffortCertificationReportEarnPaygroup-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="earnCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Earn Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="earnCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Earn Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
     
     
   </bean>
-  <bean id="EffortCertificationReportEarnPaygroup-payGroup" parent="EffortCertificationReportEarnPaygroup-payGroup-parentBean" />
+  <bean id="EffortCertificationReportEarnPaygroup-payGroup" parent="EffortCertificationReportEarnPaygroup-payGroup-parentBean"/>
 
   <bean id="EffortCertificationReportEarnPaygroup-payGroup-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="payGroup" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Pay Group" />
-    <property name="shortLabel" value="Group" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="payGroup"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Pay Group"/>
+    <property name="shortLabel" value="Group"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
     
     
   </bean>
-  <bean id="EffortCertificationReportEarnPaygroup-universityFiscalYear" parent="EffortCertificationReportEarnPaygroup-universityFiscalYear-parentBean" />
+  <bean id="EffortCertificationReportEarnPaygroup-universityFiscalYear" parent="EffortCertificationReportEarnPaygroup-universityFiscalYear-parentBean"/>
 
   <bean id="EffortCertificationReportEarnPaygroup-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="universityFiscalYear" />
+    <property name="name" value="universityFiscalYear"/>
   </bean>
-  <bean id="EffortCertificationReportEarnPaygroup-active" parent="EffortCertificationReportEarnPaygroup-active-parentBean" />
+  <bean id="EffortCertificationReportEarnPaygroup-active" parent="EffortCertificationReportEarnPaygroup-active-parentBean"/>
 
   <bean id="EffortCertificationReportEarnPaygroup-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="EffortCertificationReportEarnPaygroup-inquiryDefinition" parent="EffortCertificationReportEarnPaygroup-inquiryDefinition-parentBean" />
+  <bean id="EffortCertificationReportEarnPaygroup-inquiryDefinition" parent="EffortCertificationReportEarnPaygroup-inquiryDefinition-parentBean"/>
 
   <bean id="EffortCertificationReportEarnPaygroup-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Effort Certification Report Earn Pay Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Effort Certification Report Earn Pay Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYear" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="effortCertificationReportTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="earnCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="payGroup" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+              <bean parent="FieldDefinition" p:attributeName="effortCertificationReportTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="earnCode"/>
+              <bean parent="FieldDefinition" p:attributeName="payGroup"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -121,37 +109,29 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="EffortCertificationReportEarnPaygroup-lookupDefinition" parent="EffortCertificationReportEarnPaygroup-lookupDefinition-parentBean" />
+  <bean id="EffortCertificationReportEarnPaygroup-lookupDefinition" parent="EffortCertificationReportEarnPaygroup-lookupDefinition-parentBean"/>
 
   <bean id="EffortCertificationReportEarnPaygroup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Report Earn Paygroup Lookup" />
-    <property name="instructions" value="Report Earn Paygroup Lookup" />
-    <property name="defaultSort" >
+    <property name="title" value="Report Earn Paygroup Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationReportTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationReportTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="universityFiscalYear" />
-        <bean parent="FieldDefinition"
-              p:attributeName="effortCertificationReportTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="earnCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="payGroup" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="effortCertificationReportTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="earnCode"/>
+        <bean parent="FieldDefinition" p:attributeName="payGroup"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

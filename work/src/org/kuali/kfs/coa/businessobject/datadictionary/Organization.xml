@@ -1,130 +1,114 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="Organization" parent="Organization-parentBean" />
+  <bean id="Organization" parent="Organization-parentBean"/>
 
   <bean id="Organization-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.Organization" />
-    <property name="inquiryDefinition" >
-      <ref bean="Organization-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.Organization"/>
+    <property name="inquiryDefinition">
+      <ref bean="Organization-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="Organization-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="Organization-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="organizationCode" />
-    <property name="objectLabel" value="Organization" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="organizationCode"/>
+    <property name="objectLabel" value="Organization"/>
+    <property name="attributes">
       <list>
-        <ref bean="Organization-chartOfAccountsCode" />
-        <ref bean="Organization-organizationCode" />
-        <ref bean="Organization-organizationName" />
-        <ref bean="Organization-codeAndDescription" />
-        <ref bean="Organization-organizationManagerUniversalId" />
-        <ref bean="Organization-organizationManagerUniversal.principalName" />
-        <ref bean="Organization-organizationManagerUniversal.name" />
-        <ref bean="Organization-responsibilityCenterCode" />
-        <ref bean="Organization-organizationPhysicalCampusCode" />
-        <ref bean="Organization-organizationTypeCode" />
-        <ref bean="Organization-organizationDefaultAccountNumber" />
-        <ref bean="Organization-organizationPlantAccountNumber" />
-        <ref bean="Organization-organizationPlantChartCode" />
-        <ref bean="Organization-organizationZipCode" />
-        <ref bean="Organization-organizationStateCode" />
-        <ref bean="Organization-organizationCountryCode" />
-        <ref bean="Organization-organizationLine1Address" />
-        <ref bean="Organization-organizationLine2Address" />
-        <ref bean="Organization-organizationCityName" />
-        <ref bean="Organization-reportsToChartOfAccountsCode" />
-        <ref bean="Organization-reportsToOrganizationCode" />
-        <ref bean="Organization-organizationBeginDate" />
-        <ref bean="Organization-organizationEndDate" />
-        <ref bean="Organization-campusPlantAccountNumber" />
-        <ref bean="Organization-campusPlantChartCode" />
-        <ref bean="Organization-organizationInFinancialProcessingIndicator" />
-        <ref bean="Organization-editPlantAccountsSection" />
-        <ref bean="Organization-active" />
-        <ref bean="Organization-editHrmsUnitSection" />
-        <ref bean="Organization-organizationExtension.hrmsCompany" />
-        <ref bean="Organization-organizationExtension.hrmsIuOrganizationAddress2" />
-        <ref bean="Organization-organizationExtension.hrmsIuOrganizationAddress3" />
-        <ref bean="Organization-organizationExtension.hrmsIuCampusCode" />
-        <ref bean="Organization-organizationExtension.hrmsIuCampusBuilding" />
-        <ref bean="Organization-organizationExtension.hrmsIuCampusRoom" />
-        <ref bean="Organization-organizationExtension.hrmsPersonnelApproverUniversalId" />
-        <ref bean="Organization-organizationExtension.hrmsPersonnelApproverUniversal.principalName" />
-        <ref bean="Organization-organizationExtension.hrmsPersonnelApproverUniversal.name" />
-        <ref bean="Organization-organizationExtension.fiscalApproverUniversalId" />
-        <ref bean="Organization-organizationExtension.fiscalApproverUniversal.principalName" />
-        <ref bean="Organization-organizationExtension.fiscalApproverUniversal.name" />
-        <ref bean="Organization-organizationExtension.hrmsIuPositionAllowedFlag" />
-        <ref bean="Organization-organizationExtension.hrmsIuTenureAllowedFlag" />
-        <ref bean="Organization-organizationExtension.hrmsIuTitleAllowedFlag" />
-        <ref bean="Organization-organizationExtension.hrmsIuOccupationalUnitAllowedFlag" />
-        <ref bean="Organization-organizationExtension.hrmsLastUpdateDate" />
+        <ref bean="Organization-chartOfAccountsCode"/>
+        <ref bean="Organization-organizationCode"/>
+        <ref bean="Organization-organizationName"/>
+        <ref bean="Organization-codeAndDescription"/>
+        <ref bean="Organization-organizationManagerUniversalId"/>
+        <ref bean="Organization-organizationManagerUniversal.principalName"/>
+        <ref bean="Organization-organizationManagerUniversal.name"/>
+        <ref bean="Organization-responsibilityCenterCode"/>
+        <ref bean="Organization-organizationPhysicalCampusCode"/>
+        <ref bean="Organization-organizationTypeCode"/>
+        <ref bean="Organization-organizationDefaultAccountNumber"/>
+        <ref bean="Organization-organizationPlantAccountNumber"/>
+        <ref bean="Organization-organizationPlantChartCode"/>
+        <ref bean="Organization-organizationZipCode"/>
+        <ref bean="Organization-organizationStateCode"/>
+        <ref bean="Organization-organizationCountryCode"/>
+        <ref bean="Organization-organizationLine1Address"/>
+        <ref bean="Organization-organizationLine2Address"/>
+        <ref bean="Organization-organizationCityName"/>
+        <ref bean="Organization-reportsToChartOfAccountsCode"/>
+        <ref bean="Organization-reportsToOrganizationCode"/>
+        <ref bean="Organization-organizationBeginDate"/>
+        <ref bean="Organization-organizationEndDate"/>
+        <ref bean="Organization-campusPlantAccountNumber"/>
+        <ref bean="Organization-campusPlantChartCode"/>
+        <ref bean="Organization-organizationInFinancialProcessingIndicator"/>
+        <ref bean="Organization-editPlantAccountsSection"/>
+        <ref bean="Organization-active"/>
+        <ref bean="Organization-editHrmsUnitSection"/>
+        <ref bean="Organization-organizationExtension.hrmsCompany"/>
+        <ref bean="Organization-organizationExtension.hrmsIuOrganizationAddress2"/>
+        <ref bean="Organization-organizationExtension.hrmsIuOrganizationAddress3"/>
+        <ref bean="Organization-organizationExtension.hrmsIuCampusCode"/>
+        <ref bean="Organization-organizationExtension.hrmsIuCampusBuilding"/>
+        <ref bean="Organization-organizationExtension.hrmsIuCampusRoom"/>
+        <ref bean="Organization-organizationExtension.hrmsPersonnelApproverUniversalId"/>
+        <ref bean="Organization-organizationExtension.hrmsPersonnelApproverUniversal.principalName"/>
+        <ref bean="Organization-organizationExtension.hrmsPersonnelApproverUniversal.name"/>
+        <ref bean="Organization-organizationExtension.fiscalApproverUniversalId"/>
+        <ref bean="Organization-organizationExtension.fiscalApproverUniversal.principalName"/>
+        <ref bean="Organization-organizationExtension.fiscalApproverUniversal.name"/>
+        <ref bean="Organization-organizationExtension.hrmsIuPositionAllowedFlag"/>
+        <ref bean="Organization-organizationExtension.hrmsIuTenureAllowedFlag"/>
+        <ref bean="Organization-organizationExtension.hrmsIuTitleAllowedFlag"/>
+        <ref bean="Organization-organizationExtension.hrmsIuOccupationalUnitAllowedFlag"/>
+        <ref bean="Organization-organizationExtension.hrmsLastUpdateDate"/>
       </list>
     </property>
-    <property name="relationships" >
+    <property name="relationships">
       <list>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="organizationManagerUniversal" />
-          <property name="primitiveAttributes" >
+          <property name="objectAttributeName" value="organizationManagerUniversal"/>
+          <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="organizationManagerUniversalId"
-                    p:targetName="principalName" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="organizationManagerUniversalId" p:targetName="principalName"/>
             </list>
           </property>
           
         </bean>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="organizationExtension.hrmsPersonnelApproverUniversal" />
-          <property name="primitiveAttributes" >
+          <property name="objectAttributeName" value="organizationExtension.hrmsPersonnelApproverUniversal"/>
+          <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="organizationExtension.hrmsPersonnelApproverUniversalId"
-                    p:targetName="principalName" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="organizationExtension.hrmsPersonnelApproverUniversalId" p:targetName="principalName"/>
             </list>
           </property>
           
         </bean>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="organizationExtension.fiscalApproverUniversal" />
-          <property name="primitiveAttributes" >
+          <property name="objectAttributeName" value="organizationExtension.fiscalApproverUniversal"/>
+          <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="organizationExtension.fiscalApproverUniversalId"
-                    p:targetName="principalName" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="organizationExtension.fiscalApproverUniversalId" p:targetName="principalName"/>
             </list>
           </property>
           
         </bean>
         <dd:relationship objectAttribute="postalZip">
-        	<dd:primitiveAttribute source="organizationCountryCode" target="postalCountryCode" />
-            <dd:primitiveAttribute source="organizationZipCode" target="postalCode" />
+        	<dd:primitiveAttribute source="organizationCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="organizationZipCode" target="postalCode"/>
         </dd:relationship>
         <dd:relationship objectAttribute="organizationCountry">
-            <dd:primitiveAttribute source="organizationCountryCode" target="postalCountryCode" />
+            <dd:primitiveAttribute source="organizationCountryCode" target="postalCountryCode"/>
         </dd:relationship>       
         <dd:relationship objectAttribute="organizationPhysicalCampus">
-            <dd:primitiveAttribute source="organizationPhysicalCampusCode" target="campusCode" />
+            <dd:primitiveAttribute source="organizationPhysicalCampusCode" target="campusCode"/>
         </dd:relationship>        
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
       <list>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="postalZip"/>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="organizationType"/>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="organizationCountry"/>
-        <bean parent="InactivationBlockingDefinition"
-          p:blockedReferencePropertyName="responsibilityCenter"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="postalZip"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="organizationType"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="organizationCountry"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="responsibilityCenter"/>
       </list>
     </property>
   </bean>
@@ -132,691 +116,584 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 <!-- Attribute Definitions -->
 
 
-  <bean id="Organization-chartOfAccountsCode" parent="Organization-chartOfAccountsCode-parentBean" />
+  <bean id="Organization-chartOfAccountsCode" parent="Organization-chartOfAccountsCode-parentBean"/>
 
   <bean id="Organization-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-  	<property name="forceUppercase" value="true" />
+  	<property name="forceUppercase" value="true"/>
   </bean>
-  <bean id="Organization-organizationCode" parent="Organization-organizationCode-parentBean" />
+  <bean id="Organization-organizationCode" parent="Organization-organizationCode-parentBean"/>
 
   <bean id="Organization-organizationCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Organization Code" />
-    <property name="shortLabel" value="Org" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="organizationCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Organization Code"/>
+    <property name="shortLabel" value="Org"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
   </bean>
-  <bean id="Organization-organizationName" parent="Organization-organizationName-parentBean" />
+  <bean id="Organization-organizationName" parent="Organization-organizationName-parentBean"/>
 
   <bean id="Organization-organizationName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationName" />
-    <property name="label" value="Organization Name" />
-    <property name="shortLabel" value="Org Name" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="organizationName"/>
+    <property name="label" value="Organization Name"/>
+    <property name="shortLabel" value="Org Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
   </bean>
-  <bean id="Organization-codeAndDescription" parent="Organization-codeAndDescription-parentBean" />
+  <bean id="Organization-codeAndDescription" parent="Organization-codeAndDescription-parentBean"/>
 
   <bean id="Organization-codeAndDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="codeAndDescription" />
-    <property name="label" value="Organization Code and Description" />
-    <property name="shortLabel" value="Org Code and Des" />
-    <property name="maxLength" value="45" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="45" />
+    <property name="name" value="codeAndDescription"/>
+    <property name="label" value="Organization Code and Description"/>
+    <property name="shortLabel" value="Org Code and Des"/>
+    <property name="maxLength" value="45"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="45"/>
     </property>
   </bean>
-  <bean id="Organization-organizationManagerUniversalId" parent="Organization-organizationManagerUniversalId-parentBean" />
+  <bean id="Organization-organizationManagerUniversalId" parent="Organization-organizationManagerUniversalId-parentBean"/>
 
   <bean id="Organization-organizationManagerUniversalId-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="organizationManagerUniversalId" />
-    <property name="label" value="Organization Manager UserID" />
-    <property name="shortLabel" value="Manager UserID" />
-    <property name="required" value="true" />
+    <property name="name" value="organizationManagerUniversalId"/>
+    <property name="label" value="Organization Manager UserID"/>
+    <property name="shortLabel" value="Manager UserID"/>
+    <property name="required" value="true"/>
   <!--  <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property> -->
   </bean>
-  <bean id="Organization-organizationManagerUniversal.principalName" parent="Organization-organizationManagerUniversal.principalName-parentBean" />
+  <bean id="Organization-organizationManagerUniversal.principalName" parent="Organization-organizationManagerUniversal.principalName-parentBean"/>
 
   <bean id="Organization-organizationManagerUniversal.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="organizationManagerUniversal.principalName" />
-    <property name="label" value="Organization Manager Principal Name" />
-    <property name="shortLabel" value="OrgMgr Principal Name" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="organizationManagerUniversal.name"
-            p:universalIdAttributeName="organizationManagerUniversalId"
-            p:userIdAttributeName="organizationManagerUniversal.principalName" />
+    <property name="name" value="organizationManagerUniversal.principalName"/>
+    <property name="label" value="Organization Manager Principal Name"/>
+    <property name="shortLabel" value="OrgMgr Principal Name"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="organizationManagerUniversal.name" p:universalIdAttributeName="organizationManagerUniversalId" p:userIdAttributeName="organizationManagerUniversal.principalName"/>
     </property>
   </bean>
-  <bean id="Organization-organizationManagerUniversal.name" parent="Organization-organizationManagerUniversal.name-parentBean" />
+  <bean id="Organization-organizationManagerUniversal.name" parent="Organization-organizationManagerUniversal.name-parentBean"/>
 
   <bean id="Organization-organizationManagerUniversal.name-parentBean" abstract="true" parent="PersonImpl-name">
-    <property name="name" value="organizationManagerUniversal.name" />
-    <property name="label" value="Organization Manager Name" />
-    <property name="required" value="false" />
+    <property name="name" value="organizationManagerUniversal.name"/>
+    <property name="label" value="Organization Manager Name"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="Organization-responsibilityCenterCode" parent="Organization-responsibilityCenterCode-parentBean" />
+  <bean id="Organization-responsibilityCenterCode" parent="Organization-responsibilityCenterCode-parentBean"/>
 
   <bean id="Organization-responsibilityCenterCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="responsibilityCenterCode" />
-    <property name="label" value="Responsibility Center Code" />
-    <property name="forceUppercase" value="true" />
-    <property name="shortLabel" value="RC" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:exactLength="2" />
+    <property name="name" value="responsibilityCenterCode"/>
+    <property name="label" value="Responsibility Center Code"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="shortLabel" value="RC"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:exactLength="2"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
   </bean>
-  <bean id="Organization-organizationPhysicalCampusCode" parent="Organization-organizationPhysicalCampusCode-parentBean" />
+  <bean id="Organization-organizationPhysicalCampusCode" parent="Organization-organizationPhysicalCampusCode-parentBean"/>
 
   <bean id="Organization-organizationPhysicalCampusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationPhysicalCampusCode" />
-    <property name="label" value="Organization Physical Campus Code" />
-    <property name="forceUppercase" value="true" />
-    <property name="shortLabel" value="Physical Campus" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaValidationPattern"
-            p:exactLength="2" />
+    <property name="name" value="organizationPhysicalCampusCode"/>
+    <property name="label" value="Organization Physical Campus Code"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="shortLabel" value="Physical Campus"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaValidationPattern" p:exactLength="2"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
   </bean>
-  <bean id="Organization-organizationTypeCode" parent="Organization-organizationTypeCode-parentBean" />
+  <bean id="Organization-organizationTypeCode" parent="Organization-organizationTypeCode-parentBean"/>
 
   <bean id="Organization-organizationTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationTypeCode" />
-    <property name="label" value="Organization Type" />
-    <property name="shortLabel" value="Type" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern"
-            p:exactLength="1" />
+    <property name="name" value="organizationTypeCode"/>
+    <property name="label" value="Organization Type"/>
+    <property name="shortLabel" value="Type"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern" p:exactLength="1"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.OrgTypeValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.OrgTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="Organization-organizationDefaultAccountNumber" parent="Organization-organizationDefaultAccountNumber-parentBean" />
+  <bean id="Organization-organizationDefaultAccountNumber" parent="Organization-organizationDefaultAccountNumber-parentBean"/>
 
   <bean id="Organization-organizationDefaultAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="name" value="organizationDefaultAccountNumber" />
-    <property name="label" value="Organization Default Account Number" />
-    <property name="shortLabel" value="Default Acct" />
-    <property name="required" value="false" />
+    <property name="name" value="organizationDefaultAccountNumber"/>
+    <property name="label" value="Organization Default Account Number"/>
+    <property name="shortLabel" value="Default Acct"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="Organization-organizationPlantAccountNumber" parent="Organization-organizationPlantAccountNumber-parentBean" />
+  <bean id="Organization-organizationPlantAccountNumber" parent="Organization-organizationPlantAccountNumber-parentBean"/>
 
   <bean id="Organization-organizationPlantAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="name" value="organizationPlantAccountNumber" />
-    <property name="label" value="Plant Account Number" />
-    <property name="shortLabel" value="Plant Acct" />
-    <property name="required" value="false" />
+    <property name="name" value="organizationPlantAccountNumber"/>
+    <property name="label" value="Plant Account Number"/>
+    <property name="shortLabel" value="Plant Acct"/>
+    <property name="required" value="false"/>
     <property name="attributeSecurity">
-      <bean parent="AttributeSecurity" p:readOnly="true" />
+      <bean parent="AttributeSecurity" p:readOnly="true"/>
     </property>
   </bean>
-  <bean id="Organization-organizationPlantChartCode" parent="Organization-organizationPlantChartCode-parentBean" />
+  <bean id="Organization-organizationPlantChartCode" parent="Organization-organizationPlantChartCode-parentBean"/>
 
   <bean id="Organization-organizationPlantChartCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="name" value="organizationPlantChartCode" />
-    <property name="label" value="Organization Plant Chart" />
-    <property name="shortLabel" value="Plant Chart" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="organizationPlantChartCode"/>
+    <property name="label" value="Organization Plant Chart"/>
+    <property name="shortLabel" value="Plant Chart"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="attributeSecurity">
-      <bean parent="AttributeSecurity" p:readOnly="true" />
+      <bean parent="AttributeSecurity" p:readOnly="true"/>
     </property>
   </bean>
-  <bean id="Organization-organizationZipCode" parent="Organization-organizationZipCode-parentBean" />
+  <bean id="Organization-organizationZipCode" parent="Organization-organizationZipCode-parentBean"/>
 
-  <bean id="Organization-organizationZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
-	p:sourceAttributeName="postalCode">
-    <property name="name" value="organizationZipCode" />
-    <property name="label" value="Organization Postal Code" />
-    <property name="shortLabel" value="Postal Code" />
-    <property name="required" value="true" />
+  <bean id="Organization-organizationZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode" p:sourceAttributeName="postalCode">
+    <property name="name" value="organizationZipCode"/>
+    <property name="label" value="Organization Postal Code"/>
+    <property name="shortLabel" value="Postal Code"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="Organization-organizationStateCode" parent="Organization-organizationStateCode-parentBean" />
+  <bean id="Organization-organizationStateCode" parent="Organization-organizationStateCode-parentBean"/>
 
-  <bean id="Organization-organizationStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
-	p:sourceAttributeName="postalStateCode">
-    <property name="name" value="organizationStateCode" />
-    <property name="label" value="Organization State/Province Code" />
-    <property name="shortLabel" value="St Cd" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaValidationPattern"
-            p:exactLength="2" />
+  <bean id="Organization-organizationStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State" p:sourceAttributeName="postalStateCode">
+    <property name="name" value="organizationStateCode"/>
+    <property name="label" value="Organization State/Province Code"/>
+    <property name="shortLabel" value="St Cd"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaValidationPattern" p:exactLength="2"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="2"/>
     </property>
   </bean>
-  <bean id="Organization-organizationCountryCode" parent="Organization-organizationCountryCode-parentBean" />
+  <bean id="Organization-organizationCountryCode" parent="Organization-organizationCountryCode-parentBean"/>
 
-  <bean id="Organization-organizationCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
-	p:sourceAttributeName="postalCountryCode">
-    <property name="name" value="organizationCountryCode" />
-    <property name="label" value="Organization Country Code" />
-    <property name="shortLabel" value="Country Cd" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaValidationPattern"
-            p:exactLength="2" />
+  <bean id="Organization-organizationCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country" p:sourceAttributeName="postalCountryCode">
+    <property name="name" value="organizationCountryCode"/>
+    <property name="label" value="Organization Country Code"/>
+    <property name="shortLabel" value="Country Cd"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <bean parent="AlphaValidationPattern" p:exactLength="2"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="Organization-organizationLine1Address" parent="Organization-organizationLine1Address-parentBean" />
+  <bean id="Organization-organizationLine1Address" parent="Organization-organizationLine1Address-parentBean"/>
 
   <bean id="Organization-organizationLine1Address-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationLine1Address" />
-    <property name="label" value="Organization Address Line 1" />
-    <property name="shortLabel" value="Street" />
-    <property name="maxLength" value="30" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="organizationLine1Address"/>
+    <property name="label" value="Organization Address Line 1"/>
+    <property name="shortLabel" value="Street"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="30" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
     </property>
   </bean>
-  <bean id="Organization-organizationLine2Address" parent="Organization-organizationLine2Address-parentBean" />
+  <bean id="Organization-organizationLine2Address" parent="Organization-organizationLine2Address-parentBean"/>
 
   <bean id="Organization-organizationLine2Address-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationLine2Address" />
-    <property name="label" value="Organization Address Line 2" />
-    <property name="shortLabel" value="Street" />
-    <property name="maxLength" value="30" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="organizationLine2Address"/>
+    <property name="label" value="Organization Address Line 2"/>
+    <property name="shortLabel" value="Street"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="30" />
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
     </property>
   </bean>
-  <bean id="Organization-organizationCityName" parent="Organization-organizationCityName-parentBean" />
+  <bean id="Organization-organizationCityName" parent="Organization-organizationCityName-parentBean"/>
 
   <bean id="Organization-organizationCityName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationCityName" />
-    <property name="label" value="Organization City Name" />
-    <property name="shortLabel" value="City" />
-    <property name="maxLength" value="25" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="organizationCityName"/>
+    <property name="label" value="Organization City Name"/>
+    <property name="shortLabel" value="City"/>
+    <property name="maxLength" value="25"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="25" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="25"/>
     </property>
   </bean>
-  <bean id="Organization-reportsToChartOfAccountsCode" parent="Organization-reportsToChartOfAccountsCode-parentBean" />
+  <bean id="Organization-reportsToChartOfAccountsCode" parent="Organization-reportsToChartOfAccountsCode-parentBean"/>
 
   <bean id="Organization-reportsToChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="name" value="reportsToChartOfAccountsCode" />
-    <property name="label" value="Reports to Chart Code" />
-    <property name="shortLabel" value="Rpts to Chart" />
+    <property name="name" value="reportsToChartOfAccountsCode"/>
+    <property name="label" value="Reports to Chart Code"/>
+    <property name="shortLabel" value="Rpts to Chart"/>
   </bean>
-  <bean id="Organization-reportsToOrganizationCode" parent="Organization-reportsToOrganizationCode-parentBean" />
+  <bean id="Organization-reportsToOrganizationCode" parent="Organization-reportsToOrganizationCode-parentBean"/>
 
   <bean id="Organization-reportsToOrganizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
-    <property name="name" value="reportsToOrganizationCode" />
-    <property name="label" value="Reports to Organization" />
-    <property name="shortLabel" value="Rpts to Org" />
+    <property name="name" value="reportsToOrganizationCode"/>
+    <property name="label" value="Reports to Organization"/>
+    <property name="shortLabel" value="Rpts to Org"/>
   </bean>
-  <bean id="Organization-organizationBeginDate" parent="Organization-organizationBeginDate-parentBean" />
+  <bean id="Organization-organizationBeginDate" parent="Organization-organizationBeginDate-parentBean"/>
 
   <bean id="Organization-organizationBeginDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
-    <property name="name" value="organizationBeginDate" />
-    <property name="label" value="Organization Begin Date" />
-    <property name="shortLabel" value="Begin Date" />
-    <property name="required" value="true" />
+    <property name="name" value="organizationBeginDate"/>
+    <property name="label" value="Organization Begin Date"/>
+    <property name="shortLabel" value="Begin Date"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="Organization-organizationEndDate" parent="Organization-organizationEndDate-parentBean" />
+  <bean id="Organization-organizationEndDate" parent="Organization-organizationEndDate-parentBean"/>
 
   <bean id="Organization-organizationEndDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
-    <property name="name" value="organizationEndDate" />
-    <property name="label" value="Organization End Date" />
-    <property name="shortLabel" value="End Date" />
+    <property name="name" value="organizationEndDate"/>
+    <property name="label" value="Organization End Date"/>
+    <property name="shortLabel" value="End Date"/>
   </bean>
-  <bean id="Organization-campusPlantAccountNumber" parent="Organization-campusPlantAccountNumber-parentBean" />
+  <bean id="Organization-campusPlantAccountNumber" parent="Organization-campusPlantAccountNumber-parentBean"/>
 
   <bean id="Organization-campusPlantAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="name" value="campusPlantAccountNumber" />
-    <property name="label" value="Campus Plant Account Number" />
-    <property name="shortLabel" value="Plant Acct" />
-    <property name="required" value="false" />
+    <property name="name" value="campusPlantAccountNumber"/>
+    <property name="label" value="Campus Plant Account Number"/>
+    <property name="shortLabel" value="Plant Acct"/>
+    <property name="required" value="false"/>
     <property name="attributeSecurity">
-      <bean parent="AttributeSecurity" p:readOnly="true" />
+      <bean parent="AttributeSecurity" p:readOnly="true"/>
     </property>
   </bean>
-  <bean id="Organization-campusPlantChartCode" parent="Organization-campusPlantChartCode-parentBean" />
+  <bean id="Organization-campusPlantChartCode" parent="Organization-campusPlantChartCode-parentBean"/>
 
   <bean id="Organization-campusPlantChartCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="name" value="campusPlantChartCode" />
-    <property name="label" value="Campus Plant Chart Code" />
-    <property name="shortLabel" value="Chart Code" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="name" value="campusPlantChartCode"/>
+    <property name="label" value="Campus Plant Chart Code"/>
+    <property name="shortLabel" value="Chart Code"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="attributeSecurity">
-      <bean parent="AttributeSecurity" p:readOnly="true" />
+      <bean parent="AttributeSecurity" p:readOnly="true"/>
     </property>
   </bean>
-  <bean id="Organization-organizationInFinancialProcessingIndicator" parent="Organization-organizationInFinancialProcessingIndicator-parentBean" />
+  <bean id="Organization-organizationInFinancialProcessingIndicator" parent="Organization-organizationInFinancialProcessingIndicator-parentBean"/>
 
   <bean id="Organization-organizationInFinancialProcessingIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationInFinancialProcessingIndicator" />
-    <property name="label" value="Organization In Financial Processing" />
-    <property name="shortLabel" value="In Fin Processing" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="organizationInFinancialProcessingIndicator"/>
+    <property name="label" value="Organization In Financial Processing"/>
+    <property name="shortLabel" value="In Fin Processing"/>
+    <property name="maxLength" value="1"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="Organization-editPlantAccountsSection" parent="Organization-editPlantAccountsSection-parentBean" />
+  <bean id="Organization-editPlantAccountsSection" parent="Organization-editPlantAccountsSection-parentBean"/>
 
   <bean id="Organization-editPlantAccountsSection-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="editPlantAccountsSection" />
-    <property name="label" value="EDIT PLANT ACCOUNT SECTION" />
-    <property name="shortLabel" value="EDIT PLANT ACCOUNT SECTION" />
-    <property name="maxLength" value="50" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="editPlantAccountsSection"/>
+    <property name="label" value="EDIT PLANT ACCOUNT SECTION"/>
+    <property name="shortLabel" value="EDIT PLANT ACCOUNT SECTION"/>
+    <property name="maxLength" value="50"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="Organization-active" parent="Organization-active-parentBean" />
+  <bean id="Organization-active" parent="Organization-active-parentBean"/>
 
   <bean id="Organization-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active" />
+    <property name="name" value="active"/>
   </bean>
-  <bean id="Organization-editHrmsUnitSection" parent="Organization-editHrmsUnitSection-parentBean" />
+  <bean id="Organization-editHrmsUnitSection" parent="Organization-editHrmsUnitSection-parentBean"/>
 
   <bean id="Organization-editHrmsUnitSection-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="editHrmsUnitSection" />
-    <property name="label" value="EDIT HRMS UNIT SECTION" />
-    <property name="shortLabel" value="EDIT HRMS UNIT SECTION" />
-    <property name="maxLength" value="50" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+    <property name="name" value="editHrmsUnitSection"/>
+    <property name="label" value="EDIT HRMS UNIT SECTION"/>
+    <property name="shortLabel" value="EDIT HRMS UNIT SECTION"/>
+    <property name="maxLength" value="50"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="Organization-organizationExtension.hrmsCompany" parent="Organization-organizationExtension.hrmsCompany-parentBean" />
+  <bean id="Organization-organizationExtension.hrmsCompany" parent="Organization-organizationExtension.hrmsCompany-parentBean"/>
 
   <bean id="Organization-organizationExtension.hrmsCompany-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationExtension.hrmsCompany" />
-    <property name="label" value="HRMS Company" />
-    <property name="shortLabel" value="HRMS Company" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AlphaValidationPattern" />
+    <property name="name" value="organizationExtension.hrmsCompany"/>
+    <property name="label" value="HRMS Company"/>
+    <property name="shortLabel" value="HRMS Company"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="AlphaValidationPattern"/>
     </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="3" />
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
     </property>
   </bean>
-  <bean id="Organization-organizationExtension.hrmsIuOrganizationAddress2" parent="Organization-organizationExtension.hrmsIuOrganizationAddress2-parentBean" />
+  <bean id="Organization-organizationExtension.hrmsIuOrganizationAddress2" parent="Organization-organizationExtension.hrmsIuOrganizationAddress2-parentBean"/>
 
   <bean id="Organization-organizationExtension.hrmsIuOrganizationAddress2-parentBean" abstract="true" parent="OrganizationExtension-hrmsIuOrganizationAddress2">
-    <property name="name" value="organizationExtension.hrmsIuOrganizationAddress2" />
+    <property name="name" value="organizationExtension.hrmsIuOrganizationAddress2"/>
   </bean>
-  <bean id="Organization-organizationExtension.hrmsIuOrganizationAddress3" parent="Organization-organizationExtension.hrmsIuOrganizationAddress3-parentBean" />
+  <bean id="Organization-organizationExtension.hrmsIuOrganizationAddress3" parent="Organization-organizationExtension.hrmsIuOrganizationAddress3-parentBean"/>
 
   <bean id="Organization-organizationExtension.hrmsIuOrganizationAddress3-parentBean" abstract="true" parent="OrganizationExtension-hrmsIuOrganizationAddress3">
-    <property name="name" value="organizationExtension.hrmsIuOrganizationAddress3" />
+    <property name="name" value="organizationExtension.hrmsIuOrganizationAddress3"/>
   </bean>
-  <bean id="Organization-organizationExtension.hrmsIuCampusCode" parent="Organization-organizationExtension.hrmsIuCampusCode-parentBean" />
+  <bean id="Organization-organizationExtension.hrmsIuCampusCode" parent="Organization-organizationExtension.hrmsIuCampusCode-parentBean"/>
 
   <bean id="Organization-organizationExtension.hrmsIuCampusCode-parentBean" abstract="true" parent="OrganizationExtension-hrmsIuCampusCode">
-    <property name="name" value="organizationExtension.hrmsIuCampusCode" />
+    <property name="name" value="organizationExtension.hrmsIuCampusCode"/>
   </bean>
-  <bean id="Organization-organizationExtension.hrmsIuCampusBuilding" parent="Organization-organizationExtension.hrmsIuCampusBuilding-parentBean" />
+  <bean id="Organization-organizationExtension.hrmsIuCampusBuilding" parent="Organization-organizationExtension.hrmsIuCampusBuilding-parentBean"/>
 
   <bean id="Organization-organizationExtension.hrmsIuCampusBuilding-parentBean" abstract="true" parent="OrganizationExtension-hrmsIuCampusBuilding">
-    <property name="name" value="organizationExtension.hrmsIuCampusBuilding" />
+    <property name="name" value="organizationExtension.hrmsIuCampusBuilding"/>
   </bean>
-  <bean id="Organization-organizationExtension.hrmsIuCampusRoom" parent="Organization-organizationExtension.hrmsIuCampusRoom-parentBean" />
+  <bean id="Organization-organizationExtension.hrmsIuCampusRoom" parent="Organization-organizationExtension.hrmsIuCampusRoom-parentBean"/>
 
   <bean id="Organization-organizationExtension.hrmsIuCampusRoom-parentBean" abstract="true" parent="OrganizationExtension-hrmsIuCampusRoom">
-    <property name="name" value="organizationExtension.hrmsIuCampusRoom" />
+    <property name="name" value="organizationExtension.hrmsIuCampusRoom"/>
   </bean>
-  <bean id="Organization-organizationExtension.hrmsPersonnelApproverUniversalId" parent="Organization-organizationExtension.hrmsPersonnelApproverUniversalId-parentBean" />
+  <bean id="Organization-organizationExtension.hrmsPersonnelApproverUniversalId" parent="Organization-organizationExtension.hrmsPersonnelApproverUniversalId-parentBean"/>
 
   <bean id="Organization-organizationExtension.hrmsPersonnelApproverUniversalId-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="organizationExtension.hrmsPersonnelApproverUniversalId" />
-    <property name="label" value="Personnel Approver UserID" />
-    <property name="shortLabel" value="Personnel Approver UserID" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="organizationExtension.hrmsPersonnelApproverUniversalId"/>
+    <property name="label" value="Personnel Approver UserID"/>
+    <property name="shortLabel" value="Personnel Approver UserID"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
-  <bean id="Organization-organizationExtension.hrmsPersonnelApproverUniversal.principalName" parent="Organization-organizationExtension.hrmsPersonnelApproverUniversal.principalName-parentBean" />
+  <bean id="Organization-organizationExtension.hrmsPersonnelApproverUniversal.principalName" parent="Organization-organizationExtension.hrmsPersonnelApproverUniversal.principalName-parentBean"/>
 
   <bean id="Organization-organizationExtension.hrmsPersonnelApproverUniversal.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="organizationExtension.hrmsPersonnelApproverUniversal.principalName" />
-    <property name="label" value="Personnel Approver Principal Name" />
-    <property name="shortLabel" value="Personnel Approver" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="organizationExtension.hrmsPersonnelApproverUniversal.name"
-            p:universalIdAttributeName="organizationExtension.hrmsPersonnelApproverUniversalId"
-            p:userIdAttributeName="organizationExtension.hrmsPersonnelApproverUniversal.principalName" />
+    <property name="name" value="organizationExtension.hrmsPersonnelApproverUniversal.principalName"/>
+    <property name="label" value="Personnel Approver Principal Name"/>
+    <property name="shortLabel" value="Personnel Approver"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="organizationExtension.hrmsPersonnelApproverUniversal.name" p:universalIdAttributeName="organizationExtension.hrmsPersonnelApproverUniversalId" p:userIdAttributeName="organizationExtension.hrmsPersonnelApproverUniversal.principalName"/>
     </property>
   </bean>
-  <bean id="Organization-organizationExtension.hrmsPersonnelApproverUniversal.name" parent="Organization-organizationExtension.hrmsPersonnelApproverUniversal.name-parentBean" />
+  <bean id="Organization-organizationExtension.hrmsPersonnelApproverUniversal.name" parent="Organization-organizationExtension.hrmsPersonnelApproverUniversal.name-parentBean"/>
 
   <bean id="Organization-organizationExtension.hrmsPersonnelApproverUniversal.name-parentBean" abstract="true" parent="PersonImpl-name">
-    <property name="name" value="organizationExtension.hrmsPersonnelApproverUniversal.name" />
-    <property name="label" value="Personnel Approver Name" />
-    <property name="required" value="false" />
+    <property name="name" value="organizationExtension.hrmsPersonnelApproverUniversal.name"/>
+    <property name="label" value="Personnel Approver Name"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="Organization-organizationExtension.fiscalApproverUniversalId" parent="Organization-organizationExtension.fiscalApproverUniversalId-parentBean" />
+  <bean id="Organization-organizationExtension.fiscalApproverUniversalId" parent="Organization-organizationExtension.fiscalApproverUniversalId-parentBean"/>
 
   <bean id="Organization-organizationExtension.fiscalApproverUniversalId-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="organizationExtension.fiscalApproverUniversalId" />
-    <property name="label" value="Fiscal Approver UserID" />
-    <property name="shortLabel" value="Fiscal Approver UserID" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
+    <property name="name" value="organizationExtension.fiscalApproverUniversalId"/>
+    <property name="label" value="Fiscal Approver UserID"/>
+    <property name="shortLabel" value="Fiscal Approver UserID"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
     </property>
   </bean>
-  <bean id="Organization-organizationExtension.fiscalApproverUniversal.principalName" parent="Organization-organizationExtension.fiscalApproverUniversal.principalName-parentBean" />
+  <bean id="Organization-organizationExtension.fiscalApproverUniversal.principalName" parent="Organization-organizationExtension.fiscalApproverUniversal.principalName-parentBean"/>
 
   <bean id="Organization-organizationExtension.fiscalApproverUniversal.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="organizationExtension.fiscalApproverUniversal.principalName" />
-    <property name="label" value="Fiscal Approver Principal Name" />
-    <property name="shortLabel" value="Fiscal Approver" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="organizationExtension.fiscalApproverUniversal.name"
-            p:universalIdAttributeName="organizationExtension.fiscalApproverUniversalId"
-            p:userIdAttributeName="organizationExtension.fiscalApproverUniversal.principalName" />
+    <property name="name" value="organizationExtension.fiscalApproverUniversal.principalName"/>
+    <property name="label" value="Fiscal Approver Principal Name"/>
+    <property name="shortLabel" value="Fiscal Approver"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="organizationExtension.fiscalApproverUniversal.name" p:universalIdAttributeName="organizationExtension.fiscalApproverUniversalId" p:userIdAttributeName="organizationExtension.fiscalApproverUniversal.principalName"/>
     </property>
   </bean>
-  <bean id="Organization-organizationExtension.fiscalApproverUniversal.name" parent="Organization-organizationExtension.fiscalApproverUniversal.name-parentBean" />
+  <bean id="Organization-organizationExtension.fiscalApproverUniversal.name" parent="Organization-organizationExtension.fiscalApproverUniversal.name-parentBean"/>
 
   <bean id="Organization-organizationExtension.fiscalApproverUniversal.name-parentBean" abstract="true" parent="PersonImpl-name">
-    <property name="name" value="organizationExtension.fiscalApproverUniversal.name" />
-    <property name="label" value="Fiscal Approver Name" />
-    <property name="required" value="false" />
+    <property name="name" value="organizationExtension.fiscalApproverUniversal.name"/>
+    <property name="label" value="Fiscal Approver Name"/>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="Organization-organizationExtension.hrmsIuPositionAllowedFlag" parent="Organization-organizationExtension.hrmsIuPositionAllowedFlag-parentBean" />
+  <bean id="Organization-organizationExtension.hrmsIuPositionAllowedFlag" parent="Organization-organizationExtension.hrmsIuPositionAllowedFlag-parentBean"/>
 
   <bean id="Organization-organizationExtension.hrmsIuPositionAllowedFlag-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
-    <property name="name" value="organizationExtension.hrmsIuPositionAllowedFlag" />
-    <property name="label" value="Position Allowed" />
-    <property name="shortLabel" value="Position Allowed" />
-    <property name="required" value="true" />
+    <property name="name" value="organizationExtension.hrmsIuPositionAllowedFlag"/>
+    <property name="label" value="Position Allowed"/>
+    <property name="shortLabel" value="Position Allowed"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="Organization-organizationExtension.hrmsIuTenureAllowedFlag" parent="Organization-organizationExtension.hrmsIuTenureAllowedFlag-parentBean" />
+  <bean id="Organization-organizationExtension.hrmsIuTenureAllowedFlag" parent="Organization-organizationExtension.hrmsIuTenureAllowedFlag-parentBean"/>
 
   <bean id="Organization-organizationExtension.hrmsIuTenureAllowedFlag-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
-    <property name="name" value="organizationExtension.hrmsIuTenureAllowedFlag" />
-    <property name="label" value="Tenure Allowed" />
-    <property name="shortLabel" value="Tenure Allowed" />
-    <property name="required" value="true" />
+    <property name="name" value="organizationExtension.hrmsIuTenureAllowedFlag"/>
+    <property name="label" value="Tenure Allowed"/>
+    <property name="shortLabel" value="Tenure Allowed"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="Organization-organizationExtension.hrmsIuTitleAllowedFlag" parent="Organization-organizationExtension.hrmsIuTitleAllowedFlag-parentBean" />
+  <bean id="Organization-organizationExtension.hrmsIuTitleAllowedFlag" parent="Organization-organizationExtension.hrmsIuTitleAllowedFlag-parentBean"/>
 
   <bean id="Organization-organizationExtension.hrmsIuTitleAllowedFlag-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
-    <property name="name" value="organizationExtension.hrmsIuTitleAllowedFlag" />
-    <property name="label" value="Title Allowed" />
-    <property name="shortLabel" value="Title Allowed" />
-    <property name="required" value="true" />
+    <property name="name" value="organizationExtension.hrmsIuTitleAllowedFlag"/>
+    <property name="label" value="Title Allowed"/>
+    <property name="shortLabel" value="Title Allowed"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="Organization-organizationExtension.hrmsIuOccupationalUnitAllowedFlag" parent="Organization-organizationExtension.hrmsIuOccupationalUnitAllowedFlag-parentBean" />
+  <bean id="Organization-organizationExtension.hrmsIuOccupationalUnitAllowedFlag" parent="Organization-organizationExtension.hrmsIuOccupationalUnitAllowedFlag-parentBean"/>
 
   <bean id="Organization-organizationExtension.hrmsIuOccupationalUnitAllowedFlag-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
-    <property name="name" value="organizationExtension.hrmsIuOccupationalUnitAllowedFlag" />
-    <property name="label" value="Occupational Unit Allowed" />
-    <property name="shortLabel" value="Occupational Unit Allowed" />
-    <property name="required" value="true" />
+    <property name="name" value="organizationExtension.hrmsIuOccupationalUnitAllowedFlag"/>
+    <property name="label" value="Occupational Unit Allowed"/>
+    <property name="shortLabel" value="Occupational Unit Allowed"/>
+    <property name="required" value="true"/>
   </bean>
-  <bean id="Organization-organizationExtension.hrmsLastUpdateDate" parent="Organization-organizationExtension.hrmsLastUpdateDate-parentBean" />
+  <bean id="Organization-organizationExtension.hrmsLastUpdateDate" parent="Organization-organizationExtension.hrmsLastUpdateDate-parentBean"/>
 
   <bean id="Organization-organizationExtension.hrmsLastUpdateDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
-    <property name="name" value="organizationExtension.hrmsLastUpdateDate" />
-    <property name="label" value="Last Update Date" />
-    <property name="shortLabel" value="Last Update Date" />
+    <property name="name" value="organizationExtension.hrmsLastUpdateDate"/>
+    <property name="label" value="Last Update Date"/>
+    <property name="shortLabel" value="Last Update Date"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="Organization-inquiryDefinition" parent="Organization-inquiryDefinition-parentBean" />
+  <bean id="Organization-inquiryDefinition" parent="Organization-inquiryDefinition-parentBean"/>
 
   <bean id="Organization-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Organization Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Organization Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Organization Details" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value="Organization Details"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="chartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationManagerUniversalId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationManagerUniversal.principalName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationManagerUniversal.name" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="responsibilityCenterCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationPhysicalCampusCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationDefaultAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationZipCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationLine1Address" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationLine2Address" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationCityName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationStateCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationCountryCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationBeginDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationEndDate" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="reportsToChartOfAccountsCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="reportsToOrganizationCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="editPlantAccountsSectionBlank" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="editPlantAccountsSection" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationPlantChartCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationPlantAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="campusPlantChartCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="campusPlantAccountNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="editHrmsUnitSectionBlank" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="editHrmsUnitSection" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationExtension.hrmsCompany" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationExtension.hrmsIuOrganizationAddress2" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationExtension.hrmsIuOrganizationAddress3" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationExtension.hrmsIuCampusCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationExtension.hrmsIuCampusBuilding" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationExtension.hrmsIuCampusRoom" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationExtension.hrmsIuPositionAllowedFlag" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationExtension.hrmsIuTenureAllowedFlag" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationExtension.hrmsIuTitleAllowedFlag" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationExtension.hrmsIuOccupationalUnitAllowedFlag" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationExtension.hrmsPersonnelApproverUniversalId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationExtension.hrmsPersonnelApproverUniversal.principalName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationExtension.hrmsPersonnelApproverUniversal.name" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationExtension.fiscalApproverUniversalId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationExtension.fiscalApproverUniversal.principalName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationExtension.fiscalApproverUniversal.name" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="organizationExtension.hrmsLastUpdateDate" />
+              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationName"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationManagerUniversalId"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationManagerUniversal.principalName"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationManagerUniversal.name"/>
+              <bean parent="FieldDefinition" p:attributeName="responsibilityCenterCode"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationPhysicalCampusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationDefaultAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationZipCode"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationLine1Address"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationLine2Address"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationCityName"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationStateCode"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationCountryCode"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationBeginDate"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationEndDate"/>
+              <bean parent="FieldDefinition" p:attributeName="reportsToChartOfAccountsCode"/>
+              <bean parent="FieldDefinition" p:attributeName="reportsToOrganizationCode"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+              <bean parent="FieldDefinition" p:attributeName="editPlantAccountsSectionBlank"/>
+              <bean parent="FieldDefinition" p:attributeName="editPlantAccountsSection"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationPlantChartCode"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationPlantAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="campusPlantChartCode"/>
+              <bean parent="FieldDefinition" p:attributeName="campusPlantAccountNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="editHrmsUnitSectionBlank"/>
+              <bean parent="FieldDefinition" p:attributeName="editHrmsUnitSection"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationExtension.hrmsCompany"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationExtension.hrmsIuOrganizationAddress2"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationExtension.hrmsIuOrganizationAddress3"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationExtension.hrmsIuCampusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationExtension.hrmsIuCampusBuilding"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationExtension.hrmsIuCampusRoom"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationExtension.hrmsIuPositionAllowedFlag"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationExtension.hrmsIuTenureAllowedFlag"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationExtension.hrmsIuTitleAllowedFlag"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationExtension.hrmsIuOccupationalUnitAllowedFlag"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationExtension.hrmsPersonnelApproverUniversalId"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationExtension.hrmsPersonnelApproverUniversal.principalName"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationExtension.hrmsPersonnelApproverUniversal.name"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationExtension.fiscalApproverUniversalId"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationExtension.fiscalApproverUniversal.principalName"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationExtension.fiscalApproverUniversal.name"/>
+              <bean parent="FieldDefinition" p:attributeName="organizationExtension.hrmsLastUpdateDate"/>
             </list>
           </property>
         </bean>
       </list>
     </property>
-    <property name="inquirableClass" value="org.kuali.kfs.coa.businessobject.inquiry.OrgInquirable" />
+    <property name="inquirableClass" value="org.kuali.kfs.coa.businessobject.inquiry.OrgInquirable"/>
   </bean>
 
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="Organization-lookupDefinition" parent="Organization-lookupDefinition-parentBean" />
+  <bean id="Organization-lookupDefinition" parent="Organization-lookupDefinition-parentBean"/>
 
   <bean id="Organization-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Organization Lookup" />
-    <property name="instructions" value="Lookup an Organization" />
-    <property name="defaultSort" >
+    <property name="title" value="Organization Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
-        <property name="attributeNames" >
+        <property name="attributeNames">
           <list>
             <value>chartOfAccountsCode</value>
           </list>
         </property>
-        <property name="sortAscending" value="false" />
+        <property name="sortAscending" value="false"/>
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationCode"
-              p:forceLookup="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="responsibilityCenterCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="reportsToChartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="reportsToOrganizationCode" />
-        <bean parent="FieldDefinition"
-              p:defaultValue="Y"
-              p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode" p:forceLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationName"/>
+        <bean parent="FieldDefinition" p:attributeName="responsibilityCenterCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="reportsToChartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="reportsToOrganizationCode"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="responsibilityCenterCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="reportsToChartOfAccountsCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="reportsToOrganizationCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
-        <bean parent="FieldDefinition"
-              p:attributeName="organizationManagerUniversal.principalName" />
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationName"/>
+        <bean parent="FieldDefinition" p:attributeName="responsibilityCenterCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="reportsToChartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="reportsToOrganizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationManagerUniversal.principalName"/>
       </list>
     </property>
   </bean>

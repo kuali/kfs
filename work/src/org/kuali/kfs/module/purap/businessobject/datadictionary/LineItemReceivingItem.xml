@@ -1,40 +1,33 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="LineItemReceivingItem" parent="LineItemReceivingItem-parentBean" />
+  <bean id="LineItemReceivingItem" parent="LineItemReceivingItem-parentBean"/>
 
   <bean id="LineItemReceivingItem-parentBean" abstract="true" parent="BusinessObjectEntry">
-  	<property name="objectLabel" value="Receiving Line Item" />
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem" />
-    <property name="inquiryDefinition" >
-      <ref bean="LineItemReceivingItem-inquiryDefinition" />
+  	<property name="objectLabel" value="Receiving Line Item"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem"/>
+    <property name="inquiryDefinition">
+      <ref bean="LineItemReceivingItem-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="LineItemReceivingItem-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="LineItemReceivingItem-lookupDefinition"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
-        <ref bean="LineItemReceivingItem-documentNumber" />
-        <ref bean="LineItemReceivingItem-itemCatalogNumber" />
-        <ref bean="LineItemReceivingItem-itemDamagedTotalQuantity" />
-        <ref bean="LineItemReceivingItem-itemDescription" />
-        <ref bean="LineItemReceivingItem-itemLineNumber" />
-        <ref bean="LineItemReceivingItem-itemOrderedQuantity" />
-        <ref bean="LineItemReceivingItem-itemReceivedPriorQuantity" />
-        <ref bean="LineItemReceivingItem-itemReceivedToBeQuantity" />
-        <ref bean="LineItemReceivingItem-itemReasonAddedCode" />
-        <ref bean="LineItemReceivingItem-itemReceivedTotalQuantity" />
-        <ref bean="LineItemReceivingItem-itemReturnedTotalQuantity" />
-        <ref bean="LineItemReceivingItem-itemTypeCode" />
-        <ref bean="LineItemReceivingItem-itemUnitOfMeasureCode" />
-        <ref bean="LineItemReceivingItem-purchaseOrderIdentifier" />
-        <ref bean="LineItemReceivingItem-receivingItemIdentifier" />
+        <ref bean="LineItemReceivingItem-documentNumber"/>
+        <ref bean="LineItemReceivingItem-itemCatalogNumber"/>
+        <ref bean="LineItemReceivingItem-itemDamagedTotalQuantity"/>
+        <ref bean="LineItemReceivingItem-itemDescription"/>
+        <ref bean="LineItemReceivingItem-itemLineNumber"/>
+        <ref bean="LineItemReceivingItem-itemOrderedQuantity"/>
+        <ref bean="LineItemReceivingItem-itemReceivedPriorQuantity"/>
+        <ref bean="LineItemReceivingItem-itemReceivedToBeQuantity"/>
+        <ref bean="LineItemReceivingItem-itemReasonAddedCode"/>
+        <ref bean="LineItemReceivingItem-itemReceivedTotalQuantity"/>
+        <ref bean="LineItemReceivingItem-itemReturnedTotalQuantity"/>
+        <ref bean="LineItemReceivingItem-itemTypeCode"/>
+        <ref bean="LineItemReceivingItem-itemUnitOfMeasureCode"/>
+        <ref bean="LineItemReceivingItem-purchaseOrderIdentifier"/>
+        <ref bean="LineItemReceivingItem-receivingItemIdentifier"/>
       </list>
     </property>
   </bean>
@@ -42,247 +35,220 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="LineItemReceivingItem-documentNumber" parent="LineItemReceivingItem-documentNumber-parentBean" />
+  <bean id="LineItemReceivingItem-documentNumber" parent="LineItemReceivingItem-documentNumber-parentBean"/>
 
   <bean id="LineItemReceivingItem-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Document Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="14" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="documentNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Document Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="14"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="16" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="16"/>
     </property>
   </bean>
-  <bean id="LineItemReceivingItem-itemCatalogNumber" parent="LineItemReceivingItem-itemCatalogNumber-parentBean" />
+  <bean id="LineItemReceivingItem-itemCatalogNumber" parent="LineItemReceivingItem-itemCatalogNumber-parentBean"/>
 
   <bean id="LineItemReceivingItem-itemCatalogNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemCatalogNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Catalog Number" />
-    <property name="shortLabel" value="Catalog #" />
-    <property name="maxLength" value="30" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" 
-            p:allowWhitespace="true" />
+    <property name="name" value="itemCatalogNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Item Catalog Number"/>
+    <property name="shortLabel" value="Catalog #"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="15" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="15"/>
     </property>
   </bean>
-  <bean id="LineItemReceivingItem-itemDamagedTotalQuantity" parent="LineItemReceivingItem-itemDamagedTotalQuantity-parentBean" />
+  <bean id="LineItemReceivingItem-itemDamagedTotalQuantity" parent="LineItemReceivingItem-itemDamagedTotalQuantity-parentBean"/>
 
   <bean id="LineItemReceivingItem-itemDamagedTotalQuantity-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemDamagedTotalQuantity" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Damaged Total Quantity" />
-    <property name="shortLabel" value="Qty Damaged" />
-    <property name="maxLength" value="11" />
-    <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern" />
+    <property name="name" value="itemDamagedTotalQuantity"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Item Damaged Total Quantity"/>
+    <property name="shortLabel" value="Qty Damaged"/>
+    <property name="maxLength" value="11"/>
+    <property name="validationPattern">
+      <bean parent="FloatingPointValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="13" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="13"/>
     </property>
   </bean>
-  <bean id="LineItemReceivingItem-itemDescription" parent="LineItemReceivingItem-itemDescription-parentBean" />
+  <bean id="LineItemReceivingItem-itemDescription" parent="LineItemReceivingItem-itemDescription-parentBean"/>
 
   <bean id="LineItemReceivingItem-itemDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemDescription" />
-    <property name="label" value="Item Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="4000" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+    <property name="name" value="itemDescription"/>
+    <property name="label" value="Item Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="4000"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="1"
-            p:cols="45" />
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="1" p:cols="45"/>
     </property>
-    <property name="required" value="true" />
+    <property name="required" value="true"/>
   </bean>
-  <bean id="LineItemReceivingItem-itemLineNumber" parent="LineItemReceivingItem-itemLineNumber-parentBean" />
+  <bean id="LineItemReceivingItem-itemLineNumber" parent="LineItemReceivingItem-itemLineNumber-parentBean"/>
 
   <bean id="LineItemReceivingItem-itemLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemLineNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Line Number" />
-    <property name="shortLabel" value="Line #" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="itemLineNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Item Line Number"/>
+    <property name="shortLabel" value="Line #"/>
+    <property name="maxLength" value="3"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="5" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="5"/>
     </property>
   </bean>
-  <bean id="LineItemReceivingItem-itemOrderedQuantity" parent="LineItemReceivingItem-itemOrderedQuantity-parentBean" />
+  <bean id="LineItemReceivingItem-itemOrderedQuantity" parent="LineItemReceivingItem-itemOrderedQuantity-parentBean"/>
 
   <bean id="LineItemReceivingItem-itemOrderedQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
-    <property name="name" value="itemOrderedQuantity" />
-    <property name="label" value="Item Ordered Quantity" />
-    <property name="shortLabel" value="Qty Ordered" />
+    <property name="name" value="itemOrderedQuantity"/>
+    <property name="label" value="Item Ordered Quantity"/>
+    <property name="shortLabel" value="Qty Ordered"/>
   </bean>
-  <bean id="LineItemReceivingItem-itemReceivedPriorQuantity" parent="LineItemReceivingItem-itemReceivedPriorQuantity-parentBean" />
+  <bean id="LineItemReceivingItem-itemReceivedPriorQuantity" parent="LineItemReceivingItem-itemReceivedPriorQuantity-parentBean"/>
 
   <bean id="LineItemReceivingItem-itemReceivedPriorQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
-    <property name="name" value="itemReceivedPriorQuantity" />
-    <property name="label" value="Prior Qty Received" />
-    <property name="shortLabel" value="Prior Qty Received" />
+    <property name="name" value="itemReceivedPriorQuantity"/>
+    <property name="label" value="Prior Qty Received"/>
+    <property name="shortLabel" value="Prior Qty Received"/>
   </bean>
-  <bean id="LineItemReceivingItem-itemReceivedToBeQuantity" parent="LineItemReceivingItem-itemReceivedToBeQuantity-parentBean" />
+  <bean id="LineItemReceivingItem-itemReceivedToBeQuantity" parent="LineItemReceivingItem-itemReceivedToBeQuantity-parentBean"/>
 
   <bean id="LineItemReceivingItem-itemReceivedToBeQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
-    <property name="name" value="itemReceivedToBeQuantity" />
-    <property name="label" value="To be Received" />
-    <property name="shortLabel" value="To be Received" />
+    <property name="name" value="itemReceivedToBeQuantity"/>
+    <property name="label" value="To be Received"/>
+    <property name="shortLabel" value="To be Received"/>
   </bean>
-  <bean id="LineItemReceivingItem-itemReasonAddedCode" parent="LineItemReceivingItem-itemReasonAddedCode-parentBean" />
+  <bean id="LineItemReceivingItem-itemReasonAddedCode" parent="LineItemReceivingItem-itemReasonAddedCode-parentBean"/>
 
   <bean id="LineItemReceivingItem-itemReasonAddedCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemReasonAddedCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Reason Added Code" />
-    <property name="shortLabel" value="Addition Reason" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="itemReasonAddedCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Item Reason Added Code"/>
+    <property name="shortLabel" value="Addition Reason"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.ItemReasonAddedValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.ItemReasonAddedValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="LineItemReceivingItem-itemReceivedTotalQuantity" parent="LineItemReceivingItem-itemReceivedTotalQuantity-parentBean" />
+  <bean id="LineItemReceivingItem-itemReceivedTotalQuantity" parent="LineItemReceivingItem-itemReceivedTotalQuantity-parentBean"/>
 
   <bean id="LineItemReceivingItem-itemReceivedTotalQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
-    <property name="name" value="itemReceivedTotalQuantity" />
-    <property name="label" value="Item Received Total Quantity" />
-    <property name="shortLabel" value="Qty Received" />
+    <property name="name" value="itemReceivedTotalQuantity"/>
+    <property name="label" value="Item Received Total Quantity"/>
+    <property name="shortLabel" value="Qty Received"/>
   </bean>
-  <bean id="LineItemReceivingItem-itemReturnedTotalQuantity" parent="LineItemReceivingItem-itemReturnedTotalQuantity-parentBean" />
+  <bean id="LineItemReceivingItem-itemReturnedTotalQuantity" parent="LineItemReceivingItem-itemReturnedTotalQuantity-parentBean"/>
 
   <bean id="LineItemReceivingItem-itemReturnedTotalQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
-    <property name="name" value="itemReturnedTotalQuantity" />
-    <property name="label" value="Item Returned Total Quantity" />
-    <property name="shortLabel" value="Qty Returned" />
+    <property name="name" value="itemReturnedTotalQuantity"/>
+    <property name="label" value="Item Returned Total Quantity"/>
+    <property name="shortLabel" value="Qty Returned"/>
   </bean>
-  <bean id="LineItemReceivingItem-itemTypeCode" parent="LineItemReceivingItem-itemTypeCode-parentBean" />
+  <bean id="LineItemReceivingItem-itemTypeCode" parent="LineItemReceivingItem-itemTypeCode-parentBean"/>
 
   <bean id="LineItemReceivingItem-itemTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Type Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="itemTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Item Type Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
   </bean>
-  <bean id="LineItemReceivingItem-itemUnitOfMeasureCode" parent="LineItemReceivingItem-itemUnitOfMeasureCode-parentBean" />
+  <bean id="LineItemReceivingItem-itemUnitOfMeasureCode" parent="LineItemReceivingItem-itemUnitOfMeasureCode-parentBean"/>
 
   <bean id="LineItemReceivingItem-itemUnitOfMeasureCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="itemUnitOfMeasureCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Item Unit Of Measure Code" />
-    <property name="shortLabel" value="UOM" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <property name="name" value="itemUnitOfMeasureCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Item Unit Of Measure Code"/>
+    <property name="shortLabel" value="UOM"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
-    <property name="required" value="true" />
+    <property name="required" value="true"/>
   </bean>
-  <bean id="LineItemReceivingItem-purchaseOrderIdentifier" parent="LineItemReceivingItem-purchaseOrderIdentifier-parentBean" />
+  <bean id="LineItemReceivingItem-purchaseOrderIdentifier" parent="LineItemReceivingItem-purchaseOrderIdentifier-parentBean"/>
 
   <bean id="LineItemReceivingItem-purchaseOrderIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="purchaseOrderIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Purchase Order Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="purchaseOrderIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Purchase Order Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
     </property>
   </bean>
-  <bean id="LineItemReceivingItem-receivingItemIdentifier" parent="LineItemReceivingItem-receivingItemIdentifier-parentBean" />
+  <bean id="LineItemReceivingItem-receivingItemIdentifier" parent="LineItemReceivingItem-receivingItemIdentifier-parentBean"/>
 
   <bean id="LineItemReceivingItem-receivingItemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="receivingItemIdentifier" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Receiving Line Item Identifier" />
-    <property name="shortLabel" value="Identifier" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+    <property name="name" value="receivingItemIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Receiving Line Item Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="12" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="LineItemReceivingItem-inquiryDefinition" parent="LineItemReceivingItem-inquiryDefinition-parentBean" />
+  <bean id="LineItemReceivingItem-inquiryDefinition" parent="LineItemReceivingItem-inquiryDefinition-parentBean"/>
 
   <bean id="LineItemReceivingItem-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Receiving Line Item Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Receiving Line Item Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="documentNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemCatalogNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemDamagedTotalQuantity" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemLineNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemOrderedQuantity" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemReasonAddedCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemReceivedTotalQuantity" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemReturnedTotalQuantity" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="itemUnitOfMeasureCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="receivingItemIdentifier" />
+              <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="itemCatalogNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="itemDamagedTotalQuantity"/>
+              <bean parent="FieldDefinition" p:attributeName="itemDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="itemLineNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="itemOrderedQuantity"/>
+              <bean parent="FieldDefinition" p:attributeName="itemReasonAddedCode"/>
+              <bean parent="FieldDefinition" p:attributeName="itemReceivedTotalQuantity"/>
+              <bean parent="FieldDefinition" p:attributeName="itemReturnedTotalQuantity"/>
+              <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="itemUnitOfMeasureCode"/>
+              <bean parent="FieldDefinition" p:attributeName="purchaseOrderIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="receivingItemIdentifier"/>
             </list>
           </property>
         </bean>
@@ -293,73 +259,47 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="LineItemReceivingItem-lookupDefinition" parent="LineItemReceivingItem-lookupDefinition-parentBean" />
+  <bean id="LineItemReceivingItem-lookupDefinition" parent="LineItemReceivingItem-lookupDefinition-parentBean"/>
 
   <bean id="LineItemReceivingItem-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Receiving Line Item Lookup" />
-    <property name="instructions" value="Look up a Receiving Line Item" />
-    <property name="defaultSort" >
+    <property name="title" value="Receiving Line Item Lookup"/>
+    
+    <property name="defaultSort">
       <bean parent="SortDefinition">
       </bean>
     </property>
-    <property name="lookupFields" >
+    <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="documentNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemCatalogNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemDamagedTotalQuantity" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemLineNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemOrderedQuantity" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemReasonAddedCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemReceivedTotalQuantity" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemReturnedTotalQuantity" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemUnitOfMeasureCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="receivingItemIdentifier" />
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="itemCatalogNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="itemDamagedTotalQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="itemLineNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="itemOrderedQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemReasonAddedCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemReceivedTotalQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemReturnedTotalQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemUnitOfMeasureCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="receivingItemIdentifier"/>
       </list>
     </property>
-    <property name="resultFields" >
+    <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="documentNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemCatalogNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemDamagedTotalQuantity" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemLineNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemOrderedQuantity" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemReasonAddedCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemReceivedTotalQuantity" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemReturnedTotalQuantity" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="itemUnitOfMeasureCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="receivingItemIdentifier" />
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="itemCatalogNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="itemDamagedTotalQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="itemLineNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="itemOrderedQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemReasonAddedCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemReceivedTotalQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemReturnedTotalQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemUnitOfMeasureCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="receivingItemIdentifier"/>
       </list>
     </property>
   </bean>

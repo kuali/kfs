@@ -1,82 +1,70 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://rice.kuali.org/dd
-        http://rice.kuali.org/dd/dd.xsd">
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
 	
-<bean id="LineItemReceivingStatus" parent="LineItemReceivingStatus-parentBean" />
+<bean id="LineItemReceivingStatus" parent="LineItemReceivingStatus-parentBean"/>
 
 <bean id="LineItemReceivingStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.LineItemReceivingStatus" />
-    <property name="inquiryDefinition" >
-      <ref bean="LineItemReceivingStatus-inquiryDefinition" />
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.LineItemReceivingStatus"/>
+    <property name="inquiryDefinition">
+      <ref bean="LineItemReceivingStatus-inquiryDefinition"/>
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="LineItemReceivingStatus-lookupDefinition" />
+    <property name="lookupDefinition">
+      <ref bean="LineItemReceivingStatus-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="lineItemReceivingStatusCode" />
-    <property name="objectLabel" value="Line Item Receiving Status" />
-    <property name="attributes" >
+    <property name="titleAttribute" value="lineItemReceivingStatusCode"/>
+    <property name="objectLabel" value="Line Item Receiving Status"/>
+    <property name="attributes">
       <list>
-    	<ref bean="LineItemReceivingStatus-lineItemReceivingStatusCode" />
-		<ref bean="LineItemReceivingStatus-lineItemReceivingStatusDescription" />
+    	<ref bean="LineItemReceivingStatus-lineItemReceivingStatusCode"/>
+		<ref bean="LineItemReceivingStatus-lineItemReceivingStatusDescription"/>
 	  </list>
     </property>
 </bean>
   
-<bean id="LineItemReceivingStatus-lineItemReceivingStatusCode" parent="LineItemReceivingStatus-lineItemReceivingStatusCode-parentBean" />
+<bean id="LineItemReceivingStatus-lineItemReceivingStatusCode" parent="LineItemReceivingStatus-lineItemReceivingStatusCode-parentBean"/>
 
-<bean id="LineItemReceivingStatus-lineItemReceivingStatusCode-parentBean" abstract="true" parent="AttributeDefinition" >
-	<property name="name" value="lineItemReceivingStatusCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Line Item Receiving Status Code" />
-    <property name="shortLabel" value="Status" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+<bean id="LineItemReceivingStatus-lineItemReceivingStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="name" value="lineItemReceivingStatusCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Line Item Receiving Status Code"/>
+    <property name="shortLabel" value="Status"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
     </property>
 </bean>				
 				
-<bean id="LineItemReceivingStatus-lineItemReceivingStatusDescription" parent="LineItemReceivingStatus-lineItemReceivingStatusDescription-parentBean" />
+<bean id="LineItemReceivingStatus-lineItemReceivingStatusDescription" parent="LineItemReceivingStatus-lineItemReceivingStatusDescription-parentBean"/>
 
-<bean id="LineItemReceivingStatus-lineItemReceivingStatusDescription-parentBean" abstract="true" parent="AttributeDefinition" >
-	<property name="name" value="lineItemReceivingStatusDescription" />
-    <property name="label" value="Line Item Receiving Status Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
+<bean id="LineItemReceivingStatus-lineItemReceivingStatusDescription-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="name" value="lineItemReceivingStatusDescription"/>
+    <property name="label" value="Line Item Receiving Status Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="47" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
     </property>
 </bean>
 	
 
-<bean id="LineItemReceivingStatus-inquiryDefinition" parent="LineItemReceivingStatus-inquiryDefinition-parentBean" />
+<bean id="LineItemReceivingStatus-inquiryDefinition" parent="LineItemReceivingStatus-inquiryDefinition-parentBean"/>
 
   <bean id="LineItemReceivingStatus-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Credit Memo Status Inquiry" />
-    <property name="inquirySections" >
+    <property name="title" value="Credit Memo Status Inquiry"/>
+    <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="lineItemReceivingStatusCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="lineItemReceivingStatusDescription" />
+              <bean parent="FieldDefinition" p:attributeName="lineItemReceivingStatusCode"/>
+              <bean parent="FieldDefinition" p:attributeName="lineItemReceivingStatusDescription"/>
             </list>
           </property>
         </bean>
@@ -85,30 +73,24 @@
   </bean>
   
 	<!-- Business Object Lookup Definition -->
-	<bean id="LineItemReceivingStatus-lookupDefinition"
-		parent="LineItemReceivingStatus-lookupDefinition-parentBean" />
+	<bean id="LineItemReceivingStatus-lookupDefinition" parent="LineItemReceivingStatus-lookupDefinition-parentBean"/>
 
 	<bean id="LineItemReceivingStatus-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Line Item Receiving Status Lookup" />
-		<property name="instructions"
-			value="Lookup a Line Item Receiving Status" />
+		<property name="title" value="Line Item Receiving Status Lookup"/>
+		
 		<property name="defaultSort">
-			<bean parent="SortDefinition"></bean>
+			<bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="lineItemReceivingStatusCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="lineItemReceivingStatusDescription" />
+				<bean parent="FieldDefinition" p:attributeName="lineItemReceivingStatusCode"/>
+				<bean parent="FieldDefinition" p:attributeName="lineItemReceivingStatusDescription"/>
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition"
-					p:attributeName="lineItemReceivingStatusCode" />
-				<bean parent="FieldDefinition"
-					p:attributeName="lineItemReceivingStatusDescription" />
+				<bean parent="FieldDefinition" p:attributeName="lineItemReceivingStatusCode"/>
+				<bean parent="FieldDefinition" p:attributeName="lineItemReceivingStatusDescription"/>
 			</list>
 		</property>
 	</bean>

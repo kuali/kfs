@@ -658,6 +658,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
      * @return Returns the salvageAmount
      */
     public KualiDecimal getSalvageAmount() {
+        if (salvageAmount == null)salvageAmount=KualiDecimal.ZERO;
         return salvageAmount;
     }
 

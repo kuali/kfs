@@ -15,16 +15,21 @@
  */
 package org.kuali.kfs.module.ld.batch.service;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.testdata.LaborTestDataPropertyConstants;
+import org.kuali.kfs.module.ld.util.LaborOriginEntryFileIterator;
 import org.kuali.kfs.module.ld.util.LaborOriginEntryForTesting;
 import org.kuali.kfs.module.ld.util.PendingLedgerEntryForTesting;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -34,7 +39,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 @ConfigureContext
 public class LaborNightlyOutServiceTest extends KualiTestBase {
@@ -46,10 +51,12 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
 
     private BusinessObjectService businessObjectService;
     private LaborNightlyOutService laborNightlyOutService;
-    private PersistenceService persistenceService;
+    
+    private String batchFileDirectoryName;
+    private String nightlyOutputFileName;
+    private String nightlyOutputDoneFileName;
 
     @Override
-    //TODO: Shawn - need to change it using file
     public void setUp() throws Exception {
         super.setUp();
         String messageFileName = LaborTestDataPropertyConstants.TEST_DATA_PACKAGE_NAME + "/message.properties";
@@ -63,95 +70,123 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
 
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         laborNightlyOutService = SpringContext.getBean(LaborNightlyOutService.class);
-        persistenceService = SpringContext.getBean(PersistenceService.class);
 
         int numberOfDocuments = Integer.valueOf(properties.getProperty("document.numOfData"));
         List inputDataList = TestDataPreparator.buildTestDataList(DocumentHeader.class, properties, "document.testData", documentFieldNames, deliminator, numberOfDocuments);
         businessObjectService.save(inputDataList);
-
-        LaborOriginEntry cleanup = new LaborOriginEntry();
+        
+        LaborLedgerPendingEntry cleanup = new LaborLedgerPendingEntry();
         ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", fieldNames, deliminator);
         fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(fieldNames, deliminator)));
-        //businessObjectService.deleteMatching(LaborOriginEntry.class, fieldValues);
         businessObjectService.deleteMatching(LaborLedgerPendingEntry.class, fieldValues);
+        
+        batchFileDirectoryName = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("staging.directory")+"/ld/originEntry";
+        nightlyOutputFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        nightlyOutputDoneFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION;
     }
 
     public void testCopyApprovedPendingLedgerEntries() throws Exception {
-//        String testTarget = "copyApprovedPendingLedgerEntries.";
-//        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
-//        int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
-//
-//        List inputDataList = TestDataPreparator.buildTestDataList(LaborLedgerPendingEntry.class, properties, testTarget + "testData", numberOfTestData);
-//        businessObjectService.save(inputDataList);
-//
-//        laborNightlyOutService.copyApprovedPendingLedgerEntries();
-//
-//        List expectedDataList = TestDataPreparator.buildExpectedValueList(LaborOriginEntryForTesting.class, properties, testTarget + "expected", expectedNumOfData);
-//        Collection originEntries = businessObjectService.findMatching(LaborLedgerPendingEntry.class, fieldValues);
-//        for (Object entry : originEntries) {
-//            LaborOriginEntryForTesting originEntryForTesting = new LaborOriginEntryForTesting();
-//            ObjectUtil.buildObject(originEntryForTesting, entry);
-//            assertTrue("Cannot find the expected entry", expectedDataList.contains(originEntryForTesting));
-//        }
-//        assertEquals(expectedNumOfData, originEntries.size());
+        String testTarget = "copyApprovedPendingLedgerEntries.";
+        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
+
+        List<LaborLedgerPendingEntry> inputDataList = TestDataPreparator.buildTestDataList(LaborLedgerPendingEntry.class, properties, testTarget + "testData", numberOfTestData);
+        businessObjectService.save(inputDataList);
+
+        laborNightlyOutService.copyApprovedPendingLedgerEntries();
+        
+        int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
+        List<LaborOriginEntryForTesting> expectedDataList = TestDataPreparator.buildExpectedValueList(LaborOriginEntryForTesting.class, properties, testTarget + "expected", expectedNumOfData);
+        
+        Iterator<LaborOriginEntry> originEntries = new LaborOriginEntryFileIterator(new File(nightlyOutputFileName));
+        int sizeOfOriginEntries = 0;
+        while (originEntries.hasNext()) {
+            LaborOriginEntryForTesting originEntryForTesting = new LaborOriginEntryForTesting();
+            ObjectUtil.buildObject(originEntryForTesting, originEntries.next());
+            
+            sizeOfOriginEntries++;
+            assertTrue("Cannot find the expected entry", expectedDataList.contains(originEntryForTesting));
+        }
+        
+        assertEquals(expectedNumOfData, sizeOfOriginEntries);
     }
 
     public void testCopyPendingLedgerEntries() throws Exception {
+        String testTarget = "copyPendingLedgerEntries.";
+        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
+        int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
+
+        List<LaborLedgerPendingEntry> inputDataList = TestDataPreparator.buildTestDataList(LaborLedgerPendingEntry.class, properties, testTarget + "testData", numberOfTestData);
+        businessObjectService.save(inputDataList);
+
+        laborNightlyOutService.copyApprovedPendingLedgerEntries();
+
+        List<LaborOriginEntryForTesting> expectedDataList = TestDataPreparator.buildExpectedValueList(LaborOriginEntryForTesting.class, properties, testTarget + "expected", expectedNumOfData);
         
-      
-//        String testTarget = "copyPendingLedgerEntries.";
-//        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
-//        int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
-//
-//        List inputDataList = TestDataPreparator.buildTestDataList(LaborLedgerPendingEntry.class, properties, testTarget + "testData", numberOfTestData);
-//        businessObjectService.save(inputDataList);
-//
-//        laborNightlyOutService.copyApprovedPendingLedgerEntries();
-//
-//        List expectedDataList = TestDataPreparator.buildExpectedValueList(LaborOriginEntryForTesting.class, properties, testTarget + "expected", expectedNumOfData);
-//        Collection originEntries = businessObjectService.findMatching(LaborOriginEntry.class, fieldValues);
-//        for (Object entry : originEntries) {
-//            LaborOriginEntryForTesting originEntryForTesting = new LaborOriginEntryForTesting();
-//            ObjectUtil.buildObject(originEntryForTesting, entry);
-//            assertTrue("Cannot find the expected entry", expectedDataList.contains(originEntryForTesting));
-//        }
-//        
-//        
-//        assertEquals(expectedNumOfData, originEntries.size());
+        Iterator<LaborOriginEntry> originEntries = new LaborOriginEntryFileIterator(new File(nightlyOutputFileName));
+        int sizeOfOriginEntries = 0;
+        while (originEntries.hasNext()) {
+            LaborOriginEntryForTesting originEntryForTesting = new LaborOriginEntryForTesting();
+            ObjectUtil.buildObject(originEntryForTesting, originEntries.next());
+            
+            sizeOfOriginEntries++;
+            assertTrue("Cannot find the expected entry", expectedDataList.contains(originEntryForTesting));
+        }
+
+        assertEquals(expectedNumOfData, sizeOfOriginEntries);
     }
 
     public void testDeleteCopiedPendingLedgerEntries() throws Exception {
-//        String testTarget = "deleteCopiedPendingLedgerEntries.";
-//        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
-//        int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
-//
-//        List inputDataList = TestDataPreparator.buildTestDataList(LaborLedgerPendingEntry.class, properties, testTarget + "testData", numberOfTestData);
-//        businessObjectService.save(inputDataList);
-//
-//        laborNightlyOutService.deleteCopiedPendingLedgerEntries();
-//
-//        Collection originEntries = businessObjectService.findMatching(LaborOriginEntry.class, fieldValues);
-//
-//        assertEquals(expectedNumOfData, originEntries.size());
+        String testTarget = "deleteCopiedPendingLedgerEntries.";
+        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
+        int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
+
+        List inputDataList = TestDataPreparator.buildTestDataList(LaborLedgerPendingEntry.class, properties, testTarget + "testData", numberOfTestData);
+        businessObjectService.save(inputDataList);
+
+        laborNightlyOutService.deleteCopiedPendingLedgerEntries();
+        
+        int sizeOfPendingEntries = businessObjectService.countMatching(LaborLedgerPendingEntry.class, fieldValues);
+
+        assertEquals(expectedNumOfData, sizeOfPendingEntries);
     }
 
     public void testDeletePendingLedgerEntries() throws Exception {
-//        String testTarget = "deletePendingLedgerEntries.";
-//        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
-//        int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
-//
-//        List inputDataList = TestDataPreparator.buildTestDataList(LaborLedgerPendingEntry.class, properties, testTarget + "testData", numberOfTestData);
-//        businessObjectService.save(inputDataList);
-//
-//        laborNightlyOutService.deleteCopiedPendingLedgerEntries();
-//
-//        List expectedDataList = TestDataPreparator.buildExpectedValueList(LaborOriginEntryForTesting.class, properties, testTarget + "expected", expectedNumOfData);
-//        Collection originEntries = businessObjectService.findMatching(LaborLedgerPendingEntry.class, fieldValues);
-//        for (Object entry : originEntries) {
-//            PendingLedgerEntryForTesting pendingEntryForTesting = new PendingLedgerEntryForTesting();
-//            ObjectUtil.buildObject(pendingEntryForTesting, entry);
-//            assertTrue("Cannot find the expected entry", expectedDataList.contains(pendingEntryForTesting));
-//        }
-//        assertEquals(expectedNumOfData, originEntries.size());
+        String testTarget = "deletePendingLedgerEntries.";
+        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
+        int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
+
+        List inputDataList = TestDataPreparator.buildTestDataList(LaborLedgerPendingEntry.class, properties, testTarget + "testData", numberOfTestData);
+        businessObjectService.save(inputDataList);
+
+        laborNightlyOutService.deleteCopiedPendingLedgerEntries();
+
+        List<PendingLedgerEntryForTesting> expectedDataList = TestDataPreparator.buildExpectedValueList(PendingLedgerEntryForTesting.class, properties, testTarget + "expected", expectedNumOfData);
+        Collection pendingEntries = businessObjectService.findMatching(LaborLedgerPendingEntry.class, fieldValues);
+        for (Object pendingEntry : pendingEntries) {
+            PendingLedgerEntryForTesting pendingEntryForTesting = new PendingLedgerEntryForTesting();
+            ObjectUtil.buildObject(pendingEntryForTesting, pendingEntry);
+            
+            assertTrue("Cannot find the expected entry", expectedDataList.contains(pendingEntryForTesting));
+        }
+        
+        assertEquals(expectedNumOfData, pendingEntries.size());
+    }
+
+    /**
+     * @see junit.framework.TestCase#tearDown()
+     */
+    @Override
+    protected void tearDown() throws Exception {
+        File nightlyOutputFile = new File(nightlyOutputFileName);
+        if(nightlyOutputFile.isFile() && nightlyOutputFile.exists()) {
+            nightlyOutputFile.delete();
+        }
+        
+        File nightlyOutputDoneFile = new File(nightlyOutputDoneFileName);
+        if(nightlyOutputDoneFile.isFile() && nightlyOutputDoneFile.exists()) {
+            nightlyOutputDoneFile.delete();
+        }
+        
+        super.tearDown();
     }
 }

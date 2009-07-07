@@ -60,7 +60,6 @@ public class LaborOriginEntryForTesting extends LaborOriginEntry {
         keyValueList.add(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE);
         keyValueList.add(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
         keyValueList.add(KFSPropertyConstants.POSITION_NUMBER);
-        keyValueList.add(LaborPropertyConstants.RUN_IDENTIFIER);
         keyValueList.add(KFSPropertyConstants.EMPLID);
         return keyValueList;
     }

@@ -109,9 +109,9 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
             success &= checkIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid(customerCreditMemoDetail,customerCreditMemoDetail.getCustomerInvoiceDetail().getInvoiceItemUnitPrice());
         }
         // if there is no input -> wrong input
-        else
+        else {
             success = false;
-        
+        }
         return success;
     }
     
@@ -172,6 +172,12 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
     public boolean checkIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid(CustomerCreditMemoDetail customerCreditMemoDetail, BigDecimal unitPrice) {
         KualiDecimal creditAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
         KualiDecimal creditQuantity = new KualiDecimal(customerCreditMemoDetail.getCreditMemoItemQuantity());
+        
+        //  if unit price is zero, leave this validation, as it will cause an exception below by attempting to divide by zero
+        if(unitPrice.compareTo(BigDecimal.ZERO) == 1) {
+            //  no need to report error, because it is already recorded by another validation check.
+            return false;
+        }
         
         //  determine the expected exact total credit memo quantity, based on actual credit amount entered
         KualiDecimal expectedCreditQuantity = creditAmount.divide(new KualiDecimal(unitPrice), true);

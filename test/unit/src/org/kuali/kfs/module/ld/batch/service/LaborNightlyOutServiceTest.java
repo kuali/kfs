@@ -44,7 +44,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 @ConfigureContext
 public class LaborNightlyOutServiceTest extends KualiTestBase {
     private Properties properties;
-    private Map fieldValues;
+    private Map<String, Object> fieldValues;
 
     private BusinessObjectService businessObjectService;
     private LaborNightlyOutService laborNightlyOutService;
@@ -68,7 +68,7 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         laborNightlyOutService = SpringContext.getBean(LaborNightlyOutService.class);
 
         int numberOfDocuments = Integer.valueOf(properties.getProperty("document.numOfData"));
-        List inputDataList = TestDataPreparator.buildTestDataList(DocumentHeader.class, properties, "document.testData", documentFieldNames, deliminator, numberOfDocuments);
+        List<DocumentHeader> inputDataList = TestDataPreparator.buildTestDataList(DocumentHeader.class, properties, "document.testData", documentFieldNames, deliminator, numberOfDocuments);
         businessObjectService.save(inputDataList);
 
         LaborLedgerPendingEntry cleanup = new LaborLedgerPendingEntry();
@@ -140,7 +140,7 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
         int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
 
-        List inputDataList = TestDataPreparator.buildTestDataList(LaborLedgerPendingEntry.class, properties, testTarget + "testData", numberOfTestData);
+        List<LaborLedgerPendingEntry> inputDataList = TestDataPreparator.buildTestDataList(LaborLedgerPendingEntry.class, properties, testTarget + "testData", numberOfTestData);
         businessObjectService.save(inputDataList);
 
         laborNightlyOutService.deleteCopiedPendingLedgerEntries();
@@ -155,14 +155,14 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
         int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
 
-        List inputDataList = TestDataPreparator.buildTestDataList(LaborLedgerPendingEntry.class, properties, testTarget + "testData", numberOfTestData);
+        List<LaborLedgerPendingEntry> inputDataList = TestDataPreparator.buildTestDataList(LaborLedgerPendingEntry.class, properties, testTarget + "testData", numberOfTestData);
         businessObjectService.save(inputDataList);
 
         laborNightlyOutService.deleteCopiedPendingLedgerEntries();
 
         List<PendingLedgerEntryForTesting> expectedDataList = TestDataPreparator.buildExpectedValueList(PendingLedgerEntryForTesting.class, properties, testTarget + "expected", expectedNumOfData);
-        Collection pendingEntries = businessObjectService.findMatching(LaborLedgerPendingEntry.class, fieldValues);
-        for (Object pendingEntry : pendingEntries) {
+        Collection<LaborLedgerPendingEntry> pendingEntries = businessObjectService.findMatching(LaborLedgerPendingEntry.class, fieldValues);
+        for (LaborLedgerPendingEntry pendingEntry : pendingEntries) {
             PendingLedgerEntryForTesting pendingEntryForTesting = new PendingLedgerEntryForTesting();
             ObjectUtil.buildObject(pendingEntryForTesting, pendingEntry);
 

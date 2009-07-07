@@ -174,7 +174,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         KualiDecimal creditQuantity = new KualiDecimal(customerCreditMemoDetail.getCreditMemoItemQuantity());
         
         //  if unit price is zero, leave this validation, as it will cause an exception below by attempting to divide by zero
-        if(unitPrice.compareTo(BigDecimal.ZERO) == 1) {
+        if(unitPrice.compareTo(BigDecimal.ZERO) == 0) {
             //  no need to report error, because it is already recorded by another validation check.
             return false;
         }

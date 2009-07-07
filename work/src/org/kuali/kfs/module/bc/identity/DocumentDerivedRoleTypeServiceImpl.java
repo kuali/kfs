@@ -23,8 +23,10 @@ import org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceIm
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionProcessorService;
+import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
@@ -37,6 +39,7 @@ import org.kuali.rice.kns.util.MessageMap;
 public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceBase implements BudgetConstructionNoAccessMessageSetting {
     private BudgetConstructionProcessorService budgetConstructionProcessorService;
     private RoleManagementService roleManagementService;
+    private BudgetDocumentService budgetDocumentService;
     
     @Override
     public AttributeSet convertQualificationForMemberRoles(String namespaceCode, String roleName, String memberRoleNamespaceCode, String memberRoleName, AttributeSet qualification) {
@@ -108,7 +111,13 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
         List<Organization> userProcessingOrgs = budgetConstructionProcessorService.getProcessorOrgs(user); 
         if (userProcessingOrgs != null && !userProcessingOrgs.isEmpty()) {
             isBCProcessor = true;
-            isProcessorInAccountHierarchy = budgetConstructionProcessorService.isOrgProcessor(document.getChartOfAccountsCode(), document.getAccountNumber(), user);
+            
+            List<BudgetConstructionAccountOrganizationHierarchy> accountOrganizationHierarchy = (List<BudgetConstructionAccountOrganizationHierarchy>) budgetDocumentService.retrieveOrBuildAccountOrganizationHierarchy(document.getUniversityFiscalYear(), document.getChartOfAccountsCode(), document.getAccountNumber());
+            for (BudgetConstructionAccountOrganizationHierarchy accountOrganization : accountOrganizationHierarchy) {
+                if (userProcessingOrgs.contains(accountOrganization.getOrganization())) {
+                    isProcessorInAccountHierarchy = true;
+                }
+            }
         }
 
         if (document.getOrganizationLevelCode().intValue() == 0) {
@@ -153,6 +162,20 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
      */
     public void setRoleManagementService(RoleManagementService roleManagementService) {
         this.roleManagementService = roleManagementService;
+    }
+
+    /**
+     * @return Returns the budgetDocumentService.
+     */
+    protected BudgetDocumentService getBudgetDocumentService() {
+        return budgetDocumentService;
+    }
+
+    /**
+     * @param budgetDocumentService The budgetDocumentService to set.
+     */
+    public void setBudgetDocumentService(BudgetDocumentService budgetDocumentService) {
+        this.budgetDocumentService = budgetDocumentService;
     }
 
 }

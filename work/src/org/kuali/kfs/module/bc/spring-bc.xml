@@ -1098,6 +1098,9 @@
 		<property name="budgetConstructionProcessorService">
 			<ref bean="budgetConstructionProcessorService" />
 		</property>
+		<property name="budgetDocumentService">
+			<ref bean="budgetDocumentService" />
+		</property>		
 	</bean>
 				
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">

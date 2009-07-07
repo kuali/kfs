@@ -917,7 +917,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             }
             
             purapService.updateStatus(po, PurchaseOrderStatuses.CXML_ERROR);
-            purapService.saveDocumentNoValidation(po);
             return false;
         }
     }
@@ -929,6 +928,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         else {
             GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PurapKeyConstants.B2B_PO_RETRANSMIT_FAILED);
         }
+        purapService.saveDocumentNoValidation(po);
     }
     
     public boolean canHoldPayment(PurchaseOrderDocument purchaseOrder){

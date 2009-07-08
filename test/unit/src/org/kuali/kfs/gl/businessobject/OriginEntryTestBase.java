@@ -59,9 +59,13 @@ public class OriginEntryTestBase extends KualiTestBase {
     protected KualiConfigurationService kualiConfigurationService = null;
     protected OriginEntryService originEntryService = null;
     protected AccountingCycleCachingService accountingCycleCachingService = null;
+    
     protected Date date;
     protected String batchDirectory;
     protected String builtDirectory;
+    
+    protected String testingYear;
+    protected String testingPeriodCode;
 
     /**
      * Constructs a OriginEntryTestBase instance
@@ -91,15 +95,18 @@ public class OriginEntryTestBase extends KualiTestBase {
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
         kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         originEntryService = SpringContext.getBean(OriginEntryService.class);
-        batchDirectory = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("staging.directory")+"/gl/test_directory/originEntry";
         
-        buildBatchDirectory();
+        batchDirectory = this.getBatchDirectoryName();        
+        buildBatchDirectory(batchDirectory);
         
         accountingCycleCachingService = SpringContext.getBean(AccountingCycleCachingService.class);
         accountingCycleCachingService.initialize();
         
         // Set all enhancements to off
         resetAllEnhancementFlags();
+        
+        testingYear = TestUtils.getFiscalYearForTesting().toString();
+        testingPeriodCode = TestUtils.getPeriodCodeForTesting();
     }
 
     /**
@@ -108,7 +115,7 @@ public class OriginEntryTestBase extends KualiTestBase {
      */
     @Override
     protected void tearDown() throws Exception {
-        removeBatchDirectory();
+        removeBatchDirectory(batchDirectory);
         
         if (accountingCycleCachingService != null) {
             accountingCycleCachingService.destroy();
@@ -116,9 +123,17 @@ public class OriginEntryTestBase extends KualiTestBase {
     }
     
     /**
+     * get the name of the batch directory
+     * @return the name of the batch directory
+     */
+    protected String getBatchDirectoryName() {
+        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString("staging.directory")+"/gl/test_directory/originEntry";
+    }
+    
+    /**
      * Recursively ensures that the whole of the path of the batch directory exists
      */
-    protected void buildBatchDirectory() {
+    protected void buildBatchDirectory(String batchDirectory) {
         String[] directoryPieces = batchDirectory.split("/");
         StringBuilder builtDirectorySoFar = new StringBuilder();
         StringBuilder directoryToRemoveSoFar = new StringBuilder();
@@ -143,7 +158,7 @@ public class OriginEntryTestBase extends KualiTestBase {
     /**
      * Removes any directories added as part of building the batch directory
      */
-    protected void removeBatchDirectory() {
+    protected void removeBatchDirectory(String batchDirectory) {
         String unbuiltDirectory = batchDirectory.substring(0, batchDirectory.length()-builtDirectory.length());
         
         String pathToUnbuild = new String(batchDirectory);
@@ -221,10 +236,9 @@ public class OriginEntryTestBase extends KualiTestBase {
      * @param transactions an array of String-formatted entries to save into the file
      */
     protected void loadInputTransactions(String fileName, String[] transactions) {
-        PrintStream ps;
         final String fullFileName = batchDirectory + "/" + fileName + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         try {
-            ps = new PrintStream(fullFileName);
+            PrintStream ps = new PrintStream(fullFileName);
             for (int i = 0; i < transactions.length; i++) {
                 ps.println(transactions[i]);
             }

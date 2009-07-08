@@ -52,6 +52,7 @@ import org.springframework.aop.framework.ProxyFactory;
 public class TestUtils {
     private static final Log LOG = LogFactory.getLog(TestUtils.class);
     private static Integer fiscalYearForTesting;
+    private static String periodCodeForTesting;
 
     private static final String PLACEHOLDER_FILENAME = "placeholder.txt";
     
@@ -446,5 +447,17 @@ public class TestUtils {
             fiscalYearForTesting = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         }
         return fiscalYearForTesting;
+    }
+    
+    /**
+     * Returns a period code for testing.  If the periodCodeForTesting property is not null, it returns that;
+     * otherwise, it runs the current period code
+     * @return a period code suitable for testing purposes
+     */
+    public static String getPeriodCodeForTesting() {
+        if (periodCodeForTesting == null) {
+            periodCodeForTesting = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate().getUniversityFiscalAccountingPeriod();
+        }
+        return periodCodeForTesting;
     }
 }

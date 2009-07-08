@@ -37,7 +37,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     private ScrubberService scrubberService = null;
     private BusinessObjectService businessObjectService;
-    private String testingYear;
 
     @Override
     protected void setUp() throws Exception {
@@ -64,8 +63,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
         date = c.getTime();
         dateTimeService.setCurrentDate(date);
-        
-        testingYear = TestUtils.getFiscalYearForTesting().toString();
     }
 
     /**

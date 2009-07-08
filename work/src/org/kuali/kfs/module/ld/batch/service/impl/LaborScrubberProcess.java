@@ -191,7 +191,7 @@ public class LaborScrubberProcess {
         this.expiredFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
 
         BatchSortUtil.sortTextFileWithFields(unsortedFile, inputFile, new LaborScrubberSortComparator());
-        
+
         scrubEntries(true, documentNumber);
 
         File deleteSortFile = new File(inputFile);
@@ -809,7 +809,7 @@ public class LaborScrubberProcess {
 
         int validRead = 0;
         int errorRead = 0;
-        
+
         int validSaved = 0;
         int errorSaved = 0;
 
@@ -888,8 +888,7 @@ public class LaborScrubberProcess {
 
         }
         catch (Exception e) {
-            LOG.error("performDemerger() s" +
-            		"topped due to: " + e.getMessage(), e);
+            LOG.error("performDemerger() s" + "topped due to: " + e.getMessage(), e);
             throw new RuntimeException("performDemerger() stopped due to: " + e.getMessage(), e);
         }
 
@@ -902,7 +901,7 @@ public class LaborScrubberProcess {
         this.laborDemergerReportWriterService.writeStatisticLine("SCRUBBER VALID TRANSACTIONS READ       %,9d", demergerReport.getValidTransactionsRead());
         this.laborDemergerReportWriterService.writeStatisticLine("DEMERGER ERRORS SAVED                  %,9d", demergerReport.getErrorTransactionsSaved());
         this.laborDemergerReportWriterService.writeStatisticLine("DEMERGER VALID TRANSACTIONS SAVED      %,9d", demergerReport.getValidTransactionsSaved());
-        
+
         this.generateScrubberErrorListingReport(demergerErrorOutputFilename);
     }
 
@@ -939,8 +938,15 @@ public class LaborScrubberProcess {
      * Generates a transaction listing report for labor origin entries that were valid
      */
     protected void generateScrubberTransactionsOnline() {
-        Iterator<LaborOriginEntry> generatedTransactions = new LaborOriginEntryFileIterator(new File(inputFile));
-        new TransactionListingReport().generateReport(laborGeneratedTransactionsReportWriterService, generatedTransactions);
+        try {
+            Iterator<LaborOriginEntry> generatedTransactions = new LaborOriginEntryFileIterator(new File(inputFile));
+
+            ((WrappingBatchService) laborGeneratedTransactionsReportWriterService).initialize();
+            new TransactionListingReport().generateReport(laborGeneratedTransactionsReportWriterService, generatedTransactions);
+        }
+        finally {
+            ((WrappingBatchService) laborGeneratedTransactionsReportWriterService).destroy();
+        }
     }
 
     /**
@@ -953,16 +959,27 @@ public class LaborScrubberProcess {
                 return ObjectUtils.isNull(originEntryBalanceType);
             }
         };
-
-        Iterator<LaborOriginEntry> blankBalanceOriginEntries = new FilteringLaborOriginEntryFileIterator(new File(inputFile), blankBalanceTypeFilter);
-        new TransactionListingReport().generateReport(laborBadBalanceTypeReportWriterService, blankBalanceOriginEntries);
+        try {
+            ((WrappingBatchService) laborBadBalanceTypeReportWriterService).initialize();
+            Iterator<LaborOriginEntry> blankBalanceOriginEntries = new FilteringLaborOriginEntryFileIterator(new File(inputFile), blankBalanceTypeFilter);
+            new TransactionListingReport().generateReport(laborBadBalanceTypeReportWriterService, blankBalanceOriginEntries);
+        }
+        finally {
+            ((WrappingBatchService) laborBadBalanceTypeReportWriterService).destroy();
+        }
     }
 
     /**
      * Generates a transaction listing report for labor origin entries with errors
      */
     protected void generateScrubberErrorListingReport(String errorFileName) {
-        Iterator<LaborOriginEntry> removedTransactions = new LaborOriginEntryFileIterator(new File(errorFileName));
-        new TransactionListingReport().generateReport(laborErrorListingReportWriterService, removedTransactions);
+        try {
+            ((WrappingBatchService) laborErrorListingReportWriterService).initialize();
+            Iterator<LaborOriginEntry> removedTransactions = new LaborOriginEntryFileIterator(new File(errorFileName));
+            new TransactionListingReport().generateReport(laborErrorListingReportWriterService, removedTransactions);
+        }
+        finally {
+            ((WrappingBatchService) laborErrorListingReportWriterService).destroy();
+        }
     }
 }

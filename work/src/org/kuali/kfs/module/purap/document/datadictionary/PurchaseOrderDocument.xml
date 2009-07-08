@@ -1207,9 +1207,11 @@
   <bean id="PurchaseOrderDocument-capitalAssetSystemTypeCode" parent="PurchaseOrderDocument-capitalAssetSystemTypeCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-capitalAssetSystemTypeCode-parentBean" abstract="true" parent="CapitalAssetSystemType-capitalAssetSystemTypeCode">
-    <property name="name" value="capitalAssetSystemTypeCode"/>
     <property name="label" value="Capital Asset System Type"/>
     <property name="shortLabel" value="System Type"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CapitalAssetSystemTypeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
   </bean>
 
   <bean id="PurchaseOrderDocument-capitalAssetSystemStateCode" parent="PurchaseOrderDocument-capitalAssetSystemStateCode-parentBean"/>

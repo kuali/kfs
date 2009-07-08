@@ -965,9 +965,11 @@
 
   <bean id="RequisitionDocument-capitalAssetSystemTypeCode" parent="RequisitionDocument-capitalAssetSystemTypeCode-parentBean"/>
   <bean id="RequisitionDocument-capitalAssetSystemTypeCode-parentBean" abstract="true" parent="CapitalAssetSystemType-capitalAssetSystemTypeCode">
-  	<property name="name" value="capitalAssetSystemTypeCode"/>
-  	<property name="label" value="Capital Asset System Type"/>
-  	<property name="shortLabel" value="System Type"/>
+    <property name="label" value="Capital Asset System Type"/>
+    <property name="shortLabel" value="System Type"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CapitalAssetSystemTypeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
   </bean> 
   
   <bean id="RequisitionDocument-useTaxIndicator" parent="RequisitionDocument-useTaxIndicator-parentBean"/>

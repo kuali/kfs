@@ -36,7 +36,7 @@
       <bean parent="AnyCharacterValidationPattern"/>
     </property>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CapitalAssetSystemTypeValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="TextControlDefinition" p:size="47"/>
     </property>
   </bean>
   <bean id="CapitalAssetSystemType-capitalAssetSystemTypeDescription" parent="CapitalAssetSystemType-capitalAssetSystemTypeDescription-parentBean"/>

@@ -52,7 +52,6 @@
   <bean id="ACHPayee-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Payee Lookup" />
     <property name="lookupableID" value="achPayeeLookupable" />
-    <property name="instructions" value="Lookup a Payee" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
         <property name="attributeNames" >

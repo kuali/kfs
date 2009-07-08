@@ -359,7 +359,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
         List<PersistableBusinessObject> persistingChanges = new ArrayList<PersistableBusinessObject>();
 
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        Map<OrganizationReversionCategory, OrganizationReversionGlobalDetail> detailsMap = this.rearrangeOrganizationReversionDetailsAsMap();
+        Map<String, OrganizationReversionGlobalDetail> detailsMap = this.rearrangeOrganizationReversionDetailsAsMap();
 
         for (OrganizationReversionGlobalOrganization orgRevOrg : this.getOrganizationReversionGlobalOrganizations()) {
             // 1. find that organization reversion
@@ -386,7 +386,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
 
                 // 3. now, go through each org reversion detail and update each of those
                 for (OrganizationReversionDetail orgRevDetail : currOrgRev.getOrganizationReversionDetail()) {
-                    OrganizationReversionGlobalDetail changeDetail = detailsMap.get(orgRevDetail.getOrganizationReversionCategory());
+                    OrganizationReversionGlobalDetail changeDetail = detailsMap.get(orgRevDetail.getOrganizationReversionCategoryCode());
                     if (changeDetail != null) {
                         if (!StringUtils.isBlank(changeDetail.getOrganizationReversionCode())) {
                             orgRevDetail.setOrganizationReversionCode(changeDetail.getOrganizationReversionCode());
@@ -411,11 +411,11 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
      * 
      * @return a map of all organization reversion change details, keyed by OrganizationReversionCategory
      */
-    private Map<OrganizationReversionCategory, OrganizationReversionGlobalDetail> rearrangeOrganizationReversionDetailsAsMap() {
-        Map<OrganizationReversionCategory, OrganizationReversionGlobalDetail> orgRevMap = new HashMap<OrganizationReversionCategory, OrganizationReversionGlobalDetail>();
+    private Map<String, OrganizationReversionGlobalDetail> rearrangeOrganizationReversionDetailsAsMap() {
+        Map<String, OrganizationReversionGlobalDetail> orgRevMap = new HashMap<String, OrganizationReversionGlobalDetail>();
         for (OrganizationReversionGlobalDetail orgRevDetail : this.getOrganizationReversionGlobalDetails()) {
             if (!StringUtils.isBlank(orgRevDetail.getOrganizationReversionObjectCode()) || !StringUtils.isBlank(orgRevDetail.getOrganizationReversionCode())) {
-                orgRevMap.put(orgRevDetail.getOrganizationReversionCategory(), orgRevDetail);
+                orgRevMap.put(orgRevDetail.getOrganizationReversionCategoryCode(), orgRevDetail);
             }
         }
         return orgRevMap;

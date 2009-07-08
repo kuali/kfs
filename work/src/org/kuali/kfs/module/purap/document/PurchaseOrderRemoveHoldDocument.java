@@ -68,7 +68,6 @@ public class PurchaseOrderRemoveHoldDocument extends PurchaseOrderDocument {
 
             // set purap status
             SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PurchaseOrderStatuses.OPEN);
-            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
         }
         // DOCUMENT DISAPPROVED
         else if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {

@@ -69,7 +69,6 @@ public class PurchaseOrderPaymentHoldDocument extends PurchaseOrderDocument {
 
             // set purap status
             SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD);
-            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
         }
         // DOCUMENT DISAPPROVED
         else if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {

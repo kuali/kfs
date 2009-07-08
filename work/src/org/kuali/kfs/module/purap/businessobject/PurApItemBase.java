@@ -50,16 +50,16 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     private boolean itemAssignedToTradeInIndicator;
     private KualiDecimal extendedPrice; // not currently in DB
     private KualiDecimal itemSalesTaxAmount;
-    
+
     private List<PurApItemUseTax> useTaxItems;
     private List<PurApAccountingLine> sourceAccountingLines;
     private List<PurApAccountingLine> baselineSourceAccountingLines;
     private PurApAccountingLine newSourceLine;
- 
+
     private ItemType itemType;
     private Integer purapDocumentIdentifier;
     private KualiDecimal itemQuantity;
-    
+
     private PurchasingAccountsPayableDocument purapDocument;
 
     /**
@@ -208,32 +208,33 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     public KualiDecimal getItemTaxAmount() {
         KualiDecimal taxAmount = KualiDecimal.ZERO;
 
-        if(purapDocument == null){
+        if (ObjectUtils.isNull(purapDocument)) {
             this.refreshReferenceObject("purapDocument");
         }
-        
-        if(purapDocument.isUseTaxIndicator() == false){
+
+        if (purapDocument.isUseTaxIndicator() == false) {
             taxAmount = this.itemSalesTaxAmount;
-        }else{
-            //sum use tax item tax amounts
-            for(PurApItemUseTax useTaxItem : this.getUseTaxItems()){
-                taxAmount = taxAmount.add( useTaxItem.getTaxAmount() );
+        }
+        else {
+            // sum use tax item tax amounts
+            for (PurApItemUseTax useTaxItem : this.getUseTaxItems()) {
+                taxAmount = taxAmount.add(useTaxItem.getTaxAmount());
             }
         }
-        
+
         return taxAmount;
     }
 
     public void setItemTaxAmount(KualiDecimal itemTaxAmount) {
-        
-        if(purapDocument == null){
+
+        if (purapDocument == null) {
             this.refreshReferenceObject("purapDocument");
         }
-        
-        if(purapDocument.isUseTaxIndicator() == false){
+
+        if (purapDocument.isUseTaxIndicator() == false) {
             this.itemSalesTaxAmount = itemTaxAmount;
         }
-        
+
     }
 
     public final KualiDecimal getItemSalesTaxAmount() {
@@ -248,26 +249,26 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         return calculateExtendedPrice();
     }
 
-    public KualiDecimal getTotalAmount() { 
-        KualiDecimal totalAmount = getExtendedPrice();        
-        if(ObjectUtils.isNull(totalAmount)){
+    public KualiDecimal getTotalAmount() {
+        KualiDecimal totalAmount = getExtendedPrice();
+        if (ObjectUtils.isNull(totalAmount)) {
             totalAmount = KualiDecimal.ZERO;
         }
-        
+
         KualiDecimal taxAmount = getItemTaxAmount();
-        if(ObjectUtils.isNull(taxAmount)){
+        if (ObjectUtils.isNull(taxAmount)) {
             taxAmount = KualiDecimal.ZERO;
         }
-        
+
         totalAmount = totalAmount.add(taxAmount);
-        
+
         return totalAmount;
     }
 
-    public void setTotalAmount(KualiDecimal totalAmount){
-        //do nothing, setter required by interface
+    public void setTotalAmount(KualiDecimal totalAmount) {
+        // do nothing, setter required by interface
     }
-    
+
     public KualiDecimal calculateExtendedPrice() {
         KualiDecimal extendedPrice = KualiDecimal.ZERO;
         if (ObjectUtils.isNotNull(itemUnitPrice)) {
@@ -342,14 +343,14 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     public abstract Class getAccountingLineClass();
 
     public abstract Class getUseTaxClass();
-    
+
     public void resetAccount() {
         // add a blank accounting line
         PurApAccountingLine purApAccountingLine = getNewAccount();
-        
+
         purApAccountingLine.setItemIdentifier(this.itemIdentifier);
         purApAccountingLine.setPurapItem(this);
-        
+
         setNewSourceLine(purApAccountingLine);
     }
 
@@ -428,19 +429,20 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     }
 
     public final <T extends PurchasingAccountsPayableDocument> T getPurapDocument() {
-        return (T)purapDocument;
+        return (T) purapDocument;
     }
 
     public final void setPurapDocument(PurchasingAccountsPayableDocument purapDoc) {
         this.purapDocument = purapDoc;
     }
-    
+
     /**
      * fixes item references on accounts
+     * 
      * @see org.kuali.kfs.module.purap.businessobject.PurApItem#fixAccountReferences()
      */
     public void fixAccountReferences() {
-        if(ObjectUtils.isNull(this.getItemIdentifier())) {
+        if (ObjectUtils.isNull(this.getItemIdentifier())) {
             for (PurApAccountingLine account : this.getSourceAccountingLines()) {
                 account.setPurapItem(this);
             }
@@ -464,10 +466,10 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     }
 
     public KualiDecimal getTotalRemitAmount() {
-        if(!purapDocument.isUseTaxIndicator()) {
+        if (!purapDocument.isUseTaxIndicator()) {
             return this.getTotalAmount();
         }
         return this.getExtendedPrice();
-    }    
-    
+    }
+
 }

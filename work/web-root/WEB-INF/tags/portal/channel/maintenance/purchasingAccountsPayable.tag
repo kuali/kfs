@@ -22,6 +22,10 @@
 			<portal:portalLink displayTitle="true" title="Billing Address"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.purap.businessobject.BillingAddress&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
+		<li>
+            <portal:portalLink displayTitle="true" title="Capital Asset System State"
+                url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+        </li>
         <li>
             <portal:portalLink displayTitle="true" title="Capital Asset System Type"
                 url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />

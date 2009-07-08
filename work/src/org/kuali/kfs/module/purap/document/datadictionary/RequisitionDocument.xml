@@ -961,6 +961,9 @@
     <property name="required" value="false"/>
   	<property name="label" value="Capital Asset System State"/>
   	<property name="shortLabel" value="System State"/>
+  	<property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CapitalAssetSystemStateValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
   </bean>
 
   <bean id="RequisitionDocument-capitalAssetSystemTypeCode" parent="RequisitionDocument-capitalAssetSystemTypeCode-parentBean"/>

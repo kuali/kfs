@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="CapitalAssetSystemStateMaintenanceDocument" parent="CapitalAssetSystemStateMaintenanceDocument-parentBean"/>
+
+  <bean id="CapitalAssetSystemStateMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState"/>
+    <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"/>
+    <property name="allowsNewOrCopy" value="false"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="CapitalAssetSystemStateMaintenanceDocument-EditCapitalAssetSystemState"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>CapitalAssetSystemStateCode</value>
+      </list>
+    </property>
+    
+    <property name="documentTypeName" value="PMTY"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="workflowAttributes">
+    	<ref bean="CapitalAssetSystemStateMaintenanceDocument-workflowAttributes"/>
+    </property>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="CapitalAssetSystemStateMaintenanceDocument-EditCapitalAssetSystemState" parent="CapitalAssetSystemStateMaintenanceDocument-EditCapitalAssetSystemState-parentBean"/>
+
+  <bean id="CapitalAssetSystemStateMaintenanceDocument-EditCapitalAssetSystemState-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Capital Asset System State"/>
+    <property name="title" value="Edit Capital Asset System State"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="capitalAssetSystemStateCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="capitalAssetSystemStateDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>        
+      </list>
+    </property>
+  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="CapitalAssetSystemStateMaintenanceDocument-workflowAttributes" parent="CapitalAssetSystemStateMaintenanceDocument-workflowAttributes-parentBean"/>
+  
+  <bean id="CapitalAssetSystemStateMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+</beans>

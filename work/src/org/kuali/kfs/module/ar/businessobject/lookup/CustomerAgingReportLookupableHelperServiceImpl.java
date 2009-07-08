@@ -65,7 +65,6 @@ import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
 
 
-
 public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerAgingReportLookupableHelperServiceImpl.class);
@@ -76,7 +75,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private Map fieldConversions;
 
     private CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-    private CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);   
+    private CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
     private BusinessObjectService businessObjectService;
 
     private String customerNameLabel;
@@ -96,14 +95,15 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private String accountNumber;
     private String chartCode;
     private String orgCode;
-    private String nbrDaysForLastBucket = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerAgingReportDetail.class, "CUSTOMER_INVOICE_AGE");     // ArConstants.CUSTOMER_INVOICE_AGE); // default is 120
-    private String cutoffdate91toSYSPRlabel = "91-"+nbrDaysForLastBucket+" days"; 
-    private String cutoffdateSYSPRplus1orMorelabel = Integer.toString((Integer.parseInt(nbrDaysForLastBucket))+1)+"+ days";
+    private String nbrDaysForLastBucket = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerAgingReportDetail.class, "CUSTOMER_INVOICE_AGE"); // ArConstants.CUSTOMER_INVOICE_AGE);
+    // default is 120 days
+    private String cutoffdate91toSYSPRlabel = "91-" + nbrDaysForLastBucket + " days";
+    private String cutoffdateSYSPRplus1orMorelabel = Integer.toString((Integer.parseInt(nbrDaysForLastBucket)) + 1) + "+ days";
 
 
     /**
      * Get the search results that meet the input search criteria.
-     *
+     * 
      * @param fieldValues - Map containing prop name keys and search values
      * @return a List of found business objects
      */
@@ -118,36 +118,12 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         chartCode = (String) fieldValues.get(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
         orgCode = (String) fieldValues.get(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
 
-        Collection<CustomerInvoiceDetail> invoiceDetails = new ArrayList<CustomerInvoiceDetail>(); // default max is 10?
 
-        Collection<CustomerInvoiceDocument> invoices;
         total0to30 = KualiDecimal.ZERO;
         total31to60 = KualiDecimal.ZERO;
         total61to90 = KualiDecimal.ZERO;
         total91toSYSPR = KualiDecimal.ZERO;
         totalSYSPRplus1orMore = KualiDecimal.ZERO;
-
-        if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.PROCESSING_ORG) && StringUtils.isNotBlank(chartCode) && StringUtils.isNotBlank(orgCode)) {
-            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
-            for (CustomerInvoiceDocument ci : invoices) {
-                invoiceDetails.addAll(customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci));
-//                LOG.info("\t\t****** PROCESSING ORGANIZATION\t\t"+invoiceDetails.toString()+chartCode+"\t"+orgCode);
-//                for (CustomerInvoiceDetail cidetail : customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci)) {
-//                    LOG.info("\t** invoicedetail30\t"+cidetail.getAmount());
-//                }
-
-            }
-        }
-        if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.BILLING_ORG) && StringUtils.isNotBlank(chartCode) && StringUtils.isNotBlank(orgCode)) {
-            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode);
-            for (CustomerInvoiceDocument ci : invoices) {
-                invoiceDetails.addAll(customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci));
-            }
-        }
-        if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.ACCT) && accountNumber.length() != 0) {
-            invoiceDetails = getCustomerInvoiceDetailsByAccountNumber(accountNumber);
-        }
-
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
         Date today = getDateTimeService().getCurrentDate();
@@ -161,93 +137,122 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Date cutoffdate30 = DateUtils.addDays(reportRunDate, -30);
         Date cutoffdate60 = DateUtils.addDays(reportRunDate, -60);
         Date cutoffdate90 = DateUtils.addDays(reportRunDate, -90);
-        //Date cutoffdate120 = DateUtils.addDays(reportRunDate, -120);
+        // Date cutoffdate120 = DateUtils.addDays(reportRunDate, -120);
         Date cutoffdate120 = DateUtils.addDays(reportRunDate, -1 * Integer.parseInt(nbrDaysForLastBucket));
 
-        //        LOG.info("\t\t********** REPORT DATE\t\t"+reportRunDate.toString());
-        //        LOG.info("\t\t***********************  cutoffdate 30:\t\t"+cutoffdate30.toString());
-        //        LOG.info("\t\t***********************  cutoffdate 60:\t\t"+cutoffdate60.toString());
-        //        LOG.info("\t\t***********************  cutoffdate 90:\t\t"+cutoffdate90.toString());
-        //        LOG.info("\t\t***********************  cutoffdate 120:\t\t"+cutoffdate120.toString());
+        // LOG.info("\t\t********** REPORT DATE\t\t"+reportRunDate.toString());
+        // LOG.info("\t\t*********************** cutoffdate 30:\t\t"+cutoffdate30.toString());
+        // LOG.info("\t\t*********************** cutoffdate 60:\t\t"+cutoffdate60.toString());
+        // LOG.info("\t\t*********************** cutoffdate 90:\t\t"+cutoffdate90.toString());
+        // LOG.info("\t\t*********************** cutoffdate 120:\t\t"+cutoffdate120.toString());
 
-        Map<String, Object> knownCustomers = new HashMap<String, Object>(invoiceDetails.size());
+
+        Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
+        Map<String, CustomerAgingReportDetail> knownCustomers = new HashMap<String, CustomerAgingReportDetail>();
 
         CustomerAgingReportDetail custDetail;
-        int detailnum = 0;
-        // iterate over all invoices consolidating balances for each customer
-        for (CustomerInvoiceDetail cid : invoiceDetails) {
-            // ignore the discount line
-            if (cid.getAmount().isNegative())
-                continue;
-            
-            String invoiceDocumentNumber = cid.getDocumentNumber();
-            CustomerInvoiceDocument custInvoice = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
-            Date approvalDate;
-            detailnum++;
-            approvalDate = custInvoice.getBillingDate();
-            if (ObjectUtils.isNull(approvalDate))
-                continue;
-
-            if (custInvoice != null && cid.getAmountOpen().isNonZero()) {//customerInvoiceDetailService.getAmountOpen(cid).isNonZero()) {
-
-                Customer customerobj = custInvoice.getCustomer();
-                String customerNumber = customerobj.getCustomerNumber();    // tested and works
-                String customerName = customerobj.getCustomerName();  // tested and works
-
-
-                if (knownCustomers.containsKey(customerNumber)) {
-                    custDetail = (CustomerAgingReportDetail) knownCustomers.get(customerNumber);
-                    //    LOG.info("\n\t\tcustomer:\t\t" + custDetail.getCustomerNumber() + "\tfound");
-                } else {
-                    custDetail = new CustomerAgingReportDetail();
-                    custDetail.setCustomerName(customerName);
-                    custDetail.setCustomerNumber(customerNumber);
-                    knownCustomers.put(customerNumber, custDetail);
-                    //    LOG.info("\n\t\tcustomer:\t\t" + custDetail.getCustomerNumber() + "\tADDED");
-                }
-                //LOG.info("\t\t APPROVAL DATE: \t\t" + approvalDate.toString() + "\t");
-                //LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
-                if (!approvalDate.after(reportRunDate) && !approvalDate.before(cutoffdate30)) {
-                    custDetail.setUnpaidBalance0to30(cid.getAmountOpen().add(custDetail.getUnpaidBalance0to30()));
-                    //                total0to30 = total0to30.add(custDetail.getUnpaidBalance0to30());
-                    total0to30 = total0to30.add(cid.getAmountOpen());
-                    //LOG.info("\t\t 0to30 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance0to30());
-                    //LOG.info("\t\t 0to30 total =\t\t" + total0to30.toString());
-                }
-                if (approvalDate.before(cutoffdate30) && !approvalDate.before(cutoffdate60)) {
-                    custDetail.setUnpaidBalance31to60(cid.getAmountOpen().add(custDetail.getUnpaidBalance31to60()));
-                    total31to60 = total31to60.add(cid.getAmountOpen());
-                    //LOG.info("\t\t31to60 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance31to60());
-                }
-                if (approvalDate.before(cutoffdate60) && !approvalDate.before(cutoffdate90)) {
-                    custDetail.setUnpaidBalance61to90(cid.getAmountOpen().add(custDetail.getUnpaidBalance61to90()));
-                    total61to90 = total61to90.add(cid.getAmountOpen());
-                    //LOG.info("\t\t61to90 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance61to90());
-                }
-                if (approvalDate.before(cutoffdate90) && !approvalDate.before(cutoffdate120)) {
-                    custDetail.setUnpaidBalance91toSYSPR(cid.getAmountOpen().add(custDetail.getUnpaidBalance91toSYSPR()));
-                    total91toSYSPR = total91toSYSPR.add(cid.getAmountOpen());
-                    //LOG.info("\t\t91to120 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance91toSYSPR());
-                }
-                if (approvalDate.before(cutoffdate120)) {
-                    custDetail.setUnpaidBalanceSYSPRplus1orMore(cid.getAmountOpen().add(custDetail.getUnpaidBalanceSYSPRplus1orMore()));
-                    totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(cid.getAmountOpen());
-                    //LOG.info("\t\t120+ =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalanceSYSPRplus1orMore());
-                }
-
+        if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.PROCESSING_ORG) && StringUtils.isNotBlank(chartCode) && StringUtils.isNotBlank(orgCode)) {
+            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
+            for (CustomerInvoiceDocument ci : invoices) {
+                iterateCustomerInvoiceDetails(ci, customerInvoiceDetailService.getCustomerInvoiceDetailsForInvoice(ci.getDocumentNumber()), cutoffdate30, cutoffdate60, cutoffdate90, cutoffdate120, knownCustomers);
             }
+        }
+        if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.BILLING_ORG) && StringUtils.isNotBlank(chartCode) && StringUtils.isNotBlank(orgCode)) {
+            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode);
+            for (CustomerInvoiceDocument ci : invoices) {
+                iterateCustomerInvoiceDetails(ci, customerInvoiceDetailService.getCustomerInvoiceDetailsForInvoice(ci.getDocumentNumber()), cutoffdate30, cutoffdate60, cutoffdate90, cutoffdate120, knownCustomers);
+            }
+        }
+        if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.ACCT) && accountNumber.length() != 0) {
+            iterateCustomerInvoiceDetails(null, getCustomerInvoiceDetailsByAccountNumber(accountNumber), cutoffdate30, cutoffdate60, cutoffdate90, cutoffdate120, knownCustomers);
+        }
 
-        } // end for loop
-
-
-
-        List results = new ArrayList();
-        for (Object detail : knownCustomers.values()) {
+        List<CustomerAgingReportDetail> results = new ArrayList<CustomerAgingReportDetail>();
+        for (CustomerAgingReportDetail detail : knownCustomers.values()) {
             results.add(detail);
         }
 
+        return new CollectionIncomplete<CustomerAgingReportDetail>(results, (long) results.size());
+    }
 
-        return new CollectionIncomplete(results, (long) results.size());
+    private void iterateCustomerInvoiceDetails(CustomerInvoiceDocument invoice, Collection<CustomerInvoiceDetail> invoiceDetails, Date cutoffdate30, Date cutoffdate60, Date cutoffdate90, Date cutoffdate120, Map<String, CustomerAgingReportDetail> knownCustomers) {
+        CustomerAgingReportDetail custDetail;
+        CustomerInvoiceDocument custInvoice = invoice;
+        // iterate over all invoices consolidating balances for each customer
+        for (CustomerInvoiceDetail cid : invoiceDetails) {
+            // ignore the discount line
+            if (cid.getAmount().isPositive()) {
+
+                String invoiceDocumentNumber = cid.getDocumentNumber();
+                if (custInvoice == null) {
+                    custInvoice = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
+                }
+                cid.setCustomerInvoiceDocument(custInvoice);
+                Date approvalDate = null;
+                if (custInvoice != null) {
+                    approvalDate = custInvoice.getBillingDate();
+                }
+                KualiDecimal amountOpen = cid.getAmountOpen();
+                if (approvalDate != null && amountOpen.isNonZero()) {// customerInvoiceDetailService.getAmountOpen(cid).isNonZero())
+                    // {
+
+                    Customer customerobj = custInvoice.getCustomer();
+                    String customerNumber = customerobj.getCustomerNumber(); // tested and works
+                    String customerName = customerobj.getCustomerName(); // tested and works
+
+
+                    if (knownCustomers.containsKey(customerNumber)) {
+                        custDetail = knownCustomers.get(customerNumber);
+                        // LOG.info("\n\t\tcustomer:\t\t" + custDetail.getCustomerNumber() + "\tfound");
+                    }
+                    else {
+                        custDetail = new CustomerAgingReportDetail();
+                        custDetail.setCustomerName(customerName);
+                        custDetail.setCustomerNumber(customerNumber);
+                        knownCustomers.put(customerNumber, custDetail);
+                        // LOG.info("\n\t\tcustomer:\t\t" + custDetail.getCustomerNumber() + "\tADDED");
+                    }
+                    // LOG.info("\t\t APPROVAL DATE: \t\t" + approvalDate.toString() + "\t");
+                    // LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
+                    if (!approvalDate.after(reportRunDate) && !approvalDate.before(cutoffdate30)) {
+                        custDetail.setUnpaidBalance0to30(amountOpen.add(custDetail.getUnpaidBalance0to30()));
+                        // total0to30 = total0to30.add(custDetail.getUnpaidBalance0to30());
+                        total0to30 = total0to30.add(amountOpen);
+                        // LOG.info("\t\t 0to30 =\t\t" + custDetail.getCustomerNumber() + "\t" +
+                        // custDetail.getUnpaidBalance0to30());
+                        // LOG.info("\t\t 0to30 total =\t\t" + total0to30.toString());
+                    }
+                    if (approvalDate.before(cutoffdate30) && !approvalDate.before(cutoffdate60)) {
+                        custDetail.setUnpaidBalance31to60(amountOpen.add(custDetail.getUnpaidBalance31to60()));
+                        total31to60 = total31to60.add(amountOpen);
+                        // LOG.info("\t\t31to60 =\t\t" + custDetail.getCustomerNumber() + "\t" +
+                        // custDetail.getUnpaidBalance31to60());
+                    }
+                    if (approvalDate.before(cutoffdate60) && !approvalDate.before(cutoffdate90)) {
+                        custDetail.setUnpaidBalance61to90(amountOpen.add(custDetail.getUnpaidBalance61to90()));
+                        total61to90 = total61to90.add(amountOpen);
+                        // LOG.info("\t\t61to90 =\t\t" + custDetail.getCustomerNumber() + "\t" +
+                        // custDetail.getUnpaidBalance61to90());
+                    }
+                    if (approvalDate.before(cutoffdate90) && !approvalDate.before(cutoffdate120)) {
+                        custDetail.setUnpaidBalance91toSYSPR(amountOpen.add(custDetail.getUnpaidBalance91toSYSPR()));
+                        total91toSYSPR = total91toSYSPR.add(amountOpen);
+                        // LOG.info("\t\t91to120 =\t\t" + custDetail.getCustomerNumber() + "\t" +
+                        // custDetail.getUnpaidBalance91toSYSPR());
+                    }
+                    if (approvalDate.before(cutoffdate120)) {
+                        custDetail.setUnpaidBalanceSYSPRplus1orMore(amountOpen.add(custDetail.getUnpaidBalanceSYSPRplus1orMore()));
+                        totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(amountOpen);
+                        // LOG.info("\t\t120+ =\t\t" + custDetail.getCustomerNumber() + "\t" +
+                        // custDetail.getUnpaidBalanceSYSPRplus1orMore());
+                    }
+
+                }
+            }// end is positive
+
+        } // end for loop
+        invoiceDetails.clear();
+        return;
     }
 
     /**
@@ -258,7 +263,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Map args = new HashMap();
         args.put("accountNumber", accountNumber);
         return businessObjectService.findMatching(CustomerInvoiceDetail.class, args);
-    }      
+    }
 
     /**
      * @return a List of the names of fields which are marked in data dictionary as return fields.
@@ -346,7 +351,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         boolean hasReturnableRow = false;
 
         Person user = GlobalVariables.getUserSession().getPerson();
-        
+
         try {
             // iterate through result list and wrap rows with return url and action urls
             for (Object aDisplayList : displayList) {
@@ -376,10 +381,12 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
                         Class propClass = propertyTypes.get(col.getPropertyName());
                         // if ( propClass == null ) {
                         // try {
-                        // propClass = ObjectUtils.getPropertyType( element, col.getPropertyName(), getPersistenceStructureService() );
+                        // propClass = ObjectUtils.getPropertyType( element, col.getPropertyName(), getPersistenceStructureService()
+                        // );
                         // propertyTypes.put( col.getPropertyName(), propClass );
                         // } catch (Exception e) {
-                        // throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " +
+                        // throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "'
+                        // " +
                         // " on an instance of '" + element.getClass().getName() + "'.", e);
                         // }
                         // }
@@ -403,7 +410,8 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
                             if (formatter != null) {
                                 propValue = (String) formatter.format(prop);
-                            } else {
+                            }
+                            else {
                                 propValue = prop.toString();
                             }
                         }
@@ -450,9 +458,9 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         }
         catch (Exception e) {
             // do nothing, try block needed to make CustomerAgingReportLookupableHelperServiceImpl
-           // e.printStackTrace();
+            // e.printStackTrace();
         }
-    
+
 
         if (displayList.size() != 0) {
             ((CustomerAgingReportForm) lookupForm).setTotal0to30(total0to30.toString());
@@ -478,7 +486,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         CustomerAgingReportDetail detail = (CustomerAgingReportDetail) bo;
         String href = "arCustomerOpenItemReportLookup.do" + "?businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail" + "&returnLocation=&lookupableImplementaionServiceName=arCustomerOpenItemReportLookupable" + "&methodToCall=search&reportName=" + KFSConstants.CustomerOpenItemReport.OPEN_ITEM_REPORT_NAME + "&docFormKey=88888888&customerNumber=" +
         // Customer Name, Customer Number
-        detail.getCustomerNumber() + "&customerName=" + detail.getCustomerName();
+                detail.getCustomerNumber() + "&customerName=" + detail.getCustomerName();
         // Report Option
         href += "&reportOption=" + reportOption;
         if (reportOption.equals(ArConstants.CustomerAgingReportFields.ACCT))
@@ -506,7 +514,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
                 href += "&startDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -120)).toString() + "&endDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -91)).toString();
             else if (StringUtils.equals(columnTitle, cutoffdateSYSPRplus1orMorelabel)) {
                 href += "&startDate=" + "&endDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -121)).toString();
-                columnTitle = Integer.toString((Integer.parseInt(nbrDaysForLastBucket))+1)+" days and older";
+                columnTitle = Integer.toString((Integer.parseInt(nbrDaysForLastBucket)) + 1) + " days and older";
             }
             href += "&columnTitle=" + columnTitle;
         }
@@ -522,28 +530,29 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * 
      * This method...
+     * 
      * @return
      */
     public DateTimeService getDateTimeService() {
-        if(dateTimeService==null) {
+        if (dateTimeService == null) {
             dateTimeService = SpringContext.getBean(DateTimeService.class);
         }
         return dateTimeService;
     }
-    
+
     /**
-     * 
      * This method...
+     * 
      * @param dateTimeService
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-    
+
     /**
-     * Gets the total0to30 attribute. 
+     * Gets the total0to30 attribute.
+     * 
      * @return Returns the total0to30.
      */
     public KualiDecimal getTotal0to30() {
@@ -552,6 +561,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * Sets the total0to30 attribute value.
+     * 
      * @param total0to30 The total0to30 to set.
      */
     public void setTotal0to30(KualiDecimal total0to30) {
@@ -559,7 +569,8 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * Gets the total31to60 attribute. 
+     * Gets the total31to60 attribute.
+     * 
      * @return Returns the total31to60.
      */
     public KualiDecimal getTotal31to60() {
@@ -568,6 +579,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * Sets the total31to60 attribute value.
+     * 
      * @param total31to60 The total31to60 to set.
      */
     public void setTotal31to60(KualiDecimal total31to60) {
@@ -575,7 +587,8 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * Gets the total61to90 attribute. 
+     * Gets the total61to90 attribute.
+     * 
      * @return Returns the total61to90.
      */
     public KualiDecimal getTotal61to90() {
@@ -584,6 +597,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * Sets the total61to90 attribute value.
+     * 
      * @param total61to90 The total61to90 to set.
      */
     public void setTotal61to90(KualiDecimal total61to90) {
@@ -591,7 +605,8 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * Gets the total91toSYSPR attribute. 
+     * Gets the total91toSYSPR attribute.
+     * 
      * @return Returns the total91toSYSPR.
      */
     public KualiDecimal getTotal91toSYSPR() {
@@ -600,6 +615,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * Sets the total91toSYSPR attribute value.
+     * 
      * @param total91toSYSPR The total91toSYSPR to set.
      */
     public void setTotal91toSYSPR(KualiDecimal total91toSYSPR) {
@@ -607,7 +623,8 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * Gets the totalSYSPRplus1orMore attribute. 
+     * Gets the totalSYSPRplus1orMore attribute.
+     * 
      * @return Returns the totalSYSPRplus1orMore.
      */
     public KualiDecimal getTotalSYSPRplus1orMore() {
@@ -616,6 +633,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * Sets the totalSYSPRplus1orMore attribute value.
+     * 
      * @param totalSYSPRplus1orMore The totalSYSPRplus1orMore to set.
      */
     public void setTotalSYSPRplus1orMore(KualiDecimal totalSYSPRplus1orMore) {
@@ -624,4 +642,3 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
 
 }
-

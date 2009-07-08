@@ -147,13 +147,12 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
 
     public List<String> getCustomerInvoiceDocumentNumbersByAccountNumber(String accountNumber) {
 
-        Map fieldValues = new HashMap();
+        Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("accountNumber", accountNumber);
 
         Collection<CustomerInvoiceDetail> customerInvoiceDetails = businessObjectService.findMatching(CustomerInvoiceDetail.class, fieldValues);
         List<String> docNumbers = new ArrayList<String>();
-        for (Iterator itr = customerInvoiceDetails.iterator(); itr.hasNext();) {
-            CustomerInvoiceDetail detail = (CustomerInvoiceDetail) itr.next();
+        for (CustomerInvoiceDetail detail : customerInvoiceDetails) {
             docNumbers.add(detail.getDocumentNumber());
         }
 
@@ -252,9 +251,9 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
      */
     @SuppressWarnings("unchecked")
     public CustomerInvoiceDetail getCustomerInvoiceDetail(String documentNumber, Integer sequenceNumber) {
-        Map criteria = new HashMap();
+        Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("documentNumber", documentNumber);
-        criteria.put("sequenceNumber", sequenceNumber);
+        criteria.put("sequenceNumber", sequenceNumber.toString());
 
         return (CustomerInvoiceDetail) businessObjectService.findByPrimaryKey(CustomerInvoiceDetail.class, criteria);
     }

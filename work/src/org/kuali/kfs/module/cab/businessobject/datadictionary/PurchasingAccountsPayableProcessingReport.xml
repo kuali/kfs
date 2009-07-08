@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
   <bean id="PurchasingAccountsPayableProcessingReport" parent="PurchasingAccountsPayableProcessingReport-parentBean"/>
-  
   <bean id="PurchasingAccountsPayableProcessingReport-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableProcessingReport"/>
     <property name="lookupDefinition">
@@ -42,48 +41,47 @@
 
 <!-- Attribute Definitions -->
   <bean id="PurchasingAccountsPayableProcessingReport-generalLedgerAccountIdentifier" parent="PurchasingAccountsPayableProcessingReport-generalLedgerAccountIdentifier-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-generalLedgerAccountIdentifier-parentBean" abstract="true" parent="GeneralLedgerEntry-generalLedgerAccountIdentifier">
   </bean>
+  
   <bean id="PurchasingAccountsPayableProcessingReport-universityFiscalYear" parent="PurchasingAccountsPayableProcessingReport-universityFiscalYear-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-universityFiscalYear-parentBean" abstract="true" parent="GeneralLedgerEntry-universityFiscalYear">
   </bean>
+  
   <bean id="PurchasingAccountsPayableProcessingReport-chartOfAccountsCode" parent="PurchasingAccountsPayableProcessingReport-chartOfAccountsCode-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-chartOfAccountsCode-parentBean" abstract="true" parent="GeneralLedgerEntry-chartOfAccountsCode">
   </bean>
+  
   <bean id="PurchasingAccountsPayableProcessingReport-accountNumber" parent="PurchasingAccountsPayableProcessingReport-accountNumber-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-accountNumber-parentBean" abstract="true" parent="GeneralLedgerEntry-accountNumber">
   	<property name="shortLabel" value="Account"/>
   </bean>
+  
   <bean id="PurchasingAccountsPayableProcessingReport-subAccountNumber" parent="PurchasingAccountsPayableProcessingReport-subAccountNumber-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-subAccountNumber-parentBean" abstract="true" parent="GeneralLedgerEntry-subAccountNumber">
   </bean>
+  
   <bean id="PurchasingAccountsPayableProcessingReport-financialObjectCode" parent="PurchasingAccountsPayableProcessingReport-financialObjectCode-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-financialObjectCode-parentBean" abstract="true" parent="GeneralLedgerEntry-financialObjectCode">
   </bean>
+  
   <bean id="PurchasingAccountsPayableProcessingReport-financialSubObjectCode" parent="PurchasingAccountsPayableProcessingReport-financialSubObjectCode-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-financialSubObjectCode-parentBean" abstract="true" parent="GeneralLedgerEntry-financialSubObjectCode">
   </bean>
+  
   <bean id="PurchasingAccountsPayableProcessingReport-financialObjectTypeCode" parent="PurchasingAccountsPayableProcessingReport-financialObjectTypeCode-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-financialObjectTypeCode-parentBean" abstract="true" parent="GeneralLedgerEntry-financialObjectTypeCode">
   </bean>
+  
   <bean id="PurchasingAccountsPayableProcessingReport-financialBalanceTypeCode" parent="PurchasingAccountsPayableProcessingReport-financialBalanceTypeCode-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-financialBalanceTypeCode-parentBean" abstract="true" parent="GeneralLedgerEntry-financialBalanceTypeCode">
   </bean>
+  
   <bean id="PurchasingAccountsPayableProcessingReport-universityFiscalPeriodCode" parent="PurchasingAccountsPayableProcessingReport-universityFiscalPeriodCode-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-universityFiscalPeriodCode-parentBean" abstract="true" parent="GeneralLedgerEntry-universityFiscalPeriodCode">
   </bean>
+  
   <bean id="PurchasingAccountsPayableProcessingReport-financialDocumentTypeCode" parent="PurchasingAccountsPayableProcessingReport-financialDocumentTypeCode-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
   	<property name="name" value="financialDocumentTypeCode"/>
   	<property name="label" value="Document Type"/>
@@ -91,24 +89,24 @@
     	<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.cab.businessobject.defaultvalue.FinancialDocumentTypeCodeValuesFinder"/>
     </property>
   </bean>
+  
   <bean id="PurchasingAccountsPayableProcessingReport-financialSystemOriginationCode" parent="PurchasingAccountsPayableProcessingReport-financialSystemOriginationCode-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-financialSystemOriginationCode-parentBean" abstract="true" parent="GeneralLedgerEntry-financialSystemOriginationCode">
   </bean>
+  
   <bean id="PurchasingAccountsPayableProcessingReport-documentNumber" parent="PurchasingAccountsPayableProcessingReport-documentNumber-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-documentNumber-parentBean" abstract="true" parent="GeneralLedgerEntry-documentNumber">
   </bean>
+  
   <bean id="PurchasingAccountsPayableProcessingReport-transactionLedgerEntrySequenceNumber" parent="PurchasingAccountsPayableProcessingReport-transactionLedgerEntrySequenceNumber-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-transactionLedgerEntrySequenceNumber-parentBean" abstract="true" parent="GeneralLedgerEntry-transactionLedgerEntrySequenceNumber">
   </bean>
+  
   <bean id="PurchasingAccountsPayableProcessingReport-transactionLedgerEntryDescription" parent="PurchasingAccountsPayableProcessingReport-transactionLedgerEntryDescription-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-transactionLedgerEntryDescription-parentBean" abstract="true" parent="GeneralLedgerEntry-transactionLedgerEntryDescription">
   </bean>
+  
   <bean id="PurchasingAccountsPayableProcessingReport-transactionLedgerEntryAmount" parent="PurchasingAccountsPayableProcessingReport-transactionLedgerEntryAmount-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-transactionLedgerEntryAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="transactionLedgerEntryAmount"/>
     <property name="label" value="Amount"/>
@@ -117,23 +115,20 @@
   </bean>
   
   <bean id="PurchasingAccountsPayableProcessingReport-organizationDocumentNumber" parent="PurchasingAccountsPayableProcessingReport-organizationDocumentNumber-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-organizationDocumentNumber-parentBean" abstract="true" parent="GeneralLedgerEntry-organizationDocumentNumber">
   </bean>
+  
   <bean id="PurchasingAccountsPayableProcessingReport-projectCode" parent="PurchasingAccountsPayableProcessingReport-projectCode-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-projectCode-parentBean" abstract="true" parent="GeneralLedgerEntry-projectCode">
   </bean>
 
   <bean id="PurchasingAccountsPayableProcessingReport-referenceFinancialDocumentNumber" parent="PurchasingAccountsPayableProcessingReport-referenceFinancialDocumentNumber-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="GeneralLedgerEntry-referenceFinancialDocumentNumber">
     <property name="label" value="Purchase Order"/>
     <property name="shortLabel" value="PO #"/>
   </bean>
  
   <bean id="PurchasingAccountsPayableProcessingReport-transactionPostingDate" parent="PurchasingAccountsPayableProcessingReport-transactionPostingDate-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-transactionPostingDate-parentBean" abstract="true" parent="GeneralLedgerEntry-transactionPostingDate">
     <property name="name" value="transactionPostingDate"/>
     <property name="shortLabel" value="Post Date"/>
@@ -141,34 +136,29 @@
   </bean>
   
   <bean id="PurchasingAccountsPayableProcessingReport-transactionDate" parent="PurchasingAccountsPayableProcessingReport-transactionDate-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-transactionDate-parentBean" abstract="true" parent="GeneralLedgerEntry-transactionDate">
   	<property name="label" value="Transaction Post Date"/>
   </bean>
   
- <bean id="PurchasingAccountsPayableProcessingReport-transactionDateTimeStamp" parent="PurchasingAccountsPayableProcessingReport-transactionDateTimeStamp-parentBean"/>
-
+  <bean id="PurchasingAccountsPayableProcessingReport-transactionDateTimeStamp" parent="PurchasingAccountsPayableProcessingReport-transactionDateTimeStamp-parentBean"/>
   <bean id="PurchasingAccountsPayableProcessingReport-transactionDateTimeStamp-parentBean" abstract="true" parent="GeneralLedgerEntry-transactionDateTimeStamp">
   </bean>
   
-   <bean id="PurchasingAccountsPayableProcessingReport-activityStatusCode" parent="PurchasingAccountsPayableProcessingReport-activityStatusCode-parentBean"/>
-
+  <bean id="PurchasingAccountsPayableProcessingReport-activityStatusCode" parent="PurchasingAccountsPayableProcessingReport-activityStatusCode-parentBean"/>
   <bean id="PurchasingAccountsPayableProcessingReport-activityStatusCode-parentBean" abstract="true" parent="GeneralLedgerEntry-activityStatusCode">
   </bean>
   
   <bean id="PurchasingAccountsPayableProcessingReport-purapDocumentIdentifier" parent="PurchasingAccountsPayableProcessingReport-purapDocumentIdentifier-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-purapDocumentIdentifier-parentBean" abstract="true" parent="PurchasingAccountsPayableDocument-purapDocumentIdentifier">
   	<property name="label" value="PREQ/CM ID"/>
     <property name="shortLabel" value="Invoice"/>
   </bean>
+  
   <bean id="PurchasingAccountsPayableProcessingReport-transactionDebitCreditCode" parent="PurchasingAccountsPayableProcessingReport-transactionDebitCreditCode-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-transactionDebitCreditCode-parentBean" abstract="true" parent="GeneralLedgerEntry-transactionDebitCreditCode">
   </bean>
   
   <bean id="PurchasingAccountsPayableProcessingReport-reportAmount" parent="PurchasingAccountsPayableProcessingReport-reportAmount-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-reportAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="reportAmount"/>
     <property name="label" value="Amount"/>
@@ -179,11 +169,9 @@
 <!-- Business Object Lookup Definition -->
 
   <bean id="PurchasingAccountsPayableProcessingReport-lookupDefinition" parent="PurchasingAccountsPayableProcessingReport-lookupDefinition-parentBean"/>
-
   <bean id="PurchasingAccountsPayableProcessingReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="CAB Purchasing Accounts Payable Report and Lookup"/>
     <property name="lookupableID" value="cabPurApReportLookupable"/>
-    
     <property name="defaultSort">
       <bean parent="SortDefinition">
         <property name="attributeNames">
@@ -206,6 +194,7 @@
         <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/> 
         <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
         <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
         <bean parent="FieldDefinition" p:attributeName="universityFiscalYear" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder"/>
         <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode"/>
         <bean parent="FieldDefinition" p:attributeName="transactionDate"/>

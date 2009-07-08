@@ -224,7 +224,6 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @RelatesTo(JiraIssue.KULPURAP2226)
     @ConfigureContext(session = kfs, shouldCommitTransactions=true)
     public final void testCancelAmendPurchaseOrder() throws Exception {        
         createAndSavePOChangeDocument(
@@ -242,8 +241,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         SpringContext.getBean(DocumentService.class).cancelDocument(poChange, "");
         assertTrue(poChange.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(KFSConstants.DocumentStatusCodes.CANCELLED));
     }
-    
-    @RelatesTo(JiraIssue.KULPURAP2226)
+
     @ConfigureContext(session = kfs, shouldCommitTransactions=true)
     public final void testPurchaseOrderPaymentHold() throws Exception {
         createAndRoutePOChangeDocument(
@@ -270,7 +268,6 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         //}
     }
     
-    @RelatesTo(JiraIssue.KULPURAP2226)
     @ConfigureContext(session = kfs, shouldCommitTransactions=true)
     public final void testPurchaseOrderRemoveHold() throws Exception {
         poTest.setStatusCode(PurchaseOrderStatuses.PAYMENT_HOLD);
@@ -299,7 +296,6 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         //}
     }
     
-    @RelatesTo(JiraIssue.KULPURAP2226)
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testPurchaseOrderReopen() throws Exception {     
         poTest.setStatusCode(PurchaseOrderStatuses.CLOSED);
@@ -328,7 +324,6 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         //}
     }
     
-    @RelatesTo(JiraIssue.KULPURAP2226)
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testPurchaseOrderVoid() throws Exception {
         createAndRoutePOChangeDocument(

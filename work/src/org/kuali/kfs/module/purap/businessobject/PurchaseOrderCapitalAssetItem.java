@@ -30,13 +30,6 @@ public class PurchaseOrderCapitalAssetItem extends PurchasingCapitalAssetItemBas
         super();
     }
     
-//    public PurchaseOrderCapitalAssetItem(PurchasingDocument pd){
-//        super(pd);
-//        //FIXME (from hjs) what is the purpose of the next line?
-//        setDocumentNumber(documentNumber);
-//        this.setPurchasingCapitalAssetSystem(new PurchaseOrderCapitalAssetSystem());
-//    }
-    
     public PurchaseOrderCapitalAssetItem(RequisitionCapitalAssetItem reqAssetItem, Integer itemIdentifier) {
         this.setItemIdentifier(itemIdentifier);
         this.setCapitalAssetTransactionTypeCode(reqAssetItem.getCapitalAssetTransactionTypeCode());

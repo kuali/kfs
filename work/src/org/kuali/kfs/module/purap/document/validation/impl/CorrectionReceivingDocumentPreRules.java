@@ -22,7 +22,6 @@ public class CorrectionReceivingDocumentPreRules extends PromptBeforeValidationB
 
     @Override
     public boolean doPrompts(Document arg0) {
-        // TODO Auto-generated method stub
         return true;
     }
 

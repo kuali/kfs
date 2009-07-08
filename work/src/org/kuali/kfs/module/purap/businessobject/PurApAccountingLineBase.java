@@ -169,51 +169,6 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
  
     }
  
-//    @Override
-//    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-//        updateObjectAndSubObject();
-//        super.afterLookup(persistenceBroker);
-//    }
-//
-//    protected void updateObjectAndSubObject() {
-//        //TODO: default to current if there is no purapitem.  This should only happen during creation
-//        Integer universityFiscalYear = null;
-//        Integer tempItemIdentifier = getItemIdentifier();
-//        PurApItem tempItem = getPurApItem();
-//        if(tempItemIdentifier != null) {
-//            if(tempItem != null) {
-//                this.refreshReferenceObject(PurapPropertyConstants.PURAP_ITEM);
-//                if(tempItem != null) {
-//                    PurchasingAccountsPayableDocument tempDocument = tempItem.getPurapDocument();
-//                    if(tempDocument != null) {
-//                        tempItem.refreshReferenceObject(PurapPropertyConstants.PURAP_DOC);
-//                    }
-//                }
-//            }
-//        }
-//        if(tempItem != null && tempItem.getPurapDocument() != null) {
-//            universityFiscalYear = tempItem.getPurapDocument().getPostingYearNextOrCurrent();
-//            setObjectCode(SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(universityFiscalYear, this.getChartOfAccountsCode(), this.getFinancialObjectCode()));
-//            setSubObjectCode(SpringContext.getBean(SubObjectCodeService.class).getByPrimaryId(universityFiscalYear, this.getChartOfAccountsCode(), this.getAccountNumber(), this.getFinancialObjectCode(), this.getFinancialSubObjectCode()));
-//        }
-//        
-//
-//    }
-    
-//    @Override
-//    public void refreshReferenceObject(String referenceObjectName) {
-//        boolean skipSuper = false;
-//        //don't refresh object code since that is specially handled
-//        if(StringUtils.equals(referenceObjectName, KFSPropertyConstants.OBJECT_CODE) ||
-//           StringUtils.equals(referenceObjectName, KFSPropertyConstants.SUB_OBJECT_CODE)) {
-//            updateObjectAndSubObject();
-//            return;
-//        }
-//        if(!skipSuper){
-//            super.refreshReferenceObject(referenceObjectName);
-//        }
-//    }
-
     @Override
     public void refreshNonUpdateableReferences() {
         //hold onto item reference if there without itemId
@@ -262,55 +217,4 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
         return valuesMap;
     }
 
-//    @Override
-//    public ObjectCode getObjectCode() {
-//        updateObjectCode();
-//        return super.getObjectCode();
-//    }
-//
-//    /**
-//     * This method...
-//     */
-//    protected void updateObjectCode() {
-//        if((ObjectUtils.isNull(super.getObjectCode()) &&
-//                ObjectUtils.isNotNull(this.getFinancialObjectCode())) ||
-//           (ObjectUtils.isNotNull(super.getObjectCode()) && 
-//                   !StringUtils.equals(this.getFinancialObjectCode(), 
-//                           super.getObjectCode().getFinancialObjectCode()))) {
-//            updateObjectAndSubObject();
-//        }
-//    }
-//
-//    @Override
-//    public SubObjCd getSubObjectCode() { 
-//        updateSubObjectCode();
-//        return super.getSubObjectCode();
-//    }
-//
-//    /**
-//     * This method...
-//     */
-//    protected void updateSubObjectCode() {
-//        if((ObjectUtils.isNull(super.getSubObjectCode()) &&
-//                ObjectUtils.isNotNull(this.getFinancialSubObjectCode())) ||
-//           (ObjectUtils.isNotNull(super.getSubObjectCode()) && 
-//                   !StringUtils.equals(this.getFinancialSubObjectCode(), 
-//                           super.getSubObjectCode().getFinancialSubObjectCode()))) {
-//            updateObjectAndSubObject();
-//        }
-//    }
-//
-//    @Override
-//    public void setObjectCode(ObjectCode objectCode) {
-//        // TODO Auto-generated method stub
-//        super.setObjectCode(objectCode);
-//    }
-//
-//    @Override
-//    public void setSubObjectCode(SubObjCd subObjectCode) {
-//        // TODO Auto-generated method stub
-//        super.setSubObjectCode(subObjectCode);
-//    }
-    
-    
 }

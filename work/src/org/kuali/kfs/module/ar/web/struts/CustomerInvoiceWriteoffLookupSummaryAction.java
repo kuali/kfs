@@ -26,13 +26,12 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.batch.service.CustomerInvoiceWriteoffBatchService;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.businessobject.lookup.CustomerInvoiceWriteoffLookupUtil;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -75,7 +74,7 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
             if (StringUtils.isEmpty(customerNote)) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.CUSTOMER_INVOICE_WRITEOFF_LOOKUP_RESULT_ERRORS + "[" + ind +"]." + ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NOTE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_CUSTOMER_NOTE_REQUIRED);
                 customerNoteMissingOrInvalid = true;
-            }else if (customerNote.trim().length() < 5) {
+            } else if (customerNote.trim().length() < 5) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.CUSTOMER_INVOICE_WRITEOFF_LOOKUP_RESULT_ERRORS + "[" + ind +"]." + ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NOTE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_CUSTOMER_NOTE_INVALID);
                 customerNoteMissingOrInvalid = true;
             }
@@ -99,8 +98,7 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
         String filename = service.sendCustomerInvoiceWriteoffDocumentsToBatch(person, lookupResults);
         
         //  manually fire off the batch job
-        SchedulerService schedulerService = SpringContext.getBean(SchedulerService.class);
-        schedulerService.runJob("customerInvoiceWriteoffBatchJob", person.getEmailAddressUnmasked());
+        SpringContext.getBean(CustomerInvoiceWriteoffBatchService.class).loadFiles(); 
         
         customerInvoiceWriteoffLookupSummaryForm.setSentToBatch(true);
         

@@ -454,67 +454,6 @@ public class BulkReceivingDocument extends ReceivingDocumentBase{
         this.goodsDeliveredVendorHeaderGeneratedIdentifier = goodsDeliveredVendorHeaderGeneratedIdentifier;
     }
 
-    public void appSpecificRouteDocumentToUser(KualiWorkflowDocument workflowDocument, String userNetworkId, String annotation, String responsibility) throws WorkflowException {
-        // TODO Auto-generated method stub
-        
-    }
-
-    public Date getDeliveryRequiredDate() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public DeliveryRequiredDateReason getDeliveryRequiredDateReason() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public String getDeliveryRequiredDateReasonCode() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public AccountsPayableDocumentSpecificService getDocumentSpecificService() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public PurchaseOrderDocument getPurchaseOrderDocument() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public void setDeliveryRequiredDate(Date deliveryRequiredDate) {
-        // TODO Auto-generated method stub
-    }
-
-    public void setDeliveryRequiredDateReasonCode(String deliveryRequiredDateReasonCode) {
-        // TODO Auto-generated method stub
-    }
-
-    public void setPurchaseOrderDocument(PurchaseOrderDocument po) {
-        // TODO Auto-generated method stub
-    }
-
-    public <T> T getItem(int pos) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public Class getItemClass() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public List getItems() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public void setItems(List items) {
-        // TODO Auto-generated method stub
-    }
-
     @Override
     public boolean isBoNotesSupport() {
         return true;
@@ -542,4 +481,42 @@ public class BulkReceivingDocument extends ReceivingDocumentBase{
             return StringUtils.EMPTY;
         }
     }
+
+    /**
+     * It's not needed to implement this method in this class since bulk receiving doesn't support items.
+     * Calling this method will throw an UnsupportedOperationException
+     * @throws UnsupportedOperationException
+     */
+    @Override
+    public Class getItemClass() {
+        throw new UnsupportedOperationException("Items are not being handled in Bulk Receiving document");
+    }
+
+    /**
+     * It's not needed to implement PurapItemOperations methods in this class since bulk receiving doesn't support items. 
+     * Calling this method will throw an UnsupportedOperationException
+     * @throws UnsupportedOperationException
+     */
+    public <T> T getItem(int pos) {
+        throw new UnsupportedOperationException("Items are not being handled in Bulk Receiving document");
+    }
+
+    /**
+     * It's not needed to implement PurapItemOperations methods in this class since bulk receiving doesn't support items. 
+     * Calling this method will throw an UnsupportedOperationException
+     * @throws UnsupportedOperationException
+     */
+    public List getItems() {
+        throw new UnsupportedOperationException("Items are not being handled in Bulk Receiving document");
+    }
+
+    /**
+     * It's not needed to implement PurapItemOperations methods in this class since bulk receiving doesn't support items. 
+     * Calling this method will throw an UnsupportedOperationException
+     * @throws UnsupportedOperationException
+     */
+    public void setItems(List items) {
+        throw new UnsupportedOperationException("Items are not being handled in Bulk Receiving document");
+    }
+
 }

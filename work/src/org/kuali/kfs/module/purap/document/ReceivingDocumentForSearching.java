@@ -22,25 +22,32 @@ import java.util.List;
  */
 public class ReceivingDocumentForSearching extends ReceivingDocumentBase{
 
+    /**
+     * It's not needed to implement PurapItemOperations methods in this dummy class
+     */
     @Override
     public Class getItemClass() {
-        // TODO Auto-generated method stub
         return null;
     }
 
+    /**
+     * It's not needed to implement PurapItemOperations methods in this dummy class
+     */
     public <T> T getItem(int pos) {
-        // TODO Auto-generated method stub
         return null;
     }
 
+    /**
+     * It's not needed to implement PurapItemOperations methods in this dummy class 
+     */
     public List getItems() {
-        // TODO Auto-generated method stub
         return null;
     }
 
+    /**
+     * It's not needed to implement PurapItemOperations methods in this dummy class
+     */
     public void setItems(List items) {
-        // TODO Auto-generated method stub
-        
     }
 
 }

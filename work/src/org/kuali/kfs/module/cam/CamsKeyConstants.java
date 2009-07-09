@@ -25,11 +25,8 @@ public class CamsKeyConstants {
     public static final String ERROR_INVALID_ROOM_NUMBER = "error.invalid.room.number";
     public static final String ERROR_INVALID_IN_SERVICE_DATE = "error.invalid.in.service.date";
     public static final String ERROR_BLANK_IN_SERVICE_DATE_DISALLOWED = "error.blank.in.service.date.disallowed";
-
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_PRE_ASSET_TAGGING = "message.batchUpload.title.pre.asset.tagging";
-
     public static final String ERROR_INVALID_ASSET_WARRANTY_NO = "error.invalid.asset.warranty.no";
-
     public static final String ERROR_CAPITAL_ASSET_VENDOR_NAME_REQUIRED = "error.capital.asset.vendor.name.required";
     public static final String ERROR_TAG_NUMBER_DUPLICATE = "error.tag.number.duplicate";
     public static final String ERROR_ASSET_RETIRED_CAPITAL = "error.asset.retired.capital";
@@ -51,7 +48,6 @@ public class CamsKeyConstants {
         public static final String DEPRECIATION_DATE_PARAMETER_NOT_FOUND = "error.batch.depreciation.depreciationDateNotFound";
         public static final String INVALID_DEPRECIATION_DATE_FORMAT = "error.batch.depreciation.invalidDepreciationDateFormat";
         public static final String DEPRECIATION_ALREADY_RAN_MSG = "error.batch.depreciation.alreadyRan";
-
         public static final String MSG_REPORT_DEPRECIATION_HEADING1 = "message.batch.report.depreciation.heading.description";
         public static final String MSG_REPORT_DEPRECIATION_HEADING2 = "message.batch.report.depreciation.heading.figures";
     }
@@ -191,8 +187,8 @@ public class CamsKeyConstants {
         public static final String ERROR_VENDOR_NAME_REQUIRED = "error.capital.asset.vendor.name.required";
         public static final String ERROR_MFR_NAME_REQUIRED = "error.capital.asset.manufacturer.name.required";
         public static final String ERROR_ACQUISITION_TYPE_CODE_REQUIRED = "error.acquisition.code.required";
-        public static final String ERROR_ACQUISITION_TYPE_CODE_NOT_ALLOWED = "error.acquisition.code.not.allowed";
-        public static final String ERROR_INACTIVE_ACQUISITION_TYPE_CODE = "error.inactive.acquisition.code";
+        //public static final String ERROR_ACQUISITION_TYPE_CODE_NOT_ALLOWED = "error.acquisition.code.not.allowed";
+        //public static final String ERROR_INACTIVE_ACQUISITION_TYPE_CODE = "error.inactive.acquisition.code";
         public static final String ERROR_OWNER_CHART_INVALID = "error.asset.owner.chart.code.invalid";
         public static final String ERROR_OWNER_ACCT_NUMBER_INVALID = "error.asset.owner.account.number.invalid";
         public static final String ERROR_CAMPUS_TAG_NUMBER_DUPLICATE = "error.asset.campus.tag.number.duplicate";
@@ -231,6 +227,14 @@ public class CamsKeyConstants {
 
     public static class Asset {
         public static final String ERROR_INVALID_SALVAGE_AMOUNT = "error.asset.salvage.amount.not.valid";
+        // for use with Asset Edit
+        public static final String ERROR_OWNER_CHANGED = "error.owner.changed";
+        public static final String ERROR_ACQUISITION_TYPE_CODE_CHANGED = "error.acquisition.type.code.changed";
+        public static final String ERROR_ASSET_STATUS_CHANGED = "error.asset.status.changed";
+        public static final String ERROR_ASSET_CONDITION_CHANGED = "error.asset.condition.changed";
+        public static final String ERROR_TYPE_CODE_CHANGED = "error.type.code.changed";
+        public static final String ERROR_FINANCIAL_OBJECT_SUBTYPE_CODE_CHANGED = "error.financial.object.subtype.code.changed";
+        public static final String ERROR_DEPRECATION_METHOD_CODE_CHANGED = "error.deprecation.method.code.changed";
     }
 
     public static class AssetRepairHistory {

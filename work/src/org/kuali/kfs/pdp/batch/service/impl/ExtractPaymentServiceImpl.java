@@ -71,7 +71,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     // should stay false for production.
     public static boolean testMode = false;
 
-    private String getOutputFile(String fileprefix, Date runDate) {
+    protected String getOutputFile(String fileprefix, Date runDate) {
         String filename = directoryName + "/" + fileprefix + "_";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
         filename = filename + sdf.format(runDate);
@@ -202,7 +202,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         }
     }
 
-    private void writeExtractCheckFile(PaymentProcess p, String filename, Integer processId) {
+    protected void writeExtractCheckFile(PaymentProcess p, String filename, Integer processId) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date processDate = dateTimeService.getCurrentDate();
         BufferedWriter os = null;
@@ -303,7 +303,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         }
     }
 
-    private void writeExtractAchFile(PaymentStatus extractedStatus, String filename, Date processDate, SimpleDateFormat sdf) {
+    protected void writeExtractAchFile(PaymentStatus extractedStatus, String filename, Date processDate, SimpleDateFormat sdf) {
         BufferedWriter os = null;
         try {
             os = new BufferedWriter(new FileWriter(filename));
@@ -413,34 +413,34 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     
     private static String SPACES = "                                                       ";
 
-    private void writeTag(BufferedWriter os, int indent, String tag, String data) throws IOException {
+    protected void writeTag(BufferedWriter os, int indent, String tag, String data) throws IOException {
         if (data != null) {
             os.write(SPACES.substring(0, indent));
             os.write("<" + tag + ">" + escapeString(data) + "</" + tag + ">\n");
         }
     }
 
-    private void writeOpenTag(BufferedWriter os, int indent, String tag) throws IOException {
+    protected void writeOpenTag(BufferedWriter os, int indent, String tag) throws IOException {
         os.write(SPACES.substring(0, indent));
         os.write("<" + tag + ">\n");
     }
 
-    private void writeOpenTagAttribute(BufferedWriter os, int indent, String tag, String attr, String attrVal) throws IOException {
+    protected void writeOpenTagAttribute(BufferedWriter os, int indent, String tag, String attr, String attrVal) throws IOException {
         os.write(SPACES.substring(0, indent));
         os.write("<" + tag + " " + attr + "=\"" + escapeString(attrVal) + "\">\n");
     }
 
-    private void writeOpenTagAttribute(BufferedWriter os, int indent, String tag, String attr1, String attr1Val, String attr2, String attr2Val) throws IOException {
+    protected void writeOpenTagAttribute(BufferedWriter os, int indent, String tag, String attr1, String attr1Val, String attr2, String attr2Val) throws IOException {
         os.write(SPACES.substring(0, indent));
         os.write("<" + tag + " " + attr1 + "=\"" + escapeString(attr1Val) + "\" " + attr2 + "=\"" + escapeString(attr2Val) + "\">\n");
     }
 
-    private void writeCloseTag(BufferedWriter os, int indent, String tag) throws IOException {
+    protected void writeCloseTag(BufferedWriter os, int indent, String tag) throws IOException {
         os.write(SPACES.substring(0, indent));
         os.write("</" + tag + ">\n");
     }
 
-    private void writeBank(BufferedWriter os, int indent, Bank b) throws IOException {
+    protected void writeBank(BufferedWriter os, int indent, Bank b) throws IOException {
         if (b != null) {
             writeOpenTagAttribute(os, indent, "bank", "code", b.getBankCode());
             writeTag(os, indent + 2, "accountNumber", b.getBankAccountNumber());
@@ -449,7 +449,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         }
     }
 
-    private void writeCustomerProfile(BufferedWriter os, int indent, CustomerProfile cp) throws IOException {
+    protected void writeCustomerProfile(BufferedWriter os, int indent, CustomerProfile cp) throws IOException {
         writeOpenTag(os, indent, "customerProfile");
         writeTag(os, indent + 2, "chartCode", cp.getChartCode());
         writeTag(os, indent + 2, "orgCode", cp.getUnitCode());
@@ -469,15 +469,15 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         writeCloseTag(os, indent, "customerProfile");
     }
 
-    private void writePayeeAch(BufferedWriter os, int indent, PaymentGroup pg) throws IOException {
+    protected void writePayeeAch(BufferedWriter os, int indent, PaymentGroup pg) throws IOException {
         writePayeeInformation(os, indent, pg, true);
     }
 
-    private void writePayee(BufferedWriter os, int indent, PaymentGroup pg) throws IOException {
+    protected void writePayee(BufferedWriter os, int indent, PaymentGroup pg) throws IOException {
         writePayeeInformation(os, indent, pg, false);
     }
 
-    private void writePayeeInformation(BufferedWriter os, int indent, PaymentGroup pg, boolean includeAch) throws IOException {
+    protected void writePayeeInformation(BufferedWriter os, int indent, PaymentGroup pg, boolean includeAch) throws IOException {
         os.write(SPACES.substring(0, indent));
         os.write("<payee id=\"" + pg.getPayeeId() + "\" type=\"" + pg.getPayeeIdTypeCd() + "\">\n");
         writeTag(os, indent + 2, "payeeName", pg.getPayeeName());
@@ -498,7 +498,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         writeCloseTag(os, indent, "payee");
     }
 
-    private String escapeString(String input) {
+    protected String escapeString(String input) {
         String output = input.replaceAll("\\&", "&amp;");
         output = output.replaceAll("\"", "&quot;");
         output = output.replaceAll("\\'", "&apos;");

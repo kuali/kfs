@@ -91,7 +91,7 @@ public class EffortCertificationCreateServiceImpl implements EffortCertification
      * @param fieldValues the map containing fiscalYear and report number
      * @return a message if a report has not been defined or its documents have been gerenated; otherwise, return null
      */
-    private String validateReportDefintion(Map<String, String> fieldValues) {
+    protected String validateReportDefintion(Map<String, String> fieldValues) {
         String fiscalYear = fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         String reportNumber = fieldValues.get(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER);
         String combinedFieldValues = new StringBuilder(fiscalYear).append(EffortConstants.VALUE_SEPARATOR).append(reportNumber).toString();

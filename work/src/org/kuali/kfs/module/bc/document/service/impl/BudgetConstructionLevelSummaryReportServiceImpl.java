@@ -465,21 +465,21 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
         return returnList;
     }
 
-    private List<String> fieldsForCons() {
+    protected List<String> fieldsForCons() {
         List<String> fieldList = new ArrayList();
         fieldList.addAll(fieldsForGexpAndType());
         fieldList.add(KFSPropertyConstants.FINANCIAL_CONSOLIDATION_SORT_CODE);
         return fieldList;
     }
 
-    private List<String> fieldsForGexpAndType() {
+    protected List<String> fieldsForGexpAndType() {
         List<String> fieldList = new ArrayList();
         fieldList.addAll(fieldsForTotal());
         fieldList.add(KFSPropertyConstants.INCOME_EXPENSE_CODE);
         return fieldList;
     }
 
-    private List<String> fieldsForTotal() {
+    protected List<String> fieldsForTotal() {
         List<String> fieldList = new ArrayList();
         fieldList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
         fieldList.add(KFSPropertyConstants.ORGANIZATION_CODE);

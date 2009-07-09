@@ -265,7 +265,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
      * @param record
      * @return
      */
-    private String getLockingKeyString(PendingBudgetConstructionAppointmentFunding record) {
+    protected String getLockingKeyString(PendingBudgetConstructionAppointmentFunding record) {
         return record.getUniversityFiscalYear() + "-" + record.getChartOfAccountsCode() + "-" + record.getAccountNumber() + "-" + record.getSubAccountNumber();
     }
     
@@ -280,7 +280,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
      * @return
      */
     @Transactional
-    private boolean getPayrateLock(List<PendingBudgetConstructionAppointmentFunding> lockedRecords, List<ExternalizedMessageWrapper> messageList, Integer budgetYear, Person user, List<BudgetConstructionPayRateHolding> records) {
+    protected boolean getPayrateLock(List<PendingBudgetConstructionAppointmentFunding> lockedRecords, List<ExternalizedMessageWrapper> messageList, Integer budgetYear, Person user, List<BudgetConstructionPayRateHolding> records) {
         List<String> biweeklyPayObjectCodes = BudgetParameterFinder.getBiweeklyPayObjectCodes();
         
         for (BudgetConstructionPayRateHolding record: records) {
@@ -321,7 +321,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
      * If retrieving budget locks fails, this method rolls back previous changes
      * 
      */
-    private void doRollback() {
+    protected void doRollback() {
         PlatformTransactionManager transactionManager = SpringContext.getBean(PlatformTransactionManager.class);
         DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
         TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);

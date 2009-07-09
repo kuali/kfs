@@ -84,7 +84,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
      * 
      * @param BudgetConstructionObjectSummary bcas
      */
-    private void buildReportsHeader(Integer universityFiscalYear, PendingBudgetConstructionAppointmentFunding pendingAppointmentFunding, BudgetConstructionAccountSalaryDetailReport accountSalaryDetailReport) {
+    protected void buildReportsHeader(Integer universityFiscalYear, PendingBudgetConstructionAppointmentFunding pendingAppointmentFunding, BudgetConstructionAccountSalaryDetailReport accountSalaryDetailReport) {
 
         Integer prevFiscalyear = universityFiscalYear - 1;
         accountSalaryDetailReport.setFiscalYear(prevFiscalyear.toString() + "-" + universityFiscalYear.toString().substring(2, 4));
@@ -168,7 +168,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
      * 
      * @param BudgetConstructionLevelSummary bcas
      */
-    private void buildReportsBody(Integer universityFiscalYear, PendingBudgetConstructionAppointmentFunding pendingAppointmentFunding, BudgetConstructionAccountSalaryDetailReport accountMonthlyDetailReport) {
+    protected void buildReportsBody(Integer universityFiscalYear, PendingBudgetConstructionAppointmentFunding pendingAppointmentFunding, BudgetConstructionAccountSalaryDetailReport accountMonthlyDetailReport) {
         Integer amountChange = new Integer(0);
         BigDecimal percentChange = BigDecimal.ZERO;
 
@@ -245,7 +245,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
         accountMonthlyDetailReport.setPercentChange(percentChange);
     }
 
-    private void buildReportsTotal(PendingBudgetConstructionAppointmentFunding pendingAppointmentFunding, BudgetConstructionAccountSalaryDetailReport accountMonthlyDetailReport, Collection<BudgetConstructionAccountSalaryDetailReportTotal> accountSalaryDetailTotal) {
+    protected void buildReportsTotal(PendingBudgetConstructionAppointmentFunding pendingAppointmentFunding, BudgetConstructionAccountSalaryDetailReport accountMonthlyDetailReport, Collection<BudgetConstructionAccountSalaryDetailReportTotal> accountSalaryDetailTotal) {
 
         for (BudgetConstructionAccountSalaryDetailReportTotal totalEntry : accountSalaryDetailTotal) {
             if (BudgetConstructionReportHelper.isSameEntry(totalEntry.getPendingBudgetConstructionAppointmentFunding(), pendingAppointmentFunding, fieldsForTotal())) {
@@ -276,7 +276,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
     }
 
 
-    private Collection<BudgetConstructionAccountSalaryDetailReportTotal> calculateTotal(Collection<PendingBudgetConstructionAppointmentFunding> pendingAppointmentFundingList, List<PendingBudgetConstructionAppointmentFunding> listForTotal) {
+    protected Collection<BudgetConstructionAccountSalaryDetailReportTotal> calculateTotal(Collection<PendingBudgetConstructionAppointmentFunding> pendingAppointmentFundingList, List<PendingBudgetConstructionAppointmentFunding> listForTotal) {
         Collection<BudgetConstructionAccountSalaryDetailReportTotal> reportTotals = new ArrayList<BudgetConstructionAccountSalaryDetailReportTotal>();
 
         for (PendingBudgetConstructionAppointmentFunding totalEntry : listForTotal) {
@@ -313,7 +313,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
     }
 
 
-    private List<String> fieldsForTotal() {
+    protected List<String> fieldsForTotal() {
         List<String> fieldList = new ArrayList<String>();
         fieldList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
 
@@ -325,7 +325,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
      * 
      * @return returnList
      */
-    private List<String> buildOrderByList() {
+    protected List<String> buildOrderByList() {
         List<String> returnList = new ArrayList<String>();
         returnList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         returnList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
@@ -335,7 +335,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
         return returnList;
     }
 
-    private Map<String, Object> buildSearchCriteria(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
+    protected Map<String, Object> buildSearchCriteria(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         Map<String, Object> searchCriteria = new HashMap<String, Object>();
         searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
         searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);

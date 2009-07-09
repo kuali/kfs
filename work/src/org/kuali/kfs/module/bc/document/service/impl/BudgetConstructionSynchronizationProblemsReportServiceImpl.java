@@ -124,7 +124,7 @@ public class BudgetConstructionSynchronizationProblemsReportServiceImpl implemen
         orgSynchronizationProblemsReportEntry.setBudgetedPosition(booleanToString(budgetConstructionPosition.isBudgetedPosition()));
     }
     
-    private String booleanToString(boolean boo){
+    protected String booleanToString(boolean boo){
         if (boo){
             return BCConstants.Report.YES;
         } else { return BCConstants.Report.NO; }
@@ -142,7 +142,7 @@ public class BudgetConstructionSynchronizationProblemsReportServiceImpl implemen
     
 
 
-    private BudgetConstructionPosition getBudgetConstructionPosition(Integer universityFiscalYear, PendingBudgetConstructionAppointmentFunding appointmentFundingEntry) {
+    protected BudgetConstructionPosition getBudgetConstructionPosition(Integer universityFiscalYear, PendingBudgetConstructionAppointmentFunding appointmentFundingEntry) {
         Map searchCriteria = new HashMap();
         searchCriteria.put(KFSPropertyConstants.POSITION_NUMBER, appointmentFundingEntry.getPositionNumber());
         searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);

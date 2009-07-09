@@ -110,7 +110,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
      * 
      * @param BudgetConstructionObjectSummary bcas
      */
-    private void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgAccountObjectDetailReport orgAccountObjectDetailReportEntry, BudgetConstructionAccountBalance accountBalance, boolean consolidated) {
+    protected void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgAccountObjectDetailReport orgAccountObjectDetailReportEntry, BudgetConstructionAccountBalance accountBalance, boolean consolidated) {
         String orgChartDesc = accountBalance.getOrganizationChartOfAccounts().getFinChartOfAccountDescription();
         String chartDesc = accountBalance.getChartOfAccounts().getFinChartOfAccountDescription();
         String orgName = "";
@@ -235,7 +235,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
      * 
      * @param BudgetConstructionLevelSummary bcas
      */
-    private void buildReportsBody(Integer universityFiscalYear, BudgetConstructionOrgAccountObjectDetailReport orgAccountObjectDetailReportEntry, BudgetConstructionAccountBalance accountBalance) {
+    protected void buildReportsBody(Integer universityFiscalYear, BudgetConstructionOrgAccountObjectDetailReport orgAccountObjectDetailReportEntry, BudgetConstructionAccountBalance accountBalance) {
         if (accountBalance.getFinancialSubObjectCode().equals(BCConstants.DASH_SUB_OBJECT_CODE)) {
             orgAccountObjectDetailReportEntry.setFinancialObjectName(accountBalance.getFinancialObject().getFinancialObjectCodeName());
         }
@@ -264,7 +264,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
      * builds report total
      */
 
-    private void buildReportsTotal(BudgetConstructionOrgAccountObjectDetailReport orgObjectSummaryReportEntry, BudgetConstructionAccountBalance accountBalance, List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailTotalObjectList, List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailTotalLevelList, List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailTotalGexpAndTypeList, List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailAccountTotalList, List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailSubFundTotalList) {
+    protected void buildReportsTotal(BudgetConstructionOrgAccountObjectDetailReport orgObjectSummaryReportEntry, BudgetConstructionAccountBalance accountBalance, List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailTotalObjectList, List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailTotalLevelList, List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailTotalGexpAndTypeList, List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailAccountTotalList, List<BudgetConstructionOrgAccountObjectDetailReportTotal> accountObjectDetailSubFundTotalList) {
 
         for (BudgetConstructionOrgAccountObjectDetailReportTotal objectTotal : accountObjectDetailTotalObjectList) {
             if (BudgetConstructionReportHelper.isSameEntry(accountBalance, objectTotal.getBudgetConstructionAccountBalance(), fieldsForObject())) {
@@ -444,7 +444,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
 
     }
 
-    private List calculateObjectTotal(List<BudgetConstructionAccountBalance> bcosList, List<BudgetConstructionAccountBalance> simpleList) {
+    protected List calculateObjectTotal(List<BudgetConstructionAccountBalance> bcosList, List<BudgetConstructionAccountBalance> simpleList) {
 
         BigDecimal totalObjectPositionCsfLeaveFteQuantity = BigDecimal.ZERO;
         BigDecimal totalObjectPositionFullTimeEquivalencyQuantity = BigDecimal.ZERO;
@@ -493,7 +493,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         this.businessObjectService = businessObjectService;
     }
 
-    private List calculateLevelTotal(List<BudgetConstructionAccountBalance> bcosList, List<BudgetConstructionAccountBalance> simpleList) {
+    protected List calculateLevelTotal(List<BudgetConstructionAccountBalance> bcosList, List<BudgetConstructionAccountBalance> simpleList) {
 
         BigDecimal totalLevelPositionCsfLeaveFteQuantity = BigDecimal.ZERO;
         BigDecimal totalLevelPositionFullTimeEquivalencyQuantity = BigDecimal.ZERO;
@@ -538,7 +538,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
     }
 
 
-    private List calculateGexpAndTypeTotal(List<BudgetConstructionAccountBalance> bcabList, List<BudgetConstructionAccountBalance> simpleList) {
+    protected List calculateGexpAndTypeTotal(List<BudgetConstructionAccountBalance> bcabList, List<BudgetConstructionAccountBalance> simpleList) {
 
         Integer grossFinancialBeginningBalanceLineAmount = new Integer(0);
         Integer grossAccountLineAnnualBalanceAmount = new Integer(0);
@@ -596,7 +596,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         return returnList;
     }
 
-    private List calculateAccountTotal(List<BudgetConstructionAccountBalance> bcabList, List<BudgetConstructionAccountBalance> simpleList) {
+    protected List calculateAccountTotal(List<BudgetConstructionAccountBalance> bcabList, List<BudgetConstructionAccountBalance> simpleList) {
         BigDecimal accountPositionCsfLeaveFteQuantity = BigDecimal.ZERO;
         BigDecimal accountPositionFullTimeEquivalencyQuantity = BigDecimal.ZERO;
         BigDecimal accountAppointmentRequestedCsfFteQuantity = BigDecimal.ZERO;
@@ -671,7 +671,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
     }
 
 
-    private List calculateSubFundTotal(List<BudgetConstructionAccountBalance> bcabList, List<BudgetConstructionAccountBalance> simpleList) {
+    protected List calculateSubFundTotal(List<BudgetConstructionAccountBalance> bcabList, List<BudgetConstructionAccountBalance> simpleList) {
 
         BigDecimal subFundPositionCsfLeaveFteQuantity = BigDecimal.ZERO;
         BigDecimal subFundPositionFullTimeEquivalencyQuantity = BigDecimal.ZERO;
@@ -754,7 +754,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
      * 
      * @return List<String>
      */
-    private List<String> fieldsForObject() {
+    protected List<String> fieldsForObject() {
         List<String> fieldList = new ArrayList();
         fieldList.addAll(fieldsForLevel());
         fieldList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
@@ -767,7 +767,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
      * 
      * @return List<String>
      */
-    private List<String> fieldsForLevel() {
+    protected List<String> fieldsForLevel() {
         List<String> fieldList = new ArrayList();
         fieldList.addAll(fieldsForGexpAndType());
         fieldList.add(KFSPropertyConstants.FINANCIAL_LEVEL_SORT_CODE);
@@ -779,7 +779,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
      * 
      * @return List<String>
      */
-    private List<String> fieldsForGexpAndType() {
+    protected List<String> fieldsForGexpAndType() {
         List<String> fieldList = new ArrayList();
         fieldList.addAll(fieldsForAccountTotal());
         fieldList.add(KFSPropertyConstants.INCOME_EXPENSE_CODE);
@@ -791,7 +791,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
      * 
      * @return List<String>
      */
-    private List<String> fieldsForAccountTotal() {
+    protected List<String> fieldsForAccountTotal() {
         List<String> fieldList = new ArrayList();
         // fieldList.addAll(fieldsForSubFundTotal());
         fieldList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
@@ -805,7 +805,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
      * 
      * @return List<String>
      */
-    private List<String> fieldsForSubFundTotal() {
+    protected List<String> fieldsForSubFundTotal() {
         List<String> fieldList = new ArrayList();
 
         fieldList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);

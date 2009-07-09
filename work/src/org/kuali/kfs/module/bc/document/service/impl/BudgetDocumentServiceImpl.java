@@ -258,7 +258,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#calculateAnnualBenefits(org.kuali.kfs.module.bc.document.BudgetConstructionDocument)
      */
     @Transactional
-    private void calculateAnnualBenefits(BudgetConstructionDocument bcDoc) {
+    protected void calculateAnnualBenefits(BudgetConstructionDocument bcDoc) {
 
         // allow benefits calculation if document's account is not salary setting only lines
         bcDoc.setBenefitsCalcNeeded(false);
@@ -276,7 +276,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#calculateMonthlyBenefits(org.kuali.kfs.module.bc.document.BudgetConstructionDocument)
      */
     @Transactional
-    private void calculateMonthlyBenefits(BudgetConstructionDocument bcDoc) {
+    protected void calculateMonthlyBenefits(BudgetConstructionDocument bcDoc) {
 
         // allow benefits calculation if document's account is not salary setting only lines
         bcDoc.setMonthlyBenefitsCalcNeeded(false);
@@ -419,7 +419,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      * @param bcDoc
      */
     @Transactional
-    private void reloadBenefitsLines(BudgetConstructionDocument bcDoc) {
+    protected void reloadBenefitsLines(BudgetConstructionDocument bcDoc) {
 
         // get list of potential fringe objects to use as an in query param
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -877,7 +877,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      * @return true if the plug line can be updated or created; otherwise, false
      */
     @Transactional
-    private boolean canUpdatePlugRecord(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+    protected boolean canUpdatePlugRecord(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         // no plug if the override mode is enabled
         if (appointmentFunding.isOverride2PlugMode()) {
             return false;
@@ -910,7 +910,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      * @return a pending budget construction GL record if any; otherwise, create one with the given information
      */
     @Transactional
-    private PendingBudgetConstructionGeneralLedger getPendingBudgetConstructionGeneralLedger(BudgetConstructionHeader budgetConstructionHeader, PendingBudgetConstructionAppointmentFunding appointmentFunding, KualiInteger updateAmount, boolean is2PLG) {
+    protected PendingBudgetConstructionGeneralLedger getPendingBudgetConstructionGeneralLedger(BudgetConstructionHeader budgetConstructionHeader, PendingBudgetConstructionAppointmentFunding appointmentFunding, KualiInteger updateAmount, boolean is2PLG) {
         if (budgetConstructionHeader == null) {
             throw new IllegalArgumentException("The given budget construction document header cannot be null");
         }
@@ -966,7 +966,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      * @return a pending budget construction GL record if any; otherwise, null
      */
     @NonTransactional
-    private PendingBudgetConstructionGeneralLedger retrievePendingBudgetConstructionGeneralLedger(BudgetConstructionHeader budgetConstructionHeader, PendingBudgetConstructionAppointmentFunding appointmentFunding, boolean is2PLG) {
+    protected PendingBudgetConstructionGeneralLedger retrievePendingBudgetConstructionGeneralLedger(BudgetConstructionHeader budgetConstructionHeader, PendingBudgetConstructionAppointmentFunding appointmentFunding, boolean is2PLG) {
         String objectCode = is2PLG ? KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG : appointmentFunding.getFinancialObjectCode();
         String subObjectCode = is2PLG ? KFSConstants.getDashFinancialSubObjectCode() : appointmentFunding.getFinancialSubObjectCode();
 

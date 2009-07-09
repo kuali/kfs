@@ -168,7 +168,7 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
      * @param isApproved indicate if the resulting pending entry has been approved
      * @param isConsolidated indicate if the collection entries have been consolidated
      */
-    private void updateCollection(Collection entryCollection, Map fieldValues, boolean isApproved, boolean isConsolidated, Class clazz) {
+    protected void updateCollection(Collection entryCollection, Map fieldValues, boolean isApproved, boolean isConsolidated, Class clazz) {
         // go through the pending entries to update the balance collection
         Iterator<LaborLedgerPendingEntry> pendingEntryIterator = laborLedgerPendingEntryService.findPendingLedgerEntriesForLedgerBalance(fieldValues, isApproved);
 
@@ -223,7 +223,7 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
      * @param fieldValues
      * @param fieldName
      */
-    private boolean isDetailDefaultFieldUsed(Map fieldValues, String fieldName) {
+    protected boolean isDetailDefaultFieldUsed(Map fieldValues, String fieldName) {
         return StringUtils.isNotBlank((String) fieldValues.get(fieldName));
     }
 

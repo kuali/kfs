@@ -432,7 +432,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      * @param customer profile of payment customer
      * @param paymentAccountDetail account detail record
      */
-    private void replaceAccountingString(KualiCodeBase objChangeCd, List<PaymentAccountHistory> changeRecords, CustomerProfile customer, PaymentAccountDetail paymentAccountDetail) {
+    protected void replaceAccountingString(KualiCodeBase objChangeCd, List<PaymentAccountHistory> changeRecords, CustomerProfile customer, PaymentAccountDetail paymentAccountDetail) {
         changeRecords.add(newAccountHistory(PdpPropertyConstants.CHART_DB_COLUMN_NAME, customer.getDefaultChartCode(), paymentAccountDetail.getFinChartCode(), objChangeCd));
         changeRecords.add(newAccountHistory(PdpPropertyConstants.ACCOUNT_DB_COLUMN_NAME, customer.getDefaultAccountNumber(), paymentAccountDetail.getAccountNbr(), objChangeCd));
         changeRecords.add(newAccountHistory(PdpPropertyConstants.SUB_ACCOUNT_DB_COLUMN_NAME, customer.getDefaultSubAccountNumber(), paymentAccountDetail.getSubAccountNbr(), objChangeCd));
@@ -465,7 +465,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      * @param changeCode code indicating reason for change
      * @return <code>PaymentAccountHistory</code>
      */
-    private PaymentAccountHistory newAccountHistory(String attName, String newValue, String oldValue, KualiCodeBase changeCode) {
+    protected PaymentAccountHistory newAccountHistory(String attName, String newValue, String oldValue, KualiCodeBase changeCode) {
         PaymentAccountHistory paymentAccountHistory = new PaymentAccountHistory();
 
         paymentAccountHistory.setAcctAttributeName(attName);
@@ -626,7 +626,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     /**
      * @return system parameter value giving the maximum number of notes allowed.
      */
-    private int getMaxNoteLines() {
+    protected int getMaxNoteLines() {
         String maxLines = parameterService.getParameterValue(KfsParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.MAX_NOTE_LINES);
         if (StringUtils.isBlank(maxLines)) {
             throw new RuntimeException("System parameter for max note lines is blank");
@@ -642,7 +642,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      * @param messageKey resource key for message
      * @param arguments message substitute parameters
      */
-    private void addWarningMessage(List<String> warnings, String messageKey, String... arguments) {
+    protected void addWarningMessage(List<String> warnings, String messageKey, String... arguments) {
         String message = kualiConfigurationService.getPropertyString(messageKey);
         warnings.add(MessageFormat.format(message, (Object[]) arguments));
     }

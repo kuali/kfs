@@ -669,7 +669,7 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
         return returnList;
     }
 
-    private List<String> fieldsForLevel() {
+    protected List<String> fieldsForLevel() {
         List<String> fieldList = new ArrayList();
         fieldList.addAll(fieldsForCons());
         fieldList.add(KFSPropertyConstants.FINANCIAL_LEVEL_SORT_CODE);
@@ -678,7 +678,7 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
         // firstBcms.getFinancialLevelSortCode().equals(secondBcms.getFinancialLevelSortCode())) {
     }
 
-    private List<String> fieldsForCons() {
+    protected List<String> fieldsForCons() {
         List<String> fieldList = new ArrayList();
         fieldList.addAll(fieldsForType());
         fieldList.add(KFSPropertyConstants.FINANCIAL_CONSOLIDATION_SORT_CODE);

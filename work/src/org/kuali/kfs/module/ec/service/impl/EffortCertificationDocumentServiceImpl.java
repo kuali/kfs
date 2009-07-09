@@ -213,7 +213,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     }
 
     // add the given ad hoc route person in the list if the person is one of prior approvers and is not in the list
-    private void addAdHocRoutePerson(Collection<AdHocRoutePerson> adHocRoutePersonList, Set<Person> priorApprovers, AdHocRoutePerson adHocRoutePerson) {
+    protected void addAdHocRoutePerson(Collection<AdHocRoutePerson> adHocRoutePersonList, Set<Person> priorApprovers, AdHocRoutePerson adHocRoutePerson) {
         boolean canBeAdded = false;
         
         if (priorApprovers == null) {
@@ -242,7 +242,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         }
     }
     
-    private boolean isSameAdHocRoutePerson(AdHocRoutePerson person1, AdHocRoutePerson person2) {
+    protected boolean isSameAdHocRoutePerson(AdHocRoutePerson person1, AdHocRoutePerson person2) {
         if(person1 == null || person2 == null) {
             return false;
         }
@@ -254,7 +254,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         return isSameAdHocRoutePerson;
     }
 
-    private Set<Person> getPriorApprovers(KualiWorkflowDocument workflowDocument) {
+    protected Set<Person> getPriorApprovers(KualiWorkflowDocument workflowDocument) {
         Set<Person> priorApprovers = null;
         try {
             priorApprovers = workflowDocument.getAllPriorApprovers();
@@ -273,7 +273,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @param expectedRouteLevelName the expected route level
      * @return the action request determined from the current route level and expected route level
      */
-    private String getActionRequest(String routeLevelName, String expectedRouteLevelName) {
+    protected String getActionRequest(String routeLevelName, String expectedRouteLevelName) {
         boolean isExpectedRouteLevel = StringUtils.equals(routeLevelName, expectedRouteLevelName);
         return isExpectedRouteLevel ? KEWConstants.ACTION_REQUEST_APPROVE_REQ : KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ;
     }
@@ -285,7 +285,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @param actionRequest the given action request
      * @return an adhoc route recipient built from the given information
      */
-    private AdHocRoutePerson buildAdHocRouteRecipient(String personUserId, String actionRequest) {
+    protected AdHocRoutePerson buildAdHocRouteRecipient(String personUserId, String actionRequest) {
         AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
         adHocRoutePerson.setActionRequested(actionRequest);
         adHocRoutePerson.setId(personUserId);
@@ -300,7 +300,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @param effortCertificationDocument the given effort certification document
      * @return the source accounting lines for a salary expense transfer document built from the given effort certification document
      */
-    private List<LaborLedgerExpenseTransferAccountingLine> buildSourceAccountingLines(EffortCertificationDocument effortCertificationDocument) {
+    protected List<LaborLedgerExpenseTransferAccountingLine> buildSourceAccountingLines(EffortCertificationDocument effortCertificationDocument) {
         List<LaborLedgerExpenseTransferAccountingLine> sourceAccountingLines = new ArrayList<LaborLedgerExpenseTransferAccountingLine>();
 
         List<EffortCertificationDetail> effortCertificationDetailLines = effortCertificationDocument.getEffortCertificationDetailLines();
@@ -320,7 +320,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @param effortCertificationDocument the given effort certification document
      * @return the target accounting lines for a salary expense transfer document built from the given effort certification document
      */
-    private List<LaborLedgerExpenseTransferAccountingLine> buildTargetAccountingLines(EffortCertificationDocument effortCertificationDocument) {
+    protected List<LaborLedgerExpenseTransferAccountingLine> buildTargetAccountingLines(EffortCertificationDocument effortCertificationDocument) {
         List<LaborLedgerExpenseTransferAccountingLine> targetAccountingLines = new ArrayList<LaborLedgerExpenseTransferAccountingLine>();
 
         List<EffortCertificationDetail> effortCertificationDetailLines = effortCertificationDocument.getEffortCertificationDetailLines();
@@ -339,7 +339,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @param effortCertificationDocument the given document that contains the detail lines
      * @return all fiscal officers of the detail line accounts where the salary amounts are changed
      */
-    private Set<String> getFiscalOfficersIfAmountChanged(EffortCertificationDocument effortCertificationDocument) {
+    protected Set<String> getFiscalOfficersIfAmountChanged(EffortCertificationDocument effortCertificationDocument) {
         Set<String> fiscalOfficers = new HashSet<String>();
 
         List<EffortCertificationDetail> effortCertificationDetailLines = effortCertificationDocument.getEffortCertificationDetailLines();
@@ -364,7 +364,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @param effortCertificationDocument the given effort certification document that contains the given detail line
      * @param detailLine the given detail line that is used to generate an accounting line
      */
-    private void addAccountingLineIntoList(List<LaborLedgerExpenseTransferAccountingLine> accountingLineList, LaborLedgerExpenseTransferAccountingLine accountingLine, EffortCertificationDocument effortCertificationDocument, EffortCertificationDetail detailLine) {
+    protected void addAccountingLineIntoList(List<LaborLedgerExpenseTransferAccountingLine> accountingLineList, LaborLedgerExpenseTransferAccountingLine accountingLine, EffortCertificationDocument effortCertificationDocument, EffortCertificationDetail detailLine) {
         accountingLine.setSequenceNumber(accountingLineList.size() + 1);
 
         this.populateAccountingLine(effortCertificationDocument, detailLine, accountingLine);
@@ -378,7 +378,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @param detailLine the given detail line
      * @param accountingLine the accounting line needed to be populated
      */
-    private void populateAccountingLine(EffortCertificationDocument effortCertificationDocument, EffortCertificationDetail detailLine, LaborLedgerExpenseTransferAccountingLine accountingLine) {
+    protected void populateAccountingLine(EffortCertificationDocument effortCertificationDocument, EffortCertificationDetail detailLine, LaborLedgerExpenseTransferAccountingLine accountingLine) {
         if (detailLine.isAccountExpiredOverride()) {
             AccountingLineOverride override = EffortCertificationDetailLineOverride.determineNeededOverrides(detailLine);
             accountingLine.setOverrideCode(override.getCode());
@@ -413,7 +413,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @param detailLine the given detail line
      * @return the difference between the original amount and updated amount of the given detail line
      */
-    private KualiDecimal getDifference(EffortCertificationDetail detailLine) {
+    protected KualiDecimal getDifference(EffortCertificationDetail detailLine) {
         return detailLine.getEffortCertificationOriginalPayrollAmount().subtract(detailLine.getEffortCertificationPayrollAmount());
     }
 

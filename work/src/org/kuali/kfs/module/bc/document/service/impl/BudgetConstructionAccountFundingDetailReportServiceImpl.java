@@ -327,7 +327,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
      * @param BudgetConstructionObjectDump bcod
      * @param List reportTotalList
      */
-    private Collection<BudgetConstructionOrgAccountFundingDetailReportTotal> calculateObjectTotal(Map appointmentFundingEntireMap, List<BudgetConstructionObjectDump> listForCalculateTotalObject) {
+    protected Collection<BudgetConstructionOrgAccountFundingDetailReportTotal> calculateObjectTotal(Map appointmentFundingEntireMap, List<BudgetConstructionObjectDump> listForCalculateTotalObject) {
         Integer totalObjectPositionCsfAmount = new Integer(0);
         Integer totalObjectAppointmentRequestedAmount = new Integer(0);
         BigDecimal totalObjectPositionCsfFteQuantity = BigDecimal.ZERO;
@@ -368,7 +368,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
         return returnCollection;
     }
 
-    private Collection<BudgetConstructionOrgAccountFundingDetailReportTotal> calculateAccountTotal(Collection<BudgetConstructionOrgAccountFundingDetailReportTotal> fundingDetailTotalObject, List<BudgetConstructionObjectDump> listForCalculateTotalAccount) {
+    protected Collection<BudgetConstructionOrgAccountFundingDetailReportTotal> calculateAccountTotal(Collection<BudgetConstructionOrgAccountFundingDetailReportTotal> fundingDetailTotalObject, List<BudgetConstructionObjectDump> listForCalculateTotalAccount) {
 
         // private Collection<BudgetConstructionOrgAccountFundingDetailReportTotal> calculateAccountTotal(Map
         // appointmentFundingEntireMap, Collection<BudgetConstructionObjectDump> accountFundingDetailList,
@@ -406,14 +406,14 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
         return returnCollection;
     }
 
-    private List<String> fieldsForObject() {
+    protected List<String> fieldsForObject() {
         List<String> fieldList = new ArrayList();
         fieldList.addAll(fieldsForAccount());
         fieldList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         return fieldList;
     }
 
-    private List<String> fieldsForAccount() {
+    protected List<String> fieldsForAccount() {
         List<String> fieldList = new ArrayList();
         fieldList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
         fieldList.add(KFSPropertyConstants.ORGANIZATION_CODE);

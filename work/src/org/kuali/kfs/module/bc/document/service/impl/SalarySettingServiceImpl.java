@@ -851,7 +851,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * 
      * @param pendingBudgetConstructionAppointmentFunding the given appointment fundings
      */
-    private void resetDeletedFundingLines(List<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFunding) {
+    protected void resetDeletedFundingLines(List<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFunding) {
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : pendingBudgetConstructionAppointmentFunding) {
             if (!appointmentFunding.isAppointmentFundingDeleteIndicator() || appointmentFunding.isPersistedDeleteIndicator()) {
                 continue;
@@ -873,7 +873,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * @param appointmentFunding the given appointment funding
      * @return the csf tracker amount of the given appointment funding if any; otherwise, return zero
      */
-    private KualiInteger getCsfAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+    protected KualiInteger getCsfAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         if (appointmentFunding == null) {
             return KualiInteger.ZERO;
         }
@@ -892,7 +892,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * @param appointmentFunding the given appointment funding
      * @return true if there exists at lease one vacant funding line for the given appointment funding; otherwise, return false
      */
-    private boolean hasBeenVacated(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+    protected boolean hasBeenVacated(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         Map<String, Object> keyFieldValues = appointmentFunding.getValuesMap();
         keyFieldValues.put(KFSPropertyConstants.EMPLID, BCConstants.VACANT_EMPLID);
 
@@ -905,7 +905,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * @param appointmentFunding the given appointment funding
      * @return a vacant appointment funding
      */
-    private PendingBudgetConstructionAppointmentFunding createVacantAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+    protected PendingBudgetConstructionAppointmentFunding createVacantAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         PendingBudgetConstructionAppointmentFunding vacantAppointmentFunding = new PendingBudgetConstructionAppointmentFunding();
 
         ObjectUtil.buildObjectWithoutReferenceFields(vacantAppointmentFunding, appointmentFunding);
@@ -924,7 +924,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * @param salarySettingExpansion
      * @return a pseudo appointment funding
      */
-    private PendingBudgetConstructionAppointmentFunding createPseudoAppointmentFundingLine(SalarySettingExpansion salarySettingExpansion) {
+    protected PendingBudgetConstructionAppointmentFunding createPseudoAppointmentFundingLine(SalarySettingExpansion salarySettingExpansion) {
         PendingBudgetConstructionAppointmentFunding pseudoAppointmentFunding = new PendingBudgetConstructionAppointmentFunding();
 
         pseudoAppointmentFunding.setUniversityFiscalYear(salarySettingExpansion.getUniversityFiscalYear());

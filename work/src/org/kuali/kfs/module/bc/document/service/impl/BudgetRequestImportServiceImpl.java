@@ -408,7 +408,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
      * @param importLine
      * @return error message
      */
-    private String updateBudgetAmounts(String fileType, BudgetConstructionRequestMove importLine, BudgetConstructionHeader header, Integer budgetYear) {
+    protected String updateBudgetAmounts(String fileType, BudgetConstructionRequestMove importLine, BudgetConstructionHeader header, Integer budgetYear) {
         String errorMessage = "";
         
         //set primary key values
@@ -513,7 +513,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
      * @param fileType
      * @param importLine
      */
-    private void udpateBenefits(String fileType, BudgetConstructionHeader header) {
+    protected void udpateBenefits(String fileType, BudgetConstructionHeader header) {
         BenefitsCalculationService benefitsCalculationService = SpringContext.getBean(BenefitsCalculationService.class);
 
         benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(header.getDocumentNumber(), header.getUniversityFiscalYear(), header.getChartOfAccountsCode(), header.getAccountNumber(), header.getSubAccountNumber());
@@ -532,7 +532,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
      * @return
      */
 
-    private String validateLine(BudgetConstructionRequestMove budgetConstructionRequestMove, int lineNumber, boolean isAnnual) {
+    protected String validateLine(BudgetConstructionRequestMove budgetConstructionRequestMove, int lineNumber, boolean isAnnual) {
         
         if ( !this.dictionaryValidationService.isBusinessObjectValid(budgetConstructionRequestMove)) {
             return BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".";
@@ -587,7 +587,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         return "";
     }
     
-    private ObjectCode getObjectCode(BudgetConstructionRequestMove record, Integer budgetYear) {
+    protected ObjectCode getObjectCode(BudgetConstructionRequestMove record, Integer budgetYear) {
         Map searchCriteria = new HashMap();
 
         searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, budgetYear);
@@ -602,7 +602,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         return null;
     }
 
-    private SubObjectCode getSubObjectCode(BudgetConstructionRequestMove record, Integer budgetYear) {
+    protected SubObjectCode getSubObjectCode(BudgetConstructionRequestMove record, Integer budgetYear) {
         Map searchCriteria = new HashMap();
 
         searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, budgetYear);
@@ -619,7 +619,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         return null;
     }
 
-    private List<BudgetConstructionFundingLock> findBudgetLocks(BudgetConstructionRequestMove record, Integer budgetYear) {
+    protected List<BudgetConstructionFundingLock> findBudgetLocks(BudgetConstructionRequestMove record, Integer budgetYear) {
         Map searchCriteria = new HashMap();
 
         searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, budgetYear);
@@ -653,7 +653,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
      * 
      * @param principalId
      */
-    private void deleteBudgetConstructionMoveRecords(String principalId) {
+    protected void deleteBudgetConstructionMoveRecords(String principalId) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalId);
         businessObjectService.deleteMatching(BudgetConstructionRequestMove.class, fieldValues);

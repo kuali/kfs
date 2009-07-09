@@ -74,7 +74,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
     /**
      * @return the debit credit code
      */
-    private String getDebitCreditCode(Transaction transaction) {
+    protected String getDebitCreditCode(Transaction transaction) {
         KualiDecimal transactionAmount = transaction.getTransactionLedgerEntryAmount();
         return DebitCreditUtil.getDebitCreditCode(transactionAmount, false);
     }
@@ -82,7 +82,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
     /**
      * @return the transaction amount
      */
-    private KualiDecimal getTransactionAmount(Transaction transaction) {
+    protected KualiDecimal getTransactionAmount(Transaction transaction) {
         KualiDecimal transactionAmount = transaction.getTransactionLedgerEntryAmount();
         return transactionAmount.abs();
     }
@@ -90,7 +90,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
     /**
      * @return the encumbrance update code
      */
-    private String getEncumbranceUpdateCode(Transaction transaction) {
+    protected String getEncumbranceUpdateCode(Transaction transaction) {
         String encumbranceUpdateCode = transaction.getTransactionEncumbranceUpdateCode();
         if (KFSConstants.ENCUMB_UPDT_DOCUMENT_CD.equals(encumbranceUpdateCode) || KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(encumbranceUpdateCode)) {
             return encumbranceUpdateCode;
@@ -101,7 +101,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
     /**
      * @return the transaction description
      */
-    private String getTransactionDescription(Transaction transaction) {
+    protected String getTransactionDescription(Transaction transaction) {
         String documentTypeCode = transaction.getFinancialDocumentTypeCode();
         String description = getDescriptionMap().get(documentTypeCode);
         description = StringUtils.isNotEmpty(description) ? description : transaction.getTransactionLedgerEntryDescription();

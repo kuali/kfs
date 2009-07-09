@@ -299,7 +299,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
     }
 
     // calculate the totals for the given person
-    private Collection<BudgetConstructionOrgSalarySummaryReportTotal> calculatePersonTotal(Integer universityFiscalYear, Collection<BudgetConstructionSalarySocialSecurityNumber> bcSalarySsnList, List<BudgetConstructionSalarySocialSecurityNumber> listForCalculateTotalPerson, Map salaryFundingMap) {
+    protected Collection<BudgetConstructionOrgSalarySummaryReportTotal> calculatePersonTotal(Integer universityFiscalYear, Collection<BudgetConstructionSalarySocialSecurityNumber> bcSalarySsnList, List<BudgetConstructionSalarySocialSecurityNumber> listForCalculateTotalPerson, Map salaryFundingMap) {
         Collection<BudgetConstructionOrgSalarySummaryReportTotal> returnCollection = new ArrayList<BudgetConstructionOrgSalarySummaryReportTotal>();
 
         for (BudgetConstructionSalarySocialSecurityNumber personEntry : listForCalculateTotalPerson) {
@@ -321,7 +321,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
     }
 
     // create a report total for the given person with the values in the given total holder
-    private BudgetConstructionOrgSalarySummaryReportTotal createReportTotal(BudgetConstructionSalarySocialSecurityNumber totalPersonEntry, PersonTotalHolder totalsHolder) {
+    protected BudgetConstructionOrgSalarySummaryReportTotal createReportTotal(BudgetConstructionSalarySocialSecurityNumber totalPersonEntry, PersonTotalHolder totalsHolder) {
         BudgetConstructionOrgSalarySummaryReportTotal reportTotal = new BudgetConstructionOrgSalarySummaryReportTotal();
 
         reportTotal.setBudgetConstructionSalarySocialSecurityNumber(totalPersonEntry);
@@ -343,7 +343,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
     }
 
     // adjust the total amount that just is held by the given holder
-    private void adjustPersonTotal(PersonTotalHolder totalsHolder) {
+    protected void adjustPersonTotal(PersonTotalHolder totalsHolder) {
         Integer restatementCsfAmount = 0;
         if (totalsHolder.salaryPayMonth == 0 || totalsHolder.csfPayMonths == 0 || BigDecimal.ZERO.compareTo(totalsHolder.csfPercent) == 0 || totalsHolder.csfNormalMonths == 0) {
             restatementCsfAmount = 0;
@@ -397,7 +397,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
     }
 
     // collect the total amounts for a single person and save the totals in the given holder
-    private void collectPersonTotal(Integer universityFiscalYear, Collection<BudgetConstructionSalaryFunding> salaryFundings, PersonTotalHolder totalsHolder) {
+    protected void collectPersonTotal(Integer universityFiscalYear, Collection<BudgetConstructionSalaryFunding> salaryFundings, PersonTotalHolder totalsHolder) {
         int maxSalaryAmount = 0;
         int maxCsfAmount = 0;
 
@@ -471,7 +471,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
     }
 
     // calculate the totals for the given organization
-    private Collection<BudgetConstructionOrgSalarySummaryReportTotal> calculateOrgTotal(Collection<BudgetConstructionOrgSalarySummaryReportTotal> salarySummaryTotalPerson, List<BudgetConstructionSalarySocialSecurityNumber> listForCalculateTotalOrg, Map salaryFundingMap) {
+    protected Collection<BudgetConstructionOrgSalarySummaryReportTotal> calculateOrgTotal(Collection<BudgetConstructionOrgSalarySummaryReportTotal> salarySummaryTotalPerson, List<BudgetConstructionSalarySocialSecurityNumber> listForCalculateTotalOrg, Map salaryFundingMap) {
         Collection<BudgetConstructionOrgSalarySummaryReportTotal> returnCollection = new ArrayList<BudgetConstructionOrgSalarySummaryReportTotal>();
 
         for (BudgetConstructionSalarySocialSecurityNumber totalOrgEntry : listForCalculateTotalOrg) {
@@ -518,7 +518,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
     }
 
     // create a report total for the given organization with the values in the given total holder
-    private BudgetConstructionOrgSalarySummaryReportTotal createReportTotal(BudgetConstructionSalarySocialSecurityNumber totalOrgEntry, OrganizationTotalHolder totalsHolder) {
+    protected BudgetConstructionOrgSalarySummaryReportTotal createReportTotal(BudgetConstructionSalarySocialSecurityNumber totalOrgEntry, OrganizationTotalHolder totalsHolder) {
         BudgetConstructionOrgSalarySummaryReportTotal reportTotal = new BudgetConstructionOrgSalarySummaryReportTotal();
 
         reportTotal.setBudgetConstructionSalarySocialSecurityNumber(totalOrgEntry);
@@ -613,7 +613,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
      * @param List list
      * @return a list that all duplicated entries were deleted
      */
-    private List deleteDuplicated(List list, int mode) {
+    protected List deleteDuplicated(List list, int mode) {
         // mode 1 is for getting a list of total object
         // mode 2 is for getting a list of total account
         int count = 0;
@@ -648,7 +648,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
     }
 
 
-    private boolean isSameSsnEntryForTotalPerson(BudgetConstructionSalarySocialSecurityNumber firstSsn, BudgetConstructionSalarySocialSecurityNumber secondSsn) {
+    protected boolean isSameSsnEntryForTotalPerson(BudgetConstructionSalarySocialSecurityNumber firstSsn, BudgetConstructionSalarySocialSecurityNumber secondSsn) {
         if (firstSsn.getOrganizationChartOfAccountsCode().equals(secondSsn.getOrganizationChartOfAccountsCode()) && firstSsn.getOrganizationCode().equals(secondSsn.getOrganizationCode()) && firstSsn.getEmplid().equals(secondSsn.getEmplid())) {
             return true;
         }
@@ -656,7 +656,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
             return false;
     }
 
-    private boolean isSameSsnEntryForTotalOrg(BudgetConstructionSalarySocialSecurityNumber firstSsn, BudgetConstructionSalarySocialSecurityNumber secondSsn) {
+    protected boolean isSameSsnEntryForTotalOrg(BudgetConstructionSalarySocialSecurityNumber firstSsn, BudgetConstructionSalarySocialSecurityNumber secondSsn) {
         if (firstSsn.getOrganizationChartOfAccountsCode().equals(secondSsn.getOrganizationChartOfAccountsCode()) && firstSsn.getOrganizationCode().equals(secondSsn.getOrganizationCode())) {
             return true;
         }

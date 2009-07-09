@@ -75,7 +75,7 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
      * @param ledgerBalance the given ledger balance
      * @param parameters the given parameters setup in the calling client
      */
-    private void populateCostShareRelatedFields(EffortCertificationDetailBuild detailLine, LaborLedgerBalance ledgerBalance) {
+    protected void populateCostShareRelatedFields(EffortCertificationDetailBuild detailLine, LaborLedgerBalance ledgerBalance) {
         List<String> expenseSubAccountTypeCodes = EffortConstants.ELIGIBLE_EXPENSE_SUB_ACCOUNT_TYPE_CODES;
         List<String> costShareSubAccountTypeCodes = EffortConstants.ELIGIBLE_COST_SHARE_SUB_ACCOUNT_TYPE_CODES;
 
@@ -108,7 +108,7 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
      * @param ledgerBalance the given ledger balance
      * @return the A21 sub account associated with the given ledger balance; return null if not found
      */
-    private A21SubAccount getA21SubAccount(LaborLedgerBalance ledgerBalance) {
+    protected A21SubAccount getA21SubAccount(LaborLedgerBalance ledgerBalance) {
         A21SubAccount a21SubAccount = null;
         try {
             if (ObjectUtils.isNotNull(ledgerBalance.getSubAccount())) {

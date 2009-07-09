@@ -336,14 +336,14 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
         return returnList;
     }
 
-    private List<String> fieldsForSubTotal() {
+    protected List<String> fieldsForSubTotal() {
         List<String> fieldList = fieldsForTotal();
         fieldList.add(KFSPropertyConstants.SUB_FUND_GROUP_CODE);
         return fieldList;
     }
 
 
-    private List<String> fieldsForTotal() {
+    protected List<String> fieldsForTotal() {
         List<String> fieldList = new ArrayList();
         fieldList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
         fieldList.add(KFSPropertyConstants.ORGANIZATION_CODE);

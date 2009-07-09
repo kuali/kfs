@@ -201,7 +201,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
     /*
      * save the given pending ledger entry as a labor origin entry
      */
-    private boolean saveAsLaborOriginEntry(LaborLedgerPendingEntry pendingEntry, OriginEntryGroup group) {
+    protected boolean saveAsLaborOriginEntry(LaborLedgerPendingEntry pendingEntry, OriginEntryGroup group) {
         try {
             LaborOriginEntry originEntry = new LaborOriginEntry();
             ObjectUtil.buildObject(originEntry, pendingEntry);
@@ -221,7 +221,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
     /*
      * save the given pending ledger entry as a labor origin entry
      */
-    private boolean saveAsLaborOriginEntry(LaborLedgerPendingEntry pendingEntry) {
+    protected boolean saveAsLaborOriginEntry(LaborLedgerPendingEntry pendingEntry) {
         try {
             LaborOriginEntry originEntry = new LaborOriginEntry();
             ObjectUtil.buildObject(originEntry, pendingEntry);
@@ -241,7 +241,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
     /*
      * save the given pending ledger entry as a labor origin entry
      */
-    private boolean saveAsGLOriginEntry(LaborGeneralLedgerEntry entry, OriginEntryGroup group) {
+    protected boolean saveAsGLOriginEntry(LaborGeneralLedgerEntry entry, OriginEntryGroup group) {
         try {
             OriginEntryFull originEntry = new OriginEntryFull();
             ObjectUtil.buildObject(originEntry, entry);

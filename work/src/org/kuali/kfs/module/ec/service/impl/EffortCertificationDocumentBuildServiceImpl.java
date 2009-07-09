@@ -107,7 +107,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
      * @param ledgerBalance the given ledger balance
      * @return a dument build object populated with the given information
      */
-    private static EffortCertificationDocumentBuild populateDocument(EffortCertificationReportDefinition reportDefinition, LaborLedgerBalance ledgerBalance) {
+    protected static EffortCertificationDocumentBuild populateDocument(EffortCertificationReportDefinition reportDefinition, LaborLedgerBalance ledgerBalance) {
         EffortCertificationDocumentBuild document = new EffortCertificationDocumentBuild();
 
         document.setEffortCertificationBuildNumber(null);
@@ -126,7 +126,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
      * @param ledgerBalances the given ledger balances
      * @return the map holding ledger balance groups
      */
-    private Map<String, List<LaborLedgerBalance>> buildLedgerBalanceGroups(List<LaborLedgerBalance> ledgerBalances) {
+    protected Map<String, List<LaborLedgerBalance>> buildLedgerBalanceGroups(List<LaborLedgerBalance> ledgerBalances) {
         Map<String, List<LaborLedgerBalance>> ledgerBalanceGroups = new HashMap<String, List<LaborLedgerBalance>>();
 
         for (LaborLedgerBalance balance : ledgerBalances) {
@@ -144,7 +144,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
      * @param detailLineList the given list of detail lines
      * @param detailLine the given detail line
      */
-    private void updateDetailLineList(List<EffortCertificationDetailBuild> detailLineList, EffortCertificationDetailBuild detailLine) {
+    protected void updateDetailLineList(List<EffortCertificationDetailBuild> detailLineList, EffortCertificationDetailBuild detailLine) {
         int index = detailLineList.indexOf(detailLine);
         if (index >= 0) {
             EffortCertificationDetailBuild existingDetailLine = detailLineList.get(index);

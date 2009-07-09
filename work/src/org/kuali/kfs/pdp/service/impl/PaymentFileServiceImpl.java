@@ -113,7 +113,7 @@ public class PaymentFileServiceImpl implements PaymentFileService {
      * @param errorMap <code>Map</code> of errors
      * @return <code>LoadPaymentStatus</code> containing status data for load
      */
-    private PaymentFileLoad processPaymentFile(BatchInputFileType paymentInputFileType, String incomingFileName, MessageMap errorMap) {
+    protected PaymentFileLoad processPaymentFile(BatchInputFileType paymentInputFileType, String incomingFileName, MessageMap errorMap) {
         // parse xml, if errors found return with failure
         PaymentFileLoad paymentFile = parsePaymentFile(paymentInputFileType, incomingFileName, errorMap);
 
@@ -325,7 +325,7 @@ public class PaymentFileServiceImpl implements PaymentFileService {
     /**
      * @returns the file name from the file full path.
      */
-    private String getBaseFileName(String filename) {
+    protected String getBaseFileName(String filename) {
         // Replace any backslashes with forward slashes. Works on Windows or Unix
         filename = filename.replaceAll("\\\\", "/");
 
@@ -342,7 +342,7 @@ public class PaymentFileServiceImpl implements PaymentFileService {
      * 
      * @param dataFileName the name of date file with done file to remove
      */
-    private void removeDoneFile(String dataFileName) {
+    protected void removeDoneFile(String dataFileName) {
         File doneFile = new File(StringUtils.substringBeforeLast(dataFileName, ".") + ".done");
         if (doneFile.exists()) {
             doneFile.delete();

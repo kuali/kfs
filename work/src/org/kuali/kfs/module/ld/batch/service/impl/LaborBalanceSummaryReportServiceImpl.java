@@ -105,7 +105,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
     }
 
     // generate a set of balance summary reports for actual, budget and encumbrance balances
-    private void generateBalanceSummaryReports(Integer fiscalYear, Date runDate) {
+    protected void generateBalanceSummaryReports(Integer fiscalYear, Date runDate) {
         SystemOptions options = optionsService.getOptions(fiscalYear);       
         if(options == null) {
             LOG.fatal("The data for " + fiscalYear + "have NOT been setup.");
@@ -122,7 +122,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
         this.writeSummaryReport(fiscalYear, encumbranceBalanceTypes, laborEncumbranceSummaryReportWriterService);
     }
 
-    private void writeSummaryReport(Integer fiscalYear, List<String> balanceTypes, FiscalYearAwareReportWriterService reportWriterService) {        
+    protected void writeSummaryReport(Integer fiscalYear, List<String> balanceTypes, FiscalYearAwareReportWriterService reportWriterService) {        
         List<LaborBalanceSummary> balanceSummary = laborLedgerBalanceService.findBalanceSummary(fiscalYear, balanceTypes);
         List<GlSummary> summaryList = new ArrayList<GlSummary>(balanceSummary);
         
@@ -154,7 +154,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
      * 
      * @param runDate the date the poster was run.
      */
-    private void generatePosterOutputSummaryReport(Date runDate) {
+    protected void generatePosterOutputSummaryReport(Date runDate) {
         PosterOutputSummaryReport posterOutputSummaryReport = new PosterOutputSummaryReport();
         
         // summarize all the entries for the main poster
@@ -179,7 +179,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
      * @param fiscalYear the given fiscal year
      * @return the encumbrance balance type codes for the given fiscal year
      */
-    private List<String> getEncumbranceBalanceTypes(Integer fiscalYear) {
+    protected List<String> getEncumbranceBalanceTypes(Integer fiscalYear) {
         SystemOptions options = optionsService.getOptions(fiscalYear);
 
         List<String> balanceTypes = new ArrayList<String>();
@@ -196,7 +196,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
      * @param fiscalYear the given fiscal year
      * @return the actual balance type codes for the given fiscal year
      */
-    private List<String> getActualBalanceTypes(Integer fiscalYear) {
+    protected List<String> getActualBalanceTypes(Integer fiscalYear) {
         SystemOptions options = optionsService.getOptions(fiscalYear);
 
         List<String> balanceTypes = new ArrayList<String>();
@@ -210,7 +210,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
      * @param fiscalYear the given fiscal year
      * @return the budget balance type codes for the given fiscal year
      */
-    private List<String> getBudgetBalanceTypes(Integer fiscalYear) {
+    protected List<String> getBudgetBalanceTypes(Integer fiscalYear) {
         SystemOptions options = optionsService.getOptions(fiscalYear);
 
         List<String> balanceTypes = new ArrayList<String>();
@@ -229,7 +229,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
      * @param lastDayOfFiscalYear the last day of the current fiscal year
      * @return true if the given date is within the lower bound of year end period; otherwise, false
      */
-    private boolean isInYearEndPeriod(Date runDate, String yearEndPeriodLowerBound, String yearEndPeriodUpperBound, String lastDayOfFiscalYear) {
+    protected boolean isInYearEndPeriod(Date runDate, String yearEndPeriodLowerBound, String yearEndPeriodUpperBound, String lastDayOfFiscalYear) {
         return isInYearEndLowerBound(runDate, yearEndPeriodLowerBound, lastDayOfFiscalYear) || isInYearEndUpperBound(runDate, yearEndPeriodUpperBound, lastDayOfFiscalYear);
     }
 
@@ -241,7 +241,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
      * @param lastDayOfFiscalYear the last day of the current fiscal year
      * @return true if the given date is within the lower bound of year end period; otherwise, false
      */
-    private boolean isInYearEndLowerBound(Date runDate, String yearEndPeriodLowerBound, String lastDayOfFiscalYear) {
+    protected boolean isInYearEndLowerBound(Date runDate, String yearEndPeriodLowerBound, String lastDayOfFiscalYear) {
         SimpleDateFormat sdf = new SimpleDateFormat("MMdd");
         String today = sdf.format(runDate);
         return today.compareTo(yearEndPeriodLowerBound) >= 0 && today.compareTo(lastDayOfFiscalYear) <= 0;
@@ -255,7 +255,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
      * @param lastDayOfFiscalYear the last day of the current fiscal year
      * @return true if the given date is within the upper bound of year end period; otherwise, false
      */
-    private boolean isInYearEndUpperBound(Date runDate, String yearEndPeriodUpperBound, String lastDayOfFiscalYear) {
+    protected boolean isInYearEndUpperBound(Date runDate, String yearEndPeriodUpperBound, String lastDayOfFiscalYear) {
         SimpleDateFormat sdf = new SimpleDateFormat("MMdd");
         String today = sdf.format(runDate);
 

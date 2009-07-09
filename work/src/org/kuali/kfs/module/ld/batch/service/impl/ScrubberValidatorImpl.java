@@ -174,7 +174,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * @return a Message if an error was encountered, otherwise null
      */
     //this validation is duplicated.  This is in ScrubberValidatorImpl under GL
-//    private Message validateClosedPeriodCode(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry) {
+//    protected Message validateClosedPeriodCode(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry) {
 //        LOG.debug("validateClosedPeriodCode() started");
 //
 //        String periodCode = laborOriginEntry.getUniversityFiscalPeriodCode();
@@ -200,7 +200,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     /**
      * This method is for validation of payrollEndFiscalYear
      */
-    private Message validatePayrollEndFiscalYear(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate, LaborAccountingCycleCachingService laborAccountingCycleCachingService) {
+    protected Message validatePayrollEndFiscalYear(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate, LaborAccountingCycleCachingService laborAccountingCycleCachingService) {
         LOG.debug("validatePayrollEndFiscalYear() started");
         SystemOptions scrubbedEntryOption = null;
         if (laborOriginEntry.getPayrollEndDateFiscalYear() != null){
@@ -218,7 +218,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     /**
      * This method is for validation of PayrollEndFiscalPeriodCode
      */
-    private Message validatePayrollEndFiscalPeriodCode(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate, LaborAccountingCycleCachingService laborAccountingCycleCachingService) {
+    protected Message validatePayrollEndFiscalPeriodCode(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate, LaborAccountingCycleCachingService laborAccountingCycleCachingService) {
         LOG.debug("validateUniversityFiscalPeriodCode() started");
 
         AccountingPeriod accountingPeriod = null;
@@ -243,7 +243,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     /**
      * Performs Account Validation.
      */
-    private Message validateAccount(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate, LaborAccountingCycleCachingService laborAccountingCycleCachingService) {
+    protected Message validateAccount(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate, LaborAccountingCycleCachingService laborAccountingCycleCachingService) {
         LOG.debug("validateAccount() started");
 
         Account account = laborOriginEntry.getAccount();
@@ -295,7 +295,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * Checks the continuation account system indicator. If on checks whether the account is expired or closed, and if so calls the
      * contination logic.
      */
-    private Message handleExpiredClosedAccount(Account account, LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
+    protected Message handleExpiredClosedAccount(Account account, LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
         List<String> continuationAccountBypassBalanceTypeCodes = balanceTypService.getContinuationAccountBypassBalanceTypeCodes(universityRunDate.getUniversityFiscalYear());
         List<String> continuationAccountBypassOriginationCodes = parameterService.getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_BYPASS_ORIGINATION_CODES);
         List<String> continuationAccountBypassDocumentTypeCodes = parameterService.getParameterValues(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPE_CODES);
@@ -328,7 +328,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     /**
      * Loops through continuation accounts for 10 tries or until it finds an account that is not expired.
      */
-    private Message continuationAccountLogic(Account expiredClosedAccount, LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
+    protected Message continuationAccountLogic(Account expiredClosedAccount, LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
         String chartCode = expiredClosedAccount.getContinuationFinChrtOfAcctCd();
         String accountNumber = expiredClosedAccount.getContinuationAccountNumber();
 
@@ -386,7 +386,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * For fringe transaction types checks if the account accepts fringe benefits. If not, retrieves the alternative account, then
      * calls expiration checking on either the alternative account or the account passed in.
      */
-    private Message checkAccountFringeIndicator(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, Account account, UniversityDate universityRunDate, LaborAccountingCycleCachingService laborAccountingCycleCachingService) {
+    protected Message checkAccountFringeIndicator(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, Account account, UniversityDate universityRunDate, LaborAccountingCycleCachingService laborAccountingCycleCachingService) {
         // check for fringe tranaction type
         //LaborObject laborObject = (LaborObject) businessObjectService.findByPrimaryKey(LaborObject.class, fieldValues);
         LaborObject laborObject = laborAccountingCycleCachingService.getLaborObject(laborOriginEntry.getUniversityFiscalYear(), laborOriginEntry.getChartOfAccountsCode(), laborOriginEntry.getFinancialObjectCode());
@@ -418,7 +418,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     /**
      * Adjustment of Account if it is contracts and grants
      */
-    private long getAdjustedAccountExpirationDate(Account account) {
+    protected long getAdjustedAccountExpirationDate(Account account) {
         long offsetAccountExpirationTime = 0;
 
         if (account.getAccountExpirationDate() != null) {
@@ -445,7 +445,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     /**
      * This method changes account to suspenseAccount
      */
-    private Message useSuspenseAccount(LaborOriginEntry workingEntry) {
+    protected Message useSuspenseAccount(LaborOriginEntry workingEntry) {
         String suspenseAccountNumber = parameterService.getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT);
         String suspenseCOAcode = parameterService.getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_CHART);
         String suspenseSubAccountNumber = parameterService.getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_SUB_ACCOUNT);
@@ -472,7 +472,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * @return a Message if an error was encountered, otherwise null
      */
 
-    private Message validateSubAccount(LaborOriginEntry originEntry, LaborOriginEntry workingEntry, LaborAccountingCycleCachingService laborAccountingCycleCachingService) {
+    protected Message validateSubAccount(LaborOriginEntry originEntry, LaborOriginEntry workingEntry, LaborAccountingCycleCachingService laborAccountingCycleCachingService) {
         LOG.debug("validateSubAccount() started");
 
         // when continuationAccount used, the subAccountNumber should be changed to dashes and skip validation subAccount process

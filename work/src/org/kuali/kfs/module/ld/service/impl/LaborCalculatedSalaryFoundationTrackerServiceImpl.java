@@ -82,7 +82,7 @@ public class LaborCalculatedSalaryFoundationTrackerServiceImpl implements LaborC
      * @param anotherObject the object to be searched
      * @return the CSF tracker if there is a CSF track in the given set that matches the given object
      */
-    private LaborCalculatedSalaryFoundationTracker findCSFTracker(List<LaborCalculatedSalaryFoundationTracker> CSFTrackerCollection, Object anotherObject) {
+    protected LaborCalculatedSalaryFoundationTracker findCSFTracker(List<LaborCalculatedSalaryFoundationTracker> CSFTrackerCollection, Object anotherObject) {
         for (LaborCalculatedSalaryFoundationTracker CSFTracker : CSFTrackerCollection) {
             boolean found = ObjectUtil.equals(CSFTracker, anotherObject, CSFTracker.getKeyFieldList());
             if (found) {

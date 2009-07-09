@@ -173,7 +173,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param reportNumber the the given report number
      * @return a message if a report has not been defined or its documents have been gerenated; otherwise, return null
      */
-    private String validateReportDefintion(Integer fiscalYear, String reportNumber) {
+    protected String validateReportDefintion(Integer fiscalYear, String reportNumber) {
         EffortCertificationReportDefinition reportDefinition = new EffortCertificationReportDefinition();
         reportDefinition.setUniversityFiscalYear(fiscalYear);
         reportDefinition.setEffortCertificationReportNumber(reportNumber);
@@ -189,7 +189,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param fieldValues the map containing fiscalYear and report number
      * @return a message if the documents have been gerenated; otherwise, return null
      */
-    private String existEffortCertificationDocument(Map<String, String> fieldValues) {
+    protected String existEffortCertificationDocument(Map<String, String> fieldValues) {
         String fiscalYear = fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         String reportNumber = fieldValues.get(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER);
 
@@ -210,7 +210,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param reportDataHolder the holder of report data
      * @param parameters the given system parameters
      */
-    private void generateDocumentBuild(EffortCertificationReportDefinition reportDefinition, List<String> employees, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
+    protected void generateDocumentBuild(EffortCertificationReportDefinition reportDefinition, List<String> employees, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
         List<String> positionGroupCodes = effortCertificationReportDefinitionService.findPositionObjectGroupCodes(reportDefinition);
         Integer postingYear = universityDateService.getCurrentFiscalYear();
 
@@ -241,7 +241,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param reportDataHolder the given holder that contains any information to be written into the working report
      * @return the qualified labor ledger balance records of the given employee
      */
-    private List<LaborLedgerBalance> getQualifiedLedgerBalances(String emplid, List<String> positionGroupCodes, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
+    protected List<LaborLedgerBalance> getQualifiedLedgerBalances(String emplid, List<String> positionGroupCodes, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
         List<LedgerBalanceWithMessage> ledgerBalancesWithMessage = reportDataHolder.getLedgerBalancesWithMessage();
         Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
 
@@ -272,7 +272,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param reportDefinition the given report definition
      * @param reportDataHolder the given holder that contains any information to be written into the working report
      */
-    private List<LaborLedgerBalance> removeUnqualifiedLedgerBalances(Collection<LaborLedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder) {
+    protected List<LaborLedgerBalance> removeUnqualifiedLedgerBalances(Collection<LaborLedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder) {
         Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
         List<LedgerBalanceWithMessage> ledgerBalancesWithMessage = reportDataHolder.getLedgerBalancesWithMessage();
 
@@ -308,7 +308,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param parameters the system paramters setup in front
      * @return true if all ledger balances as whole meet requirements; otherwise, return false
      */
-    private boolean checkEmployeeBasedOnLedgerBalances(String emplid, List<LaborLedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
+    protected boolean checkEmployeeBasedOnLedgerBalances(String emplid, List<LaborLedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
         if (ledgerBalances == null || ledgerBalances.isEmpty()) {
             return false;
         }
@@ -355,7 +355,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param reportDefinition the specified report definition
      * @return the labor ledger balances for the specifed employee
      */
-    private Collection<LaborLedgerBalance> selectLedgerBalanceForEmployee(String emplid, List<String> positionObjectGroupCodes, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters) {
+    protected Collection<LaborLedgerBalance> selectLedgerBalanceForEmployee(String emplid, List<String> positionObjectGroupCodes, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters) {
         List<String> expenseObjectTypeCodes = parameters.get(ExtractProcess.EXPENSE_OBJECT_TYPE);
         List<String> excludedAccountTypeCode = parameters.get(SystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT);
         List<String> emplids = Arrays.asList(emplid);
@@ -382,7 +382,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param reportDefinition the specified report definition
      * @return a collection of ledger balances if they are qualified; otherwise, return null
      */
-    private List<LaborLedgerBalance> cosolidateLedgerBalances(List<LaborLedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition) {
+    protected List<LaborLedgerBalance> cosolidateLedgerBalances(List<LaborLedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition) {
         List<LaborLedgerBalance> cosolidatedLedgerBalances = new ArrayList<LaborLedgerBalance>();
 
         Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
@@ -402,7 +402,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     // generate the effort certification document build for the given employee
-    private EffortCertificationDocumentBuild generateDocumentBuildByEmployee(Integer postingYear, String emplid, List<String> positionGroupCodes, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
+    protected EffortCertificationDocumentBuild generateDocumentBuildByEmployee(Integer postingYear, String emplid, List<String> positionGroupCodes, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
         List<LaborLedgerBalance> qualifiedLedgerBalance = this.getQualifiedLedgerBalances(emplid, positionGroupCodes, reportDefinition, reportDataHolder, parameters);
 
         if (qualifiedLedgerBalance == null || qualifiedLedgerBalance.isEmpty()) {
@@ -413,19 +413,19 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     // add an error entry into error map
-    private void reportInvalidLedgerBalance(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage, LaborLedgerBalance ledgerBalance, Message message) {
+    protected void reportInvalidLedgerBalance(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage, LaborLedgerBalance ledgerBalance, Message message) {
         ledgerBalancesWithMessage.add(new LedgerBalanceWithMessage(ledgerBalance, message.toString()));
     }
 
     // add an error entry into error map
-    private void reportEmployeeWithoutValidBalances(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage, Message message, String emplid) {
+    protected void reportEmployeeWithoutValidBalances(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage, Message message, String emplid) {
         LaborLedgerBalance ledgerBalance = kualiModuleService.getResponsibleModuleService(LaborLedgerBalance.class).createNewObjectFromExternalizableClass(LaborLedgerBalance.class);   
         ledgerBalance.setEmplid(emplid);
         this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, ledgerBalance, message);
     }
 
     // store and cache relating system parameters in a Map for the future use
-    private Map<String, List<String>> getSystemParameters() {
+    protected Map<String, List<String>> getSystemParameters() {
         Map<String, List<String>> parameters = new HashMap<String, List<String>>();
 
         parameters.put(SystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT, EffortCertificationParameterFinder.getAccountTypeCodes());
@@ -436,7 +436,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     // get the expense object code setup in System Options
-    private List<String> getExpenseObjectTypeCodes(Integer fiscalYear) {
+    protected List<String> getExpenseObjectTypeCodes(Integer fiscalYear) {
         List<String> expenseObjectTypeCodes = new ArrayList<String>();
         expenseObjectTypeCodes.add(optionsService.getOptions(fiscalYear).getFinObjTypeExpenditureexpCd());
 
@@ -444,7 +444,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     // get the count of detail lines associated with the given documents
-    private int getCountOfDetailLines(List<EffortCertificationDocumentBuild> documents) {
+    protected int getCountOfDetailLines(List<EffortCertificationDocumentBuild> documents) {
         int numOfDetailLines = 0;
         for (EffortCertificationDocumentBuild document : documents) {
             numOfDetailLines += document.getEffortCertificationDetailLinesBuild().size();
@@ -453,7 +453,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     // get the field names used to build the keys for record consolidation
-    private List<String> getConsolidationKeys() {
+    protected List<String> getConsolidationKeys() {
         List<String> consolidationKeys = new ArrayList<String>();
 
         consolidationKeys.add(KFSPropertyConstants.EMPLID);
@@ -467,7 +467,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     // initialize the report data hold with default values
-    private ExtractProcessReportDataHolder initializeReportData(EffortCertificationReportDefinition reportDefinition) {
+    protected ExtractProcessReportDataHolder initializeReportData(EffortCertificationReportDefinition reportDefinition) {
         ExtractProcessReportDataHolder reportDataHolder = new ExtractProcessReportDataHolder(reportDefinition);
 
         reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_BALANCES_READ, 0);

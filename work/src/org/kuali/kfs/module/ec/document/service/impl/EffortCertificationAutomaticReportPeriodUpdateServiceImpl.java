@@ -78,7 +78,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceImpl implement
      * @param newRecord
      * @return boolean representing whether or not the two report defintions overlap.
      */
-    private boolean isOverlapping(EffortCertificationReportDefinition existingReportDefinition, EffortCertificationReportDefinition newReportDefiniton) {
+    protected boolean isOverlapping(EffortCertificationReportDefinition existingReportDefinition, EffortCertificationReportDefinition newReportDefiniton) {
         Integer existingStartYear = existingReportDefinition.getEffortCertificationReportBeginFiscalYear();
         String existingStartPeriod = existingReportDefinition.getEffortCertificationReportBeginPeriodCode();
 
@@ -118,11 +118,11 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceImpl implement
         return false;
     }
 
-    private boolean isPeriodWithinRange(Integer startYear, String startPeriod, Integer endYear, String endPeriod, Integer year, String period) {
+    protected boolean isPeriodWithinRange(Integer startYear, String startPeriod, Integer endYear, String endPeriod, Integer year, String period) {
         return comparePeriod(startYear, startPeriod, year, period) <= 0 && comparePeriod(endYear, endPeriod, year, period) >= 0;
     }
 
-    private int comparePeriod(Integer year, String periodCode, Integer anotherYear, String anotherPeriodCode) {
+    protected int comparePeriod(Integer year, String periodCode, Integer anotherYear, String anotherPeriodCode) {
         String period = year + periodCode;
         String anotherPeriod = anotherYear + anotherPeriodCode;
 

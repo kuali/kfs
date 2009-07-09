@@ -97,7 +97,7 @@ public class PayrateExportServiceImpl implements PayrateExportService {
      * @return
      */
     @NonTransactional
-    private StringBuilder buildExportLine(BudgetConstructionPayRateHolding holdingRecord, String csfFreezeDate) {
+    protected StringBuilder buildExportLine(BudgetConstructionPayRateHolding holdingRecord, String csfFreezeDate) {
         StringBuilder line = new StringBuilder();
         String emplid = padString(holdingRecord.getEmplid(), 11, true);
         String positionNumber = padString(holdingRecord.getPositionNumber(), 8, true);
@@ -131,7 +131,7 @@ public class PayrateExportServiceImpl implements PayrateExportService {
      * @return
      */
     @NonTransactional
-    private String padString(String stringToPad, int fieldSize, boolean leftJustifiy) {
+    protected String padString(String stringToPad, int fieldSize, boolean leftJustifiy) {
         if (stringToPad.length() < fieldSize) {
             if (leftJustifiy) return StringUtils.rightPad(stringToPad, fieldSize);
             else return StringUtils.leftPad(stringToPad, fieldSize);

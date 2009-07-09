@@ -337,7 +337,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
         return returnCollection;
     }
 
-    private PersonTotalHolder calculateTotalForPerson(BudgetConstructionSalaryFunding totalPersonEntry, Collection<BudgetConstructionSalaryFunding> reasonSummaryList, Map budgetSsnMap) {
+    protected PersonTotalHolder calculateTotalForPerson(BudgetConstructionSalaryFunding totalPersonEntry, Collection<BudgetConstructionSalaryFunding> reasonSummaryList, Map budgetSsnMap) {
         PersonTotalHolder totalsHolder = new PersonTotalHolder();
 
         int maxSalaryAmount = 0;
@@ -407,7 +407,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
     }
 
     // adjust the total amount that just is held by the given holder
-    private void adjustPersonTotal(PersonTotalHolder totalsHolder) {
+    protected void adjustPersonTotal(PersonTotalHolder totalsHolder) {
         Integer restatementCsfAmount = 0;
 
         if (totalsHolder.salaryPayMonth == 0 || totalsHolder.csfPayMonths == 0 || BigDecimal.ZERO.compareTo(totalsHolder.csfPercent) == 0 || totalsHolder.csfNormalMonths == 0) {
@@ -462,7 +462,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
     }
 
     // create a report total for the given person with the values in the given total holder
-    private BudgetConstructionOrgReasonSummaryReportTotal createReportTotal(BudgetConstructionSalaryFunding totalPersonEntry, PersonTotalHolder totalsHolder) {
+    protected BudgetConstructionOrgReasonSummaryReportTotal createReportTotal(BudgetConstructionSalaryFunding totalPersonEntry, PersonTotalHolder totalsHolder) {
         BudgetConstructionOrgReasonSummaryReportTotal reportTotal = new BudgetConstructionOrgReasonSummaryReportTotal();
 
         reportTotal.setBudgetConstructionSalaryFunding(totalPersonEntry);
@@ -484,7 +484,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
     }
 
     // a total holder that contains the totals for a single person
-    private class PersonTotalHolder {
+    protected class PersonTotalHolder {
         String emplid = StringUtils.EMPTY;
         String positionNumber = StringUtils.EMPTY;
         String fiscalYearTag = StringUtils.EMPTY;
@@ -508,7 +508,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
         double curFteInt = -1.00;
     }
 
-    private Collection<BudgetConstructionOrgReasonSummaryReportTotal> calculateOrgTotal(Collection<BudgetConstructionOrgReasonSummaryReportTotal> reasonSummaryTotalPerson, List<BudgetConstructionSalaryFunding> listForCalculateTotalOrg, Map budgetSsnMap) {
+    protected Collection<BudgetConstructionOrgReasonSummaryReportTotal> calculateOrgTotal(Collection<BudgetConstructionOrgReasonSummaryReportTotal> reasonSummaryTotalPerson, List<BudgetConstructionSalaryFunding> listForCalculateTotalOrg, Map budgetSsnMap) {
         Collection<BudgetConstructionOrgReasonSummaryReportTotal> returnCollection = new ArrayList();
 
         BigDecimal newFte = BigDecimal.ZERO;
@@ -605,7 +605,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
      * @param List list
      * @return a list that all duplicated entries were deleted
      */
-    private List<BudgetConstructionSalaryFunding> retainUniqeSalaryFunding(List<BudgetConstructionSalaryFunding> salaryFundingList, Map map, int mode) {
+    protected List<BudgetConstructionSalaryFunding> retainUniqeSalaryFunding(List<BudgetConstructionSalaryFunding> salaryFundingList, Map map, int mode) {
         List<BudgetConstructionSalaryFunding> returnList = new ArrayList<BudgetConstructionSalaryFunding>();
 
         BudgetConstructionSalaryFunding salaryFundingEntryAux = null;
@@ -633,7 +633,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
         return returnList;
     }
 
-    private boolean isSameSalaryFundingEntryForTotalPerson(BudgetConstructionSalaryFunding firstbcsf, BudgetConstructionSalaryFunding secondbcsf, Map map) {
+    protected boolean isSameSalaryFundingEntryForTotalPerson(BudgetConstructionSalaryFunding firstbcsf, BudgetConstructionSalaryFunding secondbcsf, Map map) {
         BudgetConstructionSalarySocialSecurityNumber firstBcssn = (BudgetConstructionSalarySocialSecurityNumber) map.get(firstbcsf);
         BudgetConstructionSalarySocialSecurityNumber secondBcssn = (BudgetConstructionSalarySocialSecurityNumber) map.get(secondbcsf);
         if (firstBcssn.getOrganizationChartOfAccountsCode().equals(secondBcssn.getOrganizationChartOfAccountsCode()) && firstBcssn.getOrganizationCode().equals(secondBcssn.getOrganizationCode()) && firstBcssn.getEmplid().equals(secondBcssn.getEmplid())) {
@@ -643,7 +643,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
         return false;
     }
 
-    private boolean isSameSalaryFundingEntryForTotalOrg(BudgetConstructionSalaryFunding firstbcsf, BudgetConstructionSalaryFunding secondbcsf, Map map) {
+    protected boolean isSameSalaryFundingEntryForTotalOrg(BudgetConstructionSalaryFunding firstbcsf, BudgetConstructionSalaryFunding secondbcsf, Map map) {
         BudgetConstructionSalarySocialSecurityNumber firstBcssn = (BudgetConstructionSalarySocialSecurityNumber) map.get(firstbcsf);
         BudgetConstructionSalarySocialSecurityNumber secondBcssn = (BudgetConstructionSalarySocialSecurityNumber) map.get(secondbcsf);
         if (firstBcssn.getOrganizationChartOfAccountsCode().equals(secondBcssn.getOrganizationChartOfAccountsCode()) && firstBcssn.getOrganizationCode().equals(secondBcssn.getOrganizationCode())) {

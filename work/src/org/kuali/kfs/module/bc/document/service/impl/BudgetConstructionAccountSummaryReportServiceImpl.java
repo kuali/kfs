@@ -115,7 +115,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
      * 
      * @param BudgetConstructionAccountSummary bcas
      */
-    private void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgAccountSummaryReport orgAccountSummaryReportEntry, BudgetConstructionAccountSummary accountSummary, boolean consolidated) {
+    protected void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgAccountSummaryReport orgAccountSummaryReportEntry, BudgetConstructionAccountSummary accountSummary, boolean consolidated) {
         String orgChartDesc = accountSummary.getOrganizationChartOfAccounts().getFinChartOfAccountDescription();
         String chartDesc = accountSummary.getChartOfAccounts().getFinChartOfAccountDescription();
         String orgName = accountSummary.getOrganization().getOrganizationName();
@@ -187,7 +187,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
      * 
      * @param BudgetConstructionAccountSummary bcas
      */
-    private void buildReportsBody(BudgetConstructionOrgAccountSummaryReport orgAccountSummaryReportEntry, BudgetConstructionAccountSummary accountSummary) {
+    protected void buildReportsBody(BudgetConstructionOrgAccountSummaryReport orgAccountSummaryReportEntry, BudgetConstructionAccountSummary accountSummary) {
         orgAccountSummaryReportEntry.setAccountNumber(accountSummary.getAccountNumber());
         orgAccountSummaryReportEntry.setSubAccountNumber(accountSummary.getSubAccountNumber());
 
@@ -256,7 +256,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
      * @param BudgetConstructionAccountSummary bcas
      * @param List reportTotalList
      */
-    private void buildReportsTotal(BudgetConstructionOrgAccountSummaryReport orgAccountSummaryReportEntry, BudgetConstructionAccountSummary accountSummary, List reportTotalList) {
+    protected void buildReportsTotal(BudgetConstructionOrgAccountSummaryReport orgAccountSummaryReportEntry, BudgetConstructionAccountSummary accountSummary, List reportTotalList) {
         Iterator totalListIter = reportTotalList.iterator();
         while (totalListIter.hasNext()) {
             BudgetConstructionOrgAccountSummaryReportTotal bcasTotalEntry = (BudgetConstructionOrgAccountSummaryReportTotal) totalListIter.next();
@@ -303,7 +303,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
      * @param List bcasList
      * @param List simpleList
      */
-    private List calculateTotal(List bcasList, List simpleList) {
+    protected List calculateTotal(List bcasList, List simpleList) {
 
         Integer totalRevenueBaseAmount = 0;
         Integer totalGrossBaseAmount = 0;
@@ -374,7 +374,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
         return returnList;
     }
 
-    private List<String> fieldsForTotal() {
+    protected List<String> fieldsForTotal() {
 
         List<String> fieldList = new ArrayList();
         fieldList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);

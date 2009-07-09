@@ -97,7 +97,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
      * 
      * @param BudgetConstructionObjectSummary bcas
      */
-    private void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgObjectSummaryReport orgObjectSummaryReportEntry, BudgetConstructionObjectSummary objectSummary) {
+    protected void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgObjectSummaryReport orgObjectSummaryReportEntry, BudgetConstructionObjectSummary objectSummary) {
         String orgChartDesc = objectSummary.getOrganizationChartOfAccounts().getFinChartOfAccountDescription();
         String chartDesc = objectSummary.getChartOfAccounts().getFinChartOfAccountDescription();
         String orgName = objectSummary.getOrganization().getOrganizationName();
@@ -176,7 +176,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
      * 
      * @param BudgetConstructionLevelSummary bcas
      */
-    private void buildReportsBody(Integer universityFiscalYear, BudgetConstructionOrgObjectSummaryReport orgObjectSummaryReportEntry, BudgetConstructionObjectSummary objectSummary) {
+    protected void buildReportsBody(Integer universityFiscalYear, BudgetConstructionOrgObjectSummaryReport orgObjectSummaryReportEntry, BudgetConstructionObjectSummary objectSummary) {
 
         orgObjectSummaryReportEntry.setFinancialObjectCode(objectSummary.getFinancialObjectCode());
         // To get ObjectName: There is no universityFiscalyear field in BudgetConstructionObjectSummary,
@@ -223,7 +223,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
      * @param BudgetConstructionObjectSummary bcas
      * @param List reportTotalList
      */
-    private void buildReportsTotal(BudgetConstructionOrgObjectSummaryReport orgObjectSummaryReportEntry, BudgetConstructionObjectSummary objectSummary, List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalLevelList, List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalConsList, List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalGexpAndTypeList, List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalList) {
+    protected void buildReportsTotal(BudgetConstructionOrgObjectSummaryReport orgObjectSummaryReportEntry, BudgetConstructionObjectSummary objectSummary, List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalLevelList, List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalConsList, List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalGexpAndTypeList, List<BudgetConstructionOrgObjectSummaryReportTotal> objectSummaryTotalList) {
 
         for (BudgetConstructionOrgObjectSummaryReportTotal levelTotal : objectSummaryTotalLevelList) {
             if (BudgetConstructionReportHelper.isSameEntry(objectSummary, levelTotal.getBcos(), fieldsForLevel())) {
@@ -312,7 +312,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         }
     }
 
-    private List calculateLevelTotal(List<BudgetConstructionObjectSummary> bcosList, List<BudgetConstructionObjectSummary> simpleList) {
+    protected List calculateLevelTotal(List<BudgetConstructionObjectSummary> bcosList, List<BudgetConstructionObjectSummary> simpleList) {
 
         BigDecimal totalLevelPositionCsfLeaveFteQuantity = BigDecimal.ZERO;
         BigDecimal totalLevelPositionCsfFullTimeEmploymentQuantity = BigDecimal.ZERO;
@@ -355,7 +355,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
 
     }
 
-    private List calculateConsTotal(List<BudgetConstructionObjectSummary> bcosList, List<BudgetConstructionObjectSummary> simpleList) {
+    protected List calculateConsTotal(List<BudgetConstructionObjectSummary> bcosList, List<BudgetConstructionObjectSummary> simpleList) {
 
         BigDecimal totalConsolidationPositionCsfLeaveFteQuantity = BigDecimal.ZERO;
         BigDecimal totalConsolidationPositionCsfFullTimeEmploymentQuantity = BigDecimal.ZERO;
@@ -396,7 +396,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         return returnList;
     }
 
-    private List calculateGexpAndTypeTotal(List<BudgetConstructionObjectSummary> bcosList, List<BudgetConstructionObjectSummary> simpleList) {
+    protected List calculateGexpAndTypeTotal(List<BudgetConstructionObjectSummary> bcosList, List<BudgetConstructionObjectSummary> simpleList) {
 
         Integer grossFinancialBeginningBalanceLineAmount = new Integer(0);
         Integer grossAccountLineAnnualBalanceAmount = new Integer(0);
@@ -455,7 +455,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
     }
 
 
-    private List calculateTotal(List<BudgetConstructionObjectSummary> bcosList, List<BudgetConstructionObjectSummary> simpleList) {
+    protected List calculateTotal(List<BudgetConstructionObjectSummary> bcosList, List<BudgetConstructionObjectSummary> simpleList) {
 
         Integer revenueFinancialBeginningBalanceLineAmount = new Integer(0);
         Integer revenueAccountLineAnnualBalanceAmount = new Integer(0);
@@ -512,14 +512,14 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
     }
 
 
-    private List<String> fieldsForLevel() {
+    protected List<String> fieldsForLevel() {
         List<String> fieldList = new ArrayList();
         fieldList.addAll(fieldsForCons());
         fieldList.add(KFSPropertyConstants.FINANCIAL_LEVEL_SORT_CODE);
         return fieldList;
     }
 
-    private List<String> fieldsForCons() {
+    protected List<String> fieldsForCons() {
         List<String> fieldList = new ArrayList();
         fieldList.addAll(fieldsForGexpAndType());
         fieldList.add(KFSPropertyConstants.FINANCIAL_CONSOLIDATION_SORT_CODE);
@@ -527,7 +527,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
     }
 
 
-    private List<String> fieldsForGexpAndType() {
+    protected List<String> fieldsForGexpAndType() {
         List<String> fieldList = new ArrayList();
         fieldList.addAll(fieldsForTotal());
         fieldList.add(KFSPropertyConstants.INCOME_EXPENSE_CODE);
@@ -535,7 +535,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
     }
 
 
-    private List<String> fieldsForTotal() {
+    protected List<String> fieldsForTotal() {
         List<String> fieldList = new ArrayList();
         fieldList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
         fieldList.add(KFSPropertyConstants.ORGANIZATION_CODE);
@@ -554,7 +554,7 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
      * 
      * @return returnList
      */
-    private List<String> buildOrderByList() {
+    protected List<String> buildOrderByList() {
         List<String> returnList = new ArrayList();
         returnList.add(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
         returnList.add(KFSPropertyConstants.ORGANIZATION_CODE);

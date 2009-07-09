@@ -283,7 +283,7 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
      * @param listForCalculateTotalPerson
      * @return
      */
-    private Collection<BudgetConstructionOrgPositionFundingDetailReportTotal> calculatePersonTotal(Collection<BudgetConstructionPositionFunding> positionFundingDetailList, List<BudgetConstructionPositionFunding> listForCalculateTotalPerson) {
+    protected Collection<BudgetConstructionOrgPositionFundingDetailReportTotal> calculatePersonTotal(Collection<BudgetConstructionPositionFunding> positionFundingDetailList, List<BudgetConstructionPositionFunding> listForCalculateTotalPerson) {
         Collection<BudgetConstructionOrgPositionFundingDetailReportTotal> returnCollection = new ArrayList();
         Integer totalPersonPositionCsfAmount = new Integer(0);
         Integer totalPersonAppointmentRequestedAmount = new Integer(0);
@@ -335,7 +335,7 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
      * @param listForCalculateTotalOrg
      * @return
      */
-    private Collection<BudgetConstructionOrgPositionFundingDetailReportTotal> calculateOrgTotal(Collection<BudgetConstructionPositionFunding> positionFundingDetailList, List<BudgetConstructionPositionFunding> listForCalculateTotalOrg) {
+    protected Collection<BudgetConstructionOrgPositionFundingDetailReportTotal> calculateOrgTotal(Collection<BudgetConstructionPositionFunding> positionFundingDetailList, List<BudgetConstructionPositionFunding> listForCalculateTotalOrg) {
         Collection<BudgetConstructionOrgPositionFundingDetailReportTotal> returnCollection = new ArrayList();
         Integer totalOrgPositionCsfAmount = new Integer(0);
         Integer totalOrgAppointmentRequestedAmount = new Integer(0);
@@ -399,7 +399,7 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
      * 
      * @return List<String>
      */
-    private List<String> fieldsForPerson() {
+    protected List<String> fieldsForPerson() {
         List<String> fieldList = new ArrayList();
         fieldList.addAll(fieldsForOrg());
         fieldList.add(KFSPropertyConstants.EMPLID);
@@ -411,7 +411,7 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
      * 
      * @return List<String>
      */
-    private List<String> fieldsForOrg() {
+    protected List<String> fieldsForOrg() {
         List<String> fieldList = new ArrayList();
         fieldList.add(KFSPropertyConstants.SELECTED_ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
         fieldList.add(KFSPropertyConstants.SELECTED_ORGANIZATION_CODE);

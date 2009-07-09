@@ -64,7 +64,7 @@ public class DailyReportServiceImpl implements DailyReportService {
         textFont = FontFactory.getFont(FontFactory.COURIER, 8, Font.NORMAL);
     }
 
-    private List<DailyReport> getData() {
+    protected List<DailyReport> getData() {
         LOG.debug("getData() started");
 
         return paymentDetailDao.getDailyReportData();
@@ -140,7 +140,7 @@ public class DailyReportServiceImpl implements DailyReportService {
         document.close();
     }
 
-    private void addHeader(PdfPTable dataTable) {
+    protected void addHeader(PdfPTable dataTable) {
         String sortOrderSubtitle = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.DAILY_REPORT_SERVICE_SORT_ORDER_SUBTITLE);
         sortOrderSubtitle = MessageFormat.format(sortOrderSubtitle, new Object[]{ null });
         
@@ -175,11 +175,11 @@ public class DailyReportServiceImpl implements DailyReportService {
         dataTable.addCell(cell);
     }
 
-    private void addRow(PdfPTable dataTable, DailyReport dr, boolean bold) {
+    protected void addRow(PdfPTable dataTable, DailyReport dr, boolean bold) {
         addRow(dataTable,dr,bold, this.paymentGroupService.getSortGroupName(this.paymentGroupService.getSortGroupId(dr.getPaymentGroup())));
     }
 
-    private void addRow(PdfPTable dataTable, DailyReport dr, boolean bold,String name) {
+    protected void addRow(PdfPTable dataTable, DailyReport dr, boolean bold,String name) {
         DecimalFormat af = new DecimalFormat("###,###,##0.00");
         DecimalFormat nf = new DecimalFormat("###,##0");
 

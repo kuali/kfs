@@ -310,7 +310,7 @@ public class ReportExportServiceImpl implements ReportExportService {
      * @param accountRecord
      * @return
      */
-    private List<PendingBudgetConstructionGeneralLedger> getPendingBudgetConstructionGeneralLedgerRecords(BudgetConstructionAccountDump accountRecord) {
+    protected List<PendingBudgetConstructionGeneralLedger> getPendingBudgetConstructionGeneralLedgerRecords(BudgetConstructionAccountDump accountRecord) {
         Map searchParameters = new HashMap();
         searchParameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, accountRecord.getUniversityFiscalYear());
         searchParameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, accountRecord.getChartOfAccountsCode());
@@ -331,7 +331,7 @@ public class ReportExportServiceImpl implements ReportExportService {
      * @param accountRecord
      * @return
      */
-    private List<PendingBudgetConstructionAppointmentFunding> getPendingBudgetConstructionAppointmentFundingRecords(BudgetConstructionAccountDump accountRecord) {
+    protected List<PendingBudgetConstructionAppointmentFunding> getPendingBudgetConstructionAppointmentFundingRecords(BudgetConstructionAccountDump accountRecord) {
         Map searchParameters = new HashMap();
         searchParameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, accountRecord.getUniversityFiscalYear());
         searchParameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, accountRecord.getChartOfAccountsCode());
@@ -351,7 +351,7 @@ public class ReportExportServiceImpl implements ReportExportService {
      * @param accountRecord
      * @return
      */
-    private List<BudgetConstructionMonthly> getBudgetConstructionMonthlyRecords(BudgetConstructionAccountDump accountRecord) {
+    protected List<BudgetConstructionMonthly> getBudgetConstructionMonthlyRecords(BudgetConstructionAccountDump accountRecord) {
         Map searchParameters = new HashMap();
         searchParameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, accountRecord.getUniversityFiscalYear());
         searchParameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, accountRecord.getChartOfAccountsCode());
@@ -371,7 +371,7 @@ public class ReportExportServiceImpl implements ReportExportService {
      * @param principalId
      * @return
      */
-    private List<BudgetConstructionAccountDump> getBudgetConstructionAccountDump(String principalId) {
+    protected List<BudgetConstructionAccountDump> getBudgetConstructionAccountDump(String principalId) {
         HashMap searchParameters = new HashMap();
         searchParameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, principalId);
 

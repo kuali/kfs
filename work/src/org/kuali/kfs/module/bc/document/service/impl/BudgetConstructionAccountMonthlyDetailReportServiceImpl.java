@@ -77,7 +77,7 @@ public class BudgetConstructionAccountMonthlyDetailReportServiceImpl implements 
      * 
      * @param BudgetConstructionObjectSummary bcas
      */
-    private void buildReportsHeader(BudgetConstructionMonthly bcMonthly, BudgetConstructionAccountMonthlyDetailReport accountMonthlyDetailReport) {
+    protected void buildReportsHeader(BudgetConstructionMonthly bcMonthly, BudgetConstructionAccountMonthlyDetailReport accountMonthlyDetailReport) {
         accountMonthlyDetailReport.setUniversityFiscalYear(bcMonthly.getUniversityFiscalYear());
         accountMonthlyDetailReport.setChartOfAccountsCode(bcMonthly.getChartOfAccountsCode());
         accountMonthlyDetailReport.setAccountNumber(bcMonthly.getAccountNumber());
@@ -95,7 +95,7 @@ public class BudgetConstructionAccountMonthlyDetailReportServiceImpl implements 
      * 
      * @param BudgetConstructionLevelSummary bcas
      */
-    private void buildReportsBody(BudgetConstructionMonthly bcMonthly, BudgetConstructionAccountMonthlyDetailReport accountMonthlyDetailReport) {
+    protected void buildReportsBody(BudgetConstructionMonthly bcMonthly, BudgetConstructionAccountMonthlyDetailReport accountMonthlyDetailReport) {
         accountMonthlyDetailReport.setFinancialObjectCode(bcMonthly.getFinancialObjectCode());
         accountMonthlyDetailReport.setFinancialSubObjectCode(bcMonthly.getFinancialSubObjectCode());
         accountMonthlyDetailReport.setFinancialObjectCodeShortName(bcMonthly.getFinancialObject().getFinancialObjectCodeShortName());
@@ -140,7 +140,7 @@ public class BudgetConstructionAccountMonthlyDetailReportServiceImpl implements 
      * 
      * @return returnList
      */
-    private List<String> buildOrderByList() {
+    protected List<String> buildOrderByList() {
         List<String> returnList = new ArrayList();
         returnList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         returnList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);

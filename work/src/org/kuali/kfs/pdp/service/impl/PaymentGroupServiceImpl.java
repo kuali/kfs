@@ -203,7 +203,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
      * 
      * @return
      */
-    private Map<Integer,ParameterEvaluator> getSortGroupSelectionParameters() {
+    protected Map<Integer,ParameterEvaluator> getSortGroupSelectionParameters() {
         String SORT_GROUP_SELECTION_PARAMETER_PREFIX = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.SORT_GROUP_SELECTION_PARAMETER_PREFIX);
         
         if (sortGroupSelectionParameters == null) {         

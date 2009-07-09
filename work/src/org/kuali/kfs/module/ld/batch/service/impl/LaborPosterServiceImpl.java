@@ -105,7 +105,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @param invalidGroup the origin entry group that holds the invalid transactions
      * @param runDate the data when the process is running
      */
-    private void postLaborLedgerEntries(Date runDate) {
+    protected void postLaborLedgerEntries(Date runDate) {
         LOG.info("postLaborLedgerEntries() started..........................");
         numberOfErrorOriginEntry = 0;
         // change file name to FIS
@@ -204,7 +204,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @param runDate the data when the process is running
      * @return true if the given transaction is posted into ledger tables; otherwise, return false
      */
-    private boolean postSingleEntryIntoLaborLedger(LaborOriginEntry originEntry, Map<String, Integer> reportSummary, Date runDate, String line) {
+    protected boolean postSingleEntryIntoLaborLedger(LaborOriginEntry originEntry, Map<String, Integer> reportSummary, Date runDate, String line) {
         // reject the entry that is not postable
         if (!isPostableEntry(originEntry)) {
             return false;
@@ -241,7 +241,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @param originEntry the given origin entry, a transcation
      * @return true if the transaction is eligible for poster process; otherwise; return false
      */
-    private boolean isPostableEntry(LaborOriginEntry originEntry) {
+    protected boolean isPostableEntry(LaborOriginEntry originEntry) {
         if (TransactionFieldValidator.checkZeroTotalAmount(originEntry) != null) {
             return false;
         }
@@ -257,7 +257,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @param originEntry the given origin entry, a transcation
      * @return error message list. If the given transaction is invalid, the list has message(s); otherwise, it is empty
      */
-    private List<Message> validateEntry(LaborOriginEntry originEntry) {
+    protected List<Message> validateEntry(LaborOriginEntry originEntry) {
         return laborPosterTransactionValidator.verifyTransaction(originEntry);
     }
 
@@ -267,7 +267,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @param originEntry the given origin entry, a transaction
      * @param postDate the data when the transaction is processes return the operation type of the process
      */
-    private String postAsLedgerEntry(LaborOriginEntry originEntry, Date postDate) {
+    protected String postAsLedgerEntry(LaborOriginEntry originEntry, Date postDate) {
         return laborLedgerEntryPoster.post(originEntry, 0, postDate);
     }
 
@@ -277,7 +277,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @param originEntry the given origin entry, a transaction
      * @param postDate the data when the transaction is processes return the operation type of the process
      */
-    private String updateLedgerBalance(LaborOriginEntry originEntry, Date postDate) {
+    protected String updateLedgerBalance(LaborOriginEntry originEntry, Date postDate) {
         return laborLedgerBalancePoster.post(originEntry, 0, postDate);
     }
 
@@ -288,7 +288,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @return a message list. The list has message(s) if the given origin entry cannot be posted back to Labor GL entry; otherwise,
      *         it is empty
      */
-    private List<Message> isPostableForLaborGLEntry(LaborOriginEntry originEntry) {
+    protected List<Message> isPostableForLaborGLEntry(LaborOriginEntry originEntry) {
         List<Message> errors = new ArrayList<Message>();
         MessageBuilder.addMessageIntoList(errors, TransactionFieldValidator.checkPostablePeridCode(originEntry, getPeriodCodesNotProcessed()));
         MessageBuilder.addMessageIntoList(errors, TransactionFieldValidator.checkPostableBalanceTypeCode(originEntry, getBalanceTypesNotProcessed()));
@@ -297,7 +297,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     }
 
     // construct a poster report summary object
-    private void fillPosterReportWriter(int lineNumber, Map<String, Integer> reportSummary, Map<String, Integer> glEntryReportSummary) {
+    protected void fillPosterReportWriter(int lineNumber, Map<String, Integer> reportSummary, Map<String, Integer> glEntryReportSummary) {
         reportWriterService.writeStatisticLine("SEQUENTIAL RECORDS READ                    %,9d", lineNumber);
         reportWriterService.writeStatisticLine("LLEN RECORDS INSERTED (LD_LDGR_ENTR_T)     %,9d", reportSummary.get(laborLedgerEntryPoster.getDestinationName() + "," + KFSConstants.OperationType.INSERT));
         reportWriterService.writeStatisticLine("LLBL RECORDS INSERTED (LD_LDGR_BAL_T)      %,9d", reportSummary.get(laborLedgerBalancePoster.getDestinationName() + "," + KFSConstants.OperationType.INSERT));
@@ -307,7 +307,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     }
 
     // fill the poster report writer with the collected data
-    private Map<String, Integer> constructPosterReportSummary() {
+    protected Map<String, Integer> constructPosterReportSummary() {
         Map<String, Integer> reportSummary = new HashMap<String, Integer>();
         reportSummary.put(laborLedgerEntryPoster.getDestinationName() + "," + KFSConstants.OperationType.INSERT, 0);
         reportSummary.put(laborLedgerBalancePoster.getDestinationName() + "," + KFSConstants.OperationType.INSERT, 0);
@@ -317,7 +317,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     }
 
     // construct a gl entry report summary object
-    private Map<String, Integer> constructGlEntryReportSummary() {
+    protected Map<String, Integer> constructGlEntryReportSummary() {
         Map<String, Integer> glEntryReportSummary = new HashMap<String, Integer>();
         glEntryReportSummary.put(ORIGN_ENTRY + "," + KFSConstants.OperationType.READ, 0);
         glEntryReportSummary.put(ORIGN_ENTRY + "," + KFSConstants.OperationType.BYPASS, 0);
@@ -329,7 +329,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     }
 
     // fill the gl entry report writer with the collected data
-    private void fillGlEntryReportWriter(Map<String, Integer> glEntryReportSummary) {
+    protected void fillGlEntryReportWriter(Map<String, Integer> glEntryReportSummary) {
         laborGlEntryStatisticsReportWriterService.writeStatisticLine("NUMBER OF RECORDS READ              %,9d", glEntryReportSummary.get(ORIGN_ENTRY + "," + KFSConstants.OperationType.READ));
         laborGlEntryStatisticsReportWriterService.writeStatisticLine("NUMBER OF RECORDS BYPASSED          %,9d", glEntryReportSummary.get(ORIGN_ENTRY + "," + KFSConstants.OperationType.BYPASS));
         laborGlEntryStatisticsReportWriterService.writeStatisticLine("NUMBER OF RECORDS SELECTED          %,9d", glEntryReportSummary.get(ORIGN_ENTRY + "," + KFSConstants.OperationType.SELECT));
@@ -340,7 +340,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     /**
      * @return the encumbrance update code
      */
-    private String getEncumbranceUpdateCode(LaborOriginEntry laborOriginEntry) {
+    protected String getEncumbranceUpdateCode(LaborOriginEntry laborOriginEntry) {
         String encumbranceUpdateCode = laborOriginEntry.getTransactionEncumbranceUpdateCode();
         if (KFSConstants.ENCUMB_UPDT_DOCUMENT_CD.equals(encumbranceUpdateCode) || KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(encumbranceUpdateCode)) {
             return encumbranceUpdateCode;
@@ -351,7 +351,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     /**
      * @return the transaction description
      */
-    private String getTransactionDescription(LaborOriginEntry laborOriginEntry) {
+    protected String getTransactionDescription(LaborOriginEntry laborOriginEntry) {
         String documentTypeCode = laborOriginEntry.getFinancialDocumentTypeCode();
         String description = getDescriptionMap().get(documentTypeCode);
         description = StringUtils.isNotEmpty(description) ? description : laborOriginEntry.getTransactionLedgerEntryDescription();
@@ -399,7 +399,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @param runDate the data when the process is running
      * @param lineNumber the line in the input file (used for error message only)
      */
-    private void summarizeLaborGLEntries(LaborOriginEntry laborOriginEntry, LaborLedgerUnitOfWork laborLedgerUnitOfWork, Date runDate, int lineNumber, Map<String, Integer> glEntryReportSummary) {
+    protected void summarizeLaborGLEntries(LaborOriginEntry laborOriginEntry, LaborLedgerUnitOfWork laborLedgerUnitOfWork, Date runDate, int lineNumber, Map<String, Integer> glEntryReportSummary) {
         // shawn - setup below two fields before making consolidated list
         laborOriginEntry.setTransactionLedgerEntryDescription(getTransactionDescription(laborOriginEntry));
         laborOriginEntry.setTransactionEncumbranceUpdateCode(this.getEncumbranceUpdateCode(laborOriginEntry));
@@ -416,7 +416,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         }
     }
 
-    private void writeLaborGLEntry(LaborLedgerUnitOfWork laborLedgerUnitOfWork, Date runDate, int lineNumber, Map<String, Integer> glEntryReportSummary) {
+    protected void writeLaborGLEntry(LaborLedgerUnitOfWork laborLedgerUnitOfWork, Date runDate, int lineNumber, Map<String, Integer> glEntryReportSummary) {
         try {
             List<Message> errors = this.isPostableForLaborGLEntry(laborLedgerUnitOfWork.getWorkingEntry());
             if (errors == null || errors.isEmpty()) {
@@ -440,7 +440,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         }
     }
 
-    private void updateReportSummary(Map<String, Integer> reportSummary, String destination, String operation) {
+    protected void updateReportSummary(Map<String, Integer> reportSummary, String destination, String operation) {
         String key = destination + "," + operation;
 
         if (reportSummary.containsKey(key)) {
@@ -452,7 +452,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         }
     }
 
-    private void writeErrorEntry(String line) {
+    protected void writeErrorEntry(String line) {
         try {
             POSTER_OUTPUT_ERR_FILE_ps.printf("%s\n", line);
         }

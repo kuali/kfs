@@ -159,7 +159,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @param runDate the date the transaction is posted
      * @return the number of qualified balances
      */
-    private int postSelectedBalancesAsOriginEntries(Iterator<LedgerBalanceForYearEndBalanceForward> balanceIterator, Integer newFiscalYear, PrintStream balanceForwardsPs, Date runDate, PosterOutputSummaryReport posterOutputSummaryReport, Map<String, Integer> reportSummary) {
+    protected int postSelectedBalancesAsOriginEntries(Iterator<LedgerBalanceForYearEndBalanceForward> balanceIterator, Integer newFiscalYear, PrintStream balanceForwardsPs, Date runDate, PosterOutputSummaryReport posterOutputSummaryReport, Map<String, Integer> reportSummary) {
         int numberOfSelectedBalance = 0;
         String description = this.getDescription();
         String originationCode = this.getOriginationCode();
@@ -205,7 +205,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @param errors the error list that is updated if the given balacne is not qualified for carry forward
      * @return true if the balance is qualified; otherwise, false
      */
-    private boolean validateBalance(LedgerBalanceForYearEndBalanceForward balance, List<Message> errors) {
+    protected boolean validateBalance(LedgerBalanceForYearEndBalanceForward balance, List<Message> errors) {
         /** This is the placeholder for addtional business rule validation. The former rules were moved down to data access layer. * */
         return true;
     }
@@ -218,7 +218,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @param validGroup the group that the posted transaction belongs to
      * @param postingDate the date the transaction is posted
      */
-    private void postAsOriginEntry(LedgerBalanceForYearEndBalanceForward balance, LaborOriginEntry originEntry, PrintStream balanceForwardsPs, Date postingDate) {
+    protected void postAsOriginEntry(LedgerBalanceForYearEndBalanceForward balance, LaborOriginEntry originEntry, PrintStream balanceForwardsPs, Date postingDate) {
         try {
             originEntry.setAccountNumber(balance.getAccountNumber());
             originEntry.setChartOfAccountsCode(balance.getChartOfAccountsCode());
@@ -264,7 +264,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * 
      * @return the fund group codes that are acceptable by year-end process
      */
-    private List<String> getFundGroupProcessed() {
+    protected List<String> getFundGroupProcessed() {
         return parameterService.getParameterValues(LaborYearEndBalanceForwardStep.class, YearEnd.FUND_GROUP_PROCESSED);
     }
 
@@ -273,7 +273,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * 
      * @return the fund group codes that are acceptable by year-end process
      */
-    private List<String> getSubFundGroupProcessed() {
+    protected List<String> getSubFundGroupProcessed() {
         return parameterService.getParameterValues(LaborYearEndBalanceForwardStep.class, YearEnd.SUB_FUND_GROUP_PROCESSED);
     }
 
@@ -282,7 +282,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * 
      * @return the balance type codes that are acceptable by year-end process
      */
-    private List<String> getProcessableBalanceTypeCode(SystemOptions options) {
+    protected List<String> getProcessableBalanceTypeCode(SystemOptions options) {
         List<String> processableBalanceTypeCodes = new ArrayList<String>();
         processableBalanceTypeCodes.add(options.getActualFinancialBalanceTypeCd());
         return processableBalanceTypeCodes;
@@ -294,7 +294,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @param options the given system options
      * @return the object type codes that are acceptable by year-end process
      */
-    private List<String> getProcessableObjectTypeCodes(SystemOptions options) {
+    protected List<String> getProcessableObjectTypeCodes(SystemOptions options) {
         List<String> processableObjectTypeCodes = new ArrayList<String>();
 
         processableObjectTypeCodes.add(options.getFinObjTypeExpenditureexpCd());
@@ -304,7 +304,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
     }
 
     // fill the report writer with the collected data
-    private Map<String, Integer> constructReportSummary() {
+    protected Map<String, Integer> constructReportSummary() {
         Map<String, Integer> reportSummary = new HashMap<String, Integer>();
         reportSummary.put(LEDGER_BALANCE + "," + KFSConstants.OperationType.READ, 0);
         reportSummary.put(LEDGER_BALANCE + "," + KFSConstants.OperationType.SELECT, 0);
@@ -315,7 +315,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
     }
 
     // fill the gl entry report writer with the collected data
-    private void fillStatisticsReportWriter(Map<String, Integer> glEntryReportSummary) {
+    protected void fillStatisticsReportWriter(Map<String, Integer> glEntryReportSummary) {
         laborStatisticsReportWriterService.writeStatisticLine("NUMBER OF RECORDS READ              %,9d", glEntryReportSummary.get(LEDGER_BALANCE + "," + KFSConstants.OperationType.READ));
         laborStatisticsReportWriterService.writeStatisticLine("NUMBER OF RECORDS SELECTED          %,9d", glEntryReportSummary.get(LEDGER_BALANCE + "," + KFSConstants.OperationType.SELECT));
         laborStatisticsReportWriterService.writeStatisticLine("NUMBER OF RECORDS IN ERROR          %,9d", glEntryReportSummary.get(LEDGER_BALANCE + "," + KFSConstants.OperationType.REPORT_ERROR));
@@ -323,7 +323,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
     }
 
     // update the entry in the given report summary
-    private void updateReportSummary(Map<String, Integer> reportSummary, String destination, String operation) {
+    protected void updateReportSummary(Map<String, Integer> reportSummary, String destination, String operation) {
         String key = destination + "," + operation;
 
         if (reportSummary.containsKey(key)) {
@@ -340,7 +340,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * 
      * @return the document type code of the transaction posted by year-end process
      */
-    private String getDocumentTypeCode() {
+    protected String getDocumentTypeCode() {
         return parameterService.getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_DOCUMENT_TYPE);
     }
 
@@ -349,7 +349,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * 
      * @return the origination code of the transaction posted by year-end process
      */
-    private String getOriginationCode() {
+    protected String getOriginationCode() {
         return parameterService.getParameterValue(LaborYearEndBalanceForwardStep.class, YearEnd.ORIGINATION_CODE);
     }
 
@@ -358,7 +358,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * 
      * @return the description of the transaction posted by year-end process
      */
-    private String getDescription() {
+    protected String getDescription() {
         return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(LaborKeyConstants.MESSAGE_YEAR_END_TRANSACTION_DESCRIPTON);
     }
 

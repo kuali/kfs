@@ -62,7 +62,7 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
         }
     }
 
-    private void buildSubTree(String principalName, BudgetConstructionOrganizationReports bcOrgRpts, int curLevel) {
+    protected void buildSubTree(String principalName, BudgetConstructionOrganizationReports bcOrgRpts, int curLevel) {
 
         curLevel++;
         BudgetConstructionPullup bcPullup = new BudgetConstructionPullup();
@@ -104,7 +104,7 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
         }
     }
 
-    private void buildSubTreeSql(String principalName, BudgetConstructionOrganizationReports bcOrgRpts, int curLevel) {
+    protected void buildSubTreeSql(String principalName, BudgetConstructionOrganizationReports bcOrgRpts, int curLevel) {
 
         curLevel++;
         budgetPullupDao.buildSubTree(principalName, bcOrgRpts.getChartOfAccountsCode(), bcOrgRpts.getOrganizationCode(), curLevel);

@@ -194,10 +194,10 @@
     </property>
     <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition" p:required="true" p:attributeName="universityFiscalYear" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder"/>
-        <bean parent="FieldDefinition" p:required="true" p:attributeName="chartOfAccountsCode"/>
-        <bean parent="FieldDefinition" p:required="true" p:attributeName="accountNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="subAccountNumber" p:forceLookup="true"/>
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="universityFiscalYear" p:treatWildcardsAndOperatorsAsLiteral="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder"/>
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="chartOfAccountsCode" p:treatWildcardsAndOperatorsAsLiteral="true"/>
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="accountNumber" p:treatWildcardsAndOperatorsAsLiteral="true"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber" p:treatWildcardsAndOperatorsAsLiteral="true" p:forceLookup="true"/>
         <bean parent="FieldDefinition" p:attributeName="dummyBusinessObject.consolidationOption" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.ConsolidationOptionFinder"/>
         <bean parent="FieldDefinition" p:attributeName="dummyBusinessObject.costShareOption" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.CostShareOptionFinder"/>
         <bean parent="FieldDefinition" p:attributeName="dummyBusinessObject.pendingEntryOption" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.PendingEntryOptionFinder"/>

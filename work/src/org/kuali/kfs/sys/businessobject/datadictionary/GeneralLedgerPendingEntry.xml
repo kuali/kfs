@@ -402,24 +402,24 @@
     </property>
     <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder"/>
-        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"  p:treatWildcardsAndOperatorsAsLiteral="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+        <bean parent="FieldDefinition" p:attributeName="accountNumber" p:treatWildcardsAndOperatorsAsLiteral="true" />
         <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
-        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
-        <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.ActualBalanceTypeOptionFinder"/>
-        <bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode"/>
-        <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.PeriodCodeOptionFinder"/>
-        <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode"/>
-        <bean parent="FieldDefinition" p:attributeName="financialSystemOriginationCode"/>
-        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="organizationDocumentNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="projectCode"/>
-        <bean parent="FieldDefinition" p:attributeName="organizationReferenceId"/>
-        <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentTypeCode"/>
-        <bean parent="FieldDefinition" p:attributeName="referenceFinancialSystemOriginationCode"/>
-        <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+        <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode"  p:treatWildcardsAndOperatorsAsLiteral="true" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.ActualBalanceTypeOptionFinder"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode"  p:treatWildcardsAndOperatorsAsLiteral="true" p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.PeriodCodeOptionFinder"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+        <bean parent="FieldDefinition" p:attributeName="financialSystemOriginationCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+        <bean parent="FieldDefinition" p:attributeName="documentNumber" p:treatWildcardsAndOperatorsAsLiteral="true" />
+        <bean parent="FieldDefinition" p:attributeName="organizationDocumentNumber" p:treatWildcardsAndOperatorsAsLiteral="true" />
+        <bean parent="FieldDefinition" p:attributeName="projectCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+        <bean parent="FieldDefinition" p:attributeName="organizationReferenceId" p:treatWildcardsAndOperatorsAsLiteral="true" />
+        <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentTypeCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+        <bean parent="FieldDefinition" p:attributeName="referenceFinancialSystemOriginationCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+        <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentNumber" p:treatWildcardsAndOperatorsAsLiteral="true" />
         <bean parent="FieldDefinition" p:attributeName="documentHeader.financialDocumentStatusCode"/>
       </list>
     </property>

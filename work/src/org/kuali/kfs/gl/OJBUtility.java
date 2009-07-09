@@ -24,12 +24,16 @@ import org.apache.commons.beanutils.DynaClass;
 import org.apache.commons.beanutils.DynaProperty;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.beanutils.WrapDynaClass;
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.dao.LookupDao;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.datadictionary.FieldDefinition;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.ParameterService;
 
 /**
@@ -74,14 +78,24 @@ public class OJBUtility {
      * @return an OJB query criteria
      */
     public static Criteria buildCriteriaFromMap(Map fieldValues, Object businessObject) {
-        Criteria criteria = new Criteria();
 
+        Criteria criteria = new Criteria();
+        BusinessObjectEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(businessObject.getClass().getName());
+        //FieldDefinition lookupField = entry.getLookupDefinition().getLookupField(attributeName);
+        //System.out.println(entry.getTitleAttribute());
         try {
             Iterator propsIter = fieldValues.keySet().iterator();
             while (propsIter.hasNext()) {
                 String propertyName = (String) propsIter.next();
                 Object propertyValueObject = fieldValues.get(propertyName);
-                String propertyValue = (propertyValueObject != null) ? propertyValueObject.toString().trim() : "";
+                String propertyValue = "";
+                
+                FieldDefinition lookupField = entry.getLookupDefinition().getLookupField(propertyName);
+                if (lookupField != null && lookupField.isTreatWildcardsAndOperatorsAsLiteral()) {
+                    propertyValue = (propertyValueObject != null) ? StringUtils.replace(propertyValueObject.toString().trim(), "*", "\\*") : "";
+                } else {
+                    propertyValue = (propertyValueObject != null) ? propertyValueObject.toString().trim() : "";
+                }
 
                 // if searchValue is empty and the key is not a valid property ignore
                 boolean isCreated = createCriteria(businessObject, propertyValue, propertyName, criteria);

@@ -106,27 +106,6 @@
 	<c:if test="${purchaseOrder}">
 		<tr>
             <th align=right valign=middle class="bord-l-b">
-                <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionSource}" /></div>
-            </th>
-            <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute 
-                    property="document.requisitionSource.requisitionSourceDescription" 
-                    attributeEntry="${documentAttributes.requisitionSource}" 
-                    readOnly="true" />
-            </td>                   
-		   	<th align=right valign=middle class="bord-l-b">
-		        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderPreviousIdentifier}" /></div>
-		    </th>
-		    <td align=left valign=middle class="datacell">
-		       	<kul:htmlControlAttribute 
-		            property="document.purchaseOrderPreviousIdentifier" 
-		            attributeEntry="${documentAttributes.purchaseOrderPreviousIdentifier}" 
-		            readOnly="${not (fullEntryMode or amendmentEntry)}" 
-		            tabindexOverride="${tabindexOverrideBase + 5}" />
-		    </td>
-		</tr>
-	    <tr>
-            <th align=right valign=middle class="bord-l-b">
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.contractManager}" /></div>
             </th>
             <td align=left valign=middle class="datacell">
@@ -140,6 +119,18 @@
                         fieldConversions="contractManagerName:document.contractManager.contractManagerName,contractManagerCode:document.contractManagerCode" />
                 </c:if>                     
             </td>
+		   	<th align=right valign=middle class="bord-l-b">
+		        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderPreviousIdentifier}" /></div>
+		    </th>
+		    <td align=left valign=middle class="datacell">
+		       	<kul:htmlControlAttribute 
+		            property="document.purchaseOrderPreviousIdentifier" 
+		            attributeEntry="${documentAttributes.purchaseOrderPreviousIdentifier}" 
+		            readOnly="${not (fullEntryMode or amendmentEntry)}" 
+		            tabindexOverride="${tabindexOverrideBase + 5}" />
+		    </td>
+		</tr>
+	    <tr>
             <th align=right valign=middle class="bord-l-b">
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.assignedUserPrincipalName}" /></div>
             </th>
@@ -153,37 +144,57 @@
                     	fieldConversions="principalId:document.assignedUserPrincipalId,principalName:document.assignedUserPrincipalName" /></div>
                 </c:if>                     
             </td>
+            <th align=right valign=middle class="bord-l-b">
+                <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderConfirmedIndicator}" /></div>
+            </th>
+            <td align=left valign=middle class="datacell">
+                <kul:htmlControlAttribute 
+                    property="document.purchaseOrderConfirmedIndicator"
+                    attributeEntry="${documentAttributes.purchaseOrderConfirmedIndicator}" 
+                    readOnly="${not (fullEntryMode or amendmentEntry)}" 
+                    tabindexOverride="${tabindexOverrideBase + 5}" />
+            </td> 
 		</tr>
 	</c:if>
 
-    <c:if test="${purapTaxEnabled}">
-    <tr>
-        <th align=right valign=middle class="bord-l-b">
-            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.useTaxIndicator}" /></div>
-        </th>
-        <td align=left valign=middle class="datacell">
-            <kul:htmlControlAttribute
-                property="document.useTaxIndicator"
-                attributeEntry="${documentAttributes.useTaxIndicator}"
-                readOnly="true"/>&nbsp;
-            <c:if test="${fullEntryMode and paymentRequest}">          
-                <html:image property="methodToCall.changeUseTaxIndicator" src="${ConfigProperties.externalizable.images.url}tinybutton-${useTaxIndicatorButton}.gif" alt="Change Use Tax Indicator" title="Change Use Tax Indicator" styleClass="tinybutton"  tabindex="${tabindexOverrideBase + 0}" />
-            </c:if>
-        </td>
-		<c:if test="${purchaseOrder}">
-	        <th align=right valign=middle class="bord-l-b">
-	            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderConfirmedIndicator}" /></div>
-		    </th>
-		    <td align=left valign=middle class="datacell">
-		       	<kul:htmlControlAttribute 
-		            property="document.purchaseOrderConfirmedIndicator"
-		            attributeEntry="${documentAttributes.purchaseOrderConfirmedIndicator}" 
-	                readOnly="${not (fullEntryMode or amendmentEntry)}" 
-	                tabindexOverride="${tabindexOverrideBase + 5}" />
-		    </td> 
-		</c:if>
-    </tr>  
-    </c:if>
+    
+    <c:if test="${purapTaxEnabled or purchaseOrder}">
+	    <tr>
+	        <c:if test="${purapTaxEnabled}">
+		        <th align=right valign=middle class="bord-l-b">
+		            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.useTaxIndicator}" /></div>
+		        </th>
+		        <td align=left valign=middle class="datacell">
+		            <kul:htmlControlAttribute
+		                property="document.useTaxIndicator"
+		                attributeEntry="${documentAttributes.useTaxIndicator}"
+		                readOnly="true"/>&nbsp;
+		            <c:if test="${fullEntryMode and paymentRequest}">          
+		                <html:image property="methodToCall.changeUseTaxIndicator" src="${ConfigProperties.externalizable.images.url}tinybutton-${useTaxIndicatorButton}.gif" alt="Change Use Tax Indicator" title="Change Use Tax Indicator" styleClass="tinybutton"  tabindex="${tabindexOverrideBase + 0}" />
+		            </c:if>
+		        </td>
+	        </c:if>
+	        <c:if test="${not purapTaxEnabled}">
+	            <th align=right valign=middle class="bord-l-b">&nbsp;</th>
+	            <td align=left valign=middle class="datacell">&nbsp;</td>
+	        </c:if>
+			<c:if test="${purchaseOrder}">
+	            <th align=right valign=middle class="bord-l-b">
+	                <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionSource}" /></div>
+	            </th>
+	            <td align=left valign=middle class="datacell">
+	                <kul:htmlControlAttribute 
+	                    property="document.requisitionSource.requisitionSourceDescription" 
+	                    attributeEntry="${documentAttributes.requisitionSource}" 
+	                    readOnly="true" />
+	            </td>                   
+			</c:if>
+	        <c:if test="${not purchaseOrder}">
+	            <th align=right valign=middle class="bord-l-b">&nbsp;</th>
+	            <td align=left valign=middle class="datacell">&nbsp;</td>
+	        </c:if>
+	    </tr>  
+     </c:if>
 
 </table>
 	

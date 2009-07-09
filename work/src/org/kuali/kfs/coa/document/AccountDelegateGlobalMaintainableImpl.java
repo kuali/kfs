@@ -216,27 +216,6 @@ public class AccountDelegateGlobalMaintainableImpl extends FinancialSystemGlobal
         accountDelegateService.saveInactivationsForGlobalMaintenanceDocument(accountDelegateGlobal.generateDeactivationsToPersist());
         accountDelegateService.saveChangesForGlobalMaintenanceDocument(accountDelegateGlobal.generateGlobalChangesToPersist());
         
-        // sleep for 45 seconds, so responsibility updating sees the latest
-        try {
-            Thread.sleep(45000L);
-        }
-        catch (InterruptedException ie) {
-            LOG.warn("Interrupted exception while waiting to update account delegation role",ie);
-        }
-        
-        updateDelegationRole();
-    }
-
-    /**
-     * Updates the roles that the delegates on this account delegate global represent, to account for the changes in these delegations
-     * It will search through all effects of the global document and only update primary or secondary roles if only those roles are affected
-     * by the document; if both delegations are present, it will update both
-     */
-    protected void updateDelegationRole() {
-        final RoleManagementService roleManagementService = SpringContext.getBean(RoleManagementService.class);
-        final String roleId = roleManagementService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME);
-        if (!StringUtils.isBlank(roleId)) {
-            roleManagementService.applicationRoleMembershipChanged(roleId);
-        }
+        accountDelegateService.updateDelegationRole();
     }
 }

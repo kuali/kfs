@@ -222,26 +222,8 @@ public class AccountDelegateMaintainableImpl extends FinancialSystemMaintainable
         
         accountDelegateService.saveForMaintenanceDocument(accountDelegate);
         
-        // sleep for 45 seconds, so responsibility updating sees the latest
-        try {
-            Thread.sleep(45000L);
-        }
-        catch (InterruptedException ie) {
-            LOG.warn("Interrupted exception while waiting to update account delegation role",ie);
-        }
-        
-        updateDelegationRole();
+        accountDelegateService.updateDelegationRole();
     }
 
-    /**
-     * Updates the role that this delegate is part of, to account for the changes in this delegate
-     */
-    protected void updateDelegationRole() {
-        final AccountDelegate accountDelegate = (AccountDelegate)this.getBusinessObject();
-        final RoleManagementService roleManagementService = SpringContext.getBean(RoleManagementService.class);
-        final String roleId = roleManagementService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME);
-        if (!StringUtils.isBlank(roleId)) {
-            roleManagementService.applicationRoleMembershipChanged(roleId);
-        }
-    }
+    
 }

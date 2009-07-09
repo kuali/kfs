@@ -95,6 +95,11 @@ public interface AccountDelegateService {
      * Persists the given account delegate global maintenance document changes
      * @param delegatesToChange the List of delegates to change
      */
-    public void saveChangesForGlobalMaintenanceDocument(List<PersistableBusinessObject> delegatesToChange);
+    public abstract void saveChangesForGlobalMaintenanceDocument(List<PersistableBusinessObject> delegatesToChange);
+    
+    /**
+     * Updates the role that this delegate is part of, to account for the changes in this delegate
+     */
+    public abstract void updateDelegationRole();
     
 }

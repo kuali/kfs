@@ -244,5 +244,21 @@
 		<property name="scrubberReportOnlyWriterService" ref="mockReportWriterService" />
 		<property name="demergerRemovedTransactionsListingReportWriterService" ref="mockReportWriterService" />
 	</bean>
+	
+	<bean id="glMockPosterService" parent="glPosterService">
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/test_directory/originEntry"/>
+		<property name="reportWriterService">
+			<ref bean="mockReportWriterService" />
+		</property>
+		<property name="errorListingReportWriterService">
+			<ref bean="mockReportWriterService" />
+		</property>
+		<property name="ledgerSummaryReportWriterService">
+			<ref bean="mockReportWriterService" />
+		</property>
+		<property name="reversalReportWriterService">
+			<ref bean="mockReportWriterService" />
+		</property>
+	</bean>
         
 </beans>

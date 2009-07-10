@@ -43,6 +43,7 @@ import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -170,7 +171,7 @@ public class ProcurementCardForm extends KualiAccountingDocumentFormBase impleme
             int count = 0;
             while (!canEditAnyAccountingLine.booleanValue() && count < transactionDetail.getTargetAccountingLines().size()) {
                 final TargetAccountingLine accountingLine = (TargetAccountingLine)transactionDetail.getTargetAccountingLines().get(count);
-                if (accountingLineAuthorizer.hasEditPermissionOnAccountingLine(((ProcurementCardDocument)getDocument()), accountingLine, getAccountingLineCollectionName(), currentUser)) {
+                if (accountingLineAuthorizer.hasEditPermissionOnAccountingLine(((ProcurementCardDocument)getDocument()), accountingLine, getAccountingLineCollectionName(), currentUser, getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT))) {
                     canEditAnyAccountingLine = Boolean.TRUE;
                 }
                 count += 1;

@@ -37,7 +37,6 @@ import org.kuali.kfs.sys.document.web.AccountingLineViewField;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -209,8 +208,8 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param currentUser the current user
      * @return true if the the current user has permission to edit the given accounting line; otherwsie, false
      */
-    public final boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, Person currentUser) {        
-        if (determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty, accountingDocument.getDocumentHeader().getWorkflowDocument().userIsInitiator(currentUser))) {
+    public final boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, Person currentUser, boolean pageIsEditable) {        
+        if (determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty, accountingDocument.getDocumentHeader().getWorkflowDocument().userIsInitiator(currentUser), pageIsEditable)) {
             
             if (approvedForUnqualifiedEditing(accountingDocument, accountingLine, accountingLineCollectionProperty, accountingDocument.getDocumentHeader().getWorkflowDocument().userIsInitiator(currentUser))) {
                 return true;  // don't do the KIM check, we're good
@@ -231,7 +230,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param currentUserIsDocumentInitiator is the current user the initiator of the document?
      * @return true if the line as a whole can be edited, false otherwise
      */
-    public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, boolean currentUserIsDocumentInitiator) {
+    public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, boolean currentUserIsDocumentInitiator, boolean pageIsEditable) {
         if (accountingDocument instanceof Correctable) {
             String errorDocumentNumber = ((FinancialSystemDocumentHeader)accountingDocument.getDocumentHeader()).getFinancialDocumentInErrorNumber();
             if (StringUtils.isNotBlank(errorDocumentNumber))

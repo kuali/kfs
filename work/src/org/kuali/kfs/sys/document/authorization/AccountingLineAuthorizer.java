@@ -16,7 +16,6 @@
 package org.kuali.kfs.sys.document.authorization;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -93,7 +92,8 @@ public interface AccountingLineAuthorizer {
      * @param accountingLine the given accounting line in the document
      * @param accountingLineCollectionProperty the property of the group that holds these accounting lines
      * @param currentUser the current user
+     * @param pageIsEditable whether the current page is editable by the current user or not
      * @return true if the the current user has permission to edit the given accounting line; otherwsie, false
      */
-    public abstract boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, Person currentUser);
+    public abstract boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, Person currentUser, boolean pageIsEditable);
 }

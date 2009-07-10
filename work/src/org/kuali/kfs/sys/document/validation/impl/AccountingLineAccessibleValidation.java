@@ -37,7 +37,6 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -78,7 +77,7 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
         }
         
         final AccountingLineAuthorizer accountingLineAuthorizer = lookupAccountingLineAuthorizer();
-        final boolean lineIsAccessible = accountingLineAuthorizer.hasEditPermissionOnAccountingLine(accountingDocumentForValidation, accountingLineForValidation, getAccountingLineCollectionProperty(), currentUser);
+        final boolean lineIsAccessible = accountingLineAuthorizer.hasEditPermissionOnAccountingLine(accountingDocumentForValidation, accountingLineForValidation, getAccountingLineCollectionProperty(), currentUser, true);
         final boolean isAccessible = accountingLineAuthorizer.hasEditPermissionOnField(accountingDocumentForValidation, accountingLineForValidation, getAccountingLineCollectionProperty(), KFSPropertyConstants.ACCOUNT_NUMBER, lineIsAccessible, true, currentUser);
 
         // report errors

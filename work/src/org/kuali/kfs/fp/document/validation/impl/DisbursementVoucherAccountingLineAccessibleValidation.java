@@ -19,15 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer;
-import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineAccessibleValidation;
 import org.kuali.rice.kim.bo.Person;
@@ -56,7 +53,7 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
         AccountingLine accountingLineForValidation = this.getAccountingLineForValidation();
 
         final AccountingLineAuthorizer accountingLineAuthorizer = lookupAccountingLineAuthorizer();
-        final boolean lineIsAccessible = accountingLineAuthorizer.hasEditPermissionOnAccountingLine(accountingDocument, accountingLineForValidation, getAccountingLineCollectionProperty(), financialSystemUser);
+        final boolean lineIsAccessible = accountingLineAuthorizer.hasEditPermissionOnAccountingLine(accountingDocument, accountingLineForValidation, getAccountingLineCollectionProperty(), financialSystemUser, true);
         boolean isAccessible = accountingLineAuthorizer.hasEditPermissionOnField(accountingDocument, accountingLineForValidation, getAccountingLineCollectionProperty(), KFSPropertyConstants.ACCOUNT_NUMBER, lineIsAccessible, true, financialSystemUser);
 
         // get the authorizer class to check for special conditions routing and if the user is part of a particular workgroup

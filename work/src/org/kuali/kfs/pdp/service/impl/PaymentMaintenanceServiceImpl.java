@@ -55,7 +55,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class...
+ * @see org.kuali.kfs.pdp.service.PaymentMaintenanceService
  */
 @Transactional
 public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService {
@@ -75,13 +75,14 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
     /**
      * This method changes status for a payment group.
+     * 
      * @param paymentGroup the payment group
      * @param newPaymentStatus the new payment status
      * @param changeStatus the changed payment status
      * @param note a note for payment status change
      * @param user the user that changed the status
      */
-    public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, Person user) {
+    protected void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, Person user) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
         }
@@ -105,14 +106,15 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
     /**
      * This method changes the state of a paymentGroup.
+     * 
      * @param paymentGroup the payment group to change the state for
      * @param newPaymentStatus the new payment status
      * @param changeStatus the status that is changed
      * @param note the note entered by the user
-     * @param user the user that changed the 
+     * @param user the user that changed the
      * @param paymentGroupHistory
      */
-    public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, Person user, PaymentGroupHistory paymentGroupHistory) {
+    protected void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, Person user, PaymentGroupHistory paymentGroupHistory) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
         }
@@ -137,7 +139,8 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     }
 
     /**
-     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#cancelPendingPayment(java.lang.Integer, java.lang.Integer, java.lang.String, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#cancelPendingPayment(java.lang.Integer, java.lang.Integer,
+     *      java.lang.String, org.kuali.rice.kim.bo.Person)
      */
     public boolean cancelPendingPayment(Integer paymentGroupId, Integer paymentDetailId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
@@ -161,62 +164,50 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
             }
 
             if ((PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD.equals(paymentStatus))) {
-                if (pdpAuthorizationService.hasRemovePaymentTaxHoldPermission(user.getPrincipalId())) {
-
-                    changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT, PdpConstants.PaymentChangeCodes.CANCEL_PAYMENT_CHNG_CD, note, user);
-
-                    // set primary cancel indicator for EPIC to use
-                    Map primaryKeys = new HashMap();
-                    primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
-
-                    PaymentDetail pd = (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
-                    if (pd != null) {
-                        pd.setPrimaryCancelledPayment(Boolean.TRUE);
-                    }
-                    this.businessObjectService.save(pd);
-                    this.emailService.sendCancelEmail(paymentGroup, note, user);
-
-                    LOG.debug("cancelPendingPayment() Pending payment cancelled and mail was sent; exit method.");
+                if (!pdpAuthorizationService.hasRemovePaymentTaxHoldPermission(user.getPrincipalId())) {
+                    LOG.warn("cancelPendingPayment() Payment status is " + paymentStatus + "; user does not have rights to cancel. This should not happen unless user is URL spoofing.");
+                    throw new RuntimeException("cancelPendingPayment() Payment status is " + paymentStatus + "; user does not have rights to cancel. This should not happen unless user is URL spoofing.");
                 }
-                else {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("cancelPendingPayment() Payment status is " + paymentStatus + "; user does not have rights to cancel");
-                    }
 
-                    GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_CANCEL);
-                    return false;
+                changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT, PdpConstants.PaymentChangeCodes.CANCEL_PAYMENT_CHNG_CD, note, user);
+
+                // set primary cancel indicator for EPIC to use
+                Map primaryKeys = new HashMap();
+                primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
+
+                PaymentDetail pd = (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
+                if (pd != null) {
+                    pd.setPrimaryCancelledPayment(Boolean.TRUE);
                 }
+                this.businessObjectService.save(pd);
+                this.emailService.sendCancelEmail(paymentGroup, note, user);
+
+                LOG.debug("cancelPendingPayment() Pending payment cancelled and mail was sent; exit method.");
             }
             else if (PdpConstants.PaymentStatusCodes.OPEN.equals(paymentStatus) || PdpConstants.PaymentStatusCodes.HELD_CD.equals(paymentStatus)) {
-                if (pdpAuthorizationService.hasCancelPaymentPermission(user.getPrincipalId())) {
-
-                    changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT, PdpConstants.PaymentChangeCodes.CANCEL_PAYMENT_CHNG_CD, note, user);
-
-                    // set primary cancel indicator for EPIC to use
-                    Map primaryKeys = new HashMap();
-                    primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
-
-                    PaymentDetail pd = (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
-                    if (pd != null) {
-                        pd.setPrimaryCancelledPayment(Boolean.TRUE);
-                        PaymentNoteText payNoteText = new PaymentNoteText();
-                        payNoteText.setCustomerNoteLineNbr(new KualiInteger(pd.getNotes().size() + 1));
-                        payNoteText.setCustomerNoteText(note);
-                        pd.addNote(payNoteText);
-                    }
-
-                    this.businessObjectService.save(pd);
-
-                    LOG.debug("cancelPendingPayment() Pending payment cancelled; exit method.");
+                if (!pdpAuthorizationService.hasCancelPaymentPermission(user.getPrincipalId())) {
+                    LOG.warn("cancelPendingPayment() Payment status is " + paymentStatus + "; user does not have rights to cancel. This should not happen unless user is URL spoofing.");
+                    throw new RuntimeException("cancelPendingPayment() Payment status is " + paymentStatus + "; user does not have rights to cancel. This should not happen unless user is URL spoofing.");
                 }
-                else {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("cancelPendingPayment() Payment status is " + paymentStatus + "; user does not have rights to cancel");
-                    }
 
-                    GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_CANCEL);
-                    return false;
+                changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT, PdpConstants.PaymentChangeCodes.CANCEL_PAYMENT_CHNG_CD, note, user);
+
+                // set primary cancel indicator for EPIC to use
+                Map primaryKeys = new HashMap();
+                primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
+
+                PaymentDetail pd = (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
+                if (pd != null) {
+                    pd.setPrimaryCancelledPayment(Boolean.TRUE);
+                    PaymentNoteText payNoteText = new PaymentNoteText();
+                    payNoteText.setCustomerNoteLineNbr(new KualiInteger(pd.getNotes().size() + 1));
+                    payNoteText.setCustomerNoteText(note);
+                    pd.addNote(payNoteText);
                 }
+
+                this.businessObjectService.save(pd);
+
+                LOG.debug("cancelPendingPayment() Pending payment cancelled; exit method.");
             }
             else {
                 if (LOG.isDebugEnabled()) {
@@ -234,12 +225,18 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     }
 
     /**
-     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#holdPendingPayment(java.lang.Integer, java.lang.String, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#holdPendingPayment(java.lang.Integer, java.lang.String,
+     *      org.kuali.rice.kim.bo.Person)
      */
     public boolean holdPendingPayment(Integer paymentGroupId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
         if (LOG.isDebugEnabled()) {
             LOG.debug("holdPendingPayment() Enter method to hold pending payment with id = " + paymentGroupId);
+        }
+
+        if (!pdpAuthorizationService.hasHoldPaymentPermission(user.getPrincipalId())) {
+            LOG.warn("holdPendingPayment() User " + user.getPrincipalId() + " does not have rights to hold payments. This should not happen unless user is URL spoofing.");
+            throw new RuntimeException("holdPendingPayment() User " + user.getPrincipalId() + " does not have rights to hold payments. This should not happen unless user is URL spoofing.");
         }
 
         PaymentGroup paymentGroup = this.paymentGroupService.get(paymentGroupId);
@@ -278,7 +275,8 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     }
 
     /**
-     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#removeHoldPendingPayment(java.lang.Integer, java.lang.String, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#removeHoldPendingPayment(java.lang.Integer,
+     *      java.lang.String, org.kuali.rice.kim.bo.Person)
      */
     public boolean removeHoldPendingPayment(Integer paymentGroupId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
@@ -301,35 +299,23 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
             }
 
             if ((PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD.equals(paymentStatus))) {
-                if (pdpAuthorizationService.hasRemovePaymentTaxHoldPermission(user.getPrincipalId())) {
-
-                    changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.OPEN, PdpConstants.PaymentChangeCodes.REMOVE_HOLD_CHNG_CD, note, user);
-                    LOG.debug("removeHoldPendingPayment() Pending payment was taken off hold; exit method.");
+                if (!pdpAuthorizationService.hasRemovePaymentTaxHoldPermission(user.getPrincipalId())) {
+                    LOG.warn("removeHoldPendingPayment() User " + user.getPrincipalId() + " does not have rights to remove tax holds. This should not happen unless user is URL spoofing.");
+                    throw new RuntimeException("removeHoldPendingPayment() User " + user.getPrincipalId() + " does not have rights to remove tax holds. This should not happen unless user is URL spoofing.");
                 }
-                else {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("removeHoldPendingPayment() Payment status is " + paymentStatus + "; user does not have rights to cancel");
-                    }
 
-                    GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_REMOVE_HOLD);
-                    return false;
-                }
+                changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.OPEN, PdpConstants.PaymentChangeCodes.REMOVE_HOLD_CHNG_CD, note, user);
+                LOG.debug("removeHoldPendingPayment() Pending payment was taken off hold; exit method.");
             }
             else if (PdpConstants.PaymentStatusCodes.HELD_CD.equals(paymentStatus)) {
-                if (pdpAuthorizationService.hasHoldPaymentPermission(user.getPrincipalId())) {
-
-                    changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.OPEN, PdpConstants.PaymentChangeCodes.REMOVE_HOLD_CHNG_CD, note, user);
-
-                    LOG.debug("removeHoldPendingPayment() Pending payment was taken off hold; exit method.");
+                if (!pdpAuthorizationService.hasHoldPaymentPermission(user.getPrincipalId())) {
+                    LOG.warn("removeHoldPendingPayment() User " + user.getPrincipalId() + " does not have rights to hold payments. This should not happen unless user is URL spoofing.");
+                    throw new RuntimeException("removeHoldPendingPayment() User " + user.getPrincipalId() + " does not have rights to hold payments. This should not happen unless user is URL spoofing.");
                 }
-                else {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("removeHoldPendingPayment() Payment status is " + paymentStatus + "; user does not have rights to cancel");
-                    }
 
-                    GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_INVALID_STATUS_TO_REMOVE_HOLD);
-                    return false;
-                }
+                changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.OPEN, PdpConstants.PaymentChangeCodes.REMOVE_HOLD_CHNG_CD, note, user);
+
+                LOG.debug("removeHoldPendingPayment() Pending payment was taken off hold; exit method.");
             }
             else {
                 if (LOG.isDebugEnabled()) {
@@ -347,13 +333,20 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     }
 
     /**
-     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#changeImmediateFlag(java.lang.Integer, java.lang.String, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#changeImmediateFlag(java.lang.Integer, java.lang.String,
+     *      org.kuali.rice.kim.bo.Person)
      */
     public void changeImmediateFlag(Integer paymentGroupId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
         if (LOG.isDebugEnabled()) {
             LOG.debug("changeImmediateFlag() Enter method to hold pending payment with id = " + paymentGroupId);
         }
+        
+        if (!pdpAuthorizationService.hasSetAsImmediatePayPermission(user.getPrincipalId())) {
+            LOG.warn("changeImmediateFlag() User " + user.getPrincipalId() + " does not have rights to set payments as immediate. This should not happen unless user is URL spoofing.");
+            throw new RuntimeException("changeImmediateFlag() User " + user.getPrincipalId() + " does not have rights to payments as immediate. This should not happen unless user is URL spoofing.");
+        }
+        
         PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
         PaymentGroup paymentGroup = this.paymentGroupService.get(paymentGroupId);
 
@@ -372,12 +365,18 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     }
 
     /**
-     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#cancelDisbursement(java.lang.Integer, java.lang.Integer, java.lang.String, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#cancelDisbursement(java.lang.Integer, java.lang.Integer,
+     *      java.lang.String, org.kuali.rice.kim.bo.Person)
      */
     public boolean cancelDisbursement(Integer paymentGroupId, Integer paymentDetailId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
         if (LOG.isDebugEnabled()) {
             LOG.debug("cancelDisbursement() Enter method to cancel disbursement with id = " + paymentGroupId);
+        }
+        
+        if (!pdpAuthorizationService.hasCancelPaymentPermission(user.getPrincipalId())) {
+            LOG.warn("cancelDisbursement() User " + user.getPrincipalId() + " does not have rights to cancel payments. This should not happen unless user is URL spoofing.");
+            throw new RuntimeException("cancelDisbursement() User " + user.getPrincipalId() + " does not have rights to cancel payments. This should not happen unless user is URL spoofing.");
         }
 
         PaymentGroup paymentGroup = this.paymentGroupService.get(paymentGroupId);
@@ -390,7 +389,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
         String paymentStatus = paymentGroup.getPaymentStatus().getCode();
 
-        if (!(PdpConstants.PaymentChangeCodes.CANCEL_DISBURSEMENT.equals(paymentStatus))) {
+        if (!(PdpConstants.PaymentStatusCodes.CANCEL_DISBURSEMENT.equals(paymentStatus))) {
             if (((PdpConstants.PaymentStatusCodes.EXTRACTED.equals(paymentStatus)) && (ObjectUtils.isNotNull(paymentGroup.getDisbursementDate()))) || (PdpConstants.PaymentStatusCodes.PENDING_ACH.equals(paymentStatus))) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("cancelDisbursement() Payment status is " + paymentStatus + "; continue with cancel.");
@@ -399,8 +398,12 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                 List<PaymentGroup> allDisbursementPaymentGroups = this.paymentGroupService.getByDisbursementNumber(paymentGroup.getDisbursementNbr().intValue());
 
                 for (PaymentGroup element : allDisbursementPaymentGroups) {
-
                     PaymentGroupHistory pgh = new PaymentGroupHistory();
+                    
+                    if (!element.getPaymentDetails().get(0).isDisbursementActionAllowed()) {
+                        LOG.warn("cancelDisbursement() Payment does not allow disbursement action. This should not happen unless user is URL spoofing.");
+                        throw new RuntimeException("cancelDisbursement() Payment does not allow disbursement action. This should not happen unless user is URL spoofing.");                       
+                    }
 
                     if ((ObjectUtils.isNotNull(element.getDisbursementType())) && (element.getDisbursementType().getCode().equals(PdpConstants.DisbursementTypeCodes.CHECK))) {
                         pgh.setPmtCancelExtractStat(Boolean.FALSE);
@@ -440,12 +443,18 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     }
 
     /**
-     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#cancelReissueDisbursement(java.lang.Integer, java.lang.String, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#cancelReissueDisbursement(java.lang.Integer,
+     *      java.lang.String, org.kuali.rice.kim.bo.Person)
      */
     public boolean cancelReissueDisbursement(Integer paymentGroupId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
         if (LOG.isDebugEnabled()) {
             LOG.debug("cancelReissueDisbursement() Enter method to cancel disbursement with id = " + paymentGroupId);
+        }
+        
+        if (!pdpAuthorizationService.hasCancelPaymentPermission(user.getPrincipalId())) {
+            LOG.warn("cancelReissueDisbursement() User " + user.getPrincipalId() + " does not have rights to cancel payments. This should not happen unless user is URL spoofing.");
+            throw new RuntimeException("cancelReissueDisbursement() User " + user.getPrincipalId() + " does not have rights to cancel payments. This should not happen unless user is URL spoofing.");
         }
 
         PaymentGroup paymentGroup = this.paymentGroupService.get(paymentGroupId);
@@ -467,6 +476,11 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
                 for (PaymentGroup pg : allDisbursementPaymentGroups) {
                     PaymentGroupHistory pgh = new PaymentGroupHistory();
+                    
+                    if (!pg.getPaymentDetails().get(0).isDisbursementActionAllowed()) {
+                        LOG.warn("cancelDisbursement() Payment does not allow disbursement action. This should not happen unless user is URL spoofing.");
+                        throw new RuntimeException("cancelDisbursement() Payment does not allow disbursement action. This should not happen unless user is URL spoofing.");                       
+                    }
 
                     if ((ObjectUtils.isNotNull(pg.getDisbursementType())) && (pg.getDisbursementType().getCode().equals(PdpConstants.DisbursementTypeCodes.CHECK))) {
                         pgh.setPmtCancelExtractStat(Boolean.FALSE);

@@ -181,15 +181,16 @@ public class FormatAction extends KualiAction {
         FormatForm formatForm = (FormatForm) form;
         KualiInteger processId = formatForm.getFormatProcessSummary().getProcessId();
 
-        
-        boolean successful = formatService.performFormat(processId.intValue());
-        if (successful) {
-            String lookupUrl = buildUrl(String.valueOf(processId.intValue()));
-
-            return new ActionForward(lookupUrl, true);
-        } else
+        try {
+            formatService.performFormat(processId.intValue());
+        }
+        catch (FormatException e) {
+            // errors added to global message map
             return mapping.findForward(PdpConstants.MAPPING_CONTINUE);
-        
+        }
+
+        String lookupUrl = buildUrl(String.valueOf(processId.intValue()));
+        return new ActionForward(lookupUrl, true);
     }
 
     /**

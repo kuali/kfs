@@ -60,6 +60,7 @@ import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -84,6 +85,7 @@ public class FormatServiceImpl implements FormatService {
     private PaymentGroupService paymentGroupService;
     private DateTimeService dateTimeService;
     private ExtractPaymentService extractPaymentService;
+    private PersonService personService;
 
     /**
      * Constructs a FormatServiceImpl.java.
@@ -202,61 +204,31 @@ public class FormatServiceImpl implements FormatService {
     /**
      * @see org.kuali.kfs.pdp.service.FormatService#performFormat(java.lang.Integer)
      */
-    public boolean performFormat(Integer processId) {
-        boolean successful = true;
+    public void performFormat(Integer processId) throws FormatException {
         LOG.debug("performFormat() started");
 
         // get the PaymentProcess for the given id
         Map primaryKeys = new HashMap();
         primaryKeys.put(PdpPropertyConstants.PaymentProcess.PAYMENT_PROCESS_ID, processId);
         PaymentProcess paymentProcess = (PaymentProcess) this.businessObjectService.findByPrimaryKey(PaymentProcess.class, primaryKeys);
-
         if (paymentProcess == null) {
             LOG.error("performFormat() Invalid proc ID " + processId);
             throw new RuntimeException("Invalid proc ID");
         }
+        
         String campus = paymentProcess.getCampusCode();
-
-        //get disbursement types, payment statuses
-        DisbursementType checkDisbursementType = (DisbursementType) businessObjectService.findBySinglePrimaryKey(DisbursementType.class, PdpConstants.DisbursementTypeCodes.CHECK);
-        DisbursementType achDisbursementType = (DisbursementType) businessObjectService.findBySinglePrimaryKey(DisbursementType.class, PdpConstants.DisbursementTypeCodes.ACH);
-
-        PaymentStatus extractedPaymentStatus = (PaymentStatus) businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
-        PaymentStatus pendingPaymentStatus = (PaymentStatus) businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.PENDING_ACH);
+        FormatProcessSummary postFormatProcessSummary = new FormatProcessSummary();
 
         // step 1 get ACH or Check, Bank info, ACH info, sorting
         Iterator paymentGroupIterator = this.paymentGroupService.getByProcess(paymentProcess);
-
-        FormatProcessSummary postFormatProcessSummary = new FormatProcessSummary();
-
         while (paymentGroupIterator.hasNext()) {
-
             PaymentGroup paymentGroup = (PaymentGroup) paymentGroupIterator.next();
             LOG.debug("performFormat() Step 1 Payment Group ID " + paymentGroup.getId());
 
-            // hold original bank code to log any change
-            String originalBankCode = paymentGroup.getBankCode();
-            Bank originalBank = paymentGroup.getBank();
-
             // process payment group data
-            successful &= processPaymentGroup(paymentGroup, paymentProcess, checkDisbursementType, achDisbursementType, extractedPaymentStatus, pendingPaymentStatus);
-
-            // create payment history record if bank was changed
-            if (StringUtils.isNotBlank(originalBankCode) && !paymentGroup.getBankCode().equals(originalBankCode)) {
-                PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
-
-                PaymentChangeCode paymentChangeCode = (PaymentChangeCode) businessObjectService.findBySinglePrimaryKey(PaymentChangeCode.class, PdpConstants.PaymentChangeCodes.BANK_CHNG_CD);
-                paymentGroupHistory.setPaymentChange(paymentChangeCode);
-                paymentGroupHistory.setOrigBankCode(originalBankCode);
-                paymentGroupHistory.setBank(originalBank);
-                paymentGroupHistory.setOrigPaymentStatus(paymentGroup.getPaymentStatus());
-                Person changeUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(KFSConstants.SYSTEM_USER);
-                paymentGroupHistory.setChangeUser(changeUser);
-                paymentGroupHistory.setPaymentGroup(paymentGroup);
-                paymentGroupHistory.setChangeTime(new Timestamp(new Date().getTime()));
-
-                // save payment group history
-                businessObjectService.save(paymentGroupHistory);
+            boolean groupProcessed = processPaymentGroup(paymentGroup, paymentProcess);
+            if (!groupProcessed) {
+                throw new FormatException("Error encountered during format");
             }
 
             // save payment group
@@ -267,25 +239,26 @@ public class FormatServiceImpl implements FormatService {
         }
 
         // step 2 assign disbursement numbers and combine checks into one if possible
-        successful &= assignDisbursementNumbersAndCombineChecks(campus, paymentProcess, postFormatProcessSummary);
-        if (successful) {
-            // step 3 save the summarizing info
-            LOG.debug("performFormat() Save summarizing information");
-            postFormatProcessSummary.save();
+        boolean disbursementNumbersAssigned = assignDisbursementNumbersAndCombineChecks(campus, paymentProcess, postFormatProcessSummary);
+        if (!disbursementNumbersAssigned) {
+            throw new FormatException("Error encountered during format");
+        }
 
-            // step 4 set formatted indicator to true and save in the db
-            paymentProcess.setFormattedIndicator(true);
-            businessObjectService.save(paymentProcess);
+        // step 3 save the summarizing info
+        LOG.debug("performFormat() Save summarizing information");
+        postFormatProcessSummary.save();
 
-            // step 5 end the format process for this campus
-            LOG.debug("performFormat() End the format process for this campus");
-            endFormatProcess(campus);
+        // step 4 set formatted indicator to true and save in the db
+        paymentProcess.setFormattedIndicator(true);
+        businessObjectService.save(paymentProcess);
 
-            // step 6 tell the extract batch job to start
-            LOG.debug("performFormat() Start extract");
-            extractChecks();
-        }   
-        return successful;
+        // step 5 end the format process for this campus
+        LOG.debug("performFormat() End the format process for this campus");
+        endFormatProcess(campus);
+
+        // step 6 tell the extract batch job to start
+        LOG.debug("performFormat() Start extract");
+        extractChecks();
     }
 
     /**
@@ -293,18 +266,11 @@ public class FormatServiceImpl implements FormatService {
      * 
      * @param paymentGroup
      * @param paymentProcess
-     * @param checkDisbursementType
-     * @param achDisbursementType
-     * @param extractedPaymentStatus
-     * @param pendingPaymentStatus
      */
-    protected boolean processPaymentGroup(PaymentGroup paymentGroup, PaymentProcess paymentProcess, DisbursementType checkDisbursementType, DisbursementType achDisbursementType, PaymentStatus extractedPaymentStatus, PaymentStatus pendingPaymentStatus) {
+    protected boolean processPaymentGroup(PaymentGroup paymentGroup, PaymentProcess paymentProcess) {
         boolean successful = true;
-        CustomerProfile customer = paymentGroup.getBatch().getCustomerProfile();
 
-        // Set the sort field to be saved in the database
         paymentGroup.setSortValue(paymentGroupService.getSortGroupId(paymentGroup));
-
         paymentGroup.setDisbursementDate(new java.sql.Date(paymentProcess.getProcessTimestamp().getTime()));
         paymentGroup.setPhysCampusProcessCd(paymentProcess.getCampusCode());
         paymentGroup.setProcess(paymentProcess);
@@ -324,6 +290,8 @@ public class FormatServiceImpl implements FormatService {
         }
 
         // determine whether payment should be ACH or Check
+        CustomerProfile customer = paymentGroup.getBatch().getCustomerProfile();
+        
         PayeeACHAccount payeeAchAccount = null;
         boolean isCheck = true;
         if (PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(paymentGroup.getPayeeIdTypeCd()) || PdpConstants.PayeeIdTypeCodes.EMPLOYEE.equals(paymentGroup.getPayeeIdTypeCd()) || PdpConstants.PayeeIdTypeCodes.ENTITY.equals(paymentGroup.getPayeeIdTypeCd())) {
@@ -334,59 +302,20 @@ public class FormatServiceImpl implements FormatService {
             }
         }
 
+        DisbursementType disbursementType = null;
         if (isCheck) {
-            PaymentStatus paymentStatus = extractedPaymentStatus;
-            LOG.debug("performFormat() Check: " + paymentStatus);
-            paymentGroup.setDisbursementType(checkDisbursementType);
+            PaymentStatus paymentStatus = (PaymentStatus) businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.PENDING_CHECK);
             paymentGroup.setPaymentStatus(paymentStatus);
 
-            // set bank, use group bank unless not given or not valid for checks
-            if (ObjectUtils.isNull(paymentGroup.getBank()) || !paymentGroup.getBank().isBankCheckIndicator() || !paymentGroup.getBank().isActive()) {
-                CustomerBank customerBank = customer.getCustomerBankByDisbursementType(PdpConstants.DisbursementTypeCodes.CHECK);
-                if (ObjectUtils.isNotNull(customerBank) && customerBank.isActive() && ObjectUtils.isNotNull(customerBank.getBank()) && customerBank.getBank().isActive()) {
-                    paymentGroup.setBankCode(customerBank.getBankCode());
-                    paymentGroup.setBank(customerBank.getBank());
-                }
-                else if (ObjectUtils.isNotNull(customerBank) && ObjectUtils.isNotNull(customerBank.getBank()) && ObjectUtils.isNotNull(customerBank.getBank().getContinuationBank()) && customerBank.getBank().getContinuationBank().isActive()) {
-                    paymentGroup.setBankCode(customerBank.getBank().getContinuationBank().getBankCode());
-                    paymentGroup.setBank(customerBank.getBank().getContinuationBank());                 
-                }
-            }
-
-            if (ObjectUtils.isNull(paymentGroup.getBank())) {
-                LOG.error("performFormat() A bank is needed for CHCK for customer: " + customer);
-                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_BANK_MISSING, customer.getCustomerShortName());
-                successful = false;
-                return successful;
-               // throw new FormatException("A bank is needed for CHCK for customer: " + customer.getChartCode() + "-" + customer.getUnitCode() + "-" + customer.getSubUnitCode());
-            }
+            disbursementType = (DisbursementType) businessObjectService.findBySinglePrimaryKey(DisbursementType.class, PdpConstants.DisbursementTypeCodes.CHECK);
+            paymentGroup.setDisbursementType(disbursementType);
         }
         else {
-            PaymentStatus paymentStatus = pendingPaymentStatus;
-            LOG.debug("performFormat() ACH: " + paymentStatus);
-            paymentGroup.setDisbursementType(achDisbursementType);
+            PaymentStatus paymentStatus = (PaymentStatus) businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.PENDING_ACH);
             paymentGroup.setPaymentStatus(paymentStatus);
-
-            // set bank, use group bank unless not given or not valid for ACH
-            if (ObjectUtils.isNull(paymentGroup.getBank()) || !paymentGroup.getBank().isBankAchIndicator() || !paymentGroup.getBank().isActive()) {
-                CustomerBank customerBank = customer.getCustomerBankByDisbursementType(PdpConstants.DisbursementTypeCodes.ACH);
-                if (ObjectUtils.isNotNull(customerBank) && customerBank.isActive() && ObjectUtils.isNotNull(customerBank.getBank()) && customerBank.getBank().isActive()) {
-                    paymentGroup.setBankCode(customerBank.getBankCode());
-                    paymentGroup.setBank(customerBank.getBank());
-                }
-                else if (ObjectUtils.isNotNull(customerBank) && ObjectUtils.isNotNull(customerBank.getBank()) && ObjectUtils.isNotNull(customerBank.getBank().getContinuationBank()) && customerBank.getBank().getContinuationBank().isActive()) {
-                    paymentGroup.setBankCode(customerBank.getBank().getContinuationBank().getBankCode());
-                    paymentGroup.setBank(customerBank.getBank().getContinuationBank());                 
-                }
-            }
-
-            if (ObjectUtils.isNull(paymentGroup.getBank())) {
-                LOG.error("performFormat() A bank is needed for ACH for customer: " + customer);
-                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_BANK_MISSING, customer.getCustomerShortName());
-                successful = false;
-                return successful;
-            //    throw new FormatException("A bank is needed for ACH for customer: " + customer.getChartCode() + "-" + customer.getUnitCode() + "-" + customer.getSubUnitCode());
-            }
+            
+            disbursementType = (DisbursementType) businessObjectService.findBySinglePrimaryKey(DisbursementType.class, PdpConstants.DisbursementTypeCodes.ACH);
+            paymentGroup.setDisbursementType(disbursementType);
 
             paymentGroup.setAchBankRoutingNbr(payeeAchAccount.getBankRoutingNumber());
             paymentGroup.setAdviceEmailAddress(payeeAchAccount.getPayeeEmailAddress());
@@ -397,18 +326,82 @@ public class FormatServiceImpl implements FormatService {
             achAccountNumber.setId(paymentGroup.getId());
             paymentGroup.setAchAccountNumber(achAccountNumber);
         }
+        
+        // set payment group bank
+        successful &= validateAndUpdatePaymentGroupBankCode(paymentGroup, disbursementType, customer);
+        
         return successful;
+    }
+    
+    /**
+     * Verifies a valid bank is set on the payment group. A bank is valid if it is active and supports the given disbursement type. If the payment group already has an
+     * assigned bank it will be used unless it is not valid. If the payment group bank is not valid or was not given the bank specified on the customer profile to use
+     * for the given disbursement type is used. If this bank is inactive then its continuation bank is used. If not valid bank to use is found an error is added to the
+     * global message map.
+     * 
+     * @param paymentGroup group to set bank on
+     * @param disbursementType type of disbursement for given payment group
+     * @param customer customer profile for payment group
+     * @return boolean true if a valid bank is set on the payment group, false otherwise
+     */
+    protected boolean validateAndUpdatePaymentGroupBankCode(PaymentGroup paymentGroup, DisbursementType disbursementType, CustomerProfile customer) {
+        boolean bankValid = true;
+        
+        String originalBankCode = paymentGroup.getBankCode();
+        if (ObjectUtils.isNull(paymentGroup.getBank()) || ((disbursementType.getCode().equals(PdpConstants.DisbursementTypeCodes.ACH) && !paymentGroup.getBank().isBankAchIndicator()) || (disbursementType.getCode().equals(PdpConstants.DisbursementTypeCodes.CHECK) && !paymentGroup.getBank().isBankCheckIndicator())) || !paymentGroup.getBank().isActive()) {
+            CustomerBank customerBank = customer.getCustomerBankByDisbursementType(disbursementType.getCode());
+            if (ObjectUtils.isNotNull(customerBank) && customerBank.isActive() && ObjectUtils.isNotNull(customerBank.getBank()) && customerBank.getBank().isActive()) {
+                paymentGroup.setBankCode(customerBank.getBankCode());
+                paymentGroup.setBank(customerBank.getBank());
+            }
+            else if (ObjectUtils.isNotNull(customerBank) && ObjectUtils.isNotNull(customerBank.getBank()) && ObjectUtils.isNotNull(customerBank.getBank().getContinuationBank()) && customerBank.getBank().getContinuationBank().isActive()) {
+                paymentGroup.setBankCode(customerBank.getBank().getContinuationBank().getBankCode());
+                paymentGroup.setBank(customerBank.getBank().getContinuationBank());
+            }
+        }
+
+        if (ObjectUtils.isNull(paymentGroup.getBank())) {
+            LOG.error("performFormat() A bank is needed for " + disbursementType.getName() + " disbursement type for customer: " + customer);
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_BANK_MISSING, customer.getCustomerShortName());
+            bankValid = false;
+            
+            return bankValid;
+        }
+        
+        // create payment history record if bank was changed
+        if (StringUtils.isNotBlank(originalBankCode) && !paymentGroup.getBankCode().equals(originalBankCode)) {
+            PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
+
+            PaymentChangeCode paymentChangeCode = (PaymentChangeCode) businessObjectService.findBySinglePrimaryKey(PaymentChangeCode.class, PdpConstants.PaymentChangeCodes.BANK_CHNG_CD);
+            paymentGroupHistory.setPaymentChange(paymentChangeCode);
+            paymentGroupHistory.setOrigBankCode(originalBankCode);
+            
+            Bank originalBank = (Bank) businessObjectService.findBySinglePrimaryKey(Bank.class, originalBankCode);
+            paymentGroupHistory.setBank(originalBank);
+            paymentGroupHistory.setOrigPaymentStatus(paymentGroup.getPaymentStatus());
+            
+            Person changeUser = personService.getPerson(KFSConstants.SYSTEM_USER);
+            paymentGroupHistory.setChangeUser(changeUser);
+            paymentGroupHistory.setPaymentGroup(paymentGroup);
+            paymentGroupHistory.setChangeTime(new Timestamp(new Date().getTime()));
+
+            // save payment group history
+            businessObjectService.save(paymentGroupHistory);
+        }
+        
+        return bankValid;
     }
 
     /**
      * This method assigns disbursement numbers and tries to combine payment groups with disbursement type check if possible.
+     * 
      * @param campus
      * @param paymentProcess
      * @param postFormatProcessSummary
      */
     protected boolean assignDisbursementNumbersAndCombineChecks(String campus, PaymentProcess paymentProcess, FormatProcessSummary postFormatProcessSummary) {
         boolean successful = true;
-        
+
         // keep a map with paymentGroupKey and PaymentInfo (disbursementNumber, noteLines)
         Map<String, PaymentInfo> combinedChecksMap = new HashMap<String, PaymentInfo>();
 
@@ -426,7 +419,6 @@ public class FormatServiceImpl implements FormatService {
                 GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_DISBURSEMENT_MISSING, campus, paymentGroup.getBank().getBankCode(), paymentGroup.getDisbursementType().getCode());
                 successful = false;
                 return successful;
-               // throw new FormatException("No disbursement range for bank code " + paymentGroup.getBank().getBankCode() + " and disbursement type code " + paymentGroup.getDisbursementType().getCode());
             }
 
             if (PdpConstants.DisbursementTypeCodes.CHECK.equals(paymentGroup.getDisbursementType().getCode())) {
@@ -445,22 +437,22 @@ public class FormatServiceImpl implements FormatService {
                         if (paymentInfo.noteLines.intValue() <= maxNoteLines) {
                             KualiInteger checkNumber = paymentInfo.disbursementNumber;
                             paymentGroup.setDisbursementNbr(checkNumber);
-                            
+
                             // update payment info for new noteLines value
                             combinedChecksMap.put(paymentGroupKey, paymentInfo);
                         }
                         // it noteLines more than maxNoteLines we remove the old entry and get a new disbursement number
                         else {
-                            //remove old entry for this paymentGroupKey
+                            // remove old entry for this paymentGroupKey
                             combinedChecksMap.remove(paymentGroupKey);
-                            
+
                             // get a new check number and the paymentGroup noteLines
                             KualiInteger checkNumber = assignDisbursementNumber(campus, range, paymentGroup, postFormatProcessSummary);
                             int noteLines = paymentGroup.getNoteLines();
-                            
+
                             // create new payment info with these two
                             paymentInfo = new PaymentInfo(checkNumber, new KualiInteger(noteLines));
-                            
+
                             // add new entry in the map for this paymentGroupKey
                             combinedChecksMap.put(paymentGroupKey, paymentInfo);
 
@@ -471,10 +463,10 @@ public class FormatServiceImpl implements FormatService {
                         // get a new check number and the paymentGroup noteLines
                         KualiInteger checkNumber = assignDisbursementNumber(campus, range, paymentGroup, postFormatProcessSummary);
                         int noteLines = paymentGroup.getNoteLines();
-                        
+
                         // create new payment info with these two
                         PaymentInfo paymentInfo = new PaymentInfo(checkNumber, new KualiInteger(noteLines));
-                        
+
                         // add new entry in the map for this paymentGroupKey
                         combinedChecksMap.put(paymentGroupKey, paymentInfo);
                     }
@@ -505,6 +497,7 @@ public class FormatServiceImpl implements FormatService {
 
     /**
      * This method gets a new disbursement number and sets it on the payment group and process summary.
+     * 
      * @param campus
      * @param range
      * @param paymentGroup
@@ -534,7 +527,7 @@ public class FormatServiceImpl implements FormatService {
      */
     protected void extractChecks() {
         LOG.debug("extractChecks() started");
-        
+
         extractPaymentService.extractChecks();
     }
 
@@ -717,6 +710,7 @@ public class FormatServiceImpl implements FormatService {
 
     /**
      * This method sets the paymentGroupService
+     * 
      * @param paymentGroupService
      */
     public void setPaymentGroupService(PaymentGroupService paymentGroupService) {
@@ -725,14 +719,16 @@ public class FormatServiceImpl implements FormatService {
 
     /**
      * This method sets the dateTimeService
+     * 
      * @param dateTimeService
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-    
+
     /**
-     * Gets the extractPaymentService attribute. 
+     * Gets the extractPaymentService attribute.
+     * 
      * @return Returns the extractPaymentService.
      */
     protected ExtractPaymentService getExtractPaymentService() {
@@ -741,6 +737,7 @@ public class FormatServiceImpl implements FormatService {
 
     /**
      * Sets the extractPaymentService attribute value.
+     * 
      * @param extractPaymentService The extractPaymentService to set.
      */
     public void setExtractPaymentService(ExtractPaymentService extractPaymentService) {

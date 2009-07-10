@@ -133,11 +133,6 @@ public class PdpKeyConstants {
             public static final String ERROR_PAYMENT_DETAIL_CRITERIA_NOT_ENTERED = "paymentDetailLookup.criteria.noneEntered";
             public static final String ERROR_PAYMENT_DETAIL_PAYEE_ID_TYPE_CODE_NULL_WITH_PAYEE_ID = "paymentDetailLookup.payeeIdTypeCd.nullWithPayeeId";
             public static final String ERROR_PAYMENT_DETAIL_PAYEE_ID_NULL_WITH_PAYEE_ID_TYPE_CODE = "paymentDetailLookup.payeeId.nullWithPayeeIdTypeCd";
-            public static final String ERROR_PAYMENT_DETAIL_CUST_DOC_NBR_LESS_THAN_2_CHARS  ="paymentDetailLookup.custPaymentDocNbr.lessThan2Chars";
-            public static final String ERROR_PAYMENT_DETAIL_INVOICE_NBR_LESS_THAN_2_CHARS ="paymentDetailLookup.invoiceNbr.lessThan2Chars";
-            public static final String ERROR_PAYMENT_DETAIL_REQUISITION_NBR_LESS_THAN_2_CHARS = "paymentDetailLookup.requisitionNbr.lessThan2Chars";
-            public static final String ERROR_PAYMENT_DETAIL_PURCHASE_ORDER_NBR_LESS_THAN_2_CHARS = "paymentDetailLookup.purchaseOrderNbr.lessThan2Chars";
-            public static final String ERROR_PAYMENT_DETAIL_PAYEE_NAME_LESS_THAN_2_CHARS = "paymentDetailLookup.payeeName.lessThan2Chars";
             public static final String ERROR_PAYMENT_NOT_FOUND = "error.paymentDetail.pendingPaymentNotFound";
             public static final String ERROR_PAYMENT_INVALID_STATUS_TO_CANCEL = "error.paymentDetail.invalidStatusToCancelPayment";
             public static final String ERROR_DISBURSEMENT_NOT_FOUND = "error.paymentDetail.disbursementNotFound";

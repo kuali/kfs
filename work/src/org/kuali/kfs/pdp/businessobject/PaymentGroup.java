@@ -142,6 +142,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
             this.refreshReferenceObject(PdpPropertyConstants.PAYMENT_STATUS);
         }
 
+        // check for canceled and reissued
         String paymentStatusWithHistory = "";
         if (paymentStatus != null) {
             paymentStatusWithHistory += paymentStatus.getName();
@@ -156,6 +157,12 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
 
         if (isCanceledReissued) {
             paymentStatusWithHistory += " (Reissued)";
+        }
+        
+        // check for stale payments, if one payment detail is stale then they all are
+        PaymentDetail paymentDetail = getPaymentDetails().get(0);
+        if (!paymentDetail.isDisbursementActionAllowed()) {
+            paymentStatusWithHistory += " (Stale)";
         }
 
         return paymentStatusWithHistory;

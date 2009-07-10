@@ -23,9 +23,11 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -56,7 +58,6 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     private KualiDecimal invTotOtherDebitAmount;
     private KualiDecimal invTotOtherCreditAmount;
     private Boolean primaryCancelledPayment;
-    private Timestamp lastDisbursementActionDate;
 
     private List<PaymentAccountDetail> accountDetail = new ArrayList<PaymentAccountDetail>();
     private List<PaymentNoteText> notes = new ArrayList<PaymentNoteText>();
@@ -87,24 +88,43 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
         return t;
     }
 
+    /**
+     * Determines if the disbursement date is past the number of days old (configured in system parameter) in which actions can take
+     * place
+     * 
+     * @return true if actions are allowed on disbursement, false otherwise
+     */
     public boolean isDisbursementActionAllowed() {
-        return true;
-        // if (paymentGroup.getDisbursementDate() == null) {
-        // if ("EXTR".equals(paymentGroup.getPaymentStatus().getCode())) {
-        // return false;
-        // }
-        // return true;
-        // }
-        // Calendar c = Calendar.getInstance();
-        // c.setTime(paymentGroup.getDisbursementDate());
-        // c.set(Calendar.HOUR, 11);
-        // c.set(Calendar.MINUTE, 59);
-        // c.set(Calendar.SECOND, 59);
-        // c.set(Calendar.MILLISECOND, 59);
-        // c.set(Calendar.AM_PM, Calendar.PM);
-        // Timestamp disbursementDate = new Timestamp(c.getTimeInMillis());
-        // // date is equal to or after lastActionDate Allowed
-        // return ((disbursementDate.compareTo(this.lastDisbursementActionDate)) >= 0);
+        if (paymentGroup.getDisbursementDate() == null) {
+            if (PdpConstants.PaymentStatusCodes.EXTRACTED.equals(paymentGroup.getPaymentStatus().getCode())) {
+                return false;
+            }
+            return true;
+        }
+
+        String daysStr = SpringContext.getBean(ParameterService.class).getParameterValue(PaymentDetail.class, PdpParameterConstants.DISBURSEMENT_CANCELLATION_DAYS);
+        int days = Integer.valueOf(daysStr);
+
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, (days * -1));
+        c.set(Calendar.HOUR, 12);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        c.set(Calendar.AM_PM, Calendar.AM);
+        Timestamp lastDisbursementActionDate = new Timestamp(c.getTimeInMillis());
+
+        Calendar c2 = Calendar.getInstance();
+        c2.setTime(paymentGroup.getDisbursementDate());
+        c2.set(Calendar.HOUR, 11);
+        c2.set(Calendar.MINUTE, 59);
+        c2.set(Calendar.SECOND, 59);
+        c2.set(Calendar.MILLISECOND, 59);
+        c2.set(Calendar.AM_PM, Calendar.PM);
+        Timestamp disbursementDate = new Timestamp(c2.getTimeInMillis());
+
+        // date is equal to or after lastActionDate Allowed
+        return ((disbursementDate.compareTo(lastDisbursementActionDate)) >= 0);
     }
 
     /**
@@ -120,14 +140,6 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
         }
 
         return acctTotal;
-    }
-
-    public Timestamp getLastDisbursementActionDate() {
-        return lastDisbursementActionDate;
-    }
-
-    public void setLastDisbursementActionDate(Timestamp lastDisbursementActionDate) {
-        this.lastDisbursementActionDate = lastDisbursementActionDate;
     }
 
     public Date getInvoiceDate() {
@@ -482,13 +494,6 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
      */
     public void setFinancialSystemOriginCode(String financialSystemOriginCode) {
         this.financialSystemOriginCode = financialSystemOriginCode;
-    }
-
-    /**
-     * Returns the value of the system parameter that contains the disbursement cancellation email address
-     */
-    public String getDisbursementCancellationEmailAddress() {
-        return SpringContext.getBean(ParameterService.class).getParameterValue(PaymentDetail.class, PdpParameterConstants.DISBURSEMENT_CANCELLATION_EMAIL_ADDRESSES);
     }
 
     /**

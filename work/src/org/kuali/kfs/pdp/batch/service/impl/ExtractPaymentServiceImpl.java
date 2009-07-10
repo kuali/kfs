@@ -188,6 +188,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
         Date processDate = dateTimeService.getCurrentDate();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        PaymentStatus extractedStatus = (PaymentStatus) this.businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
         
         String checkFilePrefix = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.ExtractPayment.CHECK_FILENAME);
         checkFilePrefix = MessageFormat.format(checkFilePrefix, new Object[]{ null });
@@ -197,12 +198,12 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
         List<PaymentProcess> extractsToRun = this.processDao.getAllExtractsToRun();
         for (PaymentProcess extractToRun : extractsToRun) {
-            writeExtractCheckFile(extractToRun, filename, extractToRun.getId().intValue());
+            writeExtractCheckFile(extractedStatus, extractToRun, filename, extractToRun.getId().intValue());
             this.processDao.setExtractProcessAsComplete(extractToRun);
         }
     }
 
-    protected void writeExtractCheckFile(PaymentProcess p, String filename, Integer processId) {
+    protected void writeExtractCheckFile(PaymentStatus extractedStatus, PaymentProcess p, String filename, Integer processId) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date processDate = dateTimeService.getCurrentDate();
         BufferedWriter os = null;
@@ -223,10 +224,11 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                     PaymentDetail pd = (PaymentDetail) i.next();
                     PaymentGroup pg = pd.getPaymentGroup();
                     if (!testMode) {
-                        if (ObjectUtils.isNull(pg.getDisbursementDate()) ) {
+                        if (ObjectUtils.isNull(pg.getDisbursementDate())) {
                             pg.setDisbursementDate(new java.sql.Date(processDate.getTime()));
-                            this.businessObjectService.save(pg);
                         }
+                        pg.setPaymentStatus(extractedStatus);
+                        this.businessObjectService.save(pg);
                     }
 
                     if (first) {
@@ -411,7 +413,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         }
     }
     
-    private static String SPACES = "                                                       ";
+    protected static String SPACES = "                                                       ";
 
     protected void writeTag(BufferedWriter os, int indent, String tag, String data) throws IOException {
         if (data != null) {

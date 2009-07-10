@@ -19,8 +19,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
-import org.kuali.kfs.pdp.businessobject.FormatSelection;
 import org.kuali.kfs.pdp.businessobject.FormatProcessSummary;
+import org.kuali.kfs.pdp.businessobject.FormatSelection;
+import org.kuali.kfs.pdp.service.impl.exception.FormatException;
 import org.kuali.rice.kim.bo.Person;
 
 public interface FormatService {
@@ -55,7 +56,7 @@ public interface FormatService {
      * This method formats the data for check printing.
      * @param procId
      */
-    public boolean performFormat(Integer procId);
+    public void performFormat(Integer procId) throws FormatException;
 
     /**
      *  If the start format process was run and errored out,

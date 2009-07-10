@@ -71,6 +71,7 @@ public class PdpConstants {
         public static String CANCEL_PAYMENT = "CPAY";
         public static String EXTRACTED = "EXTR";
         public static String PENDING_ACH = "PACH";
+        public static String PENDING_CHECK = "PCHK";
         public static final String HELD_TAX_ALL = "HTXA";
         public static final String HELD_TAX_ALL_FOR_SEARCH = "HTX*";
         public static final String HELD_CD = "HELD";

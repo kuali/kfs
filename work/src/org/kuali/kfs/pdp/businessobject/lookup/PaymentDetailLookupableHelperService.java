@@ -156,40 +156,11 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
             GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_HEADER_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_CRITERIA_NOT_ENTERED);
         }
         else {
-
             if ((StringUtils.isNotEmpty(payeeIdValue)) && (StringUtils.isEmpty(payeeIdTypeCdValue))) {
                 GlobalVariables.getMessageMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_PAYEE_ID_TYPE_CODE, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_PAYEE_ID_TYPE_CODE_NULL_WITH_PAYEE_ID);
             }
             if ((StringUtils.isEmpty(payeeIdValue)) && (StringUtils.isNotEmpty(payeeIdTypeCdValue))) {
                 GlobalVariables.getMessageMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_PAYEE_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_PAYEE_ID_NULL_WITH_PAYEE_ID_TYPE_CODE);
-            }
-
-            if (StringUtils.isNotEmpty(custPaymentDocNbrValue)) {
-                if (custPaymentDocNbrValue.length() < 2) {
-                    GlobalVariables.getMessageMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_CUSTOMER_DOC_NUMBER, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_CUST_DOC_NBR_LESS_THAN_2_CHARS);
-                }
-            }
-            if (StringUtils.isNotEmpty(invoiceNbrValue)) {
-                if (invoiceNbrValue.length() < 2) {
-
-                    GlobalVariables.getMessageMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_INVOICE_NUMBER, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_INVOICE_NBR_LESS_THAN_2_CHARS);
-                }
-            }
-            if (StringUtils.isNotEmpty(requisitionNbrValue)) {
-                if (requisitionNbrValue.length() < 2) {
-                    GlobalVariables.getMessageMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_REQUISITION_NUMBER, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_REQUISITION_NBR_LESS_THAN_2_CHARS);
-                }
-            }
-            if (StringUtils.isNotEmpty(purchaseOrderNbrValue)) {
-                if (purchaseOrderNbrValue.length() < 2) {
-                    GlobalVariables.getMessageMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_PURCHASE_ORDER_NUMBER, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_PURCHASE_ORDER_NBR_LESS_THAN_2_CHARS);
-                }
-            }
-            if (StringUtils.isNotEmpty(payeeNameValue)) {
-                if (payeeNameValue.length() < 2) {
-                    GlobalVariables.getMessageMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_PAYEE_NAME, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_PAYEE_NAME_LESS_THAN_2_CHARS);
-
-                }
             }
         }
 

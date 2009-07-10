@@ -81,7 +81,6 @@
 
     <!-- begin batch framework -->
 	<bean id="scheduler" class="org.kuali.kfs.sys.batch.SchedulerFactoryBean">
-		<property name="schedulerName" value="kfsScheduler"/>
 		<property name="useQuartzScheduling" value="${use.quartz.scheduling}" />
 		<property name="useJdbcJobstore" value="${use.quartz.jdbc.jobstore}" />
 		<property name="dataSourceReference" ref="dataSource" />

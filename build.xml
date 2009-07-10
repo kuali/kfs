@@ -112,6 +112,8 @@
 			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
 		</condition>
 		<property name="b2b.punch.out.url" value="${b2b.test.punch.out.url}" />
+        <condition property="kfs.rice.override.spring.files" value="${base.kfs.rice.override.spring.files},spring-kfs-batch.xml"><equals arg1="${use.quartz.scheduling}" arg2="true"/></condition>
+        <property name="kfs.rice.override.spring.files" value="${base.kfs.rice.override.spring.files}" />
 		<loadfile property="configuration" srcfile="${build.project.directory}/${configuration.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="p6spy" srcfile="${build.project.directory}/${p6spy.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="web" srcfile="${build.project.directory}/${web.file}"><filterchain><expandproperties/></filterchain></loadfile>

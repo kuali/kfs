@@ -322,7 +322,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     public void populateDocumentForRouting() {
         commodityCodesForRouting = new ArrayList<CommodityCode>();
         for (PurchasingItemBase item : (List<PurchasingItemBase>)this.getItems()) {
-            if (item.getCommodityCode() != null) {
+            if (item.getCommodityCode() != null && !commodityCodesForRouting.contains(item.getCommodityCode())) {
                 commodityCodesForRouting.add(item.getCommodityCode());
             }
         }

@@ -26,12 +26,12 @@
     				</property>
     				<property name="documentCollectionPath">
 						<bean class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath">
-							<property name="collectionPath" value="items" />
+							<property name="collectionPath" value="commodityCodesForRouting" />
    							<property name="documentValues">
 	   							<list>
 	   								<value>purchasingCommodityCode</value>
 	   							</list>
-   							</property>
+   							</property>							
    						</bean>   
 					</property>
 				</bean>
@@ -128,12 +128,14 @@
 	<bean id="DocumentValuePathGroup-PurchasingAccountsPayableDocument-AccountingOrganizationHierarchy-accountingLines" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
 		<property name="documentCollectionPath">
 			<bean class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath">
-				<property name="collectionPath" value="items" />
-				<property name="nestedCollection">
-					<bean parent="DocumentCollectionPath-AccountingLine-chartOrganizationAndOverrideCode">
-						<property name="collectionPath" value="sourceAccountingLines" />
-					</bean>
-				</property>
+				<property name="collectionPath" value="accountsForRouting" />
+   		        <property name="documentValues">
+	   		        <list>
+	   			        <value>chartOfAccountsCode</value>
+	                    <value>account.organizationCode</value>
+	                    <value>overrideCode</value>
+	   		        </list>
+   		        </property>
 			</bean>
 		</property>
 	</bean>
@@ -200,25 +202,17 @@
     <bean id="DocumentValuePathGroup-PurchasingAccountsPayableDocument-SubAccount-accountingLines"  class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
     	<property name="documentCollectionPath">
 			<bean class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath">
-				<property name="collectionPath" value="items" />
-				<property name="nestedCollection">
-    		        <bean parent="DocumentCollectionPath-AccountingLine-chartAndAccountNumberAndSubAccountNumber">
-				        <property name="collectionPath" value="sourceAccountingLines" />
-				    </bean>
-				</property>
+				<property name="collectionPath" value="accountsForRouting" />
+   		        <property name="documentValues">
+	   		        <list>
+	   			        <value>chartOfAccountsCode</value>
+	   			        <value>accountNumber</value>
+	   			        <value>subAccountNumber</value>
+	   		        </list>
+   		        </property>
     		</bean>
     	</property>
     </bean>
-
-   	<bean id="DocumentCollectionPath-AccountingLine-chartAndAccountNumberAndSubAccountNumber" class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath" abstract="true">
-   		<property name="documentValues">
-	   		<list>
-	   			<value>chartOfAccountsCode</value>
-	   			<value>accountNumber</value>
-	   			<value>subAccountNumber</value>
-	   		</list>
-   		</property>
-   	</bean>
    	            
 <!-- All of the Search Type Attributes -->
         

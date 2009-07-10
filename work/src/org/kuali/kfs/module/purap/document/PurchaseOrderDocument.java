@@ -1674,7 +1674,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                     if (ObjectUtils.isNull(accountingLine.getAccount())) {
                         accountingLine.refreshReferenceObject("account");
                     }
-                    if (accountingLine.getAccount() != null) {
+                    if (accountingLine.getAccount() != null && !accounts.contains(accountingLine.getAccount())) {
                         accounts.add(accountingLine.getAccount());
                     }
                 }

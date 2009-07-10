@@ -18,9 +18,6 @@ package org.kuali.kfs.fp.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -49,9 +46,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
     private String accountNumber;
     private String subAccountNumber;
 
-    private Account account;
-    private Chart chartOfAccounts;
-    private SubAccount subAccount;
 
     /**
      * Default constructor.
@@ -399,59 +393,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      */
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
-    }
-
-
-    /**
-     * Gets the account attribute.
-     * 
-     * @return Returns the account
-     */
-    public Account getAccount() {
-        return account;
-    }
-
-    /**
-     * Sets the account attribute.
-     * 
-     * @param account The account to set.
-     * @deprecated
-     */
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    /**
-     * Gets the chartOfAccounts attribute.
-     * 
-     * @return Returns the chartOfAccounts
-     */
-    public Chart getChartOfAccounts() {
-        return chartOfAccounts;
-    }
-
-    /**
-     * Sets the chartOfAccounts attribute.
-     * 
-     * @param chartOfAccounts The chartOfAccounts to set.
-     * @deprecated
-     */
-    public void setChartOfAccounts(Chart chartOfAccounts) {
-        this.chartOfAccounts = chartOfAccounts;
-    }
-
-    /**
-     * @return Returns the subAccount.
-     */
-    public SubAccount getSubAccount() {
-        return subAccount;
-    }
-
-    /**
-     * @param subAccount The subAccount to set.
-     */
-    public void setSubAccount(SubAccount subAccount) {
-        this.subAccount = subAccount;
     }
 
     /**

@@ -63,9 +63,9 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
@@ -119,11 +119,10 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 if ( LOG.isInfoEnabled() ) {
                     LOG.info("Saved Procurement Card document: "+pcardDocument.getDocumentNumber());
                 }
-                // documentService.saveDocumentWithoutRunningValidation(pcardDocument);
             }
             catch (Exception e) {
                 LOG.error("Error persisting document # " + pcardDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage(), e);
-                throw new RuntimeException("Error persisting document # " + pcardDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage(),e);
+                throw new RuntimeException("Error persisting document # " + pcardDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage(), e);
             }
         }
 
@@ -570,10 +569,33 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * @param targetLine The target accounting line to be validated.
      * @return String with error messages discovered during validation.  An empty string indicates no validation errors were found.
      */
-    private String validateTargetAccountingLine(ProcurementCardTargetAccountingLine targetLine) {
+    protected String validateTargetAccountingLine(ProcurementCardTargetAccountingLine targetLine) {
         String errorText = "";
 
         targetLine.refresh();
+        
+        if (!accountingLineRuleUtil.isValidChart(targetLine.getChart(), dataDictionaryService.getDataDictionary())) {
+            String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " is invalid; using error Chart Code.";
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info(tempErrorText);
+            }
+            errorText += " " + tempErrorText;
+
+            targetLine.setChartOfAccountsCode(getErrorChartCode());
+            targetLine.refresh();
+        }   
+        
+        if (!accountingLineRuleUtil.isValidAccount(targetLine.getAccount(), dataDictionaryService.getDataDictionary()) || targetLine.getAccount().isExpired()) {
+            String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " is invalid; using error account.";
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info(tempErrorText);
+            }
+            errorText += " " + tempErrorText;
+
+            targetLine.setChartOfAccountsCode(getErrorChartCode());
+            targetLine.setAccountNumber(getErrorAccountNumber());
+            targetLine.refresh();
+        }
 
         if (!accountingLineRuleUtil.isValidObjectCode(targetLine.getObjectCode(), dataDictionaryService.getDataDictionary())) {
             String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " Object Code " + targetLine.getFinancialObjectCode() + " is invalid; using default Object Code.";
@@ -583,6 +605,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             errorText += " " + tempErrorText;
 
             targetLine.setFinancialObjectCode(getDefaultObjectCode());
+            targetLine.refresh();
         }
 
         if (StringUtils.isNotBlank(targetLine.getSubAccountNumber()) && !accountingLineRuleUtil.isValidSubAccount(targetLine.getSubAccount(), dataDictionaryService.getDataDictionary())) {
@@ -594,9 +617,6 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
             targetLine.setSubAccountNumber("");
         }
-
-        // refresh again since further checks depend on the above attributes (which could have changed)
-        targetLine.refresh();
 
         if (StringUtils.isNotBlank(targetLine.getFinancialSubObjectCode()) && !accountingLineRuleUtil.isValidSubObjectCode(targetLine.getSubObjectCode(), dataDictionaryService.getDataDictionary())) {
             String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " Object Code " + targetLine.getFinancialObjectCode() + " Sub Object Code " + targetLine.getFinancialSubObjectCode() + " is invalid; setting Sub Object to blank.";
@@ -617,21 +637,8 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             targetLine.setProjectCode("");
         }
 
-        if (!accountingLineRuleUtil.isValidAccount(targetLine.getAccount(), dataDictionaryService.getDataDictionary()) || targetLine.getAccount().isExpired()) {
-            String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " is invalid; using error account.";
-            if ( LOG.isInfoEnabled() ) {
-                LOG.info(tempErrorText);
-            }
-            errorText += " " + tempErrorText;
-
-            targetLine.setChartOfAccountsCode(getErrorChartCode());
-            targetLine.setAccountNumber(getErrorAccountNumber());
-        }
-
-        targetLine.refresh();
-
-        // clear out GlobalVariable error map, since we have taken care of the errors
-        GlobalVariables.setErrorMap(new ErrorMap());
+        // clear out GlobalVariable message map, since we have taken care of the errors
+        GlobalVariables.setMessageMap(new MessageMap());
 
         return errorText;
     }

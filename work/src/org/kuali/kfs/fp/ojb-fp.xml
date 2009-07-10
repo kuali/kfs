@@ -1548,18 +1548,7 @@
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" />
-    <reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="accountNumber" />
-    </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-    <reference-descriptor name="subAccount" class-ref="org.kuali.kfs.coa.businessobject.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="accountNumber" />
-        <foreignkey field-ref="subAccountNumber" />
-    </reference-descriptor>
+    <!-- the chart, account, and subaccount fields in this table are potientally invalid and when references are setup and not found OJB seems to be settting the primitive field to blank-->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail" table="FP_PRCRMNT_TRN_DTL_T">

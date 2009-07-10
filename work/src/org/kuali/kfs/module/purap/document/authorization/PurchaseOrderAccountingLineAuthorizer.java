@@ -18,10 +18,10 @@ package org.kuali.kfs.module.purap.document.authorization;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -37,8 +37,30 @@ public class PurchaseOrderAccountingLineAuthorizer extends PurapAccountingLineAu
      */
     @Override
     public boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty) {
-        if (accountingDocument.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equals(PurchaseOrderAccountingLineAuthorizer.NEW_UNORDERED_ITEMS_NODE)) return true;
+        KualiWorkflowDocument workflowDoc = accountingDocument.getDocumentHeader().getWorkflowDocument();
+        String currentRouteNodeName = workflowDoc.getCurrentRouteNodeNames();
+        
+        //  if its in the NEW_UNORDERED_ITEMS node, then allow the new line to be drawn
+        if (PurchaseOrderAccountingLineAuthorizer.NEW_UNORDERED_ITEMS_NODE.equals(currentRouteNodeName)) {
+            return true;
+        }
+        
+        if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT.equals(workflowDoc.getDocumentType())) {
+            int itemNumber = determineItemNumberFromGroupProperty(accountingGroupProperty);
+            PurchaseOrderAmendmentDocument poaDoc = (PurchaseOrderAmendmentDocument) accountingDocument;
+            PurchaseOrderItem item = (PurchaseOrderItem) poaDoc.getItem(itemNumber);
+            return item.isNewItemForAmendment() || item.getSourceAccountingLines().size() == 0;
+        }
+        
         return super.renderNewLine(accountingDocument, accountingGroupProperty);
+    }
+    
+    private int determineItemNumberFromGroupProperty(String accountingGroupProperty) {
+        int openBracketPos = accountingGroupProperty.indexOf("[");
+        int closeBracketPos = accountingGroupProperty.indexOf("]");
+        String itemNumberString = accountingGroupProperty.substring(openBracketPos + 1, closeBracketPos);
+        int itemNumber = new Integer(itemNumberString).intValue();
+        return itemNumber;
     }
     
     @Override
@@ -54,6 +76,7 @@ public class PurchaseOrderAccountingLineAuthorizer extends PurapAccountingLineAu
                 return false;
             }
 
+            // if total amount has a value and is non-zero
             if (poItem.getItemInvoicedTotalAmount() != null && poItem.getItemInvoicedTotalAmount().compareTo(new KualiDecimal(0)) != 0) {
                 return false;
             }
@@ -67,7 +90,7 @@ public class PurchaseOrderAccountingLineAuthorizer extends PurapAccountingLineAu
     }
 
     @Override
-    public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, boolean currentUserIsDocumentInitiator) {
+    public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, boolean currentUserIsDocumentInitiator, boolean pageIsEditable) {
      // the fields in a new line should be always editable
         if (accountingLine.getSequenceNumber() == null) {
             return true;
@@ -78,7 +101,14 @@ public class PurchaseOrderAccountingLineAuthorizer extends PurapAccountingLineAu
         KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)accountingDocument;
         if (!poDocument.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.IN_PROCESS) && (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())) {
-            return currentUserIsDocumentInitiator;
+            if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT.equals(workflowDocument.getDocumentType())) {
+                PurApAccountingLine purapAccount = (PurApAccountingLine)accountingLine;
+                PurchaseOrderItem item = (PurchaseOrderItem)purapAccount.getPurapItem();
+                return item.isNewItemForAmendment() || item.getSourceAccountingLines().size() == 0;
+            }
+            else {
+                return currentUserIsDocumentInitiator;
+            }
         }
         else {
             return true;

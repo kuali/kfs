@@ -45,6 +45,7 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
     private FormFile itemImportFile; // file from which items can be imported
     private String distributePurchasingCommodityCode;
     private String distributePurchasingCommodityDescription;
+    private boolean calculated;
     
     private String initialZipCode;
     
@@ -74,6 +75,8 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
         this.setAccountDistributionnewSourceLine(setupNewAccountDistributionAccountingLine());
         
         this.setNewPurchasingCapitalAssetLocationLine(this.setupNewPurchasingCapitalAssetLocationLine());
+        
+        calculated = false;
     }
     
     
@@ -366,11 +369,11 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
     @Override
     public List<ExtraButton> getExtraButtons() {
         extraButtons.clear();
-        boolean canUserEdit = documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT);
+        
         String appExternalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
 
         // add the calculate button if the user can edit
-        if (canUserEdit) {
+        if (canUserCalculate()) {
             addExtraButton("methodToCall.calculate", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
         }
 
@@ -401,6 +404,17 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
         this.initialZipCode = initialZipCode;
     }
 
+    public boolean isCalculated() {
+        return calculated;
+    }
+
+    public void setCalculated(boolean calculated) {
+        this.calculated = calculated;
+    }
+
+    public boolean canUserCalculate(){        
+        return documentActions != null && documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT);       
+    }
 
 
     /**

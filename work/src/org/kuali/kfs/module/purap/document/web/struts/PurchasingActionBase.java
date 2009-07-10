@@ -1220,7 +1220,8 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
         PurchasingFormBase formBase = (PurchasingFormBase) form;
         formBase.setInitialZipCode(purDoc.getDeliveryPostalCode());
-
+        formBase.setCalculated(true);
+        
         return super.calculate(mapping, form, request, response);
     }
 
@@ -1270,10 +1271,19 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      */
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
         PurchasingDocument purDoc = (PurchasingDocument) purchasingForm.getDocument();
+     
+        // if form is not yet calculated, return and prompt user to calculate
+        if (requiresCalculate(purchasingForm)) {
+            GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_PURCHASING_REQUIRES_CALCULATE);
+
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        
         // call prorateDiscountTradeIn
         SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
+
         return super.route(mapping, form, request, response);
     }
 
@@ -1286,20 +1296,33 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      */
     @Override
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
         PurchasingDocument purDoc = (PurchasingDocument) purchasingForm.getDocument();
+
         // call prorateDiscountTradeIn
         SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
+        
         return super.approve(mapping, form, request, response);
     }
 
     @Override
     public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
         PurchasingDocument purDoc = (PurchasingDocument) purchasingForm.getDocument();
         // call prorateDiscountTradeIn
         SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
         return super.blanketApprove(mapping, form, request, response);
     }
 
+    /**
+     * Checks if calculation is required. Currently it is required when it has not already been calculated and if the user can perform calculate
+     * 
+     * @return true if calculation is required, false otherwise
+     */
+    protected boolean requiresCalculate(PurchasingFormBase purForm) {
+        boolean requiresCalculate = true;        
+        requiresCalculate = !purForm.isCalculated() && purForm.canUserCalculate();
+
+        return requiresCalculate;
+    }
 }

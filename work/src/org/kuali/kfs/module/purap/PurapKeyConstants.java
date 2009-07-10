@@ -147,6 +147,7 @@ public class PurapKeyConstants {
     public static final String ERROR_ASSIGN_SENSITIVE_DATA_INACTIVE = "error.assign.sensitiveData.inactive";
     public static final String ERROR_ASSIGN_SENSITIVE_DATA_REDUNDANT = "error.assign.sensitiveData.redundant";
     
+    public static final String ERROR_PURCHASING_REQUIRES_CALCULATE = "errors.purchasing.calculationRequired";
     
     // Accounts Payable
     public static final String ERROR_SAVE_REQUIRES_CALCULATE = "errors.save.calculationRequired";

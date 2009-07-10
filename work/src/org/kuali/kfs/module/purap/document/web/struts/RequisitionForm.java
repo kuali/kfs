@@ -139,13 +139,19 @@ public class RequisitionForm extends PurchasingFormBase {
         super.getExtraButtons();
         for (int i = 0; i < extraButtons.size(); i++) {
             ExtraButton extraButton = extraButtons.get(i);
-            if ("methodToCall.calculate".equalsIgnoreCase(extraButton.getExtraButtonProperty()) && 
-                    getRequisitionDocument().isDocumentStoppedInRouteNode(NodeDetailEnum.ORG_REVIEW)) {
-                extraButtons.remove(i);
-                return extraButtons;
+            if ("methodToCall.calculate".equalsIgnoreCase(extraButton.getExtraButtonProperty()) ){ 
+                if(canUserCalculate() == false){
+                    extraButtons.remove(i);
+                    return extraButtons;
+                }
             }
         }
         return extraButtons;
     }
 
+    @Override
+    public boolean canUserCalculate(){        
+        return documentActions != null && documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT) &&
+        !getRequisitionDocument().isDocumentStoppedInRouteNode(NodeDetailEnum.ORG_REVIEW);       
+    }    
 }

@@ -19,8 +19,10 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.kuali.rice.ksb.messaging.quartz.MessageServiceExecutorJobListener;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
+import org.quartz.SchedulerFactory;
 
 /**
  * This class wraps the spring version to allow deploy time determination of whether to actually create a scheduler and whether to
@@ -61,6 +63,16 @@ public class SchedulerFactoryBean extends org.springframework.scheduling.quartz.
         return SCHEDULER_DUMMY;
     }
 
+    /**
+     * @see org.springframework.scheduling.quartz.SchedulerFactoryBean#createScheduler(org.quartz.SchedulerFactory, java.lang.String)
+     */
+    @Override
+    protected Scheduler createScheduler(SchedulerFactory schedulerFactory, String schedulerName) throws SchedulerException {
+        Scheduler scheduler = super.createScheduler(schedulerFactory, schedulerName);
+        scheduler.addJobListener(new MessageServiceExecutorJobListener());
+        return scheduler;
+    }
+    
     /**
      * Sets the dataSourceReference attribute value.
      * 

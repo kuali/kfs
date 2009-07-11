@@ -17,6 +17,7 @@ package org.kuali.kfs.sys.batch;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Calendar;
 
 import org.apache.commons.lang.StringUtils;
@@ -24,6 +25,7 @@ import org.apache.log4j.FileAppender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.NDC;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.NDCFilter;
 import org.kuali.rice.kns.mail.InvalidAddressException;
@@ -104,10 +106,6 @@ public class JobListener implements org.quartz.JobListener {
         return new StringBuffer(configurationService.getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY)).append(File.separator).append(nestedDiagnosticContext.toString()).append(".log").toString();
     }
 
-    private String getLogFileUrl(String nestedDiagnosticContext) {
-        return new StringBuffer(configurationService.getPropertyString(KFSConstants.HTDOCS_REPORTS_URL_KEY)).append(nestedDiagnosticContext.toString()).append(".log").toString();
-    }
-
     private void notify(JobExecutionContext jobExecutionContext, String jobStatus) {
         try {
             StringBuffer mailMessageSubject = new StringBuffer(configurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY)).append(": ").append(jobExecutionContext.getJobDetail().getGroup()).append(": ").append(jobExecutionContext.getJobDetail().getName());
@@ -120,7 +118,8 @@ public class JobListener implements org.quartz.JobListener {
                 mailMessage.addToAddress(mailService.getBatchMailingList());
             }
             mailMessageSubject.append(": ").append(jobStatus);
-            mailMessage.setMessage(new StringBuffer("See ").append(getLogFileName(NDC.peek())).append(" or ").append(getLogFileUrl(NDC.peek())).append(" for details").toString());
+            String messageText = MessageFormat.format(configurationService.getPropertyString(KFSKeyConstants.MESSAGE_BATCH_FILE_LOG_EMAIL_BODY), getLogFileName(NDC.peek()));
+            mailMessage.setMessage(messageText);
             if (mailMessage.getToAddresses().size() > 0) {
                 mailMessage.setSubject(mailMessageSubject.toString());
                 mailService.sendMessage(mailMessage);

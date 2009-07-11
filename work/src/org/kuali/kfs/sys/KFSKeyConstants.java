@@ -903,4 +903,6 @@ public class KFSKeyConstants {
     public static final String MESSAGE_BATCH_FILE_ADMIN_DELETE_SUCCESSFUL = "message.batch.file.admin.delete.successful";
     public static final String MESSAGE_BATCH_FILE_ADMIN_DELETE_ERROR = "message.batch.file.admin.delete.error";
     public static final String MESSAGE_BATCH_FILE_ADMIN_DELETE_CANCELLED = "message.batch.file.admin.delete.cancelled";
+    
+    public static final String MESSAGE_BATCH_FILE_LOG_EMAIL_BODY = "message.batch.log.email.body";
 }

@@ -366,6 +366,9 @@ public class DepositWizardAction extends KualiAction {
         final CashManagementService cashManagementService = SpringContext.getBean(CashManagementService.class);
         
         CurrencyFormatter formatter = new CurrencyFormatter();
+        
+        // reload edit modes - just in case we have to return to the deposit wizard page
+        loadEditModesAndDocumentActions(dform);
 
         // validate Bank
         String bankCode = dform.getBankCode();

@@ -363,50 +363,75 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
             pnt.setCustomerNoteText("Send Check To: " + dvSpecialHandlingPersonName);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Creating special handling person name note: "+pnt.getCustomerNoteText());
+            }
             pd.addNote(pnt);
         }
         if (StringUtils.isNotEmpty(dvSpecialHandlingLine1Address)) {
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
             pnt.setCustomerNoteText(dvSpecialHandlingLine1Address);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Creating special handling address 1 note: "+pnt.getCustomerNoteText());
+            }
             pd.addNote(pnt);
         }
         if (StringUtils.isNotEmpty(dvSpecialHandlingLine2Address)) {
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
             pnt.setCustomerNoteText(dvSpecialHandlingLine2Address);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Creating special handling address 2 note: "+pnt.getCustomerNoteText());
+            }
             pd.addNote(pnt);
         }
         if (StringUtils.isNotEmpty(dvSpecialHandlingCity)) {
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
             pnt.setCustomerNoteText(dvSpecialHandlingCity + ", " + dvSpecialHandlingState + " " + dvSpecialHandlingZip);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Creating special handling city note: "+pnt.getCustomerNoteText());
+            }
             pd.addNote(pnt);
         }
         if (document.isDisbVchrAttachmentCode()) {
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
             pnt.setCustomerNoteText("Attachment Included");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("create attachment note: "+pnt.getCustomerNoteText());
+            }
             pd.addNote(pnt);
         }
 
         String paymentReasonCode = dvpd.getDisbVchrPaymentReasonCode();
         if (parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, paymentReasonCode).evaluationSucceeds() || DisbursementVoucherConstants.PaymentReasonCodes.TRAVEL_HONORARIUM.equals(paymentReasonCode)) {
             DisbursementVoucherNonEmployeeTravel dvnet = document.getDvNonEmployeeTravel();
+            
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
             pnt.setCustomerNoteText("Reimbursement associated with " + dvnet.getDisbVchrServicePerformedDesc());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Creating non employee travel notes: "+pnt.getCustomerNoteText());
+            }
             pd.addNote(pnt);
 
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
             pnt.setCustomerNoteText("The total per diem amount for your daily expenses is " + dvnet.getDisbVchrPerdiemCalculatedAmt());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Creating non employee travel notes: "+pnt.getCustomerNoteText());
+            }
             pd.addNote(pnt);
 
             if (dvnet.getDisbVchrPersonalCarAmount() != null && dvnet.getDisbVchrPersonalCarAmount().compareTo(KualiDecimal.ZERO) != 0) {
                 pnt = new PaymentNoteText();
                 pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
                 pnt.setCustomerNoteText("The total dollar amount for your vehicle mileage is " + dvnet.getDisbVchrPersonalCarAmount());
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Creating non employee travel vehicle note: "+pnt.getCustomerNoteText());
+                }
                 pd.addNote(pnt);
 
                 for (Iterator iter = dvnet.getDvNonEmployeeExpenses().iterator(); iter.hasNext();) {
@@ -416,6 +441,9 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
                         pnt = new PaymentNoteText();
                         pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
                         pnt.setCustomerNoteText(exp.getDisbVchrExpenseCompanyName() + " " + exp.getDisbVchrExpenseAmount());
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Creating non employee travel expense note: "+pnt.getCustomerNoteText());
+                        }
                         pd.addNote(pnt);
                     }
                 }
@@ -426,6 +454,9 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
             pnt.setCustomerNoteText("Payment is for the following indviuals/charges:");
             pd.addNote(pnt);
+            if (LOG.isDebugEnabled()) {
+                LOG.info("Creating prepaid travel note note: "+pnt.getCustomerNoteText());
+            }
 
             DisbursementVoucherPreConferenceDetail dvpcd = document.getDvPreConferenceDetail();
 
@@ -436,6 +467,9 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
                     pnt = new PaymentNoteText();
                     pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
                     pnt.setCustomerNoteText(dvpcr.getDvConferenceRegistrantName() + " " + dvpcr.getDisbVchrExpenseAmount());
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Creating pre-paid conference registrants note: "+pnt.getCustomerNoteText());
+                    }
                     pd.addNote(pnt);
                 }
             }
@@ -445,7 +479,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         if (text.length() > 0) {
             String[] lines = text.split("\\n");
             for (int i = 0; i < lines.length; i++) {
-                if (line < (maxNoteLines - 3)) {
+                if (line < (maxNoteLines - 3) && !StringUtils.isEmpty(lines[i])) {
+                    
                     pnt = new PaymentNoteText();
                     pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
                     if (lines[i].length() > 90) {
@@ -454,10 +489,14 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
                     else {
                         pnt.setCustomerNoteText(lines[i]);
                     }
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Creating check stub text note: "+pnt.getCustomerNoteText());
+                    }
                     pd.addNote(pnt);
                 }
             }
         }
+        
         return pd;
     }
 

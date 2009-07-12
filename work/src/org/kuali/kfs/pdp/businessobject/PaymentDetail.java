@@ -27,6 +27,7 @@ import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
@@ -40,6 +41,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
 public class PaymentDetail extends TimestampedBusinessObjectBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentDetail.class);
     private static KualiDecimal zero = KualiDecimal.ZERO;
 
     private KualiInteger id;
@@ -99,8 +101,8 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
             if (PdpConstants.PaymentStatusCodes.EXTRACTED.equals(paymentGroup.getPaymentStatus().getCode())) {
                 return false;
             }
-            return true;
-        }
+        return true;
+    }
 
         String daysStr = SpringContext.getBean(ParameterService.class).getParameterValue(PaymentDetail.class, PdpParameterConstants.DISBURSEMENT_CANCELLATION_DAYS);
         int days = Integer.valueOf(daysStr);
@@ -191,8 +193,12 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     }
 
     public void addNote(PaymentNoteText pnt) {
-        pnt.setPaymentDetail(this);
-        notes.add(pnt);
+        if (!StringUtils.isBlank(pnt.getCustomerNoteText())) {
+            pnt.setPaymentDetail(this);
+            notes.add(pnt);
+        } else {
+            LOG.warn("Did not add note to payment detail build from Document #: "+(!StringUtils.isBlank(custPaymentDocNbr) ? custPaymentDocNbr : "")+" because note was empty");
+        }
     }
 
     /**

@@ -16,22 +16,16 @@
 package org.kuali.kfs.module.ld.batch.service.impl;
 
 import java.sql.Date;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
-import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry;
 import org.kuali.kfs.module.ld.service.LaborGeneralLedgerEntryService;
+import org.kuali.kfs.module.ld.service.LaborTransactionDescriptionService;
 import org.kuali.kfs.module.ld.util.DebitCreditUtil;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,7 +35,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class LaborGLLedgerEntryPoster implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborGLLedgerEntryPoster.class);
+    
     private LaborGeneralLedgerEntryService laborGeneralLedgerEntryService;
+    private LaborTransactionDescriptionService laborTransactionDescriptionService;
 
     /**
      * @see org.kuali.kfs.gl.batch.service.PostTransaction#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
@@ -56,7 +52,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
         laborGeneralLedgerEntry.setTransactionDebitCreditCode(this.getDebitCreditCode(transaction));
         laborGeneralLedgerEntry.setTransactionLedgerEntryAmount(this.getTransactionAmount(transaction));
 
-        laborGeneralLedgerEntry.setTransactionLedgerEntryDescription(getTransactionDescription(transaction));
+        laborGeneralLedgerEntry.setTransactionLedgerEntryDescription(laborTransactionDescriptionService.getTransactionDescription(transaction));
 
         laborGeneralLedgerEntry.setTransactionEncumbranceUpdateCode(this.getEncumbranceUpdateCode(transaction));
 
@@ -99,43 +95,6 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
     }
 
     /**
-     * @return the transaction description
-     */
-    protected String getTransactionDescription(Transaction transaction) {
-        String documentTypeCode = transaction.getFinancialDocumentTypeCode();
-        String description = getDescriptionMap().get(documentTypeCode);
-        description = StringUtils.isNotEmpty(description) ? description : transaction.getTransactionLedgerEntryDescription();
-
-        // make sure the length of the description cannot excess the specified maximum
-        int transactionDescriptionMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(Entry.class, KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC).intValue();
-        if (StringUtils.isNotEmpty(description) && description.length() > transactionDescriptionMaxLength) {
-            description = StringUtils.left(description, transactionDescriptionMaxLength);
-        }
-
-        return description;
-    }
-
-    /**
-     * @return the description dictionary that can be used to look up approperite description
-     */
-    public static Map<String, String> getDescriptionMap() {
-        Map<String, String> descriptionMap = new HashMap<String, String>();
-
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.NORMAL_PAY, "NORMAL PAYROLL ACTIVITY");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.ACCRUALS_REVERSAL, "PAYROLL ACCRUAL REVERSAL");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.ACCRUALS, "PAYROLL ACCRUALS");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.CHECK_CANCELLATION, "PAYROLL CHECK CANCELLATIONS");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.ENCUMBRANCE, "PAYROLL ENCUMBRANCES");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.EXPENSE_TRANSFER_ET, "PAYROLL EXPENSE TRANSFERS");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.EXPENSE_TRANSFER_SACH, "PAYROLL EXPENSE TRANSFERS");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.HAND_DRAWN_CHECK, "PAYROLL HAND DRAWN CHECK PAYMENTS");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.OVERPAYMENT, "PAYROLL OVERPAYMENT COLLECTIONS");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.RETROACTIVE_ADJUSTMENT, "PAYROLL RETROACTIVE ADJUSTMENTS");
-
-        return descriptionMap;
-    }
-
-    /**
      * @see org.kuali.kfs.gl.batch.service.PostTransaction#getDestinationName()
      */
     public String getDestinationName() {
@@ -149,5 +108,13 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
      */
     public void setLaborGeneralLedgerEntryService(LaborGeneralLedgerEntryService laborGeneralLedgerEntryService) {
         this.laborGeneralLedgerEntryService = laborGeneralLedgerEntryService;
+    }
+
+    /**
+     * Sets the laborTransactionDescriptionService attribute value.
+     * @param laborTransactionDescriptionService The laborTransactionDescriptionService to set.
+     */
+    public void setLaborTransactionDescriptionService(LaborTransactionDescriptionService laborTransactionDescriptionService) {
+        this.laborTransactionDescriptionService = laborTransactionDescriptionService;
     }
 }

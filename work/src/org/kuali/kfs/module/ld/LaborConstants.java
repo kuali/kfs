@@ -89,26 +89,6 @@ public class LaborConstants {
         public static final String YEAR_END = "Labor.YearEnd";
     }
 
-    public static class PayrollDocumentTypeCode {
-        public static final String ACCRUALS = "PAYA";
-        public static final String ACCRUALS_REVERSAL = "PAYN";
-
-        public static final String CHECK_CANCELLATION = "PAYC";
-        public static final String ENCUMBRANCE = "PAYE";
-        public static final String EXPENSE_TRANSFER_BT = "BT";
-
-        public static final String EXPENSE_TRANSFER_ET = "ET";
-        public static final String EXPENSE_TRANSFER_SACH = "SACH";
-        public static final String EXPENSE_TRANSFER_ST = "ST";
-
-        public static final String EXPENSE_TRANSFER_YEBT = "YEBT";
-        public static final String EXPENSE_TRANSFER_YEST = "YEST";
-        public static final String HAND_DRAWN_CHECK = "HDRW";
-        public static final String NORMAL_PAY = "PAY";
-        public static final String OVERPAYMENT = "OPAY";
-        public static final String RETROACTIVE_ADJUSTMENT = "RETR";
-    }
-
     public static class Poster {
         public static final String BALANCE_TYPES_NOT_PROCESSED = "SENT_TO_GL_BALANCE_TYPES";
         public static final String OBJECT_CODES_NOT_PROCESSED = "SENT_TO_POSTER_OBJECT_CODES";

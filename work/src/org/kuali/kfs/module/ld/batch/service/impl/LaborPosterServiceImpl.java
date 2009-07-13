@@ -33,7 +33,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.batch.service.VerifyTransaction;
-import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.report.TransactionListingReport;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
@@ -44,15 +43,13 @@ import org.kuali.kfs.module.ld.batch.service.LaborPosterService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.document.validation.impl.TransactionFieldValidator;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
+import org.kuali.kfs.module.ld.service.LaborTransactionDescriptionService;
 import org.kuali.kfs.module.ld.util.LaborLedgerUnitOfWork;
 import org.kuali.kfs.module.ld.util.LaborOriginEntryFileIterator;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,6 +79,8 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     private PostTransaction laborLedgerEntryPoster;
     private PostTransaction laborLedgerBalancePoster;
     private PostTransaction laborGLLedgerEntryPoster;
+    
+    private LaborTransactionDescriptionService laborTransactionDescriptionService;
 
     private int numberOfErrorOriginEntry;
 
@@ -349,49 +348,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     }
 
     /**
-     * @return the transaction description
-     */
-    protected String getTransactionDescription(LaborOriginEntry laborOriginEntry) {
-        String documentTypeCode = laborOriginEntry.getFinancialDocumentTypeCode();
-        String description = getDescriptionMap().get(documentTypeCode);
-        description = StringUtils.isNotEmpty(description) ? description : laborOriginEntry.getTransactionLedgerEntryDescription();
-
-        // make sure the length of the description cannot excess the specified maximum
-        int transactionDescriptionMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(Entry.class, KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC).intValue();
-        if (StringUtils.isNotEmpty(description) && description.length() > transactionDescriptionMaxLength) {
-            description = StringUtils.left(description, transactionDescriptionMaxLength);
-        }
-
-        return description;
-    }
-
-    /**
-     * @return the description dictionary that can be used to look up approperite description
-     */
-    public static Map<String, String> getDescriptionMap() {
-        Map<String, String> descriptionMap = new HashMap<String, String>();
-
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.NORMAL_PAY, "NORMAL PAYROLL ACTIVITY");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.ACCRUALS_REVERSAL, "PAYROLL ACCRUAL REVERSAL");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.ACCRUALS, "PAYROLL ACCRUALS");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.CHECK_CANCELLATION, "PAYROLL CHECK CANCELLATIONS");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.ENCUMBRANCE, "PAYROLL ENCUMBRANCES");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.EXPENSE_TRANSFER_ET, "PAYROLL EXPENSE TRANSFERS");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.EXPENSE_TRANSFER_SACH, "PAYROLL EXPENSE TRANSFERS");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.HAND_DRAWN_CHECK, "PAYROLL HAND DRAWN CHECK PAYMENTS");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.OVERPAYMENT, "PAYROLL OVERPAYMENT COLLECTIONS");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.RETROACTIVE_ADJUSTMENT, "PAYROLL RETROACTIVE ADJUSTMENTS");
-
-        // Shawn - for IU
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.EXPENSE_TRANSFER_BT, "PAYROLL EXPENSE TRANSFERS");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.EXPENSE_TRANSFER_ST, "PAYROLL EXPENSE TRANSFERS");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.EXPENSE_TRANSFER_YEBT, "PAYROLL EXPENSE TRANSFERS");
-        descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.EXPENSE_TRANSFER_YEST, "PAYROLL EXPENSE TRANSFERS");
-
-        return descriptionMap;
-    }
-
-    /**
      * summary the valid origin entries for the General Ledger
      * 
      * @param laborOriginEntry the current entry to check for summarization
@@ -401,7 +357,8 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      */
     protected void summarizeLaborGLEntries(LaborOriginEntry laborOriginEntry, LaborLedgerUnitOfWork laborLedgerUnitOfWork, Date runDate, int lineNumber, Map<String, Integer> glEntryReportSummary) {
         // shawn - setup below two fields before making consolidated list
-        laborOriginEntry.setTransactionLedgerEntryDescription(getTransactionDescription(laborOriginEntry));
+        String transactionDescription = laborTransactionDescriptionService.getTransactionDescription(laborOriginEntry);
+        laborOriginEntry.setTransactionLedgerEntryDescription(transactionDescription);       
         laborOriginEntry.setTransactionEncumbranceUpdateCode(this.getEncumbranceUpdateCode(laborOriginEntry));
 
         updateReportSummary(glEntryReportSummary, ORIGN_ENTRY, KFSConstants.OperationType.READ);
@@ -605,5 +562,13 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      */
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
+    }
+
+    /**
+     * Sets the laborTransactionDescriptionService attribute value.
+     * @param laborTransactionDescriptionService The laborTransactionDescriptionService to set.
+     */
+    public void setLaborTransactionDescriptionService(LaborTransactionDescriptionService laborTransactionDescriptionService) {
+        this.laborTransactionDescriptionService = laborTransactionDescriptionService;
     }
 }

@@ -411,8 +411,30 @@
         <property name="laborGLLedgerEntryPoster">
             <ref bean="laborGLLedgerEntryPoster" />
         </property>
+        
+        <property name="laborTransactionDescriptionService">
+            <ref bean="laborTransactionDescriptionService" />
+        </property>
+        
         <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
     </bean>
+    
+    <bean id="laborTransactionDescriptionService" class="org.kuali.kfs.module.ld.service.impl.LaborTransactionDescriptionServiceImpl">
+        <property name="transactionDescriptionMap">
+            <map>
+                <entry key="PAY"  value="NORMAL PAYROLL ACTIVITY"/>
+                <entry key="PAYN" value="PAYROLL ACCRUAL REVERSAL"/>
+                <entry key="PAYA" value="PAYROLL ACCRUALS"/>
+                <entry key="PAYC" value="PAYROLL CHECK CANCELLATIONS"/>
+                <entry key="PAYE" value="PAYROLL ENCUMBRANCES"/>
+                <entry key="ET"   value="PAYROLL EXPENSE TRANSFERS"/>
+                <entry key="SACH" value="PAYROLL EXPENSE TRANSFERS"/>
+                <entry key="HDRW" value="PAYROLL HAND DRAWN CHECK PAYMENTS"/>
+                <entry key="OPAY" value="PAYROLL OVERPAYMENT COLLECTIONS"/>
+                <entry key="RETR" value="PAYROLL RETROACTIVE ADJUSTMENTS"/>
+            </map>
+        </property>
+    </bean>    
     
     <bean id="laborBalancingService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborBalancingServiceImpl">
 		<property name="parameterService">
@@ -532,6 +554,10 @@
         <property name="laborGeneralLedgerEntryService">
             <ref bean="laborGeneralLedgerEntryService" />
         </property>
+        
+        <property name="laborTransactionDescriptionService">
+            <ref bean="laborTransactionDescriptionService" />
+        </property>        
     </bean>
 
     <bean id="laborPosterTransactionValidator" class="org.kuali.kfs.module.ld.batch.service.impl.LaborPosterTransactionValidator"/> 

@@ -65,7 +65,11 @@
 											property="document.invoicePaidApplieds" indexId="ctr">
 											<tr>
 												<td>
-													<c:out value="${invoicePaidApplied.financialDocumentReferenceInvoiceNumber}" />
+													<kul:htmlControlAttribute
+														attributeEntry="${invoicePaidAppliedAttributes.financialDocumentReferenceInvoiceNumber}"
+														property="document.invoicePaidApplied[${ctr}].financialDocumentReferenceInvoiceNumber"
+														readOnly="true" />
+													<!--<c:out value="${invoicePaidApplied.financialDocumentReferenceInvoiceNumber}" />-->
 												</td>
 												<td>
 													<kul:htmlControlAttribute
@@ -76,8 +80,12 @@
 												<td>
 													<c:out value="${invoicePaidApplied.invoiceDetail.invoiceItemDescription}" />&nbsp;
 												</td>
-												<td>
-													$<c:out value="${invoicePaidApplied.invoiceItemAppliedAmount}" />
+												<td style="text-align: right;">
+													<kul:htmlControlAttribute
+														attributeEntry="${invoicePaidAppliedAttributes.invoiceItemAppliedAmount}"
+														property="document.invoicePaidApplied[${ctr}].invoiceItemAppliedAmount"
+														readOnly="true" />
+													<!--$<c:out value="${invoicePaidApplied.invoiceItemAppliedAmount}" />-->
 												</td>
 											</tr>
 										</logic:iterate>
@@ -119,24 +127,44 @@
 								<tr>
 									<c:if test="${!showCCAndBtbA}">
 		                        	    <c:if test="${readOnly ne true}">
-											<td>
-												$<c:out value="${KualiForm.totalFromControl}" />
+											<td style="text-align: right;">
+												<kul:htmlControlAttribute
+													attributeEntry="${totalFromControl}"
+													property="totalFromControl"
+													readOnly="true" />
+												<!--$<c:out value="${KualiForm.totalFromControl}" />-->
 											</td>
-											<td>
-												$<c:out value="${KualiForm.unallocatedBalance}" />
+											<td style="text-align: right;">
+												<kul:htmlControlAttribute
+													attributeEntry="${unallocatedBalance}"
+													property="unallocatedBalance"
+													readOnly="true" />
+												<!--$<c:out value="${KualiForm.unallocatedBalance}" />-->
 											</td>
 										</c:if>
 									</c:if>
 									<c:if test="${showCCAndBtbA}">
-										<td>
-											$<c:out value="${KualiForm.document.documentHeader.financialDocumentTotalAmount}" />
+										<td style="text-align: right;">
+											<kul:htmlControlAttribute
+												attributeEntry="${document.documentHeader.financialDocumentTotalAmount}"
+												property="document.documentHeader.financialDocumentTotalAmount"
+												readOnly="true" />
+											<!--$<c:out value="${KualiForm.document.documentHeader.financialDocumentTotalAmount}" />-->
 										</td>
-										<td>
-											$<c:out value="${KualiForm.unallocatedBalance}" />
+										<td style="text-align: right;">
+											<kul:htmlControlAttribute
+												attributeEntry="${unallocatedBalance}"
+												property="unallocatedBalance"
+												readOnly="true" />
+											<!--$<c:out value="${KualiForm.unallocatedBalance}" />-->
 										</td>
 									</c:if>
-									<td>
-										$<c:out value="${KualiForm.totalApplied}" />
+									<td style="text-align: right;">
+										<kul:htmlControlAttribute
+											attributeEntry="${totalApplied}"
+											property="totalApplied"
+											readOnly="true" />
+										<!--$<c:out value="${KualiForm.totalApplied}" />-->
 									</td>
 								</tr>
 							</table>

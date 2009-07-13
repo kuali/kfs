@@ -190,7 +190,7 @@
                                 onblur="loadProjectInfo(this.name, 'paymentApplicationDocument.nonInvoiced[${ctr}].project.projectDescription')" />
                             <div id="paymentApplicationDocument.nonInvoiced[${ctr}].project.projectDescription.div"><bean:write name="KualiForm" property="paymentApplicationDocument.nonInvoiced[${ctr}].project.projectDescription"/></div>
                         </td>
-                        <td>
+                        <td style="text-align: right;">
                             <kul:htmlControlAttribute
                             	styleClass="amount"
                                 attributeEntry="${nonInvoicedAttributes.financialDocumentLineAmount}"
@@ -214,7 +214,12 @@
                 <tr>
                     <th colspan='6'>&nbsp;</th>
                     <kul:htmlAttributeHeaderCell literalLabel="Non-AR Total"/>
-                    <td>${KualiForm.nonArTotal}</td>
+                    <td style="text-align: right;">
+                        <kul:htmlControlAttribute
+                            attributeEntry="${nonArTotal}"
+                            property="nonArTotal" readOnly="true" />
+                    	<!--${KualiForm.nonArTotal}-->
+                    </td>
                     <td>&nbsp;</td>
                 </tr>
             </table>

@@ -27,6 +27,9 @@
 <%@ attribute name="invoiceAttributes" required="true" 
     description="Attributes of Invoice according to the data dictionary" %>
 
+<c:set var="cashControlDetailAttributes" value="${DataDictionary['CashControlDetail'].attributes}" />
+<c:set var="nonAppliedHoldingAttributes" value="${DataDictionary['NonAppliedHolding'].attributes}" />
+
 <kul:tab tabTitle="Control Information"
     defaultOpen="true"
     tabErrorKey="${KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS},document.hiddenFieldForErrors">
@@ -58,11 +61,17 @@
             	            <logic:iterate name="KualiForm" property="nonAppliedControlHoldings" id="nonApplied" indexId="idx">
         	               	    <tr>
     	                   		    <td>
-                           			    <bean:write name="nonApplied" property="referenceFinancialDocumentNumber" />
+    	                   		    	<kul:htmlControlAttribute
+											attributeEntry="${nonAppliedHoldingAttributes.referenceFinancialDocumentNumber}"
+											property="nonAppliedControlHoldings[${idx}].referenceFinancialDocumentNumber" readOnly="true" />
+                           			    <!--<bean:write name="nonApplied" property="referenceFinancialDocumentNumber" />-->
                         		    </td>
 	                        	    <c:if test="${readOnly ne true}">
 	                    	   		    <td style="text-align: right;">
-	                	           		    <bean:write name="nonApplied" property="availableUnappliedAmount" />
+											<kul:htmlControlAttribute
+												attributeEntry="${nonAppliedHoldingAttributes.availableUnappliedAmount}"
+												property="nonAppliedControlHoldings[${idx}].availableUnappliedAmount" readOnly="true" />
+	                	           		    <!--<bean:write name="nonApplied" property="availableUnappliedAmount" />-->
 	            	           		    </td>
 	                        	    </c:if>
                     	   		    <td style="text-align: right;">
@@ -81,11 +90,15 @@
                         	    <kul:htmlAttributeHeaderCell align="right" literalLabel="Total:" />
                         	    <c:if test="${readOnly ne true}">
 	                        	    <td style="text-align: right;">
-    	                    		    <c:out value="${KualiForm.totalFromControl}" />
+			                			<kul:htmlControlAttribute
+											attributeEntry="${totalFromControl}"
+											property="totalFromControl" readOnly="true" />
     							    </td>
                         	    </c:if>
                         	    <td style="text-align: right;">
-                        		    <c:out value="${KualiForm.totalApplied}" />
+		                			<kul:htmlControlAttribute
+										attributeEntry="${totalApplied}"
+										property="totalApplied" readOnly="true" />
                         	    </td>
                         	</tr>
                         </table>
@@ -108,15 +121,27 @@
               		</tr>
               		<tr>
 	                	<th>Customer</th>
-                		<td><c:out value="${KualiForm.document.cashControlDetail.customerNumber}" /></td>
+                		<td>
+							<kul:htmlControlAttribute
+								attributeEntry="${cashControlDetailAttributes.customerNumber}"
+								property="document.cashControlDetail.customerNumber" readOnly="true" />
+                		</td>
               		</tr>
               		<tr>
                 		<th>Control Total</th>
-                		<td><c:out value="${KualiForm.document.cashControlDetail.financialDocumentLineAmount}" /></td>
+                		<td>
+							<kul:htmlControlAttribute
+								attributeEntry="${cashControlDetailAttributes.financialDocumentLineAmount}"
+								property="document.cashControlDetail.financialDocumentLineAmount" readOnly="true" />
+                		</td>
               		</tr>
               		<tr>
                 		<th>Open Amount</th>
-                		<td><c:out value="${KualiForm.unallocatedBalance}" /></td>
+                		<td>
+                			<kul:htmlControlAttribute
+								attributeEntry="${unallocatedBalance}"
+								property="unallocatedBalance" readOnly="true" />
+                		</td>
               		</tr>
               		<tr>
                 		<th>Payment #</th>

@@ -40,17 +40,16 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.bo.role.dto.DelegateInfo;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.support.KimDelegationTypeService;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 import org.kuali.rice.kns.mail.InvalidAddressException;
 import org.kuali.rice.kns.mail.MailMessage;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.MailService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
@@ -62,6 +61,9 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
     private KualiConfigurationService configurationService;
     private IdentityManagementService identityManagementService;
     private MailService mailService;
+    private ParameterService parameterService;
+    
+    private final static String DERIVED_ROLE_MEMBER_INACTIVATION_NOTIFICATION_EMAIL_ADDRESSES_PARAMETER_NAME = "DERIVED_ROLE_MEMBER_INACTIVATION_NOTIFICATION_EMAIL_ADDRESSES";
     
     {
         requiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
@@ -289,6 +291,16 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
             mailService = SpringContext.getBean(MailService.class);
         }
         return mailService;
+    }
+    
+    /**
+     * @return an implementation of the ParameterService
+     */
+    protected ParameterService getParameterService() {
+        if (parameterService == null) {
+            parameterService = SpringContext.getBean(ParameterService.class);
+        }
+        return parameterService;
     }
 
     public AttributeSet convertQualificationAttributesToRequired(AttributeSet qualificationAttributes) {
@@ -581,7 +593,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
      * @return the e-mail address of those interested in account role principal inactivations
      */
     protected String getDeactivationInterestAddress() {
-        return "knoreceipt-l@indiana.edu";
+        return getParameterService().getParameterValue(Account.class, AccountDerivedRoleTypeServiceImpl.DERIVED_ROLE_MEMBER_INACTIVATION_NOTIFICATION_EMAIL_ADDRESSES_PARAMETER_NAME);
     }
     
     

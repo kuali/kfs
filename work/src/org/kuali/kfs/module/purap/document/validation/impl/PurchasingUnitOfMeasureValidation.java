@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
@@ -43,6 +44,8 @@ public class PurchasingUnitOfMeasureValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         PurchasingItemBase purItem = (PurchasingItemBase) itemForValidation;
+        GlobalVariables.getMessageMap().addToErrorPath(PurapConstants.ITEM_TAB_ERRORS);
+        
         // Validations for quantity based item type
         if (purItem.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
             String uomCode = purItem.getItemUnitOfMeasureCode();
@@ -65,6 +68,8 @@ public class PurchasingUnitOfMeasureValidation extends GenericValidation {
             }            
         }
 
+        GlobalVariables.getMessageMap().clearErrorPath();
+        
         return valid;
     }
 

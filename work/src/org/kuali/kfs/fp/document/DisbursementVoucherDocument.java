@@ -97,6 +97,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     private static final String PURCHASE_ORDER_VENDOR_TYPE = "PO";
     private static final String DOCUMENT_REQUIRES_TAX_REVIEW_SPLIT = "RequiresTaxReview";
     private static final String DOCUMENT_REQUIRES_TRAVEL_REVIEW_SPLIT = "RequiresTravelReview";
+    
+    private static final String PAYMENT_REASONS_REQUIRING_TAX_REVIEW_PARAMETER_NAME = "PAYMENT_REASONS_REQUIRING_TAX_REVIEW";
 
     private static final String TAX_CONTROL_BACKUP_HOLDING = "B";
     private static final String TAX_CONTROL_HOLD_PAYMENTS = "H";
@@ -1581,6 +1583,10 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         }
 
         if (this.getDvPymentReasonService().isMovingPaymentReason(paymentReasonCode) && taxedCampusForMovingReimbursements()) {
+            return true;
+        }
+        
+        if (this.getParameterService().getParameterEvaluator(this.getClass(), DisbursementVoucherDocument.PAYMENT_REASONS_REQUIRING_TAX_REVIEW_PARAMETER_NAME, paymentReasonCode).evaluationSucceeds()) {
             return true;
         }
         

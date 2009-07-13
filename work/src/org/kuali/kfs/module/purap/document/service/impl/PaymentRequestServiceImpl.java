@@ -715,12 +715,14 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             // Deleted the discountItem.getExtendedPrice() null and isZero 
             PaymentRequestItem fullOrderItem = findFullOrderDiscountItem(paymentRequestDocument);
             KualiDecimal fullOrderAmount = KualiDecimal.ZERO;
+            KualiDecimal fullOrderTaxAmount = KualiDecimal.ZERO;
             
             if(fullOrderItem != null){                
                 fullOrderAmount = ( ObjectUtils.isNotNull(fullOrderItem.getExtendedPrice()) ) ? fullOrderItem.getExtendedPrice() : KualiDecimal.ZERO;
+                fullOrderTaxAmount = ( ObjectUtils.isNotNull(fullOrderItem.getItemTaxAmount()) ) ? fullOrderItem.getItemTaxAmount() : KualiDecimal.ZERO;
             }
                         
-            KualiDecimal totalCost = paymentRequestDocument.getTotalDollarAmountAboveLineItems().add(fullOrderAmount);
+            KualiDecimal totalCost = paymentRequestDocument.getTotalPreTaxDollarAmountAboveLineItems().add(fullOrderAmount);
             BigDecimal discountAmount = pt.getVendorPaymentTermsPercent().multiply(totalCost.bigDecimalValue()).multiply(new BigDecimal(PurapConstants.PREQ_DISCOUNT_MULT));
             
             // do we really need to set both, not positive, but probably won't hurt
@@ -732,7 +734,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             boolean useTaxIndicator = paymentRequestDocument.isUseTaxIndicator();
             
             if(salesTaxInd == true && useTaxIndicator == false){
-                KualiDecimal totalTax = paymentRequestDocument.getTotalTaxAmountAboveLineItems();
+                KualiDecimal totalTax = paymentRequestDocument.getTotalTaxAmountAboveLineItems().add(fullOrderTaxAmount);
                 BigDecimal discountTaxAmount = null;
                 if(totalCost.isNonZero()){
                     discountTaxAmount = discountAmount.divide(totalCost.bigDecimalValue()).multiply(totalTax.bigDecimalValue());

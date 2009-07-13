@@ -20,9 +20,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -33,12 +35,13 @@ import org.kuali.kfs.module.cg.batch.CfdaBatchStep;
 import org.kuali.kfs.module.cg.businessobject.CFDA;
 import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
 import org.kuali.kfs.module.cg.service.CfdaService;
-import org.kuali.kfs.pdp.PdpParameterConstants;
-import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
+
+import au.com.bytecode.opencsv.CSVReader;
 
 public class CfdaServiceImpl implements CfdaService {
 
@@ -54,97 +57,116 @@ public class CfdaServiceImpl implements CfdaService {
             }
         };
     }
-
-    /**
-     * I know this is hack-ish. Regexes are appropriate. I just couldn't get the pattern down and didn't want to waste my time
-     * figuring it out.
-     * 
-     * @param string
-     * @return
-     */
-    public String extractCfdaNumberFrom(String string) {
-        if (null == string)
-            return null;
-
-        string = string.substring(string.indexOf("<U>") + 3);
-        string = string.substring(0, string.indexOf("</U>"));
-        return string;
-    }
-
-    /**
-     * I know this is hack-ish. Regexes are appropriate. I just couldn't get the pattern down and didn't want to waste my time
-     * figuring it out.
-     * 
-     * @param string
-     * @return
-     */
-    public String extractCfdaAgencyFrom(String string) {
-        if (null == string)
-            return null;
-
-        string = string.substring(string.indexOf("<FONT") + 5);
-        string = string.substring(string.indexOf(">") + 1);
-        string = string.substring(0, string.indexOf("</FONT>"));
-        return string;
-    }
-
-    /**
-     * I know this is hack-ish. Regexes are appropriate. I just couldn't get the pattern down and didn't want to waste my time
-     * figuring it out.
-     * 
-     * @param string
-     * @return
-     */
-    public String extractCfdaTitleFrom(String string) {
-        if (null == string)
-            return null;
-
-        string = string.substring(string.indexOf("<FONT") + 5);
-        string = string.substring(string.indexOf(">") + 1);
-        string = string.substring(0, string.indexOf("</FONT>"));
-        return string;
-    }
+//
+//    /**
+//     * I know this is hack-ish. Regexes are appropriate. I just couldn't get the pattern down and didn't want to waste my time
+//     * figuring it out.
+//     * 
+//     * @param string
+//     * @return
+//     */
+//    public String extractCfdaNumberFrom(String string) {
+//        if (null == string)
+//            return null;
+//
+//        string = string.substring(string.indexOf("<U>") + 3);
+//        string = string.substring(0, string.indexOf("</U>"));
+//        return string;
+//    }
+//
+//    /**
+//     * I know this is hack-ish. Regexes are appropriate. I just couldn't get the pattern down and didn't want to waste my time
+//     * figuring it out.
+//     * 
+//     * @param string
+//     * @return
+//     */
+//    public String extractCfdaAgencyFrom(String string) {
+//        if (null == string)
+//            return null;
+//
+//        string = string.substring(string.indexOf("<FONT") + 5);
+//        string = string.substring(string.indexOf(">") + 1);
+//        string = string.substring(0, string.indexOf("</FONT>"));
+//        return string;
+//    }
+//
+//    /**
+//     * I know this is hack-ish. Regexes are appropriate. I just couldn't get the pattern down and didn't want to waste my time
+//     * figuring it out.
+//     * 
+//     * @param string
+//     * @return
+//     */
+//    public String extractCfdaTitleFrom(String string) {
+//        if (null == string)
+//            return null;
+//
+//        string = string.substring(string.indexOf("<FONT") + 5);
+//        string = string.substring(string.indexOf(">") + 1);
+//        string = string.substring(0, string.indexOf("</FONT>"));
+//        return string;
+//    }
 
     /**
      * @return
      * @throws IOException
      */
     public SortedMap<String, CFDA> getGovCodes() throws IOException {
+        Calendar calendar = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
         SortedMap<String, CFDA> govMap = new TreeMap<String, CFDA>();
+        // ftp://ftp.cfda.gov/programs09187.csv
+        StringBuilder urlBuilder = new StringBuilder();
+        urlBuilder.append(SpringContext.getBean(ParameterService.class).getParameterValue(CfdaBatchStep.class, CGConstants.SOURCE_URL_PARAMETER));
+        // need to pull off the '20' in 2009 
+        String year = ""+calendar.get(Calendar.YEAR);
+        year = year.substring(2, 4);
+        urlBuilder.append(year);
+        //the last 3 numbers in the file name are the day of the year, but the files are from "yesterday"
+        urlBuilder.append(calendar.get(Calendar.DAY_OF_YEAR)-1);
+        urlBuilder.append(".csv");
         
-        String sourceUrl = SpringContext.getBean(ParameterService.class).getParameterValue(CfdaBatchStep.class, CGConstants.SOURCE_URL_PARAMETER);
-        
-        URL url = new URL(sourceUrl);
+        URL url = new URL(urlBuilder.toString());
         InputStream inputStream = url.openStream();
         InputStreamReader screenReader = new InputStreamReader(inputStream);
         BufferedReader screen = new BufferedReader(screenReader);
-        String line = screen.readLine();
+        
+        CSVReader csvReader = new CSVReader(screenReader, ',', '"', 1);
+        
+        List<String[]> lines = csvReader.readAll();
+        
+        for (String[] line : lines) {
+            String title = line[0];
+            String number = line[1];
+            
+            CFDA cfda = new CFDA();
+            cfda.setCfdaNumber(number);
+            cfda.setCfdaProgramTitleName(title);
 
-        boolean headerFound = false;
-        while (null != line) {
-            if (line.trim().equals("<TR>")) {
-
-                // There's one match that will happen for the table header row. Skip past it.
-                if (!headerFound) {
-                    headerFound = true;
-                    line = screen.readLine();
-                    continue;
-                }
-
-                String number = extractCfdaNumberFrom(screen.readLine());
-                /* String agency = extractCfdaAgencyFrom( */screen.readLine()/* ) */; // not used, but we still need to read the line
-                // to move past it.
-                String title = extractCfdaTitleFrom(screen.readLine());
-
-                CFDA cfda = new CFDA();
-                cfda.setCfdaNumber(number);
-                cfda.setCfdaProgramTitleName(title);
-
-                govMap.put(number, cfda);
-            }
-
-            line = screen.readLine();
+            govMap.put(number, cfda);
+            
         }
+        
+//        String line = screen.readLine();
+//
+//        //boolean headerFound = false;
+//        while (null != line) {
+//            if (line.trim().equals("<TR>")) {
+//
+//                String number = extractCfdaNumberFrom(screen.readLine());
+//                /* String agency = extractCfdaAgencyFrom( */screen.readLine()/* ) */; // not used, but we still need to read the line
+//                // to move past it.
+//                String title = extractCfdaTitleFrom(screen.readLine());
+//
+//                CFDA cfda = new CFDA();
+//                cfda.setCfdaNumber(number);
+//                cfda.setCfdaProgramTitleName(title);
+//
+//                govMap.put(number, cfda);
+//            }
+//
+//            line = screen.readLine();
+//        }
         return govMap;
     }
 

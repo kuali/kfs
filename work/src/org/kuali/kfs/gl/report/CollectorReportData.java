@@ -31,11 +31,11 @@ import org.kuali.kfs.gl.batch.service.impl.DocumentGroupData;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryTotals;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.businessobject.DemergerReportData;
-import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.service.ScrubberReportData;
 import org.kuali.kfs.sys.Message;
 import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * This class aggregates all of the status information together from all of the collector-related processes. Note: this code assumes
@@ -58,7 +58,7 @@ public class CollectorReportData {
     private Map<String, Map<DocumentGroupData, OriginEntryTotals>> totalsOnInputOriginEntriesAssociatedWithErrorGroupForBatchName;
     private Map<String, Integer> numInputDetailsForBatchName;
     private Map<String, Integer> numSavedDetailsForBatchName;
-    private SortedMap<String, ErrorMap> errorsForBatchName;
+    private SortedMap<String, MessageMap> errorsForBatchName;
     private Map<String, Boolean> validationStatuses;
 
     private LedgerSummaryReport ledgerSummaryReport;
@@ -81,7 +81,7 @@ public class CollectorReportData {
         totalsOnInputOriginEntriesAssociatedWithErrorGroupForBatchName = new HashMap<String, Map<DocumentGroupData, OriginEntryTotals>>();
         numInputDetailsForBatchName = new HashMap<String, Integer>();
         numSavedDetailsForBatchName = new HashMap<String, Integer>();
-        errorsForBatchName = new TreeMap<String, ErrorMap>();
+        errorsForBatchName = new TreeMap<String, MessageMap>();
         validationStatuses = new HashMap<String, Boolean>();
         ledgerSummaryReport = new LedgerSummaryReport();
         
@@ -313,10 +313,10 @@ public class CollectorReportData {
      * @param batchName a batch name
      * @return a error map instance specific to this batch name
      */
-    public ErrorMap getErrorMapForBatchName(String batchName) {
-        ErrorMap errorMap = errorsForBatchName.get(batchName);
+    public MessageMap getErrorMapForBatchName(String batchName) {
+        MessageMap errorMap = errorsForBatchName.get(batchName);
         if (errorMap == null) {
-            errorMap = new ErrorMap();
+            errorMap = new MessageMap();
             errorsForBatchName.put(batchName, errorMap);
         }
         return errorMap;

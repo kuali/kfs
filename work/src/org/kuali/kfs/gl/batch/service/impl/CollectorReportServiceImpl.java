@@ -48,6 +48,7 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * The base implementation of the CollectorReportService
@@ -454,7 +455,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
      * @param errorMap a map of errors
      * @return List<String> of error message text
      */
-    protected List<String> translateErrorsFromErrorMap(ErrorMap errorMap) {
+    protected List<String> translateErrorsFromErrorMap(MessageMap errorMap) {
         List<String> collectorErrors = new ArrayList<String>();
 
         for (Iterator<String> iter = errorMap.getPropertiesWithErrors().iterator(); iter.hasNext();) {
@@ -476,7 +477,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
      * @param collectorReportData data gathered from the run of the Collector
      */
     protected void sendValidationEmail(CollectorBatch batch, CollectorReportData collectorReportData) {
-        ErrorMap errorMap = collectorReportData.getErrorMapForBatchName(batch.getBatchName());
+        MessageMap errorMap = collectorReportData.getErrorMapForBatchName(batch.getBatchName());
         List<String> errorMessages = translateErrorsFromErrorMap(errorMap);
 
         LOG.debug("sendValidationEmail() starting");
@@ -565,7 +566,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
     protected String createValidationMessageBody(List<String> errorMessages, CollectorBatch batch, CollectorReportData collectorReportData) {
         StringBuilder body = new StringBuilder();
 
-        ErrorMap fileErrorMap = collectorReportData.getErrorMapForBatchName(batch.getBatchName());
+        MessageMap fileErrorMap = collectorReportData.getErrorMapForBatchName(batch.getBatchName());
 
         body.append("Header Information:\n\n");
         if (!fileErrorMap.containsMessageKey(KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML)) {

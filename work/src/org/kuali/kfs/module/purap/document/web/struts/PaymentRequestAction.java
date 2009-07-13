@@ -45,10 +45,12 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DocumentHelperService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -154,7 +156,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         }
         
         // perform duplicate check which will forward to a question prompt if one is found
-        ActionForward forward = performDuplicatePaymentRequestCheck(mapping, form, request, response, paymentRequestDocument);
+        ActionForward forward = performDuplicatePaymentRequestAndEncumberFiscalYearCheck(mapping, form, request, response, paymentRequestDocument);
         if (forward != null) {
             return forward;
         }
@@ -179,6 +181,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+
     /**
      * Clears the initial fields on the <code>PaymentRequestDocument</code> which should be accessible from the given form.
      * 
@@ -199,9 +202,12 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     }
 
     /**
-     * Calls <code>PaymentRequestService</code> to perform the duplicate payment request check. If one is found, a question is
-     * setup and control is forwarded to the question action method. Coming back from the question prompt the button that was
-     * clicked is checked and if 'no' was selected they are forward back to the page still in init mode.
+     * This method runs two checks based on the user input on PREQ initiate screen: Encumber next fiscal year check and Duplicate
+     * payment request check. Encumber next fiscal year is checked first and will display a warning message to the user if it's the
+     * case. Duplicate payment request check calls <code>PaymentRequestService</code> to perform the duplicate payment request
+     * check. If one is found, a question is setup and control is forwarded to the question action method. Coming back from the
+     * question prompt the button that was clicked is checked and if 'no' was selected they are forward back to the page still in
+     * init mode.
      * 
      * @param mapping An ActionMapping
      * @param form An ActionForm
@@ -212,26 +218,57 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      * @return An ActionForward
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService
      */
-    private ActionForward performDuplicatePaymentRequestCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, PaymentRequestDocument paymentRequestDocument) throws Exception {
+    protected ActionForward performDuplicatePaymentRequestAndEncumberFiscalYearCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, PaymentRequestDocument paymentRequestDocument) throws Exception {
         ActionForward forward = null;
-        HashMap<String, String> duplicateMessages = SpringContext.getBean(PaymentRequestService.class).paymentRequestDuplicateMessages(paymentRequestDocument);
-        if (!duplicateMessages.isEmpty()) {
-            Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-            if (question == null) {
-
-                return this.performQuestionWithoutInput(mapping, form, request, response, PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, duplicateMessages.get(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION), KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
+        Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        if (question == null) {
+            // perform encumber next fiscal year check and prompt warning message if needs
+            if (isEncumberNextFiscalYear(paymentRequestDocument)) {
+                String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.WARNING_ENCUMBER_NEXT_FY);
+                return this.performQuestionWithoutInput(mapping, form, request, response, PREQDocumentsStrings.ENCUMBER_NEXT_FISCAL_YEAR_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
             }
-
+            else {
+                // perform duplicate payment request check
+                HashMap<String, String> duplicateMessages = SpringContext.getBean(PaymentRequestService.class).paymentRequestDuplicateMessages(paymentRequestDocument);
+                if (!duplicateMessages.isEmpty()) {
+                    return this.performQuestionWithoutInput(mapping, form, request, response, PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, duplicateMessages.get(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION), KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
+                }
+            }
+        }
+        else {
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
-            if ((PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+            // If the user replies 'Yes' to the encumber-next-year-question, proceed with duplicate payment check
+            if (PurapConstants.PREQDocumentsStrings.ENCUMBER_NEXT_FISCAL_YEAR_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                HashMap<String, String> duplicateMessages = SpringContext.getBean(PaymentRequestService.class).paymentRequestDuplicateMessages(paymentRequestDocument);
+                if (!duplicateMessages.isEmpty()) {
+                    return this.performQuestionWithoutInput(mapping, form, request, response, PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, duplicateMessages.get(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION), KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
+                }
+            }
+            // If the user replies 'No' to either of the questions, redirect to the PREQ initiate page.
+            else if ((PurapConstants.PREQDocumentsStrings.ENCUMBER_NEXT_FISCAL_YEAR_QUESTION.equals(question) || PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                 paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
                 forward = mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
+
         }
 
         return forward;
     }
 
+    /**
+     * Check if the current PREQ encumber next fiscal year from PO document.
+     * 
+     * @param paymentRequestDocument
+     * @return
+     */
+    protected boolean isEncumberNextFiscalYear(PaymentRequestDocument paymentRequestDocument) {
+        Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        if (paymentRequestDocument.getPurchaseOrderDocument().getPostingYear().intValue() > fiscalYear) {
+            return true;
+        }
+        return false;
+    }
+    
     /**
      * Puts a payment on hold, prompting for a reason beforehand. This stops further approvals or routing.
      * 

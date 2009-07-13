@@ -123,12 +123,12 @@ public class PosterServiceImpl implements PosterService {
     private ReportWriterService reversalReportWriterService;
     private ReportWriterService ledgerSummaryReportWriterService;
     
-    private File OUTPUT_ERR_FILE;
-    private PrintStream OUTPUT_ERR_FILE_ps;
-    private PrintStream OUTPUT_GLE_FILE_ps;
+    //private File OUTPUT_ERR_FILE;
+    //private PrintStream OUTPUT_ERR_FILE_ps;
+    //private PrintStream OUTPUT_GLE_FILE_ps;
     private String batchFileDirectoryName;
-    private BufferedReader INPUT_GLE_FILE_br = null;
-    private FileReader INPUT_GLE_FILE = null;
+    //private BufferedReader INPUT_GLE_FILE_br = null;
+    //private FileReader INPUT_GLE_FILE = null;
     private AccountingCycleCachingService accountingCycleCachingService;
 
     /**
@@ -138,15 +138,19 @@ public class PosterServiceImpl implements PosterService {
         LOG.debug("postMainEntries() started");
         Date runDate = dateTimeService.getCurrentSqlDate();
         try{
-            INPUT_GLE_FILE = new FileReader(batchFileDirectoryName + File.separator +  GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
-            INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
-            OUTPUT_ERR_FILE = new File(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);    
-            OUTPUT_ERR_FILE_ps = new PrintStream(OUTPUT_ERR_FILE);
+            FileReader INPUT_GLE_FILE = new FileReader(batchFileDirectoryName + File.separator +  GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+            File OUTPUT_ERR_FILE = new File(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);    
+            
+            postEntries(PosterService.MODE_ENTRIES, INPUT_GLE_FILE, null, OUTPUT_ERR_FILE);
+            
+            INPUT_GLE_FILE.close();
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
             throw new RuntimeException("PosterMainEntries Stopped: " + e1.getMessage(), e1);
+        } catch (IOException ioe) {
+            LOG.error("postMainEntries stopped due to: " + ioe.getMessage(), ioe);
+            throw new RuntimeException(ioe);
         }
-        postEntries(PosterService.MODE_ENTRIES);
     }
 
     /**
@@ -156,14 +160,16 @@ public class PosterServiceImpl implements PosterService {
         LOG.debug("postReversalEntries() started");
         Date runDate = dateTimeService.getCurrentSqlDate();
         try{
-            OUTPUT_GLE_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.REVERSAL_POSTER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
-            OUTPUT_ERR_FILE = new File(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.REVERSAL_POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
-            OUTPUT_ERR_FILE_ps = new PrintStream(OUTPUT_ERR_FILE);
+            PrintStream OUTPUT_GLE_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.REVERSAL_POSTER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+            File OUTPUT_ERR_FILE = new File(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.REVERSAL_POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+            
+            postEntries(PosterService.MODE_REVERSAL, null, OUTPUT_GLE_FILE_ps, OUTPUT_ERR_FILE);
+            
+            OUTPUT_GLE_FILE_ps.close();
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
             throw new RuntimeException("PosterReversalEntries Stopped: " + e1.getMessage(), e1);
         }
-        postEntries(PosterService.MODE_REVERSAL);
     }
 
     /**
@@ -173,15 +179,19 @@ public class PosterServiceImpl implements PosterService {
         LOG.debug("postIcrEntries() started");
         Date runDate = dateTimeService.getCurrentSqlDate();
         try{
-        INPUT_GLE_FILE = new FileReader(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
-        INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
-        OUTPUT_ERR_FILE = new File(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
-        OUTPUT_ERR_FILE_ps = new PrintStream(OUTPUT_ERR_FILE);
+            FileReader INPUT_GLE_FILE = new FileReader(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+            File OUTPUT_ERR_FILE = new File(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.ICR_POSTER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+        
+            postEntries(PosterService.MODE_ICR, INPUT_GLE_FILE, null, OUTPUT_ERR_FILE);
+            
+            INPUT_GLE_FILE.close();
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
             throw new RuntimeException("PosterIcrEntries Stopped: " + e1.getMessage(), e1);
+        } catch (IOException ioe) {
+            LOG.error("postIcrEntries stopped due to: " + ioe.getMessage(), ioe);
+            throw new RuntimeException(ioe);
         }
-        postEntries(PosterService.MODE_ICR);
     }
 
     /**
@@ -189,8 +199,17 @@ public class PosterServiceImpl implements PosterService {
      * 
      * @param mode the poster's current run mode
      */
-    private void postEntries(int mode) {
-        LOG.debug("postEntries() started");
+    private void postEntries(int mode, FileReader INPUT_GLE_FILE, PrintStream OUTPUT_GLE_FILE_ps, File OUTPUT_ERR_FILE) throws FileNotFoundException {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("postEntries() started");
+        }
+        
+        PrintStream OUTPUT_ERR_FILE_ps = new PrintStream(OUTPUT_ERR_FILE);
+        BufferedReader INPUT_GLE_FILE_br = null;
+        if (INPUT_GLE_FILE != null) {
+            INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
+        }
+        
         String GLEN_RECORD;
         Date executionDate = new Date(dateTimeService.getCurrentDate().getTime());
         Date runDate = new Date(runDateService.calculateRunDate(executionDate).getTime());
@@ -227,19 +246,15 @@ public class PosterServiceImpl implements PosterService {
                         }
                         // need to pass ecount for building better message
                         addReporting(reportSummary, "SEQUENTIAL", GeneralLedgerConstants.SELECT_CODE);
-                        postTransaction(tran, mode, reportSummary, ledgerSummaryReport, OUTPUT_ERR_FILE_ps, runUniversityDate, GLEN_RECORD);
+                        postTransaction(tran, mode, reportSummary, ledgerSummaryReport, OUTPUT_ERR_FILE_ps, runUniversityDate, GLEN_RECORD, OUTPUT_GLE_FILE_ps);
                         
                         if (ecount % 1000 == 0) {
                             LOG.info("postEntries() Posted Entry " + ecount);
                         }
                     }
                 }
-                if (mode != PosterService.MODE_REVERSAL) {
-                    INPUT_GLE_FILE.close();
+                if (INPUT_GLE_FILE_br != null) {    
                     INPUT_GLE_FILE_br.close();
-                }
-                else {
-                    OUTPUT_GLE_FILE_ps.close();
                 }
                 OUTPUT_ERR_FILE_ps.close();
                 reportWriterService.writeStatisticLine("SEQUENTIAL RECORDS READ                    %,9d", reportSummary.get("SEQUENTIAL,S"));
@@ -255,7 +270,7 @@ public class PosterServiceImpl implements PosterService {
                     Transaction tran = (Transaction) reversalTransactions.next();
                     addReporting(reportSummary, GL_REVERSAL_T, GeneralLedgerConstants.SELECT_CODE);
 
-                    boolean posted = postTransaction(tran, mode, reportSummary, ledgerSummaryReport, OUTPUT_ERR_FILE_ps, runUniversityDate, GL_REVERSAL_T);
+                    boolean posted = postTransaction(tran, mode, reportSummary, ledgerSummaryReport, OUTPUT_ERR_FILE_ps, runUniversityDate, GL_REVERSAL_T, OUTPUT_GLE_FILE_ps);
                     
                     if (posted) {
                         reversalListingReport.generateReport(reversalReportWriterService, tran);
@@ -317,7 +332,7 @@ public class PosterServiceImpl implements PosterService {
      * @param line
      * @return whether the transaction was posted or not. Useful if calling class attempts to report on the transaction
      */
-    private boolean postTransaction(Transaction tran, int mode, Map<String,Integer> reportSummary, LedgerSummaryReport ledgerSummaryReport, PrintStream invalidGroup, UniversityDate runUniversityDate, String line) {
+    private boolean postTransaction(Transaction tran, int mode, Map<String,Integer> reportSummary, LedgerSummaryReport ledgerSummaryReport, PrintStream invalidGroup, UniversityDate runUniversityDate, String line, PrintStream OUTPUT_GLE_FILE_ps) {
 
         List<Message> errors = new ArrayList();
         Transaction originalTransaction = tran;
@@ -468,103 +483,103 @@ public class PosterServiceImpl implements PosterService {
         Date runDate = new Date(runDateService.calculateRunDate(executionDate).getTime());
 
         try {
-            OUTPUT_GLE_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.ICR_TRANSACTIONS_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
-        }
-        catch (FileNotFoundException e) {
-            throw new RuntimeException("generateIcrTransactions Stopped: " + e.getMessage(), e);
-        }
-        
-        int reportExpendTranRetrieved = 0;
-        int reportExpendTranDeleted = 0;
-        int reportExpendTranKept = 0;
-        int reportOriginEntryGenerated = 0;
-        Iterator expenditureTransactions;
-        
-        try {
-            expenditureTransactions = expenditureTransactionDao.getAllExpenditureTransactions();
-        }
-        catch (RuntimeException re) {
-            LOG.error("generateIcrTransactions Stopped: " + re.getMessage());
-            throw new RuntimeException("generateIcrTransactions Stopped: " + re.getMessage(), re);
-        }
-
-        while (expenditureTransactions.hasNext()) {
-            ExpenditureTransaction et = new ExpenditureTransaction();
+            PrintStream OUTPUT_GLE_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.ICR_TRANSACTIONS_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION);
+            
+            int reportExpendTranRetrieved = 0;
+            int reportExpendTranDeleted = 0;
+            int reportExpendTranKept = 0;
+            int reportOriginEntryGenerated = 0;
+            Iterator expenditureTransactions;
+            
             try {
-                et = (ExpenditureTransaction) expenditureTransactions.next();
-                reportExpendTranRetrieved++;
-
-                KualiDecimal transactionAmount = et.getAccountObjectDirectCostAmount();
-                KualiDecimal distributionAmount = KualiDecimal.ZERO;
-
-                if (shouldIgnoreExpenditureTransaction(et)) {
-                    continue;
-                }
-                
-                IndirectCostRecoveryGenerationMetadata icrGenerationMetadata = retrieveSubAccountIndirectCostRecoveryMetadata(et);
-                if (icrGenerationMetadata == null) {
-                    // ICR information was not set up properly for sub-account, default to using ICR information from the account
-                    icrGenerationMetadata = retrieveAccountIndirectCostRecoveryMetadata(et);
-                }
-
-                Collection<IndirectCostRecoveryRateDetail> automatedEntries = indirectCostRecoveryRateDetailDao.getActiveRateDetailsByRate(et.getUniversityFiscalYear(), icrGenerationMetadata.getFinancialIcrSeriesIdentifier());
-                int automatedEntriesCount = automatedEntries.size();
-
-                if (automatedEntriesCount > 0) {
-                    for (Iterator icrIter = automatedEntries.iterator(); icrIter.hasNext();) {
-                        IndirectCostRecoveryRateDetail icrEntry = (IndirectCostRecoveryRateDetail) icrIter.next();
-                        KualiDecimal generatedTransactionAmount = null;
-
-                        if (!icrIter.hasNext()) {
-                            generatedTransactionAmount = distributionAmount;
-
-                            // Log differences that are over WARNING_MAX_DIFFERENCE
-                            if (getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct()).subtract(distributionAmount).abs().isGreaterThan(WARNING_MAX_DIFFERENCE)) {
-                                List<Message> warnings = new ArrayList<Message>();
-                                warnings.add(new Message("ADJUSTMENT GREATER THAN " + WARNING_MAX_DIFFERENCE, Message.TYPE_WARNING));
-                                reportWriterService.writeError(et, warnings);
-                            }
-                        }
-                        else if (icrEntry.getTransactionDebitIndicator().equals(KFSConstants.GL_DEBIT_CODE)) {
-                            generatedTransactionAmount = getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct());
-                            distributionAmount = distributionAmount.add(generatedTransactionAmount);
-                        }
-                        else if (icrEntry.getTransactionDebitIndicator().equals(KFSConstants.GL_CREDIT_CODE)) {
-                            generatedTransactionAmount = getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct());
-                            distributionAmount = distributionAmount.subtract(generatedTransactionAmount);
-                        }
-                        else {
-                            // Log if D / C code not found
-                            List<Message> warnings = new ArrayList<Message>();
-                            warnings.add(new Message("DEBIT OR CREDIT CODE NOT FOUND", Message.TYPE_FATAL));
-                            reportWriterService.writeError(et, warnings);
-                        }
-
-                        generateTransactions(et, icrEntry, generatedTransactionAmount, runDate, OUTPUT_GLE_FILE_ps, icrGenerationMetadata);
-                        
-                        reportOriginEntryGenerated = reportOriginEntryGenerated + 2;
-                    }
-                }
-                // Delete expenditure record
-                expenditureTransactionDao.delete(et);
-                reportExpendTranDeleted++;
-
+                expenditureTransactions = expenditureTransactionDao.getAllExpenditureTransactions();
             }
             catch (RuntimeException re) {
                 LOG.error("generateIcrTransactions Stopped: " + re.getMessage());
                 throw new RuntimeException("generateIcrTransactions Stopped: " + re.getMessage(), re);
             }
-            catch (Exception e) {
-                List errorList = new ArrayList();
-                errorList.add(new Message(e.toString() + " occurred for this record.", Message.TYPE_FATAL));
-                reportWriterService.writeError(et, errorList);
+
+            while (expenditureTransactions.hasNext()) {
+                ExpenditureTransaction et = new ExpenditureTransaction();
+                try {
+                    et = (ExpenditureTransaction) expenditureTransactions.next();
+                    reportExpendTranRetrieved++;
+
+                    KualiDecimal transactionAmount = et.getAccountObjectDirectCostAmount();
+                    KualiDecimal distributionAmount = KualiDecimal.ZERO;
+
+                    if (shouldIgnoreExpenditureTransaction(et)) {
+                        continue;
+                    }
+                    
+                    IndirectCostRecoveryGenerationMetadata icrGenerationMetadata = retrieveSubAccountIndirectCostRecoveryMetadata(et);
+                    if (icrGenerationMetadata == null) {
+                        // ICR information was not set up properly for sub-account, default to using ICR information from the account
+                        icrGenerationMetadata = retrieveAccountIndirectCostRecoveryMetadata(et);
+                    }
+
+                    Collection<IndirectCostRecoveryRateDetail> automatedEntries = indirectCostRecoveryRateDetailDao.getActiveRateDetailsByRate(et.getUniversityFiscalYear(), icrGenerationMetadata.getFinancialIcrSeriesIdentifier());
+                    int automatedEntriesCount = automatedEntries.size();
+
+                    if (automatedEntriesCount > 0) {
+                        for (Iterator icrIter = automatedEntries.iterator(); icrIter.hasNext();) {
+                            IndirectCostRecoveryRateDetail icrEntry = (IndirectCostRecoveryRateDetail) icrIter.next();
+                            KualiDecimal generatedTransactionAmount = null;
+
+                            if (!icrIter.hasNext()) {
+                                generatedTransactionAmount = distributionAmount;
+
+                                // Log differences that are over WARNING_MAX_DIFFERENCE
+                                if (getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct()).subtract(distributionAmount).abs().isGreaterThan(WARNING_MAX_DIFFERENCE)) {
+                                    List<Message> warnings = new ArrayList<Message>();
+                                    warnings.add(new Message("ADJUSTMENT GREATER THAN " + WARNING_MAX_DIFFERENCE, Message.TYPE_WARNING));
+                                    reportWriterService.writeError(et, warnings);
+                                }
+                            }
+                            else if (icrEntry.getTransactionDebitIndicator().equals(KFSConstants.GL_DEBIT_CODE)) {
+                                generatedTransactionAmount = getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct());
+                                distributionAmount = distributionAmount.add(generatedTransactionAmount);
+                            }
+                            else if (icrEntry.getTransactionDebitIndicator().equals(KFSConstants.GL_CREDIT_CODE)) {
+                                generatedTransactionAmount = getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct());
+                                distributionAmount = distributionAmount.subtract(generatedTransactionAmount);
+                            }
+                            else {
+                                // Log if D / C code not found
+                                List<Message> warnings = new ArrayList<Message>();
+                                warnings.add(new Message("DEBIT OR CREDIT CODE NOT FOUND", Message.TYPE_FATAL));
+                                reportWriterService.writeError(et, warnings);
+                            }
+
+                            generateTransactions(et, icrEntry, generatedTransactionAmount, runDate, OUTPUT_GLE_FILE_ps, icrGenerationMetadata);
+                            
+                            reportOriginEntryGenerated = reportOriginEntryGenerated + 2;
+                        }
+                    }
+                    // Delete expenditure record
+                    expenditureTransactionDao.delete(et);
+                    reportExpendTranDeleted++;
+
+                }
+                catch (RuntimeException re) {
+                    LOG.error("generateIcrTransactions Stopped: " + re.getMessage());
+                    throw new RuntimeException("generateIcrTransactions Stopped: " + re.getMessage(), re);
+                }
+                catch (Exception e) {
+                    List errorList = new ArrayList();
+                    errorList.add(new Message(e.toString() + " occurred for this record.", Message.TYPE_FATAL));
+                    reportWriterService.writeError(et, errorList);
+                }
             }
+            OUTPUT_GLE_FILE_ps.close();
+            reportWriterService.writeStatisticLine("GLEX RECORDS READ               (GL_EXPEND_TRN_T) %,9d", reportExpendTranRetrieved);
+            reportWriterService.writeStatisticLine("GLEX RECORDS DELETED            (GL_EXPEND_TRN_T) %,9d", reportExpendTranDeleted);
+            reportWriterService.writeStatisticLine("GLEX RECORDS KEPT DUE TO ERRORS (GL_EXPEND_TRN_T) %,9d", reportExpendTranKept);
+            reportWriterService.writeStatisticLine("TRANSACTIONS GENERATED                            %,9d", reportOriginEntryGenerated);
         }
-        OUTPUT_GLE_FILE_ps.close();
-        reportWriterService.writeStatisticLine("GLEX RECORDS READ               (GL_EXPEND_TRN_T) %,9d", reportExpendTranRetrieved);
-        reportWriterService.writeStatisticLine("GLEX RECORDS DELETED            (GL_EXPEND_TRN_T) %,9d", reportExpendTranDeleted);
-        reportWriterService.writeStatisticLine("GLEX RECORDS KEPT DUE TO ERRORS (GL_EXPEND_TRN_T) %,9d", reportExpendTranKept);
-        reportWriterService.writeStatisticLine("TRANSACTIONS GENERATED                            %,9d", reportOriginEntryGenerated);
+        catch (FileNotFoundException e) {
+            throw new RuntimeException("generateIcrTransactions Stopped: " + e.getMessage(), e);
+        }
     }
 
     /**
@@ -660,7 +675,7 @@ public class PosterServiceImpl implements PosterService {
         }
         // TODO 2031-2039
         try {
-            createOutputEntry(e, OUTPUT_GLE_FILE_ps);
+            createOutputEntry(e, group);
         }
         catch (IOException ioe) {
             LOG.error("generateTransactions Stopped: " + ioe.getMessage());
@@ -708,7 +723,7 @@ public class PosterServiceImpl implements PosterService {
         }
 
         try {
-            createOutputEntry(e, OUTPUT_GLE_FILE_ps);
+            createOutputEntry(e, group);
         }
         catch (IOException ioe) {
             LOG.error("generateTransactions Stopped: " + ioe.getMessage());

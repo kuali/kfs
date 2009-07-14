@@ -256,6 +256,9 @@
     <property name="name" value="poOutstandingQuantity"/>
     <property name="label" value="Item Open Quantity"/>
     <property name="shortLabel" value="Open Qty"/>
+     <property name="validationPattern">
+      <bean parent="FixedPointValidationPattern" p:precision="11" p:scale="2"  p:allowNegative="true"/>
+    </property>
   </bean>
   <bean id="PaymentRequestItem-poOutstandingAmount" parent="PaymentRequestItem-poOutstandingAmount-parentBean"/>
 

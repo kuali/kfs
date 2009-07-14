@@ -30,15 +30,21 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.ObjectSubType;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType;
 import org.kuali.kfs.module.cam.businessobject.AssetComponent;
+import org.kuali.kfs.module.cam.businessobject.AssetCondition;
+import org.kuali.kfs.module.cam.businessobject.AssetDepreciationMethod;
 import org.kuali.kfs.module.cam.businessobject.AssetFabrication;
 import org.kuali.kfs.module.cam.businessobject.AssetLocation;
 import org.kuali.kfs.module.cam.businessobject.AssetRepairHistory;
+import org.kuali.kfs.module.cam.businessobject.AssetStatus;
+import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.businessobject.AssetWarranty;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.service.AssetComponentService;
@@ -343,7 +349,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
 
     /**
-     * Check if off campus fields got changed.
+     * Check if off campus fields has changed.
      * 
      * @return
      */
@@ -357,8 +363,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         }
         return changed;
     }
-
-
+    
     /**
      * Validate Inventory Status Code Change
      */
@@ -510,6 +515,15 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             oldAsset.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));
         }
 
+        // check for change
+        valid &= checkAcquisitionTypeCodeChange(oldAsset.getAcquisitionType(), newAsset.getAcquisitionType());
+        valid &= checkConditionCodeChange(oldAsset.getCondition(), newAsset.getCondition());
+        valid &= checkAssetDepreciationMethodChange(oldAsset.getAssetPrimaryDepreciationMethod(), newAsset.getAssetPrimaryDepreciationMethod());
+        valid &= checkAssetStatusCodeChange(oldAsset.getInventoryStatus(), newAsset.getInventoryStatus());
+        valid &= checkAssetTypeCodeChange(oldAsset.getCapitalAssetType(), newAsset.getCapitalAssetType());
+        valid &= checkOwnerChange();
+        valid &= checkFinancialObjectSubtypeCodeChange();
+        
         KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
         // adding asset locks for asset edit only
         if (newAsset instanceof Asset && !(newAsset instanceof AssetFabrication) && !GlobalVariables.getMessageMap().hasErrors() && (workflowDoc.stateIsInitiated() || workflowDoc.stateIsSaved())) {
@@ -540,4 +554,148 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         return GlobalVariables.getMessageMap().putError(CamsConstants.DOCUMENT_PATH + "." + propertyName, errorKey, errorParameters);
     }
 
+    /**
+     * Check if the Acquisition Type Code has changed or is inactive.
+     * 
+     * @param oldAcquisitionTypeCode
+     * @param newAcquisitionTypeCode
+     * @return boolean
+     */
+    private boolean checkAcquisitionTypeCodeChange(AssetAcquisitionType oldAcquisitionTypeCode, AssetAcquisitionType newAcquisitionTypeCode) {
+        if (ObjectUtils.isNotNull(oldAcquisitionTypeCode)) {
+            if (StringUtils.isNotEmpty(oldAcquisitionTypeCode.getAcquisitionTypeCode()) && !oldAcquisitionTypeCode.isActive()) {
+                putFieldError(CamsPropertyConstants.Asset.ACQUISITION_TYPE_CODE, CamsKeyConstants.Asset.ERROR_ACQUISITION_TYPE_CODE_INACTIVE);
+                return true;
+            }
+            if (!StringUtils.equalsIgnoreCase(newAcquisitionTypeCode.getAcquisitionTypeCode(), oldAcquisitionTypeCode.getAcquisitionTypeCode())) {
+                putFieldError(CamsPropertyConstants.Asset.ACQUISITION_TYPE_CODE, CamsKeyConstants.Asset.ERROR_ACQUISITION_TYPE_CODE_CHANGED);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Check if the Asset Condition has changed or is inactive.
+     * 
+     * @param oldConditionCode
+     * @param newConditionCode
+     * @return boolean
+     */
+    private boolean checkConditionCodeChange(AssetCondition oldConditionCode, AssetCondition newConditionCode) {
+        if (ObjectUtils.isNotNull(oldConditionCode)) {
+            if (!oldConditionCode.isActive()) {
+                putFieldError(CamsPropertyConstants.Asset.CONDITION_CODE, CamsKeyConstants.Asset.ERROR_ASSET_CONDITION_INACTIVE);
+                return true;
+            }
+            if (!StringUtils.equalsIgnoreCase(newConditionCode.getAssetConditionCode(), oldConditionCode.getAssetConditionCode())) {
+                putFieldError(CamsPropertyConstants.Asset.CONDITION_CODE, CamsKeyConstants.Asset.ERROR_ASSET_CONDITION_CHANGED);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Check if the Asset Depreciation Method has changed or is inactive.
+     * 
+     * @param oldAssetDepreciationMethod
+     * @param newAssetDepreciationMethod
+     * @return boolean
+     */
+    private boolean checkAssetDepreciationMethodChange(AssetDepreciationMethod oldAssetDepreciationMethod, AssetDepreciationMethod newAssetDepreciationMethod) {
+        if (ObjectUtils.isNotNull(oldAssetDepreciationMethod)) {
+            if (!oldAssetDepreciationMethod.isActive()) {
+                putFieldError(CamsPropertyConstants.Asset.PRIMARY_DEPRECIATION_METHOD, CamsKeyConstants.Asset.ERROR_DEPRECATION_METHOD_CODE_INACTIVE);
+                return true;
+            }
+            if (!StringUtils.equalsIgnoreCase(newAssetDepreciationMethod.getDepreciationMethodCode() + " - " + newAssetDepreciationMethod.getDepreciationMethodName(), oldAssetDepreciationMethod.getDepreciationMethodCode() + " - " + oldAssetDepreciationMethod.getDepreciationMethodName())) {
+                putFieldError(CamsPropertyConstants.Asset.PRIMARY_DEPRECIATION_METHOD, CamsKeyConstants.Asset.ERROR_DEPRECATION_METHOD_CODE_CHANGED);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Check if the Asset Status Code has changed or is inactive.
+     * 
+     * @param oldAssetStatus
+     * @param newAssetStatus
+     * @return boolean
+     */
+    private boolean checkAssetStatusCodeChange(AssetStatus oldAssetStatus, AssetStatus newAssetStatus) {
+        if (ObjectUtils.isNotNull(oldAssetStatus)) {
+            if (StringUtils.isNotEmpty(oldAssetStatus.getInventoryStatusCode()) && !oldAssetStatus.isActive()) {
+                putFieldError(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS, CamsKeyConstants.Asset.ERROR_ASSET_STATUS_INACTIVE);
+                return true;
+            }
+            if (!StringUtils.equalsIgnoreCase(newAssetStatus.getInventoryStatusCode(), oldAssetStatus.getInventoryStatusCode())) {
+                putFieldError(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS, CamsKeyConstants.Asset.ERROR_ASSET_STATUS_CHANGED);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Check if the Asset Type Code has changed or is inactive.
+     * 
+     * @param oldAssetType
+     * @param newAssetType
+     * @return boolean
+     */
+    private boolean checkAssetTypeCodeChange(AssetType oldAssetType, AssetType newAssetType) {
+        if (ObjectUtils.isNotNull(oldAssetType)) {
+            if (StringUtils.isNotEmpty(oldAssetType.getCapitalAssetTypeCode()) && !oldAssetType.isActive()) {
+                putFieldError(CamsPropertyConstants.AssetType.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.Asset.ERROR_TYPE_CODE_INACTIVE);
+                return true;
+            }
+            if (!StringUtils.equalsIgnoreCase(newAssetType.getCapitalAssetTypeCode(), oldAssetType.getCapitalAssetTypeCode())) {
+                putFieldError(CamsPropertyConstants.AssetType.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.Asset.ERROR_TYPE_CODE_CHANGED);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Check if the Owner has changed or is inactive.
+     * 
+     * @return boolean
+     */
+    private boolean checkOwnerChange() {
+        if (ObjectUtils.isNotNull(oldAsset)) {
+            if (StringUtils.isNotEmpty(oldAsset.getAgencyNumber()) && !oldAsset.isActive()) {
+                putFieldError(CamsPropertyConstants.Asset.AGENCY_NUMBER, CamsKeyConstants.Asset.ERROR_OWNER_INACTIVE);
+                return true;
+            }
+            if (!StringUtils.equalsIgnoreCase(newAsset.getAgencyNumber(), oldAsset.getAgencyNumber())) {
+                putFieldError(CamsPropertyConstants.Asset.AGENCY_NUMBER, CamsKeyConstants.Asset.ERROR_OWNER_CHANGED);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Check if the Financial Object Sub-Type Code has changed or is inactive.
+     * 
+     * @param oldObjectSubType
+     * @param newObjectSubType
+     * @return boolean
+     */
+    private boolean checkFinancialObjectSubtypeCodeChange() {
+        if (ObjectUtils.isNotNull(oldAsset)) {
+            if (StringUtils.isNotEmpty(oldAsset.getFinancialObjectSubTypeCode()) && !oldAsset.isActive()) {
+                putFieldError(CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE, CamsKeyConstants.Asset.ERROR_FINANCIAL_OBJECT_SUBTYPE_CODE_INACTIVE);
+                return true;
+            }
+            if (!StringUtils.equalsIgnoreCase(newAsset.getFinancialObjectSubTypeCode(), oldAsset.getFinancialObjectSubTypeCode())) {
+                putFieldError(CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE, CamsKeyConstants.Asset.ERROR_FINANCIAL_OBJECT_SUBTYPE_CODE_CHANGED);
+                return true;
+            }
+        }
+        return false;
+    }
 }

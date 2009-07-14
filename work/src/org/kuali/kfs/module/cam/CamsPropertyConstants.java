@@ -42,7 +42,6 @@ public class CamsPropertyConstants {
         public static final String ORGANIZATION_CODE = "organizationOwnerAccount.organizationCode";
         public static final String ORGANIZATION_OWNER_ACCOUNTS_COA_CODE = "organizationOwnerAccount.chartOfAccountsCode";        
         public static final String ORGANIZATION_TEXT = "assetOrganization.organizationText";
-        
         public static final String VENDOR_NAME = "vendorName";
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
         public static final String CAMPUS_CODE = "campusCode";
@@ -388,6 +387,5 @@ public class CamsPropertyConstants {
     public static class AssetLock {
         public static final String DOCUMENT_NUMBER = "documentNumber";
     }
-
 }
 

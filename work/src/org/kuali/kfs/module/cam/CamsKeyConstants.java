@@ -235,6 +235,14 @@ public class CamsKeyConstants {
         public static final String ERROR_TYPE_CODE_CHANGED = "error.type.code.changed";
         public static final String ERROR_FINANCIAL_OBJECT_SUBTYPE_CODE_CHANGED = "error.financial.object.subtype.code.changed";
         public static final String ERROR_DEPRECATION_METHOD_CODE_CHANGED = "error.deprecation.method.code.changed";
+        
+        public static final String ERROR_OWNER_INACTIVE = "error.owner.inactive";
+        public static final String ERROR_ACQUISITION_TYPE_CODE_INACTIVE = "error.acquisition.type.code.inactive";
+        public static final String ERROR_ASSET_STATUS_INACTIVE = "error.asset.status.inactive";
+        public static final String ERROR_ASSET_CONDITION_INACTIVE = "error.asset.condition.inactive";
+        public static final String ERROR_TYPE_CODE_INACTIVE = "error.type.code.inactive";
+        public static final String ERROR_FINANCIAL_OBJECT_SUBTYPE_CODE_INACTIVE = "error.financial.object.subtype.code.inactive";
+        public static final String ERROR_DEPRECATION_METHOD_CODE_INACTIVE = "error.deprecation.method.code.inactive";
     }
 
     public static class AssetRepairHistory {

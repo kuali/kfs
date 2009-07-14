@@ -26,15 +26,10 @@
     </property>
     <property name="defaultExistenceChecks">
       <list>
-        <bean parent="ReferenceDefinition" p:attributeName="agency" p:attributeToHighlightOnFail="agencyNumber"/>
         <bean parent="ReferenceDefinition" p:attributeName="campus" p:attributeToHighlightOnFail="campusCode"/>
         <bean parent="ReferenceDefinition" p:attributeName="building" p:attributeToHighlightOnFail="buildingCode"/>
-        <bean parent="ReferenceDefinition" p:attributeName="buildingRoom" p:attributeToHighlightOnFail="buildingRoomNumber"/>
-        <bean parent="ReferenceDefinition" p:attributeName="capitalAssetType" p:attributeToHighlightOnFail="capitalAssetTypeCode"/>        
+        <bean parent="ReferenceDefinition" p:attributeName="buildingRoom" p:attributeToHighlightOnFail="buildingRoomNumber"/>   
         <bean parent="ReferenceDefinition" p:attributeName="organizationOwnerChartOfAccounts" p:attributeToHighlightOnFail="organizationOwnerChartOfAccountsCode"/>
-        <bean parent="ReferenceDefinition" p:attributeName="condition" p:attributeToHighlightOnFail="conditionCode"/>
-        <bean parent="ReferenceDefinition" p:attributeName="inventoryStatus" p:attributeToHighlightOnFail="inventoryStatusCode"/>     
-        <bean parent="ReferenceDefinition" p:attributeName="acquisitionType" p:attributeToHighlightOnFail="acquisitionTypeCode"/>
       </list>
     </property>
     <property name="lockingKeys">

@@ -46,7 +46,9 @@ public class CampusNoBlankValuesFinder extends KeyValuesBase {
         List labels = new ArrayList();
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             CampusParameter campusParameter = (CampusParameter) iter.next();
-            labels.add(new KeyLabelPair(campusParameter.getCampus().getCampusCode(), campusParameter.getCampus().getCampusCode() + " - " + campusParameter.getCampus().getCampusName()));
+            if(campusParameter.getCampus() != null){
+                labels.add(new KeyLabelPair(campusParameter.getCampus().getCampusCode(), campusParameter.getCampus().getCampusCode() + " - " + campusParameter.getCampus().getCampusName()));
+            }
         }
 
         return labels;

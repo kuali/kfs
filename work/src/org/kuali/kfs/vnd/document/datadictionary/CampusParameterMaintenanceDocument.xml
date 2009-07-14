@@ -11,6 +11,11 @@
         <ref bean="CampusParameterMaintenanceDocument-EditCampusParameter"/>
       </list>
     </property>
+    <property name="defaultExistenceChecks">
+     <list>
+     	<bean parent="ReferenceDefinition" p:attributeName="campus" p:attributeToHighlightOnFail="campusCode"/>
+    </list>
+    </property> 
     <property name="lockingKeys">
       <list>
         <value>campusCode</value>

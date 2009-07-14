@@ -21,10 +21,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.iterators.TransformIterator;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -38,10 +42,12 @@ import org.kuali.kfs.gl.batch.service.CollectorScrubberService;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.businessobject.CollectorHeader;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.gl.service.CollectorDetailService;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
+import org.kuali.kfs.gl.service.PreScrubberService;
 import org.kuali.kfs.gl.service.impl.CollectorScrubberStatus;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -81,6 +87,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
     private BatchInputFileType collectorInputFileType;
     private CollectorScrubberService collectorScrubberService;
     private String collectorFileDirectoryName;
+    private PreScrubberService preScrubberService;
 
     /**
      * Parses the given file, validates the batch, stores the entries, and sends email.
@@ -106,14 +113,14 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         
         // create a input file for scrubber
         String collectorInputFileNameForScrubber = collectorFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        PrintStream inputFilePs; 
+        PrintStream inputFilePs;
         try {
             inputFilePs = new PrintStream(collectorInputFileNameForScrubber);
-            
+        
             for (OriginEntryFull entry : batch.getOriginEntries()){
                 inputFilePs.printf("%s\n", entry.getLine());    
             }
-            
+
             inputFilePs.close();
         } catch (IOException e) {
             throw new RuntimeException("loadCollectorFile Stopped: " + e.getMessage(), e);
@@ -569,5 +576,13 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
 
     public void setCollectorFileDirectoryName(String collectorFileDirectoryName) {
         this.collectorFileDirectoryName = collectorFileDirectoryName;
+    }
+
+    public PreScrubberService getPreScrubberService() {
+        return preScrubberService;
+    }
+
+    public void setPreScrubberService(PreScrubberService preScrubberService) {
+        this.preScrubberService = preScrubberService;
     }
 }

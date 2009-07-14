@@ -40,7 +40,7 @@ public class ScrubberSortStep extends AbstractStep {
     public boolean execute(String jobName, Date jobRunDate) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start(jobName);
-        String inputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        String inputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.PRE_SCRUBBER_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         String outputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         if ( new File( inputFile ).exists() ) {
             BatchSortUtil.sortTextFileWithFields(inputFile, outputFile, new ScrubberSortComparator());

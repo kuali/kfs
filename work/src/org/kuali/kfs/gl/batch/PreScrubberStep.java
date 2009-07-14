@@ -15,10 +15,21 @@
  */
 package org.kuali.kfs.gl.batch;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.LineIterator;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.BatchSortService;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.service.PreScrubberService;
 import org.kuali.kfs.gl.service.ScrubberService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.springframework.util.StopWatch;
@@ -27,8 +38,10 @@ import org.springframework.util.StopWatch;
  * A step to run the scrubber process.
  */
 public class PreScrubberStep extends AbstractStep {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberSortStep.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PreScrubberStep.class);
     private String batchFileDirectoryName;
+    private PreScrubberService preScrubberService;
+    
     /**
      * Runs the scrubber process.
      * 
@@ -41,9 +54,22 @@ public class PreScrubberStep extends AbstractStep {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start(jobName);
 
-        BatchSortUtil.sortTextFileWithFields(batchFileDirectoryName+"/glbackup", batchFileDirectoryName+"/sortscrb", new PreScrubberComparator());
-
-
+        String inputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        String outputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.PRE_SCRUBBER_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        
+        LineIterator oeIterator = null;
+        try {
+            oeIterator = FileUtils.lineIterator(new File(inputFile));
+            preScrubberService.preprocessOriginEntry(oeIterator, outputFile);
+        }
+        catch (IOException e) {
+            LOG.error("IO exception occurred during pre scrubbing.", e);
+            throw new RuntimeException("IO exception occurred during pre scrubbing.", e);
+        }
+        finally {
+            LineIterator.closeQuietly(oeIterator);
+        }
+        
         stopWatch.stop();
         if (LOG.isDebugEnabled()) {
             LOG.debug("scrubber step of " + jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
@@ -51,31 +77,16 @@ public class PreScrubberStep extends AbstractStep {
         return true;
     }
 
-    
-    public static class PreScrubberComparator implements Comparator {
-
-        public int compare(Object object1, Object object2) {
-            String string1 = (String) object1;
-            String string2 = (String) object2;
-            StringBuffer sb1 = new StringBuffer();
-            sb1.append(string1.substring(32, 46));
-            sb1.append(string1.substring(5, 18));
-            sb1.append(string1.substring(26, 27));
-            //sb1.append(string1.substring(163, 172));
-            sb1.append(string1.substring(30, 31));
-            
-            StringBuffer sb2 = new StringBuffer();
-            sb2.append(string2.substring(32, 46));
-            sb2.append(string2.substring(5, 18));
-            sb2.append(string2.substring(26, 27));
-            //sb2.append(string2.substring(163, 172));
-            sb2.append(string2.substring(30, 31));
-            return sb1.toString().compareTo(sb2.toString());
-        }
-    }
-
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
+    }
+
+    public PreScrubberService getPreScrubberService() {
+        return preScrubberService;
+    }
+
+    public void setPreScrubberService(PreScrubberService preScrubberService) {
+        this.preScrubberService = preScrubberService;
     }
 
 }

@@ -470,6 +470,7 @@
 			<ref bean="collectorInputFileType" />
 		</property>
 		<property name="collectorFileDirectoryName" value="${staging.directory}/gl/collector"/>
+		<property name="preScrubberService" ref="preScrubberService"/>
 	</bean>
 
 	<bean id="glCollectorScrubberService" class="org.kuali.kfs.gl.batch.service.impl.CollectorScrubberServiceImpl">
@@ -2695,5 +2696,13 @@
         		<entry key="org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
         	</map>
         </property>
-    </bean>	
+    </bean>
+    
+    <bean id="preScrubberService" class="org.kuali.kfs.gl.service.impl.PreScrubberServiceImpl">
+    </bean>
+    
+    <bean id="preScrubberStep" class="org.kuali.kfs.gl.batch.PreScrubberStep">
+    	<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
+    	<property name="preScrubberService" ref="preScrubberService"/>
+    </bean> 
 </beans>

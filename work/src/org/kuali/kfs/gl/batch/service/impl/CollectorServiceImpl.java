@@ -80,26 +80,6 @@ public class CollectorServiceImpl implements CollectorService {
         CollectorReportData collectorReportData = new CollectorReportData();
         List<CollectorScrubberStatus> collectorScrubberStatuses = new ArrayList<CollectorScrubberStatus>();
 
-        
-        
-// ****************************************************************        
-//        dataFileReader = new BufferedReader(new FileReader(dataFile));
-//        String line;
-//        int count = 0;
-//        while ((line = dataFileReader.readLine()) != null) {
-//            try {
-//                enterpriseFeedPs.printf("%s\n", line);
-//            } catch (Exception e) {
-//                throw new IOException(e.toString());
-//            }
-//            
-//            count++;
-//        }
-//        dataFileReader.close();
-//        dataFileReader = null;
-
-     // ****************************************************************        
-        
         String collectorEachInputFileName = collectorFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_DEMERGER_VAILD_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         String collectorFinalOutputFileName = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_OUTPUT + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
       

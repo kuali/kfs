@@ -417,4 +417,13 @@ public class GeneralLedgerConstants {
         }
         return DASH_ORGANIZATION_REFERENCE_ID;
     }
+    
+    private static String SPACE_CHART_OF_ACCOUNTS_CODE = null;
+
+    public static String getSpaceChartOfAccountsCode() {
+        if (SPACE_CHART_OF_ACCOUNTS_CODE == null) {
+            SPACE_CHART_OF_ACCOUNTS_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntryFull.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), ' ');
+        }
+        return SPACE_CHART_OF_ACCOUNTS_CODE;
+    }
 }

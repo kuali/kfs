@@ -184,6 +184,8 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
         businessObjectService.deleteMatching(LaborEntryHistory.class, fieldValues);
         businessObjectService.deleteMatching(LaborBalanceHistory.class, fieldValues);
         
+        reportWriterService.writeFormattedMessageLine(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_HISTORY_PURGED));
+
     }
     
     /**

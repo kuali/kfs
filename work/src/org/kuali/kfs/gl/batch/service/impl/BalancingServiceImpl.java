@@ -290,6 +290,8 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
         businessObjectService.deleteMatching(EncumbranceHistory.class, fieldValues);
         businessObjectService.deleteMatching(AccountBalanceHistory.class, fieldValues);
         
+        reportWriterService.writeFormattedMessageLine(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_HISTORY_PURGED));
+
         
     }
     

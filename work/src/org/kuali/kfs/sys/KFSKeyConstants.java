@@ -835,6 +835,7 @@ public class KFSKeyConstants {
         public static final String MESSAGE_BATCH_BALANCING_FAILURE_COUNT = "message.batch.balancing.failure.count";
         public static final String MESSAGE_BATCH_BALANCING_RECORD_BEFORE_FISCAL_YEAR = "message.batch.balancing.record.before.fiscal.year";
         public static final String MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING = "message.batch.balancing.record.failed.balancing";
+        public static final String MESSAGE_BATCH_BALANCING_HISTORY_PURGED = "message.batch.balancing.history.purged";
         
         public static final String REPORT_UNKNOWN_LABEL = "message.batch.balancing.report.unknown.label";
         

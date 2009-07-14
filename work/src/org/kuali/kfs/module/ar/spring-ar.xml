@@ -103,6 +103,7 @@
 	<bean id="invoiceRecurrenceDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.InvoiceRecurrenceDaoOjb" />
 	<bean id="cashControlDetailDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CashControlDetailDaoOjb" />
 	<bean id="nonAppliedHoldingDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.NonAppliedHoldingDaoOjb" />
+	<bean id="customerAgingReportDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerAgingReportDaoOjb" />
 	
 	<!--  AR Services  -->
 	<bean id="systemInformationService" class="org.kuali.kfs.module.ar.document.service.impl.SystemInformationServiceImpl">

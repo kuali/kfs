@@ -486,6 +486,9 @@
  	<reference-descriptor name="unitOfMeasure" class-ref="org.kuali.kfs.sys.businessobject.UnitOfMeasure" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="invoiceItemUnitOfMeasureCode" />
 	</reference-descriptor>
+	<reference-descriptor name="customerInvoiceDocument" class-ref="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" auto-retrieve="false" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="documentNumber" />
+	</reference-descriptor>
 	
 </class-descriptor>
 
@@ -630,6 +633,9 @@
         <inverse-foreignkey field-ref="documentNumber" />
         <inverse-foreignkey field-ref="paidAppliedItemNumber" />
     </collection-descriptor>
+    <reference-descriptor name="customerInvoiceDocument" class-ref="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" auto-retrieve="false" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="documentNumber" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ar.businessobject.Lockbox" table="AR_LOCKBOX_T">

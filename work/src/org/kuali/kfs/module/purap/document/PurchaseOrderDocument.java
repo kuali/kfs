@@ -546,6 +546,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         this.setDeliveryToEmailAddress(requisitionDocument.getDeliveryToEmailAddress());
         this.setDeliveryToName(requisitionDocument.getDeliveryToName());
         this.setDeliveryToPhoneNumber(requisitionDocument.getDeliveryToPhoneNumber());
+        this.setDeliveryBuildingOtherIndicator(requisitionDocument.isDeliveryBuildingOtherIndicator());
         
         this.setPurchaseOrderBeginDate(requisitionDocument.getPurchaseOrderBeginDate());
         this.setPurchaseOrderCostSourceCode(requisitionDocument.getPurchaseOrderCostSourceCode());

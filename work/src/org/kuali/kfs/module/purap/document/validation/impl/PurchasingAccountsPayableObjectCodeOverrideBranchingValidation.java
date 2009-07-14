@@ -22,6 +22,8 @@ import java.util.Queue;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
@@ -52,10 +54,19 @@ public class PurchasingAccountsPayableObjectCodeOverrideBranchingValidation exte
         }
         
         boolean isTaxApproval = false;
+        //if payment request, skip object code check when this is a tax approval, 
+        // or if this accounting line is from a Tax Charge line.
         if (accountingDocumentForValidation instanceof PaymentRequestDocument) {
             PaymentRequestDocument preq = (PaymentRequestDocument)accountingDocumentForValidation;
-            if (StringUtils.equals(PaymentRequestStatuses.AWAITING_TAX_REVIEW, preq.getStatusCode())) 
+            PurApAccountingLine purapAccountingLine = (PurApAccountingLine)accountingLineForValidation;
+            PurApItem item = purapAccountingLine.getPurapItem();
+            
+            if (StringUtils.equals(PaymentRequestStatuses.AWAITING_TAX_REVIEW, preq.getStatusCode())){                
                 isTaxApproval = true;
+            }else if(StringUtils.equals(PaymentRequestStatuses.DEPARTMENT_APPROVED, preq.getStatusCode()) &&
+                     (ObjectUtils.isNotNull(item) && item.getItemType().getIsTaxCharge()) ){
+                isTaxApproval = true;
+            }
         }
         
         if (isTaxApproval) {

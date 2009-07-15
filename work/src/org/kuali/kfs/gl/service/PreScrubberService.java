@@ -19,5 +19,5 @@ import java.io.IOException;
 import java.util.Iterator;
 
 public interface PreScrubberService {
-    public void preprocessOriginEntry(Iterator<String> inputOriginEntries, String outputFileName) throws IOException;
+    public void preprocessOriginEntries(Iterator<String> inputOriginEntries, String outputFileName) throws IOException;
 }

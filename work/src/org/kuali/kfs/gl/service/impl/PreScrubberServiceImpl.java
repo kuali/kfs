@@ -50,7 +50,7 @@ public class PreScrubberServiceImpl implements PreScrubberService {
     
     private int maxCacheSize = 10000;
     
-    public void preprocessOriginEntry(Iterator<String> inputOriginEntries, String outputFileName) throws IOException {
+    public void preprocessOriginEntries(Iterator<String> inputOriginEntries, String outputFileName) throws IOException {
         PrintStream outputStream = new PrintStream(outputFileName);
         
         Map<String, String> chartCodeCache = new LinkedHashMap<String, String>() {
@@ -92,7 +92,7 @@ public class PreScrubberServiceImpl implements PreScrubberService {
                             else if (multipleAccountCache.contains(accountNumber))
                                 multipleFound = true;
                             else {
-                                // overwrite the criteria so we can reuse the map and save memory
+                                // overwrite the criteria so we can reuse the map and save memory allocations
                                 criteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
                                 Collection<Account> results = businessObjectService.findMatching(Account.class, criteria);
                                 

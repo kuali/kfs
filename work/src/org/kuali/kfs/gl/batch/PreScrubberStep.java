@@ -60,7 +60,7 @@ public class PreScrubberStep extends AbstractStep {
         LineIterator oeIterator = null;
         try {
             oeIterator = FileUtils.lineIterator(new File(inputFile));
-            preScrubberService.preprocessOriginEntry(oeIterator, outputFile);
+            preScrubberService.preprocessOriginEntries(oeIterator, outputFile);
         }
         catch (IOException e) {
             LOG.error("IO exception occurred during pre scrubbing.", e);

@@ -223,6 +223,7 @@ public class GeneralLedgerConstants {
         
         static final public String  COLLECTOR_BACKUP_FILE = "col_glbackup";
         
+        static final public String COLLECTOR_PRE_SCRUBBER = "col_prescrub";
         static final public String COLLECTOR_SCRUBBER_INPUT_FILE = "col_sortscrb";
         static final public String COLLECTOR_SCRUBBER_VALID_OUTPUT_FILE = "col_scrbout1";
         static final public String COLLECTOR_SCRUBBER_ERROR_OUTPUT_FILE = "col_scrberr1";

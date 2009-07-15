@@ -31,6 +31,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.LineIterator;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.BalanceType;
@@ -56,6 +58,7 @@ import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.report.TransactionListingReport;
 import org.kuali.kfs.gl.service.OriginEntryService;
+import org.kuali.kfs.gl.service.PreScrubberService;
 import org.kuali.kfs.gl.service.ScrubberReportData;
 import org.kuali.kfs.gl.service.ScrubberValidator;
 import org.kuali.kfs.gl.service.impl.ScrubberStatus;
@@ -127,7 +130,8 @@ public class ScrubberProcess {
     private ReportWriterService scrubberBadBalanceListingReportWriterService;
     private ReportWriterService demergerRemovedTransactionsListingReportWriterService;
     private ReportWriterService demergerReportWriterService;
-
+    private PreScrubberService preScrubberService;
+    
     // these three members will only be populated when in collector mode, otherwise the memory requirements will be huge
     private Map<OriginEntryInformation, OriginEntryInformation> unscrubbedToScrubbedEntries;
     private Map<Transaction, List<Message>> scrubberReportErrors;
@@ -176,7 +180,7 @@ public class ScrubberProcess {
     /**
      * These parameters are all the dependencies.
      */
-    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, AccountingCycleCachingService accountingCycleCachingService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService configurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride, RunDateService runDateService, String batchFileDirectoryName, DocumentNumberAwareReportWriterService scrubberReportWriterService, DocumentNumberAwareReportWriterService scrubberLedgerReportWriterService, DocumentNumberAwareReportWriterService scrubberListingReportWriterService, ReportWriterService scrubberBadBalanceListingReportWriterService, ReportWriterService demergerReportWriterService, ReportWriterService demergerRemovedTransactionsListingReportWriterService) {
+    public ScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, AccountingCycleCachingService accountingCycleCachingService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService configurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ScrubberValidator scrubberValidator, ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride, RunDateService runDateService, String batchFileDirectoryName, DocumentNumberAwareReportWriterService scrubberReportWriterService, DocumentNumberAwareReportWriterService scrubberLedgerReportWriterService, DocumentNumberAwareReportWriterService scrubberListingReportWriterService, ReportWriterService scrubberBadBalanceListingReportWriterService, ReportWriterService demergerReportWriterService, ReportWriterService demergerRemovedTransactionsListingReportWriterService, PreScrubberService preScrubberService) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
         this.accountingCycleCachingService = accountingCycleCachingService;
@@ -201,6 +205,7 @@ public class ScrubberProcess {
         this.demergerRemovedTransactionsListingReportWriterService = demergerRemovedTransactionsListingReportWriterService;
         this.scrubberReportErrors = new IdentityHashMap<Transaction, List<Message>>();
         ledgerSummaryReport = new LedgerSummaryReport();
+        this.preScrubberService = preScrubberService;
     }
 
     /**
@@ -216,7 +221,22 @@ public class ScrubberProcess {
         this.validFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         this.errorFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         this.expiredFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        String prescrubOutput = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.PRE_SCRUBBER_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         runDate = calculateRunDate(dateTimeService.getCurrentDate());
+        
+        // run pre-scrubber on the raw input into the sort process
+        LineIterator inputEntries = null;
+        try {
+            inputEntries = FileUtils.lineIterator(new File(unsortedFile));
+            preScrubberService.preprocessOriginEntries(inputEntries, prescrubOutput);
+        }
+        catch (IOException e1) {
+            LOG.error("Error encountered trying to prescrub GLCP/LLCP document", e1);
+            throw new RuntimeException("Error encountered trying to prescrub GLCP/LLCP document", e1);
+        }
+        finally {
+            LineIterator.closeQuietly(inputEntries);
+        }
         
         BatchSortUtil.sortTextFileWithFields(unsortedFile, inputFile, new ScrubberSortComparator());
         
@@ -270,8 +290,23 @@ public class ScrubberProcess {
         
         this.ledgerSummaryReport = collectorReportData.getLedgerSummaryReport();
         
+        // pre-scrub the input
+        String preScrubberInputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        String preScrubberOutputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_PRE_SCRUBBER + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        LineIterator inputEntries = null;
+        try {
+            inputEntries = FileUtils.lineIterator(new File(preScrubberInputFile));
+            preScrubberService.preprocessOriginEntries(inputEntries, preScrubberOutputFile);
+        }
+        catch (IOException e) {
+            LOG.error("Collector pre-scrubber encountered IO Exception", e);
+            throw new RuntimeException("Collector pre-scrubber encountered IO Exception", e);
+        }
+        finally {
+            LineIterator.closeQuietly(inputEntries);
+        }
         // sort input file
-        String scrubberSortInputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        String scrubberSortInputFile = preScrubberOutputFile;
         String scrubberSortOutputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         BatchSortUtil.sortTextFileWithFields(scrubberSortInputFile, scrubberSortOutputFile, new ScrubberSortComparator());
         

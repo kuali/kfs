@@ -615,6 +615,7 @@
 		<property name="accountingCycleCachingService">
 		  	<ref bean="accountingCycleCachingService" />
 		</property>
+		<property name="preScrubberService" ref="preScrubberService" />
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 		<property name="collectorFileDirectoryName" value="${staging.directory}/gl/collector"/>
 		<property name="demergerReportWriterService" ref="demergerReportWriterService" />
@@ -1238,6 +1239,7 @@
 		<property name="steps">
 			<list>
 				<ref bean="createBackupGroupStep" />
+				<ref bean="preScrubberStep" />
 				<ref bean="scrubberSortStep" />
 				<ref bean="scrubberStep" />
 				<ref bean="demergerSortStep" />

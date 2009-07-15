@@ -238,7 +238,7 @@ public class ScrubberProcess {
             LineIterator.closeQuietly(inputEntries);
         }
         
-        BatchSortUtil.sortTextFileWithFields(unsortedFile, inputFile, new ScrubberSortComparator());
+        BatchSortUtil.sortTextFileWithFields(prescrubOutput, inputFile, new ScrubberSortComparator());
         
         scrubEntries(true, documentNumber);
         

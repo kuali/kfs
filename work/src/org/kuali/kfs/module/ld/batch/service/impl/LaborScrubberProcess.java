@@ -30,6 +30,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
@@ -48,6 +50,7 @@ import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.report.TransactionListingReport;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
+import org.kuali.kfs.gl.service.PreScrubberService;
 import org.kuali.kfs.gl.service.ScrubberReportData;
 import org.kuali.kfs.gl.service.ScrubberValidator;
 import org.kuali.kfs.module.ld.LaborConstants;
@@ -98,6 +101,8 @@ public class LaborScrubberProcess {
     private PersistenceService persistenceService;
     private ScrubberValidator scrubberValidator;
     private LaborAccountingCycleCachingService laborAccountingCycleCachingService;
+    private PreScrubberService laborPreScrubberService;
+    
     private DocumentNumberAwareReportWriterService laborMainReportWriterService;
     private DocumentNumberAwareReportWriterService laborLedgerReportWriterService;
     private ReportWriterService laborBadBalanceTypeReportWriterService;
@@ -150,7 +155,7 @@ public class LaborScrubberProcess {
     /**
      * These parameters are all the dependencies.
      */
-    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, LaborAccountingCycleCachingService laborAccountingCycleCachingService, LaborOriginEntryService laborOriginEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ScrubberValidator scrubberValidator, String batchFileDirectoryName, DocumentNumberAwareReportWriterService laborMainReportWriterService, DocumentNumberAwareReportWriterService laborLedgerReportWriterService, ReportWriterService laborBadBalanceTypeReportWriterService, ReportWriterService laborErrorListingReportWriterService, DocumentNumberAwareReportWriterService laborGeneratedTransactionsReportWriterService, ReportWriterService laborDemergerReportWriterService) {
+    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, LaborAccountingCycleCachingService laborAccountingCycleCachingService, LaborOriginEntryService laborOriginEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ScrubberValidator scrubberValidator, String batchFileDirectoryName, DocumentNumberAwareReportWriterService laborMainReportWriterService, DocumentNumberAwareReportWriterService laborLedgerReportWriterService, ReportWriterService laborBadBalanceTypeReportWriterService, ReportWriterService laborErrorListingReportWriterService, DocumentNumberAwareReportWriterService laborGeneratedTransactionsReportWriterService, ReportWriterService laborDemergerReportWriterService, PreScrubberService laborPreScrubberService) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
         this.laborAccountingCycleCachingService = laborAccountingCycleCachingService;
@@ -170,7 +175,8 @@ public class LaborScrubberProcess {
         this.laborErrorListingReportWriterService = laborErrorListingReportWriterService;
         this.laborGeneratedTransactionsReportWriterService = laborGeneratedTransactionsReportWriterService;
         this.laborDemergerReportWriterService = laborDemergerReportWriterService;
-
+        this.laborPreScrubberService = laborPreScrubberService;
+        
         cutoffHour = null;
         cutoffMinute = null;
         cutoffSecond = null;
@@ -189,8 +195,23 @@ public class LaborScrubberProcess {
         this.validFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         this.errorFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         this.expiredFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-
-        BatchSortUtil.sortTextFileWithFields(unsortedFile, inputFile, new LaborScrubberSortComparator());
+        String prescrubOutput = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.PRE_SCRUBBER_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        
+        // run pre-scrubber on the raw input into the sort process
+        LineIterator inputEntries = null;
+        try {
+            inputEntries = FileUtils.lineIterator(new File(unsortedFile));
+            laborPreScrubberService.preprocessOriginEntries(inputEntries, prescrubOutput);
+        }
+        catch (IOException e1) {
+            LOG.error("Error encountered trying to prescrub GLCP/LLCP document", e1);
+            throw new RuntimeException("Error encountered trying to prescrub GLCP/LLCP document", e1);
+        }
+        finally {
+            LineIterator.closeQuietly(inputEntries);
+        }
+        
+        BatchSortUtil.sortTextFileWithFields(prescrubOutput, inputFile, new LaborScrubberSortComparator());
 
         scrubEntries(true, documentNumber);
 

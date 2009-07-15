@@ -71,6 +71,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class CashManagementServiceImpl implements CashManagementService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashManagementServiceImpl.class); 
+    
     private BusinessObjectService businessObjectService;
     private CashDrawerService cashDrawerService;
     private DateTimeService dateTimeService;
@@ -519,7 +521,10 @@ public class CashManagementServiceImpl implements CashManagementService {
         businessObjectService.save(depositedChecks);
 
         // unlock the cashDrawer, if needed
-        if (deposit.getDepositTypeCode() == DepositConstants.DEPOSIT_TYPE_FINAL) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("deposit deposit type = "+deposit.getDepositTypeCode()+"; constant = "+KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL+"; are they equal? "+deposit.getDepositTypeCode().equals(KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL));
+        }
+        if (deposit.getDepositTypeCode().equals(KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL)) {
             CashDrawer drawer = cashDrawerService.getByCampusCode(deposit.getCashManagementDocument().getCampusCode());
             CurrencyDetail currencyDetail = cashManagementDao.findCurrencyDetailByCashieringRecordSource(deposit.getCashManagementDocument().getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.DEPOSITS);
             if (currencyDetail != null) {

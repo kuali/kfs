@@ -498,7 +498,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         
         for (ReceivingItem item : (List<ReceivingItem>)recDoc.getItems()){
             if(!StringUtils.equalsIgnoreCase(item.getItemType().getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE)) {
-                if (item.getItemReturnedTotalQuantity().isGreaterThan(KualiDecimal.ZERO)){
+                if (item.getItemReturnedTotalQuantity() != null && item.getItemReturnedTotalQuantity().isGreaterThan(KualiDecimal.ZERO)){
                     try{
                         String noteString = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.MESSAGE_RECEIVING_LINEITEM_RETURN_NOTE_TEXT);
                         noteString = item.getItemReturnedTotalQuantity().intValue() + " " + noteString + " " + item.getItemLineNumber();
@@ -509,7 +509,7 @@ public class ReceivingServiceImpl implements ReceivingService {
                     }
                 }
                 
-                if (item.getItemDamagedTotalQuantity().isGreaterThan(KualiDecimal.ZERO)){
+                if (item.getItemDamagedTotalQuantity() != null && item.getItemDamagedTotalQuantity().isGreaterThan(KualiDecimal.ZERO)){
                     try{
                         String noteString = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.MESSAGE_RECEIVING_LINEITEM_DAMAGE_NOTE_TEXT);
                         noteString = item.getItemDamagedTotalQuantity().intValue() + " " + noteString + " " + item.getItemLineNumber();
@@ -553,7 +553,12 @@ public class ReceivingServiceImpl implements ReceivingService {
                     if (ObjectUtils.isNull(receivingItemReturnedOriginal)){
                         receivingItemReturnedOriginal = KualiDecimal.ZERO; 
                     }
+                    
                     KualiDecimal receivingItemReturned = receivingItem.getItemReturnedTotalQuantity();
+                    if (ObjectUtils.isNull(receivingItemReturned)){
+                        receivingItemReturned = KualiDecimal.ZERO; 
+                    }
+                    
                     KualiDecimal receivingItemTotalReturnedAdjusted = receivingItemReturned.subtract(receivingItemReturnedOriginal); 
                     
                     poItemReceivedTotalAdjusted = poItemReceivedTotalAdjusted.subtract(receivingItemTotalReturnedAdjusted);

@@ -15,11 +15,15 @@
  */
 package org.kuali.kfs.sys.context;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -28,6 +32,9 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.sql.DataSource;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -44,6 +51,7 @@ import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.LookupDefinition;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.xml.sax.InputSource;
 
 @AnnotationTestSuite(PreCommitSuite.class)
 @ConfigureContext
@@ -52,7 +60,12 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     private DataDictionary dataDictionary;
     
     public final static String KFS_PACKAGE_NAME = "org.kuali.kfs";
-
+    public final static String BUSINESS_OBJECT_PATH_QUALIFIER = "businessobject/datadictionary";
+    public final static String DOCUMENT_PATH_QUALIFIER = "document/datadictionary";
+    public final static String RICE_PACKAGE_NAME = "org.kuali.rice";
+    public final static String INACTIVATEABLE_INTERFACE_CLASS = "org.kuali.rice.kns.bo.Inactivateable";
+    public final static String ACTIVE_FIELD_NAME = "active";
+    
     public void testAllDataDicitionaryDocumentTypesExistInWorkflowDocumentTypeTable() throws Exception {
         HashSet<String> workflowDocumentTypeNames = new HashSet<String>();
         DataSource mySource = SpringContext.getBean(DataSource.class);
@@ -125,24 +138,63 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         
         List<Class> ignoreClasses = Arrays.asList(INACTIVATEABLE_LOOKUP_IGNORE_CLASSES);
         
+        List<Class> notImplementInactivateableList = new ArrayList<Class>();
+        
+        List<Class> defaultValueWrongList = new ArrayList<Class>();
+        
         for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
-            if ( !businessObjectEntry.getBusinessObjectClass().getName().startsWith("org.kuali.rice")
+            if ( !businessObjectEntry.getBusinessObjectClass().getName().startsWith(RICE_PACKAGE_NAME)
                     && !ignoreClasses.contains(businessObjectEntry.getBusinessObjectClass())) {
-//                List<Class> iList = (List<Class>)Arrays.asList(businessObjectEntry.getBusinessObjectClass().getInterfaces());
-//                try {
-//                    if(iList.contains(Class.forName("org.kuali.rice.kns.bo.Inactivateable"))){
-//                        LookupDefinition lookupDefinition = businessObjectEntry.getLookupDefinition();
-//                        if(lookupDefinition != null && !(lookupDefinition.getLookupFieldNames().contains("active") && lookupDefinition.getLookupFieldNames().contains("active"))){
-//                            noActiveFieldClassList.add(businessObjectEntry.getBusinessObjectClass());
-//                        }
-//                    }
-//                }
-//                catch (ClassNotFoundException e) {
-//                    throw(e);
-//                }
+                List<Class> iList = (List<Class>)Arrays.asList(businessObjectEntry.getBusinessObjectClass().getInterfaces());
+                try {
+                    LookupDefinition lookupDefinition = businessObjectEntry.getLookupDefinition();
+                    // Class implements Inactivateable but active field not used on Lookup.
+                    if(iList.contains(Class.forName(INACTIVATEABLE_INTERFACE_CLASS))){
+                        if(lookupDefinition != null && !(lookupDefinition.getLookupFieldNames().contains(ACTIVE_FIELD_NAME) && lookupDefinition.getResultFieldNames().contains(ACTIVE_FIELD_NAME))){
+                            noActiveFieldClassList.add(businessObjectEntry.getBusinessObjectClass());
+                            //Default must be 'Y' not 'true'
+                            if (!lookupDefinition.getLookupField(ACTIVE_FIELD_NAME).getDefaultValue().equals("Y")){
+                                defaultValueWrongList.add(businessObjectEntry.getBusinessObjectClass());
+                            }
+                        }
+                    }else{
+                        // Lookup show active flag, but class does not implement Inactivateable.
+                        if(lookupDefinition != null && (lookupDefinition.getLookupFieldNames().contains(ACTIVE_FIELD_NAME) || lookupDefinition.getResultFieldNames().contains(ACTIVE_FIELD_NAME))){
+                            notImplementInactivateableList.add(businessObjectEntry.getBusinessObjectClass());
+                        }
+                    }
+                }
+                catch (ClassNotFoundException e) {
+                    throw(e);
+                }
             }
         }
-        assertEquals(noActiveFieldClassList.toString(), 0, noActiveFieldClassList.size());
+        String errorString = "";
+        if (noActiveFieldClassList.size()!=0) errorString=errorString+"Missing Active Field: "+formatErrorStringGroupByModule(noActiveFieldClassList);
+        if (notImplementInactivateableList.size()!=0) errorString=errorString+"Inactivateable not implemented: "+formatErrorStringGroupByModule(notImplementInactivateableList);
+        if (defaultValueWrongList.size()!=0) errorString=errorString+"Wrong default value: "+formatErrorStringGroupByModule(defaultValueWrongList);
+        assertEquals(errorString, 0, noActiveFieldClassList.size()+notImplementInactivateableList.size()+defaultValueWrongList.size());
+    }
+    private String formatErrorStringGroupByModule(List<Class> failedList){
+        Map<String,Set> listMap = new HashMap();
+        String module = null;
+        String itemName = null;
+        for (Class item :failedList){
+            itemName=item.getName();
+            module = itemName.substring(0, itemName.lastIndexOf('.'));
+            if (!listMap.keySet().contains(module)){
+                listMap.put(module, new HashSet<String>());
+            }
+            listMap.get(module).add(itemName.substring(itemName.lastIndexOf('.')+1));
+        }
+        String tempString="";
+        for (String moduleName : listMap.keySet()){
+            tempString = tempString+"Module :"+moduleName+"\n";
+            for (String errorClass : (Set<String>)listMap.get(moduleName)){
+                tempString = tempString + "     "+errorClass+"\n";
+            }
+        }
+        return "\n"+tempString;
     }
 
     public void testAllBusinessObjectsHaveObjectLabel() throws Exception {
@@ -156,97 +208,147 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     }
     
     /**
-     * checke if the business object data dictionaries still have summary property for beans. If so, report errors.
-     * The error can be caused by the parent beans referenced by the tested bean definition.
+     * check if the business object data dictionaries still have summary or description property for beans. If so, report errors.
+     * <beans>
+     * ...
+     *    <bean id= ... >
+     *      ....
+     *      <property name="summary" value="The name of the parameter Component." />
+     *      ...
+     *    </bean>
+     *     ...
+     * </beans>
      */
-//    public void testAllBusinessObjectsHaveNoSummaryProperty() throws Exception {
-//        Map<String, Set<String>> errorReport = new HashMap<String, Set<String>>();       
-//        for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
-//            
-//            if(businessObjectEntry.getBusinessObjectClass().getName().startsWith(KFS_PACKAGE_NAME)) {            
-//                for(AttributeDefinition attributeDefinition : businessObjectEntry.getAttributes()) {                    
-//                    if(attributeDefinition.getSummary() != null) {
-//                        String boClassName = businessObjectEntry.getBusinessObjectClass().getName();
-//                        
-//                        reportErrorAttribute(errorReport, attributeDefinition, boClassName);
-//                    }
-//                }
-//            }
-//        }
-//        
-//        printReport(errorReport);
-//        assertEquals("Please see the more information in LOG/Console", 0, errorReport.size());
-//    }
-//    
-//    /**
-//     * checke if the business object data dictionaries still have description property for beans. If so, report errors.
-//     * The error can be caused by the parent beans referenced by the tested bean definition.
-//     */
-//    public void testAllBusinessObjectsHaveNoDescriptionProperty() throws Exception {
-//        Map<String, Set<String>> errorReport = new HashMap<String, Set<String>>();   
-//        for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
-//            
-//            if(businessObjectEntry.getBusinessObjectClass().getName().startsWith(KFS_PACKAGE_NAME)) {            
-//                for(AttributeDefinition attributeDefinition : businessObjectEntry.getAttributes()) {                    
-//                    if(attributeDefinition.getDescription() != null) {
-//                        String boClassName = businessObjectEntry.getBusinessObjectClass().getName();
-//                        
-//                        reportErrorAttribute(errorReport, attributeDefinition, boClassName);
-//                    }
-//                }
-//            }
-//        }
-//        
-//        printReport(errorReport);       
-//        assertEquals("Please see the more information in LOG/Console", 0, errorReport.size());
-//    }
-    
-    /**
-     * checke if the document data dictionaries still have summary property for beans. If so, report errors.
-     * The error can be caused by the parent beans referenced by the tested bean definition.
-     */
-    public void allDocumentEntriesHaveNoSummaryProperty() throws Exception {
-        Map<String, Set<String>> errorReport = new HashMap<String, Set<String>>();        
-        for(DocumentEntry documentEntry:dataDictionary.getDocumentEntries().values()){
-            
-            if(documentEntry.getDocumentClass().getName().startsWith(KFS_PACKAGE_NAME)) {            
-                for(AttributeDefinition attributeDefinition : documentEntry.getAttributes()) {                    
-                    if(attributeDefinition.getSummary() != null) {
-                        String boClassName = documentEntry.getDocumentClass().getName();
-                        
-                        reportErrorAttribute(errorReport, attributeDefinition, boClassName);
-                    }
+    public void testAllBusinessObjectsHaveNoSummaryOrDescriptionProperty() throws Exception {
+        Set <String> summaryReport = new HashSet<String>();
+        Set <String> descriptionReport = new HashSet<String>();
+        Set <String> exceptionReport = new HashSet<String>();
+        URL pathRoot = new Account().getClass().getProtectionDomain().getCodeSource().getLocation();
+        for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
+            String boName=businessObjectEntry.getBusinessObjectClass().getName();
+            if(boName.startsWith(KFS_PACKAGE_NAME)) { 
+                boName=pathRoot+boName.replace(".", "/")+".xml";
+                boName = boName.substring(0,boName.substring(0,boName.lastIndexOf('/')).lastIndexOf('/')+1)+BUSINESS_OBJECT_PATH_QUALIFIER+boName.substring(boName.lastIndexOf('/'));                
+                boName = boName.substring(boName.indexOf(':')+1);
+                XPath xpath = XPathFactory.newInstance().newXPath();
+                Boolean summaryNodes=false;
+                Boolean descriptionNodes=false;
+                try{
+                    InputSource summarySource  = new InputSource(new FileInputStream(boName));
+                    summaryNodes = (Boolean)xpath.evaluate("//*[@name='summary']", summarySource, XPathConstants.BOOLEAN );
+                    InputSource descriptionSource  = new InputSource(new FileInputStream(boName));
+                    descriptionNodes = (Boolean)xpath.evaluate("//*[@name='description']", descriptionSource, XPathConstants.BOOLEAN );
+                }catch (FileNotFoundException fnfe){
+                    exceptionReport.add(boName);
+                }
+                if (summaryNodes){
+                    summaryReport.add(boName);
+                }
+                if (descriptionNodes){
+                    descriptionReport.add(boName);
                 }
             }
         }
-        
-        printReport(errorReport);        
-        assertEquals("Please see the more information in LOG/Console", 0, errorReport.size());
-    }
-    
-    /**
-     * checke if the document data dictionaries still have description property for beans. If so, report errors.     
-     * The error can be caused by the parent beans referenced by the tested bean definition.
-     */
-    public void allDocumentEntriesHaveNoDescriptionProperty() throws Exception {
-        Map<String, Set<String>> errorReport = new HashMap<String, Set<String>>();       
-        for(DocumentEntry documentEntry:dataDictionary.getDocumentEntries().values()){
-            
-            if(documentEntry.getDocumentClass().getName().startsWith(KFS_PACKAGE_NAME)) {            
-                for(AttributeDefinition attributeDefinition : documentEntry.getAttributes()) {                    
-                    if(attributeDefinition.getDescription() != null) {
-                        String boClassName = documentEntry.getDocumentClass().getName();
-                        
-                        reportErrorAttribute(errorReport, attributeDefinition, boClassName);
-                    }
-                }
+        String errorString = "";
+        if (summaryReport.size()!=0){
+            errorString = "These BO's have a summary properrty: \n";
+            for (String node :summaryReport){
+                errorString = errorString + node+"\n";
+            }
+        }
+        if (descriptionReport.size()!=0){
+            errorString = errorString + "These BO's have a description property: \n";
+            for (String node :descriptionReport){
+                errorString = errorString +node+"\n";
+            }
+        }
+        if (exceptionReport.size()!=0){
+            errorString = errorString + "This test is sensitive to the file system structure.  Unless the path to the file ends with \"businessobject/datadictionary/BO.xml\" the DD file wll not be found!\nThese files were not found: \n";
+            for (String node:exceptionReport){
+                errorString = errorString + node+"\n";
             }
         }
         
-        printReport(errorReport);        
-        assertEquals("Please see the more information in LOG/Console", 0, errorReport.size());
+        assertEquals(errorString, 0, descriptionReport.size()+summaryReport.size()+exceptionReport.size());
     }
+    
+    /**
+     * check if the document data dictionaries still have summary or description property for beans. If so, report errors.
+     * <beans>
+     * ...
+     *    <bean id= ... >
+     *      ....
+     *      <property name="summary" value="The name of the parameter Component." />
+     *      ...
+     *    </bean>
+     *     ...
+     * </beans>
+     */
+    public void testAllDocumentsHaveNoSummaryOrDescriptionProperty() throws Exception {
+        Set <String> summaryReport = new HashSet<String>();
+        Set <String> descriptionReport = new HashSet<String>();
+        Set <String> exceptionReport = new HashSet<String>();
+        Set <String> dummyDocuments = new HashSet<String>();
+        dummyDocuments.add("org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase");
+        dummyDocuments.add("org.kuali.kfs.module.cam.document.AssetForSearching");
+        dummyDocuments.add("org.kuali.kfs.module.purap.document.ReceivingDocumentForSearching");
+        dummyDocuments.add("org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument");
+        dummyDocuments.add("org.kuali.kfs.module.cam.businessobject.AssetForSearching");//Apparently this is a special case
 
+        URL pathRoot = new Account().getClass().getProtectionDomain().getCodeSource().getLocation();
+        Collection <DocumentEntry> documentEntries = dataDictionary.getDocumentEntries().values();
+        for(DocumentEntry documentEntry:documentEntries){
+            String documentName=documentEntry.getDocumentClass().getName();
+            if(documentName.startsWith(KFS_PACKAGE_NAME)) { 
+                String baseDocumentName = documentName;
+                documentName=pathRoot+documentName.replace(".", "/")+".xml";
+                documentName = documentName.substring(0,documentName.substring(0,documentName.lastIndexOf('/')).lastIndexOf('/')+1)+DOCUMENT_PATH_QUALIFIER+documentName.substring(documentName.lastIndexOf('/'));                
+                documentName = documentName.substring(documentName.indexOf(':')+1);
+                XPath xpath = XPathFactory.newInstance().newXPath();
+                Boolean summaryNodes=false;
+                Boolean descriptionNodes=false;
+                try{
+                    InputSource summarySource  = new InputSource(new FileInputStream(documentName));
+                    summaryNodes = (Boolean)xpath.evaluate("//*[@name='summary']", summarySource, XPathConstants.BOOLEAN );
+                    InputSource descriptionSource  = new InputSource(new FileInputStream(documentName));
+                    descriptionNodes = (Boolean)xpath.evaluate("//*[@name='description']", descriptionSource, XPathConstants.BOOLEAN );
+                }catch (FileNotFoundException fnfe){
+                    //don't worry about dummy documents, they don't have an xml file
+                    if (!dummyDocuments.contains(baseDocumentName)){
+                    exceptionReport.add(baseDocumentName);
+                    }
+                }
+                if (summaryNodes){
+                    summaryReport.add(baseDocumentName);
+                }
+                if (descriptionNodes){
+                    descriptionReport.add(baseDocumentName);
+                }
+            }
+        }
+        String errorString = "";
+        if (summaryReport.size()!=0){
+            errorString = "These documents have a summary properrty: \n";
+            for (String node :summaryReport){
+                errorString = errorString + node+"\n";
+            }
+        }
+        if (descriptionReport.size()!=0){
+            errorString = errorString + "These documents have a description property: \n";
+            for (String node :descriptionReport){
+                errorString = errorString +node+"\n";
+            }
+        }
+        if (exceptionReport.size()!=0){
+            errorString = errorString + "This test is sensitive to the file system structure.  Unless the path to the file ends with \"document/datadictionary/BO.xml\" the DD file wll not be found!\nThese files were not found: \n";
+            for (String node:exceptionReport){
+                errorString = errorString + node+"\n";
+            }
+        }
+        
+        assertEquals(errorString, 0, descriptionReport.size()+summaryReport.size()+exceptionReport.size());
+    }
+    
     private void reportErrorAttribute(Map<String, Set<String>> reports, AttributeDefinition attributeDefinition, String boClassName) {
         Set<String> attributeSet = reports.containsKey(boClassName) ? reports.get(boClassName) : new TreeSet<String>(); 
         attributeSet.add(attributeDefinition.getName());

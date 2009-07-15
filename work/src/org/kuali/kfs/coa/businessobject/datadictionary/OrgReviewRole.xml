@@ -340,6 +340,7 @@
           <bean parent="FieldDefinition" p:attributeName="delegationTypeCodeDescription"/>
           <bean parent="FieldDefinition" p:attributeName="activeFromDate"/>
           <bean parent="FieldDefinition" p:attributeName="activeToDate"/>
+          <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
   </bean>

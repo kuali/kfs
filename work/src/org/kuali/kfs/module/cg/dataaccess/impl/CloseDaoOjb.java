@@ -23,8 +23,8 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kfs.module.cg.businessobject.CFDAClose;
 import org.kuali.kfs.module.cg.dataaccess.CloseDao;
+import org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -40,7 +40,7 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
     /**
      * @see org.kuali.kfs.module.cg.dataaccess.CloseDao#getMaxApprovedClose()
      */
-    public CFDAClose getMaxApprovedClose() {
+    public ProposalAwardCloseDocument getMaxApprovedClose() {
 
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         Date today = dateTimeService.getCurrentSqlDateMidnight();
@@ -48,30 +48,30 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("userInitiatedCloseDate", today);
         criteria.addEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.ENROUTE);
-        QueryByCriteria query = QueryFactory.newQuery(CFDAClose.class, criteria);
+        QueryByCriteria query = QueryFactory.newQuery(ProposalAwardCloseDocument.class, criteria);
         query.addOrderByDescending("documentNumber");
 
-        Iterator<CFDAClose> documents = (Iterator<CFDAClose>) getPersistenceBrokerTemplate().getIteratorByQuery(query);
+        Iterator<ProposalAwardCloseDocument> documents = (Iterator<ProposalAwardCloseDocument>) getPersistenceBrokerTemplate().getIteratorByQuery(query);
         ArrayList<String> documentHeaderIds = new ArrayList<String>();
         while (documents.hasNext()) {
-            CFDAClose document = (CFDAClose) documents.next();
+            ProposalAwardCloseDocument document = (ProposalAwardCloseDocument) documents.next();
             documentHeaderIds.add(document.getDocumentNumber());
         }
 
-        List<CFDAClose> docs = null;
+        List<ProposalAwardCloseDocument> docs = null;
         
         if (documentHeaderIds.size() > 0) { 
             
             try {
-            docs = SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(CFDAClose.class, documentHeaderIds);
+            docs = SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(ProposalAwardCloseDocument.class, documentHeaderIds);
             } catch (WorkflowException we) {
                 throw new RuntimeException(we);
             }
             
             if (docs.size() > 1) {
-                CFDAClose close = docs.remove(0);
+                ProposalAwardCloseDocument close = docs.remove(0);
                 Date closeDate = close.getCloseOnOrBeforeDate();
-                for (CFDAClose cfdaClose: docs) {
+                for (ProposalAwardCloseDocument cfdaClose: docs) {
                     if (cfdaClose.getCloseOnOrBeforeDate().equals(closeDate)) {
                         //disapprove docs with same close date??
                     }
@@ -91,35 +91,35 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
       
     }
 
-    public CFDAClose getMostRecentClose() {
+    public ProposalAwardCloseDocument getMostRecentClose() {
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         Date today = dateTimeService.getCurrentSqlDateMidnight();
         
         Criteria criteria = new Criteria();
         criteria.addEqualTo("userInitiatedCloseDate", today);
         criteria.addEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
-        QueryByCriteria query = QueryFactory.newQuery(CFDAClose.class, criteria);
+        QueryByCriteria query = QueryFactory.newQuery(ProposalAwardCloseDocument.class, criteria);
         query.addOrderByDescending("documentNumber");
 
-        Iterator<CFDAClose> documents = (Iterator<CFDAClose>) getPersistenceBrokerTemplate().getIteratorByQuery(query);
+        Iterator<ProposalAwardCloseDocument> documents = (Iterator<ProposalAwardCloseDocument>) getPersistenceBrokerTemplate().getIteratorByQuery(query);
         ArrayList<String> documentHeaderIds = new ArrayList<String>();
         while (documents.hasNext()) {
-            CFDAClose document = (CFDAClose) documents.next();
+            ProposalAwardCloseDocument document = (ProposalAwardCloseDocument) documents.next();
             documentHeaderIds.add(document.getDocumentNumber());
         }
 
-        List<CFDAClose> docs = null;
+        List<ProposalAwardCloseDocument> docs = null;
         
         if (documentHeaderIds.size() > 0) { 
             
             try {
-            docs = SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(CFDAClose.class, documentHeaderIds);
+            docs = SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(ProposalAwardCloseDocument.class, documentHeaderIds);
             } catch (WorkflowException we) {
                 throw new RuntimeException(we);
             }
             
             if (docs.size() > 1) {
-                CFDAClose close = docs.remove(0);
+                ProposalAwardCloseDocument close = docs.remove(0);
                 return close;
                 
             } else if (docs.size() == 1) {
@@ -136,7 +136,7 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
     /**
      * @see org.kuali.kfs.module.cg.dataaccess.CloseDao#save(org.kuali.kfs.module.cg.businessobject.Close)
      */
-    public void save(CFDAClose close) {
+    public void save(ProposalAwardCloseDocument close) {
         getPersistenceBrokerTemplate().store(close);
     }
 

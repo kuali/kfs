@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kfs.module.cg.businessobject;
+package org.kuali.kfs.module.cg.document;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
@@ -28,7 +28,7 @@ import org.kuali.rice.kim.service.PersonService;
 /**
  * Instances of this class are used to signal to the CloseBatchStep that a close should occur on a particular day.
  */
-public class CFDAClose extends FinancialSystemTransactionalDocumentBase {
+public class ProposalAwardCloseDocument extends FinancialSystemTransactionalDocumentBase {
 
     private Date closeOnOrBeforeDate;
     private Date userInitiatedCloseDate;
@@ -41,7 +41,7 @@ public class CFDAClose extends FinancialSystemTransactionalDocumentBase {
     /**
      * Default constructor.
      */
-    public CFDAClose() {
+    public ProposalAwardCloseDocument() {
     }
 
     /**

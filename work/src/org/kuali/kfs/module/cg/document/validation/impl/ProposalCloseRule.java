@@ -17,7 +17,7 @@ package org.kuali.kfs.module.cg.document.validation.impl;
 
 import java.sql.Date;
 
-import org.kuali.kfs.module.cg.businessobject.CFDAClose;
+import org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
@@ -38,7 +38,7 @@ public class ProposalCloseRule extends MaintenanceDocumentRuleBase {
         if (!isOk) {
             return isOk;
         }
-        CFDAClose close = (CFDAClose) document.getDocumentBusinessObject();
+        ProposalAwardCloseDocument close = (ProposalAwardCloseDocument) document.getDocumentBusinessObject();
         Date userDate = close.getUserInitiatedCloseDate();
         Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
         isOk = today.getTime() <= userDate.getTime();

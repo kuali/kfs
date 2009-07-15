@@ -17,7 +17,7 @@ package org.kuali.kfs.module.cg.document.validation.impl;
 
 import java.sql.Date;
 
-import org.kuali.kfs.module.cg.businessobject.CFDAClose;
+import org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -34,7 +34,7 @@ public class CloseDocumentRule extends TransactionalDocumentRuleBase {
 
     @Override
     public boolean processCustomRouteDocumentBusinessRules(Document document) {
-        CFDAClose closeDocument = (CFDAClose) document;
+        ProposalAwardCloseDocument closeDocument = (ProposalAwardCloseDocument) document;
         Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
         Date closeDate = closeDocument.getUserInitiatedCloseDate();
         Date closeOnOrBeforeDate = closeDocument.getCloseOnOrBeforeDate();
@@ -47,13 +47,13 @@ public class CloseDocumentRule extends TransactionalDocumentRuleBase {
         boolean closeOnOrBeforeDateIsTodayOrLater = true;
         boolean closeOnOrBeforeDateIsCloseDateOrEarlier = true;
 
-        String closeDateLabel = dataDictionaryService.getAttributeLabel(CFDAClose.class, "userInitiatedCloseDate");
-        String closeOnOrBeforeDateLabel = dataDictionaryService.getAttributeLabel(CFDAClose.class, "closeOnOrBeforeDate");
+        String closeDateLabel = dataDictionaryService.getAttributeLabel(ProposalAwardCloseDocument.class, "userInitiatedCloseDate");
+        String closeOnOrBeforeDateLabel = dataDictionaryService.getAttributeLabel(ProposalAwardCloseDocument.class, "closeOnOrBeforeDate");
 
         GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         if (closeDate == null) {
             closeDateIsNotNull = false;
-            String label = dataDictionaryService.getAttributeLabel(CFDAClose.class, "userInitiatedCloseDate");
+            String label = dataDictionaryService.getAttributeLabel(ProposalAwardCloseDocument.class, "userInitiatedCloseDate");
         } else if (today.getTime() > closeDate.getTime()) {
             closeDateIsTodayOrLater = false;
             GlobalVariables.getMessageMap().putError("userInitiatedCloseDate", KFSKeyConstants.ContractsAndGrants.USER_INITIATED_DATE_TOO_EARLY, closeDateLabel);

@@ -20,8 +20,8 @@ import java.util.Collection;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.cg.businessobject.Award;
-import org.kuali.kfs.module.cg.businessobject.CFDAClose;
 import org.kuali.kfs.module.cg.dataaccess.AwardDao;
+import org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 /**
@@ -39,7 +39,7 @@ public class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements AwardDao {
     /**
      * @see org.kuali.kfs.module.cg.dataaccess.AwardDao#getAwardsToClose(org.kuali.kfs.module.cg.businessobject.Close)
      */
-    public Collection<Award> getAwardsToClose(CFDAClose close) {
+    public Collection<Award> getAwardsToClose(ProposalAwardCloseDocument close) {
 
         Criteria criteria = new Criteria();
         criteria.addIsNull("awardClosingDate");

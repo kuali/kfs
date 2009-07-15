@@ -18,7 +18,7 @@ package org.kuali.kfs.module.cg.dataaccess;
 import java.util.Collection;
 
 import org.kuali.kfs.module.cg.businessobject.Award;
-import org.kuali.kfs.module.cg.businessobject.CFDAClose;
+import org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument;
 
 /**
  * Implementations of this interface provide access to persisted Awards.
@@ -31,7 +31,7 @@ public interface AwardDao {
      * @param c
      * @return
      */
-    public Collection<Award> getAwardsToClose(CFDAClose c);
+    public Collection<Award> getAwardsToClose(ProposalAwardCloseDocument c);
 
     /**
      * Save an {@link Award}.

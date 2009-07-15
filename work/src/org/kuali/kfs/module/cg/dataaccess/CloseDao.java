@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cg.dataaccess;
 
-import org.kuali.kfs.module.cg.businessobject.CFDAClose;
+import org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument;
 
 /**
  * Implementations of this interface provide access to persisted Close instances.
@@ -27,15 +27,15 @@ public interface CloseDao {
      * 
      * @return the persisted instance with the latest close date.
      */
-    public CFDAClose getMaxApprovedClose();
+    public ProposalAwardCloseDocument getMaxApprovedClose();
 
-    public CFDAClose getMostRecentClose();
+    public ProposalAwardCloseDocument getMostRecentClose();
     
     /**
      * Save a {@link Close} instance.
      * 
      * @param close the instance to persist.
      */
-    public void save(CFDAClose close);
+    public void save(ProposalAwardCloseDocument close);
 
 }

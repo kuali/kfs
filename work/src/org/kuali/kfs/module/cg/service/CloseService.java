@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cg.service;
 
-import org.kuali.kfs.module.cg.businessobject.CFDAClose;
+import org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument;
 
 /**
  * Intended to be initiated periodically via a batch process. The default implementation of this service finds all unclosed Awards
@@ -29,6 +29,6 @@ public interface CloseService {
      */
     public boolean close();
 
-    public CFDAClose getMostRecentClose();
+    public ProposalAwardCloseDocument getMostRecentClose();
    
 }

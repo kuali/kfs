@@ -305,7 +305,7 @@
  CLOSE
 
 -->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.CFDAClose" table="CG_PRPSL_CLOSE_T">
+<class-descriptor class="org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument" table="CG_PRPSL_CLOSE_T">
     <field-descriptor name="documentNumber" column="CG_PRPSL_CLOSE_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

@@ -23,11 +23,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
-import org.kuali.kfs.module.cg.businessobject.CFDAClose;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.module.cg.dataaccess.AwardDao;
 import org.kuali.kfs.module.cg.dataaccess.CloseDao;
 import org.kuali.kfs.module.cg.dataaccess.ProposalDao;
+import org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument;
 import org.kuali.kfs.module.cg.service.CloseService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -68,7 +68,7 @@ public class CloseServiceImpl implements CloseService {
      */
     public boolean close() {
 
-        CFDAClose max = closeDao.getMaxApprovedClose();
+        ProposalAwardCloseDocument max = closeDao.getMaxApprovedClose();
         Date today = dateTimeService.getCurrentSqlDateMidnight();
 
         if (null == max) { // no closes at all. Gotta wait until we get an approved one.
@@ -114,15 +114,15 @@ public class CloseServiceImpl implements CloseService {
         return result;
     }
     
-    public CFDAClose getMostRecentClose() {
-        CFDAClose mostRecentClose = closeDao.getMostRecentClose();
+    public ProposalAwardCloseDocument getMostRecentClose() {
+        ProposalAwardCloseDocument mostRecentClose = closeDao.getMostRecentClose();
         return mostRecentClose;
     }
 
     /**
      * @see org.kuali.kfs.module.cg.service.CloseService#addDocumentNoteAfterClosing(String)
      */
-    private boolean addDocumentNoteAfterClosing(CFDAClose close, String noteText) {
+    private boolean addDocumentNoteAfterClosing(ProposalAwardCloseDocument close, String noteText) {
         Note note = new Note();
         note.setNoteText(noteText);
         note.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());

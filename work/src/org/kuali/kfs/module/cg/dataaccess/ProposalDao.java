@@ -17,8 +17,8 @@ package org.kuali.kfs.module.cg.dataaccess;
 
 import java.util.Collection;
 
-import org.kuali.kfs.module.cg.businessobject.CFDAClose;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
+import org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument;
 
 /**
  * Implementations of this interface provide access to persisted Proposal instances.
@@ -31,7 +31,7 @@ public interface ProposalDao {
      * @param c the {@link Close} instance which is used to determine which Proposals should be returned.
      * @return a {@link Collection} of appropriate {@link Proposals}.
      */
-    public Collection<Proposal> getProposalsToClose(CFDAClose c);
+    public Collection<Proposal> getProposalsToClose(ProposalAwardCloseDocument c);
 
     /**
      * Persist a {@link Proposal}.

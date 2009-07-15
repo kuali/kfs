@@ -17,7 +17,7 @@ package org.kuali.kfs.module.cg.web.struts;
 
 import java.util.Date;
 
-import org.kuali.kfs.module.cg.businessobject.CFDAClose;
+import org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument;
 import org.kuali.kfs.module.cg.service.CloseService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
@@ -27,20 +27,20 @@ public class CloseForm extends FinancialSystemTransactionalDocumentFormBase {
 
     public CloseForm() {
         super();
-        setDocument(new CFDAClose());
+        setDocument(new ProposalAwardCloseDocument());
         setFormatterType("document.userInitiatedCloseDate", DateFormatter.class);
         setFormatterType("document.closeOnOrBeforeDate", DateFormatter.class);
     }
 
-    public CFDAClose getMostRecentClose() {
+    public ProposalAwardCloseDocument getMostRecentClose() {
         return SpringContext.getBean(CloseService.class).getMostRecentClose();
     }
 
-    public CFDAClose getCloseDocument() {
-        return (CFDAClose) getDocument();
+    public ProposalAwardCloseDocument getCloseDocument() {
+        return (ProposalAwardCloseDocument) getDocument();
     }
 
-    public void setClose(CFDAClose document) {
+    public void setClose(ProposalAwardCloseDocument document) {
         setDocument(document);
     }
 

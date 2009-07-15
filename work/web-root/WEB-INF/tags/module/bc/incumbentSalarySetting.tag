@@ -56,7 +56,7 @@
 		<c:set var="canDelete" value="${editable && !hasBeenDeleted && not isNewLine}" />
 		<c:set var="canUndelete" value="${editable && hasBeenDeleted}" /> 
 		
-		<c:set var="canVacate" value="${editable && fundingLine.vacatable}"/>
+		<c:set var="canVacate" value="${false}"/>
 		<c:set var="canRevert" value="${editable && markedAsDelete && not isVacant && not isNewLine && not fundingLine.vacatable}" />
 	          	
 	    <kul:subtab lookedUpCollectionName="fundingLine" width="${tableWidth}" subTabTitle="${fundingLine.appointmentFundingString}" >

@@ -132,15 +132,9 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
 
                 fieldValues.remove(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
                 fieldValues.remove(KFSPropertyConstants.ACCOUNT_NUMBER);
-                List<List<String>> accounts = laborLedgerBalanceService.findAccountsInFundGroups(fiscalYear, fieldValues, subFundGroupCodes, fundGroupCodes);
 
-                for (List<String> account : accounts) {
-                    fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, account.get(0));
-                    fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, account.get(1));
-
-                    Iterator<LedgerBalanceForYearEndBalanceForward> balanceIterator = laborLedgerBalanceService.findBalancesForFiscalYear(fiscalYear, fieldValues, subFundGroupCodes, fundGroupCodes);
-                    numberOfSelectedBalance += postSelectedBalancesAsOriginEntries(balanceIterator, newFiscalYear, balanceForwardsPs, runDate, posterOutputSummaryReport, reportSummary);
-                }
+                Iterator<LedgerBalanceForYearEndBalanceForward> balanceIterator = laborLedgerBalanceService.findBalancesForFiscalYear(fiscalYear, fieldValues, subFundGroupCodes, fundGroupCodes);
+                numberOfSelectedBalance += postSelectedBalancesAsOriginEntries(balanceIterator, newFiscalYear, balanceForwardsPs, runDate, posterOutputSummaryReport, reportSummary);
             }
         }
 

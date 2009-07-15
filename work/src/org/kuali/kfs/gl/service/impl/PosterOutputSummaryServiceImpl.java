@@ -142,8 +142,13 @@ public class PosterOutputSummaryServiceImpl implements PosterOutputSummaryServic
      */
     protected String getFundGroupCodeForAccount(String chartOfAccountsCode, String accountNumber) {
         final Account account = this.getAccountingCycleCachingService().getAccount(chartOfAccountsCode, accountNumber);
-        final SubFundGroup subFundGroup = this.getAccountingCycleCachingService().getSubFundGroup(account.getSubFundGroupCode());
-        return subFundGroup.getFundGroupCode();
+        if (account != null) {
+            final SubFundGroup subFundGroup = this.getAccountingCycleCachingService().getSubFundGroup(account.getSubFundGroupCode());
+            if (subFundGroup != null) {
+                return subFundGroup.getFundGroupCode();
+            }
+        }
+        return "";
     }
 
     /**

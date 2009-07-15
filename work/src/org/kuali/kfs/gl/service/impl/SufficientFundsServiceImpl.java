@@ -149,7 +149,9 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
         List<SufficientFundsItem> summaryItems = summarizeTransactions(transactions);
         for (Iterator iter = summaryItems.iterator(); iter.hasNext();) {
             SufficientFundsItem item = (SufficientFundsItem) iter.next();
-            LOG.error("checkSufficientFunds() " + item.toString());
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug("checkSufficientFunds() " + item.toString());
+            }
             if (hasSufficientFundsOnItem(item)) {
                 iter.remove();
             }
@@ -213,13 +215,17 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
         }
 
         if (!item.getAccount().isPendingAcctSufficientFundsIndicator()) {
-            LOG.debug("hasSufficientFundsOnItem() No checking on eDocs for account " + item.getAccount().getChartOfAccountsCode() + "-" + item.getAccount().getAccountNumber());
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug("hasSufficientFundsOnItem() No checking on eDocs for account " + item.getAccount().getChartOfAccountsCode() + "-" + item.getAccount().getAccountNumber());
+            }
             return true;
         }
 
         // exit sufficient funds checking if not enabled for an account
         if (KFSConstants.SF_TYPE_NO_CHECKING.equals(item.getAccountSufficientFundsCode())) {
-            LOG.debug("hasSufficientFundsOnItem() sufficient funds not enabled for account " + item.getAccount().getChartOfAccountsCode() + "-" + item.getAccount().getAccountNumber());
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug("hasSufficientFundsOnItem() sufficient funds not enabled for account " + item.getAccount().getChartOfAccountsCode() + "-" + item.getAccount().getAccountNumber());
+            }
             return true;
         }
 
@@ -287,7 +293,9 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
             availableBalance = sfBalance.getCurrentBudgetBalanceAmount().add(pending.budget).subtract(sfBalance.getAccountActualExpenditureAmt()).subtract(pending.actual).subtract(sfBalance.getAccountEncumbranceAmount()).subtract(pending.encumbrance);
         }
 
-        LOG.debug("hasSufficientFundsOnItem() balanceAmount: " + balanceAmount + " availableBalance: " + availableBalance);
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug("hasSufficientFundsOnItem() balanceAmount: " + balanceAmount + " availableBalance: " + availableBalance);
+        }
         if (balanceAmount.compareTo(availableBalance) > 0) {
             LOG.debug("hasSufficientFundsOnItem() no sufficient funds");
             return false;
@@ -337,8 +345,10 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
             amounts.encumbrance = bal.getAccountEncumbranceAmount();
         }
 
-        LOG.debug("getPendingPriorYearBalanceAmount() budget      " + amounts.budget);
-        LOG.debug("getPendingPriorYearBalanceAmount() encumbrance " + amounts.encumbrance);
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug("getPendingPriorYearBalanceAmount() budget      " + amounts.budget);
+            LOG.debug("getPendingPriorYearBalanceAmount() encumbrance " + amounts.encumbrance);
+        }
         return amounts;
     }
 
@@ -393,9 +403,11 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
             amounts.encumbrance = amounts.encumbrance.subtract(generalLedgerPendingEntryService.getEncumbranceSummary(fiscalYear, chart, account, item.getSufficientFundsObjectCode(), false, item.getDocumentTypeCode().startsWith("YE")));
         }
 
-        LOG.debug("getPendingBalanceAmount() actual      " + amounts.actual);
-        LOG.debug("getPendingBalanceAmount() budget      " + amounts.budget);
-        LOG.debug("getPendingBalanceAmount() encumbrance " + amounts.encumbrance);
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug("getPendingBalanceAmount() actual      " + amounts.actual);
+            LOG.debug("getPendingBalanceAmount() budget      " + amounts.budget);
+            LOG.debug("getPendingBalanceAmount() encumbrance " + amounts.encumbrance);
+        }
         return amounts;
     }
 
@@ -432,7 +444,9 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
 
         // exit sufficient funds checking if not enabled for an account
         if (StringUtils.equals(KFSConstants.SF_TYPE_NO_CHECKING, account.getAccountSufficientFundsCode()) || !account.isPendingAcctSufficientFundsIndicator()) {
-            LOG.debug("sufficient funds not enabled for account " + account.getAccountNumber());
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug("sufficient funds not enabled for account " + account.getAccountNumber());
+            }
             return true;
         }
 

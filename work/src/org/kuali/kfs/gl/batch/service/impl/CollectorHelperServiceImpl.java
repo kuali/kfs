@@ -351,7 +351,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @param batch - batch to check document types
      * @return true if there is only one document type, false if multiple document types were found.
      */
-    private boolean checkForMixedDocumentTypes(CollectorBatch batch, MessageMap MessageMap) {
+    protected boolean checkForMixedDocumentTypes(CollectorBatch batch, MessageMap MessageMap) {
         boolean docTypesNotMixed = true;
 
         Set batchDocumentTypes = new HashSet();
@@ -375,7 +375,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @param batch - batch to check balance types
      * @return true if there is only one balance type, false if multiple balance types were found
      */
-    private boolean checkForMixedBalanceTypes(CollectorBatch batch, MessageMap MessageMap) {
+    protected boolean checkForMixedBalanceTypes(CollectorBatch batch, MessageMap MessageMap) {
         boolean balanceTypesNotMixed = true;
 
         Set balanceTypes = new HashSet();
@@ -400,7 +400,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @param batch - batch to validate
      * @return true if all detail records had matching keys, false otherwise
      */
-    private boolean checkDetailKeys(CollectorBatch batch, MessageMap MessageMap) {
+    protected boolean checkDetailKeys(CollectorBatch batch, MessageMap MessageMap) {
         boolean detailKeysFound = true;
 
         // build a Set of keys from the gl entries to compare with

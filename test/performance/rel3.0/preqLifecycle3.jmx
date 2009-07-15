@@ -16,7 +16,7 @@
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">2</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">5</stringProp>
+        <stringProp name="ThreadGroup.num_threads">10</stringProp>
         <stringProp name="ThreadGroup.ramp_time">5</stringProp>
         <longProp name="ThreadGroup.start_time">1243951513000</longProp>
         <longProp name="ThreadGroup.end_time">1243951513000</longProp>
@@ -9907,6 +9907,16 @@
               <boolProp name="CookieManager.clearEachIteration">true</boolProp>
             </CookieManager>
             <hashTree/>
+            <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="paymentRequestPayDate" elementType="Argument">
+                  <stringProp name="Argument.name">paymentRequestPayDate</stringProp>
+                  <stringProp name="Argument.value">${__time(MM/dd/yyyy,paymentRequestPayDate)}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </Arguments>
+            <hashTree/>
             <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Login using new CAS" enabled="true"/>
             <hashTree>
               <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="${context}/portal.do" enabled="true">
@@ -12240,7 +12250,7 @@
                   <elementProp name="document.invoiceDate" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.name">document.invoiceDate</stringProp>
-                    <stringProp name="Argument.value">07/02/2009</stringProp>
+                    <stringProp name="Argument.value">${paymentRequestPayDate}</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                     <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   </elementProp>
@@ -12555,7 +12565,7 @@
                   <elementProp name="document.paymentRequestPayDate" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.name">document.paymentRequestPayDate</stringProp>
-                    <stringProp name="Argument.value">06/30/2009</stringProp>
+                    <stringProp name="Argument.value">${paymentRequestPayDate}</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                     <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   </elementProp>
@@ -13556,7 +13566,7 @@
                   <elementProp name="document.paymentRequestPayDate" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.name">document.paymentRequestPayDate</stringProp>
-                    <stringProp name="Argument.value">07/02/2009</stringProp>
+                    <stringProp name="Argument.value">${paymentRequestPayDate}</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                     <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   </elementProp>
@@ -16205,12 +16215,6 @@
                 <stringProp name="Assertion.assume_success">false</stringProp>
                 <intProp name="Assertion.test_type">2</intProp>
               </ResponseAssertion>
-              <hashTree/>
-              <ResultSaver guiclass="ResultSaverGui" testclass="ResultSaver" testname="Save Responses to a file" enabled="false">
-                <stringProp name="FileSaver.filename">C:\temp\preq-view</stringProp>
-                <stringProp name="FileSaver.errorsonly">true</stringProp>
-                <stringProp name="FileSaver.successonly">false</stringProp>
-              </ResultSaver>
               <hashTree/>
             </hashTree>
             <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="/kfs-dev/kew/RouteLog.do" enabled="true">

@@ -15,7 +15,7 @@
         <longProp name="ThreadGroup.start_time">1187728739000</longProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
-        <stringProp name="ThreadGroup.num_threads">50</stringProp>
+        <stringProp name="ThreadGroup.num_threads">25</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -23,7 +23,7 @@
         </elementProp>
         <longProp name="ThreadGroup.end_time">1187728739000</longProp>
         <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">25</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
       </ThreadGroup>
       <hashTree>
         <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="URL parameters for localhost:8080/kfs-dev" enabled="true">
@@ -150,7 +150,7 @@
           <boolProp name="UserParameters.per_iteration">false</boolProp>
         </UserParameters>
         <hashTree/>
-        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="CAS parameters for localhost:8080/kfs-dev" enabled="true">
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="CAS parameters for localhost:8080/kfs-dev" enabled="false">
           <collectionProp name="Arguments.arguments">
             <elementProp name="casServer" elementType="Argument">
               <stringProp name="Argument.name">casServer</stringProp>
@@ -175,6 +175,36 @@
             <elementProp name="casPort" elementType="Argument">
               <stringProp name="Argument.name">casPort</stringProp>
               <stringProp name="Argument.value"></stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+          </collectionProp>
+        </Arguments>
+        <hashTree/>
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="CAS parameters for localhost:8080/kfs-dev" enabled="true">
+          <collectionProp name="Arguments.arguments">
+            <elementProp name="casServer" elementType="Argument">
+              <stringProp name="Argument.name">casServer</stringProp>
+              <stringProp name="Argument.value">localhost</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="casServiceUrl" elementType="Argument">
+              <stringProp name="Argument.name">casServiceUrl</stringProp>
+              <stringProp name="Argument.value">${protocol}%3A%2F%2F${host}%3A${port}${context}%2Fportal.do%3FselectedTab%3Dmain</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="casProtocol" elementType="Argument">
+              <stringProp name="Argument.name">casProtocol</stringProp>
+              <stringProp name="Argument.value">http</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="casContext" elementType="Argument">
+              <stringProp name="Argument.name">casContext</stringProp>
+              <stringProp name="Argument.value">cas</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="casPort" elementType="Argument">
+              <stringProp name="Argument.name">casPort</stringProp>
+              <stringProp name="Argument.value">8080</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
           </collectionProp>

@@ -126,6 +126,7 @@ public class LaborConstants {
     public static class BatchFileSystem {
         static final public String NIGHTLY_OUT_FILE = "ld_labentry_kfs";
         static final public String BACKUP_FILE = "ld_ldbackup";
+        static final public String PRE_SCRUBBER_FILE = "ld_prescrub";
         static final public String SCRUBBER_INPUT_FILE = "ld_sortscrb";
         
         static final public String SCRUBBER_VALID_OUTPUT_FILE = "ld_scrbout1";

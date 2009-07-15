@@ -85,7 +85,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, accountingCycleCachingService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, batchFileDirectoryName, scrubberReportOnlyWriterService, glcpScrubberLedgerReportWriterService, scrubberListingReportWriterService, null, null, null, null);
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, accountingCycleCachingService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, batchFileDirectoryName, scrubberReportOnlyWriterService, glcpScrubberLedgerReportWriterService, scrubberListingReportWriterService, null, null, null, preScrubberService);
         sp.scrubGroupReportOnly(fileName, documentNumber);
     }
 

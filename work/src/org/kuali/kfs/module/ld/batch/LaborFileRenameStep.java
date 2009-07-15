@@ -39,6 +39,7 @@ public class LaborFileRenameStep extends AbstractStep {
         List<String> fileNameList = new ArrayList<String>();
         fileNameList.add(LaborConstants.BatchFileSystem.NIGHTLY_OUT_FILE);
         fileNameList.add(LaborConstants.BatchFileSystem.BACKUP_FILE);
+        fileNameList.add(LaborConstants.BatchFileSystem.PRE_SCRUBBER_FILE);
         fileNameList.add(LaborConstants.BatchFileSystem.SCRUBBER_INPUT_FILE);
         fileNameList.add(LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE);
         fileNameList.add(LaborConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE);

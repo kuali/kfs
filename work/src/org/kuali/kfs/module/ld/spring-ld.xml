@@ -780,6 +780,7 @@
 		<property name="steps">
 			<list>
 				<ref bean="createLaborBackupGroupStep"/>
+				<ref bean="laborPreScrubberStep"/>
 				<ref bean="laborScrubberSortStep"/>
 				<ref bean="laborScrubberStep"/>
 				<ref bean="laborDemergerSortStep" />
@@ -1573,5 +1574,13 @@
 		<property name="fileNamePrefix" value="llcpScrubberReports-01-llcp"/>
         <property name="title" value="Labor Ledger Correction Process Report" />
         <property name="aggregationModeOn" value="true"/>
-    </bean>	            
+    </bean>
+    
+    <bean id="laborPreScrubberService" class="org.kuali.kfs.gl.service.impl.PreScrubberServiceImpl">
+    </bean>
+    
+    <bean id="laborPreScrubberStep" class="org.kuali.kfs.module.ld.batch.LaborPreScrubberStep">
+    	<property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
+    	<property name="laborPreScrubberService" ref="laborPreScrubberService"/>
+    </bean> 
 </beans>

@@ -105,7 +105,7 @@ public class PreScrubberServiceImpl implements PreScrubberService {
                                     Iterator<Account> accounts = results.iterator();
                                     Account account = accounts.next();
                                     if (accounts.hasNext()) {
-                                        LOG.warn("Multiple chart codes found for account number " + accountNumber + ", using chart code " + account.getChartOfAccountsCode());
+                                        LOG.warn("Multiple chart codes found for account number " + accountNumber + ", not filling in chart code for this account");
                                         TransactionalServiceUtils.exhaustIterator(accounts);
                                         multipleAccountCache.add(accountNumber);
                                         multipleFound = true;

@@ -191,7 +191,6 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
             boolean isValidBalance = validateBalance(balance, errors);
             LaborOriginEntry laborOriginEntry = new LaborOriginEntry();
             if (isValidBalance) {
-                // laborOriginEntry.setEntryGroupId(validGroup.getId());
                 laborOriginEntry.setUniversityFiscalYear(newFiscalYear);
                 laborOriginEntry.setFinancialDocumentTypeCode(documentTypeCode);
                 laborOriginEntry.setFinancialSystemOriginationCode(originationCode);

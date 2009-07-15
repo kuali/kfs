@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
@@ -437,20 +438,27 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new LedgerBalanceForYearEndBalanceForward());
         criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
 
-        if (subFundGroupCodes != null && !subFundGroupCodes.isEmpty()) {
-            Criteria criteriaForSubFundGroup = new Criteria();
-            String subFundGroupFieldName = KFSPropertyConstants.ACCOUNT + "." + KFSPropertyConstants.SUB_FUND_GROUP_CODE;
-            criteriaForSubFundGroup.addIn(subFundGroupFieldName, subFundGroupCodes);
-
-            if (fundGroupCodes != null && !fundGroupCodes.isEmpty()) {
-
-                Criteria criteriaForFundGroup = new Criteria();
-                String fundGroupFieldName = KFSPropertyConstants.ACCOUNT + "." + KFSPropertyConstants.SUB_FUND_GROUP + "." + KFSPropertyConstants.FUND_GROUP_CODE;
-                criteriaForFundGroup.addIn(fundGroupFieldName, fundGroupCodes);
-
-                criteriaForSubFundGroup.addOrCriteria(criteriaForFundGroup);
+        String chartAccountsCode = fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        String accountNumber = fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER);
+        
+        // add subfund criteria if the account is not provided
+        if(StringUtils.isEmpty(chartAccountsCode) || StringUtils.isEmpty(accountNumber)) {
+            if (subFundGroupCodes != null && !subFundGroupCodes.isEmpty()) {
+                Criteria criteriaForSubFundGroup = new Criteria();
+                String subFundGroupFieldName = KFSPropertyConstants.ACCOUNT + "." + KFSPropertyConstants.SUB_FUND_GROUP_CODE;
+                criteriaForSubFundGroup.addIn(subFundGroupFieldName, subFundGroupCodes);
+    
+                if (fundGroupCodes != null && !fundGroupCodes.isEmpty()) {
+    
+                    Criteria criteriaForFundGroup = new Criteria();
+                    String fundGroupFieldName = KFSPropertyConstants.ACCOUNT + "." + KFSPropertyConstants.SUB_FUND_GROUP + "." + KFSPropertyConstants.FUND_GROUP_CODE;
+                    criteriaForFundGroup.addIn(fundGroupFieldName, fundGroupCodes);
+    
+                    criteriaForSubFundGroup.addOrCriteria(criteriaForFundGroup);
+                }
+                
+                criteria.addAndCriteria(criteriaForSubFundGroup);
             }
-            criteria.addAndCriteria(criteriaForSubFundGroup);
         }
 
         QueryByCriteria query = QueryFactory.newQuery(LedgerBalanceForYearEndBalanceForward.class, criteria);

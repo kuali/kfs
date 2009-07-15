@@ -89,8 +89,8 @@ public class OJBUtility {
                 String propertyName = (String) propsIter.next();
                 Object propertyValueObject = fieldValues.get(propertyName);
                 String propertyValue = "";
-                
-                FieldDefinition lookupField = entry.getLookupDefinition().getLookupField(propertyName);
+                  
+                FieldDefinition lookupField = (entry != null) ? entry.getLookupDefinition().getLookupField(propertyName) : null;
                 if (lookupField != null && lookupField.isTreatWildcardsAndOperatorsAsLiteral()) {
                     propertyValue = (propertyValueObject != null) ? StringUtils.replace(propertyValueObject.toString().trim(), "*", "\\*") : "";
                 } else {

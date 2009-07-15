@@ -15,13 +15,14 @@
  */
 package org.kuali.kfs.module.bc.businessobject;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Holds document action and edit mode Maps for session storage
  */
-public class BudgetConstructionAuthorizationStatus {
+public class BudgetConstructionAuthorizationStatus implements Serializable {
     private Map<String, String> editingMode;
     private Map<String, String> documentActions;
 

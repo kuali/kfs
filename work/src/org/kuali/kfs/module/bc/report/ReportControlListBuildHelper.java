@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.bc.report;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +26,7 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
 /**
  * Holds information on the current build configuration of the report control list table, and a requested configuration.
  */
-public class ReportControlListBuildHelper {
+public class ReportControlListBuildHelper implements Serializable {
     private BuildState currentState;
     private BuildState requestedState;
     private boolean forceRebuild;
@@ -96,7 +97,7 @@ public class ReportControlListBuildHelper {
     /**
      * Represents a build configuration for the control list.
      */
-    public class BuildState {
+    public class BuildState implements Serializable {
         private String pointOfView;
         private Collection<BudgetConstructionPullup> selectedOrganizations;
         private BuildMode buildMode;

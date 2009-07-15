@@ -41,14 +41,14 @@ public class SimpleBooleanSplitNode implements SplitNode {
         String documentID = context.getDocument().getRouteHeaderId().toString();
         Document document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentID);
         String nodeName = context.getNodeInstance().getRouteNode().getRouteNodeName();
-        if (document instanceof FinancialSystemTransactionalDocumentBase) {
-           boolean ret = ((FinancialSystemTransactionalDocumentBase)document).answerSplitNodeQuestion(nodeName);
+        if (document instanceof FinancialSystemTransactionalDocument) {
+           boolean ret = ((FinancialSystemTransactionalDocument)document).answerSplitNodeQuestion(nodeName);
            result = booleanToSplitResult(ret);
         } else if (document instanceof FinancialSystemMaintenanceDocument) {
             boolean ret = ((FinancialSystemMaintenanceDocument) document).answerSplitNodeQuestion(nodeName);
             result = booleanToSplitResult(ret);
         } else {
-            throw new IllegalArgumentException("Document with id " + documentID + " is not an instace of " + FinancialSystemMaintenanceDocument.class + " or " + FinancialSystemTransactionalDocument.class);
+            throw new IllegalArgumentException("Document "+document.getDocumentTitle() +" with id " + documentID + " is not an instance of " + FinancialSystemMaintenanceDocument.class + " or " + FinancialSystemTransactionalDocument.class);
         }
         
         return result;

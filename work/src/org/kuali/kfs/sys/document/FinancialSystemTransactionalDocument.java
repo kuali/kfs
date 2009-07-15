@@ -25,4 +25,6 @@ public interface FinancialSystemTransactionalDocument extends TransactionalDocum
      */
     public FinancialSystemDocumentHeader getDocumentHeader();
 
+    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException;
+    
 }

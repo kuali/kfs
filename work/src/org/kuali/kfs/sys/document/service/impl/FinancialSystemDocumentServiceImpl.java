@@ -40,7 +40,7 @@ public class FinancialSystemDocumentServiceImpl extends DocumentServiceImpl impl
      * @see org.kuali.kfs.sys.document.service.FinancialSystemDocumentService#findByDocumentHeaderStatusCode(java.lang.Class, java.lang.String)
      */
     public Collection findByDocumentHeaderStatusCode(Class clazz, String statusCode) throws WorkflowException {
-        Collection foundDocuments = ((FinancialSystemDocumentDao) documentDao).findByDocumentHeaderStatusCode(clazz, statusCode);
+        Collection foundDocuments = ((FinancialSystemDocumentDao) getDocumentDao()).findByDocumentHeaderStatusCode(clazz, statusCode);
         Collection returnDocuments = new ArrayList();
         for (Iterator iter = foundDocuments.iterator(); iter.hasNext();) {
             Document doc = (Document) iter.next();

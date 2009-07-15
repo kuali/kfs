@@ -519,7 +519,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         List<PurApItem> itemsToProcess = getProcessablePurapItems(items, itemTypeCodes, itemTypeCodesAreIncluded, useZeroTotals);
         Map<PurApAccountingLine,KualiDecimal> accountMap = new HashMap<PurApAccountingLine,KualiDecimal>();
 
-        for (PurApItem currentItem : items) {
+        for (PurApItem currentItem : itemsToProcess) {
             if (PurApItemUtils.checkItemActive(currentItem)) {
                 List<PurApAccountingLine> sourceAccountingLines = currentItem.getSourceAccountingLines();
                 

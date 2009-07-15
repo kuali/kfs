@@ -20,6 +20,7 @@ import static org.kuali.kfs.module.ld.LaborConstants.DestinationNames.ORIGN_ENTR
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -109,8 +110,8 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
         List<String> fundGroupCodes = this.getFundGroupProcessed();
 
         // create files
-        String balanceForwardsFileName = LaborConstants.BatchFileSystem.BALANCE_FORWARDS_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        File balanceForwardsFile = new File(batchFileDirectoryName + File.separator + balanceForwardsFileName);
+        String balanceForwardsFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.BALANCE_FORWARDS_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        File balanceForwardsFile = new File(balanceForwardsFileName);
         PrintStream balanceForwardsPs = null;
 
         try {
@@ -129,13 +130,13 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
             for (String objectTypeCode : processableObjectTypeCodes) {
                 fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, objectTypeCode);
 
-                fieldValues.remove(LaborConstants.ACCOUNT_FIELDS[0]);
-                fieldValues.remove(LaborConstants.ACCOUNT_FIELDS[1]);
+                fieldValues.remove(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+                fieldValues.remove(KFSPropertyConstants.ACCOUNT_NUMBER);
                 List<List<String>> accounts = laborLedgerBalanceService.findAccountsInFundGroups(fiscalYear, fieldValues, subFundGroupCodes, fundGroupCodes);
 
                 for (List<String> account : accounts) {
-                    fieldValues.put(LaborConstants.ACCOUNT_FIELDS[0], account.get(0));
-                    fieldValues.put(LaborConstants.ACCOUNT_FIELDS[1], account.get(1));
+                    fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, account.get(0));
+                    fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, account.get(1));
 
                     Iterator<LedgerBalanceForYearEndBalanceForward> balanceIterator = laborLedgerBalanceService.findBalancesForFiscalYear(fiscalYear, fieldValues, subFundGroupCodes, fundGroupCodes);
                     numberOfSelectedBalance += postSelectedBalancesAsOriginEntries(balanceIterator, newFiscalYear, balanceForwardsPs, runDate, posterOutputSummaryReport, reportSummary);
@@ -147,6 +148,22 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
         posterOutputSummaryReport.writeReport(laborOutputSummaryReportWriterService);
 
         balanceForwardsPs.close();
+        this.createDoneFile(balanceForwardsFileName);
+    }
+
+    // create a done file after balance forward completes.
+    private void createDoneFile(String originEntryFileName) {
+        String doneFileName = originEntryFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
+        File doneFile = new File(doneFileName);
+
+        if (!doneFile.exists()) {
+            try {
+                doneFile.createNewFile();
+            }
+            catch (IOException e) {
+                throw new RuntimeException();
+            }
+        }
     }
 
     /**
@@ -244,8 +261,6 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
             originEntry.setTransactionLedgerEntrySequenceNumber(null);
             originEntry.setTransactionTotalHours(BigDecimal.ZERO);
             originEntry.setTransactionDate(postingDate);
-
-            // laborOriginEntryService.save(originEntry);
 
             try {
                 balanceForwardsPs.printf("%s\n", originEntry.getLine());
@@ -380,6 +395,11 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
         this.dateTimeService = dateTimeService;
     }
 
+    /**
+     * Sets the parameterService attribute value.
+     * 
+     * @param parameterService The parameterService to set.
+     */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
@@ -402,6 +422,11 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
         this.optionsService = optionsService;
     }
 
+    /**
+     * Sets the batchFileDirectoryName attribute value.
+     * 
+     * @param batchFileDirectoryName The batchFileDirectoryName to set.
+     */
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
     }

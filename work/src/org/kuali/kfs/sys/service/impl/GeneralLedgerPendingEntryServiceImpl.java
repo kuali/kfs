@@ -221,10 +221,14 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         // we must clear them first before creating new ones
         glpeSource.clearAnyGeneralLedgerPendingEntries();
 
-        LOG.info("deleting existing gl pending ledger entries for document " + glpeSource.getDocumentHeader().getDocumentNumber());
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info("deleting existing gl pending ledger entries for document " + glpeSource.getDocumentHeader().getDocumentNumber());
+        }
         delete(glpeSource.getDocumentHeader().getDocumentNumber());
 
-        LOG.info("generating gl pending ledger entries for document " + glpeSource.getDocumentHeader().getDocumentNumber());
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info("generating gl pending ledger entries for document " + glpeSource.getDocumentHeader().getDocumentNumber());
+        }
         
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
         for (GeneralLedgerPendingEntrySourceDetail glpeSourceDetail : glpeSource.getGeneralLedgerPendingEntrySourceDetails()) {

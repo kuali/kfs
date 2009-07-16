@@ -1124,7 +1124,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             }
         }
         
-        addBillToAndShipToNotes(preqDoc,orderHolder);
+        addShipToNotes(preqDoc,orderHolder);
         
         String routingAnnotation = null;
         if (!orderHolder.isRejectDocumentHolder()){
@@ -1149,20 +1149,16 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         return preqDoc;
     }
     
-    private void addBillToAndShipToNotes(PaymentRequestDocument preqDoc, 
-                                         ElectronicInvoiceOrderHolder orderHolder){
+    private void addShipToNotes(PaymentRequestDocument preqDoc, 
+                                ElectronicInvoiceOrderHolder orderHolder){
         
         String shipToAddress = orderHolder.getInvoiceShipToAddressAsString();
-        String billToAddress = orderHolder.getInvoiceBillToAddressAsString();
         
         try {
             Note noteObj = SpringContext.getBean(DocumentService.class).createNoteFromDocument(preqDoc, shipToAddress);
             preqDoc.addNote(noteObj);
-         
-            noteObj = SpringContext.getBean(DocumentService.class).createNoteFromDocument(preqDoc, billToAddress);
-            preqDoc.addNote(noteObj);
         }catch (Exception e) {
-             LOG.error("Error creating ShipTo/BillTo notes - " + e.getMessage());
+             LOG.error("Error creating ShipTo notes - " + e.getMessage());
         }
     }
     

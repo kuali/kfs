@@ -2259,4 +2259,126 @@ public class ScrubberProcessImpl implements ScrubberProcess {
     public void setRunDateService(RunDateService runDateService) {
         this.runDateService = runDateService;
     }
+
+    /**
+     * Gets the flexibleOffsetAccountService attribute. 
+     * @return Returns the flexibleOffsetAccountService.
+     */
+    public FlexibleOffsetAccountService getFlexibleOffsetAccountService() {
+        return flexibleOffsetAccountService;
+    }
+
+    /**
+     * Gets the dateTimeService attribute. 
+     * @return Returns the dateTimeService.
+     */
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    /**
+     * Gets the configurationService attribute. 
+     * @return Returns the configurationService.
+     */
+    public KualiConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    /**
+     * Gets the persistenceService attribute. 
+     * @return Returns the persistenceService.
+     */
+    public PersistenceService getPersistenceService() {
+        return persistenceService;
+    }
+
+    /**
+     * Gets the scrubberValidator attribute. 
+     * @return Returns the scrubberValidator.
+     */
+    public ScrubberValidator getScrubberValidator() {
+        return scrubberValidator;
+    }
+
+    /**
+     * Gets the runDateService attribute. 
+     * @return Returns the runDateService.
+     */
+    public RunDateService getRunDateService() {
+        return runDateService;
+    }
+
+    /**
+     * Gets the accountingCycleCachingService attribute. 
+     * @return Returns the accountingCycleCachingService.
+     */
+    public AccountingCycleCachingService getAccountingCycleCachingService() {
+        return accountingCycleCachingService;
+    }
+
+    /**
+     * Gets the scrubberReportWriterService attribute. 
+     * @return Returns the scrubberReportWriterService.
+     */
+    public DocumentNumberAwareReportWriterService getScrubberReportWriterService() {
+        return scrubberReportWriterService;
+    }
+
+    /**
+     * Gets the scrubberLedgerReportWriterService attribute. 
+     * @return Returns the scrubberLedgerReportWriterService.
+     */
+    public DocumentNumberAwareReportWriterService getScrubberLedgerReportWriterService() {
+        return scrubberLedgerReportWriterService;
+    }
+
+    /**
+     * Gets the scrubberListingReportWriterService attribute. 
+     * @return Returns the scrubberListingReportWriterService.
+     */
+    public DocumentNumberAwareReportWriterService getScrubberListingReportWriterService() {
+        return scrubberListingReportWriterService;
+    }
+
+    /**
+     * Gets the scrubberBadBalanceListingReportWriterService attribute. 
+     * @return Returns the scrubberBadBalanceListingReportWriterService.
+     */
+    public ReportWriterService getScrubberBadBalanceListingReportWriterService() {
+        return scrubberBadBalanceListingReportWriterService;
+    }
+
+    /**
+     * Gets the demergerRemovedTransactionsListingReportWriterService attribute. 
+     * @return Returns the demergerRemovedTransactionsListingReportWriterService.
+     */
+    public ReportWriterService getDemergerRemovedTransactionsListingReportWriterService() {
+        return demergerRemovedTransactionsListingReportWriterService;
+    }
+
+    /**
+     * Gets the demergerReportWriterService attribute. 
+     * @return Returns the demergerReportWriterService.
+     */
+    public ReportWriterService getDemergerReportWriterService() {
+        return demergerReportWriterService;
+    }
+
+    /**
+     * Gets the preScrubberService attribute. 
+     * @return Returns the preScrubberService.
+     */
+    public PreScrubberService getPreScrubberService() {
+        return preScrubberService;
+    }
+
+    /**
+     * Gets the parameterService attribute. 
+     * @return Returns the parameterService.
+     */
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+    
+    
 }

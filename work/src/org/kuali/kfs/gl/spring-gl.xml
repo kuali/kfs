@@ -686,9 +686,6 @@
 		</property>
 	</bean>
 
-	<bean id="glGeneratedCostShareOriginEntryObjectCodeOverride" class="org.kuali.kfs.gl.batch.service.impl.GeneratedCostShareOriginEntryObjectCodeOverrideImpl">
-	</bean>
-
 	<bean id="glSufficientFundsSyncService" class="org.kuali.kfs.gl.batch.service.impl.SufficientFundsSyncServiceImpl">
 		<property name="accountService">
 			<ref bean="accountService" />

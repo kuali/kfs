@@ -15,28 +15,10 @@
  */
 package org.kuali.kfs.gl.service.impl;
 
-import org.kuali.kfs.coa.service.ObjectCodeService;
-import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.gl.batch.CollectorBatch;
-import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
-import org.kuali.kfs.gl.batch.service.GeneratedCostShareOriginEntryObjectCodeOverride;
-import org.kuali.kfs.gl.batch.service.RunDateService;
 import org.kuali.kfs.gl.batch.service.ScrubberProcess;
-import org.kuali.kfs.gl.batch.service.impl.ScrubberProcessImpl;
 import org.kuali.kfs.gl.report.CollectorReportData;
-import org.kuali.kfs.gl.service.OriginEntryGroupService;
-import org.kuali.kfs.gl.service.OriginEntryService;
-import org.kuali.kfs.gl.service.PreScrubberService;
 import org.kuali.kfs.gl.service.ScrubberService;
-import org.kuali.kfs.gl.service.ScrubberValidator;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
-import org.kuali.kfs.sys.service.DocumentNumberAwareReportWriterService;
-import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
-import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.PersistenceService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

@@ -603,6 +603,9 @@
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
 		<property name="flexibleOffsetAccountService">
 			<ref bean="flexibleOffsetAccountService" />
 		</property>
@@ -1975,6 +1978,7 @@
 	<bean id="encumbranceForwardStep" class="org.kuali.kfs.gl.batch.EncumbranceForwardStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
 			<list>
+				<ref bean="accountingCycleCachingService"/>
 				<ref bean="encumbranceClosingReportWriterService"/>
 			</list>
 		</property>

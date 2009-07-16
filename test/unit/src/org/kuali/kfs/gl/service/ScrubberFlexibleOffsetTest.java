@@ -48,7 +48,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         super.setUp();
 
         scrubberService = SpringContext.getBean(ScrubberService.class);
-        scrubberService.setDateTimeService(dateTimeService);
+       // scrubberService.setDateTimeService(dateTimeService);
         // Get the test date time service so we can specify the date/time of the run
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_MONTH, 1);

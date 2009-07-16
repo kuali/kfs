@@ -50,12 +50,6 @@ public interface ScrubberService {
      */
     public void scrubGroupReportOnly(String fileName, String documentNumber);
 
-    /**
-     * Sets the dateTimeService attribute the ScrubberService implementation should use
-     * 
-     * @param dateTimeService an implementation of dateTimeService to set
-     */
-    public void setDateTimeService(DateTimeService dateTimeService);
     
     public void performDemerger();
 }

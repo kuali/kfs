@@ -14,8 +14,15 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
     <bean id="glModuleConfiguration" parent="glModuleConfiguration-parentBean" />
     
@@ -79,7 +86,7 @@
 		<property name="moduleConfiguration" ref="glModuleConfiguration" />
 	</bean>
 
-	<bean id="glBalanceLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.BalanceLookupableHelperServiceImpl" singleton="false">
+	<bean id="glBalanceLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.BalanceLookupableHelperServiceImpl" scope="prototype">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -109,13 +116,13 @@
 		</property>
 	</bean>
 
-	<bean id="glBalanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="glBalanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="glBalanceLookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="glEncumbranceLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.EncumbranceLookupableHelperServiceImpl" singleton="false">
+	<bean id="glEncumbranceLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.EncumbranceLookupableHelperServiceImpl" scope="prototype">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -145,13 +152,13 @@
 		</property>
 	</bean>
 
-	<bean id="glEncumbranceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="glEncumbranceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="glEncumbranceLookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="glCashBalanceLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.CashBalanceLookupableHelperServiceImpl" singleton="false">
+	<bean id="glCashBalanceLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.CashBalanceLookupableHelperServiceImpl" scope="prototype">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -181,13 +188,13 @@
 		</property>
 	</bean>
 
-	<bean id="glCashBalanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="glCashBalanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="glCashBalanceLookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="glPendingEntryLookupableHelperServiceImpl" class="org.kuali.kfs.gl.businessobject.lookup.PendingEntryLookupableHelperServiceImpl" singleton="false">
+	<bean id="glPendingEntryLookupableHelperServiceImpl" class="org.kuali.kfs.gl.businessobject.lookup.PendingEntryLookupableHelperServiceImpl" scope="prototype">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -211,13 +218,13 @@
 		</property>
 	</bean>
 
-	<bean id="glPendingEntryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="glPendingEntryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="glPendingEntryLookupableHelperServiceImpl" />
 		</property>
 	</bean>
 
-	<bean id="glEntryLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.EntryLookupableHelperServiceImpl" singleton="false">
+	<bean id="glEntryLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.EntryLookupableHelperServiceImpl" scope="prototype">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -244,13 +251,13 @@
 		</property>
 	</bean>
 
-	<bean id="glEntryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="glEntryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="glEntryLookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="glAccountBalanceLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.AccountBalanceLookupableHelperServiceImpl" singleton="false">
+	<bean id="glAccountBalanceLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.AccountBalanceLookupableHelperServiceImpl" scope="prototype">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -283,13 +290,13 @@
 		</property>
 	</bean>
 
-	<bean id="glAccountBalanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="glAccountBalanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="glAccountBalanceLookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="glAccountBalanceByConsolidationLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.AccountBalanceByConsolidationLookupableHelperServiceImpl" singleton="false">
+	<bean id="glAccountBalanceByConsolidationLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.AccountBalanceByConsolidationLookupableHelperServiceImpl" scope="prototype">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -313,13 +320,13 @@
 		</property>
 	</bean>
 
-	<bean id="glAccountBalanceByConsolidationLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="glAccountBalanceByConsolidationLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="glAccountBalanceByConsolidationLookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="glAccountBalanceByLevelLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.AccountBalanceByLevelLookupableHelperServiceImpl" singleton="false">
+	<bean id="glAccountBalanceByLevelLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.AccountBalanceByLevelLookupableHelperServiceImpl" scope="prototype">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -343,13 +350,13 @@
 		</property>
 	</bean>
 
-	<bean id="glAccountBalanceByLevelLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="glAccountBalanceByLevelLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="glAccountBalanceByLevelLookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="glAccountBalanceByObjectLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.AccountBalanceByObjectLookupableHelperServiceImpl" singleton="false">
+	<bean id="glAccountBalanceByObjectLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.AccountBalanceByObjectLookupableHelperServiceImpl" scope="prototype">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -373,7 +380,7 @@
 		</property>
 	</bean>
 
-	<bean id="glAccountBalanceByObjectLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="glAccountBalanceByObjectLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="glAccountBalanceByObjectLookupableHelperService" />
 		</property>
@@ -509,7 +516,7 @@
 
 	<bean id="glCashOrganizationReversionCategoryLogic" class="org.kuali.kfs.gl.batch.service.impl.CashOrganizationReversionCategoryLogic" />
 	
-	<bean id="genericOrganizationReversionCategory" class="org.kuali.kfs.gl.batch.service.impl.GenericOrganizationReversionCategory" singleton="false"> 
+	<bean id="genericOrganizationReversionCategory" class="org.kuali.kfs.gl.batch.service.impl.GenericOrganizationReversionCategory" scope="prototype"> 
     	<property name="parameterService"> 
         	<ref bean="parameterService" /> 
 		</property> 
@@ -573,41 +580,13 @@
 		<property name="optionsService" ref="optionsService" />
 		<property name="priorYearAccountService" ref="priorYearAccountService" />
 		<property name="subFundGroupService" ref="subFundGroupService" />
+		<property name="accountingCycleCachingService" ref="accountingCycleCachingService" />
 	</bean>
-
-	<bean id="glScrubberService" class="org.kuali.kfs.gl.service.impl.ScrubberServiceImpl">
-		<property name="flexibleOffsetAccountService">
-			<ref bean="flexibleOffsetAccountService" />
-		</property>
-		<property name="originEntryService">
-			<ref bean="originEntryService" />
-		</property>
+	
+	<bean id="scrubberProcess-parentBean" class="org.kuali.kfs.gl.batch.service.impl.ScrubberProcessImpl" abstract="true">
+	
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
-		</property>
-		<property name="offsetDefinitionService">
-			<ref bean="offsetDefinitionService" />
-		</property>
-		<property name="objectCodeService">
-			<ref bean="objectCodeService" />
-		</property>
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>
-		<property name="universityDateDao">
-			<ref bean="universityDateDao" />
-		</property>
-		<property name="originEntryGroupService">
-			<ref bean="originEntryGroupService" />
-		</property>
-		<property name="persistenceService">
-			<ref bean="persistenceService" />
-		</property>
-		<property name="scrubberValidator">
-			<ref bean="scrubberValidator" />
-		</property>
-		<property name="scrubberProcessObjectCodeOverride">
-			<ref bean="glScrubberProcessObjectCodeOverride" />
 		</property>
 		<property name="runDateService">
 			<ref bean="glRunDateService" />
@@ -615,17 +594,69 @@
 		<property name="accountingCycleCachingService">
 		  	<ref bean="accountingCycleCachingService" />
 		</property>
-		<property name="preScrubberService" ref="preScrubberService" />
+		<property name="configurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="scrubberValidator">
+			<ref bean="scrubberValidator" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="flexibleOffsetAccountService">
+			<ref bean="flexibleOffsetAccountService" />
+		</property>
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
-		<property name="collectorFileDirectoryName" value="${staging.directory}/gl/collector"/>
-		<property name="demergerReportWriterService" ref="demergerReportWriterService" />
 		<property name="scrubberReportWriterService" ref="scrubberReportWriterService" />
-		<property name="scrubberLedgerReportWriterService" ref="scrubberLedgerReportWriterService" />
-		<property name="glcpScrubberLedgerReportWriterService" ref="glcpScrubberLedgerReportWriterService" />
+        <property name="scrubberLedgerReportWriterService" ref="scrubberLedgerReportWriterService" />
+	
+	</bean>
+	
+	
+	<bean id="reportOnlyScrubberProcess" parent="scrubberProcess-parentBean" scope="prototype">
+	     
+		<property name="preScrubberService">
+			<ref bean="preScrubberService" />
+		</property>
+		
 		<property name="scrubberListingReportWriterService" ref="scrubberListingReportWriterService" />
-		<property name="scrubberBadBalanceListingReportWriterService" ref="scrubberBadBalanceListingReportWriterService" />
-		<property name="scrubberReportOnlyWriterService" ref="scrubberReportOnlyWriterService" />
+		
+	</bean>
+	
+	<bean id="scrubberProcess" parent="scrubberProcess-parentBean" scope="prototype">
+		
+        <property name="scrubberBadBalanceListingReportWriterService" ref="scrubberBadBalanceListingReportWriterService" />
+	
+	</bean>
+	
+	<bean id="demergerScrubberProcess" parent="scrubberProcess-parentBean" scope="prototype">
+		
+        <property name="scrubberBadBalanceListingReportWriterService" ref="scrubberBadBalanceListingReportWriterService" />
+		<property name="demergerReportWriterService" ref="demergerReportWriterService" />
 		<property name="demergerRemovedTransactionsListingReportWriterService" ref="demergerRemovedTransactionsListingReportWriterService" />
+	
+	</bean>
+	
+	<bean id="batchScrubberProcess" parent="scrubberProcess-parentBean" scope="prototype">
+	
+        <property name="scrubberBadBalanceListingReportWriterService" ref="scrubberBadBalanceListingReportWriterService" />
+        
+	</bean>
+
+	<bean id="glScrubberService" class="org.kuali.kfs.gl.service.impl.ScrubberServiceImpl">
+		<property name="scrubberProcess">
+			<ref bean="scrubberProcess"/>
+		</property>		
+		<property name="batchScrubberProcess">
+			<ref bean="batchScrubberProcess"/>
+		</property>
+			<property name="demergerScrubberProcess">
+			<ref bean="demergerScrubberProcess"/>
+		</property>
+		<property name="reportOnlyScrubberProcess">
+			<ref bean="reportOnlyScrubberProcess"/>
+		</property>	
+		
 	</bean>
 	
 	<bean id="scrubberValidator" class="org.kuali.kfs.gl.service.impl.ScrubberValidatorImpl">
@@ -655,7 +686,7 @@
 		</property>
 	</bean>
 
-	<bean id="glScrubberProcessObjectCodeOverride" class="org.kuali.kfs.gl.batch.service.impl.ScrubberProcessObjectCodeOverrideImpl">
+	<bean id="glGeneratedCostShareOriginEntryObjectCodeOverride" class="org.kuali.kfs.gl.batch.service.impl.GeneratedCostShareOriginEntryObjectCodeOverrideImpl">
 	</bean>
 
 	<bean id="glSufficientFundsSyncService" class="org.kuali.kfs.gl.batch.service.impl.SufficientFundsSyncServiceImpl">
@@ -2241,13 +2272,13 @@
 		</property>
 	</bean>
 	
-	<bean id="glBalanceTotalNotZeroIterator" class="org.kuali.kfs.gl.batch.service.impl.FilteringBalanceIteratorImpl" singleton="false">
+	<bean id="glBalanceTotalNotZeroIterator" class="org.kuali.kfs.gl.batch.service.impl.FilteringBalanceIteratorImpl" scope="prototype">
 		<property name="balancePredicate">
 			<bean class="org.kuali.kfs.gl.batch.service.impl.BalanceTotalNotZeroPredicate" />
 		</property>
 	</bean>
 	
-	<bean id="glBalanceAnnualAndCGTotalNotZeroIterator" class="org.kuali.kfs.gl.batch.service.impl.FilteringBalanceIteratorImpl" singleton="false">
+	<bean id="glBalanceAnnualAndCGTotalNotZeroIterator" class="org.kuali.kfs.gl.batch.service.impl.FilteringBalanceIteratorImpl" scope="prototype">
 		<property name="balancePredicate">
 			<bean class="org.kuali.kfs.gl.batch.service.impl.BalanceAnnualAndCGTotalNotZeroPredicate" />
 		</property>
@@ -2546,7 +2577,7 @@
 	    <property name="columnCount" value="5" />
 	</bean>
 
-	<bean id="batchFileService" class="org.kuali.kfs.gl.batch.service.impl.BatchFileServiceImpl" singleton="false" />
+	<bean id="batchFileService" class="org.kuali.kfs.gl.batch.service.impl.BatchFileServiceImpl" scope="prototype" />
 	
 	<bean id="scrubberListingReportWriterService" parent="reportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl">
 		<property name="filePath" value="${temp.directory}"/>

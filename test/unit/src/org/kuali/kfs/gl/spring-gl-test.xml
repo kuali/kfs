@@ -195,55 +195,104 @@
 	</bean>
 	
 	<bean id="glScrubberService" class="org.kuali.kfs.gl.service.impl.ScrubberServiceImpl">
-		<property name="flexibleOffsetAccountService">
-			<ref bean="flexibleOffsetAccountService" />
+		<property name="scrubberProcess">
+			<ref bean="mockScrubberProcess"/>
 		</property>
-		<property name="originEntryService">
-			<ref bean="originEntryService" />
+		<property name="batchScrubberProcess">
+			<ref bean="mockBatchScrubberProcess"/>
 		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
+		<property name="demergerScrubberProcess">
+			<ref bean="mockDemergerScrubberProcess"/>
 		</property>
-		<property name="offsetDefinitionService">
-			<ref bean="offsetDefinitionService" />
-		</property>
-		<property name="objectCodeService">
-			<ref bean="objectCodeService" />
-		</property>
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>
-		<property name="universityDateDao">
-			<ref bean="universityDateDao" />
-		</property>
-		<property name="originEntryGroupService">
-			<ref bean="originEntryGroupService" />
-		</property>
-		<property name="persistenceService">
-			<ref bean="persistenceService" />
-		</property>
-		<property name="scrubberValidator">
-			<ref bean="scrubberValidator" />
-		</property>
-		<property name="scrubberProcessObjectCodeOverride">
-			<ref bean="glScrubberProcessObjectCodeOverride" />
-		</property>
-		<property name="runDateService">
-			<ref bean="glRunDateService" />
-		</property>
-		<property name="accountingCycleCachingService">
-		  	<ref bean="accountingCycleCachingService" />
-		</property>
-		<property name="batchFileDirectoryName" value="${staging.directory}/gl/test_directory/originEntry"/>
-		<property name="collectorFileDirectoryName" value="${staging.directory}/gl/test_directory/collector"/>
-		<property name="demergerReportWriterService" ref="mockReportWriterService" />
-		<property name="scrubberReportWriterService" ref="mockReportWriterService" />
-		<property name="scrubberLedgerReportWriterService" ref="mockReportWriterService" />
-		<property name="scrubberListingReportWriterService" ref="mockReportWriterService" />
-		<property name="scrubberBadBalanceListingReportWriterService" ref="mockReportWriterService" />
-		<property name="scrubberReportOnlyWriterService" ref="mockReportWriterService" />
-		<property name="demergerRemovedTransactionsListingReportWriterService" ref="mockReportWriterService" />
+		<property name="reportOnlyScrubberProcess">
+			<ref bean="mockReportOnlyScrubberProcess"/>
+		</property>	
+	
+<!--		<property name="flexibleOffsetAccountService">-->
+<!--			<ref bean="flexibleOffsetAccountService" />-->
+<!--		</property>-->
+<!--		<property name="originEntryService">-->
+<!--			<ref bean="originEntryService" />-->
+<!--		</property>-->
+<!--		<property name="dateTimeService">-->
+<!--			<ref bean="dateTimeService" />-->
+<!--		</property>-->
+<!--		<property name="offsetDefinitionService">-->
+<!--			<ref bean="offsetDefinitionService" />-->
+<!--		</property>-->
+<!--		<property name="objectCodeService">-->
+<!--			<ref bean="objectCodeService" />-->
+<!--		</property>-->
+<!--		<property name="kualiConfigurationService">-->
+<!--			<ref bean="kualiConfigurationService" />-->
+<!--		</property>-->
+<!--		<property name="universityDateDao">-->
+<!--			<ref bean="universityDateDao" />-->
+<!--		</property>-->
+<!--		<property name="originEntryGroupService">-->
+<!--			<ref bean="originEntryGroupService" />-->
+<!--		</property>-->
+<!--		<property name="persistenceService">-->
+<!--			<ref bean="persistenceService" />-->
+<!--		</property>-->
+<!--		<property name="scrubberValidator">-->
+<!--			<ref bean="scrubberValidator" />-->
+<!--		</property>-->
+<!--		<property name="scrubberProcessObjectCodeOverride">-->
+<!--			<ref bean="glScrubberProcessObjectCodeOverride" />-->
+<!--		</property>-->
+<!--		<property name="runDateService">-->
+<!--			<ref bean="glRunDateService" />-->
+<!--		</property>-->
+<!--		<property name="accountingCycleCachingService">-->
+<!--		  	<ref bean="accountingCycleCachingService" />-->
+<!--		</property>-->
+<!--		<property name="batchFileDirectoryName" value="${staging.directory}/gl/test_directory/originEntry"/>-->
+<!--		<property name="collectorFileDirectoryName" value="${staging.directory}/gl/test_directory/collector"/>-->
+<!--		<property name="demergerReportWriterService" ref="mockReportWriterService" />-->
+<!--		<property name="scrubberReportWriterService" ref="mockReportWriterService" />-->
+<!--		<property name="scrubberLedgerReportWriterService" ref="mockReportWriterService" />-->
+<!--		<property name="scrubberListingReportWriterService" ref="mockReportWriterService" />-->
+<!--		<property name="scrubberBadBalanceListingReportWriterService" ref="mockReportWriterService" />-->
+<!--		<property name="scrubberReportOnlyWriterService" ref="mockReportWriterService" />-->
+<!--		<property name="demergerRemovedTransactionsListingReportWriterService" ref="mockReportWriterService" />-->
 	</bean>
+	
+	<bean id="mockReportOnlyScrubberProcess" parent="reportOnlyScrubberProcess" scope="prototype">
+	     
+		<property name="scrubberReportWriterService" ref="mockReportWriterService" />
+        <property name="scrubberLedgerReportWriterService" ref="mockReportWriterService" />
+		<property name="scrubberListingReportWriterService" ref="mockReportWriterService" />
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/test_directory/originEntry"/>
+	</bean>
+	
+	<bean id="mockScrubberProcess" parent="scrubberProcess" scope="prototype">
+		
+		<property name="scrubberReportWriterService" ref="mockReportWriterService" />
+        <property name="scrubberLedgerReportWriterService" ref="mockReportWriterService" />
+        <property name="scrubberBadBalanceListingReportWriterService" ref="mockReportWriterService" />
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/test_directory/originEntry"/>
+	</bean>
+	
+	<bean id="mockDemergerScrubberProcess" parent="demergerScrubberProcess" scope="prototype">
+	
+		<property name="scrubberReportWriterService" ref="mockReportWriterService" />
+        <property name="scrubberLedgerReportWriterService" ref="mockReportWriterService" />
+        <property name="scrubberBadBalanceListingReportWriterService" ref="mockReportWriterService" />
+		<property name="demergerReportWriterService" ref="mockReportWriterService" />
+		<property name="demergerRemovedTransactionsListingReportWriterService" ref="mockReportWriterService" />
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/test_directory/originEntry"/>
+	</bean>
+	
+	<bean id="mockBatchScrubberProcess" parent="batchScrubberProcess" scope="prototype">
+	
+		<property name="scrubberReportWriterService" ref="mockReportWriterService" />
+        <property name="scrubberLedgerReportWriterService" ref="mockReportWriterService" />
+        <property name="scrubberBadBalanceListingReportWriterService" ref="mockReportWriterService" />
+        <property name="batchFileDirectoryName" value="${staging.directory}/gl/test_directory/originEntry"/>
+	</bean>
+	
+	
 	
 	<bean id="glMockPosterService" parent="glPosterService">
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/test_directory/originEntry"/>

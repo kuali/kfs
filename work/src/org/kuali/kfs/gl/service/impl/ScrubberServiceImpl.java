@@ -19,15 +19,17 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
+import org.kuali.kfs.gl.batch.service.GeneratedCostShareOriginEntryObjectCodeOverride;
 import org.kuali.kfs.gl.batch.service.RunDateService;
-import org.kuali.kfs.gl.batch.service.ScrubberProcessObjectCodeOverride;
-import org.kuali.kfs.gl.businessobject.ScrubberProcess;
+import org.kuali.kfs.gl.batch.service.ScrubberProcess;
+import org.kuali.kfs.gl.batch.service.impl.ScrubberProcessImpl;
 import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.PreScrubberService;
 import org.kuali.kfs.gl.service.ScrubberService;
 import org.kuali.kfs.gl.service.ScrubberValidator;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.DocumentNumberAwareReportWriterService;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
@@ -44,34 +46,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class ScrubberServiceImpl implements ScrubberService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberServiceImpl.class);
 
-    private FlexibleOffsetAccountService flexibleOffsetAccountService;
-    private OriginEntryService originEntryService;
-    private OriginEntryGroupService originEntryGroupService;
-    private DateTimeService dateTimeService;
-    private OffsetDefinitionService offsetDefinitionService;
-    private ObjectCodeService objectCodeService;
-    private KualiConfigurationService kualiConfigurationService;
-    private UniversityDateDao universityDateDao;
-    private PersistenceService persistenceService;
-    private ScrubberValidator scrubberValidator;
-    private ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride;
-    private RunDateService runDateService;
-    private AccountingCycleCachingService accountingCycleCachingService;
-    private PreScrubberService preScrubberService;
+    private ScrubberProcess reportOnlyScrubberProcess;
+    private ScrubberProcess scrubberProcess;
+    private ScrubberProcess demergerScrubberProcess;
+    private ScrubberProcess batchScrubberProcess;
     
-    private ReportWriterService demergerReportWriterService;
-    private DocumentNumberAwareReportWriterService scrubberReportWriterService;
-    private DocumentNumberAwareReportWriterService scrubberLedgerReportWriterService;
-    private DocumentNumberAwareReportWriterService glcpScrubberLedgerReportWriterService;
-    private DocumentNumberAwareReportWriterService scrubberListingReportWriterService;
-    private ReportWriterService scrubberBadBalanceListingReportWriterService;
-    
-    private DocumentNumberAwareReportWriterService scrubberReportOnlyWriterService;
-    private ReportWriterService demergerRemovedTransactionsListingReportWriterService;
-    
-    private String batchFileDirectoryName;
-    private String collectorFileDirectoryName;
-
     /**
      * This process will call the scrubber in a read only mode. It will scrub a single group, won't create any output in origin
      * entry. It will create a the scrubber report
@@ -85,8 +64,8 @@ public class ScrubberServiceImpl implements ScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, accountingCycleCachingService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, batchFileDirectoryName, scrubberReportOnlyWriterService, glcpScrubberLedgerReportWriterService, scrubberListingReportWriterService, null, null, null, preScrubberService);
-        sp.scrubGroupReportOnly(fileName, documentNumber);
+            //new ScrubberProcessImpl(flexibleOffsetAccountService, accountingCycleCachingService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, scrubberValidator, generatedCostShareOriginEntryObjectCodeOverride, runDateService, batchFileDirectoryName, scrubberReportOnlyWriterService, glcpScrubberLedgerReportWriterService, scrubberListingReportWriterService, null, null, null, null);
+        reportOnlyScrubberProcess.scrubGroupReportOnly(fileName, documentNumber);
     }
 
     /**
@@ -99,8 +78,8 @@ public class ScrubberServiceImpl implements ScrubberService {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, accountingCycleCachingService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, batchFileDirectoryName, scrubberReportWriterService, scrubberLedgerReportWriterService, null, scrubberBadBalanceListingReportWriterService, null, null, null);
-        sp.scrubEntries();
+            //new ScrubberProcessImpl(flexibleOffsetAccountService, accountingCycleCachingService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, scrubberValidator, generatedCostShareOriginEntryObjectCodeOverride, runDateService, batchFileDirectoryName, scrubberReportWriterService, scrubberLedgerReportWriterService, null, scrubberBadBalanceListingReportWriterService, null, null, null);
+        scrubberProcess.scrubEntries();
     }
 
     /**
@@ -115,226 +94,48 @@ public class ScrubberServiceImpl implements ScrubberService {
      */
     public void scrubCollectorBatch(ScrubberStatus scrubberStatus, CollectorBatch batch, CollectorReportData collectorReportData) {
         // this service is especially developed to support collector scrubbing, demerger, and report generation
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, accountingCycleCachingService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, collectorFileDirectoryName, null, null, null, null, null, null, null);
-        sp.scrubCollectorBatch(scrubberStatus, batch, collectorReportData);
+            //new ScrubberProcessImpl(flexibleOffsetAccountService, accountingCycleCachingService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, scrubberValidator, generatedCostShareOriginEntryObjectCodeOverride, runDateService, collectorFileDirectoryName, null, null, null, null, null, null, null);
+        batchScrubberProcess.scrubCollectorBatch(scrubberStatus, batch, collectorReportData);
     }
     
     public void performDemerger() {
         LOG.debug("performDemerger() started");
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, accountingCycleCachingService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, batchFileDirectoryName, null, null, null, null, demergerReportWriterService, demergerRemovedTransactionsListingReportWriterService, null);
-        sp.performDemerger();
+            //new ScrubberProcessImpl(flexibleOffsetAccountService, accountingCycleCachingService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, scrubberValidator, generatedCostShareOriginEntryObjectCodeOverride, runDateService, batchFileDirectoryName, null, null, null, null, demergerReportWriterService, demergerRemovedTransactionsListingReportWriterService, null);
+        demergerScrubberProcess.performDemerger();
+    }
+
+  
+    /**
+     * Sets the reportOnlyScrubberProcess attribute value.
+     * @param reportOnlyScrubberProcess The reportOnlyScrubberProcess to set.
+     */
+    public void setReportOnlyScrubberProcess(ScrubberProcess reportOnlyScrubberProcess) {
+        this.reportOnlyScrubberProcess = reportOnlyScrubberProcess;
     }
 
     /**
-     * Sets the flexibleOffsetAccountService attribute value.
-     * 
-     * @param flexibleOffsetAccountService The flexibleOffsetAccountService to set.
+     * Sets the scrubberProcess attribute value.
+     * @param scrubberProcess The scrubberProcess to set.
      */
-    public void setFlexibleOffsetAccountService(FlexibleOffsetAccountService flexibleOffsetAccountService) {
-        this.flexibleOffsetAccountService = flexibleOffsetAccountService;
+    public void setScrubberProcess(ScrubberProcess scrubberProcess) {
+        this.scrubberProcess = scrubberProcess;
     }
 
     /**
-     * Sets the scrubberValidator attribute value.
-     * 
-     * @param sv The scrubberValidator to set.
+     * Sets the demergerScrubberProcess attribute value.
+     * @param demergerScrubberProcess The demergerScrubberProcess to set.
      */
-    public void setScrubberValidator(ScrubberValidator sv) {
-        scrubberValidator = sv;
+    public void setDemergerScrubberProcess(ScrubberProcess demergerScrubberProcess) {
+        this.demergerScrubberProcess = demergerScrubberProcess;
     }
 
     /**
-     * Sets the scrubberProcessObjectCodeOverride attribute value.
-     * 
-     * @param scrubberProcessObjectCodeOverride The scrubberProcessObjectCodeOverride to set.
+     * Sets the batchScrubberProcess attribute value.
+     * @param batchScrubberProcess The batchScrubberProcess to set.
      */
-    public void setScrubberProcessObjectCodeOverride(ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride) {
-        this.scrubberProcessObjectCodeOverride = scrubberProcessObjectCodeOverride;
+    public void setBatchScrubberProcess(ScrubberProcess batchScrubberProcess) {
+        this.batchScrubberProcess = batchScrubberProcess;
     }
 
-    /**
-     * Sets the originEntryService attribute value.
-     * 
-     * @param oes The OriginEntryService to set.
-     */
-    public void setOriginEntryService(OriginEntryService oes) {
-        this.originEntryService = oes;
-    }
-
-    /**
-     * Sets the originEntryGroupService attribute value.
-     * 
-     * @param groupService The originEntryGroupService to set.
-     */
-    public void setOriginEntryGroupService(OriginEntryGroupService groupService) {
-        this.originEntryGroupService = groupService;
-    }
-
-    /**
-     * Sets the dateTimeService attribute value.
-     * 
-     * @param dts The dateTimeService to set.
-     */
-    public void setDateTimeService(DateTimeService dts) {
-        this.dateTimeService = dts;
-    }
-
-    /**
-     * Sets the universityDateDao attribute value.
-     * 
-     * @param universityDateDao The universityDateDao to set.
-     */
-    public void setUniversityDateDao(UniversityDateDao universityDateDao) {
-        this.universityDateDao = universityDateDao;
-    }
-
-    /**
-     * Sets the persistenceService attribute value.
-     * 
-     * @param ps The persistenceService to set.
-     */
-    public void setPersistenceService(PersistenceService ps) {
-        persistenceService = ps;
-    }
-
-    /**
-     * Sets the offsetDefinitionService attribute value.
-     * 
-     * @param offsetDefinitionService The offsetDefinitionService to set.
-     */
-    public void setOffsetDefinitionService(OffsetDefinitionService offsetDefinitionService) {
-        this.offsetDefinitionService = offsetDefinitionService;
-    }
-
-    /**
-     * Sets the objectCodeService attribute value.
-     * 
-     * @param objectCodeService The objectCodeService to set.
-     */
-    public void setObjectCodeService(ObjectCodeService objectCodeService) {
-        this.objectCodeService = objectCodeService;
-    }
-
-    /**
-     * Sets the kualiConfigurationService attribute value.
-     * 
-     * @param kualiConfigurationService The kualiConfigurationService to set.
-     */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
-
-    /**
-     * Sets the runDateService attribute value.
-     * 
-     * @param runDateService The runDateService to set.
-     */
-    public RunDateService getRunDateService() {
-        return runDateService;
-    }
-
-    /**
-     * Sets the runDateService attribute value.
-     * 
-     * @param runDateService The runDateService to set.
-     */
-    public void setRunDateService(RunDateService runDateService) {
-        this.runDateService = runDateService;
-    }
-
-    public String getBatchFileDirectoryName() {
-        return batchFileDirectoryName;
-    }
-
-    public void setBatchFileDirectoryName(String batchFileDirectoryName) {
-        this.batchFileDirectoryName = batchFileDirectoryName;
-    }
-
-    public void setAccountingCycleCachingService(AccountingCycleCachingService accountingCycleCachingService) {
-        this.accountingCycleCachingService = accountingCycleCachingService;
-    }
-
-    public void setCollectorFileDirectoryName(String collectorFileDirectoryName) {
-        this.collectorFileDirectoryName = collectorFileDirectoryName;
-    }
-    
-    /**
-     * Sets the demergerReportWriterService attribute value.
-     * @param demergerReportWriterService The demergerReportWriterService to set.
-     */
-    public void setDemergerReportWriterService(ReportWriterService demergerReportWriterService) {
-        this.demergerReportWriterService = demergerReportWriterService;
-    }
-
-    /**
-     * Sets the scrubberReportWriterService attribute value.
-     * @param scrubberReportWriterService The scrubberReportWriterService to set.
-     */
-    public void setScrubberReportWriterService(DocumentNumberAwareReportWriterService scrubberReportWriterService) {
-        this.scrubberReportWriterService = scrubberReportWriterService;
-    }
-    
-    /**
-     * Sets the scrubberLedgerReportWriterService attribute value.
-     * @param scrubberLedgerReportWriterService The scrubberLedgerReportWriterService to set.
-     */
-    public void setScrubberLedgerReportWriterService(DocumentNumberAwareReportWriterService scrubberLedgerReportWriterService) {
-        this.scrubberLedgerReportWriterService = scrubberLedgerReportWriterService;
-    }
-
-    /**
-     * Sets the scrubberReportOnlyWriterService attribute value.
-     * @param scrubberReportOnlyWriterService The scrubberReportOnlyWriterService to set.
-     */
-    public void setScrubberReportOnlyWriterService(DocumentNumberAwareReportWriterService scrubberReportOnlyWriterService) {
-        this.scrubberReportOnlyWriterService = scrubberReportOnlyWriterService;
-    }
-
-    /**
-     * Sets the scrubberListingReportWriterService attribute value.
-     * @param scrubberListingReportWriterService The scrubberListingReportWriterService to set.
-     */
-    public void setScrubberListingReportWriterService(DocumentNumberAwareReportWriterService scrubberListingReportWriterService) {
-        this.scrubberListingReportWriterService = scrubberListingReportWriterService;
-    }
-    
-    /**
-     * Sets the scrubberBadBalanceListingReportWriterService attribute value.
-     * @param scrubberBadBalanceListingReportWriterService The scrubberBadBalanceListingReportWriterService to set.
-     */
-    public void setScrubberBadBalanceListingReportWriterService(ReportWriterService scrubberBadBalanceListingReportWriterService) {
-        this.scrubberBadBalanceListingReportWriterService = scrubberBadBalanceListingReportWriterService;
-    }
-
-    /**
-     * Sets the demergerRemovedTransactionsListingReportWriterService attribute value.
-     * @param demergerRemovedTransactionsListingReportWriterService The demergerRemovedTransactionsListingReportWriterService to set.
-     */
-    public void setDemergerRemovedTransactionsListingReportWriterService(ReportWriterService demergerRemovedTransactionsListingReportWriterService) {
-        this.demergerRemovedTransactionsListingReportWriterService = demergerRemovedTransactionsListingReportWriterService;
-    }
-
-    /**
-     * Sets the glcpScrubberLedgerReportWriterService attribute value.
-     * @param glcpScrubberLedgerReportWriterService The glcpScrubberLedgerReportWriterService to set.
-     */
-    public void setGlcpScrubberLedgerReportWriterService(DocumentNumberAwareReportWriterService glcpScrubberLedgerReportWriterService) {
-        this.glcpScrubberLedgerReportWriterService = glcpScrubberLedgerReportWriterService;
-    }
-
-    /**
-     * Gets the preScrubberService attribute. 
-     * @return Returns the preScrubberService.
-     */
-    public PreScrubberService getPreScrubberService() {
-        return preScrubberService;
-    }
-
-    /**
-     * Sets the preScrubberService attribute value.
-     * @param preScrubberService The preScrubberService to set.
-     */
-    public void setPreScrubberService(PreScrubberService preScrubberService) {
-        this.preScrubberService = preScrubberService;
-    }
+  
 }

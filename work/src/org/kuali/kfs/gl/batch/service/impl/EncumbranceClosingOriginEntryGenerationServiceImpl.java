@@ -40,12 +40,17 @@ import org.kuali.kfs.coa.service.SubObjectCodeService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.ObjectHelper;
 import org.kuali.kfs.gl.batch.EncumbranceForwardStep;
+import org.kuali.kfs.gl.batch.ScrubberStep;
+import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.batch.service.EncumbranceClosingOriginEntryGenerationService;
+import org.kuali.kfs.gl.batch.service.GeneratedCostShareOriginEntryObjectCodeOverride;
 import org.kuali.kfs.gl.batch.service.impl.exception.FatalErrorException;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.OptionsService;
@@ -71,6 +76,7 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
     private PriorYearAccountService priorYearAccountService;
     private SubFundGroupService subFundGroupService;
     private BusinessObjectService businessObjectService;
+    private AccountingCycleCachingService accountingCycleCachingService;
 
     /**
      * @see org.kuali.kfs.gl.batch.service.EncumbranceClosingOriginEntryGenerationService#createBeginningBalanceEntryOffsetPair(org.kuali.kfs.gl.businessobject.Encumbrance, java.lang.Integer, java.sql.Date)
@@ -228,27 +234,38 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
         entry.setAccountNumber(encumbrance.getAccountNumber());
         entry.setSubAccountNumber(encumbrance.getSubAccountNumber());
 
-        ObjectCode objectCode = getObjectCodeService().getByPrimaryId(encumbrance.getUniversityFiscalYear(), encumbrance.getChartOfAccountsCode(), encumbrance.getObjectCode());
+        ObjectCode objectCode = accountingCycleCachingService.getObjectCode(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialObjectCode());
+        
 
         if (null != objectCode) {
 
-            entry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
+            String financialObjectLevelCode = objectCode.getFinancialObjectLevelCode();
+            String financialObjectCode = entry.getFinancialObjectCode();
+            
+            String param = parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_BY_LEVEL_PARM_NM, financialObjectLevelCode);
+            if (param == null) {
+                param = parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_BY_LEVEL_PARM_NM, "DEFAULT");
+                if (param == null) {
+                    throw new RuntimeException("Unable to determine cost sharing object code from object level.  Default entry missing.");
+                }
+            }
+            financialObjectCode = param;
 
-            if (null != objectCode.getNextYearFinancialObjectCode() && !KFSConstants.EMPTY_STRING.equals(objectCode.getNextYearFinancialObjectCode().trim())) {
-
-                entry.setFinancialObjectCode(objectCode.getNextYearFinancialObjectCode());
-
+         // Lookup the new object code
+            ObjectCode newObjectCode = accountingCycleCachingService.getObjectCode(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), financialObjectCode);
+            if (newObjectCode != null) {
+                entry.setFinancialObjectTypeCode(newObjectCode.getFinancialObjectTypeCode());
+                entry.setFinancialObjectCode(financialObjectCode);
             }
             else {
-
-                entry.setFinancialObjectCode(encumbrance.getObjectCode());
-
+                LOG.error("Error retrieving ObjectCode("+entry.getUniversityFiscalYear()+"/"+entry.getChartOfAccountsCode()+"/"+financialObjectCode+")");
+                pair.setFatalErrorFlag(true);
+                return pair;
             }
-
         }
         else {
 
-            LOG.info("FATAL ERROR: ERROR ACCESSING OBJECT TABLE FOR CAOBJT-FIN-OBJECT-CD");
+            LOG.error("Error retrieving ObjectCode("+entry.getUniversityFiscalYear()+"/"+entry.getChartOfAccountsCode()+"/"+entry.getFinancialObjectCode()+")");
             pair.setFatalErrorFlag(true);
             return pair;
 
@@ -486,6 +503,8 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
         }
 
     }
+    
+    
 
     /**
      * Gets the parameterService attribute. 
@@ -662,4 +681,21 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+
+    /**
+     * Gets the accountingCycleCachingService attribute. 
+     * @return Returns the accountingCycleCachingService.
+     */
+    public AccountingCycleCachingService getAccountingCycleCachingService() {
+        return accountingCycleCachingService;
+    }
+
+    /**
+     * Sets the accountingCycleCachingService attribute value.
+     * @param accountingCycleCachingService The accountingCycleCachingService to set.
+     */
+    public void setAccountingCycleCachingService(AccountingCycleCachingService accountingCycleCachingService) {
+        this.accountingCycleCachingService = accountingCycleCachingService;
+    }
+    
 }

@@ -596,7 +596,6 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
             runIndicatorParameter.setParameterDescription(RUN_INDICATOR_PARAMETER_DESCRIPTION);
             runIndicatorParameter.setParameterConstraintCode(RUN_INDICATOR_PARAMETER_ALLOWED);
             runIndicatorParameter.setParameterTypeCode(RUN_INDICATOR_PARAMETER_TYPE);
-            runIndicatorParameter.setParameterNamespaceCode(PurapConstants.PURAP_NAMESPACE);
         }
         runIndicatorParameter.setParameterValue(RUN_INDICATOR_PARAMETER_VALUE);
         boService.save(runIndicatorParameter);

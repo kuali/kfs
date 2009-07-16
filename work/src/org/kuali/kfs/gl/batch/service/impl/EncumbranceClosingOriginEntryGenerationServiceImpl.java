@@ -230,13 +230,15 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
 
         ObjectCode objectCode = accountingCycleCachingService.getObjectCode(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialObjectCode());
         
-
         if (null != objectCode) {
 
             String financialObjectLevelCode = objectCode.getFinancialObjectLevelCode();
             String financialObjectCode = entry.getFinancialObjectCode();
             
-            String param = parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_BY_LEVEL_PARM_NM, financialObjectLevelCode);
+            String overriddenObjectCode = overrideCostShareObjectCode(financialObjectLevelCode, financialObjectCode);
+            
+            
+            String param = parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_BY_LEVEL_PARM_NM, overriddenObjectCode);
             if (param == null) {
                 param = parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_BY_LEVEL_PARM_NM, "DEFAULT");
                 if (param == null) {
@@ -498,7 +500,17 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
 
     }
     
+    /**
+     * 
+     * This method eases the institutional customization for Cost Sharing Object Codes for OriginEntries
+     * @param levelCode of the originEntry
+     * @param objectCode of the originEntry
+     * @return the new objectCode 
+     */
     
+    protected String overrideCostShareObjectCode(String levelCode, String objectCode){
+        return objectCode;
+    }
 
     /**
      * Gets the parameterService attribute. 

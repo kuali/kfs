@@ -45,6 +45,20 @@
     </property>
     <property name="relationships">
       <list>
+          <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="vendorDetail"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="vendorHeaderGeneratedIdentifier" p:targetName="vendorHeaderGeneratedIdentifier"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="vendorDetailAssignedIdentifier" p:targetName="vendorDetailAssignedIdentifier"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="vendorDetail.vendorName" p:targetName="vendorName"/>
+            </list>
+          </property>
+        </bean>
 		<dd:relationship objectAttribute="vendorCampus">
         	<dd:primitiveAttribute source="vendorCampusCode" target="campusCode"/>
 		</dd:relationship> 

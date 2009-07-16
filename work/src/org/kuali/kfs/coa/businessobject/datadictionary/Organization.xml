@@ -68,16 +68,21 @@
           <property name="objectAttributeName" value="organizationManagerUniversal"/>
           <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="organizationManagerUniversalId" p:targetName="principalName"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="organizationManagerUniversalId" p:targetName="principalId"/>
             </list>
           </property>
-          
+           <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="organizationManagerUniversal.principalName" p:targetName="principalName"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="organizationManagerUniversal.name" p:targetName="name"/>
+            </list>
+          </property>
         </bean>
         <bean parent="RelationshipDefinition">
           <property name="objectAttributeName" value="organizationExtension.hrmsPersonnelApproverUniversal"/>
           <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="organizationExtension.hrmsPersonnelApproverUniversalId" p:targetName="principalName"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="organizationExtension.hrmsPersonnelApproverUniversalId" p:targetName="principalId"/>
             </list>
           </property>
           
@@ -86,7 +91,7 @@
           <property name="objectAttributeName" value="organizationExtension.fiscalApproverUniversal"/>
           <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="organizationExtension.fiscalApproverUniversalId" p:targetName="principalName"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="organizationExtension.fiscalApproverUniversalId" p:targetName="principalId"/>
             </list>
           </property>
           

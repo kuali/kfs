@@ -56,7 +56,7 @@ import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -208,7 +208,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             LOG.error("error while getting file bytes:  " + e.getMessage(), e);
             throw new RuntimeException("Error encountered while attempting to get file bytes: " + e.getMessage(), e);
         }
-        catch (XMLParseException e1) {
+        catch (ParseException e1) {
             LOG.error("errors parsing xml " + e1.getMessage(), e1);
             MessageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML, new String[] { e1.getMessage() });
         }

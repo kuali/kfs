@@ -27,7 +27,7 @@ import org.kuali.kfs.fp.batch.service.ProcurementCardLoadTransactionsService;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTransaction;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
-import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
@@ -70,7 +70,7 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
             LOG.error("error while getting file bytes:  " + e.getMessage(), e);
             throw new RuntimeException("Error encountered while attempting to get file bytes: " + e.getMessage(), e);
         }
-        catch (XMLParseException e) {
+        catch (ParseException e) {
             LOG.error("Error parsing xml " + e.getMessage());
             throw new RuntimeException("Error parsing xml " + e.getMessage(), e);
         }

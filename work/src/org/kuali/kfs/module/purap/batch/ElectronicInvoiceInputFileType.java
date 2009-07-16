@@ -20,12 +20,12 @@ import java.io.File;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
-import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
+import org.kuali.kfs.sys.batch.XmlBatchInputFileTypeBase;
 
 /**
  * Batch input type for the electronic invoice job.
  */
-public class ElectronicInvoiceInputFileType extends BatchInputFileTypeBase {
+public class ElectronicInvoiceInputFileType extends XmlBatchInputFileTypeBase {
     
     /**
      * Returns the identifier of the electronic invoice file type

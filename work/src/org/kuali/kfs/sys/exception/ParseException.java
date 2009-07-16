@@ -16,21 +16,21 @@
 package org.kuali.kfs.sys.exception;
 
 /**
- * Exception thrown when an error occurs parsing xml contents.
+ * Exception thrown when an error occurs parsing contents
  */
-public class XMLParseException extends RuntimeException {
+public class ParseException extends RuntimeException {
 
     /**
      * @param message
      */
-    public XMLParseException(String message) {
+    public ParseException(String message) {
         super(message);
     }
 
     /**
      * @param message
      */
-    public XMLParseException(String message, Throwable t) {
+    public ParseException(String message, Throwable t) {
         super(message, t);
     }
 

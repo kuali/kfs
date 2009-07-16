@@ -78,7 +78,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
@@ -829,7 +829,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
       
       try {
           electronicInvoice = (ElectronicInvoice) batchInputFileService.parse(electronicInvoiceInputFileType, xmlAsBytes);
-      }catch (XMLParseException e) {
+      }catch (ParseException e) {
           throw new CxmlParseException(e.getMessage());
       }
       

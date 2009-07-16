@@ -42,7 +42,7 @@ import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
@@ -163,10 +163,10 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
         try {
             parsedObject = batchInputFileService.parse(batchInputFileType, fileByteContent);
         }
-        catch (XMLParseException e) {
+        catch (ParseException e) {
             LOG.error("Error parsing batch file: " + e.getMessage());
             writeInvoiceSectionMessage(pdfdoc, "Error parsing batch file: " + e.getMessage());
-            throw new XMLParseException(e.getMessage());
+            throw new ParseException(e.getMessage());
         }
         
         //  make sure we got the type we expected, then cast it

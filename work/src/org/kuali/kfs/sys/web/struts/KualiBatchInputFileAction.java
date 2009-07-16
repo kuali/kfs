@@ -41,7 +41,7 @@ import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.businessobject.BatchUpload;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
-import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
@@ -127,7 +127,7 @@ public class KualiBatchInputFileAction extends KualiAction {
         try {
             parsedObject = batchInputFileService.parse(batchType, fileByteContent);
         }
-        catch (XMLParseException e) {
+        catch (ParseException e) {
             LOG.error("errors parsing xml " + e.getMessage(), e);
             GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML, new String[] { e.getMessage() });
         }

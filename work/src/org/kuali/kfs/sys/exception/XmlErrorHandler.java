@@ -33,19 +33,19 @@ public class XmlErrorHandler implements ErrorHandler {
     public void warning(SAXParseException e) {
         String parseMessage = assembleMessage("warning", e);
         LOG.error(parseMessage);
-        throw new XMLParseException(parseMessage, e);
+        throw new ParseException(parseMessage, e);
     }
 
     public void error(SAXParseException e) {
         String parseMessage = assembleMessage("error", e);
         LOG.error(parseMessage);
-        throw new XMLParseException(parseMessage, e);
+        throw new ParseException(parseMessage, e);
     }
 
     public void fatalError(SAXParseException e) {
         String parseMessage = assembleMessage("fatal error", e);
         LOG.error(parseMessage);
-        throw new XMLParseException(parseMessage, e);
+        throw new ParseException(parseMessage, e);
     }
 
     private String assembleMessage(String messageType, SAXParseException e) {

@@ -26,7 +26,7 @@ import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.businessobject.LoadPaymentStatus;
 import org.kuali.kfs.pdp.businessobject.PaymentFileLoad;
 import org.kuali.kfs.pdp.service.PaymentFileService;
-import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
+import org.kuali.kfs.sys.batch.XmlBatchInputFileTypeBase;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -34,7 +34,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * Batch input type for the PDP payment file.
  */
-public class PaymentInputFileType extends BatchInputFileTypeBase {
+public class PaymentInputFileType extends XmlBatchInputFileTypeBase {
     private DateTimeService dateTimeService;
     private PaymentFileService paymentFileService;
 

@@ -28,7 +28,7 @@ import org.apache.commons.digester.Rules;
 import org.apache.commons.digester.xmlrules.DigesterLoader;
 import org.apache.commons.io.IOUtils;
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO;
-import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.kfs.sys.exception.XmlErrorHandler;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -61,7 +61,7 @@ public class CustomerLoadDigesterTest extends TestCase {
             parsedCustomers = digester.parse(sampleCustomerBatchFile);
         }
         catch (Exception e) {
-            throw new XMLParseException("Error parsing xml contents: " + e.getMessage(), e);
+            throw new ParseException("Error parsing xml contents: " + e.getMessage(), e);
         }
         
         assertNotNull("Parsed object should not be null.", parsedCustomers);

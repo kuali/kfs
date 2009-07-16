@@ -17,14 +17,14 @@ package org.kuali.kfs.module.purap.util.cxml;
 
 import java.io.File;
 
-import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
+import org.kuali.kfs.sys.batch.XmlBatchInputFileTypeBase;
 
 /**
  * This is the base class for all the b2b file type classes. All the methods in this class
  * returns a default value since there is no need to do anything in these methods in b2b.
  */
 
-public abstract class B2BFileTypeBase  extends BatchInputFileTypeBase{
+public abstract class B2BFileTypeBase  extends XmlBatchInputFileTypeBase{
 
     public String getFileName(String principalId, Object parsedFileContents, String fileUserIdentifer) {
         return null;

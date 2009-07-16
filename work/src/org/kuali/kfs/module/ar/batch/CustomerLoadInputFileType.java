@@ -24,12 +24,12 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.batch.service.CustomerLoadService;
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
+import org.kuali.kfs.sys.batch.XmlBatchInputFileTypeBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.service.DateTimeService;
 
-public class CustomerLoadInputFileType extends BatchInputFileTypeBase {
+public class CustomerLoadInputFileType extends XmlBatchInputFileTypeBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerLoadInputFileType.class);
 
     private static final String FILE_NAME_PREFIX = "customer_load";

@@ -21,13 +21,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.batch.service.CollectorHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
+import org.kuali.kfs.sys.batch.XmlBatchInputFileTypeBase;
 import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * Batch input type for the collector job.
  */
-public class CollectorInputFileType extends BatchInputFileTypeBase {
+public class CollectorInputFileType extends XmlBatchInputFileTypeBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectorInputFileType.class);
 
     private DateTimeService dateTimeService;

@@ -30,7 +30,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.kfs.sys.exception.ParseException;
 
 /**
  * Tests for the service parse method.
@@ -163,7 +163,7 @@ public class BatchInputServiceParseTest extends KualiTestBase {
         try {
             batchInputFileService.parse(pcdoBatchInputFileType, invalidTagOrderPCDOFileContents);
         }
-        catch (XMLParseException e) {
+        catch (ParseException e) {
             failedAsExpected = true;
         }
 
@@ -181,7 +181,7 @@ public class BatchInputServiceParseTest extends KualiTestBase {
         try {
             batchInputFileService.parse(pcdoBatchInputFileType, missingTagPCDOFileContents);
         }
-        catch (XMLParseException e) {
+        catch (ParseException e) {
             failedAsExpected = true;
         }
 
@@ -199,7 +199,7 @@ public class BatchInputServiceParseTest extends KualiTestBase {
         try {
             batchInputFileService.parse(collectorBatchInputFileType, invalidTagCollectorContents);
         }
-        catch (XMLParseException e) {
+        catch (ParseException e) {
             failedAsExpected = true;
         }
 

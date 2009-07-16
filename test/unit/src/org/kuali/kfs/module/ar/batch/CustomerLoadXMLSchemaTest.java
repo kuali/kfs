@@ -32,7 +32,7 @@ import javax.xml.validation.Validator;
 import junit.framework.TestCase;
 
 import org.apache.commons.io.IOUtils;
-import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.kfs.sys.exception.XmlErrorHandler;
 import org.xml.sax.SAXException;
 
@@ -88,7 +88,7 @@ public class CustomerLoadXMLSchemaTest extends TestCase {
      * @param fileContents - xml contents to validate against the schema
      */
     private void validateContentsAgainstSchema(InputStream schemaLocation, InputStream fileContents) 
-            throws XMLParseException, MalformedURLException, IOException, SAXException {
+            throws ParseException, MalformedURLException, IOException, SAXException {
         // create a SchemaFactory capable of understanding WXS schemas
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 

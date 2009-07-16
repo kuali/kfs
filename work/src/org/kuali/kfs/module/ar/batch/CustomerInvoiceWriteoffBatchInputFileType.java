@@ -20,12 +20,12 @@ import java.io.File;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
+import org.kuali.kfs.sys.batch.XmlBatchInputFileTypeBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.service.DateTimeService;
 
-public class CustomerInvoiceWriteoffBatchInputFileType extends BatchInputFileTypeBase {
+public class CustomerInvoiceWriteoffBatchInputFileType extends XmlBatchInputFileTypeBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceWriteoffBatchInputFileType.class);
 
     private static final String FILE_NAME_PREFIX = "customer_invoice_writeoff";

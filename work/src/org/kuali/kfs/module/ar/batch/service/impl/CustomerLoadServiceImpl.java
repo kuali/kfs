@@ -53,7 +53,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
-import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
@@ -205,10 +205,10 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         try {
             parsedObject = batchInputFileService.parse(batchInputFileType, fileByteContent);
         }
-        catch (XMLParseException e) {
+        catch (ParseException e) {
             LOG.error("Error parsing batch file: " + e.getMessage());
             reporter.addFileErrorMessage("Error parsing batch file: " + e.getMessage());
-            throw new XMLParseException(e.getMessage());
+            throw new ParseException(e.getMessage());
         }
         
         //  make sure we got the type we expected, then cast it

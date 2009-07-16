@@ -45,7 +45,7 @@ import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
-import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.kfs.sys.exception.XmlErrorHandler;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kim.bo.Person;
@@ -64,97 +64,17 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchInputFileServiceImpl.class);
 
     /**
-     * Uses the apache commons digestor to unmarshell the xml. The BatchInputFileType specifies the location of the digestor rules
-     * xml which tells the digestor how to build the object graph from the xml.
+     * Delegates to the batch input file type to parse the file.
      * 
      * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#parse(org.kuali.kfs.sys.batch.BatchInputFileType, byte[])
      */
-    public Object parse(BatchInputFileType batchInputFileType, byte[] fileByteContent) throws XMLParseException {
-        if (batchInputFileType == null || fileByteContent == null) {
-            LOG.error("an invalid(null) argument was given");
-            throw new IllegalArgumentException("an invalid(null) argument was given");
-        }
-
-        // handle zero byte contents, xml parsers don't deal with them well
-        if (fileByteContent.length == 0) {
-            LOG.error("an invalid argument was given, empty input stream");
-            throw new IllegalArgumentException("an invalid argument was given, empty input stream");
-        }
-
-        // validate contents against schema
-        ByteArrayInputStream validateFileContents = new ByteArrayInputStream(fileByteContent);
-        validateContentsAgainstSchema(batchInputFileType.getSchemaLocation(), validateFileContents);
-
-        // setup digester for parsing the xml file
-        Digester digester = buildDigester(batchInputFileType.getSchemaLocation(), batchInputFileType.getDigestorRulesFileName());
-
-        Object parsedContents = null;
+    public Object parse(BatchInputFileType batchInputFileType, byte[] fileByteContent) {
         try {
-            ByteArrayInputStream parseFileContents = new ByteArrayInputStream(fileByteContent);
-            parsedContents = digester.parse(parseFileContents);
+            return batchInputFileType.parse(fileByteContent);
         }
-        catch (Exception e) {
-            LOG.error("Error parsing xml contents", e);
-            throw new XMLParseException("Error parsing xml contents: " + e.getMessage(), e);
-        }
-
-        return parsedContents;
-    }
-
-    /**
-     * Validates the xml contents against the batch input type schema using the java 1.5 validation package.
-     * 
-     * @param schemaLocation - location of the schema file
-     * @param fileContents - xml contents to validate against the schema
-     */
-    private void validateContentsAgainstSchema(String schemaLocation, InputStream fileContents) throws XMLParseException {
-        // create a SchemaFactory capable of understanding WXS schemas
-        SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-
-        // get schemaFile
-        UrlResource schemaResource = null;
-        try {
-            schemaResource = new UrlResource(schemaLocation);
-        }
-        catch (MalformedURLException e2) {
-            LOG.error("error getting schema url: " + e2.getMessage());
-            throw new RuntimeException("error getting schema url:  " + e2.getMessage(), e2);
-        }
-
-        // load a WXS schema, represented by a Schema instance
-        Source schemaSource = null;
-        try {
-            schemaSource = new StreamSource(schemaResource.getInputStream());
-        }
-        catch (IOException e2) {
-            LOG.error("error getting schema stream from url: " + e2.getMessage());
-            throw new RuntimeException("error getting schema stream from url:   " + e2.getMessage(), e2);
-        }
-        
-        Schema schema = null;
-        try {
-            schema = factory.newSchema(schemaSource);
-        }
-        catch (SAXException e) {
-            LOG.error("error occured while setting schema file: " + e.getMessage());
-            throw new RuntimeException("error occured while setting schema file: " + e.getMessage(), e);
-        }    
-
-        // create a Validator instance, which can be used to validate an instance document
-        Validator validator = schema.newValidator();
-        validator.setErrorHandler(new XmlErrorHandler());
-
-        // validate
-        try {
-            validator.validate(new StreamSource(fileContents));
-        }
-        catch (SAXException e) {
-            LOG.error("error encountered while parsing xml " + e.getMessage());
-            throw new XMLParseException("Schema validation error occured while processing file: " + e.getMessage(), e);
-        }
-        catch (IOException e1) {
-            LOG.error("error occured while validating file contents: " + e1.getMessage());
-            throw new RuntimeException("error occured while validating file contents: " + e1.getMessage(), e1);
+        catch (ParseException e) {
+            LOG.error("Error encountered parsing file", e);
+            throw e;
         }
     }
 
@@ -171,7 +91,6 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
 
         boolean contentsValid = true;
         contentsValid = batchInputFileType.validate(parsedObject);
-
         return contentsValid;
     }
 
@@ -364,40 +283,6 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         public boolean accept(File dir, String name) {
             return name.endsWith(".done");
         }
-    }
-
-    /**
-     * @return fully-initialized Digester used to process entry XML files
-     */
-    private Digester buildDigester(String schemaLocation, String digestorRulesFileName) {
-        Digester digester = new Digester();
-        digester.setNamespaceAware(false);
-        digester.setValidating(true);
-        digester.setErrorHandler(new XmlErrorHandler());
-        digester.setSchema(schemaLocation);
-
-        Rules rules = loadRules(digestorRulesFileName);
-
-        digester.setRules(rules);
-
-        return digester;
-    }
-
-    /**
-     * @return Rules loaded from the appropriate XML file
-     */
-    private final Rules loadRules(String digestorRulesFileName) {
-        // locate Digester rules
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        URL rulesUrl = classLoader.getResource(digestorRulesFileName);
-        if (rulesUrl == null) {
-            throw new RuntimeException("unable to locate digester rules file " + digestorRulesFileName);
-        }
-
-        // create and init digester
-        Digester digester = DigesterLoader.createDigester(rulesUrl);
-
-        return digester.getRules();
     }
 
     /**

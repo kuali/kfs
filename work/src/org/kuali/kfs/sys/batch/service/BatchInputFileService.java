@@ -18,11 +18,11 @@ package org.kuali.kfs.sys.batch.service;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.List;
 
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.exception.FileStorageException;
-import org.kuali.kfs.sys.exception.XMLParseException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.AuthorizationException;
 
@@ -36,9 +36,8 @@ public interface BatchInputFileService {
      * @param batchInputFileType - batch input file type for the file to parse
      * @param fileByteContent - byte contents of file to parse
      * @return - Object built from the file contents based on its xml unmarshalling rules
-     * @throws XMLParseException - if there were errors encountered during parsing of the xml
      */
-    public Object parse(BatchInputFileType batchInputFileType, byte[] fileByteContent) throws XMLParseException;
+    public Object parse(BatchInputFileType batchInputFileType, byte[] fileByteContent);
 
     /**
      * Using the input type object parses and validates the file contents by calling validate on the batch input type. If there were

@@ -20,13 +20,13 @@ import java.io.File;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
+import org.kuali.kfs.sys.batch.XmlBatchInputFileTypeBase;
 import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * Batch input type for the procurement card job.
  */
-public class ProcurementCardInputFileType extends BatchInputFileTypeBase {
+public class ProcurementCardInputFileType extends XmlBatchInputFileTypeBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardInputFileType.class);
 
     private DateTimeService dateTimeService;

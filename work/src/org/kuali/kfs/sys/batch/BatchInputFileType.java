@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.batch;
 
-
+import org.kuali.kfs.sys.exception.ParseException;
 
 /**
  * Declares methods that must be implemented for batch input file type classes, which provides functionaliy needed to manage files
@@ -48,6 +48,8 @@ public interface BatchInputFileType extends BatchInputType {
      */
     public String getFileExtension();
 
+    public Object parse(byte[] fileByteContent) throws ParseException;
+    
     /**
      * Performs specific validation on the parsed file contents. If errors were found, method will return false and
      * GlobalVariables.errorMap will contain the error message. If no errors were encountered the method will return true.
@@ -63,15 +65,5 @@ public interface BatchInputFileType extends BatchInputType {
      * @param parsedFileContents objects populated with file contents
      */
     public void process(String fileName, Object parsedFileContents);
-
-    /**
-     * Returns the name with path for the digestor rules file that tells the digestor how to parse files of this type.
-     */
-    public String getDigestorRulesFileName();
-
-    /**
-     * Returns the schema classpath location for this batch type.
-     */
-    public String getSchemaLocation();
 }
 

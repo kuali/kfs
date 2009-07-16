@@ -202,7 +202,10 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGeneralLe
         ObjectCode financialObject = balance.getFinancialObject();
         String objectTypeCode = (financialObject == null) ? Constant.EMPTY_STRING : financialObject.getFinancialObjectTypeCode();
 
-        SystemOptions options = optionsService.getCurrentYearOptions();
+        SystemOptions options = getOptionsService().getOptions(balance.getUniversityFiscalYear());
+        if (ObjectUtils.isNull(options)) {
+            options = getOptionsService().getCurrentYearOptions();
+        }
         String[] objectTypeCodeList = new String[3];
         objectTypeCodeList[0] = options.getFinObjTypeExpendNotExpCode();
         objectTypeCodeList[1] = options.getFinObjTypeExpNotExpendCode();
@@ -296,5 +299,13 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGeneralLe
      */
     public void setOptionsService(OptionsService optionsService) {
         this.optionsService = optionsService;
+    }
+
+    /**
+     * Gets the optionsService attribute. 
+     * @return Returns the optionsService.
+     */
+    public OptionsService getOptionsService() {
+        return optionsService;
     }
 }

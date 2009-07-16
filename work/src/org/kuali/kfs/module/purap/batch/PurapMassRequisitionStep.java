@@ -55,6 +55,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -596,6 +597,7 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
             runIndicatorParameter.setParameterDescription(RUN_INDICATOR_PARAMETER_DESCRIPTION);
             runIndicatorParameter.setParameterConstraintCode(RUN_INDICATOR_PARAMETER_ALLOWED);
             runIndicatorParameter.setParameterTypeCode(RUN_INDICATOR_PARAMETER_TYPE);
+            runIndicatorParameter.setParameterApplicationNamespaceCode(KNSConstants.DEFAULT_APPLICATION_CODE);
         }
         runIndicatorParameter.setParameterValue(RUN_INDICATOR_PARAMETER_VALUE);
         boService.save(runIndicatorParameter);

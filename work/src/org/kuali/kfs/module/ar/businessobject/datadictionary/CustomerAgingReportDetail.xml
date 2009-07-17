@@ -9,20 +9,22 @@
     </property>
     <property name="objectLabel" value="Customer Aging Report"/>
     <property name="attributes">
-      <list>
-          <ref bean="CustomerAgingReportDetail-reportOption"/>
-    	<ref bean="CustomerAgingReportDetail-chartOfAccountsCode"/>
-	<ref bean="CustomerAgingReportDetail-organizationCode"/>
-	<ref bean="CustomerAgingReportDetail-accountNumber"/> 
-	<ref bean="CustomerAgingReportDetail-reportRunDate"/>         
-          <ref bean="CustomerAgingReportDetail-customerName"/>
-	<ref bean="CustomerAgingReportDetail-customerNumber"/>
-	<ref bean="CustomerAgingReportDetail-unpaidBalance0to30"/>
-	<ref bean="CustomerAgingReportDetail-unpaidBalance31to60"/>
-	<ref bean="CustomerAgingReportDetail-unpaidBalance61to90"/>
-          <ref bean="CustomerAgingReportDetail-unpaidBalance91toSYSPR"/>
-          <ref bean="CustomerAgingReportDetail-unpaidBalanceSYSPRplus1orMore"/>
-      </list>
+    	<list>
+          	<ref bean="CustomerAgingReportDetail-reportOption"/>
+    	  	<!-- <ref bean="CustomerAgingReportDetail-chartOfAccountsCode"/> -->
+    	  	<ref bean="CustomerAgingReportDetail-processingOrBillingChartOfAccountsCode"/>
+		  	<ref bean="CustomerAgingReportDetail-organizationCode"/>
+    	  	<ref bean="CustomerAgingReportDetail-accountChartOfAccountsCode"/>
+			<ref bean="CustomerAgingReportDetail-accountNumber"/> 
+			<ref bean="CustomerAgingReportDetail-reportRunDate"/>         
+          	<ref bean="CustomerAgingReportDetail-customerName"/>
+			<ref bean="CustomerAgingReportDetail-customerNumber"/>
+			<ref bean="CustomerAgingReportDetail-unpaidBalance0to30"/>
+			<ref bean="CustomerAgingReportDetail-unpaidBalance31to60"/>
+			<ref bean="CustomerAgingReportDetail-unpaidBalance61to90"/>
+          	<ref bean="CustomerAgingReportDetail-unpaidBalance91toSYSPR"/>
+          	<ref bean="CustomerAgingReportDetail-unpaidBalanceSYSPRplus1orMore"/>
+      	</list>
     </property>
   </bean>
 
@@ -43,11 +45,29 @@
     </property>
  </bean>
 
+<!-- 
 <bean id="CustomerAgingReportDetail-chartOfAccountsCode" parent="CustomerAgingReportDetail-chartOfAccountsCode-parentBean"/>
-<bean id="CustomerAgingReportDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode"/>
+<bean id="CustomerAgingReportDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+	<property name="label" value="Processing/Billing Chart Code"/>
+</bean>
+-->
+
+<bean id="CustomerAgingReportDetail-processingOrBillingChartOfAccountsCode" parent="CustomerAgingReportDetail-processingOrBillingChartOfAccountsCode-parentBean"/>
+<bean id="CustomerAgingReportDetail-processingOrBillingChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+	<property name="name" value="processingOrBillingChartOfAccountsCode"/>
+	<property name="label" value="Processing/Billing Chart Code"/>
+</bean>
 
 <bean id="CustomerAgingReportDetail-organizationCode" parent="CustomerAgingReportDetail-organizationCode-parentBean"/>
-<bean id="CustomerAgingReportDetail-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode"/>
+<bean id="CustomerAgingReportDetail-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+	<property name="label" value="Processing/Billing Organization Code"/>
+</bean>
+
+<bean id="CustomerAgingReportDetail-accountChartOfAccountsCode" parent="CustomerAgingReportDetail-accountChartOfAccountsCode-parentBean"/>
+<bean id="CustomerAgingReportDetail-accountChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+	<property name="name" value="accountChartOfAccountsCode"/>
+	<property name="label" value="Account Chart Code"/>
+</bean>
 
 <bean id="CustomerAgingReportDetail-accountNumber" parent="CustomerAgingReportDetail-accountNumber-parentBean"/>
 <bean id="CustomerAgingReportDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber"/>
@@ -135,21 +155,22 @@
     <property name="lookupFields">
       <list>
         <bean parent="FieldDefinition" p:noLookup="true" p:attributeName="reportOption" p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.options.CustomerAgingReportValuesFinder"/>	          
-        <bean parent="FieldDefinition" p:required="true" p:attributeName="chartOfAccountsCode" p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.ChartOrganizationAccountingDefaultValueFinder"/>
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="processingOrBillingChartOfAccountsCode" p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.ChartOrganizationAccountingDefaultValueFinder"/>
         <bean parent="FieldDefinition" p:required="true" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="accountChartOfAccountsCode" p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.ChartOrganizationAccountingDefaultValueFinder"/>
         <bean parent="FieldDefinition" p:required="true" p:attributeName="accountNumber" p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.AccountOrganizationAccountingDefaultValueFinder"/>
-         <bean parent="FieldDefinition" p:required="true" p:attributeName="reportRunDate" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>              
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="reportRunDate" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>              
       </list>
     </property>
     <property name="resultFields">
       <list>
 	    <bean parent="FieldDefinition" p:attributeName="customerName"/>
-          <bean parent="FieldDefinition" p:attributeName="customerNumber"/>
-          <bean parent="FieldDefinition" p:attributeName="unpaidBalance0to30"/>
-          <bean parent="FieldDefinition" p:attributeName="unpaidBalance31to60"/>
-          <bean parent="FieldDefinition" p:attributeName="unpaidBalance61to90"/>
-          <bean parent="FieldDefinition" p:attributeName="unpaidBalance91toSYSPR"/>
-          <bean parent="FieldDefinition" p:attributeName="unpaidBalanceSYSPRplus1orMore"/>
+        <bean parent="FieldDefinition" p:attributeName="customerNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="unpaidBalance0to30"/>
+        <bean parent="FieldDefinition" p:attributeName="unpaidBalance31to60"/>
+        <bean parent="FieldDefinition" p:attributeName="unpaidBalance61to90"/>
+        <bean parent="FieldDefinition" p:attributeName="unpaidBalance91toSYSPR"/>
+        <bean parent="FieldDefinition" p:attributeName="unpaidBalanceSYSPRplus1orMore"/>
       </list>
     </property>
   </bean>

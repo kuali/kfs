@@ -29,7 +29,9 @@ public class CustomerAgingReportDetail extends TransientBusinessObjectBase {
 
 private String customerName;
 private String customerNumber;
-private String chartOfAccountsCode;
+//private String chartOfAccountsCode;
+private String processingOrBillingChartOfAccountsCode;
+private String accountChartOfAccountsCode;
 private String organizationCode;
 private String accountNumber;
 private String reportOption = ArConstants.CustomerAgingReportFields.PROCESSING_ORG;
@@ -69,12 +71,44 @@ private KualiDecimal unpaidBalanceSYSPRplus1orMore = KualiDecimal.ZERO;
         this.customerNumber = customerNumber;
     }
 
-    public String getChartOfAccountsCode() {
-        return chartOfAccountsCode;
+//    public String getChartOfAccountsCode() {
+//        return chartOfAccountsCode;
+//    }
+//
+//    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+//        this.chartOfAccountsCode = chartOfAccountsCode;
+//    }
+//
+    /**
+     * Gets the processingOrBillingChartOfAccountsCode attribute. 
+     * @return Returns the processingOrBillingChartOfAccountsCode.
+     */
+    public String getProcessingOrBillingChartOfAccountsCode() {
+        return processingOrBillingChartOfAccountsCode;
     }
 
-    public void setChartOfAccountsCode(String chartOfAccountsCode) {
-        this.chartOfAccountsCode = chartOfAccountsCode;
+    /**
+     * Sets the processingOrBillingChartOfAccountsCode attribute value.
+     * @param processingOrBillingChartOfAccountsCode The processingOrBillingChartOfAccountsCode to set.
+     */
+    public void setProcessingOrBillingChartOfAccountsCode(String processingOrBillingChartOfAccountsCode) {
+        this.processingOrBillingChartOfAccountsCode = processingOrBillingChartOfAccountsCode;
+    }
+
+    /**
+     * Gets the accountChartOfAccountsCode attribute. 
+     * @return Returns the accountChartOfAccountsCode.
+     */
+    public String getAccountChartOfAccountsCode() {
+        return accountChartOfAccountsCode;
+    }
+
+    /**
+     * Sets the accountChartOfAccountsCode attribute value.
+     * @param accountChartOfAccountsCode The accountChartOfAccountsCode to set.
+     */
+    public void setAccountChartOfAccountsCode(String accountChartOfAccountsCode) {
+        this.accountChartOfAccountsCode = accountChartOfAccountsCode;
     }
 
     public String getOrganizationCode() {

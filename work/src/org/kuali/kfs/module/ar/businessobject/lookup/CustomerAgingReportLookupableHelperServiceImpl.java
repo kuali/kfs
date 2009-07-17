@@ -39,6 +39,7 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.web.struts.CustomerAgingReportForm;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
@@ -93,7 +94,9 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private Date reportRunDate;
     private String reportOption;
     private String accountNumber;
-    private String chartCode;
+//    private String chartCode;
+    private String processingOrBillingChartCode;
+    private String accountChartCode;
     private String orgCode;
     private String nbrDaysForLastBucket = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerAgingReportDetail.class, "CUSTOMER_INVOICE_AGE"); // ArConstants.CUSTOMER_INVOICE_AGE);
     // default is 120 days
@@ -115,7 +118,9 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
         reportOption = (String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION);
         accountNumber = (String) fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
-        chartCode = (String) fieldValues.get(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
+//        chartCode = (String) fieldValues.get(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
+        processingOrBillingChartCode = (String) fieldValues.get("processingOrBillingChartOfAccountsCode");
+        accountChartCode = (String) fieldValues.get("accountChartOfAccountsCode");
         orgCode = (String) fieldValues.get(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
 
 
@@ -151,20 +156,20 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Map<String, CustomerAgingReportDetail> knownCustomers = new HashMap<String, CustomerAgingReportDetail>();
 
         CustomerAgingReportDetail custDetail;
-        if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.PROCESSING_ORG) && StringUtils.isNotBlank(chartCode) && StringUtils.isNotBlank(orgCode)) {
-            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
+        if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.PROCESSING_ORG) && StringUtils.isNotBlank(processingOrBillingChartCode) && StringUtils.isNotBlank(orgCode)) {
+            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByProcessingChartAndOrg(processingOrBillingChartCode, orgCode);
             for (CustomerInvoiceDocument ci : invoices) {
-                iterateCustomerInvoiceDetails(ci, customerInvoiceDetailService.getCustomerInvoiceDetailsForInvoice(ci.getDocumentNumber()), cutoffdate30, cutoffdate60, cutoffdate90, cutoffdate120, knownCustomers);
+                iterateCustomerInvoiceDetails(customerInvoiceDetailService.getCustomerInvoiceDetailsForInvoice(ci.getDocumentNumber()), cutoffdate30, cutoffdate60, cutoffdate90, cutoffdate120, knownCustomers);
             }
         }
-        if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.BILLING_ORG) && StringUtils.isNotBlank(chartCode) && StringUtils.isNotBlank(orgCode)) {
-            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode);
+        if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.BILLING_ORG) && StringUtils.isNotBlank(processingOrBillingChartCode) && StringUtils.isNotBlank(orgCode)) {
+            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByBillingChartAndOrg(processingOrBillingChartCode, orgCode);
             for (CustomerInvoiceDocument ci : invoices) {
-                iterateCustomerInvoiceDetails(ci, customerInvoiceDetailService.getCustomerInvoiceDetailsForInvoice(ci.getDocumentNumber()), cutoffdate30, cutoffdate60, cutoffdate90, cutoffdate120, knownCustomers);
+                iterateCustomerInvoiceDetails(customerInvoiceDetailService.getCustomerInvoiceDetailsForInvoice(ci.getDocumentNumber()), cutoffdate30, cutoffdate60, cutoffdate90, cutoffdate120, knownCustomers);
             }
         }
         if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.ACCT) && accountNumber.length() != 0) {
-            iterateCustomerInvoiceDetails(null, getCustomerInvoiceDetailsByAccountNumber(accountNumber), cutoffdate30, cutoffdate60, cutoffdate90, cutoffdate120, knownCustomers);
+            iterateCustomerInvoiceDetails(getCustomerInvoiceDetailsByAccountNumber(accountChartCode, accountNumber), cutoffdate30, cutoffdate60, cutoffdate90, cutoffdate120, knownCustomers);
         }
 
         List<CustomerAgingReportDetail> results = new ArrayList<CustomerAgingReportDetail>();
@@ -175,18 +180,16 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         return new CollectionIncomplete<CustomerAgingReportDetail>(results, (long) results.size());
     }
 
-    private void iterateCustomerInvoiceDetails(CustomerInvoiceDocument invoice, Collection<CustomerInvoiceDetail> invoiceDetails, Date cutoffdate30, Date cutoffdate60, Date cutoffdate90, Date cutoffdate120, Map<String, CustomerAgingReportDetail> knownCustomers) {
+    private void iterateCustomerInvoiceDetails(Collection<CustomerInvoiceDetail> invoiceDetails, Date cutoffdate30, Date cutoffdate60, Date cutoffdate90, Date cutoffdate120, Map<String, CustomerAgingReportDetail> knownCustomers) {
+        CustomerInvoiceDocument custInvoice;
         CustomerAgingReportDetail custDetail;
-        CustomerInvoiceDocument custInvoice = invoice;
         // iterate over all invoices consolidating balances for each customer
         for (CustomerInvoiceDetail cid : invoiceDetails) {
             // ignore the discount line
             if (cid.getAmount().isPositive()) {
 
                 String invoiceDocumentNumber = cid.getDocumentNumber();
-                if (custInvoice == null) {
-                    custInvoice = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
-                }
+                custInvoice = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
                 cid.setCustomerInvoiceDocument(custInvoice);
                 Date approvalDate = null;
                 if (custInvoice != null) {
@@ -259,9 +262,10 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
      * @return a List of the CustomerInvoiceDetails associated with a given Account Number
      */
     @SuppressWarnings("unchecked")
-    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsByAccountNumber(String accountNumber) {
+    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsByAccountNumber(String chartCode, String accountNumber) {
         Map args = new HashMap();
-        args.put("accountNumber", accountNumber);
+        args.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
+        args.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
         return businessObjectService.findMatching(CustomerInvoiceDetail.class, args);
     }
 
@@ -489,13 +493,13 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
                 detail.getCustomerNumber() + "&customerName=" + detail.getCustomerName();
         // Report Option
         href += "&reportOption=" + reportOption;
-        if (reportOption.equals(ArConstants.CustomerAgingReportFields.ACCT))
+        if (reportOption.equals(ArConstants.CustomerAgingReportFields.ACCT)) {
             // Account Number
-            href += "&accountNumber=" + accountNumber;
-        else
+            href += "&accountChartOfAccountsCode=" + accountChartCode + "&accountNumber=" + accountNumber;
+        } else {
             // Chart Code, Organization Code
-            href += "&chartCode=" + chartCode + "&orgCode=" + orgCode;
-
+            href += "&processingOrBillingChartCode=" + processingOrBillingChartCode + "&orgCode=" + orgCode;
+        }
         // Report Run Date
         DateFormatter dateFormatter = new DateFormatter();
         href += "&reportRunDate=" + dateFormatter.format(reportRunDate).toString();

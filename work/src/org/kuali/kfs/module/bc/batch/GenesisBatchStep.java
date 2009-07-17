@@ -42,6 +42,7 @@ public class GenesisBatchStep extends AbstractStep {
     private static final String RUN_INDICATOR_PARAMETER_ALLOWED = "A";
     private static final String RUN_INDICATOR_PARAMETER_DESCRIPTION = "Tells the job framework whether to run this job or not; set to know because the GenesisBatchJob needs to only be run once after database initialization.";
     private static final String RUN_INDICATOR_PARAMETER_TYPE = "CONFG";
+    private static final String RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE = "KUALI";
     
     
 
@@ -67,6 +68,7 @@ public class GenesisBatchStep extends AbstractStep {
            runIndicatorParameter.setParameterDescription(GenesisBatchStep.RUN_INDICATOR_PARAMETER_DESCRIPTION);
            runIndicatorParameter.setParameterConstraintCode(GenesisBatchStep.RUN_INDICATOR_PARAMETER_ALLOWED);
            runIndicatorParameter.setParameterTypeCode(GenesisBatchStep.RUN_INDICATOR_PARAMETER_TYPE);
+           runIndicatorParameter.setParameterApplicationNamespaceCode(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE);
         }
         runIndicatorParameter.setParameterValue(GenesisBatchStep.RUN_INDICATOR_PARAMETER_VALUE);
         boService.save(runIndicatorParameter);

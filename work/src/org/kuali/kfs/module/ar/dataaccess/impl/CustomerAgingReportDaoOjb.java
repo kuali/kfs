@@ -43,7 +43,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         if (end != null) {
             criteria.addLessOrEqualThan("customerInvoiceDocument.billingDate", end);
         }
-        criteria.addIn("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", Arrays.asList(KFSConstants.DocumentStatusCodes.APPROVED));
+        criteria.addEqualTo("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
         criteria.addEqualTo("customerInvoiceDocument.accountsReceivableDocumentHeader.processingChartOfAccountCode", chart);
         criteria.addEqualTo("customerInvoiceDocument.accountsReceivableDocumentHeader.processingOrganizationCode", org);
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(CustomerInvoiceDetail.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.customerName", "sum(amount)" }, criteria);
@@ -135,7 +135,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         if (end != null) {
             criteria.addLessOrEqualThan("customerInvoiceDocument.billingDate", end);
         }
-        criteria.addIn("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", Arrays.asList(KFSConstants.DocumentStatusCodes.APPROVED));
+        criteria.addEqualTo("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
         criteria.addEqualTo("customerInvoiceDocument.billByChartOfAccountCode", chart);
         criteria.addEqualTo("customerInvoiceDocument.billedByOrganizationCode", org);
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(CustomerInvoiceDetail.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.customerName", "sum(amount)" }, criteria);
@@ -227,7 +227,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         if (end != null) {
             criteria.addLessOrEqualThan("customerInvoiceDocument.billingDate", end);
         }
-        criteria.addIn("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", Arrays.asList(KFSConstants.DocumentStatusCodes.APPROVED));
+        criteria.addEqualTo("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
         criteria.addEqualTo("customerInvoiceDocument.billByChartOfAccountCode", chart);
         criteria.addEqualTo("accountNumber", account);
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(CustomerInvoiceDetail.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.customerName", "sum(amount)" }, criteria);

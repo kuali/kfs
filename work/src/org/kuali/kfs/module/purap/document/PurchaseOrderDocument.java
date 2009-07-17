@@ -663,9 +663,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         LOG.debug("doRouteStatusChange() started");
         super.doRouteStatusChange(statusChangeEvent);
-
+        String currentDocumentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(this.getClass());
         // child classes need to call super, but we don't want to inherit the post-processing done by this PO class other than to the Split
-        if (PurchaseOrderDocument.class.getName().equals(this.getClass().getName()) || PurchaseOrderSplitDocument.class.getName().equals(this.getClass().getName())) { 
+        if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT.equals(currentDocumentTypeName) || PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT.equals(currentDocumentTypeName)) { 
             try {
                 // DOCUMENT PROCESSED
                 if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {

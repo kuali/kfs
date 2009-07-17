@@ -48,7 +48,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         criteria.addEqualTo("customerInvoiceDocument.accountsReceivableDocumentHeader.processingOrganizationCode", org);
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(CustomerInvoiceDetail.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.customerName", "sum(amount)" }, criteria);
         reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber");
-        reportByCriteria.addGroupBy("customerInvoiceDocument.customerName");
+        reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName");
         Iterator<?> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportByCriteria);
 
         while (iterator != null && iterator.hasNext()) {
@@ -76,7 +76,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         criteria.addEqualTo("customerInvoiceDocument.accountsReceivableDocumentHeader.processingOrganizationCode", org);
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(InvoicePaidApplied.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.customerName", "sum(invoiceItemAppliedAmount)" }, criteria);
         reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber");
-        reportByCriteria.addGroupBy("customerInvoiceDocument.customerName");
+        reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName");
         Iterator<?> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportByCriteria);
 
         while (iterator != null && iterator.hasNext()) {
@@ -111,7 +111,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         criteria.addIn("sequenceNumber", subReportQuery);
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(CustomerInvoiceDetail.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.customerName", "sum(amount)" }, criteria);
         reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber");
-        reportByCriteria.addGroupBy("customerInvoiceDocument.customerName");
+        reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName");
         Iterator<?> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportByCriteria);
 
         while (iterator != null && iterator.hasNext()) {
@@ -140,7 +140,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         criteria.addEqualTo("customerInvoiceDocument.billedByOrganizationCode", org);
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(CustomerInvoiceDetail.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.customerName", "sum(amount)" }, criteria);
         reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber");
-        reportByCriteria.addGroupBy("customerInvoiceDocument.customerName");
+        reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName");
         Iterator<?> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportByCriteria);
 
         while (iterator != null && iterator.hasNext()) {
@@ -168,7 +168,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         criteria.addEqualTo("customerInvoiceDocument.billedByOrganizationCode", org);
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(InvoicePaidApplied.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.customerName", "sum(invoiceItemAppliedAmount)" }, criteria);
         reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber");
-        reportByCriteria.addGroupBy("customerInvoiceDocument.customerName");
+        reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName");
         Iterator<?> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportByCriteria);
 
         while (iterator != null && iterator.hasNext()) {
@@ -203,7 +203,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         criteria.addIn("sequenceNumber", subReportQuery);
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(CustomerInvoiceDetail.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.customerName", "sum(amount)" }, criteria);
         reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber");
-        reportByCriteria.addGroupBy("customerInvoiceDocument.customerName");
+        reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName");
         Iterator<?> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportByCriteria);
 
         while (iterator != null && iterator.hasNext()) {
@@ -232,7 +232,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         criteria.addEqualTo("accountNumber", account);
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(CustomerInvoiceDetail.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.customerName", "sum(amount)" }, criteria);
         reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber");
-        reportByCriteria.addGroupBy("customerInvoiceDocument.customerName");
+        reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName");
         Iterator<?> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportByCriteria);
 
         while (iterator != null && iterator.hasNext()) {
@@ -260,7 +260,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         criteria.addEqualTo("invoiceDetail.accountNumber", account);
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(InvoicePaidApplied.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.customerName", "sum(invoiceItemAppliedAmount)" }, criteria);
         reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber");
-        reportByCriteria.addGroupBy("customerInvoiceDocument.customerName");
+        reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName");
         Iterator<?> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportByCriteria);
 
         while (iterator != null && iterator.hasNext()) {
@@ -295,7 +295,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         criteria.addIn("sequenceNumber", subReportQuery);
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(CustomerInvoiceDetail.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.customerName", "sum(amount)" }, criteria);
         reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber");
-        reportByCriteria.addGroupBy("customerInvoiceDocument.customerName");
+        reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName");
         Iterator<?> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportByCriteria);
 
         while (iterator != null && iterator.hasNext()) {

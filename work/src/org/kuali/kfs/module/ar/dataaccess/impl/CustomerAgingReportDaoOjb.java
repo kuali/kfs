@@ -29,6 +29,11 @@ import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implements CustomerAgingReportDao {
+    
+    /**
+     * 
+     * @see org.kuali.kfs.module.ar.dataaccess.CustomerAgingReportDao#findInvoiceAmountByProcessingChartAndOrg(java.lang.String, java.lang.String, java.sql.Date, java.sql.Date)
+     */
     public HashMap<String, KualiDecimal> findInvoiceAmountByProcessingChartAndOrg(String chart, String org, java.sql.Date begin, java.sql.Date end) {
         HashMap<String, KualiDecimal> map = new HashMap<String, KualiDecimal>();
         Criteria criteria = new Criteria();
@@ -38,7 +43,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         if (end != null) {
             criteria.addLessOrEqualThan("customerInvoiceDocument.billingDate", end);
         }
-        criteria.addIn("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", Arrays.asList(KFSConstants.DocumentStatusCodes.APPROVED, KFSConstants.DocumentStatusCodes.ENROUTE));
+        criteria.addIn("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", Arrays.asList(KFSConstants.DocumentStatusCodes.APPROVED));
         criteria.addEqualTo("customerInvoiceDocument.accountsReceivableDocumentHeader.processingChartOfAccountCode", chart);
         criteria.addEqualTo("customerInvoiceDocument.accountsReceivableDocumentHeader.processingOrganizationCode", org);
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(CustomerInvoiceDetail.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.customerName", "sum(amount)" }, criteria);
@@ -53,6 +58,10 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         return map;
     }
 
+    /**
+     * 
+     * @see org.kuali.kfs.module.ar.dataaccess.CustomerAgingReportDao#findAppliedAmountByProcessingChartAndOrg(java.lang.String, java.lang.String, java.sql.Date, java.sql.Date)
+     */
     public HashMap<String, KualiDecimal> findAppliedAmountByProcessingChartAndOrg(String chart, String org, java.sql.Date begin, java.sql.Date end) {
         HashMap<String, KualiDecimal> map = new HashMap<String, KualiDecimal>();
         Criteria criteria = new Criteria();
@@ -77,6 +86,10 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         return map;
     }
 
+    /**
+     * 
+     * @see org.kuali.kfs.module.ar.dataaccess.CustomerAgingReportDao#findDiscountAmountByProcessingChartAndOrg(java.lang.String, java.lang.String, java.sql.Date, java.sql.Date)
+     */
     public HashMap<String, KualiDecimal> findDiscountAmountByProcessingChartAndOrg(String chart, String org, java.sql.Date begin, java.sql.Date end) {
 
         HashMap<String, KualiDecimal> map = new HashMap<String, KualiDecimal>();
@@ -87,7 +100,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         if (end != null) {
             subCriteria.addLessOrEqualThan("customerInvoiceDocument.billingDate", end);
         }
-        subCriteria.addEqualTo("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.ENROUTE);
+        subCriteria.addEqualTo("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
         subCriteria.addEqualTo("customerInvoiceDocument.accountsReceivableDocumentHeader.processingChartOfAccountCode", chart);
         subCriteria.addEqualTo("customerInvoiceDocument.accountsReceivableDocumentHeader.processingOrganizationCode", org);
         subCriteria.addEqualToField("documentNumber", Criteria.PARENT_QUERY_PREFIX + "documentNumber");
@@ -109,6 +122,10 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
 
     }
 
+    /**
+     * 
+     * @see org.kuali.kfs.module.ar.dataaccess.CustomerAgingReportDao#findInvoiceAmountByBillingChartAndOrg(java.lang.String, java.lang.String, java.sql.Date, java.sql.Date)
+     */
     public HashMap<String, KualiDecimal> findInvoiceAmountByBillingChartAndOrg(String chart, String org, java.sql.Date begin, java.sql.Date end) {
         HashMap<String, KualiDecimal> map = new HashMap<String, KualiDecimal>();
         Criteria criteria = new Criteria();
@@ -118,7 +135,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         if (end != null) {
             criteria.addLessOrEqualThan("customerInvoiceDocument.billingDate", end);
         }
-        criteria.addIn("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", Arrays.asList(KFSConstants.DocumentStatusCodes.APPROVED, KFSConstants.DocumentStatusCodes.ENROUTE));
+        criteria.addIn("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", Arrays.asList(KFSConstants.DocumentStatusCodes.APPROVED));
         criteria.addEqualTo("customerInvoiceDocument.billByChartOfAccountCode", chart);
         criteria.addEqualTo("customerInvoiceDocument.billedByOrganizationCode", org);
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(CustomerInvoiceDetail.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.customerName", "sum(amount)" }, criteria);
@@ -133,6 +150,10 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         return map;
     }
 
+    /**
+     * 
+     * @see org.kuali.kfs.module.ar.dataaccess.CustomerAgingReportDao#findAppliedAmountByBillingChartAndOrg(java.lang.String, java.lang.String, java.sql.Date, java.sql.Date)
+     */
     public HashMap<String, KualiDecimal> findAppliedAmountByBillingChartAndOrg(String chart, String org, java.sql.Date begin, java.sql.Date end) {
         HashMap<String, KualiDecimal> map = new HashMap<String, KualiDecimal>();
         Criteria criteria = new Criteria();
@@ -157,6 +178,10 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         return map;
     }
 
+    /**
+     * 
+     * @see org.kuali.kfs.module.ar.dataaccess.CustomerAgingReportDao#findDiscountAmountByBillingChartAndOrg(java.lang.String, java.lang.String, java.sql.Date, java.sql.Date)
+     */
     public HashMap<String, KualiDecimal> findDiscountAmountByBillingChartAndOrg(String chart, String org, java.sql.Date begin, java.sql.Date end) {
 
         HashMap<String, KualiDecimal> map = new HashMap<String, KualiDecimal>();
@@ -167,7 +192,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         if (end != null) {
             subCriteria.addLessOrEqualThan("customerInvoiceDocument.billingDate", end);
         }
-        subCriteria.addEqualTo("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.ENROUTE);
+        subCriteria.addEqualTo("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
         subCriteria.addEqualTo("customerInvoiceDocument.billByChartOfAccountCode", chart);
         subCriteria.addEqualTo("customerInvoiceDocument.billedByOrganizationCode", org);
         subCriteria.addEqualToField("documentNumber", Criteria.PARENT_QUERY_PREFIX + "documentNumber");
@@ -189,6 +214,10 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
 
     }
 
+    /**
+     * 
+     * @see org.kuali.kfs.module.ar.dataaccess.CustomerAgingReportDao#findInvoiceAmountByAccount(java.lang.String, java.lang.String, java.sql.Date, java.sql.Date)
+     */
     public HashMap<String, KualiDecimal> findInvoiceAmountByAccount(String chart, String account, java.sql.Date begin, java.sql.Date end) {
         HashMap<String, KualiDecimal> map = new HashMap<String, KualiDecimal>();
         Criteria criteria = new Criteria();
@@ -198,8 +227,8 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         if (end != null) {
             criteria.addLessOrEqualThan("customerInvoiceDocument.billingDate", end);
         }
-        criteria.addIn("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", Arrays.asList(KFSConstants.DocumentStatusCodes.APPROVED, KFSConstants.DocumentStatusCodes.ENROUTE));
-        // criteria.addEqualTo("customerInvoiceDocument.billByChartOfAccountCode", chart);
+        criteria.addIn("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", Arrays.asList(KFSConstants.DocumentStatusCodes.APPROVED));
+        criteria.addEqualTo("customerInvoiceDocument.billByChartOfAccountCode", chart);
         criteria.addEqualTo("accountNumber", account);
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(CustomerInvoiceDetail.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.customerName", "sum(amount)" }, criteria);
         reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber");
@@ -213,6 +242,10 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         return map;
     }
 
+    /**
+     * 
+     * @see org.kuali.kfs.module.ar.dataaccess.CustomerAgingReportDao#findAppliedAmountByAccount(java.lang.String, java.lang.String, java.sql.Date, java.sql.Date)
+     */
     public HashMap<String, KualiDecimal> findAppliedAmountByAccount(String chart, String account, java.sql.Date begin, java.sql.Date end) {
         HashMap<String, KualiDecimal> map = new HashMap<String, KualiDecimal>();
         Criteria criteria = new Criteria();
@@ -223,7 +256,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
             criteria.addLessOrEqualThan("customerInvoiceDocument.billingDate", end);
         }
         criteria.addEqualTo("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
-        // criteria.addEqualTo("customerInvoiceDocument.billByChartOfAccountCode", chart);
+        criteria.addEqualTo("customerInvoiceDocument.billByChartOfAccountCode", chart);
         criteria.addEqualTo("invoiceDetail.accountNumber", account);
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(InvoicePaidApplied.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.customerName", "sum(invoiceItemAppliedAmount)" }, criteria);
         reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber");
@@ -237,6 +270,10 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         return map;
     }
 
+    /**
+     * 
+     * @see org.kuali.kfs.module.ar.dataaccess.CustomerAgingReportDao#findDiscountAmountByAccount(java.lang.String, java.lang.String, java.sql.Date, java.sql.Date)
+     */
     public HashMap<String, KualiDecimal> findDiscountAmountByAccount(String chart, String account, java.sql.Date begin, java.sql.Date end) {
 
         HashMap<String, KualiDecimal> map = new HashMap<String, KualiDecimal>();
@@ -247,8 +284,8 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         if (end != null) {
             subCriteria.addLessOrEqualThan("customerInvoiceDocument.billingDate", end);
         }
-        subCriteria.addEqualTo("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.ENROUTE);
-        // subCriteria.addEqualTo("customerInvoiceDocument.billByChartOfAccountCode", chart);
+        subCriteria.addEqualTo("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+        subCriteria.addEqualTo("customerInvoiceDocument.billByChartOfAccountCode", chart);
         subCriteria.addEqualTo("accountNumber", account);
         subCriteria.addEqualToField("documentNumber", Criteria.PARENT_QUERY_PREFIX + "documentNumber");
 

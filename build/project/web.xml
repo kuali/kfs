@@ -2,46 +2,7 @@
 <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
     <!--  FILTER DEFINITIONS -->
-
-    <filter>
-      <filter-name>CAS Authentication Filter</filter-name>
-      <filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
-      <init-param>
-        <param-name>casServerLoginUrl</param-name>
-        <param-value>${cas.login.url}</param-value>
-      </init-param>
-      <init-param>
-        <param-name>serverName</param-name>
-        <param-value>${cas.kfs.server.name}</param-value>
-      </init-param>
-    </filter>
-    <filter>
-      <filter-name>CAS Validation Filter</filter-name>
-      <filter-class>org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter</filter-class>
-      <init-param>
-        <param-name>casServerUrlPrefix</param-name>
-        <param-value>${cas.url}</param-value>
-      </init-param>
-      <init-param>
-        <param-name>serverName</param-name>
-        <param-value>${cas.kfs.server.name}</param-value>
-      </init-param>
-      <!--
-      <init-param>
-        <param-name>redirectAfterValidation</param-name>
-        <param-value>true</param-value>
-      </init-param>
-      <init-param>
-        <param-name>useSession</param-name>
-        <param-value>true</param-value>
-      </init-param>
-       -->
-    </filter>
-    <filter>
-      <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
-      <filter-class>org.jasig.cas.client.util.HttpServletRequestWrapperFilter</filter-class>
-    </filter>
-
+	${authentication.filter.definition}
 	<filter>
 		<filter-name>SessionFilter</filter-name>
 		<filter-class>org.kuali.rice.kns.web.filter.SessionFilter</filter-class>
@@ -77,37 +38,11 @@
 		<filter-name>SetResponseBufferSizeFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
-
-    <filter-mapping>
-      <filter-name>CAS Authentication Filter</filter-name>
-      <servlet-name>action</servlet-name>
-    </filter-mapping>
-    <filter-mapping>
-      <filter-name>CAS Validation Filter</filter-name>
-      <servlet-name>action</servlet-name>
-    </filter-mapping>
-    <filter-mapping>
-      <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
-      <servlet-name>action</servlet-name>
-    </filter-mapping>
+	${authentication.filter.mappings}
 	<filter-mapping>
 		<filter-name>UserLoginFilter</filter-name>
 		<servlet-name>action</servlet-name>
 	</filter-mapping>
-
-	<!-- protect the DWR servlet from unauthenticated access -->
-    <filter-mapping>
-      <filter-name>CAS Authentication Filter</filter-name>
-      <servlet-name>dwr-invoker</servlet-name>
-    </filter-mapping>
-    <filter-mapping>
-      <filter-name>CAS Validation Filter</filter-name>
-      <servlet-name>dwr-invoker</servlet-name>
-    </filter-mapping>
-    <filter-mapping>
-      <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
-      <servlet-name>dwr-invoker</servlet-name>
-    </filter-mapping>
 	<filter-mapping>
 		<filter-name>SessionFilter</filter-name>
 		<servlet-name>dwr-invoker</servlet-name>

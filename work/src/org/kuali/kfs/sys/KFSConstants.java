@@ -61,9 +61,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String APPLICATION_URL_KEY = "application.url";
     public static final String ATTACHMENTS_DIRECTORY_KEY = "attachments.directory";
     public static final String ATTACHMENTS_PENDING_DIRECTORY_KEY = "attachments.pending.directory";
-    public static final String HTDOCS_LOGS_URL_KEY = "htdocs.logs.url";
-    public static final String HTDOCS_STAGING_URL_KEY = "htdocs.staging.url";
-    public static final String HTDOCS_REPORTS_URL_KEY = "htdocs.reports.url";
     public static final String STAGING_DIRECTORY_KEY = "staging.directory";
     public static final String TEMP_DIRECTORY_KEY = "temp.directory";
     public static final String EXTERNALIZABLE_HELP_URL_KEY = "externalizable.help.url";

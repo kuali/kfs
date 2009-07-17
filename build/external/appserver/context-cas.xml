@@ -1,5 +1,5 @@
 <!DOCTYPE doc>
-<Context path="/${cas.context.name}" reloadable="true" docBase="${cas.war.file.path}" unpackWAR="false">
+<Context path="/${cas.context.name}" reloadable="true" docBase="${basedir}/${build.appserver.directory}/kuali-cas-1.0.0.war" unpackWAR="false">
     <Manager className="org.apache.catalina.session.StandardManager" maxActiveSessions="250" />
     <Parameter name="org.kuali.cas.auth.jdbc.username" value="${cas.datasource.username}" override="false"/>
     <Parameter name="org.kuali.cas.auth.jdbc.password" value="${cas.datasource.password}" override="false"/>

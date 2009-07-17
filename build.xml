@@ -17,15 +17,12 @@
 <project name="kfs" default="dist-local" basedir=".">
 	<!-- run the help target to view usage instructions for public targets -->
 	
-	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local,dist-local-kfs" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
-	</target>
-	
-	<target name="dist-local-kfs" if="is.local.build">
+	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local,dist-local-cas" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
 		<copy file="${metainf.directory}/${context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
-		<antcall target="dist-local-cas" />
 	</target>
 
-	<target name="dist-local-cas" if="deploy.local.cas.server">
+	<target name="dist-local-cas" if="deploy.local.cas.server" depends="filter-project">
+		<echo file="${metainf.directory}/${cas.context.file}" message="${cas.context}" />
 		<copy file="${metainf.directory}/${cas.context.file}" tofile="${appserver.localhost.dir}/${cas.context.name}.xml" overwrite="true" />
 	</target>
 
@@ -61,33 +58,11 @@
 		<condition property="p6spy.real.driver.class" value="${mysql.driver.class}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<property name="p6spy.real.driver.class" value="${oracle.driver.class}" />
 		<condition property="datasource.ojb.sequence.manager" value="${mysql.ojb.sequence.manager}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
-		<property name="datasource.ojb.sequence.manager" value="${oracle.ojb.sequence.manager}" />
-
-		<condition property="rice.server.datasource.platform" value="${mysql.server.datasource.platform}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
-		<property name="rice.server.datasource.platform" value="${oracle.server.datasource.platform}" />
-		<property name="rice.server.datasource.url" value="${datasource.url}" />
-		<property name="rice.server.datasource.driver.class" value="${datasource.driver.class}" />
-		
-		<property name="cas.datasource.url" value="${datasource.url}" />
-		<property name="cas.datasource.driver.class" value="${datasource.driver.class}" />
-		
+		<property name="datasource.ojb.sequence.manager" value="${oracle.ojb.sequence.manager}" />		
 		<condition property="appenders" value="INFO, LogFile, StdOut"><equals arg1="${is.local.build}" arg2="true" /></condition>
 		<property name="appenders" value="INFO, LogFile" />
 		<condition property="use.quartz.jdbc.jobstore" value="false"><equals arg1="${is.local.build}" arg2="true" /></condition>
 		<property name="use.quartz.jdbc.jobstore" value="true" />
-		<condition property="rice.dev.mode" value="true"><equals arg1="${is.local.build}" arg2="true" /></condition>
-		<property name="rice.dev.mode" value="false" />
-		<condition property="rice.message.persistence" value="false"><equals arg1="${is.local.build}" arg2="true" /></condition>
-		<property name="rice.message.persistence" value="true" />
-		<condition property="rice.use.quartz.database" value="true">
-			<and>
-				<not><equals arg1="${use.quartz.scheduling}" arg2="true" /></not>
-				<not><equals arg1="${is.local.build}" arg2="true" /></not>
-			</and>
-		</condition>
-		<property name="rice.use.quartz.database" value="false" />
-		<condition property="rice.exception.routing.immediate" value="true"><equals arg1="${use.quartz.scheduling}" arg2="false" /></condition>
-		<property name="rice.exception.routing.immediate" value="false" />
 		<condition property="b2b.environment" value="${b2b.production.environment}">
 			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
 		</condition>
@@ -112,16 +87,38 @@
 			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
 		</condition>
 		<property name="b2b.punch.out.url" value="${b2b.test.punch.out.url}" />
+
+		<condition property="rice.server.datasource.platform" value="${mysql.server.datasource.platform}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+		<property name="rice.server.datasource.platform" value="${oracle.server.datasource.platform}" />
+		<property name="rice.server.datasource.url" value="${datasource.url}" />
+		<property name="rice.server.datasource.driver.class" value="${datasource.driver.class}" />
+		<condition property="rice.dev.mode" value="true"><equals arg1="${is.local.build}" arg2="true" /></condition>
+		<property name="rice.dev.mode" value="false" />
+		<condition property="rice.message.persistence" value="false"><equals arg1="${is.local.build}" arg2="true" /></condition>
+		<property name="rice.message.persistence" value="true" />
+		<condition property="rice.use.quartz.database" value="true">
+			<and>
+				<not><equals arg1="${use.quartz.scheduling}" arg2="true" /></not>
+				<not><equals arg1="${is.local.build}" arg2="true" /></not>
+			</and>
+		</condition>
+		<property name="rice.use.quartz.database" value="false" />
+		<condition property="rice.exception.routing.immediate" value="true"><equals arg1="${use.quartz.scheduling}" arg2="false" /></condition>
+		<property name="rice.exception.routing.immediate" value="false" />
         <condition property="kfs.rice.override.spring.files" value="${base.kfs.rice.override.spring.files},spring-kfs-batch.xml"><equals arg1="${use.quartz.scheduling}" arg2="true"/></condition>
         <property name="kfs.rice.override.spring.files" value="${base.kfs.rice.override.spring.files}" />
+		<property name="cas.datasource.url" value="${datasource.url}" />
+		<property name="cas.datasource.driver.class" value="${datasource.driver.class}" />
+
 		<loadfile property="configuration" srcfile="${build.project.directory}/${configuration.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="p6spy" srcfile="${build.project.directory}/${p6spy.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="web" srcfile="${build.project.directory}/${web.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="context" srcfile="${build.appserver.directory}/${context.file}"><filterchain><expandproperties/></filterchain></loadfile>
-		<loadfile property="cas.context" srcfile="${build.appserver.directory}/${cas.context.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="log4j" srcfile="${user.home}/${log4j.file}" failonerror="false"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="log4j" srcfile="${build.external.directory}/${log4j.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="security" srcfile="${build.external.directory}/${security.file}"><filterchain><expandproperties/></filterchain></loadfile>
+		
+		<loadfile property="cas.context" srcfile="${build.appserver.directory}/${cas.context.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="standalone-workflow" srcfile="${build.appserver.directory}/standalone-workflow.xml"><filterchain><expandproperties/></filterchain></loadfile>
 	</target>
 
@@ -221,13 +218,7 @@
 			</fileset>
 		</delete>
 		<delete failonerror="false">
-			<fileset dir="${appserver.localhost.dir}" includes="${ant.project.name}-*.xml" />
-		</delete>
-		<delete failonerror="false">
-			<fileset dir="${appserver.localhost.dir}" includes="${cas.context.name}.xml" />
-		</delete>
-		<delete failonerror="false">
-			<fileset dir="${appserver.deploy.dir}" includes="${ant.project.name}-*.war,${ant.project.name}-*/**" />
+			<fileset dir="${appserver.localhost.dir}" includes="${ant.project.name}-*.xml,${cas.context.name}.xml" />
 		</delete>
 	</target>
 
@@ -273,14 +264,13 @@
 		<replace file="${spring.ide.support.file}" token="${basedir}${file.separator}" />
 		<replace file="${spring.ide.support.file}" token="${file.separator}" value="/" />
   	</target>
-
+	
 	<target name="filter-project" depends="filter-project-p6spy,filter-project-help,filter-project-rice,filter-project-spring-ide">
 		<echo file="${source.directory}/${configuration.file}" message="${configuration}" />
 		<echo file="${source.directory}/${p6spy.file}" message="${p6spy}" />
 		<echo file="${webinf.directory}/${web.file}" message="${web}" />
 		<mkdir dir="${metainf.directory}" />
 		<echo file="${metainf.directory}/${context.file}" message="${context}" />
-		<echo file="${metainf.directory}/${cas.context.file}" message="${cas.context}" />
 		<copy todir="${static.directory}">
 			<fileset dir="${build.project.directory}" includes="xsd/**/**" />
 			<filterset>

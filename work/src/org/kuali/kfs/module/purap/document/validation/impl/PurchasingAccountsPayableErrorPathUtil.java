@@ -59,7 +59,8 @@ public class PurchasingAccountsPayableErrorPathUtil {
                 for (Iterator iterSourceAccountingLines = item.getSourceAccountingLines().iterator(); !done && iterSourceAccountingLines.hasNext(); accountingLineCounter++) {
                     PurApAccountingLine sourceAccountingLine = (PurApAccountingLine) iterSourceAccountingLines.next();
 
-                    if (sourceAccountingLine.getSequenceNumber().equals(targetAccountingLineToBeFound.getSequenceNumber())) {
+                    // Only targetAccountingLineToBeFound has sequenceNumber always not null. We should put it in the preceding place of this comparison. Otherwise, it may run into NPE.
+                    if (targetAccountingLineToBeFound.getSequenceNumber().equals(sourceAccountingLine.getSequenceNumber())) {
                         // Found the item, capture error path, and set boolean (break isn't enough for 2 loops).
                         errorPath = errorPath + "." + KFSPropertyConstants.ITEM + "[" + itemLineIndex + "]." + KFSPropertyConstants.SOURCE_ACCOUNTING_LINES + "[" + accountingLineCounter + "]";
                         done = true;

@@ -55,7 +55,7 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                 	<kul:htmlControlAttribute 
-                		attributeEntry="${documentAttributes.taxFederalPercent}" property="document.taxFederalPercentShort" 
+                		attributeEntry="${documentAttributes.taxFederalPercent}" property="document.taxFederalPercent" 
                 		readOnly="${not taxAreaEditable}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 					&nbsp;                
                     <c:if test="${taxAreaEditable}">
@@ -80,7 +80,7 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                 	<kul:htmlControlAttribute 
-                		attributeEntry="${documentAttributes.taxStatePercent}" property="document.taxStatePercentShort" 
+                		attributeEntry="${documentAttributes.taxStatePercent}" property="document.taxStatePercent" 
                 		readOnly="${not taxAreaEditable}" tabindexOverride="${tabindexOverrideBase + 0}"/>
 					&nbsp;                
                     <c:if test="${taxAreaEditable}">

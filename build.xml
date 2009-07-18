@@ -178,6 +178,7 @@
 				<include name="${source.directory}/${p6spy.file}" />
 				<include name="${webinf.directory}/${web.file}" />
 				<include name="${lib.directory}/${log4j.library.file}" />
+				<include name="${lib.directory}/${institutional.customization.file.prefix}*.jar" />
 				<include name="${xsd.directory}/**/**" />
 				<include name="${war.directory}/**/**" />
 				<include name="${test.directory}/**/**" />
@@ -265,7 +266,14 @@
 		<replace file="${spring.ide.support.file}" token="${file.separator}" value="/" />
   	</target>
 	
-	<target name="filter-project" depends="filter-project-p6spy,filter-project-help,filter-project-rice,filter-project-spring-ide">
+	<target name="filter-project-custom-lib" if="custom.application.lib.directory" depends="init-properties">
+		<copy todir="${lib.directory}">
+			<fileset dir="${custom.application.lib.directory}" includes="*" />
+    		<globmapper from="*.jar" to="${institutional.customization.file.prefix}*.jar" />
+		</copy>
+	</target>
+
+	<target name="filter-project" depends="filter-project-p6spy,filter-project-help,filter-project-rice,filter-project-spring-ide,filter-project-custom-lib">
 		<echo file="${source.directory}/${configuration.file}" message="${configuration}" />
 		<echo file="${source.directory}/${p6spy.file}" message="${p6spy}" />
 		<echo file="${webinf.directory}/${web.file}" message="${web}" />

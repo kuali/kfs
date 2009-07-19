@@ -26,6 +26,24 @@
         </property>
     </bean>
     
+    <bean id="glOrganizationReversionTestProcess" class="org.kuali.kfs.gl.batch.service.impl.OrganizationReversionTestProcess" scope="prototype">
+		<property name="organizationReversionService" ref="glOrganizationReversionMockService" />
+		<property name="balanceService" ref="glBalanceService" />
+		<property name="originEntryService" ref="originEntryService" />
+		<property name="persistenceService" ref="persistenceService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="priorYearAccountService" ref="priorYearAccountService" />
+		<property name="orgReversionUnitOfWorkService" ref="glOrgReversionUnitOfWorkService" />
+		<property name="flexibleOffsetAccountService" ref="flexibleOffsetAccountService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="configurationService" ref="kualiConfigurationService" />
+		<property name="cashOrganizationReversionCategoryLogic">
+			<ref bean="glCashOrganizationReversionCategoryLogic" />
+		</property>
+		<property name="endOfYear" value="false" />
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/test_directory/originEntry"/>
+	</bean>
+    
     <bean id="tableReportWriterService" parent="reportWriterService">
         <property name="filePath" value="${reports.directory}"/>
         <property name="fileNamePrefix" value="table_report_test_"/>

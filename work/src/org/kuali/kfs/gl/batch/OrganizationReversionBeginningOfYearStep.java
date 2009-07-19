@@ -52,8 +52,6 @@ public class OrganizationReversionBeginningOfYearStep extends AbstractWrappedBat
                 StopWatch stopWatch = new StopWatch();
                 stopWatch.start("OrganizationReversionBeginningOfYearStep");
 
-                //OriginEntryGroup outputGroup = organizationReversionProcessService.createOrganizationReversionProcessOriginEntryGroup();
-                String organizationReversionPreClosingFileName = GeneralLedgerConstants.BatchFileSystem.ORGANIZATION_REVERSION_PRE_CLOSING_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
                 Map jobParameters = organizationReversionProcessService.getJobParameters();
                 Map<String, Integer> organizationReversionCounts = new HashMap<String, Integer>();
 
@@ -61,7 +59,7 @@ public class OrganizationReversionBeginningOfYearStep extends AbstractWrappedBat
                 yearEndService.logAllMissingPriorYearAccounts((Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR));
                 yearEndService.logAllMissingSubFundGroups((Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR));
 
-                organizationReversionProcessService.organizationReversionProcessBeginningOfYear(organizationReversionPreClosingFileName, jobParameters, organizationReversionCounts);
+                organizationReversionProcessService.organizationReversionProcessBeginningOfYear(jobParameters, organizationReversionCounts);
 
                 stopWatch.stop();
                 LOG.info("OrganizationReversionBeginningOfYearStep took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");

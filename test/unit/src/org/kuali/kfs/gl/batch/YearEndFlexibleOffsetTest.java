@@ -35,10 +35,12 @@ import org.kuali.kfs.coa.service.PriorYearAccountService;
 import org.kuali.kfs.fp.businessobject.OffsetAccount;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.EncumbranceClosingOriginEntryGenerationService;
+import org.kuali.kfs.gl.batch.service.OrganizationReversionProcess;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionProcessService;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionUnitOfWorkService;
 import org.kuali.kfs.gl.batch.service.impl.CashOrganizationReversionCategoryLogic;
 import org.kuali.kfs.gl.batch.service.impl.OrganizationReversionMockServiceImpl;
+import org.kuali.kfs.gl.batch.service.impl.OrganizationReversionProcessServiceImpl;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryOffsetPair;
 import org.kuali.kfs.gl.batch.service.impl.exception.FatalErrorException;
 import org.kuali.kfs.gl.businessobject.Balance;
@@ -519,8 +521,8 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         Integer previousFiscalYear = new Integer(((Number)jobParameters.get(KFSConstants.UNIV_FISCAL_YR)).intValue());
         Map<String, Integer> organizationReversionCounts = new HashMap<String, Integer>();
 
-        OrganizationReversionProcess orgRevProcess = new OrganizationReversionProcess(null, false, organizationReversionService, balanceService, originEntryService, persistenceService, dtService, cashOrganizationReversionCategoryLogic, priorYearAccountService, orgReversionUnitOfWorkService, jobParameters, organizationReversionCounts);
-        orgRevProcess.initializeProcess();
+        Map<String, OrganizationReversionProcess> organizationReversionProcesses = SpringContext.getBeansOfType(OrganizationReversionProcess.class);
+        OrganizationReversionProcess orgRevProcess = organizationReversionProcesses.get("glOrganizationReversionTestProcess");
         
         clearGlBalanceTable();
         clearBatchFiles();
@@ -535,7 +537,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         //TODO: Shawn - fix 
         //orgRevProcess.setOutputGroup(outputGroup);
         orgRevProcess.setHoldGeneratedOriginEntries(true);
-        orgRevProcess.organizationReversionProcess();
+        orgRevProcess.organizationReversionProcess(jobParameters, organizationReversionCounts);
 
         // ye olde sanity check
         assertEquals("Balances Read", new Integer(balancesToTest.size()), new Integer(orgRevProcess.getBalancesRead()));

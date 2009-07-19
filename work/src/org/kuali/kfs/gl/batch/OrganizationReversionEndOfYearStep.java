@@ -49,12 +49,10 @@ public class OrganizationReversionEndOfYearStep extends AbstractWrappedBatchStep
                 StopWatch stopWatch = new StopWatch();
                 stopWatch.start("OrganizationReversionEndOfYearStep");
 
-                //OriginEntryGroup outputGroup = organizationReversionProcessService.createOrganizationReversionProcessOriginEntryGroup();
-                String organizationReversionClosingFileName = GeneralLedgerConstants.BatchFileSystem.ORGANIZATION_REVERSION_CLOSING_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
                 Map jobParameters = organizationReversionProcessService.getJobParameters();
                 Map<String, Integer> organizationReversionCounts = new HashMap<String, Integer>();
 
-                organizationReversionProcessService.organizationReversionProcessEndOfYear(organizationReversionClosingFileName, jobParameters, organizationReversionCounts);
+                organizationReversionProcessService.organizationReversionProcessEndOfYear(jobParameters, organizationReversionCounts);
                 
                 stopWatch.stop();
                 LOG.info("OrganizationReversionEndOfYearStep took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");

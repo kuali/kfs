@@ -145,7 +145,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
             if ( !businessObjectEntry.getBusinessObjectClass().getName().startsWith(RICE_PACKAGE_NAME)
                     && !ignoreClasses.contains(businessObjectEntry.getBusinessObjectClass())) {
-                List<Class<?>> iList = (List<Class<?>>)Arrays.asList(businessObjectEntry.getBusinessObjectClass().getInterfaces());
+                List<Class> iList = (List<Class>)Arrays.asList(businessObjectEntry.getBusinessObjectClass().getInterfaces());
                 try {
                     LookupDefinition lookupDefinition = businessObjectEntry.getLookupDefinition();
                     // Class implements Inactivateable but active field not used on Lookup.

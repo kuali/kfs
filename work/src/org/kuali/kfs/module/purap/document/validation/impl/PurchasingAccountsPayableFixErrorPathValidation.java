@@ -43,6 +43,7 @@ public class PurchasingAccountsPayableFixErrorPathValidation extends GenericVali
      */
     public boolean validate(AttributedDocumentEvent event) {
         PurchasingAccountsPayableErrorPathUtil.fixErrorPath((AccountingDocument) event.getDocument(), accountingLineForValidation);
+        GlobalVariables.getMessageMap().clearErrorPath(); 
         return true;
     }
 

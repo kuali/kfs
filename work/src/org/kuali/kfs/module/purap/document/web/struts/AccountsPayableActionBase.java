@@ -64,6 +64,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 /**
  * Struts Action for Accounts Payable documents.
@@ -488,16 +490,22 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                 }
                 else {
                     UserSession originalUserSession = GlobalVariables.getUserSession();
+                    KualiWorkflowDocument originalWorkflowDocument = document.getDocumentHeader().getWorkflowDocument();
                     //any other time, perform special logic to cancel the document
                     if (!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
                         try {
                             // person canceling may not have an action requested on the document
                             Person userRequestedCancel = SpringContext.getBean(PersonService.class).getPerson(document.getLastActionPerformedByPersonId());
                             GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
+                            
+                            WorkflowDocumentService workflowDocumentService =  SpringContext.getBean(WorkflowDocumentService.class);
+                            KualiWorkflowDocument newWorkflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(document.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
+                            document.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
                             documentService.superUserDisapproveDocument(document, "Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ") per request of user " + userRequestedCancel.getName() + " (" + userRequestedCancel.getPrincipalName() + ")");
                       }
                         finally {
                             GlobalVariables.setUserSession(originalUserSession);
+                            document.getDocumentHeader().setWorkflowDocument(originalWorkflowDocument);
                         }
                     }
                     else {

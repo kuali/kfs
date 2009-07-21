@@ -1093,7 +1093,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String CUSTOMER_NUMBER = "customerNumber";
         public static final String DOCUMENT_NUMBER = "documentNumber";
         public static final String REPORT_NAME = "reportName";
-        public static final String CHART_CODE = "chartCode";
+        public static final String PROCESSING_OR_BILLING_CHART_CODE = "processingOrBillingChartCode";
         public static final String ORGANIZATION_CODE = "orgCode";
         public static final String REPORT_OPTION = "reportOption";
         public static final String COLUMN_TITLE = "columnTitle";
@@ -1101,6 +1101,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String REPORT_BEGIN_DATE = "startDate";
         public static final String REPORT_END_DATE = "endDate";
         public static final String ACCOUNT_NUMBER = "accountNumber";
+        public static final String ACCOUNT_CHART_CODE = "accountChartCode";
         public static final String ALL_DAYS = "All days";
         public static final String HISTORY_REPORT_NAME = "Customer History Report";
         public static final String OPEN_ITEM_REPORT_NAME = "Customer Open Item Report";

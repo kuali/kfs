@@ -422,9 +422,9 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             // All days
             // 1. invoice open amount > 0
             // 2. billingDate <= reportRunDate
-            // 3. billByChartOfAccountsCode = chartCode
+            // 3. billByChartOfAccountsCode = processingOrBillingChartCode
             // 4. billbyOrganizationCode = orgCode
-            String chartCode = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.CHART_CODE))[0];
+            String chartCode = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.PROCESSING_OR_BILLING_CHART_CODE))[0];
             String orgCode = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.ORGANIZATION_CODE))[0];
             if (StringUtils.equals(columnTitle, KFSConstants.CustomerOpenItemReport.ALL_DAYS)) {
                 for (CustomerInvoiceDocument invoice:invoices) {
@@ -493,7 +493,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         String customerNumber = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER))[0];
 
         if (StringUtils.equals(reportOption, ArConstants.CustomerAgingReportFields.PROCESSING_ORG)) {
-            String processingChartCode = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.CHART_CODE))[0];
+            String processingChartCode = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.PROCESSING_OR_BILLING_CHART_CODE))[0];
             String processingOrganizationCode = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.ORGANIZATION_CODE))[0];
             arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersByCustomerNumberByProcessingOrgCodeAndChartCode(customerNumber, processingChartCode, processingOrganizationCode);
         } // reportOption is "Billing Organization" or "Account"

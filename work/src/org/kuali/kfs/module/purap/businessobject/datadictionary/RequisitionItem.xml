@@ -171,7 +171,7 @@
     <property name="shortLabel" value="Identifier"/>
     <property name="maxLength" value="300"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
     <property name="control">
       <bean parent="TextareaControlDefinition" p:rows="5" p:cols="80"/>

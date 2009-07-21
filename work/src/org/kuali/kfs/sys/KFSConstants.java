@@ -897,7 +897,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
 
     public static final String PCDO_FILE_TYPE_INDENTIFIER = "procurementCardInputFileType";
-    public static final String COLLECTOR_FILE_TYPE_INDENTIFIER = "collectorXmlInputFileType";
+    public static final String COLLECTOR_FILE_TYPE_INDENTIFIER = "collectorInputFileType";
     public static final String COLLECTOR_FLAT_FILE_TYPE_INDENTIFIER = "collectorFlatFileInputFileType";
     public static final String ENTERPRISE_FEEDER_FILE_SET_TYPE_INDENTIFIER = "enterpriseFeederFileSetType";
 

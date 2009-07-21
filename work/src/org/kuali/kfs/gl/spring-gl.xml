@@ -436,7 +436,7 @@
 		</property>
 		<property name="collectorInputFileTypes">
 			<list>
-				<ref bean="collectorXmlInputFileType" />
+				<ref bean="collectorInputFileType" />
 				<ref bean="collectorFlatFileInputFileType" />
 			</list>
 		</property>
@@ -2170,7 +2170,7 @@
 		</property>
 	</bean>
 	
-    <bean id="collectorXmlInputFileType" class="org.kuali.kfs.gl.batch.CollectorXmlInputFileType">
+    <bean id="collectorInputFileType" class="org.kuali.kfs.gl.batch.CollectorXmlInputFileType">
     	<property name="directoryPath">
 	       <value>${staging.directory}/gl/collectorXml</value>
 	    </property>

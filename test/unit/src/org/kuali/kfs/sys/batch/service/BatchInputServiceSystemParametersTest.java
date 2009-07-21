@@ -16,7 +16,7 @@
 package org.kuali.kfs.sys.batch.service;
 
 import org.kuali.kfs.fp.batch.ProcurementCardInputFileType;
-import org.kuali.kfs.gl.batch.CollectorInputFileType;
+import org.kuali.kfs.gl.batch.CollectorXmlInputFileType;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.KualiTestConstants.TestConstants.Data4;
@@ -52,7 +52,7 @@ public class BatchInputServiceSystemParametersTest extends KualiTestBase {
         parameterService = SpringContext.getBean(ParameterService.class);
         batchInputFileService = SpringContext.getBean(BatchInputFileService.class);
         pcdoBatchInputFileType = SpringContext.getBean(ProcurementCardInputFileType.class);
-        collectorBatchInputFileType = SpringContext.getBean(CollectorInputFileType.class);
+        collectorBatchInputFileType = SpringContext.getBean(CollectorXmlInputFileType.class);
 
         validWorkgroupUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(Data4.USER_ID2);
         invalidWorkgroupUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(Data4.USER_ID1);

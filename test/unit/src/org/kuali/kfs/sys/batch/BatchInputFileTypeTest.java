@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import org.kuali.kfs.fp.batch.ProcurementCardInputFileType;
 import org.kuali.kfs.gl.batch.CollectorBatch;
-import org.kuali.kfs.gl.batch.CollectorInputFileType;
+import org.kuali.kfs.gl.batch.CollectorXmlInputFileType;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KualiTestConstants.TestConstants.Data4;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -47,7 +47,7 @@ public class BatchInputFileTypeTest extends KualiTestBase {
         super.setUp();
 
         pcdoBatchInputFileType = SpringContext.getBean(ProcurementCardInputFileType.class);
-        collectorBatchInputFileType = SpringContext.getBean(CollectorInputFileType.class);
+        collectorBatchInputFileType = SpringContext.getBean(CollectorXmlInputFileType.class);
     }
 
     /**

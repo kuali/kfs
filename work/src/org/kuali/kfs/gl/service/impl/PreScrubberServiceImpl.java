@@ -36,9 +36,12 @@ import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.service.PreScrubberService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
 /**
@@ -63,8 +66,9 @@ public class PreScrubberServiceImpl implements PreScrubberService {
         Set<String> nonExistentAccountCache = new SizeLimitedSet();
         Set<String> multipleAccountCache = new SizeLimitedSet();
         
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        Map<String, String> criteria = new HashMap<String, String>();
+        AccountService accountService = SpringContext.getBean(AccountService.class);
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        boolean fillInChartCodesIfSpaces = !parameterService.getIndicatorParameter(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND);
         
         int inputLines = 0;
         int outputLines = 0;
@@ -75,7 +79,7 @@ public class PreScrubberServiceImpl implements PreScrubberService {
                 
                 String originEntry = inputOriginEntries.next();
                 String outputLine = originEntry;
-                if (originEntry.length() >= getExclusiveAccountNumberEndPosition()) {
+                if (fillInChartCodesIfSpaces && originEntry.length() >= getExclusiveAccountNumberEndPosition()) {
                     String chartOfAccountsCode = originEntry.substring(getInclusiveChartOfAccountsCodeStartPosition(), getExclusiveChartOfAccountsCodeEndPosition());
                     if (GeneralLedgerConstants.getSpaceChartOfAccountsCode().equals(chartOfAccountsCode)) {
                         // blank chart code... try to find the chart code
@@ -92,9 +96,7 @@ public class PreScrubberServiceImpl implements PreScrubberService {
                             else if (multipleAccountCache.contains(accountNumber))
                                 multipleFound = true;
                             else {
-                                // overwrite the criteria so we can reuse the map and save memory allocations
-                                criteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
-                                Collection<Account> results = businessObjectService.findMatching(Account.class, criteria);
+                                Collection<Account> results = accountService.getAccountsForAccountNumber(accountNumber);
                                 
                                 if (results.isEmpty()) {
                                     nonExistent = true;
@@ -116,7 +118,6 @@ public class PreScrubberServiceImpl implements PreScrubberService {
                                     }
                                 }
                             }
-                            
                             
                             if (!nonExistent && !multipleFound) {
                                 StringBuilder buf = new StringBuilder(originEntry.length());

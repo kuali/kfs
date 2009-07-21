@@ -776,6 +776,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String JOB_ADMIN_WORKGROUP = "SCHEDULE_ADMIN_GROUP";
         
         public static final String NUMBER_OF_DAYS_SINCE_LAST_UPDATE  = "NUMBER_OF_DAYS_SINCE_LAST_UPDATE";
+        
+        public static final String ACCOUNTS_CAN_CROSS_CHARTS_IND = "ACCOUNTS_CAN_CROSS_CHARTS_IND";
     }
 
     public static class GeneralLedgerApplicationParameterKeys {
@@ -895,7 +897,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
 
     public static final String PCDO_FILE_TYPE_INDENTIFIER = "procurementCardInputFileType";
-    public static final String COLLECTOR_FILE_TYPE_INDENTIFIER = "collectorInputFileType";
+    public static final String COLLECTOR_FILE_TYPE_INDENTIFIER = "collectorXmlInputFileType";
+    public static final String COLLECTOR_FLAT_FILE_TYPE_INDENTIFIER = "collectorFlatFileInputFileType";
     public static final String ENTERPRISE_FEEDER_FILE_SET_TYPE_INDENTIFIER = "enterpriseFeederFileSetType";
 
     // next 2 variables for the enterprise feeder batch upload

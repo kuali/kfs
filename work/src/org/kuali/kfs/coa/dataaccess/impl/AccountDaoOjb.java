@@ -394,6 +394,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         return resultCount > 0;
     }
 
+    
     /**
      * @see org.kuali.kfs.coa.dataaccess.AccountDao#isPrincipalInAnyWayShapeOrFormAccountSupervisor(java.lang.String)
      */
@@ -410,6 +411,16 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.dataaccess.AccountDao#getAccountsForAccountNumber(java.lang.String)
+     */
+    public Collection<Account> getAccountsForAccountNumber(String accountNumber) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+
+        return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Account.class, criteria));
     }
 }
 

@@ -16,6 +16,7 @@
 package org.kuali.kfs.coa.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -262,4 +263,10 @@ public class AccountServiceImpl implements AccountService {
         this.accountDao = accountDao;
     }
 
+    /**
+     * @see org.kuali.kfs.coa.service.AccountService#getAccountsForAccountNumber(java.lang.String)
+     */
+    public Collection<Account> getAccountsForAccountNumber(String accountNumber) {
+        return accountDao.getAccountsForAccountNumber(accountNumber);
+    }
 }

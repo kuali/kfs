@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.coa.service;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -140,5 +141,12 @@ public interface AccountService {
      * @return true if the principal is a account manager for any non-closed account, false otherwise
      */
     public abstract boolean isPrincipalInAnyWayShapeOrFormAccountManager(String principalId);
+    
+    /**
+     * Returns the accounts associated with a given account number
+     * @param accountNumber the account number
+     * @return a list of accounts associated with that account number 
+     */
+    public abstract Collection<Account> getAccountsForAccountNumber(String accountNumber);
 }
 

@@ -55,13 +55,12 @@ public class CollectorServiceImpl implements CollectorService {
 
     private CollectorHelperService collectorHelperService;
     private BatchInputFileService batchInputFileService;
-    private BatchInputFileType collectorInputFileType;
+    private List<BatchInputFileType> collectorInputFileTypes;
     private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
     private CollectorScrubberService collectorScrubberService;
     private RunDateService runDateService;
     private String batchFileDirectoryName;
-    private String collectorFileDirectoryName;
     
     private ReportWriterService collectorReportWriterService;
 
@@ -71,16 +70,13 @@ public class CollectorServiceImpl implements CollectorService {
      * @return status information related to the collection execution
      */
     public CollectorReportData performCollection() {
-        List<String> fileNamesToLoad = batchInputFileService.listInputFileNamesWithDoneFile(collectorInputFileType);
         List<String> processedFiles = new ArrayList<String>();
-
         Date executionDate = dateTimeService.getCurrentSqlDate();
 
         Date runDate = new Date(runDateService.calculateRunDate(executionDate).getTime());
         CollectorReportData collectorReportData = new CollectorReportData();
         List<CollectorScrubberStatus> collectorScrubberStatuses = new ArrayList<CollectorScrubberStatus>();
 
-        String collectorEachInputFileName = collectorFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_DEMERGER_VAILD_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         String collectorFinalOutputFileName = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_OUTPUT + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
       
         PrintStream collectorFinalOutputFilePs = null;
@@ -93,46 +89,44 @@ public class CollectorServiceImpl implements CollectorService {
         }
 
         try {
-            for (String inputFileName : fileNamesToLoad) {
-                boolean processSuccess = false;
-                try {
-                    LOG.info("Collecting file: " + inputFileName);
-                    processSuccess = collectorHelperService.loadCollectorFile(inputFileName, collectorReportData, collectorScrubberStatuses);
-                }
-                catch (RuntimeException e) {
-                    LOG.error("Caught exception trying to load collector file: " + inputFileName, e);
-                }
-                processedFiles.add(inputFileName);
-                
-                if (processSuccess) {
+            for (BatchInputFileType collectorInputFileType : collectorInputFileTypes) {
+                List<String> fileNamesToLoad = batchInputFileService.listInputFileNamesWithDoneFile(collectorInputFileType);
+                for (String inputFileName : fileNamesToLoad) {
+                    boolean processSuccess = false;
+                    try {
+                        LOG.info("Collecting file: " + inputFileName);
+                        processSuccess = collectorHelperService.loadCollectorFile(inputFileName, collectorReportData, collectorScrubberStatuses, collectorInputFileType);
+                    }
+                    catch (RuntimeException e) {
+                        LOG.error("Caught exception trying to load collector file: " + inputFileName, e);
+                    }
+                    processedFiles.add(inputFileName);
                     
-                    //concatenate all output(scrbout2) file. 
-                    inputFileReader = new BufferedReader(new FileReader(collectorEachInputFileName));
-                    String line = null;
-                        while ((line = inputFileReader.readLine()) != null) {
-                            try {
+                    if (processSuccess) {
+                        String collectorEachInputFileName = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_DEMERGER_VAILD_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+                        //concatenate all output(scrbout2) file. 
+                        inputFileReader = new BufferedReader(new FileReader(collectorEachInputFileName));
+                        String line = null;
+                            while ((line = inputFileReader.readLine()) != null) {
                                 collectorFinalOutputFilePs.printf("%s\n", line);
-                            } catch (Exception e) {
-                                throw new IOException(e.toString());
+                            }    
+                            inputFileReader.close();
+                            inputFileReader = null;  
+                          
+                        //create done file    
+                        String doneFileName = collectorFinalOutputFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
+                        File doneFile = new File (doneFileName);
+                        if (!doneFile.exists()){
+                            try {
+                                doneFile.createNewFile();
+                            } catch (IOException e) {
+                                throw new RuntimeException();
                             }
-                        }    
-                        inputFileReader.close();
-                        inputFileReader = null;  
-                      
-                    //create done file    
-                    String doneFileName = collectorFinalOutputFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
-                    File doneFile = new File (doneFileName);
-                    if (!doneFile.exists()){
-                        try {
-                            doneFile.createNewFile();
-                        } catch (IOException e) {
-                            throw new RuntimeException();
                         }
                     }
                 }
-                
+                updateCollectorReportDataWithExecutionStatistics(collectorReportData, collectorScrubberStatuses);
             }
-            updateCollectorReportDataWithExecutionStatistics(collectorReportData, collectorScrubberStatuses);
         }
         catch (IOException e) {
             throw new RuntimeException("writing all collector result files to output file process Stopped: " + e.getMessage(), e); 
@@ -166,8 +160,8 @@ public class CollectorServiceImpl implements CollectorService {
         this.batchInputFileService = batchInputFileService;
     }
 
-    public void setCollectorInputFileType(BatchInputFileType collectorInputFileType) {
-        this.collectorInputFileType = collectorInputFileType;
+    public void setCollectorInputFileTypes(List<BatchInputFileType> collectorInputFileTypes) {
+        this.collectorInputFileTypes = collectorInputFileTypes;
     }
 
     /**
@@ -244,11 +238,6 @@ public class CollectorServiceImpl implements CollectorService {
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
     }
-
-    public void setCollectorFileDirectoryName(String collectorFileDirectoryName) {
-        this.collectorFileDirectoryName = collectorFileDirectoryName;
-    }
-    
 
     /**
      * Sets the collectorReportWriterService attribute value.

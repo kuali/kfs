@@ -282,23 +282,8 @@ public class ScrubberProcessImpl implements ScrubberProcess {
         
         this.ledgerSummaryReport = collectorReportData.getLedgerSummaryReport();
         
-        // pre-scrub the input
-        String preScrubberInputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        String preScrubberOutputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_PRE_SCRUBBER + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        LineIterator inputEntries = null;
-        try {
-            inputEntries = FileUtils.lineIterator(new File(preScrubberInputFile));
-            preScrubberService.preprocessOriginEntries(inputEntries, preScrubberOutputFile);
-        }
-        catch (IOException e) {
-            LOG.error("Collector pre-scrubber encountered IO Exception", e);
-            throw new RuntimeException("Collector pre-scrubber encountered IO Exception", e);
-        }
-        finally {
-            LineIterator.closeQuietly(inputEntries);
-        }
         // sort input file
-        String scrubberSortInputFile = preScrubberOutputFile;
+        String scrubberSortInputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         String scrubberSortOutputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_SCRUBBER_INPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         BatchSortUtil.sortTextFileWithFields(scrubberSortInputFile, scrubberSortOutputFile, new ScrubberSortComparator());
         

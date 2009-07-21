@@ -269,7 +269,7 @@ public class CollectorScrubberProcess {
      * represented by those origin entries and initializes the {@link #errorDocumentGroups} variable
      */
     protected void retrieveErrorDocumentGroups() {
-        File errorFile = new File(collectorFileDirectoryName + File.separator + errorFileName);
+        File errorFile = new File( collectorFileDirectoryName + File.separator + errorFileName);
         OriginEntryFileIterator entryIterator = new OriginEntryFileIterator(errorFile);
         errorDocumentGroups = DocumentGroupData.getDocumentGroupDatasForTransactions(entryIterator);
     }

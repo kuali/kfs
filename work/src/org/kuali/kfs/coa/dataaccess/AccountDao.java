@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.coa.dataaccess;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -120,5 +121,7 @@ public interface AccountDao {
      * @return true if the principal is a account manager for any non-closed account, false otherwise
      */
     public abstract boolean isPrincipalInAnyWayShapeOrFormAccountManager(String principalId);
+    
+    public Collection<Account> getAccountsForAccountNumber(String accountNumber);
 }
 

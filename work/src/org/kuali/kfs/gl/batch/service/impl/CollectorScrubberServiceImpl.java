@@ -40,7 +40,7 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
     private KualiConfigurationService kualiConfigurationService;
     private PersistenceService persistenceService;
     private ScrubberService scrubberService;
-
+    private String batchFileDirectoryName;
 
     /**
      * uns the scrubber on the origin entries in the batch. Any OEs edits/removals result of the scrub and demerger are removed
@@ -53,7 +53,7 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
      *      org.kuali.kfs.gl.report.CollectorReportData)
      */
     public CollectorScrubberStatus scrub(CollectorBatch batch, CollectorReportData collectorReportData, String collectorFileDirectoryName) {
-        CollectorScrubberProcess collectorScrubberProcess = new CollectorScrubberProcess(batch, kualiConfigurationService, persistenceService, scrubberService, collectorReportData, dateTimeService, collectorFileDirectoryName);
+        CollectorScrubberProcess collectorScrubberProcess = new CollectorScrubberProcess(batch, kualiConfigurationService, persistenceService, scrubberService, collectorReportData, dateTimeService, batchFileDirectoryName);
         return collectorScrubberProcess.scrub();
         
     }
@@ -178,6 +178,14 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
      */
     public void setScrubberService(ScrubberService scrubberService) {
         this.scrubberService = scrubberService;
+    }
+
+    /**
+     * Sets the batchFileDirectoryName attribute value.
+     * @param batchFileDirectoryName The batchFileDirectoryName to set.
+     */
+    public void setBatchFileDirectoryName(String batchFileDirectoryName) {
+        this.batchFileDirectoryName = batchFileDirectoryName;
     }
 
 

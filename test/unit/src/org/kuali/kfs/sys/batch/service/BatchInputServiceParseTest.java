@@ -23,7 +23,7 @@ import org.apache.commons.io.IOUtils;
 import org.kuali.kfs.fp.batch.ProcurementCardInputFileType;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTransaction;
 import org.kuali.kfs.gl.batch.CollectorBatch;
-import org.kuali.kfs.gl.batch.CollectorInputFileType;
+import org.kuali.kfs.gl.batch.CollectorXmlInputFileType;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -56,7 +56,7 @@ public class BatchInputServiceParseTest extends KualiTestBase {
 
         batchInputFileService = SpringContext.getBean(BatchInputFileService.class);
         pcdoBatchInputFileType = SpringContext.getBean(ProcurementCardInputFileType.class);
-        collectorBatchInputFileType = SpringContext.getBean(CollectorInputFileType.class);
+        collectorBatchInputFileType = SpringContext.getBean(CollectorXmlInputFileType.class);
 
         InputStream pcdoValidFileStream = ClassLoader.getSystemResourceAsStream(TEST_BATCH_XML_DIRECTORY + "BatchInputValidPCDO.xml");
         validPCDOFileContents = IOUtils.toByteArray(pcdoValidFileStream);

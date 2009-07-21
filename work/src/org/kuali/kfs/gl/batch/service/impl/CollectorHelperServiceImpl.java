@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -32,8 +33,10 @@ import org.apache.commons.collections.iterators.TransformIterator;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.ObjectType;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.batch.CollectorStep;
@@ -57,6 +60,7 @@ import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.ParseException;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -84,11 +88,10 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
     private MailService mailService;
     private DateTimeService dateTimeService;
     private BatchInputFileService batchInputFileService;
-    private BatchInputFileType collectorInputFileType;
     private CollectorScrubberService collectorScrubberService;
-    private String collectorFileDirectoryName;
-    private PreScrubberService preScrubberService;
-
+    private AccountService accountService;
+    private String batchFileDirectoryName;
+    
     /**
      * Parses the given file, validates the batch, stores the entries, and sends email.
      * @param fileName - name of file to load (including path)
@@ -99,7 +102,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @return boolean - true if load was successful, false if errors were encountered
      * @see org.kuali.kfs.gl.batch.service.CollectorService#loadCollectorFile(java.lang.String)
      */
-    public boolean loadCollectorFile(String fileName, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses) {
+    public boolean loadCollectorFile(String fileName, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses, BatchInputFileType collectorInputFileType) {
         boolean isValid = true;
 
         // the batch name is the file name
@@ -107,12 +110,13 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         // if we used the global variables map, all of the parse/validation errors from one file would be retained when
         // parsing/validating the
         // the next file, causing all subsequent files to fail validation. So, instead we do one unique error map per file
-        MessageMap MessageMap = collectorReportData.getErrorMapForBatchName(fileName);
+        MessageMap messageMap = collectorReportData.getErrorMapForBatchName(fileName);
 
-        CollectorBatch batch = doCollectorFileParse(fileName, MessageMap);
+        CollectorBatch batch = doCollectorFileParse(fileName, messageMap, collectorInputFileType, collectorReportData);
         
+        String collectorFileDirectoryName = collectorInputFileType.getDirectoryPath();
         // create a input file for scrubber
-        String collectorInputFileNameForScrubber = collectorFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        String collectorInputFileNameForScrubber = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         PrintStream inputFilePs;
         try {
             inputFilePs = new PrintStream(collectorInputFileNameForScrubber);
@@ -128,7 +132,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         
         
         // terminate if there were parse errors
-        if (!MessageMap.isEmpty()) {
+        if (!messageMap.isEmpty()) {
             isValid = false;
             collectorReportData.markUnparsableBatchNames(fileName);
         }
@@ -138,12 +142,12 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             collectorReportData.addBatch(batch);
             collectorReportData.setNumInputDetails(batch);
             // check totals
-            isValid = checkTrailerTotals(batch, collectorReportData, MessageMap);
+            isValid = checkTrailerTotals(batch, collectorReportData, messageMap);
         }
 
         // do validation, base collector files rules and total checks
         if (isValid) {
-            isValid = performValidation(batch, MessageMap);
+            isValid = performValidation(batch, messageMap);
         }
 
         if (isValid) {
@@ -188,7 +192,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @param MessageMap a map of errors resultant from the parsing
      * @return the CollectorBatch of details parsed from the file
      */
-    private CollectorBatch doCollectorFileParse(String fileName, MessageMap MessageMap) {
+    private CollectorBatch doCollectorFileParse(String fileName, MessageMap MessageMap, BatchInputFileType collectorInputFileType, CollectorReportData collectorReportData) {
 
         InputStream inputStream = null;
         try {
@@ -213,9 +217,31 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             MessageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML, new String[] { e1.getMessage() });
         }
 
+        preprocessParsedCollectorBatch(parsedObject, collectorReportData);
+
         return parsedObject;
     }
 
+    protected void preprocessParsedCollectorBatch(CollectorBatch collectorBatch, CollectorReportData collectorReportData) {
+        if (collectorBatch != null && !parameterService.getIndicatorParameter(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND)) {
+            for (OriginEntryFull originEntry : collectorBatch.getOriginEntries()) {
+                if (GeneralLedgerConstants.getSpaceChartOfAccountsCode().equals(originEntry.getChartOfAccountsCode())) {
+                    Collection<Account> accounts = accountService.getAccountsForAccountNumber(originEntry.getAccountNumber());
+                    if (accounts.size() == 1) {
+                        originEntry.setChartOfAccountsCode(accounts.iterator().next().getAccountNumber());
+                    }
+                }
+            }
+            for (CollectorDetail collectorDetail : collectorBatch.getCollectorDetails()) {
+                if (GeneralLedgerConstants.getSpaceChartOfAccountsCode().equals(collectorDetail.getChartOfAccountsCode())) {
+                    Collection<Account> accounts = accountService.getAccountsForAccountNumber(collectorDetail.getAccountNumber());
+                    if (accounts.size() == 1) {
+                        collectorDetail.setChartOfAccountsCode(accounts.iterator().next().getAccountNumber());
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * Validates the contents of a parsed file.
@@ -404,7 +430,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         boolean detailKeysFound = true;
 
         // build a Set of keys from the gl entries to compare with
-        Set glEntryKeys = new HashSet();
+        Set<String> glEntryKeys = new HashSet<String>();
         for (OriginEntryFull entry : batch.getOriginEntries()) {
             glEntryKeys.add(generateOriginEntryMatchingKey(entry, ", "));
         }
@@ -553,10 +579,6 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         this.batchInputFileService = batchInputFileService;
     }
 
-    public void setCollectorInputFileType(BatchInputFileType collectorInputFileType) {
-        this.collectorInputFileType = collectorInputFileType;
-    }
-
     /**
      * Sets the collectorScrubberService attribute value.
      * 
@@ -574,15 +596,19 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         this.parameterService = parameterService;
     }
 
-    public void setCollectorFileDirectoryName(String collectorFileDirectoryName) {
-        this.collectorFileDirectoryName = collectorFileDirectoryName;
+    /**
+     * Sets the batchFileDirectoryName attribute value.
+     * @param batchFileDirectoryName The batchFileDirectoryName to set.
+     */
+    public void setBatchFileDirectoryName(String batchFileDirectoryName) {
+        this.batchFileDirectoryName = batchFileDirectoryName;
     }
 
-    public PreScrubberService getPreScrubberService() {
-        return preScrubberService;
-    }
-
-    public void setPreScrubberService(PreScrubberService preScrubberService) {
-        this.preScrubberService = preScrubberService;
+    /**
+     * Sets the accountService attribute value.
+     * @param accountService The accountService to set.
+     */
+    public void setAccountService(AccountService accountService) {
+        this.accountService = accountService;
     }
 }

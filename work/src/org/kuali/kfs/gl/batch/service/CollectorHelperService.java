@@ -21,6 +21,7 @@ import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.gl.service.impl.CollectorScrubberStatus;
+import org.kuali.kfs.sys.batch.BatchInputFileType;
 
 /**
  * Provides methods for processing gl incoming batch files.
@@ -37,7 +38,7 @@ public interface CollectorHelperService {
      *        info of the collector status run is added to the end of this list
      * @return boolean - true if load was successful, false if errors were encountered
      */
-    public boolean loadCollectorFile(String fileName, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses);
+    public boolean loadCollectorFile(String fileName, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses, BatchInputFileType collectorInputFileType);
 
     /**
      * Validates the contents of a parsed file.

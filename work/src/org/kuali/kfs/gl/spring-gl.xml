@@ -434,8 +434,11 @@
 		<property name="collectorHelperService">
 			<ref bean="glCollectorHelperService" />
 		</property>
-		<property name="collectorInputFileType">
-			<ref bean="collectorInputFileType" />
+		<property name="collectorInputFileTypes">
+			<list>
+				<ref bean="collectorXmlInputFileType" />
+				<ref bean="collectorFlatFileInputFileType" />
+			</list>
 		</property>
 		<property name="originEntryGroupService">
 			<ref bean="originEntryGroupService" />
@@ -453,7 +456,6 @@
 			<ref bean="glRunDateService" />
 		</property>
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
-		<property name="collectorFileDirectoryName" value="${staging.directory}/gl/collector"/>
 	</bean>
 	
 	<bean id="glCollectorHelperService" class="org.kuali.kfs.gl.batch.service.impl.CollectorHelperServiceImpl">
@@ -484,11 +486,8 @@
 		<property name="batchInputFileService">
 		    <ref bean="batchInputFileService" />
 		</property>
-		<property name="collectorInputFileType">
-			<ref bean="collectorInputFileType" />
-		</property>
-		<property name="collectorFileDirectoryName" value="${staging.directory}/gl/collector"/>
-		<property name="preScrubberService" ref="preScrubberService"/>
+		<property name="accountService" ref="accountService"/>
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 
 	<bean id="glCollectorScrubberService" class="org.kuali.kfs.gl.batch.service.impl.CollectorScrubberServiceImpl">
@@ -504,6 +503,7 @@
 		<property name="scrubberService">
 			<ref bean="glScrubberService" />
 		</property>
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 	
 	<bean id="glCollectorReportService" class="org.kuali.kfs.gl.batch.service.impl.CollectorReportServiceImpl">
@@ -2170,9 +2170,9 @@
 		</property>
 	</bean>
 	
-    <bean id="collectorInputFileType" class="org.kuali.kfs.gl.batch.CollectorInputFileType">
+    <bean id="collectorXmlInputFileType" class="org.kuali.kfs.gl.batch.CollectorXmlInputFileType">
     	<property name="directoryPath">
-	       <value>${staging.directory}/gl/collector</value>
+	       <value>${staging.directory}/gl/collectorXml</value>
 	    </property>
 	    <property name="fileExtension">
 	       <value>xml</value>
@@ -2191,6 +2191,24 @@
 	    </property>
 	</bean>
 
+    <bean id="collectorFlatFileInputFileType" class="org.kuali.kfs.gl.batch.CollectorFlatFileInputType">
+    	<property name="directoryPath">
+	       <value>${staging.directory}/gl/collectorFlatFile</value>
+	    </property>
+	    <property name="fileExtension">
+	       <value>data</value>
+	    </property>
+	    <property name="dateTimeService">
+	       <ref bean="dateTimeService"/>
+	    </property>
+	    <property name="collectorHelperService">
+	       <ref bean="glCollectorHelperService"/>
+	    </property>
+  	    <property name="accountService">
+	       <ref bean="accountService"/>
+	    </property>
+	</bean>
+		
 	<bean id="enterpriseFeederFileSetType" class="org.kuali.kfs.gl.batch.EnterpriseFeederFileSetType">
 		
 	</bean>	

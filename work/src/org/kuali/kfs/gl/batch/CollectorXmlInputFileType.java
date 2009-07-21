@@ -27,12 +27,12 @@ import org.kuali.rice.kns.service.DateTimeService;
 /**
  * Batch input type for the collector job.
  */
-public class CollectorInputFileType extends XmlBatchInputFileTypeBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectorInputFileType.class);
+public class CollectorXmlInputFileType extends XmlBatchInputFileTypeBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectorXmlInputFileType.class);
 
-    private DateTimeService dateTimeService;
+    protected DateTimeService dateTimeService;
     private CollectorHelperService collectorHelperService;
-
+    
     /**
      * Returns the identifier of the Collector's file type
      * 
@@ -72,22 +72,15 @@ public class CollectorInputFileType extends XmlBatchInputFileTypeBase {
         return fileName;
     }
 
-    /**
-     * Checks that the file contents parsed from the file are valid Collector data
-     * 
-     * @param parsedFileContents represents collector batch
-     * @return true if valid, false if not
-     * @see org.kuali.kfs.sys.batch.BatchInputFileType#validate(java.lang.Object)
-     */
     public boolean validate(Object parsedFileContents) {
         boolean isValid = collectorHelperService.performValidation((CollectorBatch) parsedFileContents);
         if (isValid) {
             isValid = collectorHelperService.checkTrailerTotals((CollectorBatch) parsedFileContents, null);
         }
-
+    
         return isValid;
     }
-
+    
     /**
      * Returns the Collector's title key
      * 
@@ -98,26 +91,20 @@ public class CollectorInputFileType extends XmlBatchInputFileTypeBase {
         return KFSKeyConstants.MESSAGE_BATCH_UPLOAD_TITLE_COLLECTOR;
     }
 
-    /**
-     * Sets the dateTimeService attribute value.
-     */
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
-
-    /**
-     * Sets the collectorService attribute value.
-     */
-    public void setCollectorHelperService(CollectorHelperService collectorHelperService) {
-        this.collectorHelperService = collectorHelperService;
-    }
-
     public String getAuthorPrincipalName(File file) {
         String[] fileNameParts = StringUtils.split(file.getName(), "_");
         if (fileNameParts.length > 4) {
             return fileNameParts[3];
         }
         return null;
+    }
+    
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    public void setCollectorHelperService(CollectorHelperService collectorHelperService) {
+        this.collectorHelperService = collectorHelperService;
     }
 }
 

@@ -96,7 +96,7 @@ public class CollectorStepTest extends KualiTestBase {
      * @return the full path and name of the done file to check
      */
     protected String generateDoneFileName() {
-        return SpringContext.getBean(CollectorInputFileType.class).getDirectoryPath() + "/gl_collector1.done";
+        return SpringContext.getBean(CollectorXmlInputFileType.class).getDirectoryPath() + "/gl_collector1.done";
     }
 
     /**

@@ -24,7 +24,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.kuali.kfs.fp.batch.ProcurementCardInputFileType;
-import org.kuali.kfs.gl.batch.CollectorInputFileType;
+import org.kuali.kfs.gl.batch.CollectorXmlInputFileType;
 import org.kuali.kfs.gl.batch.MockCollectorBatch;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KualiTestConstants.TestConstants.Data4;
@@ -75,7 +75,7 @@ public class BatchInputFileServiceTest extends KualiTestBase {
 
         batchInputFileService = SpringContext.getBean(BatchInputFileService.class);
         pcdoBatchInputFileType = SpringContext.getBean(ProcurementCardInputFileType.class);
-        collectorBatchInputFileType = SpringContext.getBean(CollectorInputFileType.class);
+        collectorBatchInputFileType = SpringContext.getBean(CollectorXmlInputFileType.class);
 
         testFileIdentifier = "junit" + RandomUtils.nextInt();
         validPCDOFileContents = ClassLoader.getSystemResourceAsStream(TEST_BATCH_XML_DIRECTORY + "BatchInputValidPCDO.xml");

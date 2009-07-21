@@ -41,11 +41,9 @@ import org.xml.sax.SAXException;
 /**
  * Base class for BatchInputFileType implementations that validate using an XSD schema and parse using a digester file
  */
-public abstract class XmlBatchInputFileTypeBase implements BatchInputFileType {
+public abstract class XmlBatchInputFileTypeBase extends BatchInputFileTypeBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(XmlBatchInputFileTypeBase.class);
 
-    private String directoryPath;
-    private String fileExtension;
     private String digestorRulesFileName;
     private String schemaLocation;
 
@@ -68,34 +66,6 @@ public abstract class XmlBatchInputFileTypeBase implements BatchInputFileType {
      */
     public void setDigestorRulesFileName(String digestorRulesFileName) {
         this.digestorRulesFileName = digestorRulesFileName;
-    }
-
-    /**
-     * Gets the directoryPath attribute.
-     */
-    public String getDirectoryPath() {
-        return directoryPath;
-    }
-
-    /**
-     * Sets the directoryPath attribute value.
-     */
-    public void setDirectoryPath(String directoryPath) {
-        this.directoryPath = directoryPath;
-    }
-
-    /**
-     * Gets the fileExtension attribute.
-     */
-    public String getFileExtension() {
-        return fileExtension;
-    }
-
-    /**
-     * Sets the fileExtension attribute value.
-     */
-    public void setFileExtension(String fileExtension) {
-        this.fileExtension = fileExtension;
     }
 
     /**

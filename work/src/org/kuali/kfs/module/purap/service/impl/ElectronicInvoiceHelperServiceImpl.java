@@ -35,6 +35,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -159,7 +160,12 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         File baseDir = new File(baseDirName);
         File[] filesToBeProcessed = baseDir.listFiles(new FileFilter() {
                                                             public boolean accept(File file) {
-                                                                return (!file.isDirectory() && file.getName().endsWith(".xml"));
+                                                                String fullPath = FilenameUtils.getFullPath(file.getAbsolutePath());
+                                                                String fileName = FilenameUtils.getBaseName(file.getAbsolutePath());
+                                                                File processedFile = new File(fullPath + File.separator + fileName + ".processed");
+                                                                return (!file.isDirectory() && 
+                                                                        file.getName().endsWith(".xml") &&
+                                                                        !processedFile.exists());
                                                             }
                                                         });
 
@@ -234,6 +240,18 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                         LOG.error(msg);
                         throw new PurError(msg);
                     }
+                }
+            }
+            
+            if (!moveFiles){
+                String fullPath = FilenameUtils.getFullPath(filesToBeProcessed[i].getAbsolutePath());
+                String fileName = FilenameUtils.getBaseName(filesToBeProcessed[i].getAbsolutePath());
+                File processedFile = new File(fullPath + File.separator + fileName + ".processed");
+                try {
+                    FileUtils.touch(processedFile);
+                }
+                catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
             }
             

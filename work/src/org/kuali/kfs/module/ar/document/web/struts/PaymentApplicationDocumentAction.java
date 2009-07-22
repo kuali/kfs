@@ -279,8 +279,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         if (!paymentApplicationDocument.hasCashControlDetail()) {
             paymentApplicationDocument.getDocumentHeader().setFinancialDocumentTotalAmount(appliedAmount);
         }
-        
-}
+    }
     
     private List<InvoicePaidApplied> applyToIndividualCustomerInvoiceDetails(PaymentApplicationDocumentForm paymentApplicationDocumentForm) {
         PaymentApplicationDocument paymentApplicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
@@ -436,16 +435,16 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     
     private NonAppliedHolding applyUnapplied(PaymentApplicationDocumentForm payAppForm) throws WorkflowException {
         PaymentApplicationDocument payAppDoc = payAppForm.getPaymentApplicationDocument();
+        String customerNumber = payAppForm.getNonAppliedHoldingCustomerNumber();
+        KualiDecimal amount = payAppForm.getNonAppliedHoldingAmount();
         
-        //  force customer number to upper
-        if (StringUtils.isNotBlank(payAppForm.getNonAppliedHoldingCustomerNumber())) {
-            payAppForm.setNonAppliedHoldingCustomerNumber(payAppForm.getNonAppliedHoldingCustomerNumber().toUpperCase());
-        }
-
         //  validate the customer number in the unapplied
-        if (StringUtils.isNotBlank(payAppForm.getNonAppliedHoldingCustomerNumber())) {
+        if (StringUtils.isNotBlank(customerNumber)) {
+            //  force customer number to upper
+            payAppForm.setNonAppliedHoldingCustomerNumber(customerNumber.toUpperCase());
+            
             Map<String,String> pkMap = new HashMap<String,String>();
-            pkMap.put("customerNumber", payAppForm.getNonAppliedHoldingCustomerNumber());
+            pkMap.put(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, customerNumber);
             int found = businessObjectService.countMatching(Customer.class, pkMap);
             if (found == 0) {
                 addFieldError(KFSConstants.PaymentApplicationTabErrorCodes.UNAPPLIED_TAB, 
@@ -463,9 +462,6 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             return null;
         }
         
-        String customerNumber = payAppForm.getNonAppliedHoldingCustomerNumber();
-        KualiDecimal amount = payAppForm.getNonAppliedHoldingAmount();
-        
         //   if we dont have enough information to make an UnApplied, then do nothing
         if (StringUtils.isBlank(customerNumber) || amount == null || amount.isZero()) {
             payAppDoc.setNonAppliedHolding(null);
@@ -482,8 +478,13 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         payAppDoc.setNonAppliedHolding(nonAppliedHolding);
         
         //  validate it
-        PaymentApplicationDocumentRuleUtil.validateNonAppliedHolding(payAppDoc, payAppForm.getTotalFromControl());
+        boolean isValid = PaymentApplicationDocumentRuleUtil.validateNonAppliedHolding(payAppDoc, payAppForm.getTotalFromControl());
 
+        // check the validation results and return null if there were any errors
+        if(!isValid) {
+            return null;
+        }
+        
         return nonAppliedHolding;
     }
 
@@ -501,7 +502,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         // entered against the db, and complain to the user if either is not right.
         if (StringUtils.isNotBlank(payAppForm.getSelectedCustomerNumber())) {
             Map<String,String> pkMap = new HashMap<String,String>();
-            pkMap.put("customerNumber", payAppForm.getSelectedCustomerNumber());
+            pkMap.put(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, payAppForm.getSelectedCustomerNumber());
             int found = businessObjectService.countMatching(Customer.class, pkMap);
             if (found == 0) {
                 addFieldError(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB, 

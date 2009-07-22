@@ -970,7 +970,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         
-        if(getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+        if(getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
             DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
             
             //  get the now time to stamp invoices with

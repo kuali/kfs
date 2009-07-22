@@ -530,26 +530,17 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
     
     private Map getItemTypeMappings(Integer vendorHeaderId,
                                     Integer vendorDetailId) {
-        
+
         Map itemTypeMappings = null;
-        
+
         if (vendorHeaderId != null && vendorDetailId != null) {
-            
-            String vendorNumber = getVendorNumber(vendorHeaderId,vendorDetailId);
-            
-            if (itemTypeMappings == null){
-                itemTypeMappings = electronicInvoicingDao.getItemMappingMap(vendorHeaderId,vendorDetailId);
-            }
+               String vendorNumber = getVendorNumber(vendorHeaderId,vendorDetailId);
+               itemTypeMappings = electronicInvoicingDao.getItemMappingMap(vendorHeaderId,vendorDetailId);
         }
-        /*else {
-            
-            itemTypeMappings = itemTypeMappingsCache.get(UNKNOWN_DUNS_IDENTIFIER);
-            
-            if (itemTypeMappings == null){
-                itemTypeMappings = mappingService.getDefaultItemMappingMap();
-                itemTypeMappingsCache.put(UNKNOWN_DUNS_IDENTIFIER,itemTypeMappings);
-            }
-        }*/
+
+        if (itemTypeMappings == null || itemTypeMappings.isEmpty()){
+            itemTypeMappings = electronicInvoicingDao.getDefaultItemMappingMap();
+        }
 
         return itemTypeMappings;
     }

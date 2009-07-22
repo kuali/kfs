@@ -19,7 +19,6 @@ public class ElectronicInvoiceItemMapping extends PersistableBusinessObjectBase 
   
   private ItemType itemType;
   private ItemType invoiceItemType;
-  VendorDetail vendorDetail;
   
   /**
    * 
@@ -112,14 +111,6 @@ public class ElectronicInvoiceItemMapping extends PersistableBusinessObjectBase 
     this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedId;
   }
   
-  public VendorDetail getVendorDetail() {
-    return vendorDetail;
-  }
-
-  public void setVendorDetail(VendorDetail vendorDetail) {
-    this.vendorDetail = vendorDetail;
-  }
-
   /**
    * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
    */

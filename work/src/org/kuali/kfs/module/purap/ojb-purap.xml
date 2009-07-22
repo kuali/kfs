@@ -3287,15 +3287,11 @@
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItemMapping" table="AP_ELCTRNC_INV_MAP_T">
 	<field-descriptor name="invoiceMapIdentifier" column="AP_ELCTRNC_INV_MAP_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="AP_ELCTRNC_INV_MAP_ID"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-  <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-  <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="invoiceItemTypeCode" column="INV_ITM_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="itemTypeCode" column="ITM_TYP_CD" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
-        <foreignkey field-ref="vendorDetailAssignedIdentifier" />
-    </reference-descriptor>
     <reference-descriptor name="itemType" class-ref="org.kuali.kfs.module.purap.businessobject.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="itemTypeCode" />
     </reference-descriptor>

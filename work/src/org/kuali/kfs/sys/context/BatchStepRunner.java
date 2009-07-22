@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchSpringContext;
 import org.kuali.kfs.sys.batch.Job;
+import org.kuali.kfs.sys.batch.Step;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 
@@ -50,8 +51,13 @@ public class BatchStepRunner {
             Date jobRunDate = dateTimeService.getCurrentDate();
             LOG.info("Executing job: " + jobName + " steps: " + Arrays.toString(stepNames));
             for (int i = 0; i < stepNames.length; ++i) {
-                if (!Job.runStep(parameterService, jobName, i, BatchSpringContext.getStep(stepNames[i]), jobRunDate)) {
-                    System.exit(4);
+                Step step = BatchSpringContext.getStep(stepNames[i]);
+                if ( step != null ) {
+                    if (!Job.runStep(parameterService, jobName, i, step, jobRunDate) ) {
+                        System.exit(4);
+                    }
+                } else {
+                    throw new IllegalArgumentException( "Unable to find step: " + stepNames[i] );
                 }
             }
             LOG.info("Finished executing job: " + jobName + " steps: " + Arrays.toString(stepNames));

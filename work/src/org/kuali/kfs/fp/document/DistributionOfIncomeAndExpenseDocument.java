@@ -64,8 +64,9 @@ public class DistributionOfIncomeAndExpenseDocument extends AccountingDocumentBa
     @Override
     public List buildListOfDeletionAwareLists() {
         List<List> managedLists = super.buildListOfDeletionAwareLists();
-        if (ObjectUtils.isNotNull(capitalAssetInformation) && (ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetInformationDetails()) && !capitalAssetInformation.getCapitalAssetInformationDetails().isEmpty())) {
-            managedLists.add(capitalAssetInformation.getCapitalAssetInformationDetails());
+        refreshReferenceObject("capitalAssetInformation");
+        if (ObjectUtils.isNotNull(getCapitalAssetInformation()) && ObjectUtils.isNotNull(getCapitalAssetInformation().getCapitalAssetInformationDetails())) {
+            managedLists.add(getCapitalAssetInformation().getCapitalAssetInformationDetails());
         }
         return managedLists;
     }

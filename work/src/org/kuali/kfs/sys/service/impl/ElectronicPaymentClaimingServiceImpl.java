@@ -17,11 +17,11 @@ package org.kuali.kfs.sys.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -39,6 +39,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentClaimingService {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicPaymentClaimingServiceImpl.class);
@@ -73,9 +74,6 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
         }
         catch (NumberFormatException nfe) {
             throw new RuntimeException("The KFS-SYS / ElectronicPaymentClaim / " + ELECTRONIC_FUNDS_CLAIM_SUMMARIES_PER_NOTE_PARAMETER + " should have a value that can be parsed into an integer.", nfe);
-        }
-        catch (NullPointerException npe) {
-            throw new RuntimeException(npe);
         }
         return noteTexts;
     }
@@ -112,8 +110,11 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
         summary.append('-');
         summary.append(claim.getFinancialDocumentLineNumber().toString());
         summary.append(' ');
-        summary.append(dateTimeService.toDateString(claim.getGeneratingAdvanceDepositDetail().getFinancialDocumentAdvanceDepositDate()));
-        summary.append(' ');
+        final Date advanceDepositDate = claim.getGeneratingAdvanceDepositDetail().getFinancialDocumentAdvanceDepositDate();
+        if (!ObjectUtils.isNull(advanceDepositDate)) {
+            summary.append(dateTimeService.toDateString(advanceDepositDate));
+            summary.append(' ');
+        }
         summary.append('$');
         summary.append(claim.getGeneratingAccountingLine().getAmount());
         summary.append(' ');

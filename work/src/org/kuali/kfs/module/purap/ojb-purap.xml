@@ -3196,6 +3196,7 @@
     <reference-descriptor auto-retrieve="true" auto-update="none" auto-delete="none"
         class-ref="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoadSummary" name="invoiceLoadSummary">
         <foreignkey field-ref="invoiceLoadSummaryIdentifier"/>
+        <foreignkey field-ref="vendorDunsNumber"/>
     </reference-descriptor>
 
     <reference-descriptor name="purchaseOrderDeliveryCampus" class-ref="org.kuali.kfs.vnd.businessobject.CampusParameter" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >

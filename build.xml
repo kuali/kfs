@@ -267,7 +267,7 @@
   	</target>
 	
 	<target name="filter-project-custom-lib" if="custom.application.lib.directory" depends="init-properties">
-		<copy todir="${lib.directory}">
+		<copy todir="${lib.directory}" verbose="true" preservelastmodified="true">
 			<fileset dir="${custom.application.lib.directory}" includes="*" />
     		<globmapper from="*.jar" to="${institutional.customization.file.prefix}*.jar" />
 		</copy>

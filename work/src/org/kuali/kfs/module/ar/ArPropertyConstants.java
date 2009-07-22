@@ -164,6 +164,8 @@ public class ArPropertyConstants {
     public static class CustomerAgingReportFields {        
         public static final String REPORT_RUN_DATE = "reportRunDate";
         public static final String REPORT_OPTION= "reportOption";
+        public static final String PROCESSING_OR_BILLING_CHART_CODE = "processingOrBillingChartCode";
+        public static final String ACCOUNT_CHART_CODE = "accountChartCode";
     }
 
     // OrganizationOptions

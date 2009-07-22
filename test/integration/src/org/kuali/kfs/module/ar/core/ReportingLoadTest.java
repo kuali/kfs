@@ -60,8 +60,9 @@ public class ReportingLoadTest extends KualiTestBase {
     
     private static final String AGING_RPT_LOOKUPABLE_SERVICE = "arCustomerAgingReportLookupable";
     private static final String AGING_RPT_OPTION = "PROCESSING ORGANIZATION";
-    private static final String AGING_RPT_CHART = "UA";
+    private static final String AGING_RPT_PROCESSING_OR_BILLING_CHART = "UA";
     private static final String AGING_RPT_ORG = "VPIT";
+    private static final String AGING_RPT_ACCOUNT_CHART = "BL";
     private static final String AGING_RPT_ACCOUNT = "1031400";
     
     private DocumentService documentService;
@@ -118,7 +119,7 @@ public class ReportingLoadTest extends KualiTestBase {
         createManyInvoiceReadyForAgingReport();
         
         //  test the following line for perf
-        List<File> reports = reportService.generateStatementByBillingOrg(AGING_RPT_CHART, AGING_RPT_ORG);
+        List<File> reports = reportService.generateStatementByBillingOrg(AGING_RPT_PROCESSING_OR_BILLING_CHART, AGING_RPT_ORG);
         assertNotNull("Reports list should not be null.", reports);
         assertFalse("Reports should not be empty.", reports.isEmpty());
     }
@@ -142,8 +143,9 @@ public class ReportingLoadTest extends KualiTestBase {
         fieldValues.put(KFSConstants.BACK_LOCATION, "");
         fieldValues.put(KFSConstants.DOC_FORM_KEY, "");
         fieldValues.put(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION, AGING_RPT_OPTION);
+        fieldValues.put(ArPropertyConstants.CustomerAgingReportFields.ACCOUNT_CHART_CODE, AGING_RPT_ACCOUNT_CHART);
         fieldValues.put(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, AGING_RPT_ACCOUNT);
-        fieldValues.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, AGING_RPT_CHART);
+        fieldValues.put(ArPropertyConstants.CustomerAgingReportFields.PROCESSING_OR_BILLING_CHART_CODE, AGING_RPT_PROCESSING_OR_BILLING_CHART);
         fieldValues.put(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME, AGING_RPT_ORG);
         java.util.Date today = dateTimeService.getCurrentDate();
         DateFormat format = new SimpleDateFormat("MM/dd/yyyy");

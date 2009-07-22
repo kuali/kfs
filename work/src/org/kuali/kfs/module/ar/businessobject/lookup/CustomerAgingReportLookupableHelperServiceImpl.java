@@ -25,15 +25,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.batch.CustomerInvoiceDocumentBatchStep;
-import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.dataaccess.CustomerAgingReportDao;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
@@ -94,7 +94,6 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private Date reportRunDate;
     private String reportOption;
     private String accountNumber;
-//    private String chartCode;
     private String processingOrBillingChartCode;
     private String accountChartCode;
     private String orgCode;
@@ -112,13 +111,13 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
      */
     @Override
     public List getSearchResults(Map fieldValues) {
+        CustomerAgingReportDao agingReportDao = SpringContext.getBean(CustomerAgingReportDao.class);
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
         reportOption = (String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION);
         accountNumber = (String) fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
-//        chartCode = (String) fieldValues.get(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
         processingOrBillingChartCode = (String) fieldValues.get("processingOrBillingChartOfAccountsCode");
         accountChartCode = (String) fieldValues.get("accountChartOfAccountsCode");
         orgCode = (String) fieldValues.get(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
@@ -157,19 +156,40 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
         CustomerAgingReportDetail custDetail;
         if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.PROCESSING_ORG) && StringUtils.isNotBlank(processingOrBillingChartCode) && StringUtils.isNotBlank(orgCode)) {
-            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByProcessingChartAndOrg(processingOrBillingChartCode, orgCode);
-            for (CustomerInvoiceDocument ci : invoices) {
-                iterateCustomerInvoiceDetails(customerInvoiceDetailService.getCustomerInvoiceDetailsForInvoice(ci.getDocumentNumber()), cutoffdate30, cutoffdate60, cutoffdate90, cutoffdate120, knownCustomers);
-            }
+            // 30 days
+            computeFor0To30DaysByProcessingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate30.getTime()), new java.sql.Date(reportRunDate.getTime()), knownCustomers);
+            // 60 days
+            computeFor31To60DaysByProcessingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate60.getTime()), new java.sql.Date(cutoffdate30.getTime()), knownCustomers);
+            // 90 days
+            computeFor61To90DaysByProcessingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate90.getTime()), new java.sql.Date(cutoffdate60.getTime()), knownCustomers);
+            // 120 days
+            computeFor91ToSYSPRDaysByProcessingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate120.getTime()), new java.sql.Date(cutoffdate90.getTime()), knownCustomers);
+            // 120 + older
+            computeForSYSPRplus1orMoreDaysByProcessingChartAndOrg(agingReportDao, null, new java.sql.Date(cutoffdate120.getTime()), knownCustomers);
         }
         if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.BILLING_ORG) && StringUtils.isNotBlank(processingOrBillingChartCode) && StringUtils.isNotBlank(orgCode)) {
-            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByBillingChartAndOrg(processingOrBillingChartCode, orgCode);
-            for (CustomerInvoiceDocument ci : invoices) {
-                iterateCustomerInvoiceDetails(customerInvoiceDetailService.getCustomerInvoiceDetailsForInvoice(ci.getDocumentNumber()), cutoffdate30, cutoffdate60, cutoffdate90, cutoffdate120, knownCustomers);
-            }
+            // 30 days
+            computeFor0To30DaysByBillingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate30.getTime()), new java.sql.Date(reportRunDate.getTime()), knownCustomers);
+            // 60 days
+            computeFor31To60DaysByBillingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate60.getTime()), new java.sql.Date(cutoffdate30.getTime()), knownCustomers);
+            // 90 days
+            computeFor61To90DaysByBillingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate90.getTime()), new java.sql.Date(cutoffdate60.getTime()), knownCustomers);
+            // 120 days
+            computeFor91ToSYSPRDaysByBillingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate120.getTime()), new java.sql.Date(cutoffdate90.getTime()), knownCustomers);
+            // 120 + older
+            computeForSYSPRplus1orMoreDaysByBillingChartAndOrg(agingReportDao, null, new java.sql.Date(cutoffdate120.getTime()), knownCustomers);
         }
-        if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.ACCT) && accountNumber.length() != 0) {
-            iterateCustomerInvoiceDetails(getCustomerInvoiceDetailsByAccountNumber(accountChartCode, accountNumber), cutoffdate30, cutoffdate60, cutoffdate90, cutoffdate120, knownCustomers);
+        if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.ACCT) && StringUtils.isNotBlank(accountChartCode) && StringUtils.isNotBlank(accountNumber)) {
+            // 30 days
+            computeFor0To30DaysByAccount(agingReportDao, new java.sql.Date(cutoffdate30.getTime()), new java.sql.Date(reportRunDate.getTime()), knownCustomers);
+            // 60 days
+            computeFor31To60DaysByAccount(agingReportDao, new java.sql.Date(cutoffdate60.getTime()), new java.sql.Date(cutoffdate30.getTime()), knownCustomers);
+            // 90 days
+            computeFor61To90DaysByAccount(agingReportDao, new java.sql.Date(cutoffdate90.getTime()), new java.sql.Date(cutoffdate60.getTime()), knownCustomers);
+            // 120 days
+            computeFor91ToSYSPRDaysByAccount(agingReportDao, new java.sql.Date(cutoffdate120.getTime()), new java.sql.Date(cutoffdate90.getTime()), knownCustomers);
+            // 120 + older
+            computeForSYSPRplus1orMoreDaysByAccount(agingReportDao, null, new java.sql.Date(cutoffdate120.getTime()), knownCustomers);
         }
 
         List<CustomerAgingReportDetail> results = new ArrayList<CustomerAgingReportDetail>();
@@ -180,92 +200,15 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         return new CollectionIncomplete<CustomerAgingReportDetail>(results, (long) results.size());
     }
 
-    private void iterateCustomerInvoiceDetails(Collection<CustomerInvoiceDetail> invoiceDetails, Date cutoffdate30, Date cutoffdate60, Date cutoffdate90, Date cutoffdate120, Map<String, CustomerAgingReportDetail> knownCustomers) {
-        CustomerInvoiceDocument custInvoice;
-        CustomerAgingReportDetail custDetail;
-        // iterate over all invoices consolidating balances for each customer
-        for (CustomerInvoiceDetail cid : invoiceDetails) {
-            // ignore the discount line
-            if (cid.getAmount().isPositive()) {
-
-                String invoiceDocumentNumber = cid.getDocumentNumber();
-                custInvoice = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
-                cid.setCustomerInvoiceDocument(custInvoice);
-                Date approvalDate = null;
-                if (custInvoice != null) {
-                    approvalDate = custInvoice.getBillingDate();
-                }
-                KualiDecimal amountOpen = cid.getAmountOpen();
-                if (approvalDate != null && amountOpen.isNonZero()) {// customerInvoiceDetailService.getAmountOpen(cid).isNonZero())
-                    // {
-
-                    Customer customerobj = custInvoice.getCustomer();
-                    String customerNumber = customerobj.getCustomerNumber(); // tested and works
-                    String customerName = customerobj.getCustomerName(); // tested and works
-
-
-                    if (knownCustomers.containsKey(customerNumber)) {
-                        custDetail = knownCustomers.get(customerNumber);
-                        // LOG.info("\n\t\tcustomer:\t\t" + custDetail.getCustomerNumber() + "\tfound");
-                    }
-                    else {
-                        custDetail = new CustomerAgingReportDetail();
-                        custDetail.setCustomerName(customerName);
-                        custDetail.setCustomerNumber(customerNumber);
-                        knownCustomers.put(customerNumber, custDetail);
-                        // LOG.info("\n\t\tcustomer:\t\t" + custDetail.getCustomerNumber() + "\tADDED");
-                    }
-                    // LOG.info("\t\t APPROVAL DATE: \t\t" + approvalDate.toString() + "\t");
-                    // LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
-                    if (!approvalDate.after(reportRunDate) && !approvalDate.before(cutoffdate30)) {
-                        custDetail.setUnpaidBalance0to30(amountOpen.add(custDetail.getUnpaidBalance0to30()));
-                        // total0to30 = total0to30.add(custDetail.getUnpaidBalance0to30());
-                        total0to30 = total0to30.add(amountOpen);
-                        // LOG.info("\t\t 0to30 =\t\t" + custDetail.getCustomerNumber() + "\t" +
-                        // custDetail.getUnpaidBalance0to30());
-                        // LOG.info("\t\t 0to30 total =\t\t" + total0to30.toString());
-                    }
-                    if (approvalDate.before(cutoffdate30) && !approvalDate.before(cutoffdate60)) {
-                        custDetail.setUnpaidBalance31to60(amountOpen.add(custDetail.getUnpaidBalance31to60()));
-                        total31to60 = total31to60.add(amountOpen);
-                        // LOG.info("\t\t31to60 =\t\t" + custDetail.getCustomerNumber() + "\t" +
-                        // custDetail.getUnpaidBalance31to60());
-                    }
-                    if (approvalDate.before(cutoffdate60) && !approvalDate.before(cutoffdate90)) {
-                        custDetail.setUnpaidBalance61to90(amountOpen.add(custDetail.getUnpaidBalance61to90()));
-                        total61to90 = total61to90.add(amountOpen);
-                        // LOG.info("\t\t61to90 =\t\t" + custDetail.getCustomerNumber() + "\t" +
-                        // custDetail.getUnpaidBalance61to90());
-                    }
-                    if (approvalDate.before(cutoffdate90) && !approvalDate.before(cutoffdate120)) {
-                        custDetail.setUnpaidBalance91toSYSPR(amountOpen.add(custDetail.getUnpaidBalance91toSYSPR()));
-                        total91toSYSPR = total91toSYSPR.add(amountOpen);
-                        // LOG.info("\t\t91to120 =\t\t" + custDetail.getCustomerNumber() + "\t" +
-                        // custDetail.getUnpaidBalance91toSYSPR());
-                    }
-                    if (approvalDate.before(cutoffdate120)) {
-                        custDetail.setUnpaidBalanceSYSPRplus1orMore(amountOpen.add(custDetail.getUnpaidBalanceSYSPRplus1orMore()));
-                        totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(amountOpen);
-                        // LOG.info("\t\t120+ =\t\t" + custDetail.getCustomerNumber() + "\t" +
-                        // custDetail.getUnpaidBalanceSYSPRplus1orMore());
-                    }
-
-                }
-            }// end is positive
-
-        } // end for loop
-        invoiceDetails.clear();
-        return;
-    }
 
     /**
      * @return a List of the CustomerInvoiceDetails associated with a given Account Number
      */
     @SuppressWarnings("unchecked")
-    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsByAccountNumber(String chartCode, String accountNumber) {
+    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsByAccountNumber(String accountChartCode, String accountNumber) {
         Map args = new HashMap();
-        args.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
         args.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+        args.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, accountChartCode);
         return businessObjectService.findMatching(CustomerInvoiceDetail.class, args);
     }
 
@@ -274,9 +217,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
      */
     @Override
     public List getReturnKeys() {
-        List returnKeys;
-        returnKeys = new ArrayList(fieldConversions.keySet());
-        return returnKeys;
+        return new ArrayList(fieldConversions.keySet());
     }
 
     /**
@@ -344,8 +285,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         // call search method to get results
         if (bounded) {
             displayList = getSearchResults(lookupForm.getFieldsForLookup());
-        }
-        else {
+        } else {
             displayList = getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
         }
         // MJM get resultTable populated here
@@ -414,8 +354,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
                             if (formatter != null) {
                                 propValue = (String) formatter.format(prop);
-                            }
-                            else {
+                            } else {
                                 propValue = prop.toString();
                             }
                         }
@@ -428,17 +367,20 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
                         col.setPropertyValue(propValue);
 
                         // add correct label for sysparam
-                        if (StringUtils.equals("unpaidBalance91toSYSPR", col.getPropertyName()))
+                        if (StringUtils.equals("unpaidBalance91toSYSPR", col.getPropertyName())) {
                             col.setColumnTitle(cutoffdate91toSYSPRlabel);
-                        if (StringUtils.equals("unpaidBalanceSYSPRplus1orMore", col.getPropertyName()))
+                        }
+                        if (StringUtils.equals("unpaidBalanceSYSPRplus1orMore", col.getPropertyName())) {
                             col.setColumnTitle(cutoffdateSYSPRplus1orMorelabel);
+                        }
 
                         if (StringUtils.isNotBlank(propValue)) {
                             // do not add link to the values in column "Customer Name"
-                            if (StringUtils.equals(customerNameLabel, col.getColumnTitle()))
+                            if (StringUtils.equals(customerNameLabel, col.getColumnTitle())) {
                                 col.setPropertyURL("");
-                            else
+                            } else {
                                 col.setPropertyURL(getCustomerOpenItemReportUrl(element, col.getColumnTitle()));
+                            }
                         }
 
                     }
@@ -508,15 +450,15 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             href += "&columnTitle=" + KFSConstants.CustomerOpenItemReport.ALL_DAYS;
         }
         else {
-            if (StringUtils.equals(columnTitle, cutoffdate30Label))
+            if (StringUtils.equals(columnTitle, cutoffdate30Label)) {
                 href += "&startDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -30)).toString() + "&endDate=" + dateFormatter.format(reportRunDate).toString();
-            else if (StringUtils.equals(columnTitle, cutoffdate60Label))
+            } else if (StringUtils.equals(columnTitle, cutoffdate60Label)) {
                 href += "&startDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -60)).toString() + "&endDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -31)).toString();
-            else if (StringUtils.equals(columnTitle, cutoffdate90Label))
+            } else if (StringUtils.equals(columnTitle, cutoffdate90Label)) {
                 href += "&startDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -90)).toString() + "&endDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -61)).toString();
-            else if (StringUtils.equals(columnTitle, cutoffdate91toSYSPRlabel))
+            } else if (StringUtils.equals(columnTitle, cutoffdate91toSYSPRlabel)) {
                 href += "&startDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -120)).toString() + "&endDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -91)).toString();
-            else if (StringUtils.equals(columnTitle, cutoffdateSYSPRplus1orMorelabel)) {
+            } else if (StringUtils.equals(columnTitle, cutoffdateSYSPRplus1orMorelabel)) {
                 href += "&startDate=" + "&endDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -121)).toString();
                 columnTitle = Integer.toString((Integer.parseInt(nbrDaysForLastBucket)) + 1) + " days and older";
             }
@@ -644,5 +586,348 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         this.totalSYSPRplus1orMore = totalSYSPRplus1orMore;
     }
 
+    /**
+     * 
+     * This method...
+     * @param agingReportDao
+     * @param begin
+     * @param end
+     * @param knownCustomers
+     */
+    private void computeFor0To30DaysByProcessingChartAndOrg(CustomerAgingReportDao agingReportDao, java.sql.Date begin, java.sql.Date end, Map<String, CustomerAgingReportDetail> knownCustomers) {
+        HashMap<String, KualiDecimal> invAmountDays = agingReportDao.findInvoiceAmountByProcessingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        HashMap<String, KualiDecimal> appliedAmountDays = agingReportDao.findAppliedAmountByProcessingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        HashMap<String, KualiDecimal> discountAmountDays = agingReportDao.findDiscountAmountByProcessingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        Set<String> customerIds = invAmountDays.keySet();
+        for (String customer : customerIds) {
+            CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            agingReportDetail.setUnpaidBalance0to30(amount);
+            total0to30 = total0to30.add(amount);
+        }
+    }
+
+    /**
+     * 
+     * This method...
+     * @param agingReportDao
+     * @param begin
+     * @param end
+     * @param knownCustomers
+     */
+    private void computeFor31To60DaysByProcessingChartAndOrg(CustomerAgingReportDao agingReportDao, java.sql.Date begin, java.sql.Date end, Map<String, CustomerAgingReportDetail> knownCustomers) {
+        HashMap<String, KualiDecimal> invAmountDays = agingReportDao.findInvoiceAmountByProcessingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        HashMap<String, KualiDecimal> appliedAmountDays = agingReportDao.findAppliedAmountByProcessingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        HashMap<String, KualiDecimal> discountAmountDays = agingReportDao.findDiscountAmountByProcessingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        Set<String> customerIds = invAmountDays.keySet();
+        for (String customer : customerIds) {
+            CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            agingReportDetail.setUnpaidBalance31to60(amount);
+            total31to60 = total31to60.add(amount);
+        }
+    }
+
+    /**
+     * 
+     * This method...
+     * @param agingReportDao
+     * @param begin
+     * @param end
+     * @param knownCustomers
+     */
+    private void computeFor61To90DaysByProcessingChartAndOrg(CustomerAgingReportDao agingReportDao, java.sql.Date begin, java.sql.Date end, Map<String, CustomerAgingReportDetail> knownCustomers) {
+        HashMap<String, KualiDecimal> invAmountDays = agingReportDao.findInvoiceAmountByProcessingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        HashMap<String, KualiDecimal> appliedAmountDays = agingReportDao.findAppliedAmountByProcessingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        HashMap<String, KualiDecimal> discountAmountDays = agingReportDao.findDiscountAmountByProcessingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        Set<String> customerIds = invAmountDays.keySet();
+        for (String customer : customerIds) {
+            CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            agingReportDetail.setUnpaidBalance61to90(amount);
+            total61to90 = total61to90.add(amount);
+        }
+    }
+
+    /**
+     * 
+     * This method...
+     * @param agingReportDao
+     * @param begin
+     * @param end
+     * @param knownCustomers
+     */
+    private void computeFor91ToSYSPRDaysByProcessingChartAndOrg(CustomerAgingReportDao agingReportDao, java.sql.Date begin, java.sql.Date end, Map<String, CustomerAgingReportDetail> knownCustomers) {
+        HashMap<String, KualiDecimal> invAmountDays = agingReportDao.findInvoiceAmountByProcessingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        HashMap<String, KualiDecimal> appliedAmountDays = agingReportDao.findAppliedAmountByProcessingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        HashMap<String, KualiDecimal> discountAmountDays = agingReportDao.findDiscountAmountByProcessingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        Set<String> customerIds = invAmountDays.keySet();
+        for (String customer : customerIds) {
+            CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            agingReportDetail.setUnpaidBalance91toSYSPR(amount);
+            total91toSYSPR = total91toSYSPR.add(amount);
+        }
+    }
+
+    /**
+     * 
+     * This method...
+     * @param agingReportDao
+     * @param begin
+     * @param end
+     * @param knownCustomers
+     */
+    private void computeForSYSPRplus1orMoreDaysByProcessingChartAndOrg(CustomerAgingReportDao agingReportDao, java.sql.Date begin, java.sql.Date end, Map<String, CustomerAgingReportDetail> knownCustomers) {
+        HashMap<String, KualiDecimal> invAmountDays = agingReportDao.findInvoiceAmountByProcessingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        HashMap<String, KualiDecimal> appliedAmountDays = agingReportDao.findAppliedAmountByProcessingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        HashMap<String, KualiDecimal> discountAmountDays = agingReportDao.findDiscountAmountByProcessingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        Set<String> customerIds = invAmountDays.keySet();
+        for (String customer : customerIds) {
+            CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            agingReportDetail.setUnpaidBalanceSYSPRplus1orMore(amount);
+            totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(amount);
+        }
+    }
+
+    /**
+     * 
+     * This method...
+     * @param agingReportDao
+     * @param begin
+     * @param end
+     * @param knownCustomers
+     */
+    private void computeFor0To30DaysByBillingChartAndOrg(CustomerAgingReportDao agingReportDao, java.sql.Date begin, java.sql.Date end, Map<String, CustomerAgingReportDetail> knownCustomers) {
+        HashMap<String, KualiDecimal> invAmountDays = agingReportDao.findInvoiceAmountByBillingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        HashMap<String, KualiDecimal> appliedAmountDays = agingReportDao.findAppliedAmountByBillingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        HashMap<String, KualiDecimal> discountAmountDays = agingReportDao.findDiscountAmountByBillingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        Set<String> customerIds = invAmountDays.keySet();
+        for (String customer : customerIds) {
+            CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            agingReportDetail.setUnpaidBalance0to30(amount);
+            total0to30 = total0to30.add(amount);
+        }
+    }
+
+    /**
+     * 
+     * This method...
+     * @param agingReportDao
+     * @param begin
+     * @param end
+     * @param knownCustomers
+     */
+    private void computeFor31To60DaysByBillingChartAndOrg(CustomerAgingReportDao agingReportDao, java.sql.Date begin, java.sql.Date end, Map<String, CustomerAgingReportDetail> knownCustomers) {
+        HashMap<String, KualiDecimal> invAmountDays = agingReportDao.findInvoiceAmountByBillingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        HashMap<String, KualiDecimal> appliedAmountDays = agingReportDao.findAppliedAmountByBillingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        HashMap<String, KualiDecimal> discountAmountDays = agingReportDao.findDiscountAmountByBillingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        Set<String> customerIds = invAmountDays.keySet();
+        for (String customer : customerIds) {
+            CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            agingReportDetail.setUnpaidBalance31to60(amount);
+            total31to60 = total31to60.add(amount);
+        }
+    }
+
+    /**
+     * 
+     * This method...
+     * @param agingReportDao
+     * @param begin
+     * @param end
+     * @param knownCustomers
+     */
+    private void computeFor61To90DaysByBillingChartAndOrg(CustomerAgingReportDao agingReportDao, java.sql.Date begin, java.sql.Date end, Map<String, CustomerAgingReportDetail> knownCustomers) {
+        HashMap<String, KualiDecimal> invAmountDays = agingReportDao.findInvoiceAmountByBillingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        HashMap<String, KualiDecimal> appliedAmountDays = agingReportDao.findAppliedAmountByBillingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        HashMap<String, KualiDecimal> discountAmountDays = agingReportDao.findDiscountAmountByBillingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        Set<String> customerIds = invAmountDays.keySet();
+        for (String customer : customerIds) {
+            CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            agingReportDetail.setUnpaidBalance61to90(amount);
+            total61to90 = total61to90.add(amount);
+        }
+    }
+
+    /**
+     * 
+     * This method...
+     * @param agingReportDao
+     * @param begin
+     * @param end
+     * @param knownCustomers
+     */
+    private void computeFor91ToSYSPRDaysByBillingChartAndOrg(CustomerAgingReportDao agingReportDao, java.sql.Date begin, java.sql.Date end, Map<String, CustomerAgingReportDetail> knownCustomers) {
+        HashMap<String, KualiDecimal> invAmountDays = agingReportDao.findInvoiceAmountByBillingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        HashMap<String, KualiDecimal> appliedAmountDays = agingReportDao.findAppliedAmountByBillingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        HashMap<String, KualiDecimal> discountAmountDays = agingReportDao.findDiscountAmountByBillingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        Set<String> customerIds = invAmountDays.keySet();
+        for (String customer : customerIds) {
+            CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            agingReportDetail.setUnpaidBalance91toSYSPR(amount);
+            total91toSYSPR = total91toSYSPR.add(amount);
+        }
+    }
+
+    /**
+     * 
+     * This method...
+     * @param agingReportDao
+     * @param begin
+     * @param end
+     * @param knownCustomers
+     */
+    private void computeForSYSPRplus1orMoreDaysByBillingChartAndOrg(CustomerAgingReportDao agingReportDao, java.sql.Date begin, java.sql.Date end, Map<String, CustomerAgingReportDetail> knownCustomers) {
+        HashMap<String, KualiDecimal> invAmountDays = agingReportDao.findInvoiceAmountByBillingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        HashMap<String, KualiDecimal> appliedAmountDays = agingReportDao.findAppliedAmountByBillingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        HashMap<String, KualiDecimal> discountAmountDays = agingReportDao.findDiscountAmountByBillingChartAndOrg(processingOrBillingChartCode, orgCode, begin, end);
+        Set<String> customerIds = invAmountDays.keySet();
+        for (String customer : customerIds) {
+            CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            agingReportDetail.setUnpaidBalanceSYSPRplus1orMore(amount);
+            totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(amount);
+        }
+    }
+
+    /**
+     * 
+     * This method...
+     * @param agingReportDao
+     * @param begin
+     * @param end
+     * @param knownCustomers
+     */
+    private void computeFor0To30DaysByAccount(CustomerAgingReportDao agingReportDao, java.sql.Date begin, java.sql.Date end, Map<String, CustomerAgingReportDetail> knownCustomers) {
+        HashMap<String, KualiDecimal> invAmountDays = agingReportDao.findInvoiceAmountByAccount(accountChartCode, accountNumber, begin, end);
+        HashMap<String, KualiDecimal> appliedAmountDays = agingReportDao.findAppliedAmountByAccount(accountChartCode, accountNumber, begin, end);
+        HashMap<String, KualiDecimal> discountAmountDays = agingReportDao.findDiscountAmountByAccount(accountChartCode, accountNumber, begin, end);
+        Set<String> customerIds = invAmountDays.keySet();
+        for (String customer : customerIds) {
+            CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            agingReportDetail.setUnpaidBalance0to30(amount);
+            total0to30 = total0to30.add(amount);
+        }
+    }
+
+    /**
+     * 
+     * This method...
+     * @param agingReportDao
+     * @param begin
+     * @param end
+     * @param knownCustomers
+     */
+    private void computeFor31To60DaysByAccount(CustomerAgingReportDao agingReportDao, java.sql.Date begin, java.sql.Date end, Map<String, CustomerAgingReportDetail> knownCustomers) {
+        HashMap<String, KualiDecimal> invAmountDays = agingReportDao.findInvoiceAmountByAccount(accountChartCode, accountNumber, begin, end);
+        HashMap<String, KualiDecimal> appliedAmountDays = agingReportDao.findAppliedAmountByAccount(accountChartCode, accountNumber, begin, end);
+        HashMap<String, KualiDecimal> discountAmountDays = agingReportDao.findDiscountAmountByAccount(accountChartCode, accountNumber, begin, end);
+        Set<String> customerIds = invAmountDays.keySet();
+        for (String customer : customerIds) {
+            CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            agingReportDetail.setUnpaidBalance31to60(amount);
+            total31to60 = total31to60.add(amount);
+        }
+    }
+
+    /**
+     * 
+     * This method...
+     * @param agingReportDao
+     * @param begin
+     * @param end
+     * @param knownCustomers
+     */
+    private void computeFor61To90DaysByAccount(CustomerAgingReportDao agingReportDao, java.sql.Date begin, java.sql.Date end, Map<String, CustomerAgingReportDetail> knownCustomers) {
+        HashMap<String, KualiDecimal> invAmountDays = agingReportDao.findInvoiceAmountByAccount(accountChartCode, accountNumber, begin, end);
+        HashMap<String, KualiDecimal> appliedAmountDays = agingReportDao.findAppliedAmountByAccount(accountChartCode, accountNumber, begin, end);
+        HashMap<String, KualiDecimal> discountAmountDays = agingReportDao.findDiscountAmountByAccount(accountChartCode, accountNumber, begin, end);
+        Set<String> customerIds = invAmountDays.keySet();
+        for (String customer : customerIds) {
+            CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            agingReportDetail.setUnpaidBalance61to90(amount);
+            total61to90 = total61to90.add(amount);
+        }
+    }
+
+    /**
+     * 
+     * This method...
+     * @param agingReportDao
+     * @param begin
+     * @param end
+     * @param knownCustomers
+     */
+    private void computeFor91ToSYSPRDaysByAccount(CustomerAgingReportDao agingReportDao, java.sql.Date begin, java.sql.Date end, Map<String, CustomerAgingReportDetail> knownCustomers) {
+        HashMap<String, KualiDecimal> invAmountDays = agingReportDao.findInvoiceAmountByAccount(accountChartCode, accountNumber, begin, end);
+        HashMap<String, KualiDecimal> appliedAmountDays = agingReportDao.findAppliedAmountByAccount(accountChartCode, accountNumber, begin, end);
+        HashMap<String, KualiDecimal> discountAmountDays = agingReportDao.findDiscountAmountByAccount(accountChartCode, accountNumber, begin, end);
+        Set<String> customerIds = invAmountDays.keySet();
+        for (String customer : customerIds) {
+            CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            agingReportDetail.setUnpaidBalance91toSYSPR(amount);
+            total91toSYSPR = total91toSYSPR.add(amount);
+        }
+    }
+
+    /**
+     * 
+     * This method...
+     * @param agingReportDao
+     * @param begin
+     * @param end
+     * @param knownCustomers
+     */
+    private void computeForSYSPRplus1orMoreDaysByAccount(CustomerAgingReportDao agingReportDao, java.sql.Date begin, java.sql.Date end, Map<String, CustomerAgingReportDetail> knownCustomers) {
+        HashMap<String, KualiDecimal> invAmountDays = agingReportDao.findInvoiceAmountByAccount(accountChartCode, accountNumber, begin, end);
+        HashMap<String, KualiDecimal> appliedAmountDays = agingReportDao.findAppliedAmountByAccount(accountChartCode, accountNumber, begin, end);
+        HashMap<String, KualiDecimal> discountAmountDays = agingReportDao.findDiscountAmountByAccount(accountChartCode, accountNumber, begin, end);
+        Set<String> customerIds = invAmountDays.keySet();
+        for (String customer : customerIds) {
+            CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            agingReportDetail.setUnpaidBalanceSYSPRplus1orMore(amount);
+            totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(amount);
+        }
+    }
+
+    /**
+     * 
+     * This method...
+     * @param knownCustomers
+     * @param customer
+     * @return
+     */
+    private CustomerAgingReportDetail pickCustomerAgingReportDetail(Map<String, CustomerAgingReportDetail> knownCustomers, String customer) {
+        CustomerAgingReportDetail agingReportDetail = null;
+        if ((agingReportDetail = knownCustomers.get(customer)) == null) {
+            agingReportDetail = new CustomerAgingReportDetail();
+            agingReportDetail.setCustomerNumber(customer.substring(0, customer.indexOf('-')));
+            agingReportDetail.setCustomerName(customer.substring(customer.indexOf('-') + 1));
+            knownCustomers.put(customer, agingReportDetail);
+        }
+        return agingReportDetail;
+    }
+
+    /**
+     * 
+     * This method...
+     * @param amountMap
+     * @param customer
+     * @return
+     */
+    private KualiDecimal replaceNull(HashMap<String, KualiDecimal> amountMap, String customer) {
+        return amountMap.get(customer) != null ? amountMap.get(customer) : KualiDecimal.ZERO;
+    }
 
 }

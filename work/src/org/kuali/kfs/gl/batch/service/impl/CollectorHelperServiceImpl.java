@@ -109,9 +109,17 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         // parsing/validating the
         // the next file, causing all subsequent files to fail validation. So, instead we do one unique error map per file
         MessageMap messageMap = collectorReportData.getErrorMapForBatchName(fileName);
-
-        CollectorBatch batch = doCollectorFileParse(fileName, messageMap, collectorInputFileType, collectorReportData);
         
+        List<CollectorBatch> batches = doCollectorFileParse(fileName, messageMap, collectorInputFileType, collectorReportData);
+        for (CollectorBatch collectorBatch : batches) {
+            isValid &= loadCollectorBatch(collectorBatch, fileName, collectorReportData, collectorScrubberStatuses, collectorInputFileType, messageMap);
+        }
+        return isValid;
+    }
+        
+    protected boolean loadCollectorBatch(CollectorBatch batch, String fileName, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses, BatchInputFileType collectorInputFileType, MessageMap messageMap) {
+        boolean isValid = true;
+
         String collectorFileDirectoryName = collectorInputFileType.getDirectoryPath();
         // create a input file for scrubber
         String collectorInputFileNameForScrubber = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
@@ -190,7 +198,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @param MessageMap a map of errors resultant from the parsing
      * @return the CollectorBatch of details parsed from the file
      */
-    private CollectorBatch doCollectorFileParse(String fileName, MessageMap MessageMap, BatchInputFileType collectorInputFileType, CollectorReportData collectorReportData) {
+    private List<CollectorBatch> doCollectorFileParse(String fileName, MessageMap MessageMap, BatchInputFileType collectorInputFileType, CollectorReportData collectorReportData) {
 
         InputStream inputStream = null;
         try {
@@ -201,10 +209,10 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             throw new RuntimeException("Cannot find the file requested to be parsed " + fileName + " " + e.getMessage(), e);
         }
 
-        CollectorBatch parsedObject = null;
+        List<CollectorBatch> parsedObject = null;
         try {
             byte[] fileByteContent = IOUtils.toByteArray(inputStream);
-            parsedObject = (CollectorBatch) batchInputFileService.parse(collectorInputFileType, fileByteContent);
+            parsedObject = (List<CollectorBatch>) batchInputFileService.parse(collectorInputFileType, fileByteContent);
         }
         catch (IOException e) {
             LOG.error("error while getting file bytes:  " + e.getMessage(), e);
@@ -215,13 +223,18 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             MessageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML, new String[] { e1.getMessage() });
         }
 
-        preprocessParsedCollectorBatch(parsedObject, collectorReportData);
+        if (parsedObject != null) {
+            for (CollectorBatch collectorBatch : parsedObject) {
+                preprocessParsedCollectorBatch(collectorBatch, collectorReportData);
+            }
+        }
+        
 
         return parsedObject;
     }
 
     protected void preprocessParsedCollectorBatch(CollectorBatch collectorBatch, CollectorReportData collectorReportData) {
-        if (collectorBatch != null && !parameterService.getIndicatorParameter(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND)) {
+        if (!parameterService.getIndicatorParameter(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND)) {
             for (OriginEntryFull originEntry : collectorBatch.getOriginEntries()) {
                 if (GeneralLedgerConstants.getSpaceChartOfAccountsCode().equals(originEntry.getChartOfAccountsCode())) {
                     Collection<Account> accounts = accountService.getAccountsForAccountNumber(originEntry.getAccountNumber());

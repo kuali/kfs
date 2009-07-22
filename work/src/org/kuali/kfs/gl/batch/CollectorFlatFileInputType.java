@@ -29,6 +29,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.CollectorHelperService;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
@@ -195,41 +196,30 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
         collectorDetail.setCreateDate(curDate);
         collectorDetail.setUniversityFiscalYear(new Integer(StringUtils.trimTrailingWhitespace(detailLine.substring(0, 4))));
         collectorDetail.setAccountNumber(StringUtils.trimTrailingWhitespace(detailLine.substring(6, 13)));
-        if (!detailLine.substring(4, 6).equals("  ")) {
+        if (!GeneralLedgerConstants.getSpaceChartOfAccountsCode().equals(detailLine.substring(4, 6)))
             collectorDetail.setChartOfAccountsCode(StringUtils.trimTrailingWhitespace(detailLine.substring(4, 6)));
-        }
-        else {
-            Collection<Account> accounts = accountService.getAccountsForAccountNumber(collectorDetail.getAccountNumber());
-            if (accounts.size() != 1)
-                collectorDetail.setChartOfAccountsCode("  ");
-            else
-                collectorDetail.setChartOfAccountsCode(accounts.iterator().next().getChartOfAccountsCode());
-        }
+        else
+            collectorDetail.setChartOfAccountsCode(GeneralLedgerConstants.getSpaceChartOfAccountsCode());
         collectorDetail.setSubAccountNumber(StringUtils.trimTrailingWhitespace(detailLine.substring(13, 18)));  //assume something later is setting to single space if blank
         collectorDetail.setFinancialObjectCode(StringUtils.trimTrailingWhitespace(detailLine.substring(18, 22)));
         collectorDetail.setFinancialSubObjectCode(StringUtils.trimTrailingWhitespace(detailLine.substring(22, 25)));  //assume something later is setting to single space if blank
+        collectorDetail.setFinancialBalanceTypeCode(StringUtils.trimTrailingWhitespace(detailLine.substring(25, 27)));
+        collectorDetail.setFinancialObjectTypeCode(StringUtils.trimTrailingWhitespace(detailLine.substring(27, 29)));
         collectorDetail.setUniversityFiscalPeriodCode(universityDate.getUniversityFiscalAccountingPeriod());
         collectorDetail.setCollectorDetailSequenceNumber(StringUtils.trimTrailingWhitespace(detailLine.substring(27, 29)));  //assume something later is setting to single space if blank
         collectorDetail.setFinancialDocumentTypeCode(StringUtils.trimTrailingWhitespace(detailLine.substring(29, 33)));
+        collectorDetail.setFinancialSystemOriginationCode(StringUtils.trimTrailingWhitespace(detailLine.substring(33, 35)));
         collectorDetail.setDocumentNumber(StringUtils.trimTrailingWhitespace(detailLine.substring(33, 42)));
         collectorDetail.setCollectorDetailItemAmount(addDecimalPoint(StringUtils.trimTrailingWhitespace(detailLine.substring(42, 51))));
-        if (detailLine.substring(51, 52).toUpperCase().equals("C")) {
+        if (KFSConstants.GL_CREDIT_CODE.equalsIgnoreCase(detailLine.substring(51, 52)))
             collectorDetail.setCollectorDetailItemAmount(collectorDetail.getCollectorDetailItemAmount().negated());
-        }
         collectorDetail.setCollectorDetailNoteText(StringUtils.trimTrailingWhitespace(detailLine.substring(52)));
-      //ignoring these fields for now b/c they're not in FIS (or incoming ID billing files from departments)
-//      <call-method-rule pattern="balanceTypeCode"                        methodname="setFinancialBalanceTypeCode" paramcount="0" />
-//      <call-method-rule pattern="objectTypeCode"                         methodname="setFinancialObjectTypeCode" paramcount="0" />
-//      <call-method-rule pattern="originationCode"                        methodname="setFinancialSystemOriginationCode" paramcount="0" />
-        if (collectorDetail.getSubAccountNumber() == null || collectorDetail.getSubAccountNumber().equals("")) {
+        if (org.apache.commons.lang.StringUtils.isEmpty(collectorDetail.getSubAccountNumber()))
             collectorDetail.setSubAccountNumber(" ");
-        }
-        if (collectorDetail.getFinancialSubObjectCode() == null || collectorDetail.getFinancialSubObjectCode().equals("")) {
+        if (org.apache.commons.lang.StringUtils.isEmpty(collectorDetail.getFinancialSubObjectCode()))
             collectorDetail.setFinancialSubObjectCode(" ");
-        }
-        if (collectorDetail.getCollectorDetailSequenceNumber() == null || collectorDetail.getCollectorDetailSequenceNumber().equals("")) {
+        if (org.apache.commons.lang.StringUtils.isEmpty(collectorDetail.getCollectorDetailSequenceNumber()))
             collectorDetail.setCollectorDetailSequenceNumber(" ");
-        }
         return collectorDetail;
     }
     
@@ -251,15 +241,10 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
             originEntry.setUniversityFiscalYear(universityDate.getUniversityFiscalYear());
         }
         originEntry.setAccountNumber(StringUtils.trimTrailingWhitespace(fileLine.substring(6, 13)));
-        if (!fileLine.substring(4, 6).equals("  ")) {
+        if (!GeneralLedgerConstants.getSpaceChartOfAccountsCode().equals(fileLine.substring(4, 6)))
             originEntry.setChartOfAccountsCode(StringUtils.trimTrailingWhitespace(fileLine.substring(4, 6)));
-        } else {
-            Collection<Account> accounts = accountService.getAccountsForAccountNumber(originEntry.getAccountNumber());
-            if (accounts.size() != 1)
-                originEntry.setChartOfAccountsCode("  ");
-            else
-                originEntry.setChartOfAccountsCode(accounts.iterator().next().getChartOfAccountsCode());
-        }
+        else
+            originEntry.setChartOfAccountsCode(GeneralLedgerConstants.getSpaceChartOfAccountsCode());
         originEntry.setSubAccountNumber(StringUtils.trimTrailingWhitespace(fileLine.substring(13, 18)));
         originEntry.setFinancialObjectCode(StringUtils.trimTrailingWhitespace(fileLine.substring(18, 22)));
         originEntry.setFinancialSubObjectCode(StringUtils.trimTrailingWhitespace(fileLine.substring(22, 25)));

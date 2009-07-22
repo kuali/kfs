@@ -522,7 +522,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         valid &= checkAssetStatusCodeChange(oldAsset.getInventoryStatus(), newAsset.getInventoryStatus());
         valid &= checkAssetTypeCodeChange(oldAsset.getCapitalAssetType(), newAsset.getCapitalAssetType());
         valid &= checkOwnerChange();
-        valid &= checkFinancialObjectSubtypeCodeChange();
+        valid &= checkFinancialObjectSubtypeCodeChange(oldAsset.getFinancialObjectSubType(), newAsset.getFinancialObjectSubType());
         
         KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
         // adding asset locks for asset edit only
@@ -563,13 +563,14 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      */
     private boolean checkAcquisitionTypeCodeChange(AssetAcquisitionType oldAcquisitionTypeCode, AssetAcquisitionType newAcquisitionTypeCode) {
         if (ObjectUtils.isNotNull(oldAcquisitionTypeCode)) {
-            if (StringUtils.isNotEmpty(oldAcquisitionTypeCode.getAcquisitionTypeCode()) && !oldAcquisitionTypeCode.isActive()) {
-                putFieldError(CamsPropertyConstants.Asset.ACQUISITION_TYPE_CODE, CamsKeyConstants.Asset.ERROR_ACQUISITION_TYPE_CODE_INACTIVE);
-                return true;
-            }
             if (!StringUtils.equalsIgnoreCase(newAcquisitionTypeCode.getAcquisitionTypeCode(), oldAcquisitionTypeCode.getAcquisitionTypeCode())) {
-                putFieldError(CamsPropertyConstants.Asset.ACQUISITION_TYPE_CODE, CamsKeyConstants.Asset.ERROR_ACQUISITION_TYPE_CODE_CHANGED);
-                return true;
+                newAsset.refreshReferenceObject(CamsPropertyConstants.Asset.REF_ACQUISITION_TYPE);
+                if (ObjectUtils.isNotNull(newAsset.getAcquisitionType())) {
+                    if (!newAsset.getAcquisitionType().isActive()) {
+                        putFieldError(CamsPropertyConstants.Asset.ACQUISITION_TYPE_CODE, CamsKeyConstants.Asset.ERROR_ACQUISITION_TYPE_CODE_INACTIVE);
+                        return true;
+                    }
+                }
             }
         }
         return false;
@@ -584,13 +585,14 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      */
     private boolean checkConditionCodeChange(AssetCondition oldConditionCode, AssetCondition newConditionCode) {
         if (ObjectUtils.isNotNull(oldConditionCode)) {
-            if (!oldConditionCode.isActive()) {
-                putFieldError(CamsPropertyConstants.Asset.CONDITION_CODE, CamsKeyConstants.Asset.ERROR_ASSET_CONDITION_INACTIVE);
-                return true;
-            }
             if (!StringUtils.equalsIgnoreCase(newConditionCode.getAssetConditionCode(), oldConditionCode.getAssetConditionCode())) {
-                putFieldError(CamsPropertyConstants.Asset.CONDITION_CODE, CamsKeyConstants.Asset.ERROR_ASSET_CONDITION_CHANGED);
-                return true;
+                newAsset.refreshReferenceObject(CamsPropertyConstants.Asset.REF_ASSET_CONDITION);
+                if (ObjectUtils.isNotNull(newAsset.getCondition())) {
+                    if (!newAsset.getCondition().isActive()) {
+                        putFieldError(CamsPropertyConstants.Asset.CONDITION_CODE, CamsKeyConstants.Asset.ERROR_ASSET_CONDITION_INACTIVE);
+                        return true;
+                    }
+                }
             }
         }
         return false;
@@ -605,13 +607,14 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      */
     private boolean checkAssetDepreciationMethodChange(AssetDepreciationMethod oldAssetDepreciationMethod, AssetDepreciationMethod newAssetDepreciationMethod) {
         if (ObjectUtils.isNotNull(oldAssetDepreciationMethod)) {
-            if (!oldAssetDepreciationMethod.isActive()) {
-                putFieldError(CamsPropertyConstants.Asset.PRIMARY_DEPRECIATION_METHOD, CamsKeyConstants.Asset.ERROR_DEPRECATION_METHOD_CODE_INACTIVE);
-                return true;
-            }
             if (!StringUtils.equalsIgnoreCase(newAssetDepreciationMethod.getDepreciationMethodCode() + " - " + newAssetDepreciationMethod.getDepreciationMethodName(), oldAssetDepreciationMethod.getDepreciationMethodCode() + " - " + oldAssetDepreciationMethod.getDepreciationMethodName())) {
-                putFieldError(CamsPropertyConstants.Asset.PRIMARY_DEPRECIATION_METHOD, CamsKeyConstants.Asset.ERROR_DEPRECATION_METHOD_CODE_CHANGED);
-                return true;
+                newAsset.refreshReferenceObject(CamsPropertyConstants.Asset.REF_ASSET_DEPRECATION_METHOD);
+                if (ObjectUtils.isNotNull(newAsset.getAssetPrimaryDepreciationMethod())) {
+                    if (!newAsset.getAssetPrimaryDepreciationMethod().isActive()) {
+                        putFieldError(CamsPropertyConstants.Asset.PRIMARY_DEPRECIATION_METHOD, CamsKeyConstants.Asset.ERROR_DEPRECATION_METHOD_CODE_INACTIVE);
+                        return true;
+                    }
+                }
             }
         }
         return false;
@@ -626,13 +629,14 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      */
     private boolean checkAssetStatusCodeChange(AssetStatus oldAssetStatus, AssetStatus newAssetStatus) {
         if (ObjectUtils.isNotNull(oldAssetStatus)) {
-            if (StringUtils.isNotEmpty(oldAssetStatus.getInventoryStatusCode()) && !oldAssetStatus.isActive()) {
-                putFieldError(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS, CamsKeyConstants.Asset.ERROR_ASSET_STATUS_INACTIVE);
-                return true;
-            }
             if (!StringUtils.equalsIgnoreCase(newAssetStatus.getInventoryStatusCode(), oldAssetStatus.getInventoryStatusCode())) {
-                putFieldError(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS, CamsKeyConstants.Asset.ERROR_ASSET_STATUS_CHANGED);
-                return true;
+                newAsset.refreshReferenceObject(CamsPropertyConstants.Asset.REF_ASSET_STATUS);
+                if (ObjectUtils.isNotNull(newAsset.getInventoryStatus())) {
+                    if (!newAsset.getInventoryStatus().isActive()) {
+                        putFieldError(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS, CamsKeyConstants.Asset.ERROR_ASSET_STATUS_INACTIVE);
+                        return true;
+                    }
+                }
             }
         }
         return false;
@@ -647,13 +651,14 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      */
     private boolean checkAssetTypeCodeChange(AssetType oldAssetType, AssetType newAssetType) {
         if (ObjectUtils.isNotNull(oldAssetType)) {
-            if (StringUtils.isNotEmpty(oldAssetType.getCapitalAssetTypeCode()) && !oldAssetType.isActive()) {
-                putFieldError(CamsPropertyConstants.AssetType.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.Asset.ERROR_TYPE_CODE_INACTIVE);
-                return true;
-            }
             if (!StringUtils.equalsIgnoreCase(newAssetType.getCapitalAssetTypeCode(), oldAssetType.getCapitalAssetTypeCode())) {
-                putFieldError(CamsPropertyConstants.AssetType.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.Asset.ERROR_TYPE_CODE_CHANGED);
-                return true;
+                newAsset.refreshReferenceObject(CamsPropertyConstants.Asset.REF_ASSET_TYPE);
+                if (ObjectUtils.isNotNull(newAsset.getCapitalAssetType())) {
+                    if (!newAsset.getCapitalAssetType().isActive()) {
+                        putFieldError(CamsPropertyConstants.AssetType.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.Asset.ERROR_TYPE_CODE_INACTIVE);
+                        return true;
+                    }
+                }
             }
         }
         return false;
@@ -666,13 +671,11 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      */
     private boolean checkOwnerChange() {
         if (ObjectUtils.isNotNull(oldAsset)) {
-            if (StringUtils.isNotEmpty(oldAsset.getAgencyNumber()) && !oldAsset.isActive()) {
-                putFieldError(CamsPropertyConstants.Asset.AGENCY_NUMBER, CamsKeyConstants.Asset.ERROR_OWNER_INACTIVE);
-                return true;
-            }
             if (!StringUtils.equalsIgnoreCase(newAsset.getAgencyNumber(), oldAsset.getAgencyNumber())) {
-                putFieldError(CamsPropertyConstants.Asset.AGENCY_NUMBER, CamsKeyConstants.Asset.ERROR_OWNER_CHANGED);
-                return true;
+                if (!newAsset.isActive()) {
+                    putFieldError(CamsPropertyConstants.Asset.AGENCY_NUMBER, CamsKeyConstants.Asset.ERROR_OWNER_INACTIVE);
+                    return true;
+                }
             }
         }
         return false;
@@ -685,15 +688,16 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @param newObjectSubType
      * @return boolean
      */
-    private boolean checkFinancialObjectSubtypeCodeChange() {
-        if (ObjectUtils.isNotNull(oldAsset)) {
-            if (StringUtils.isNotEmpty(oldAsset.getFinancialObjectSubTypeCode()) && !oldAsset.isActive()) {
-                putFieldError(CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE, CamsKeyConstants.Asset.ERROR_FINANCIAL_OBJECT_SUBTYPE_CODE_INACTIVE);
-                return true;
-            }
-            if (!StringUtils.equalsIgnoreCase(newAsset.getFinancialObjectSubTypeCode(), oldAsset.getFinancialObjectSubTypeCode())) {
-                putFieldError(CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE, CamsKeyConstants.Asset.ERROR_FINANCIAL_OBJECT_SUBTYPE_CODE_CHANGED);
-                return true;
+    private boolean checkFinancialObjectSubtypeCodeChange(ObjectSubType oldObjectSubType, ObjectSubType newObjectSubType) {
+        if (ObjectUtils.isNotNull(oldObjectSubType)) {
+            if (!StringUtils.equalsIgnoreCase(newObjectSubType.getFinancialObjectSubTypeCode(), oldObjectSubType.getFinancialObjectSubTypeCode())) {
+                newAsset.refreshReferenceObject(CamsPropertyConstants.Asset.REF_OBJECT_SUB_TYPE);
+                if (ObjectUtils.isNotNull(newAsset.getFinancialObjectSubType())) {
+                    if (!newAsset.getFinancialObjectSubType().isActive()) {
+                        putFieldError(CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE, CamsKeyConstants.Asset.ERROR_FINANCIAL_OBJECT_SUBTYPE_CODE_INACTIVE);
+                        return true;
+                    }
+                }
             }
         }
         return false;

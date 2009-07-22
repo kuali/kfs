@@ -15,6 +15,12 @@
  */
 package org.kuali.kfs.module.cam;
 
+import org.kuali.kfs.coa.businessobject.ObjectSubType;
+import org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType;
+import org.kuali.kfs.module.cam.businessobject.AssetCondition;
+import org.kuali.kfs.module.cam.businessobject.AssetDepreciationMethod;
+import org.kuali.kfs.module.cam.businessobject.AssetStatus;
+import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 
@@ -84,6 +90,13 @@ public class CamsPropertyConstants {
         public static final String LAND_ACREAGE_SIZE = "landAcreageSize";
         public static final String LAND_PARCEL_NUMBER = "landParcelNumber";
         public static final String QUANTITY = "quantity";
+        // Asset Edit reference objects
+        public static final String REF_ACQUISITION_TYPE = "acquisitionType";
+        public static final String REF_ASSET_CONDITION = "condition";
+        public static final String REF_ASSET_DEPRECATION_METHOD = "assetPrimaryDepreciationMethod";
+        public static final String REF_ASSET_STATUS = "inventoryStatus";
+        public static final String REF_ASSET_TYPE = "capitalAssetType";
+        public static final String REF_OBJECT_SUB_TYPE = "financialObjectSubType";
         
         public static class AssetLocation {
             public static final String CONTACT_NAME = "offCampusLocation.assetLocationContactName";

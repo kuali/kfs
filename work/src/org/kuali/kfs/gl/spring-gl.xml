@@ -474,9 +474,6 @@
 		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
-		<property name="mailService">
-			<ref bean="mailService" />
-		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>

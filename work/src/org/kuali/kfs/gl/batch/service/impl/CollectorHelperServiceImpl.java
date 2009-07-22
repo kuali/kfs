@@ -64,7 +64,6 @@ import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.MailService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -85,7 +84,6 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
     private OriginEntryGroupService originEntryGroupService;
     private ParameterService parameterService;
     private KualiConfigurationService configurationService;
-    private MailService mailService;
     private DateTimeService dateTimeService;
     private BatchInputFileService batchInputFileService;
     private CollectorScrubberService collectorScrubberService;
@@ -569,10 +567,6 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
-    }
-
-    public void setMailService(MailService mailService) {
-        this.mailService = mailService;
     }
 
     public void setBatchInputFileService(BatchInputFileService batchInputFileService) {

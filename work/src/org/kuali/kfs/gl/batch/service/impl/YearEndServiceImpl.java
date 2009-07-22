@@ -254,14 +254,9 @@ public class YearEndServiceImpl implements YearEndService {
         Iterator<Balance> generalBalances = balanceService.findGeneralBalancesToForwardForFiscalYear(balanceForwardRuleHelper.getClosingFiscalYear());
         while (generalBalances.hasNext()) {
             balance = generalBalances.next();
-            try {
-                balanceForwardRuleHelper.processGeneralForwardBalance(balance, closedPs, unclosedPs);
-                if (balanceForwardRuleHelper.getState().getGlobalSelectCount() % 1000 == 0) {
-                    persistenceService.clearCache();
-                }
-            }
-            catch (FatalErrorException fee) {
-                LOG.info(fee.getMessage());
+            balanceForwardRuleHelper.processGeneralForwardBalance(balance, closedPs, unclosedPs);
+            if (balanceForwardRuleHelper.getState().getGlobalSelectCount() % 1000 == 0) {
+                persistenceService.clearCache();
             }
         }
 

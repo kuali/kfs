@@ -25,7 +25,6 @@ import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.gl.ObjectHelper;
-import org.kuali.kfs.gl.batch.service.impl.exception.FatalErrorException;
 import org.kuali.kfs.gl.batch.service.impl.exception.NonFatalErrorException;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
@@ -242,19 +241,21 @@ public class BalanceForwardRuleHelper {
      * @param unclosedPriorYearAccountGroup the group to put balance forwarding origin entries with open accounts into
      * @throws FatalErrorException
      */
-    public void processGeneralForwardBalance(Balance balance, PrintStream closedPs, PrintStream unclosedPs) throws FatalErrorException {
+    public void processGeneralForwardBalance(Balance balance, PrintStream closedPs, PrintStream unclosedPs) {
         if (ObjectUtils.isNull(balance.getPriorYearAccount())) {
-            throw new FatalErrorException("COULD NOT RETRIEVE INFORMATION ON ACCOUNT " + balance.getChartOfAccountsCode() + "-" + balance.getAccountNumber());
-        }
-        if ((null == balance.getAccountNumber() && null == state.getAccountNumberHold()) || (null != balance.getAccountNumber() && balance.getAccountNumber().equals(state.getAccountNumberHold()))) {
-            state.incrementSequenceNumber();
-        }
+            LOG.info(("COULD NOT RETRIEVE INFORMATION ON ACCOUNT " + balance.getChartOfAccountsCode() + "-" + balance.getAccountNumber()));
+        } 
         else {
-            state.setSequenceNumber(1);
+            if ((null == balance.getAccountNumber() && null == state.getAccountNumberHold()) || (null != balance.getAccountNumber() && balance.getAccountNumber().equals(state.getAccountNumberHold()))) {
+                state.incrementSequenceNumber();
+            }
+            else {
+                state.setSequenceNumber(1);
+            }
+            state.incrementGlobalSelectCount();
+            OriginEntryFull entry = generateGeneralForwardOriginEntry(balance);
+            saveForwardingEntry(balance, entry, closedPs, unclosedPs);
         }
-        state.incrementGlobalSelectCount();
-        OriginEntryFull entry = generateGeneralForwardOriginEntry(balance);
-        saveForwardingEntry(balance, entry, closedPs, unclosedPs);
     }
 
     /**

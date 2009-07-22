@@ -293,8 +293,10 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
             return;
         }
         
-        if (!(poDoc.getVendorHeaderGeneratedIdentifier().equals(orderHolder.getVendorHeaderId()) &&
-              poDoc.getVendorDetailAssignedIdentifier().equals(orderHolder.getVendorDetailId()))){
+        if (poDoc.getVendorHeaderGeneratedIdentifier() == null || 
+            poDoc.getVendorDetailAssignedIdentifier() == null || 
+                !(poDoc.getVendorHeaderGeneratedIdentifier().equals(orderHolder.getVendorHeaderId()) &&
+                  poDoc.getVendorDetailAssignedIdentifier().equals(orderHolder.getVendorDetailId()))){
             ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.PO_VENDOR_NOT_MATCHES_WITH_INVOICE_VENDOR,null,orderHolder.getFileName());
             orderHolder.addInvoiceOrderRejectReason(rejectReason);
             return;

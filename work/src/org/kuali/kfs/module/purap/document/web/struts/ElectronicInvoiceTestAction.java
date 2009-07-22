@@ -137,7 +137,11 @@ public class ElectronicInvoiceTestAction extends KualiAction {
             
             if (po != null) {   
                 
-                String duns = StringUtils.defaultString(po.getVendorDetail().getVendorDunsNumber());
+                String duns = "";
+                if (po.getVendorDetail() != null){
+                    duns = StringUtils.defaultString(po.getVendorDetail().getVendorDunsNumber());
+                }
+                
                 String vendorNumber = po.getVendorDetail().getVendorNumber();
                 
                 String eInvoiceFile = 
@@ -279,7 +283,10 @@ public class ElectronicInvoiceTestAction extends KualiAction {
     private String getPaymentTermXML(PurchaseOrderDocument po){
         String returnXML = "";
         
-        PaymentTermType paymentTerm = po.getVendorDetail().getVendorPaymentTerms();
+        PaymentTermType paymentTerm = null;
+        if (po.getVendorDetail() != null){
+            paymentTerm = po.getVendorDetail().getVendorPaymentTerms();
+        }
         
         if (paymentTerm != null){
             if (paymentTerm.getVendorNetDueNumber() != null){
@@ -291,8 +298,6 @@ public class ElectronicInvoiceTestAction extends KualiAction {
             }
             
         }
-        
-        
         
         return returnXML;
     }

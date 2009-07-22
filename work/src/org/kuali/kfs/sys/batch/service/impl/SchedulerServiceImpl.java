@@ -103,31 +103,33 @@ public class SchedulerServiceImpl implements SchedulerService {
             if ( LOG.isInfoEnabled() ) {
                 LOG.info("Loading scheduled jobs for: " + moduleService.getModuleConfiguration().getNamespaceCode());
             }
-            for (String jobName : moduleService.getModuleConfiguration().getJobNames()) {
-                try {
-                    if (moduleService instanceof BatchModuleService && ((BatchModuleService) moduleService).isExternalJob(jobName)) {
-                        jobDescriptor = new JobDescriptor();
-                        jobDescriptor.setBeanName(jobName);
-                        jobDescriptor.setGroup(SCHEDULED_GROUP);
-                        jobDescriptor.setDurable(false);
-                        externalizedJobDescriptors.put(jobName, jobDescriptor);
+            if ( moduleService.getModuleConfiguration().getJobNames() != null ) { 
+                for (String jobName : moduleService.getModuleConfiguration().getJobNames()) {
+                    try {
+                        if (moduleService instanceof BatchModuleService && ((BatchModuleService) moduleService).isExternalJob(jobName)) {
+                            jobDescriptor = new JobDescriptor();
+                            jobDescriptor.setBeanName(jobName);
+                            jobDescriptor.setGroup(SCHEDULED_GROUP);
+                            jobDescriptor.setDurable(false);
+                            externalizedJobDescriptors.put(jobName, jobDescriptor);
+                        }
+                        else {
+                            jobDescriptor = BatchSpringContext.getJobDescriptor(jobName);
+                        }
+                        jobDescriptor.setNamespaceCode(moduleService.getModuleConfiguration().getNamespaceCode());
+                        loadJob(jobDescriptor);
+                    } catch (NoSuchBeanDefinitionException ex) {
+                        LOG.error("unable to find job bean definition for job: " + ex.getBeanName());
                     }
-                    else {
-                        jobDescriptor = BatchSpringContext.getJobDescriptor(jobName);
-                    }
-                    jobDescriptor.setNamespaceCode(moduleService.getModuleConfiguration().getNamespaceCode());
-                    loadJob(jobDescriptor);
-                }
-                catch (NoSuchBeanDefinitionException ex) {
-                    LOG.error("unable to find job bean definition for job: " + ex.getBeanName(), ex);
                 }
             }
-            for (String triggerName : moduleService.getModuleConfiguration().getTriggerNames()) {
-                try {
-                    addTrigger(BatchSpringContext.getTriggerDescriptor(triggerName).getTrigger());
-                }
-                catch (NoSuchBeanDefinitionException ex) {
-                    LOG.error("unable to find trigger definition: " + ex.getBeanName(), ex);
+            if ( moduleService.getModuleConfiguration().getTriggerNames() != null ) {
+                for (String triggerName : moduleService.getModuleConfiguration().getTriggerNames()) {
+                    try {
+                        addTrigger(BatchSpringContext.getTriggerDescriptor(triggerName).getTrigger());
+                    } catch (NoSuchBeanDefinitionException ex) {
+                        LOG.error("unable to find trigger definition: " + ex.getBeanName());
+                    }
                 }
             }
         }

@@ -442,8 +442,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
         if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
             Integer universityFiscalYear = getUniversityFiscalYear();
             int interimDepositNumber = 1;
-            for (Iterator iterator = getDeposits().iterator(); iterator.hasNext();) {
-                Deposit deposit = (Deposit) iterator.next();
+            for (Deposit deposit: getDeposits()) {
                 deposit.refreshReferenceObject(KFSPropertyConstants.BANK);
 
                 GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
@@ -461,28 +460,6 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
                 success &= glpeService.populateOffsetGeneralLedgerPendingEntry(universityFiscalYear, bankOffsetEntry, sequenceHelper, offsetEntry);
                 getGeneralLedgerPendingEntries().add(offsetEntry);
                 sequenceHelper.increment();
-                
-                 // Only the final deposit will have non-null currency and coin. If this is the final deposit, generate the ledger
-                 // entries for currency and coin.
-                if (deposit.getDepositTypeCode().equals(KFSConstants.DocumentStatusCodes.CashReceipt.FINAL)) {
-                    KualiDecimal totalCoinCurrencyAmount = deposit.getDepositedCurrency().getTotalAmount().add(deposit.getDepositedCoin().getTotalAmount());
-                    GeneralLedgerPendingEntry coinCurrencyBankOffsetEntry = new GeneralLedgerPendingEntry();
-                    if (!glpeService.populateBankOffsetGeneralLedgerPendingEntry(deposit.getBank(), totalCoinCurrencyAmount, this, universityFiscalYear, sequenceHelper, coinCurrencyBankOffsetEntry, KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS)) {
-                        success = false;
-                        LOG.warn("Skipping ledger entries for coin and currency.");
-                        continue;
-                    }
-
-                    coinCurrencyBankOffsetEntry.setTransactionLedgerEntryDescription(createDescription(deposit, interimDepositNumber++));
-                    getGeneralLedgerPendingEntries().add(coinCurrencyBankOffsetEntry);
-                    sequenceHelper.increment();
-
-                    GeneralLedgerPendingEntry coinCurrnecyOffsetEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(coinCurrencyBankOffsetEntry);
-                    success &= glpeService.populateOffsetGeneralLedgerPendingEntry(universityFiscalYear, coinCurrencyBankOffsetEntry, sequenceHelper, coinCurrnecyOffsetEntry);
-                    getGeneralLedgerPendingEntries().add(coinCurrnecyOffsetEntry);
-                    sequenceHelper.increment();
-                }
-
             }
         }
         

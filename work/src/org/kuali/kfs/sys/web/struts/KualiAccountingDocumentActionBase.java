@@ -1265,4 +1265,25 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         newCapitalAssetInformation.setDocumentNumber(document.getDocumentNumber());
         capitalAssetEditable.setCapitalAssetInformation(newCapitalAssetInformation);
     }
+
+    /**
+     * Overridden to guarantee that form of copied document is set to whatever the entry mode of the document is
+     * @see org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase#copy(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.copy(mapping, form, request, response);
+        
+        // if the copied document has capital asset collection, remove the collection
+        KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
+        AccountingDocument document = kualiAccountingDocumentFormBase.getFinancialDocument();
+        if (document instanceof CapitalAssetEditable) {
+
+            CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) document;
+            resetCapitalAssetInfo(capitalAssetEditable.getCapitalAssetInformation());
+        }
+
+        return forward;
+    }
+
 }

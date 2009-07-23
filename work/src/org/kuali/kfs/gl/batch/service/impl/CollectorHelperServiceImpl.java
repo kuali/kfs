@@ -366,14 +366,14 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @param batch - batch to check
      * @return true if header if OK, false if header was used previously
      */
-    private boolean duplicateHeaderCheck(CollectorBatch batch, MessageMap MessageMap) {
+    private boolean duplicateHeaderCheck(CollectorBatch batch, MessageMap messageMap) {
         boolean validHeader = true;
 
         CollectorHeader foundHeader = batch.retrieveDuplicateHeader();
 
         if (foundHeader != null) {
             LOG.error("batch header was matched to a previously loaded batch");
-            MessageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.DUPLICATE_BATCH_HEADER);
+            messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.DUPLICATE_BATCH_HEADER);
 
             validHeader = false;
         }

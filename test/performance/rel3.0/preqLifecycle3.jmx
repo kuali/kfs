@@ -16,8 +16,8 @@
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">20</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">10</stringProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <longProp name="ThreadGroup.start_time">1243951513000</longProp>
         <longProp name="ThreadGroup.end_time">1243951513000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -214,8 +214,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/portal.do</stringProp>
@@ -227,7 +225,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree/>
@@ -245,8 +243,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${casServer}</stringProp>
                 <stringProp name="HTTPSampler.port">${casPort}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${casProtocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">/${casContext}/login</stringProp>
@@ -258,7 +254,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -321,8 +317,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${casServer}</stringProp>
                 <stringProp name="HTTPSampler.port">${casPort}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${casProtocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">/${casContext}/login</stringProp>
@@ -334,7 +328,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree/>
@@ -352,8 +346,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/portal.do</stringProp>
@@ -365,7 +357,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -374,7 +366,7 @@
                     <stringProp name="-1231992094">khuntley</stringProp>
                   </collectionProp>
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <stringProp name="Assertion.assume_success">false</stringProp>
                   <intProp name="Assertion.test_type">2</intProp>
                 </ResponseAssertion>
                 <hashTree/>
@@ -420,8 +412,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}</stringProp>
@@ -433,7 +423,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree/>
@@ -443,8 +433,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/portal.jsp</stringProp>
@@ -456,7 +444,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree/>
@@ -476,8 +464,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/portal.do</stringProp>
@@ -489,7 +475,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -562,8 +548,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/cas/login</stringProp>
@@ -575,7 +559,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -612,7 +596,7 @@
                   </collectionProp>
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
                   <intProp name="Assertion.test_type">2</intProp>
-                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <stringProp name="Assertion.assume_success">false</stringProp>
                 </ResponseAssertion>
                 <hashTree/>
                 <ResultCollector guiclass="AssertionVisualizer" testclass="ResultCollector" testname="Assertion Results" enabled="true">
@@ -667,8 +651,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}${service_path}</stringProp>
@@ -680,7 +662,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree/>
@@ -700,8 +682,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/portal.do</stringProp>
@@ -713,7 +693,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -723,7 +703,7 @@
                   </collectionProp>
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
                   <intProp name="Assertion.test_type">2</intProp>
-                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <stringProp name="Assertion.assume_success">false</stringProp>
                 </ResponseAssertion>
                 <hashTree/>
               </hashTree>
@@ -763,8 +743,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/portal.do</stringProp>
@@ -776,7 +754,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -808,8 +786,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/purapRequisition.do</stringProp>
@@ -821,7 +797,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree>
@@ -848,7 +824,7 @@
                   <stringProp name="1971758006">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot;</stringProp>
                 </collectionProp>
                 <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                <boolProp name="Assertion.assume_success">false</boolProp>
+                <stringProp name="Assertion.assume_success">false</stringProp>
                 <intProp name="Assertion.test_type">2</intProp>
               </ResponseAssertion>
               <hashTree/>
@@ -867,8 +843,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kew/RouteLog.do</stringProp>
@@ -880,7 +854,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -1766,8 +1740,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/purapRequisition.do</stringProp>
@@ -1779,7 +1751,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -1832,8 +1804,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kr/lookup.do</stringProp>
@@ -1845,7 +1815,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree>
@@ -1863,7 +1833,7 @@
                   <stringProp name="1831767568">&lt;input type=&quot;hidden&quot; name=&quot;formKey&quot;</stringProp>
                 </collectionProp>
                 <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                <boolProp name="Assertion.assume_success">false</boolProp>
+                <stringProp name="Assertion.assume_success">false</stringProp>
                 <intProp name="Assertion.test_type">2</intProp>
               </ResponseAssertion>
               <hashTree/>
@@ -2038,8 +2008,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kr/lookup.do</stringProp>
@@ -2051,7 +2019,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -2153,8 +2121,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/purapRequisition.do</stringProp>
@@ -2166,7 +2132,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree>
@@ -2184,7 +2150,7 @@
                   <stringProp name="1971758006">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot;</stringProp>
                 </collectionProp>
                 <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                <boolProp name="Assertion.assume_success">false</boolProp>
+                <stringProp name="Assertion.assume_success">false</stringProp>
                 <intProp name="Assertion.test_type">2</intProp>
               </ResponseAssertion>
               <hashTree/>
@@ -2203,8 +2169,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kew/RouteLog.do</stringProp>
@@ -2216,7 +2180,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -3067,8 +3031,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/purapRequisition.do</stringProp>
@@ -3080,7 +3042,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -3154,8 +3116,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kr/lookup.do</stringProp>
@@ -3167,7 +3127,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree>
@@ -3185,7 +3145,7 @@
                   <stringProp name="1831767568">&lt;input type=&quot;hidden&quot; name=&quot;formKey&quot;</stringProp>
                 </collectionProp>
                 <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                <boolProp name="Assertion.assume_success">false</boolProp>
+                <stringProp name="Assertion.assume_success">false</stringProp>
                 <intProp name="Assertion.test_type">2</intProp>
               </ResponseAssertion>
               <hashTree/>
@@ -3379,8 +3339,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kr/lookup.do</stringProp>
@@ -3392,7 +3350,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -3501,8 +3459,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/purapRequisition.do</stringProp>
@@ -3514,7 +3470,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree>
@@ -3532,7 +3488,7 @@
                   <stringProp name="1971758006">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot;</stringProp>
                 </collectionProp>
                 <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                <boolProp name="Assertion.assume_success">false</boolProp>
+                <stringProp name="Assertion.assume_success">false</stringProp>
                 <intProp name="Assertion.test_type">2</intProp>
               </ResponseAssertion>
               <hashTree/>
@@ -3551,8 +3507,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kew/RouteLog.do</stringProp>
@@ -3564,7 +3518,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -4408,8 +4362,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/purapRequisition.do</stringProp>
@@ -4421,7 +4373,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree>
@@ -4439,7 +4391,7 @@
                   <stringProp name="1971758006">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot;</stringProp>
                 </collectionProp>
                 <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                <boolProp name="Assertion.assume_success">false</boolProp>
+                <stringProp name="Assertion.assume_success">false</stringProp>
                 <intProp name="Assertion.test_type">2</intProp>
               </ResponseAssertion>
               <hashTree/>
@@ -4458,8 +4410,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kew/RouteLog.do</stringProp>
@@ -4471,7 +4421,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -5469,8 +5419,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/purapRequisition.do</stringProp>
@@ -5482,7 +5430,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree>
@@ -5500,7 +5448,7 @@
                   <stringProp name="1971758006">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot;</stringProp>
                 </collectionProp>
                 <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                <boolProp name="Assertion.assume_success">false</boolProp>
+                <stringProp name="Assertion.assume_success">false</stringProp>
                 <intProp name="Assertion.test_type">2</intProp>
               </ResponseAssertion>
               <hashTree/>
@@ -5519,8 +5467,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kew/RouteLog.do</stringProp>
@@ -5532,7 +5478,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -6516,8 +6462,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/purapRequisition.do</stringProp>
@@ -6529,7 +6473,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree>
@@ -6547,7 +6491,7 @@
                   <stringProp name="1971758006">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot;</stringProp>
                 </collectionProp>
                 <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                <boolProp name="Assertion.assume_success">false</boolProp>
+                <stringProp name="Assertion.assume_success">false</stringProp>
                 <intProp name="Assertion.test_type">2</intProp>
               </ResponseAssertion>
               <hashTree/>
@@ -6566,8 +6510,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kew/RouteLog.do</stringProp>
@@ -6579,7 +6521,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -7640,8 +7582,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/purapRequisition.do</stringProp>
@@ -7653,7 +7593,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -8714,8 +8654,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/purapRequisition.do</stringProp>
@@ -8727,7 +8665,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -8745,8 +8683,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kew/RouteLog.do</stringProp>
@@ -8758,7 +8694,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -8792,8 +8728,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/portal.do</stringProp>
@@ -8805,7 +8739,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree/>
@@ -8815,7 +8749,7 @@
                     <elementProp name="service" elementType="HTTPArgument">
                       <boolProp name="HTTPArgument.always_encode">false</boolProp>
                       <stringProp name="Argument.name">service</stringProp>
-                      <stringProp name="Argument.value">${caseServiceUrl}</stringProp>
+                      <stringProp name="Argument.value">${casServiceUrl}</stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
                       <boolProp name="HTTPArgument.use_equals">true</boolProp>
                     </elementProp>
@@ -8823,8 +8757,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${casServer}</stringProp>
                 <stringProp name="HTTPSampler.port">${casPort}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${casProtocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">/${casContext}/login</stringProp>
@@ -8836,7 +8768,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -8899,8 +8831,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${casServer}</stringProp>
                 <stringProp name="HTTPSampler.port">${casPort}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${casProtocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">/${casContext}/login</stringProp>
@@ -8912,7 +8842,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree/>
@@ -8930,8 +8860,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/portal.do</stringProp>
@@ -8943,7 +8871,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -8952,7 +8880,7 @@
                     <stringProp name="1179404217">appleton</stringProp>
                   </collectionProp>
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <stringProp name="Assertion.assume_success">false</stringProp>
                   <intProp name="Assertion.test_type">2</intProp>
                 </ResponseAssertion>
                 <hashTree/>
@@ -8998,8 +8926,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}</stringProp>
@@ -9011,7 +8937,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree/>
@@ -9021,8 +8947,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/portal.jsp</stringProp>
@@ -9034,7 +8958,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree/>
@@ -9054,8 +8978,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/portal.do</stringProp>
@@ -9067,7 +8989,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -9140,8 +9062,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/cas/login</stringProp>
@@ -9153,7 +9073,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -9190,7 +9110,7 @@
                   </collectionProp>
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
                   <intProp name="Assertion.test_type">2</intProp>
-                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <stringProp name="Assertion.assume_success">false</stringProp>
                 </ResponseAssertion>
                 <hashTree/>
                 <ResultCollector guiclass="AssertionVisualizer" testclass="ResultCollector" testname="Assertion Results" enabled="true">
@@ -9245,8 +9165,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}${service_path}</stringProp>
@@ -9258,7 +9176,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree/>
@@ -9278,8 +9196,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/portal.do</stringProp>
@@ -9291,7 +9207,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -9301,7 +9217,7 @@
                   </collectionProp>
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
                   <intProp name="Assertion.test_type">2</intProp>
-                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <stringProp name="Assertion.assume_success">false</stringProp>
                 </ResponseAssertion>
                 <hashTree/>
               </hashTree>
@@ -9511,8 +9427,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
                 <stringProp name="HTTPSampler.path">/kfs-dev/kr/lookup.do</stringProp>
@@ -9524,7 +9438,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -9600,8 +9514,6 @@
                   </elementProp>
                   <stringProp name="HTTPSampler.domain">${host}</stringProp>
                   <stringProp name="HTTPSampler.port">${port}</stringProp>
-                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
                   <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                   <stringProp name="HTTPSampler.path">/kfs-dev/portal.do</stringProp>
@@ -9613,7 +9525,7 @@
                   <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                   <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                   <stringProp name="HTTPSampler.mimetype"></stringProp>
-                  <boolProp name="HTTPSampler.monitor">false</boolProp>
+                  <stringProp name="HTTPSampler.monitor">false</stringProp>
                   <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
                 </HTTPSampler>
                 <hashTree/>
@@ -9659,8 +9571,6 @@
                   </elementProp>
                   <stringProp name="HTTPSampler.domain">${host}</stringProp>
                   <stringProp name="HTTPSampler.port">${port}</stringProp>
-                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
                   <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
                   <stringProp name="HTTPSampler.path">/kfs-dev/kr/lookup.do</stringProp>
@@ -9672,7 +9582,7 @@
                   <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                   <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                   <stringProp name="HTTPSampler.mimetype"></stringProp>
-                  <boolProp name="HTTPSampler.monitor">false</boolProp>
+                  <stringProp name="HTTPSampler.monitor">false</stringProp>
                   <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
                 </HTTPSampler>
                 <hashTree/>
@@ -9879,8 +9789,6 @@
                   </elementProp>
                   <stringProp name="HTTPSampler.domain">${host}</stringProp>
                   <stringProp name="HTTPSampler.port">${port}</stringProp>
-                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
                   <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
                   <stringProp name="HTTPSampler.path">/kfs-dev/kr/lookup.do</stringProp>
@@ -9892,7 +9800,7 @@
                   <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                   <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                   <stringProp name="HTTPSampler.mimetype"></stringProp>
-                  <boolProp name="HTTPSampler.monitor">false</boolProp>
+                  <stringProp name="HTTPSampler.monitor">false</stringProp>
                   <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
                 </HTTPSampler>
                 <hashTree>
@@ -9958,8 +9866,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
                 <stringProp name="HTTPSampler.path">/kfs-dev/purapRequisition.do</stringProp>
@@ -9971,7 +9877,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -10033,8 +9939,6 @@
                   </elementProp>
                   <stringProp name="HTTPSampler.domain">${host}</stringProp>
                   <stringProp name="HTTPSampler.port">${port}</stringProp>
-                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
                   <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
                   <stringProp name="HTTPSampler.path">/kfs-dev/purapRequisition.do</stringProp>
@@ -10046,7 +9950,7 @@
                   <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                   <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                   <stringProp name="HTTPSampler.mimetype"></stringProp>
-                  <boolProp name="HTTPSampler.monitor">false</boolProp>
+                  <stringProp name="HTTPSampler.monitor">false</stringProp>
                   <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
                 </HTTPSampler>
                 <hashTree>
@@ -10124,8 +10028,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/portal.do</stringProp>
@@ -10137,7 +10039,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -10183,8 +10085,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kr/lookup.do</stringProp>
@@ -10196,7 +10096,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -10403,8 +10303,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kr/lookup.do</stringProp>
@@ -10416,7 +10314,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -10441,8 +10339,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kew/DocHandler.do</stringProp>
@@ -10454,7 +10350,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -10493,8 +10389,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/purapRequisition.do</stringProp>
@@ -10506,7 +10400,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree>
@@ -10533,7 +10427,7 @@
                   <stringProp name="1971758006">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot;</stringProp>
                 </collectionProp>
                 <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                <boolProp name="Assertion.assume_success">false</boolProp>
+                <stringProp name="Assertion.assume_success">false</stringProp>
                 <intProp name="Assertion.test_type">2</intProp>
               </ResponseAssertion>
               <hashTree/>
@@ -10542,7 +10436,7 @@
                   <stringProp name="-829090571">${reqNo}</stringProp>
                 </collectionProp>
                 <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                <boolProp name="Assertion.assume_success">false</boolProp>
+                <stringProp name="Assertion.assume_success">false</stringProp>
                 <intProp name="Assertion.test_type">2</intProp>
               </ResponseAssertion>
               <hashTree/>
@@ -10551,14 +10445,14 @@
                   <stringProp name="-1879453415">methodToCall.approve</stringProp>
                 </collectionProp>
                 <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                <boolProp name="Assertion.assume_success">false</boolProp>
+                <stringProp name="Assertion.assume_success">false</stringProp>
                 <intProp name="Assertion.test_type">2</intProp>
               </ResponseAssertion>
               <hashTree/>
               <ResultSaver guiclass="ResultSaverGui" testclass="ResultSaver" testname="Save Responses to a file" enabled="false">
                 <stringProp name="FileSaver.filename">C:\temp\reqs-view</stringProp>
-                <boolProp name="FileSaver.errorsonly">true</boolProp>
-                <boolProp name="FileSaver.successonly">false</boolProp>
+                <stringProp name="FileSaver.errorsonly">true</stringProp>
+                <stringProp name="FileSaver.successonly">false</stringProp>
                 <boolProp name="FileSaver.skipautonumber">false</boolProp>
                 <boolProp name="FileSaver.skipsuffix">false</boolProp>
               </ResultSaver>
@@ -10578,8 +10472,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kew/RouteLog.do</stringProp>
@@ -10591,7 +10483,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -11050,8 +10942,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/purapRequisition.do</stringProp>
@@ -11063,7 +10953,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree>
@@ -11112,8 +11002,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/portal.do</stringProp>
@@ -11125,7 +11013,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree/>
@@ -11135,7 +11023,7 @@
                     <elementProp name="service" elementType="HTTPArgument">
                       <boolProp name="HTTPArgument.always_encode">false</boolProp>
                       <stringProp name="Argument.name">service</stringProp>
-                      <stringProp name="Argument.value">${caseServiceUrl}</stringProp>
+                      <stringProp name="Argument.value">${casServiceUrl}</stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
                       <boolProp name="HTTPArgument.use_equals">true</boolProp>
                     </elementProp>
@@ -11143,8 +11031,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${casServer}</stringProp>
                 <stringProp name="HTTPSampler.port">${casPort}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${casProtocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">/${casContext}/login</stringProp>
@@ -11156,7 +11042,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -11219,8 +11105,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${casServer}</stringProp>
                 <stringProp name="HTTPSampler.port">${casPort}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${casProtocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">/${casContext}/login</stringProp>
@@ -11232,7 +11116,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree/>
@@ -11250,8 +11134,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/portal.do</stringProp>
@@ -11263,7 +11145,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -11272,7 +11154,7 @@
                     <stringProp name="-94046427">rorenfro</stringProp>
                   </collectionProp>
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <stringProp name="Assertion.assume_success">false</stringProp>
                   <intProp name="Assertion.test_type">2</intProp>
                 </ResponseAssertion>
                 <hashTree/>
@@ -11318,8 +11200,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}</stringProp>
@@ -11331,7 +11211,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree/>
@@ -11341,8 +11221,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/portal.jsp</stringProp>
@@ -11354,7 +11232,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree/>
@@ -11374,8 +11252,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/portal.do</stringProp>
@@ -11387,7 +11263,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -11460,8 +11336,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/cas/login</stringProp>
@@ -11473,7 +11347,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -11510,7 +11384,7 @@
                   </collectionProp>
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
                   <intProp name="Assertion.test_type">2</intProp>
-                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <stringProp name="Assertion.assume_success">false</stringProp>
                 </ResponseAssertion>
                 <hashTree/>
                 <ResultCollector guiclass="AssertionVisualizer" testclass="ResultCollector" testname="Assertion Results" enabled="true">
@@ -11565,8 +11439,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}${service_path}</stringProp>
@@ -11578,7 +11450,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree/>
@@ -11598,8 +11470,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/portal.do</stringProp>
@@ -11611,7 +11481,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -11621,7 +11491,7 @@
                   </collectionProp>
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
                   <intProp name="Assertion.test_type">2</intProp>
-                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <stringProp name="Assertion.assume_success">false</stringProp>
                 </ResponseAssertion>
                 <hashTree/>
               </hashTree>
@@ -11632,8 +11502,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/index.jsp</stringProp>
@@ -11645,7 +11513,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -11705,8 +11573,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/portal.do</stringProp>
@@ -11718,7 +11584,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -11771,8 +11637,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kr/lookup.do</stringProp>
@@ -11784,7 +11648,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -12210,8 +12074,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
                 <stringProp name="HTTPSampler.path">/kfs-dev/kr/lookup.do</stringProp>
@@ -12223,7 +12085,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -12670,8 +12532,6 @@
                   </elementProp>
                   <stringProp name="HTTPSampler.domain">${host}</stringProp>
                   <stringProp name="HTTPSampler.port">${port}</stringProp>
-                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
                   <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
                   <stringProp name="HTTPSampler.path">/kfs-dev/kr/lookup.do</stringProp>
@@ -12683,7 +12543,7 @@
                   <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                   <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                   <stringProp name="HTTPSampler.mimetype"></stringProp>
-                  <boolProp name="HTTPSampler.monitor">false</boolProp>
+                  <stringProp name="HTTPSampler.monitor">false</stringProp>
                   <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
                 </HTTPSampler>
                 <hashTree>
@@ -13132,8 +12992,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kr/lookup.do</stringProp>
@@ -13145,7 +13003,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree>
@@ -13180,8 +13038,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kew/DocHandler.do</stringProp>
@@ -13193,7 +13049,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -13232,8 +13088,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/purapPurchaseOrder.do</stringProp>
@@ -13245,7 +13099,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree>
@@ -13273,8 +13127,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kew/RouteLog.do</stringProp>
@@ -13286,7 +13138,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -13304,8 +13156,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/portal.do</stringProp>
@@ -13317,7 +13167,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -13356,8 +13206,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/portal.do</stringProp>
@@ -13369,7 +13217,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -13401,8 +13249,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/purapPaymentRequest.do</stringProp>
@@ -13414,7 +13260,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree>
@@ -13441,7 +13287,7 @@
                   <stringProp name="1971758006">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot;</stringProp>
                 </collectionProp>
                 <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                <boolProp name="Assertion.assume_success">false</boolProp>
+                <stringProp name="Assertion.assume_success">false</stringProp>
                 <intProp name="Assertion.test_type">2</intProp>
               </ResponseAssertion>
               <hashTree/>
@@ -13558,8 +13404,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/purapPaymentRequest.do</stringProp>
@@ -13571,7 +13415,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree>
@@ -13589,7 +13433,7 @@
                   <stringProp name="1971758006">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot;</stringProp>
                 </collectionProp>
                 <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                <boolProp name="Assertion.assume_success">false</boolProp>
+                <stringProp name="Assertion.assume_success">false</stringProp>
                 <intProp name="Assertion.test_type">2</intProp>
               </ResponseAssertion>
               <hashTree/>
@@ -13608,8 +13452,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kew/RouteLog.do</stringProp>
@@ -13621,7 +13463,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -14563,8 +14405,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/purapPaymentRequest.do</stringProp>
@@ -14576,7 +14416,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree>
@@ -14594,7 +14434,7 @@
                   <stringProp name="1971758006">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot;</stringProp>
                 </collectionProp>
                 <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                <boolProp name="Assertion.assume_success">false</boolProp>
+                <stringProp name="Assertion.assume_success">false</stringProp>
                 <intProp name="Assertion.test_type">2</intProp>
               </ResponseAssertion>
               <hashTree/>
@@ -14613,8 +14453,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kew/RouteLog.do</stringProp>
@@ -14626,7 +14464,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -15526,8 +15364,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/purapPaymentRequest.do</stringProp>
@@ -15539,7 +15375,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree>
@@ -15587,8 +15423,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/portal.do</stringProp>
@@ -15600,7 +15434,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree/>
@@ -15610,7 +15444,7 @@
                     <elementProp name="service" elementType="HTTPArgument">
                       <boolProp name="HTTPArgument.always_encode">false</boolProp>
                       <stringProp name="Argument.name">service</stringProp>
-                      <stringProp name="Argument.value">${caseServiceUrl}</stringProp>
+                      <stringProp name="Argument.value">${casServiceUrl}</stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
                       <boolProp name="HTTPArgument.use_equals">true</boolProp>
                     </elementProp>
@@ -15618,8 +15452,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${casServer}</stringProp>
                 <stringProp name="HTTPSampler.port">${casPort}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${casProtocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">/${casContext}/login</stringProp>
@@ -15631,7 +15463,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -15694,8 +15526,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${casServer}</stringProp>
                 <stringProp name="HTTPSampler.port">${casPort}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${casProtocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">/${casContext}/login</stringProp>
@@ -15707,7 +15537,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree/>
@@ -15725,8 +15555,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/portal.do</stringProp>
@@ -15738,7 +15566,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -15747,7 +15575,7 @@
                     <stringProp name="-94046427">rorenfro</stringProp>
                   </collectionProp>
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <stringProp name="Assertion.assume_success">false</stringProp>
                   <intProp name="Assertion.test_type">2</intProp>
                 </ResponseAssertion>
                 <hashTree/>
@@ -15793,8 +15621,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}</stringProp>
@@ -15806,7 +15632,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree/>
@@ -15816,8 +15642,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/portal.jsp</stringProp>
@@ -15829,7 +15653,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree/>
@@ -15849,8 +15673,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/portal.do</stringProp>
@@ -15862,7 +15684,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -15935,8 +15757,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/cas/login</stringProp>
@@ -15948,7 +15768,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -15985,7 +15805,7 @@
                   </collectionProp>
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
                   <intProp name="Assertion.test_type">2</intProp>
-                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <stringProp name="Assertion.assume_success">false</stringProp>
                 </ResponseAssertion>
                 <hashTree/>
                 <ResultCollector guiclass="AssertionVisualizer" testclass="ResultCollector" testname="Assertion Results" enabled="true">
@@ -16040,8 +15860,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}${service_path}</stringProp>
@@ -16053,7 +15871,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree/>
@@ -16073,8 +15891,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
                 <stringProp name="HTTPSampler.path">${context}/portal.do</stringProp>
@@ -16086,7 +15902,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -16096,7 +15912,7 @@
                   </collectionProp>
                   <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
                   <intProp name="Assertion.test_type">2</intProp>
-                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <stringProp name="Assertion.assume_success">false</stringProp>
                 </ResponseAssertion>
                 <hashTree/>
               </hashTree>
@@ -16306,8 +16122,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
                 <stringProp name="HTTPSampler.path">/kfs-dev/kr/lookup.do</stringProp>
@@ -16319,7 +16133,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -16549,8 +16363,6 @@
                   </elementProp>
                   <stringProp name="HTTPSampler.domain">${host}</stringProp>
                   <stringProp name="HTTPSampler.port">${port}</stringProp>
-                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
                   <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
                   <stringProp name="HTTPSampler.path">/kfs-dev/kr/lookup.do</stringProp>
@@ -16562,7 +16374,7 @@
                   <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                   <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                   <stringProp name="HTTPSampler.mimetype"></stringProp>
-                  <boolProp name="HTTPSampler.monitor">false</boolProp>
+                  <stringProp name="HTTPSampler.monitor">false</stringProp>
                   <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
                 </HTTPSampler>
                 <hashTree>
@@ -16628,8 +16440,6 @@
                 </elementProp>
                 <stringProp name="HTTPSampler.domain">${host}</stringProp>
                 <stringProp name="HTTPSampler.port">${port}</stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                 <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
                 <stringProp name="HTTPSampler.path">/kfs-dev/purapPaymentRequest.do</stringProp>
@@ -16641,7 +16451,7 @@
                 <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                 <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                 <stringProp name="HTTPSampler.mimetype"></stringProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.monitor">false</stringProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
               </HTTPSampler>
               <hashTree>
@@ -16703,8 +16513,6 @@
                   </elementProp>
                   <stringProp name="HTTPSampler.domain">${host}</stringProp>
                   <stringProp name="HTTPSampler.port">${port}</stringProp>
-                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
                   <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
                   <stringProp name="HTTPSampler.path">/kfs-dev/purapPaymentRequest.do</stringProp>
@@ -16716,7 +16524,7 @@
                   <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
                   <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
                   <stringProp name="HTTPSampler.mimetype"></stringProp>
-                  <boolProp name="HTTPSampler.monitor">false</boolProp>
+                  <stringProp name="HTTPSampler.monitor">false</stringProp>
                   <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
                 </HTTPSampler>
                 <hashTree>
@@ -16751,8 +16559,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/portal.jsp</stringProp>
@@ -16764,7 +16570,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -16824,8 +16630,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/portal.do</stringProp>
@@ -16837,7 +16641,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -16890,8 +16694,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kr/lookup.do</stringProp>
@@ -16903,7 +16705,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -17355,8 +17157,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kr/lookup.do</stringProp>
@@ -17368,7 +17168,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -17393,8 +17193,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kew/DocHandler.do</stringProp>
@@ -17406,7 +17204,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -17445,8 +17243,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/purapPaymentRequest.do</stringProp>
@@ -17458,7 +17254,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree>
@@ -17476,7 +17272,7 @@
                   <stringProp name="1971758006">&lt;input type=&quot;hidden&quot; name=&quot;docFormKey&quot;</stringProp>
                 </collectionProp>
                 <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                <boolProp name="Assertion.assume_success">false</boolProp>
+                <stringProp name="Assertion.assume_success">false</stringProp>
                 <intProp name="Assertion.test_type">2</intProp>
               </ResponseAssertion>
               <hashTree/>
@@ -17485,7 +17281,7 @@
                   <stringProp name="-1879453415">methodToCall.approve</stringProp>
                 </collectionProp>
                 <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                <boolProp name="Assertion.assume_success">false</boolProp>
+                <stringProp name="Assertion.assume_success">false</stringProp>
                 <intProp name="Assertion.test_type">2</intProp>
               </ResponseAssertion>
               <hashTree/>
@@ -17504,8 +17300,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/kew/RouteLog.do</stringProp>
@@ -17517,7 +17311,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -18256,8 +18050,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/purapPaymentRequest.do</stringProp>
@@ -18269,7 +18061,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -18279,8 +18071,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/index.jsp</stringProp>
@@ -18292,7 +18082,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree/>
@@ -18302,8 +18092,6 @@
               </elementProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
               <stringProp name="HTTPSampler.port">${port}</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
               <stringProp name="HTTPSampler.path">/kfs-dev/portal.jsp</stringProp>
@@ -18315,7 +18103,7 @@
               <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
               <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
               <stringProp name="HTTPSampler.mimetype"></stringProp>
-              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.monitor">false</stringProp>
               <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             </HTTPSampler>
             <hashTree>
@@ -18370,8 +18158,6 @@
             </elementProp>
             <stringProp name="HTTPSampler.domain">${host}</stringProp>
             <stringProp name="HTTPSampler.port">${port}</stringProp>
-            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-            <stringProp name="HTTPSampler.response_timeout"></stringProp>
             <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
             <stringProp name="HTTPSampler.path">${context}/kr/lookup.do</stringProp>
@@ -18383,7 +18169,7 @@
             <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
             <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
             <stringProp name="HTTPSampler.mimetype"></stringProp>
-            <boolProp name="HTTPSampler.monitor">false</boolProp>
+            <stringProp name="HTTPSampler.monitor">false</stringProp>
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
           <hashTree>
@@ -18632,8 +18418,6 @@
             </elementProp>
             <stringProp name="HTTPSampler.domain">${host}</stringProp>
             <stringProp name="HTTPSampler.port">${port}</stringProp>
-            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-            <stringProp name="HTTPSampler.response_timeout"></stringProp>
             <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
             <stringProp name="HTTPSampler.contentEncoding">ISO-8859-1</stringProp>
             <stringProp name="HTTPSampler.path">${context}/kr/lookup.do</stringProp>
@@ -18645,7 +18429,7 @@
             <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
             <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
             <stringProp name="HTTPSampler.mimetype"></stringProp>
-            <boolProp name="HTTPSampler.monitor">false</boolProp>
+            <stringProp name="HTTPSampler.monitor">false</stringProp>
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
           <hashTree>
@@ -18695,7 +18479,7 @@
                 <stringProp name="66898262">FINAL</stringProp>
               </collectionProp>
               <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-              <boolProp name="Assertion.assume_success">false</boolProp>
+              <stringProp name="Assertion.assume_success">false</stringProp>
               <intProp name="Assertion.test_type">2</intProp>
             </ResponseAssertion>
             <hashTree/>
@@ -18721,8 +18505,6 @@
             </elementProp>
             <stringProp name="HTTPSampler.domain">${host}</stringProp>
             <stringProp name="HTTPSampler.port">${port}</stringProp>
-            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-            <stringProp name="HTTPSampler.response_timeout"></stringProp>
             <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
             <stringProp name="HTTPSampler.path">${context}/kew/DocHandler.do</stringProp>
@@ -18734,7 +18516,7 @@
             <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
             <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
             <stringProp name="HTTPSampler.mimetype"></stringProp>
-            <boolProp name="HTTPSampler.monitor">false</boolProp>
+            <stringProp name="HTTPSampler.monitor">false</stringProp>
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           </HTTPSampler>
           <hashTree>
@@ -18780,7 +18562,7 @@
                 <stringProp name="66898262">FINAL</stringProp>
               </collectionProp>
               <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-              <boolProp name="Assertion.assume_success">false</boolProp>
+              <stringProp name="Assertion.assume_success">false</stringProp>
               <intProp name="Assertion.test_type">2</intProp>
             </ResponseAssertion>
             <hashTree/>

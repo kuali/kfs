@@ -48,6 +48,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -218,15 +219,21 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                 Integer disbursementNbr = (Integer) iter.next();
 
                 boolean first = true;
+                
+                KualiDecimal totalNetAmount = new KualiDecimal(0);
+                
+                Iterator i2 = paymentDetailService.getByDisbursementNumber(disbursementNbr);
+                while (i2.hasNext()) {
+                    PaymentDetail pd = (PaymentDetail) i2.next();
+                    totalNetAmount = totalNetAmount.add(pd.getNetPaymentAmount());
+                }   
 
                 Iterator i = paymentDetailService.getByDisbursementNumber(disbursementNbr);
                 while (i.hasNext()) {
                     PaymentDetail pd = (PaymentDetail) i.next();
                     PaymentGroup pg = pd.getPaymentGroup();
                     if (!testMode) {
-                        if (ObjectUtils.isNull(pg.getDisbursementDate())) {
-                            pg.setDisbursementDate(new java.sql.Date(processDate.getTime()));
-                        }
+                        pg.setDisbursementDate(new java.sql.Date(processDate.getTime()));
                         pg.setPaymentStatus(extractedStatus);
                         this.businessObjectService.save(pg);
                     }
@@ -239,7 +246,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                         writeBank(os, 4, pg.getBank());
 
                         writeTag(os, 4, "disbursementDate", sdf.format(processDate));
-                        writeTag(os, 4, "netAmount", pg.getNetPaymentAmount().toString());
+                        writeTag(os, 4, "netAmount", totalNetAmount.toString());
 
                         writePayee(os, 4, pg);
                         writeTag(os, 4, "campusAddressIndicator", pg.getCampusAddress().booleanValue() ? "Y" : "N");

@@ -653,10 +653,18 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             }
         }
         
+        //  clear any NonInvoiced add line information from the form vars
+        payAppForm.setNonInvoicedAddLine(null);
+
         //  load any NonAppliedHolding information into the form vars
         if (payAppDoc.getNonAppliedHolding() != null) {
             payAppForm.setNonAppliedHoldingCustomerNumber(payAppDoc.getNonAppliedHolding().getCustomerNumber());
             payAppForm.setNonAppliedHoldingAmount(payAppDoc.getNonAppliedHolding().getFinancialDocumentLineAmount());
+        }
+        else {
+            //  clear any NonAppliedHolding information from the form vars if it's empty
+            payAppForm.setNonAppliedHoldingCustomerNumber(null);
+            payAppForm.setNonAppliedHoldingAmount(null);
         }
     }
     

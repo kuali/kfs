@@ -1070,8 +1070,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }
 
-        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
-
+        SpringContext.getBean(BusinessObjectService.class).save(po);
         return encumbranceAccounts;
     }
 

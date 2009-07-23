@@ -49,9 +49,11 @@ import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccount;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -491,10 +493,10 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         purapService.deleteUnenteredItems(apDocument);
         // change accounts from percents to dollars
         purapAccountingService.updateAccountAmounts(apDocument);
+        // save for persistence
+        SpringContext.getBean(BusinessObjectService.class).save(apDocument);
         // do GL entries for document creation
         accountsPayableDocumentSpecificService.generateGLEntriesCreateAccountsPayableDocument(apDocument);
-        // save the document
-        purapService.saveDocumentNoValidation(apDocument);
     }
 
     /**

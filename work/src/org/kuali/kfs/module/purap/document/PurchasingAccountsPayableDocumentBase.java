@@ -371,7 +371,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     @Override
     public List buildListOfDeletionAwareLists() {
-        List managedLists = super.buildListOfDeletionAwareLists();
+        List managedLists = new ArrayList<List>();
+        managedLists.add(getDeletionAwareAccountingLines());
         if (allowDeleteAwareCollection) {            
             //From now on, the list of accounting lines would have been added when the 
             //super.buildListOfDeletionAwareLists() is executed when it calls getSourceAccountingLines(). 
@@ -380,7 +381,23 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             managedLists.add(this.getItems());
         }
         return managedLists;
-    }    
+    }   
+    
+    /**
+     * Build deletion list of accounting lines for PurAp generic use.
+     * 
+     * @return
+     */
+    private List getDeletionAwareAccountingLines() {
+        List<PurApAccountingLine> deletionAwareAccountingLines = new ArrayList<PurApAccountingLine>();
+        for (Object itemAsObject : this.getItems()) {
+            final PurApItem item = (PurApItem)itemAsObject;
+            for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
+                deletionAwareAccountingLines.add(accountingLine);
+            }
+        }
+        return deletionAwareAccountingLines;      
+    }
     
     /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#buildListOfDeletionAwareLists()

@@ -484,6 +484,7 @@
 		    <ref bean="batchInputFileService" />
 		</property>
 		<property name="accountService" ref="accountService"/>
+		<property name="preScrubberService" ref="preScrubberService"/>
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 

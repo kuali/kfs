@@ -71,8 +71,6 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
      *      java.lang.String)
      */
     public String getFileName(String principalName, Object parsedFileContents, String fileUserIdentifer) {
-        CollectorBatch collectorBatch = (CollectorBatch) parsedFileContents;
-        
         String fileName = FILE_NAME_PREFIX;
         fileName += principalName;
         if (org.apache.commons.lang.StringUtils.isNotBlank(fileUserIdentifer)) {
@@ -118,22 +116,23 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
                 lineNumber++;
                 String preprocessedLine = preprocessLine(fileLine);
                 if (fileLine.length() >= 27) {  //if no rec_type, probably a blank or almost blank line at end of file
-                    String recordType = extractRecordType(fileLine);
+                    String recordType = extractRecordType(preprocessedLine);
                     //this chunk translated from collectorDigesterRules.xml
                     if ("HD".equals(recordType)) {  // this is a header line
-                        currentBatch = createCollectorBatch(fileLine);
+                        currentBatch = createCollectorBatch(preprocessedLine);
                     }
                     else if ("DT".equals(recordType)) {  //ID billing detail
-                        CollectorDetail collectorDetail = createCollectorDetail(fileLine, curDate, universityDate);
+                        CollectorDetail collectorDetail = createCollectorDetail(preprocessedLine, curDate, universityDate);
                         currentBatch.addCollectorDetail(collectorDetail);
                     }
                     else if ("TL".equals(recordType)) {  //trailer record
-                        updateCollectorDetailWithTrailerRecords(currentBatch, fileLine);
+                        updateCollectorDetailWithTrailerRecords(currentBatch, preprocessedLine);
+                        list.add(currentBatch);
                         currentBatch = null;
                         lineNumberOfLastHeader = -1;
                     }
                     else {  // accounting record/origin entry
-                        OriginEntryFull originEntry = createOriginEntry(fileLine, curDate, universityDate);
+                        OriginEntryFull originEntry = createOriginEntry(preprocessedLine, curDate, universityDate);
                         currentBatch.addOriginEntry(originEntry);
                     }
                 }
@@ -294,12 +293,18 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
 
 
     public boolean validate(Object parsedFileContents) {
-        boolean isValid = collectorHelperService.performValidation((CollectorBatch) parsedFileContents);
-        if (isValid) {
-            isValid = collectorHelperService.checkTrailerTotals((CollectorBatch) parsedFileContents, null);
+        List<CollectorBatch> collectorBatches = (List<CollectorBatch>) parsedFileContents;
+        for (CollectorBatch collectorBatch : collectorBatches) {
+            boolean isValid = collectorHelperService.performValidation(collectorBatch);
+            if (isValid) {
+                isValid = collectorHelperService.checkTrailerTotals(collectorBatch, null);
+            }
+            if (!isValid) {
+                return false;
+            }
         }
     
-        return isValid;
+        return true;
     }
     
     /**

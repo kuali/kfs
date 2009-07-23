@@ -129,8 +129,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             }
 
             // ***************** GET RID OF THESE LINES WHEN DONE TESTING **********
-            //depreciationDateParameter = "2008-06-30";
-            //currentDate.setTime(dateFormat.parse("2008-06-30"));
+            // depreciationDateParameter = "2008-06-30";
+            // currentDate.setTime(dateFormat.parse("2008-06-30"));
             // ********************************************************************
 
             // This validates the system parameter depreciation_date has a valid format of YYYY-MM-DD.
@@ -158,6 +158,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             reportLog.addAll(depreciableAssetsDao.generateStatistics(true, "", fiscalYear, fiscalMonth, depreciationDate));
 
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting a list of asset payments eligible for depreciation.");
+            // update if fiscal period is 12
+            depreciableAssetsDao.updateAssetsCreatedInLastFiscalPeriod(fiscalMonth, fiscalYear);
 
             // Retrieving eligible assets
             Collection<AssetPayment> depreciableAssetsCollection = depreciableAssetsDao.getListOfDepreciableAssets(this.fiscalYear, this.fiscalMonth, depreciationDate);
@@ -263,10 +265,10 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             if (parameterService.parameterExists(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_CAMPUS_PLANT_FUND_OBJECT_SUB_TYPES)) {
                 campusPlantFundObjectSubType = parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_CAMPUS_PLANT_FUND_OBJECT_SUB_TYPES);
             }
-            
+
             // Updating asset depreciation date, posting period and posting year
-            depreciableAssetsDao.updateAssets(fiscalMonth,fiscalYear);
-            
+            // depreciableAssetsDao.updateAssets(fiscalMonth,fiscalYear);
+
             // Initializing the asset payment table.
             depreciableAssetsDao.initializeAssetPayment(fiscalMonth);
 
@@ -319,7 +321,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 }
 
                 LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting the accumulated object code and expense object code of each asset payment.");
-                
+
                 monthsElapsed = new Double(0);
                 String transactionType = KFSConstants.GL_DEBIT_CODE;
 

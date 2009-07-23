@@ -145,7 +145,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * 
      * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao#updateAssets(java.lang.Integer, java.lang.Integer)
      */
-    public void updateAssets(Integer fiscalMonth, Integer fiscalYear) {
+    public void updateAssetsCreatedInLastFiscalPeriod(Integer fiscalMonth, Integer fiscalYear) {
         LOG.debug("updateAssetInformation() -  started");
 
         // If we are in the last month of the fiscal year

@@ -94,5 +94,5 @@ public interface DepreciableAssetsDao {
      * @param fiscalMonth
      * @param fiscalYear
      */
-    public void updateAssets(Integer fiscalMonth, Integer fiscalYear);    
+    public void updateAssetsCreatedInLastFiscalPeriod(Integer fiscalMonth, Integer fiscalYear);    
 }

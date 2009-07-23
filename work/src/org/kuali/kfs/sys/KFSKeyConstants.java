@@ -575,6 +575,7 @@ public class KFSKeyConstants {
         public static final String ERROR_DOCUMENT_ADVANCE_DEPOSIT_REQ_NUMBER_DEPOSITS_NOT_MET = "error.document.advanceDeposit.requiredNumberOfAdvanceDepositsNotMet";
         public static final String ERROR_DOCUMENT_ADVANCE_DEPOSIT_OUT_OF_BALANCE = "error.document.advanceDeposit.balance";
         public static final String ERROR_DOCUMENT_ADVANCE_DEPOSIT_ZERO_AMOUNT = "error.document.advanceDeposit.zeroAmount";
+        public static final String ERROR_DOCUMENT_ADVANCE_DEPOSIT_INCORRECT_ELECTRONIC_PAYMENT_STATE = "error.document.advanceDeposit.ifAnyElectronicPaymentsThenAllElectronicPayments";
 
         public static final String DESCRIPTION_GLPE_BANK_OFFSET = "description.glpe.bankOffset.advanceDeposit";
     }

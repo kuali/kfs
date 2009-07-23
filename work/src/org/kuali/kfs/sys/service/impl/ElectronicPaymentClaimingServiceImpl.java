@@ -219,11 +219,9 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
      */
     public List<ElectronicPaymentClaim> generateElectronicPaymentClaimRecords(AdvanceDepositDocument doc) {
         List<ElectronicPaymentClaim> claimRecords = new ArrayList<ElectronicPaymentClaim>();
-        Map<String, List<String>> electronicFundAccounts = getElectronicFundAccounts();
         for (Object accountingLineAsObj : doc.getSourceAccountingLines()) {
-            AccountingLine accountingLine = (AccountingLine) accountingLineAsObj;
-            List<String> electronicFundsAccountNumbers = electronicFundAccounts.get(accountingLine.getChartOfAccountsCode());
-            if (electronicFundsAccountNumbers != null && electronicFundsAccountNumbers.contains(accountingLine.getAccountNumber())) {
+            final AccountingLine accountingLine = (AccountingLine) accountingLineAsObj;
+            if (this.representsElectronicFundAccount(accountingLine)) {
                 ElectronicPaymentClaim electronicPayment = createElectronicPayment(doc, accountingLine);
                 businessObjectService.save(electronicPayment);
                 claimRecords.add(electronicPayment);
@@ -231,38 +229,14 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
         }
         return claimRecords;
     }
-
+    
     /**
-     * This method uses the ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER to find which accounts should cause an accounting line to
-     * create an ElectronicPaymentClaim record.
-     * 
-     * @return a List of Maps, where each Map represents an account that electronic funds are posted to. Each Map has a chart of
-     *         accounts code as a key and a List of account numbers as a value.
+     * Determines if the given accounting line represents an electronic payment
+     * @param accountingLine the accounting line to check
+     * @return true if the accounting line does represent an electronic payment, false otherwise
      */
-    public Map<String, List<String>> getElectronicFundAccounts() {
-        Map<String, List<String>> electronicFundAccounts = new HashMap<String, List<String>>();
-        List<String> electronicPaymentAccounts = parameterService.getParameterValues(AdvanceDepositDocument.class, ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER);
-
-        for (String chartSection : electronicPaymentAccounts) {
-            String[] chartAccountPieces = chartSection.split("=");
-            if (chartAccountPieces.length >= 2) {
-                String chartCode = chartAccountPieces[0];
-                if (chartCode != null && chartCode.length() > 0) {
-                    String[] accountNumbers = chartAccountPieces[1].split(",");
-                    List<String> accountNumbersForChart = electronicFundAccounts.get(chartCode);
-                    if (accountNumbersForChart == null) {
-                        accountNumbersForChart = new ArrayList<String>();
-                    }
-                    for (String accountNumber : accountNumbers) {
-                        if (accountNumber != null && accountNumber.length() > 0) {
-                            accountNumbersForChart.add(accountNumber);
-                        }
-                    }
-                    electronicFundAccounts.put(chartCode, accountNumbersForChart);
-                }
-            }
-        }
-        return electronicFundAccounts;
+    public boolean representsElectronicFundAccount(AccountingLine accountingLine) {
+        return parameterService.getParameterEvaluator(AdvanceDepositDocument.class, ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER, accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber()).evaluationSucceeds();
     }
 
     /**

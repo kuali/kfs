@@ -59,6 +59,16 @@
 									</list>
 								</property>
 							</bean>
+							<bean parent="AdvanceDeposit-anyElectronicFundAccountingLineAllElectronicFundAccountingLinesValidation" scope="prototype">
+								<property name="parameterProperties">
+									<list>
+										<bean parent="validationFieldConversion">
+											<property name="sourceEventProperty" value="document" />
+											<property name="targetValidationProperty" value="advanceDepositDocumentForValidation" />
+										</bean>
+									</list>
+								</property>
+							</bean>
 						</list>
 					</property>
 				</bean>

@@ -128,8 +128,8 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
             CashControlDetail newCashControlDetail = new CashControlDetail();
             newCashControlDetail.setCashControlDocument(document);
             newCashControlDetail.setDocumentNumber(document.getDocumentNumber());
-            newCashControlDetail.setFinancialDocumentLineAmount(electronicPaymentClaim.getGeneratingAdvanceDepositDetail().getFinancialDocumentAdvanceDepositAmount());
-            newCashControlDetail.setCustomerPaymentDescription(electronicPaymentClaim.getGeneratingAdvanceDepositDetail().getFinancialDocumentAdvanceDepositDescription());
+            newCashControlDetail.setFinancialDocumentLineAmount(electronicPaymentClaim.getGeneratingAccountingLine().getAmount());
+            newCashControlDetail.setCustomerPaymentDescription(electronicPaymentClaim.getGeneratingAccountingLine().getFinancialDocumentLineDescription());
             cashControlDocumentService.addNewCashControlDetail(kualiConfigurationService.getPropertyString(ArKeyConstants.CREATED_BY_CASH_CTRL_DOC), document, newCashControlDetail);
         }
 

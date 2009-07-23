@@ -28,6 +28,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class is used to represent an electronic payment claim.
@@ -211,13 +212,13 @@ public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
     }
     
     /**
-     * Returns the AdvanceDepositDetail on the generating Advance Deposit document for the transaction which generated this record
+     * Returns the AdvanceDepositDetail for the first deposit detail on this document
      * @return the advance deposit detail that describes the transaction responsible for the creation of this record
      */
     public AdvanceDepositDetail getGeneratingAdvanceDepositDetail() {
-        AdvanceDepositDocument generatingDocument = getGeneratingDocument();
-        if (generatingDocument != null && generatingDocument.getSourceAccountingLines() != null) {
-            return generatingDocument.getAdvanceDepositDetail(financialDocumentLineNumber.intValue() - 1);
+        final AdvanceDepositDocument generatingDocument = getGeneratingDocument();
+        if (generatingDocument != null && !ObjectUtils.isNull(generatingDocument.getAdvanceDeposits()) && !generatingDocument.getAdvanceDeposits().isEmpty()) {
+            return generatingDocument.getAdvanceDepositDetail(0);
         }
         return null;
     }

@@ -117,6 +117,7 @@
         <inverse-foreignkey field-ref="itemIdentifier" />
     </collection-descriptor>
     <collection-descriptor name="useTaxItems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderItemUseTax" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">       
+    	<inverse-foreignkey field-ref="documentNumber" />
         <inverse-foreignkey field-ref="itemIdentifier" />
     </collection-descriptor>        
 </class-descriptor>
@@ -4140,6 +4141,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.PurchaseOrderItemUseTax" table="PUR_PO_ITM_USE_TAX_T">        
+		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
         <field-descriptor name="useTaxId" column="PO_ITM_USE_TAX_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PUR_PO_ITM_USE_TAX_ID_SEQ "/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

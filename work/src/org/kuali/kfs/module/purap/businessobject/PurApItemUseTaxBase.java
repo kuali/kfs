@@ -38,6 +38,15 @@ public abstract class PurApItemUseTaxBase extends PersistableBusinessObjectBase 
         super();
     }
 
+    public PurApItemUseTaxBase(PurApItemUseTax itemUseTax) {
+        super();
+        setAccountNumber(itemUseTax.getAccountNumber());
+        setChartOfAccountsCode(itemUseTax.getChartOfAccountsCode());
+        setFinancialObjectCode(itemUseTax.getFinancialObjectCode());
+        setRateCode(itemUseTax.getRateCode());
+        setTaxAmount(itemUseTax.getTaxAmount());
+    }
+
     public String getAccountNumber() {
         return accountNumber;
     }

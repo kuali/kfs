@@ -16,7 +16,32 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 
+public class PurchaseOrderItemUseTax extends PurApItemUseTaxBase {
+    private String documentNumber;
 
-public class PurchaseOrderItemUseTax extends PurApItemUseTaxBase{
+    public PurchaseOrderItemUseTax() {
+        super();
+    }
 
+    public PurchaseOrderItemUseTax(PurApItemUseTax useTaxItem) {
+        super(useTaxItem);
+    }
+
+    /**
+     * Gets the documentNumber attribute.
+     * 
+     * @return Returns the documentNumber.
+     */
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
+
+    /**
+     * Sets the documentNumber attribute value.
+     * 
+     * @param documentNumber The documentNumber to set.
+     */
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
 }

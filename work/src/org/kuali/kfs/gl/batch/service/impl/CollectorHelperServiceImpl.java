@@ -88,6 +88,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
     private BatchInputFileService batchInputFileService;
     private CollectorScrubberService collectorScrubberService;
     private AccountService accountService;
+    private PreScrubberService preScrubberService;
     private String batchFileDirectoryName;
     
     /**
@@ -234,7 +235,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
     }
 
     protected void preprocessParsedCollectorBatch(CollectorBatch collectorBatch, CollectorReportData collectorReportData) {
-        if (!parameterService.getIndicatorParameter(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND)) {
+        if (preScrubberService.deriveChartOfAccountsCodeIfSpaces()) {
             for (OriginEntryFull originEntry : collectorBatch.getOriginEntries()) {
                 if (GeneralLedgerConstants.getSpaceChartOfAccountsCode().equals(originEntry.getChartOfAccountsCode())) {
                     Collection<Account> accounts = accountService.getAccountsForAccountNumber(originEntry.getAccountNumber());
@@ -617,5 +618,13 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      */
     public void setAccountService(AccountService accountService) {
         this.accountService = accountService;
+    }
+
+    /**
+     * Sets the preScrubberService attribute value.
+     * @param preScrubberService The preScrubberService to set.
+     */
+    public void setPreScrubberService(PreScrubberService preScrubberService) {
+        this.preScrubberService = preScrubberService;
     }
 }

@@ -68,7 +68,7 @@ public class PreScrubberServiceImpl implements PreScrubberService {
         
         AccountService accountService = SpringContext.getBean(AccountService.class);
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        boolean fillInChartCodesIfSpaces = !parameterService.getIndicatorParameter(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND);
+        boolean fillInChartCodesIfSpaces = deriveChartOfAccountsCodeIfSpaces();
         
         int inputLines = 0;
         int outputLines = 0;
@@ -186,5 +186,14 @@ public class PreScrubberServiceImpl implements PreScrubberService {
             }
             return newElementAdded;
         }
+    }
+    
+    /**
+     * This method...
+     * @return
+     */
+    public boolean deriveChartOfAccountsCodeIfSpaces() {
+        // return !parameterService.getIndicatorParameter(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND);
+        return false;
     }
 }

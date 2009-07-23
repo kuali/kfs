@@ -20,4 +20,10 @@ import java.util.Iterator;
 
 public interface PreScrubberService {
     public void preprocessOriginEntries(Iterator<String> inputOriginEntries, String outputFileName) throws IOException;
+    
+    /**
+     * Returns whether chart of accounts codes that are spaces should be derived from the account number.  This assumes that a particular account
+     * number may be associated with at most one chart of accounts code.
+     */
+    public boolean deriveChartOfAccountsCodeIfSpaces();
 }

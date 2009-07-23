@@ -601,7 +601,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Set<String> customerIds = invAmountDays.keySet();
         for (String customer : customerIds) {
             CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
-            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).subtract(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
             agingReportDetail.setUnpaidBalance0to30(amount);
             total0to30 = total0to30.add(amount);
         }
@@ -622,7 +622,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Set<String> customerIds = invAmountDays.keySet();
         for (String customer : customerIds) {
             CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
-            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).subtract(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
             agingReportDetail.setUnpaidBalance31to60(amount);
             total31to60 = total31to60.add(amount);
         }
@@ -643,7 +643,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Set<String> customerIds = invAmountDays.keySet();
         for (String customer : customerIds) {
             CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
-            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).subtract(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
             agingReportDetail.setUnpaidBalance61to90(amount);
             total61to90 = total61to90.add(amount);
         }
@@ -664,7 +664,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Set<String> customerIds = invAmountDays.keySet();
         for (String customer : customerIds) {
             CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
-            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).subtract(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
             agingReportDetail.setUnpaidBalance91toSYSPR(amount);
             total91toSYSPR = total91toSYSPR.add(amount);
         }
@@ -685,7 +685,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Set<String> customerIds = invAmountDays.keySet();
         for (String customer : customerIds) {
             CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
-            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).subtract(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
             agingReportDetail.setUnpaidBalanceSYSPRplus1orMore(amount);
             totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(amount);
         }
@@ -706,7 +706,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Set<String> customerIds = invAmountDays.keySet();
         for (String customer : customerIds) {
             CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
-            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).subtract(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
             agingReportDetail.setUnpaidBalance0to30(amount);
             total0to30 = total0to30.add(amount);
         }
@@ -727,7 +727,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Set<String> customerIds = invAmountDays.keySet();
         for (String customer : customerIds) {
             CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
-            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).subtract(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
             agingReportDetail.setUnpaidBalance31to60(amount);
             total31to60 = total31to60.add(amount);
         }
@@ -748,7 +748,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Set<String> customerIds = invAmountDays.keySet();
         for (String customer : customerIds) {
             CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
-            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).subtract(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
             agingReportDetail.setUnpaidBalance61to90(amount);
             total61to90 = total61to90.add(amount);
         }
@@ -769,7 +769,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Set<String> customerIds = invAmountDays.keySet();
         for (String customer : customerIds) {
             CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
-            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).subtract(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
             agingReportDetail.setUnpaidBalance91toSYSPR(amount);
             total91toSYSPR = total91toSYSPR.add(amount);
         }
@@ -790,7 +790,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Set<String> customerIds = invAmountDays.keySet();
         for (String customer : customerIds) {
             CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
-            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).subtract(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
             agingReportDetail.setUnpaidBalanceSYSPRplus1orMore(amount);
             totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(amount);
         }
@@ -811,7 +811,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Set<String> customerIds = invAmountDays.keySet();
         for (String customer : customerIds) {
             CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
-            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).subtract(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
             agingReportDetail.setUnpaidBalance0to30(amount);
             total0to30 = total0to30.add(amount);
         }
@@ -832,7 +832,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Set<String> customerIds = invAmountDays.keySet();
         for (String customer : customerIds) {
             CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
-            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).subtract(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
             agingReportDetail.setUnpaidBalance31to60(amount);
             total31to60 = total31to60.add(amount);
         }
@@ -853,7 +853,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Set<String> customerIds = invAmountDays.keySet();
         for (String customer : customerIds) {
             CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
-            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).subtract(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
             agingReportDetail.setUnpaidBalance61to90(amount);
             total61to90 = total61to90.add(amount);
         }
@@ -874,7 +874,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Set<String> customerIds = invAmountDays.keySet();
         for (String customer : customerIds) {
             CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
-            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).subtract(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
             agingReportDetail.setUnpaidBalance91toSYSPR(amount);
             total91toSYSPR = total91toSYSPR.add(amount);
         }
@@ -895,7 +895,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Set<String> customerIds = invAmountDays.keySet();
         for (String customer : customerIds) {
             CustomerAgingReportDetail agingReportDetail = pickCustomerAgingReportDetail(knownCustomers, customer);
-            KualiDecimal amount = (replaceNull(invAmountDays, customer).add(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
+            KualiDecimal amount = (replaceNull(invAmountDays, customer).subtract(replaceNull(discountAmountDays, customer))).subtract(replaceNull(appliedAmountDays, customer));
             agingReportDetail.setUnpaidBalanceSYSPRplus1orMore(amount);
             totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(amount);
         }

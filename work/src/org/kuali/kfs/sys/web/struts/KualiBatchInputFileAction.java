@@ -122,9 +122,6 @@ public class KualiBatchInputFileAction extends KualiAction {
 
         InputStream fileContents = ((KualiBatchInputFileForm) form).getUploadFile().getInputStream();
         byte[] fileByteContent = IOUtils.toByteArray(fileContents);
-
-        InputStream fileContents2 = ((KualiBatchInputFileForm) form).getUploadFile().getInputStream();
-        byte[] fileByteContent2 = IOUtils.toByteArray(fileContents2);
         
         Object parsedObject = null;
         try {

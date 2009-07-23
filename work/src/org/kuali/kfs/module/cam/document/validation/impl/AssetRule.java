@@ -363,7 +363,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         }
         return changed;
     }
-    
+
     /**
      * Validate Inventory Status Code Change
      */
@@ -523,7 +523,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         valid &= checkAssetTypeCodeChange(oldAsset.getCapitalAssetType(), newAsset.getCapitalAssetType());
         valid &= checkOwnerChange();
         valid &= checkFinancialObjectSubtypeCodeChange(oldAsset.getFinancialObjectSubType(), newAsset.getFinancialObjectSubType());
-        
+
         KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
         // adding asset locks for asset edit only
         if (newAsset instanceof Asset && !(newAsset instanceof AssetFabrication) && !GlobalVariables.getMessageMap().hasErrors() && (workflowDoc.stateIsInitiated() || workflowDoc.stateIsSaved())) {
@@ -568,14 +568,14 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
                 if (ObjectUtils.isNotNull(newAsset.getAcquisitionType())) {
                     if (!newAsset.getAcquisitionType().isActive()) {
                         putFieldError(CamsPropertyConstants.Asset.ACQUISITION_TYPE_CODE, CamsKeyConstants.Asset.ERROR_ACQUISITION_TYPE_CODE_INACTIVE);
-                        return true;
+                        return false;
                     }
                 }
             }
         }
-        return false;
+        return true;
     }
-    
+
     /**
      * Check if the Asset Condition has changed or is inactive.
      * 
@@ -590,14 +590,14 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
                 if (ObjectUtils.isNotNull(newAsset.getCondition())) {
                     if (!newAsset.getCondition().isActive()) {
                         putFieldError(CamsPropertyConstants.Asset.CONDITION_CODE, CamsKeyConstants.Asset.ERROR_ASSET_CONDITION_INACTIVE);
-                        return true;
+                        return false;
                     }
                 }
             }
         }
-        return false;
+        return true;
     }
-    
+
     /**
      * Check if the Asset Depreciation Method has changed or is inactive.
      * 
@@ -612,14 +612,14 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
                 if (ObjectUtils.isNotNull(newAsset.getAssetPrimaryDepreciationMethod())) {
                     if (!newAsset.getAssetPrimaryDepreciationMethod().isActive()) {
                         putFieldError(CamsPropertyConstants.Asset.PRIMARY_DEPRECIATION_METHOD, CamsKeyConstants.Asset.ERROR_DEPRECATION_METHOD_CODE_INACTIVE);
-                        return true;
+                        return false;
                     }
                 }
             }
         }
-        return false;
+        return true;
     }
-    
+
     /**
      * Check if the Asset Status Code has changed or is inactive.
      * 
@@ -634,14 +634,14 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
                 if (ObjectUtils.isNotNull(newAsset.getInventoryStatus())) {
                     if (!newAsset.getInventoryStatus().isActive()) {
                         putFieldError(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS, CamsKeyConstants.Asset.ERROR_ASSET_STATUS_INACTIVE);
-                        return true;
+                        return false;
                     }
                 }
             }
         }
-        return false;
+        return true;
     }
-    
+
     /**
      * Check if the Asset Type Code has changed or is inactive.
      * 
@@ -656,14 +656,14 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
                 if (ObjectUtils.isNotNull(newAsset.getCapitalAssetType())) {
                     if (!newAsset.getCapitalAssetType().isActive()) {
                         putFieldError(CamsPropertyConstants.AssetType.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.Asset.ERROR_TYPE_CODE_INACTIVE);
-                        return true;
+                        return false;
                     }
                 }
             }
         }
-        return false;
+        return true;
     }
-    
+
     /**
      * Check if the Owner has changed or is inactive.
      * 
@@ -674,13 +674,13 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             if (!StringUtils.equalsIgnoreCase(newAsset.getAgencyNumber(), oldAsset.getAgencyNumber())) {
                 if (!newAsset.isActive()) {
                     putFieldError(CamsPropertyConstants.Asset.AGENCY_NUMBER, CamsKeyConstants.Asset.ERROR_OWNER_INACTIVE);
-                    return true;
+                    return false;
                 }
             }
         }
-        return false;
+        return true;
     }
-    
+
     /**
      * Check if the Financial Object Sub-Type Code has changed or is inactive.
      * 
@@ -695,11 +695,11 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
                 if (ObjectUtils.isNotNull(newAsset.getFinancialObjectSubType())) {
                     if (!newAsset.getFinancialObjectSubType().isActive()) {
                         putFieldError(CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE, CamsKeyConstants.Asset.ERROR_FINANCIAL_OBJECT_SUBTYPE_CODE_INACTIVE);
-                        return true;
+                        return false;
                     }
                 }
             }
         }
-        return false;
+        return true;
     }
 }

@@ -46,7 +46,6 @@ import org.springframework.util.StringUtils;;
 
 public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
     private static Logger LOG = Logger.getLogger(CollectorFlatFileInputType.class);
-    private AccountService accountService;
     private DateTimeService dateTimeService;
     private CollectorHelperService collectorHelperService;
     private static final String FILE_NAME_PREFIX = "gl_collectorflatfile_";
@@ -117,8 +116,9 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
         try {
             while ((fileLine = bufferedFileReader.readLine()) != null) {
                 lineNumber++;
+                String preprocessedLine = preprocessLine(fileLine);
                 if (fileLine.length() >= 27) {  //if no rec_type, probably a blank or almost blank line at end of file
-                    String recordType = fileLine.substring(25, 27);
+                    String recordType = extractRecordType(fileLine);
                     //this chunk translated from collectorDigesterRules.xml
                     if ("HD".equals(recordType)) {  // this is a header line
                         currentBatch = createCollectorBatch(fileLine);
@@ -177,7 +177,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
         newBatch.setOrganizationCode(StringUtils.trimTrailingWhitespace(headerLine.substring(6, 10)));
         newBatch.setTransmissionDate(parseSqlDate(headerLine.substring(15, 25)));
         //TODO not sure if this is the best thing to do, as there is no equivalent to this in fis_id_billing.pl (it just uses first 28 characters for dupe check, so I guess if blank it should be OK to set it to 0 here)
-        if (!headerLine.substring(27, 28).equals(" ")) {
+        if (Character.isDigit(headerLine.charAt(27))) {
             newBatch.setBatchSequenceNumber(new Integer(headerLine.substring(27, 28)));
         } else {
             newBatch.setBatchSequenceNumber(0);
@@ -195,46 +195,47 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
         CollectorDetail collectorDetail = new CollectorDetail();
         collectorDetail.setCreateDate(curDate);
         collectorDetail.setUniversityFiscalYear(new Integer(StringUtils.trimTrailingWhitespace(detailLine.substring(0, 4))));
-        collectorDetail.setAccountNumber(StringUtils.trimTrailingWhitespace(detailLine.substring(6, 13)));
         if (!GeneralLedgerConstants.getSpaceChartOfAccountsCode().equals(detailLine.substring(4, 6)))
             collectorDetail.setChartOfAccountsCode(StringUtils.trimTrailingWhitespace(detailLine.substring(4, 6)));
         else
             collectorDetail.setChartOfAccountsCode(GeneralLedgerConstants.getSpaceChartOfAccountsCode());
+        collectorDetail.setAccountNumber(StringUtils.trimTrailingWhitespace(detailLine.substring(6, 13)));
         collectorDetail.setSubAccountNumber(StringUtils.trimTrailingWhitespace(detailLine.substring(13, 18)));  //assume something later is setting to single space if blank
         collectorDetail.setFinancialObjectCode(StringUtils.trimTrailingWhitespace(detailLine.substring(18, 22)));
         collectorDetail.setFinancialSubObjectCode(StringUtils.trimTrailingWhitespace(detailLine.substring(22, 25)));  //assume something later is setting to single space if blank
         collectorDetail.setFinancialBalanceTypeCode(StringUtils.trimTrailingWhitespace(detailLine.substring(25, 27)));
         collectorDetail.setFinancialObjectTypeCode(StringUtils.trimTrailingWhitespace(detailLine.substring(27, 29)));
         collectorDetail.setUniversityFiscalPeriodCode(universityDate.getUniversityFiscalAccountingPeriod());
-        collectorDetail.setCollectorDetailSequenceNumber(StringUtils.trimTrailingWhitespace(detailLine.substring(27, 29)));  //assume something later is setting to single space if blank
-        collectorDetail.setFinancialDocumentTypeCode(StringUtils.trimTrailingWhitespace(detailLine.substring(29, 33)));
-        collectorDetail.setFinancialSystemOriginationCode(StringUtils.trimTrailingWhitespace(detailLine.substring(33, 35)));
-        collectorDetail.setDocumentNumber(StringUtils.trimTrailingWhitespace(detailLine.substring(33, 42)));
-        collectorDetail.setCollectorDetailItemAmount(addDecimalPoint(StringUtils.trimTrailingWhitespace(detailLine.substring(42, 51))));
-        if (KFSConstants.GL_CREDIT_CODE.equalsIgnoreCase(detailLine.substring(51, 52)))
+        collectorDetail.setCollectorDetailSequenceNumber(StringUtils.trimTrailingWhitespace(detailLine.substring(29, 31)));  //assume something later is setting to single space if blank
+        collectorDetail.setFinancialDocumentTypeCode(StringUtils.trimTrailingWhitespace(detailLine.substring(31, 35)));
+        collectorDetail.setFinancialSystemOriginationCode(StringUtils.trimTrailingWhitespace(detailLine.substring(35, 37)));
+        collectorDetail.setDocumentNumber(StringUtils.trimTrailingWhitespace(detailLine.substring(37, 51)));
+        collectorDetail.setCollectorDetailItemAmount(addDecimalPoint(StringUtils.trimTrailingWhitespace(detailLine.substring(51, 71))));
+        if (KFSConstants.GL_CREDIT_CODE.equalsIgnoreCase(detailLine.substring(71, 72))) {
             collectorDetail.setCollectorDetailItemAmount(collectorDetail.getCollectorDetailItemAmount().negated());
-        collectorDetail.setCollectorDetailNoteText(StringUtils.trimTrailingWhitespace(detailLine.substring(52)));
-        if (org.apache.commons.lang.StringUtils.isEmpty(collectorDetail.getSubAccountNumber()))
+        }
+        collectorDetail.setCollectorDetailNoteText(StringUtils.trimTrailingWhitespace(detailLine.substring(72)));
+        if (org.apache.commons.lang.StringUtils.isEmpty(collectorDetail.getSubAccountNumber())) {
             collectorDetail.setSubAccountNumber(" ");
-        if (org.apache.commons.lang.StringUtils.isEmpty(collectorDetail.getFinancialSubObjectCode()))
+        }
+        if (org.apache.commons.lang.StringUtils.isEmpty(collectorDetail.getFinancialSubObjectCode())) {
             collectorDetail.setFinancialSubObjectCode(" ");
-        if (org.apache.commons.lang.StringUtils.isEmpty(collectorDetail.getCollectorDetailSequenceNumber()))
+        }
+        if (org.apache.commons.lang.StringUtils.isEmpty(collectorDetail.getCollectorDetailSequenceNumber())) {
             collectorDetail.setCollectorDetailSequenceNumber(" ");
+        }
         return collectorDetail;
     }
     
     protected void updateCollectorDetailWithTrailerRecords(CollectorBatch currentBatch, String fileLine) {
         currentBatch.setTotalRecords(new Integer(StringUtils.trimTrailingWhitespace(fileLine.substring(46,51))));
-        currentBatch.setTotalAmount(addDecimalPoint(StringUtils.trimTrailingWhitespace(fileLine.substring(92,107))));
+        currentBatch.setTotalAmount(addDecimalPoint(StringUtils.trimTrailingWhitespace(fileLine.substring(92,112))));
     }
     
     protected OriginEntryFull createOriginEntry(String fileLine, Date curDate, UniversityDate universityDate) {
         OriginEntryFull originEntry = new OriginEntryFull();
-        //TODO do following if & while a better way
         fileLine = org.apache.commons.lang.StringUtils.chomp(fileLine);
-        while (fileLine.length() < 172) {
-            fileLine = fileLine + " ";
-        }
+        fileLine = org.apache.commons.lang.StringUtils.rightPad(fileLine, 172, " ");
         if (!fileLine.substring(0, 4).equals("    ")) {
             originEntry.setUniversityFiscalYear(new Integer(fileLine.substring(0, 4)));
         } else {
@@ -257,31 +258,31 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
         }
         originEntry.setFinancialDocumentTypeCode(StringUtils.trimTrailingWhitespace(fileLine.substring(31, 35)));
         originEntry.setFinancialSystemOriginationCode(StringUtils.trimTrailingWhitespace(fileLine.substring(35, 37)));
-        originEntry.setDocumentNumber(StringUtils.trimTrailingWhitespace(fileLine.substring(37, 46)));
-        if (!fileLine.substring(46, 51).equals("     ")) {
-            originEntry.setTransactionLedgerEntrySequenceNumber(new Integer(StringUtils.trimTrailingWhitespace(fileLine.substring(46, 51))));
+        originEntry.setDocumentNumber(StringUtils.trimTrailingWhitespace(fileLine.substring(37, 51)));
+        if (!fileLine.substring(51, 56).equals("     ")) {
+            originEntry.setTransactionLedgerEntrySequenceNumber(new Integer(StringUtils.trimTrailingWhitespace(fileLine.substring(51, 56))));
         } else {
             originEntry.setTransactionLedgerEntrySequenceNumber(new Integer(1));
         }
-        originEntry.setTransactionLedgerEntryDescription(StringUtils.trimTrailingWhitespace(fileLine.substring(51, 91)));
-        originEntry.setTransactionLedgerEntryAmount(addDecimalPoint(StringUtils.trimWhitespace(fileLine.substring(91, 107))));  //sometimes this has leading whitespace too
-        originEntry.setTransactionDebitCreditCode(StringUtils.trimTrailingWhitespace(fileLine.substring(107, 108)));
-        if (!fileLine.substring(108, 118).equals("          ")) {
-            originEntry.setTransactionDate(parseSqlDate(fileLine.substring(108, 118)));
+        originEntry.setTransactionLedgerEntryDescription(StringUtils.trimTrailingWhitespace(fileLine.substring(56, 96)));
+        originEntry.setTransactionLedgerEntryAmount(addDecimalPoint(StringUtils.trimWhitespace(fileLine.substring(97, 117))));  //sometimes this has leading whitespace too
+        originEntry.setTransactionDebitCreditCode(StringUtils.trimTrailingWhitespace(fileLine.substring(117, 118)));
+        if (!fileLine.substring(118, 128).equals("          ")) {
+            originEntry.setTransactionDate(parseSqlDate(fileLine.substring(118, 128)));
         }
         else {
             originEntry.setTransactionDate(curDate);
         }
-        originEntry.setOrganizationDocumentNumber(StringUtils.trimTrailingWhitespace(fileLine.substring(118, 128)));
-        originEntry.setProjectCode(StringUtils.trimTrailingWhitespace(fileLine.substring(128, 138)));
-        originEntry.setOrganizationReferenceId(StringUtils.trimTrailingWhitespace(fileLine.substring(138, 146)));
-        originEntry.setReferenceFinancialDocumentTypeCode(StringUtils.trimTrailingWhitespace(fileLine.substring(146, 150)));
-        originEntry.setReferenceFinancialSystemOriginationCode(StringUtils.trimTrailingWhitespace(fileLine.substring(150, 152)));
-        originEntry.setReferenceFinancialDocumentNumber(StringUtils.trimTrailingWhitespace(fileLine.substring(152, 161)));
-        if (!fileLine.substring(161,171).equals("          ")) {
-            originEntry.setFinancialDocumentReversalDate(parseSqlDate(fileLine.substring(161, 171)));
+        originEntry.setOrganizationDocumentNumber(StringUtils.trimTrailingWhitespace(fileLine.substring(128, 138)));
+        originEntry.setProjectCode(StringUtils.trimTrailingWhitespace(fileLine.substring(138, 148)));
+        originEntry.setOrganizationReferenceId(StringUtils.trimTrailingWhitespace(fileLine.substring(148, 156)));
+        originEntry.setReferenceFinancialDocumentTypeCode(StringUtils.trimTrailingWhitespace(fileLine.substring(156, 160)));
+        originEntry.setReferenceFinancialSystemOriginationCode(StringUtils.trimTrailingWhitespace(fileLine.substring(160, 162)));
+        originEntry.setReferenceFinancialDocumentNumber(StringUtils.trimTrailingWhitespace(fileLine.substring(162, 176)));
+        if (!fileLine.substring(176,186).equals("          ")) {
+            originEntry.setFinancialDocumentReversalDate(parseSqlDate(fileLine.substring(176, 186)));
         }
-        originEntry.setTransactionEncumbranceUpdateCode(StringUtils.trimTrailingWhitespace(fileLine.substring(171, 172)));
+        originEntry.setTransactionEncumbranceUpdateCode(StringUtils.trimTrailingWhitespace(fileLine.substring(186, 187)));
         if (originEntry.getSubAccountNumber() == null || originEntry.getSubAccountNumber().equals("")) {
             originEntry.setSubAccountNumber(" ");
         }
@@ -302,14 +303,6 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
     }
     
     /**
-     * Sets the accountService attribute value.
-     * @param accountService The accountService to set.
-     */
-    public void setAccountService(AccountService accountService) {
-        this.accountService = accountService;
-    }
-
-    /**
      * Sets the dateTimeService attribute value.
      * @param dateTimeService The dateTimeService to set.
      */
@@ -323,5 +316,16 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
      */
     public void setCollectorHelperService(CollectorHelperService collectorHelperService) {
         this.collectorHelperService = collectorHelperService;
+    }
+    
+    protected String extractRecordType(String line) {
+        if (line == null || line.length() < 27) {
+            return null;
+        }
+        return line.substring(25, 27);
+    }
+    
+    protected String preprocessLine(String line) {
+        return line;
     }
 }

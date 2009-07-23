@@ -2203,9 +2203,6 @@
 	    <property name="collectorHelperService">
 	       <ref bean="glCollectorHelperService"/>
 	    </property>
-  	    <property name="accountService">
-	       <ref bean="accountService"/>
-	    </property>
 	</bean>
 		
 	<bean id="enterpriseFeederFileSetType" class="org.kuali.kfs.gl.batch.EnterpriseFeederFileSetType">

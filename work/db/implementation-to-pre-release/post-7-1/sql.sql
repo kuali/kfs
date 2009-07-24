@@ -442,3 +442,341 @@ update krim_rsp_attr_data_t
 set attr_val = 'LDYE'
 where attr_data_id = 459; 
 --done
+--KFSMI-3932
+update krim_role_t
+set desc_txt = 'Users who can initiate CAM transactional and maintenance documents, create new records using the asset document, maintain asset locations and modify accounting lines on invoice documents.'
+where nmspc_cd = 'KFS-CAM'
+and role_nm = 'Processor';
+update krim_role_t
+set desc_txt = 'Users identified as part of an AR billing organization. They have access to the basic functions of the KFS AR module such as creating invoices or customers.'
+where nmspc_cd = 'KFS-AR'
+and role_nm = 'Biller';
+update krim_role_t
+set desc_txt = 'Users that manage the KFS AR module. They receive Accounts Receivable transactional and maintenance documents for approval.'
+where nmspc_cd = 'KFS-AR'
+and role_nm = 'Manager';
+update krim_role_t
+set desc_txt = 'Users associated with KFS AR processing organizations. They can initiate Application and Cash control documents and add new records to the Organization Options and Organization Accounting Defaults tables.'
+where nmspc_cd = 'KFS-AR'
+and role_nm = 'Processor';
+update krim_role_t
+set desc_txt = 'Users who receive Invoice and Invoice Recurrence documents for approval.'
+where nmspc_cd = 'KFS-AR'
+and role_nm = 'Invoice Recurrence Instance Reviewer';
+update krim_role_t
+set desc_txt = 'Users authorized to create Invoice Recurrence documents.'
+where nmspc_cd = 'KFS-AR'
+and role_nm = 'Invoice Recurrence Creator';
+update krim_role_t
+set desc_txt = 'Users authorized to edit Budget Construction Documents.'
+where nmspc_cd = 'KFS-BC'
+and role_nm = 'Document Editor';
+update krim_role_t
+set desc_txt = 'Users who have view-only access to Budget Construction Documents.'
+where nmspc_cd = 'KFS-BC'
+and role_nm = 'Document Viewer';
+update krim_role_t
+set desc_txt = 'Users who can use the Organization Salary Setting, import/export payrate and unlock options on the Budget Construction Document.'
+where nmspc_cd = 'KFS-BC'
+and role_nm = 'Processor';
+update krim_role_t
+set desc_txt = 'Users that manage the KFS-CAM module. They can initiate Barcode Inventory Error documents and have access to take restricted actions on assets and modify fields on the asset document that other users do not.'
+where nmspc_cd = 'KFS-CAM'
+and role_nm = 'Manager';
+update krim_role_t
+set desc_txt = 'Users who can initiate CAM transactional and maintenance documents, create new records using the asset document, maintain asset locations and modify accounting lines on invoice documents.'
+where nmspc_cd = 'KFS-CAM'
+and role_nm = 'Processor';
+update krim_role_t
+set desc_txt = 'Users borrowing assets on the Equipment Loan/Return document.'
+where nmspc_cd = 'KFS-CAM'
+and role_nm = 'Asset Borrower';
+update krim_role_t
+set desc_txt = 'Users who receive  workflow action requests when Proposal or Award documents involve research risk.'
+where nmspc_cd = 'KFS-CG'
+and role_nm = 'Research Risk Reviewer';
+update krim_role_t
+set desc_txt = 'Users authorized to work the Cash Management Document and verify Cash Receipt documents for a given campus.'
+where nmspc_cd = 'KFS-FP'
+and role_nm = 'Cash Manager';
+update krim_role_t
+set desc_txt = 'Users who receive workflow action requests for Disbursement Vouchers based on the campus code associated with the initiator of the document.'
+where nmspc_cd = 'KFS-FP'
+and role_nm = 'Disbursement Manager';
+update krim_role_t
+set desc_txt = 'Users authorized to use the Service Billing document and enter specified accounts on the "Income" side of the document.'
+where nmspc_cd = 'KFS-FP'
+and role_nm = 'Service Bill Processor';
+update krim_role_t
+set desc_txt = 'Users who receive workflow action requests for Disbursement Vouchers for travel payment reasons and can edit the accounting line and Non-Employee Travel Expense or Pre-Paid Travel Expenses tabs.'
+where nmspc_cd = 'KFS-FP'
+and role_nm = 'Travel Manager';
+update krim_role_t
+set desc_txt = 'Users who receive workflow action requests for Disbursement Vouchers with specified payment methods and can edit the accounting lines and Wire Transfer and Foreign Draft tabs.'
+where nmspc_cd = 'KFS-FP'
+and role_nm = 'Disbursement Method Reviewer';
+update krim_role_t
+set desc_txt = 'Users authorized to initiate Cash Receipt documents. This role exists to exclude Cash Managers from being able to initiate Cash Receipt documents. You do not need to add explicit members to this role to accomplish this exclusion.'
+where nmspc_cd = 'KFS-FP'
+and role_nm = 'Cash Receipt Initiator';
+update krim_role_t
+set desc_txt = 'Users that manage the KFS-FP module. This role has no inherent permissions or responsibilities.'
+where nmspc_cd = 'KFS-FP'
+and role_nm = 'Financial Processing Manager';
+update krim_role_t
+set desc_txt = 'Users authorized to use the Collector Upload screen.'
+where nmspc_cd = 'KFS-GL'
+and role_nm = 'Interdepartmental Billing Processor';
+update krim_role_t
+set desc_txt = 'Users associated with PDP customers that can use the  Payment File Batch Upload screen and have basic PDP inquiry access. '
+where nmspc_cd = 'KFS-PDP'
+and role_nm = 'Customer Contact';
+update krim_role_t
+set desc_txt = 'Users who can cancel or hold payments reset locked format processes and view unmasked bank routing and account numbers in PDP.'
+where nmspc_cd = 'KFS-PDP'
+and role_nm = 'Manager';
+update krim_role_t
+set desc_txt = 'Users who can set payments for immediate pay and use the Format Checks/ACH screen in PDP.'
+where nmspc_cd = 'KFS-PDP'
+and role_nm = 'Processor';
+update krim_role_t
+set desc_txt = 'Accounts Payable users who can initiate Payment Requests and Credit Memo documents.  They also have several permissions related to processing these document types and receive workflow action requests for them. '
+where nmspc_cd = 'KFS-PURAP'
+and role_nm = 'Accounts Payable Processor';
+update krim_role_t
+set desc_txt = 'Users who receive workflow action requests for Purchasing transactional documents that contain a specific commodity code and campus combination.'
+where nmspc_cd = 'KFS-PURAP'
+and role_nm = 'Commodity Reviewer';
+update krim_role_t
+set desc_txt = 'Users who receive incomplete Requisition documents for completion for a given Chart and Organization.'
+where nmspc_cd = 'KFS-PURAP'
+and role_nm = 'Content Reviewer';
+update krim_role_t
+set desc_txt = 'Contract Managers review and approve Purchase Order documents. A Purchase Order is assigned to a given Contract Manager for their review and approval.'
+where nmspc_cd = 'KFS-PURAP'
+and role_nm = 'Contract Manager';
+update krim_role_t
+set desc_txt = 'This role represents central or campus Purchasing staff. They have additional permissions for and receive action requests for most Purchasing document types as well as receiving action requests for Disbursement Vouchers paying PO Type Vendors.'
+where nmspc_cd = 'KFS-PURAP'
+and role_nm = 'Purchasing Processor';
+update krim_role_t
+set desc_txt = 'Users authorized to view KFS-PURAP documents identified with a specific Sensitive Data Code. '
+where nmspc_cd = 'KFS-PURAP'
+and role_nm = 'Sensitive Data Viewer';
+update krim_role_t
+set desc_txt = 'Users who wish to receive workflow action requests for KFS-PURAP documents that involve a specific account number and sub-account number.'
+where nmspc_cd = 'KFS-PURAP'
+and role_nm = 'Sub-Account Reviewer';
+update krim_role_t
+set desc_txt = 'Identifies the user who routed the source document (Requisition) for a KFS-PURAP document.'
+where nmspc_cd = 'KFS-PURAP'
+and role_nm = 'Source Document Router';
+update krim_role_t
+set desc_txt = 'Central administration users charged with reviewing Purchase Order documents that exceed an account''s sufficient funds balance.'
+where nmspc_cd = 'KFS-PURAP'
+and role_nm = 'Budget Reviewer';
+update krim_role_t
+set desc_txt = 'This role houses other roles and indicates which of those can view KFS-PURAP documents that have been identified as potentially sensitive. '
+where nmspc_cd = 'KFS-PURAP'
+and role_nm = 'Potentially Sensitive Document User';
+update krim_role_t
+set desc_txt = 'A role that derives the users who initiated or received a workflow action request for a sensitive KFS-PURAP document.'
+where nmspc_cd = 'KFS-PURAP'
+and role_nm = 'Sensitive Related Document Initiator Or Reviewer';
+update krim_role_t
+set desc_txt = 'This role derives users who placed a Payment Request or Credit Memo on hold or canceled it in order to determine who can remove those actions. '
+where nmspc_cd = 'KFS-PURAP'
+and role_nm = 'Payment Request Hold / Cancel Initiator';
+update krim_role_t
+set desc_txt = 'Users who can use the Electronic Fund Transfer screen and use DI or YEDI documents to claim those funds.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Treasury Manager';
+update krim_role_t
+set desc_txt = 'An optional role that allows users to receive workflow action requests for documents of a specified type that contain accounts belonging to a specified chart and organization (including the organization hierarchy) and within a certain dollar amount  or involving a specified override code.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Accounting Reviewer';
+update krim_role_t
+set desc_txt = 'Users with manager-level access to Accounts Payable documents. This includes the ability to hold or cancel (or remove those states) from Payment Request and Credit Memo documents. '
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Accounts Payable Manager';
+update krim_role_t
+set desc_txt = 'Central Accounts Receivable staff that receive workflow action requests for Cash Control and Lockbox documents. They can also use the Electronic Fund Transfer screen and claim those funds using a Cash Control document.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Accounts Receivable Lockbox Manager';
+update krim_role_t
+set desc_txt = 'Users that manage the KFS-AR module.  This role has no inherent permissions or responsibilities.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Accounts Receivable Manager';
+update krim_role_t
+set desc_txt = 'A role that uses the Affiliation Type and Employee Status on a Principal record to determine if a user is an active faculty or staff employee. These users can initiate some KFS-PURAP documents and inquire into certain KFS screens.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Active Faculty or Staff';
+update krim_role_t
+set desc_txt = 'A role that uses the Employee Status (A,L or P) and Employee Type (P) to determine that a given Principal represents a professional staff employee. These users are allowed to be Account Supervisors or Account Managers on Accounts.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Active Professional Employee';
+update krim_role_t
+set desc_txt = 'Central Capital Assets staff capable of taking restricted actions on Assets, including retiring or transferring non-moveable assets.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Asset Manager';
+update krim_role_t
+set desc_txt = 'Central Capital Assets staff capable of applying asset payments, using KFS-CAB and adding negative payments.  This role contains permissions to modify restricted asset fields and to override the defined capitalization threshold.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Asset Processor';
+update krim_role_t
+set desc_txt = 'Defines users responsible for managing the chart data for a given Chart of Accounts code. They may initiate Global Object Code and Organization Reversion maintenance documents and modify the Campus and Organization Plant Chart Code and Account on Organization documents.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Chart Manager';
+update krim_role_t
+set desc_txt = 'Central contract and grant staff that have special permissions related to Effort Certification. They can override the edit that prevents transferring salary for an open effort reporting period and receive workflow action requests for Effort Certification Recreates.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Contracts & Grants Manager';
+update krim_role_t
+set desc_txt = 'Central contract and grant staff that receive workflow action requests for transactions involving grant accounts.  They can view Research Risk information on Proposal documents, establish cost share sub-accounts and modify the object codes on Salary Expense Transfer documents.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Contracts & Grants Processor';
+update krim_role_t
+set desc_txt = 'This role defines the list of users that may be selected as Project Directors on the Proposal or Award document.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Contracts & Grants Project Director';
+update krim_role_t
+set desc_txt = 'This role derives its members from the Fiscal Officer field on the Account. Fiscal Officers receive workflow action requests for most transactional documents and have edit permissions that allow them to change accounting lines involving their accounts.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Fiscal Officer';
+update krim_role_t
+set desc_txt = 'This role derives its members from the Primary delegates defined in the Account Delegate table in KFS.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Fiscal Officer Primary Delegate';
+update krim_role_t
+set desc_txt = 'This role derives its members from the Secondary delegates defined in the Account Delegate table in KFS.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Fiscal Officer Secondary Delegate';
+update krim_role_t
+set desc_txt = 'This role represents a collection of all  the KFS module manager roles and has permission to initiate simple maintenance documents and restricted documents such as the JV and LLJV. These users also have the ability to blanket approve most document types and assign roles and permissions for all KFS namespaces.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Manager';
+update krim_role_t
+set desc_txt = 'This role represents a very select central processing function allowed to run KFS batch jobs, initiate GLCP and LLCP documents and upload Enterprise Feed and Procurement Card files.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Operations';
+update krim_role_t
+set desc_txt = 'This role manages the plant fund functions associated with KFS-CAM and has special permissions related to assets in support of these functions. It can also edit the Organization and Campus Plant Chart and Account fields on the Organization document.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Plant Fund Accountant';
+update krim_role_t
+set desc_txt = 'Users that manage the KFS-PURAP module.  This role can take the resend  action on Purchase Order documents.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Purchasing Manager';
+update krim_role_t
+set desc_txt = 'Users who receive workflow action requests for documents that include accounts belonging to particular sub-funds groups.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Sub-Fund Reviewer';
+update krim_role_t
+set desc_txt = 'Users with a need to view unmasked Tax ID numbers. They can also modify the tax number associated with AR customer records and PURAP vendor records.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Tax Identification Number User';
+update krim_role_t
+set desc_txt = 'Represents a central tax area that receives workflow action requests for DVs, Payment Requests, and POs involving payments to non-resident aliens or employees. They can also edit the Tax tabs on the DV and Payment Request documents.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Tax Manager';
+update krim_role_t
+set desc_txt = 'A technical administrator that is specific to the KFS system. This role has no inherent permissions or responsibilities.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Technical Administrator';
+update krim_role_t
+set desc_txt = 'This role derives its members from the KFS Chart table. It is used to determine the Chart Manager of the top level Chart in the organization hierarchy. This role receives workflow action requests for Chart documents and has the ability to edit the organization and campus Plant Chart and Account fields on the Organization document.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'University Chart Manager';
+update krim_role_t
+set desc_txt = 'The basic role that grants users access to KFS. It gives users the ability to initiate most documents and use inquiries and search screens.  Users are qualified by namespace, chart and organization. If these fields are not defined the chart and organization are inherited from the Department ID on the users'' Principal record.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'User';
+update krim_role_t
+set desc_txt = 'Users capable of taking superuser action on KFS documents and blanket approving some document types not available to the KFS-SYS Manager role.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Workflow Administrator';
+update krim_role_t
+set desc_txt = 'This role represents the KFS System User, that is the user ID the system uses when it takes programmed actions (such as auto-initiating or approving documents such as the PCDO and PO).'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'System User';
+update krim_role_t
+set desc_txt = 'An optional role that allows users to receive workflow action requests for documents of a specified type that include a specified chart and organization (including the organization hierarchy).,'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Organization Reviewer';
+update krim_role_t
+set desc_txt = 'This role is derived from the accounts appearing on an Effort Certification document. KFS finds the most recent award associated with each account and routes workflow action requests to the Project Director''s associated with the accounts on the Effort Certification document.,'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Award Project Director';
+update krim_role_t
+set desc_txt = 'This role is derived from users with the Modify Batch Job permission. They are able to use the Schedule lookup.,'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Batch Job Modifier';
+update krim_role_t
+set desc_txt = 'This role derives its members from the Account Supervisor field on the Account. Account Supervisors receive workflow action requests for Asset and Asset Retirement Global documents.,'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Account Supervisor';
+update krim_role_t
+set desc_txt = 'This role derives its members from the Account Supervisor field on the Account. Account Supervisors receive workflow action requests for Asset and Asset Retirement Global documents.,'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Active Employee & Financial System User';
+update krim_role_t
+set desc_txt = 'A role that uses the Employee Status (A,L or P) and Employee Type (P), along with the presence of the KFS-SYS User role to determine that a given Principal represents a professional staff employee with KFS access. These users are allowed to be fiscal Officers on Accounts.'
+where nmspc_cd = 'KFS-SYS'
+and role_nm = 'Active Professional Employee & Financial System User';
+update krim_role_t
+set desc_txt = 'This role receives workflow action requests for the Vendor document.'
+where nmspc_cd = 'KFS-VND'
+and role_nm = 'Reviewer';
+update krim_role_t
+set desc_txt = 'This role derives its members from users with the Edit Document permission for a given document type.,'
+where nmspc_cd = 'KR-NS'
+and role_nm = 'Document Editor';
+update krim_role_t
+set desc_txt = 'This role derives its members from users with the Open Document permission for a given document type.,'
+where nmspc_cd = 'KR-NS'
+and role_nm = 'Document Opener';
+update krim_role_t
+set desc_txt = 'This  role can take superuser actions and blanket approve RICE documents as well as being able to modify and assign permissions, responsibilities and roles belonging to the KR namespaces.'
+where nmspc_cd = 'KR-SYS'
+and role_nm = 'Technical Administrator';
+update krim_role_t
+set desc_txt = 'This role represents the KR System User, that is the user ID RICE uses when it takes programmed actions.'
+where nmspc_cd = 'KR-SYS'
+and role_nm = 'System User';
+update krim_role_t
+set desc_txt = 'This role derives its members from users with the Initiate Document permission for a given document type.'
+where nmspc_cd = 'KR-SYS'
+and role_nm = 'Document Initiator';
+update krim_role_t
+set desc_txt = 'This role derives its members from users with that have received an action request for a given document.'
+where nmspc_cd = 'KR-WKFLW'
+and role_nm = 'Approve Request Recipient';
+update krim_role_t
+set desc_txt = 'This role derives its members from the initiator listed within the route log of a given document.'
+where nmspc_cd = 'KR-WKFLW'
+and role_nm = 'Initiator';
+update krim_role_t
+set desc_txt = 'This role derives its members from the initiator and action request recipients listed within the route log of a given document.'
+where nmspc_cd = 'KR-WKFLW'
+and role_nm = 'Initiator or Reviewer';
+update krim_role_t
+set desc_txt = 'This role derives its members from the user who took the Complete action on a given document.'
+where nmspc_cd = 'KR-WKFLW'
+and role_nm = 'Router';
+update krim_role_t
+set desc_txt = 'This role derives its members from users with an acknowledge action request in the route log of a given document.'
+where nmspc_cd = 'KR-WKFLW'
+and role_nm = 'Acknowledge Request Recipient';
+update krim_role_t
+set desc_txt = 'This role derives its members from users with an FYI action request in the route log of a given document.'
+where nmspc_cd = 'KR-WKFLW'
+and role_nm = 'FYI Request Recipient';
+update krim_role_t
+set desc_txt = 'This role derives its members from users with an Approval action request (that was not generated via the ad-hoc recipients tab) in the route log of a given document.'
+where nmspc_cd = 'KR-WKFLW'
+and role_nm = 'Non-Ad Hoc Approve Request Recipient';
+update krim_role_t
+set desc_txt = 'This role derives its members from the users in the Principal table. This role gives users high-level permissions to interact with RICE documents and to login to KUALI.'
+where nmspc_cd = 'KUALI'
+and role_nm = 'User';
+--done

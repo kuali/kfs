@@ -227,7 +227,15 @@ public class CamsKeyConstants {
 
     public static class Asset {
         public static final String ERROR_INVALID_SALVAGE_AMOUNT = "error.asset.salvage.amount.not.valid";
-        // for use with Asset Edit        
+        // for use with Asset Edit
+        public static final String ERROR_OWNER_INVALID = "error.owner.invalid";
+        public static final String ERROR_ACQUISITION_TYPE_CODE_INVALID = "error.acquisition.type.code.invalid";
+        public static final String ERROR_ASSET_STATUS_INVALID = "error.asset.status.invalid";
+        public static final String ERROR_ASSET_CONDITION_INVALID = "error.asset.condition.invalid";
+        public static final String ERROR_TYPE_CODE_INVALID = "error.type.code.invalid";
+        public static final String ERROR_FINANCIAL_OBJECT_SUBTYPE_CODE_INVALID = "error.financial.object.subtype.code.invalid";
+        public static final String ERROR_DEPRECATION_METHOD_CODE_INVALID = "error.deprecation.method.code.invalid";
+        
         public static final String ERROR_OWNER_INACTIVE = "error.owner.inactive";
         public static final String ERROR_ACQUISITION_TYPE_CODE_INACTIVE = "error.acquisition.type.code.inactive";
         public static final String ERROR_ASSET_STATUS_INACTIVE = "error.asset.status.inactive";

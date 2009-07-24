@@ -27,9 +27,12 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.document.Document;
 
 /**
  * Struts Action for Credit Memo document.
@@ -43,13 +46,16 @@ public class ElectronicInvoiceRejectAction extends FinancialSystemTransactionalD
         eirDocument.setInvoiceResearchIndicator(true);
 
          Note noteObj = SpringContext.getBean(DocumentService.class).createNoteFromDocument(eirDocument, "Research started by: " + GlobalVariables.getUserSession().getPerson().getName());
-         eirDocument.getDocumentHeader().addNote(noteObj);
+         //eirDocument.getDocumentHeader().addNote(noteObj);
+         PersistableBusinessObject noteParent = getNoteParent(eirDocument, noteObj);
+         noteParent.addNote(noteObj);
+         this.getNoteService().save(noteObj);
 
 //         if (SpringContext.getBean(DocumentService.class).addNoteToDocument(eirDocument, noteObj)) {
 //             SpringContext.getBean(NoteService.class).save(noteObj);
 //             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(eirDocument);
 //         }
-
+         getDocumentService().saveDocument(eirDocument);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -59,13 +65,26 @@ public class ElectronicInvoiceRejectAction extends FinancialSystemTransactionalD
         eirDocument.setInvoiceResearchIndicator(false);
 
         Note noteObj = SpringContext.getBean(DocumentService.class).createNoteFromDocument(eirDocument, "Research completed by: " + GlobalVariables.getUserSession().getPerson().getName());
-        eirDocument.getDocumentHeader().addNote(noteObj);
+        //eirDocument.getDocumentHeader().addNote(noteObj);
+        PersistableBusinessObject noteParent = getNoteParent(eirDocument, noteObj);
+        noteParent.addNote(noteObj);
+        this.getNoteService().save(noteObj);
 //        if (SpringContext.getBean(DocumentService.class).addNoteToDocument(eirDocument, noteObj)) {
 //            SpringContext.getBean(NoteService.class).save(noteObj);
 //            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(eirDocument);
 //        }
+        getDocumentService().saveDocument(eirDocument);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
     }
+    
+    private PersistableBusinessObject getNoteParent(ElectronicInvoiceRejectDocument document, Note newNote) {
+        //get the property name to set (this assumes this is a document type note)
+        String propertyName = getNoteService().extractNoteProperty(newNote);
+        //get BO to set
+        PersistableBusinessObject noteParent = (PersistableBusinessObject)ObjectUtils.getPropertyValue(document, propertyName);
+        return noteParent;
+    }
+
 }
 

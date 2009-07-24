@@ -103,6 +103,8 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.service.NoteService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -720,8 +722,12 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         note.setAttachment(attachment);
         attachment.setNote(note);
-        
-        eInvoiceRejectDocument.getDocumentHeader().addNote(note);
+        try{
+            SpringContext.getBean(NoteService.class).save(note);
+        }catch(Exception e){ 
+            throw new RuntimeException(e);
+        }
+        //eInvoiceRejectDocument.getDocumentHeader().addNote(note);
     }
     
     public ElectronicInvoiceRejectDocument createRejectDocument(ElectronicInvoice eInvoice,

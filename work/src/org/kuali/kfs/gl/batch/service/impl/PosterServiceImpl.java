@@ -645,10 +645,11 @@ public class PosterServiceImpl implements PosterService {
 
         ObjectCode oc = objectCodeService.getByPrimaryId(e.getUniversityFiscalYear(), e.getChartOfAccountsCode(), e.getFinancialObjectCode());
         if (oc == null) {
-            // TODO This should be a report thing, not an exception
-            throw new IllegalArgumentException(configurationService.getPropertyString(KFSKeyConstants.ERROR_OBJECT_CODE_NOT_FOUND_FOR) + e.getUniversityFiscalYear() + "," + e.getChartOfAccountsCode() + "," + e.getFinancialObjectCode());
+            LOG.warn(configurationService.getPropertyString(KFSKeyConstants.ERROR_OBJECT_CODE_NOT_FOUND_FOR) + e.getUniversityFiscalYear() + "," + e.getChartOfAccountsCode() + "," + e.getFinancialObjectCode());
+            e.setFinancialObjectCode(icrRateDetail.getFinancialObjectCode()); // this will be written out the ICR file. Then, when that file attempts to post, the transaction won't validate and will end up in the icr error file
+        } else {
+            e.setFinancialObjectTypeCode(oc.getFinancialObjectTypeCode());
         }
-        e.setFinancialObjectTypeCode(oc.getFinancialObjectTypeCode());
 
         if (generatedTransactionAmount.isNegative()) {
             if (KFSConstants.GL_DEBIT_CODE.equals(icrRateDetail.getTransactionDebitIndicator())) {
@@ -922,7 +923,11 @@ public class PosterServiceImpl implements PosterService {
     protected String determineIcrOffsetBalanceSheetObjectCodeNumber(OriginEntryInformation offsetEntry, ExpenditureTransaction et, IndirectCostRecoveryRateDetail icrRateDetail) {
         String icrEntryDocumentType = parameterService.getParameterValue(PosterIndirectCostRecoveryEntriesStep.class, KFSConstants.SystemGroupParameterNames.GL_INDIRECT_COST_RECOVERY);
         OffsetDefinition offsetDefinition = offsetDefinitionService.getByPrimaryId(offsetEntry.getUniversityFiscalYear(), offsetEntry.getChartOfAccountsCode(), icrEntryDocumentType, et.getBalanceTypeCode());
-        return offsetDefinition.getFinancialObjectCode();
+        if (!ObjectUtils.isNull(offsetDefinition)) {
+            return offsetDefinition.getFinancialObjectCode();
+        } else {
+            return null;
+        }
     }
     
     public void setVerifyTransaction(VerifyTransaction vt) {

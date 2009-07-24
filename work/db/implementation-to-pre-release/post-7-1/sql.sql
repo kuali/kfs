@@ -437,3 +437,8 @@ select * from temp_t
 drop table temp_t
 ;
 --done
+--KFSMI-3888 fixing typo
+update krim_rsp_attr_data_t
+set attr_val = 'LDYE'
+where attr_data_id = 459; 
+--done

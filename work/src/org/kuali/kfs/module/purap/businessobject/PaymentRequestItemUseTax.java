@@ -20,6 +20,13 @@ import java.util.LinkedHashMap;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class PaymentRequestItemUseTax extends PurApItemUseTaxBase{
+public class PaymentRequestItemUseTax extends PurApItemUseTaxBase {
 
+    public PaymentRequestItemUseTax() {
+        super();
+    }
+
+    public PaymentRequestItemUseTax(PurApItemUseTax useTaxItem) {
+        super(useTaxItem);
+    }
 }

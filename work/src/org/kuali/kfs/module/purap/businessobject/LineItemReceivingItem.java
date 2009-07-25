@@ -1,5 +1,6 @@
 package org.kuali.kfs.module.purap.businessobject;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -173,6 +174,8 @@ public class LineItemReceivingItem extends ReceivingItemBase {
         this.itemReceivedToBeQuantity = itemReceivedToBeQuantity;
     }
 
-
+    public boolean isOrderedItem(){
+        return StringUtils.isEmpty(getItemReasonAddedCode());
+    }
 
 }

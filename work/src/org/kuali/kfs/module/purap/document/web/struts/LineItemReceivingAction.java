@@ -283,11 +283,13 @@ public class LineItemReceivingAction extends ReceivingBaseAction {
 
         LineItemReceivingDocument lineItemReceivingDocument = (LineItemReceivingDocument) lineItemReceivingForm.getDocument();
 
-        for(LineItemReceivingItem item : (List <LineItemReceivingItem>)lineItemReceivingDocument.getItems()){            
-            if( item.getItemOrderedQuantity().subtract(item.getItemReceivedPriorQuantity()).isGreaterEqual(KualiDecimal.ZERO)  ){
-                item.setItemReceivedTotalQuantity( item.getItemOrderedQuantity().subtract(item.getItemReceivedPriorQuantity()) );
-            }else{
-                item.setItemReceivedTotalQuantity(KualiDecimal.ZERO);
+        for(LineItemReceivingItem item : (List <LineItemReceivingItem>)lineItemReceivingDocument.getItems()){
+            if (item.isOrderedItem()){
+                if( item.getItemOrderedQuantity().subtract(item.getItemReceivedPriorQuantity()).isGreaterEqual(KualiDecimal.ZERO)  ){
+                    item.setItemReceivedTotalQuantity( item.getItemOrderedQuantity().subtract(item.getItemReceivedPriorQuantity()) );
+                }else{
+                    item.setItemReceivedTotalQuantity(KualiDecimal.ZERO);
+                }
             }
         }
 

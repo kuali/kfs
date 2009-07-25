@@ -155,7 +155,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
 
     protected Date parseSqlDate(String date) throws ParseException {
         try {
-            return new Date(new SimpleDateFormat("yyyy-MM-dd").parse(date).getTime());
+            return new Date(new SimpleDateFormat("yy-MM-dd").parse(date).getTime());
         }
         catch (java.text.ParseException e) {
             throw new ParseException(e.getMessage(), e);
@@ -215,10 +215,10 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
         }
         collectorDetail.setCollectorDetailNoteText(StringUtils.trimTrailingWhitespace(detailLine.substring(72)));
         if (org.apache.commons.lang.StringUtils.isEmpty(collectorDetail.getSubAccountNumber())) {
-            collectorDetail.setSubAccountNumber(" ");
+            collectorDetail.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         }
         if (org.apache.commons.lang.StringUtils.isEmpty(collectorDetail.getFinancialSubObjectCode())) {
-            collectorDetail.setFinancialSubObjectCode(" ");
+            collectorDetail.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         }
         if (org.apache.commons.lang.StringUtils.isEmpty(collectorDetail.getCollectorDetailSequenceNumber())) {
             collectorDetail.setCollectorDetailSequenceNumber(" ");
@@ -234,7 +234,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
     protected OriginEntryFull createOriginEntry(String fileLine, Date curDate, UniversityDate universityDate) {
         OriginEntryFull originEntry = new OriginEntryFull();
         fileLine = org.apache.commons.lang.StringUtils.chomp(fileLine);
-        fileLine = org.apache.commons.lang.StringUtils.rightPad(fileLine, 172, " ");
+        fileLine = org.apache.commons.lang.StringUtils.rightPad(fileLine, 187, " ");
         if (!fileLine.substring(0, 4).equals("    ")) {
             originEntry.setUniversityFiscalYear(new Integer(fileLine.substring(0, 4)));
         } else {

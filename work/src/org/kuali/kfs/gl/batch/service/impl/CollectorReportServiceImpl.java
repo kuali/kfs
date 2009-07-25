@@ -85,13 +85,6 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             sendValidationEmail(batch, collectorReportData);
             sendDemergerEmail(batch, collectorReportData);
         }
-
-        // now send out emails related to demerging
-        batchIter = collectorReportData.getAddedBatches();
-        while (batchIter.hasNext()) {
-            CollectorBatch batch = batchIter.next();
-
-        }
     }
 
     /**

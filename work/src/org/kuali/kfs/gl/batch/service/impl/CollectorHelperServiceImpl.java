@@ -109,16 +109,22 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         // if we used the global variables map, all of the parse/validation errors from one file would be retained when
         // parsing/validating the
         // the next file, causing all subsequent files to fail validation. So, instead we do one unique error map per file
-        MessageMap messageMap = collectorReportData.getErrorMapForBatchName(fileName);
+        MessageMap fileMessageMap = collectorReportData.getErrorMapForBatchName(fileName);
         
-        List<CollectorBatch> batches = doCollectorFileParse(fileName, messageMap, collectorInputFileType, collectorReportData);
-        for (CollectorBatch collectorBatch : batches) {
-            isValid &= loadCollectorBatch(collectorBatch, fileName, collectorReportData, collectorScrubberStatuses, collectorInputFileType, messageMap);
+        List<CollectorBatch> batches = doCollectorFileParse(fileName, fileMessageMap, collectorInputFileType, collectorReportData);
+        for (int i = 0; i < batches.size(); i++) {
+            CollectorBatch collectorBatch = batches.get(i);
+
+            collectorBatch.setBatchName(fileName + " Batch " + String.valueOf(i + 1));
+            collectorReportData.addBatch(collectorBatch);
+            MessageMap perBatchMessageMap = collectorReportData.getErrorMapForBatchName(collectorBatch.getBatchName());
+            
+            isValid &= loadCollectorBatch(collectorBatch, fileName, i + 1, collectorReportData, collectorScrubberStatuses, collectorInputFileType, perBatchMessageMap);
         }
         return isValid;
     }
         
-    protected boolean loadCollectorBatch(CollectorBatch batch, String fileName, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses, BatchInputFileType collectorInputFileType, MessageMap messageMap) {
+    protected boolean loadCollectorBatch(CollectorBatch batch, String fileName, int batchIndex, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses, BatchInputFileType collectorInputFileType, MessageMap messageMap) {
         boolean isValid = true;
 
         String collectorFileDirectoryName = collectorInputFileType.getDirectoryPath();
@@ -137,16 +143,13 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             throw new RuntimeException("loadCollectorFile Stopped: " + e.getMessage(), e);
         }
         
-        
         // terminate if there were parse errors
         if (!messageMap.isEmpty()) {
             isValid = false;
-            collectorReportData.markUnparsableBatchNames(fileName);
+            collectorReportData.markUnparsableBatchNames(batch.getBatchName());
         }
 
         if (isValid) {
-            batch.setBatchName(fileName);
-            collectorReportData.addBatch(batch);
             collectorReportData.setNumInputDetails(batch);
             // check totals
             isValid = checkTrailerTotals(batch, collectorReportData, messageMap);
@@ -158,6 +161,9 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         }
 
         if (isValid) {
+            // mark batch as valid
+            collectorReportData.markValidationStatus(batch, true);
+            
             CollectorScrubberStatus collectorScrubberStatus = collectorScrubberService.scrub(batch, collectorReportData, collectorFileDirectoryName);
             collectorScrubberStatuses.add(collectorScrubberStatus);
             processInterDepartmentalBillingAmounts(batch);
@@ -165,9 +171,6 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             // store origin group, entries, and id billings
             batch.setDefaultsAndStore(collectorReportData);
             collectorReportData.incrementNumPersistedBatches();
-
-            // mark batch as valid
-            collectorReportData.markValidationStatus(batch, true);
         }
         else {
             collectorReportData.incrementNumNonPersistedBatches();
@@ -240,7 +243,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
                 if (GeneralLedgerConstants.getSpaceChartOfAccountsCode().equals(originEntry.getChartOfAccountsCode())) {
                     Collection<Account> accounts = accountService.getAccountsForAccountNumber(originEntry.getAccountNumber());
                     if (accounts.size() == 1) {
-                        originEntry.setChartOfAccountsCode(accounts.iterator().next().getAccountNumber());
+                        originEntry.setChartOfAccountsCode(accounts.iterator().next().getChartOfAccountsCode());
                     }
                 }
             }
@@ -248,7 +251,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
                 if (GeneralLedgerConstants.getSpaceChartOfAccountsCode().equals(collectorDetail.getChartOfAccountsCode())) {
                     Collection<Account> accounts = accountService.getAccountsForAccountNumber(collectorDetail.getAccountNumber());
                     if (accounts.size() == 1) {
-                        collectorDetail.setChartOfAccountsCode(accounts.iterator().next().getAccountNumber());
+                        collectorDetail.setChartOfAccountsCode(accounts.iterator().next().getChartOfAccountsCode());
                     }
                 }
             }
@@ -468,7 +471,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @return the key as a String
      */
     private String generateOriginEntryMatchingKey(OriginEntryFull entry, String delimiter) {
-        return StringUtils.join(new String[] { entry.getUniversityFiscalYear().toString(), entry.getUniversityFiscalPeriodCode(), entry.getChartOfAccountsCode(), entry.getAccountNumber(), entry.getSubAccountNumber(), entry.getFinancialObjectCode(), entry.getFinancialSubObjectCode(), entry.getFinancialBalanceTypeCode(), entry.getFinancialObjectTypeCode(), entry.getDocumentNumber(), entry.getFinancialDocumentTypeCode(), entry.getFinancialSystemOriginationCode() }, delimiter);
+        return StringUtils.join(new String[] { entry.getUniversityFiscalYear().toString(), entry.getUniversityFiscalPeriodCode(), entry.getChartOfAccountsCode(), entry.getAccountNumber(), entry.getSubAccountNumber(), entry.getFinancialObjectCode(), entry.getFinancialSubObjectCode(), entry.getFinancialObjectTypeCode(), entry.getDocumentNumber(), entry.getFinancialDocumentTypeCode(), entry.getFinancialSystemOriginationCode() }, delimiter);
     }
 
     /**
@@ -479,7 +482,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @return the key as a String
      */
     private String generateCollectorDetailMatchingKey(CollectorDetail collectorDetail, String delimiter) {
-        return StringUtils.join(new String[] { collectorDetail.getUniversityFiscalYear().toString(), collectorDetail.getUniversityFiscalPeriodCode(), collectorDetail.getChartOfAccountsCode(), collectorDetail.getAccountNumber(), collectorDetail.getSubAccountNumber(), collectorDetail.getFinancialObjectCode(), collectorDetail.getFinancialSubObjectCode(), collectorDetail.getFinancialBalanceTypeCode(), collectorDetail.getFinancialObjectTypeCode(), collectorDetail.getDocumentNumber(), collectorDetail.getFinancialDocumentTypeCode(), collectorDetail.getFinancialSystemOriginationCode() }, delimiter);
+        return StringUtils.join(new String[] { collectorDetail.getUniversityFiscalYear().toString(), collectorDetail.getUniversityFiscalPeriodCode(), collectorDetail.getChartOfAccountsCode(), collectorDetail.getAccountNumber(), collectorDetail.getSubAccountNumber(), collectorDetail.getFinancialObjectCode(), collectorDetail.getFinancialSubObjectCode(), collectorDetail.getFinancialObjectTypeCode(), collectorDetail.getDocumentNumber(), collectorDetail.getFinancialDocumentTypeCode(), collectorDetail.getFinancialSystemOriginationCode() }, delimiter);
     }
 
     /**

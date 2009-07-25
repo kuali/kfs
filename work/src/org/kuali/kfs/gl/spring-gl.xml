@@ -2191,7 +2191,9 @@
 	    </property>
 	</bean>
 
-    <bean id="collectorFlatFileInputFileType" class="org.kuali.kfs.gl.batch.CollectorFlatFileInputType">
+	<bean id="collectorFlatFileInputFileType" parent="collectorFlatFileInputFileType-parentBean"/>
+	
+    <bean id="collectorFlatFileInputFileType-parentBean" class="org.kuali.kfs.gl.batch.CollectorFlatFileInputType">
     	<property name="directoryPath">
 	       <value>${staging.directory}/gl/collectorFlatFile</value>
 	    </property>

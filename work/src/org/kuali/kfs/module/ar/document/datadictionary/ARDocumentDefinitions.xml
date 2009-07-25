@@ -27,8 +27,6 @@
 						<value>False</value>
 					</property>
 				</bean>
-				<bean parent="AccountingLineView-field"	p:name="accountsReceivableObjectCode"          p:required="false" p:hidden="true" />
-				<bean parent="AccountingLineView-field"	p:name="invoiceItemDiscountLineNumber"         p:required="false" p:hidden="true" />
 			</list>
 		</property>
 	</bean>

@@ -2761,10 +2761,10 @@
         </property>
     </bean>
     
-    <bean id="preScrubberService" class="org.kuali.kfs.gl.service.impl.PreScrubberServiceImpl" parent="wrappedStep">
+    <bean id="preScrubberService" class="org.kuali.kfs.gl.service.impl.PreScrubberServiceImpl">
     </bean>
     
-    <bean id="preScrubberStep" class="org.kuali.kfs.gl.batch.PreScrubberStep">
+    <bean id="preScrubberStep" class="org.kuali.kfs.gl.batch.PreScrubberStep" parent="wrappedStep">
     	<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
     	<property name="preScrubberService" ref="preScrubberService"/>
     	<property name="wrappingBatchServices">

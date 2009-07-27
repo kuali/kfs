@@ -29,16 +29,22 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.SingleConfirmationQuestion;
 import org.kuali.kfs.module.purap.PurapConstants.AccountsPayableDocumentStrings;
 import org.kuali.kfs.module.purap.PurapConstants.AccountsPayableSharedStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.CMDocumentsStrings;
+import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
+import org.kuali.kfs.module.purap.document.service.LogicContainer;
 import org.kuali.kfs.module.purap.document.service.PurapService;
-import org.kuali.kfs.module.purap.document.validation.event.AttributedCancelAccountsPayableEvent;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedPreCalculateAccountsPayableEvent;
 import org.kuali.kfs.module.purap.util.PurQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
@@ -51,6 +57,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -111,7 +118,6 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         SpringContext.getBean(AccountsPayableService.class).generateExpiredOrClosedAccountWarning(document);
         SpringContext.getBean(AccountsPayableService.class).updateItemList(document);
         ((AccountsPayableFormBase) kualiDocumentFormBase).updateItemCounts();
-        
     }
 
     /**
@@ -148,17 +154,12 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     }
 
     @Override
-    public ActionForward clearAllTaxes(ActionMapping mapping, 
-                                       ActionForm form, 
-                                       HttpServletRequest request, 
-                                       HttpServletResponse response) 
-    throws Exception {
-        
+    public ActionForward clearAllTaxes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AccountsPayableFormBase payableForm = (AccountsPayableFormBase) form;
         AccountsPayableDocument apDoc = (AccountsPayableDocument) payableForm.getDocument();
-       
+
         SpringContext.getBean(PurapService.class).clearAllTaxes(apDoc);
-       
+
         return super.clearAllTaxes(mapping, form, request, response);
     }
     
@@ -183,7 +184,6 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
      * @return A String. Set to null!
      */
     public String getActionName() {
-
         return null;
     }
 
@@ -193,17 +193,15 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
      */
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         AccountsPayableFormBase apForm = (AccountsPayableFormBase) form;
 
-        //set the last update user id 
-        AccountsPayableDocumentBase document = (AccountsPayableDocumentBase)apForm.getDocument();
-        document.setLastActionPerformedByPersonId( GlobalVariables.getUserSession().getPerson().getPrincipalId() );
-        
+        // set the last update user id
+        AccountsPayableDocumentBase document = (AccountsPayableDocumentBase) apForm.getDocument();
+        document.setLastActionPerformedByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
+
         // if form is not yet calculated, return and prompt user to calculate
         if (requiresCaculate(apForm)) {
             GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_APPROVE_REQUIRES_CALCULATE);
-
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
@@ -217,12 +215,12 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         boolean successMessageFound = false;
         MessageList messageList = GlobalVariables.getMessageList();
         for (int i = 0; i < messageList.size(); i++) {
-            if (StringUtils.equals(messageList.get(i).getErrorKey(),RiceKeyConstants.MESSAGE_ROUTE_SUCCESSFUL)){
+            if (StringUtils.equals(messageList.get(i).getErrorKey(), RiceKeyConstants.MESSAGE_ROUTE_SUCCESSFUL)) {
                 successMessageFound = true;
                 break;
             }
         }
-        
+
         if (successMessageFound) {
             String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
 
@@ -232,7 +230,6 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
             parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, apForm.getDocTypeName());
 
             String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + "purap" + this.getActionName() + ".do", parameters);
-
             forward = new ActionForward(lookupUrl, true);
         }
 
@@ -246,12 +243,12 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AccountsPayableFormBase apForm = (AccountsPayableFormBase) form;
-        if (!requiresCaculate(apForm)) {
 
+        if (!requiresCaculate(apForm)) {
             return super.save(mapping, form, request, response);
         }
-        GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_SAVE_REQUIRES_CALCULATE);
 
+        GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_SAVE_REQUIRES_CALCULATE);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
     }
@@ -276,7 +273,6 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     protected ActionForward askQuestionWithInput(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String notePrefix, String operation, String messageKey, PurQuestionCallback callback) throws Exception {
         TreeMap<String, PurQuestionCallback> questionsAndCallbacks = new TreeMap<String, PurQuestionCallback>();
         questionsAndCallbacks.put(questionType, callback);
-
         return askQuestionWithInput(mapping, form, request, response, questionType, notePrefix, operation, messageKey, questionsAndCallbacks, "", mapping.findForward(KFSConstants.MAPPING_BASIC));
     }
 
@@ -403,8 +399,12 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
      * @return The message to be displayed given the key
      */
     private String getQuestionProperty(String messageKey, String messagePrefix, KualiConfigurationService kualiConfiguration, String question) {
-
         return kualiConfiguration.getPropertyString((StringUtils.isEmpty(messagePrefix)) ? messageKey : messagePrefix + question);
+    }
+
+    public ActionForward reopenPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("Reopen PO started");
+        return askQuestionsAndPerformReopenPurchaseOrder(mapping, form, request, response);
     }
 
     /**
@@ -413,18 +413,6 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
      */
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchasingAccountsPayableFormBase apForm = (PurchasingAccountsPayableFormBase) form;
-        AccountsPayableDocument document = (AccountsPayableDocument) apForm.getDocument();
-
-        // validate cancel rules
-        //FIXME hjs-this is checking user logic and using the actionauthorizers
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedCancelAccountsPayableEvent(document));
-
-        if (!rulePassed) {
-
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
-
         return askCancelQuestion(mapping, form, request, response);
     }
 
@@ -440,16 +428,11 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
      */
     private ActionForward askCancelQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase apForm = (PurchasingAccountsPayableFormBase) form;
+        
         String operation = "Cancel ";
         PurQuestionCallback callback = cancelCallbackMethod();
         TreeMap<String, PurQuestionCallback> questionsAndCallbacks = new TreeMap<String, PurQuestionCallback>();
         questionsAndCallbacks.put("cancelAP", callback);
-        AccountsPayableDocument apDoc = (AccountsPayableDocument) apForm.getDocument();
-        // check to see whether we should ask close/reopen question
-        if (apDoc.getDocumentSpecificService().shouldPurchaseOrderBeReversed(apDoc)) {
-            PurQuestionCallback callback2 = cancelPOActionCallbackMethod();
-            questionsAndCallbacks.put("actionOnPoCancel", callback2);
-        }
 
         return askQuestionWithInput(mapping, form, request, response, CMDocumentsStrings.CANCEL_CM_QUESTION, AccountsPayableDocumentStrings.CANCEL_NOTE_PREFIX, operation, PurapKeyConstants.CREDIT_MEMO_QUESTION_CANCEL_DOCUMENT, questionsAndCallbacks, PurapKeyConstants.AP_QUESTION_PREFIX, mapping.findForward(KFSConstants.MAPPING_PORTAL));
     }
@@ -502,7 +485,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                             KualiWorkflowDocument newWorkflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(document.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
                             document.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
                             documentService.superUserDisapproveDocument(document, "Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ") per request of user " + userRequestedCancel.getName() + " (" + userRequestedCancel.getPrincipalName() + ")");
-                      }
+                        }
                         finally {
                             GlobalVariables.setUserSession(originalUserSession);
                             document.getDocumentHeader().setWorkflowDocument(originalWorkflowDocument);
@@ -523,7 +506,93 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
             }
         };
     }
-    
+
+    private ActionForward askQuestionsAndPerformReopenPurchaseOrder(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("askQuestionsAndPerformDocumentAction started.");
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        AccountsPayableDocumentBase apDoc = (AccountsPayableDocumentBase) kualiDocumentFormBase.getDocument();
+        Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        String questionType = PODocumentsStrings.REOPEN_PO_QUESTION;
+        String confirmType = PODocumentsStrings.CONFIRM_REOPEN_QUESTION;
+        String messageType = PurapKeyConstants.PURCHASE_ORDER_MESSAGE_REOPEN_DOCUMENT;
+        String operation = "Reopen ";
+
+        try {
+            KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+
+            // Start in logic for confirming the proposed operation.
+            if (ObjectUtils.isNull(question)) {
+                String key = kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT);
+                String message = StringUtils.replace(key, "{0}", operation);
+                return this.performQuestionWithoutInput(mapping, form, request, response, questionType, message, KFSConstants.CONFIRMATION_QUESTION, questionType, "");
+            }
+            else {
+                Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+                if (question.equals(questionType) && buttonClicked.equals(ConfirmationQuestion.NO)) {
+                    // If 'No' is the button clicked, just reload the doc
+                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                }
+                else if (question.equals(confirmType) && buttonClicked.equals(SingleConfirmationQuestion.OK)) {
+                    // This is the case when the user clicks on "OK" in the end; redirect to the preq doc
+                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                }
+            }
+
+            PurchaseOrderDocument po = apDoc.getPurchaseOrderDocument();
+            if (!po.isPendingActionIndicator() && PurapConstants.PurchaseOrderStatuses.CLOSED.equals(po.getStatusCode())) {
+                /*
+                 * Below if-else code block calls PurchaseOrderService methods that will throw ValidationException objects if errors
+                 * occur during any process in the attempt to perform its actions. Assume, if these return successfully, that the
+                 * PurchaseOrderDocument object returned from each is the newly created document and that all actions in the method
+                 * were run correctly. NOTE: IF BELOW IF-ELSE IS EDITED THE NEW METHODS CALLED MUST THROW ValidationException OBJECT
+                 * IF AN ERROR IS ADDED TO THE GlobalVariables
+                 */
+                po = initiateReopenPurchaseOrder(po, kualiDocumentFormBase.getAnnotation());
+
+                if (!GlobalVariables.getMessageMap().hasNoErrors()) {
+                    throw new ValidationException("errors occurred during new PO creation");
+                }
+
+                if (StringUtils.isNotEmpty(messageType)) {
+                    GlobalVariables.getMessageList().add(messageType);
+                }
+                return this.performQuestionWithoutInput(mapping, form, request, response, confirmType, kualiConfiguration.getPropertyString(messageType), PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, questionType, "");
+            }
+            else {
+                return this.performQuestionWithoutInput(mapping, form, request, response, confirmType, "Unable to reopen the PO at this time due to the incorrect PO status or a pending PO change document.", PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, questionType, "");
+            }
+
+        }
+        catch (ValidationException ve) {
+            throw ve;
+        }
+    }
+
+    public PurchaseOrderDocument initiateReopenPurchaseOrder(PurchaseOrderDocument po, String annotation) {
+        try {
+            LogicContainer logicToRun = new LogicContainer() {
+                public Object runLogic(Object[] objects) throws Exception {
+                    PurchaseOrderDocument po = (PurchaseOrderDocument) objects[0];
+
+                    Note cancelNote = new Note();
+                    cancelNote.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());
+                    cancelNote.setNoteText(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.AP_REOPENS_PURCHASE_ORDER_NOTE));
+                    po.addNote(cancelNote);
+                    SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
+
+                    return SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(po.getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, (String) objects[1], null, PurchaseOrderStatuses.PENDING_REOPEN);
+                }
+            };
+            return (PurchaseOrderDocument) SpringContext.getBean(PurapService.class).performLogicWithFakedUserSession(KFSConstants.SYSTEM_USER, logicToRun, new Object[] { po, annotation });
+        }
+        catch (WorkflowException e) {
+            String errorMsg = "Workflow Exception caught: " + e.getLocalizedMessage();
+            LOG.error(errorMsg, e);
+            throw new RuntimeException(errorMsg, e);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
-

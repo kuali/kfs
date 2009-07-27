@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants.CreditMemoEditMode;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
@@ -92,7 +93,22 @@ public class VendorCreditMemoForm extends AccountsPayableFormBase {
             }
 
             if (getEditingMode().containsKey(CreditMemoEditMode.ACCOUNTS_PAYABLE_PROCESSOR_CANCEL)) {
-                addExtraButton("methodToCall.cancel", externalImageURL + "buttonsmall_cancel.gif", "Cancel");
+                if (cmDocument.isSourceDocumentPaymentRequest() || cmDocument.isSourceDocumentPurchaseOrder()) {
+                    //if the source is PREQ or PO, check the PO status
+                    if (PurapConstants.PurchaseOrderStatuses.CLOSED.equals(cmDocument.getPurchaseOrderDocument().getStatusCode())) {
+                        //if the PO is CLOSED, show the 'open order' button; but only if there are no pending actions on the PO
+                        if (!cmDocument.getPurchaseOrderDocument().isPendingActionIndicator()) {
+                            addExtraButton("methodToCall.reopenPo", appExternalImageURL + "buttonsmall_openorder.gif", "Reopen PO");
+                        }
+                    }
+                    else {
+                        addExtraButton("methodToCall.cancel", externalImageURL + "buttonsmall_cancel.gif", "Cancel");
+                    }
+                }
+                else {
+                    //if the source is Vendor, no need to check the PO status
+                    addExtraButton("methodToCall.cancel", externalImageURL + "buttonsmall_cancel.gif", "Cancel");
+                }
             }
         }
 

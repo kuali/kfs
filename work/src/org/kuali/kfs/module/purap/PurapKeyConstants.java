@@ -155,6 +155,7 @@ public class PurapKeyConstants {
     public static final String ERROR_AP_REQUIRES_ATTACHMENT = "errors.ap.attachmentRequired";
     public static final String AP_QUESTION_CONFIRM_INVOICE_MISMATCH = "ap.question.confirm.invoice.mismatch";
     public static final String AP_QUESTION_PREFIX = "ap.question.";
+    public static final String AP_REOPENS_PURCHASE_ORDER_NOTE = "ap.reopens.purchase.order.note";
 
     // Payment Request
     public static final String ERROR_PURCHASE_ORDER_NOT_EXIST = "error.invoice.purchaseOrder.notExist";

@@ -19,6 +19,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants.PaymentRequestEditMode;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
@@ -138,7 +139,15 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
             
             if (getEditingMode().containsKey(PaymentRequestEditMode.ACCOUNTS_PAYABLE_PROCESSOR_CANCEL) ||
                     getEditingMode().containsKey(PaymentRequestEditMode.ACCOUNTS_PAYABLE_MANAGER_CANCEL)) {
-                addExtraButton("methodToCall.cancel", externalImageURL + "buttonsmall_cancel.gif", "Cancel");
+                if (PurapConstants.PurchaseOrderStatuses.CLOSED.equals(paymentRequestDocument.getPurchaseOrderDocument().getStatusCode())) {
+                    //if the PO is CLOSED, show the 'open order' button; but only if there are no pending actions on the PO
+                    if (!paymentRequestDocument.getPurchaseOrderDocument().isPendingActionIndicator()) {
+                        addExtraButton("methodToCall.reopenPo", appExternalImageURL + "buttonsmall_openorder.gif", "Reopen PO");
+                    }
+                }
+                else {
+                    addExtraButton("methodToCall.cancel", externalImageURL + "buttonsmall_cancel.gif", "Cancel");
+                }
             }
         }
 

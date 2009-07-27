@@ -341,17 +341,17 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     /**
      * @see org.kuali.kfs.module.purap.document.web.struts.AccountsPayableActionBase#cancelPOActionCallbackMethod()
      */
-    @Override
-    protected PurQuestionCallback cancelPOActionCallbackMethod() {
-
-        return new PurQuestionCallback() {
-            public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
-                PaymentRequestDocument preqDocument = (PaymentRequestDocument) document;
-                preqDocument.setReopenPurchaseOrderIndicator(true);
-                return preqDocument;
-            }
-        };
-    }
+//    @Override
+//    protected PurQuestionCallback cancelPOActionCallbackMethod() {
+//
+//        return new PurQuestionCallback() {
+//            public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
+//                PaymentRequestDocument preqDocument = (PaymentRequestDocument) document;
+//                preqDocument.setReopenPurchaseOrderIndicator(true);
+//                return preqDocument;
+//            }
+//        };
+//    }
 
     /**
      * Removes a request for cancel on a payment request.

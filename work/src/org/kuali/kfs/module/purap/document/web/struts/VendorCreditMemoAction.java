@@ -134,6 +134,12 @@ public class VendorCreditMemoAction extends AccountsPayableActionBase {
         // update the counts on the form
         cmForm.updateItemCounts();
 
+        //if source is (PREQ or PO) and the PO status is CLOSED, automatically reopen the PO
+        PurchaseOrderDocument po = creditMemoDocument.getPurchaseOrderDocument();
+        if ((creditMemoDocument.isSourceDocumentPaymentRequest() || creditMemoDocument.isSourceDocumentPurchaseOrder()) && PurapConstants.PurchaseOrderStatuses.CLOSED.equals(po.getStatusCode())) {
+            initiateReopenPurchaseOrder(po, cmForm.getAnnotation());
+        }
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -254,16 +260,16 @@ public class VendorCreditMemoAction extends AccountsPayableActionBase {
     /**
      * @see org.kuali.kfs.module.purap.document.web.struts.AccountsPayableActionBase#cancelPOActionCallbackMethod()
      */
-    @Override
-    protected PurQuestionCallback cancelPOActionCallbackMethod() {
-        return new PurQuestionCallback() {
-            public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
-                VendorCreditMemoDocument cmDocument = (VendorCreditMemoDocument) document;
-                cmDocument.setClosePurchaseOrderIndicator(true);
-                return cmDocument;
-            }
-        };
-    }
+//    @Override
+//    protected PurQuestionCallback cancelPOActionCallbackMethod() {
+//        return new PurQuestionCallback() {
+//            public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
+//                VendorCreditMemoDocument cmDocument = (VendorCreditMemoDocument) document;
+//                cmDocument.setClosePurchaseOrderIndicator(true);
+//                return cmDocument;
+//            }
+//        };
+//    }
 
     /**
      * @see org.kuali.kfs.module.purap.document.web.struts.AccountsPayableActionBase#getActionName()

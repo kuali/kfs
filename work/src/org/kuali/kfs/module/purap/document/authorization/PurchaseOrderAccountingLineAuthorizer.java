@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
@@ -45,7 +47,7 @@ public class PurchaseOrderAccountingLineAuthorizer extends PurapAccountingLineAu
             return true;
         }
         
-        if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT.equals(workflowDoc.getDocumentType())) {
+        if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT.equals(workflowDoc.getDocumentType()) && StringUtils.isNotBlank(accountingGroupProperty) && accountingGroupProperty.contains(PurapPropertyConstants.ITEM)) {
             int itemNumber = determineItemNumberFromGroupProperty(accountingGroupProperty);
             PurchaseOrderAmendmentDocument poaDoc = (PurchaseOrderAmendmentDocument) accountingDocument;
             PurchaseOrderItem item = (PurchaseOrderItem) poaDoc.getItem(itemNumber);

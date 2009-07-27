@@ -298,7 +298,7 @@
 							</bean>
 							<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
 								<property name="accountingDocumentParameterPropertyName" value="document" />
-								<property name="accountingLineParameterPropertyName" value="accountingLine" />
+								<property name="accountingLineParameterPropertyName" value="updatedAccountingLine" />
 							</bean>
 						</list>
 					</property>
@@ -311,7 +311,51 @@
 								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
 							</bean>
 							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="sourceEventProperty" value="updatedAccountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="BudgetAdjustment-accountingLineBaseAmountValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+							</bean>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="updatedAccountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="BudgetAdjustment-accountingLineMonthlyLinesValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="updatedAccountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="BudgetAdjustment-accountingLineAccountHasRecordingLevelValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="updatedAccountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="BudgetAdjustment-accountingLineAccountIncomeStreamValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="updatedAccountingLine" />
 								<property name="targetValidationProperty" value="accountingLineForValidation" />
 							</bean>
 						</list>

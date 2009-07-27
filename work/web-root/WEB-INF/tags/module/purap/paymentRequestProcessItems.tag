@@ -104,12 +104,12 @@
 			colSpanAmountPaid="0">
 			<jsp:attribute name="specialItemTotalOverride">
 				<tr>
-					<td align=right width='75%' colspan="5" scope="row" class="datacell">
+					<td align=right width='75%' colspan="8" scope="row" class="datacell">
 			 			<div align="right">
 			        		<b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grandTotalExcludingDiscount}" skipHelpUrl="true" /></b>&nbsp;
 			    		</div>
 					</td>
-					<td valign=middle class="datacell" colspan="2">
+					<td valign=middle class="datacell" colspan="1">
 		    		    <div align="right"><b>
                             <kul:htmlControlAttribute
                                 attributeEntry="${DataDictionary.PaymentRequestDocument.grandTotalExcludingDiscount}"

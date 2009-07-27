@@ -235,24 +235,14 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     public List<PaymentRequestDocument> getEligibleForAutoApproval() {
         Date todayAtMidnight = dateTimeService.getCurrentSqlDateMidnight();
         Criteria criteria = new Criteria();
-
+        criteria.addLessOrEqualThan(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, todayAtMidnight);
         criteria.addNotEqualTo("holdIndicator", "Y");
         criteria.addNotEqualTo("paymentRequestedCancelIndicator", "Y");
         criteria.addIn("status", Arrays.asList(PurapConstants.PaymentRequestStatuses.PREQ_STATUSES_FOR_AUTO_APPROVE));
 
-        Criteria c1 = new Criteria();
-        c1.addLessOrEqualThan(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, todayAtMidnight);
-        
-        Criteria c2 = new Criteria();
-        c2.addEqualTo("immediatePaymentIndicator", Boolean.TRUE);
-        
-        c1.addOrCriteria(c2);
-        criteria.addAndCriteria(c1);
-        
         Query query = new QueryByCriteria(PaymentRequestDocument.class, criteria);
         Iterator<PaymentRequestDocument> documents = (Iterator<PaymentRequestDocument>) getPersistenceBrokerTemplate().getIteratorByQuery(query);
         ArrayList<String> documentHeaderIds = new ArrayList<String>();
-
         while (documents.hasNext()) {
             PaymentRequestDocument document = (PaymentRequestDocument) documents.next();
             documentHeaderIds.add(document.getDocumentNumber());

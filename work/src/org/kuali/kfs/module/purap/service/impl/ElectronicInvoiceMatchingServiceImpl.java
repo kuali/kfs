@@ -279,8 +279,10 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
             return;
         }
         
+        String extraDesc = "Invoice Order ID:" + poID;
+        
         if (!NumberUtils.isDigits(poID)){
-            ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.PO_ID_INVALID_FORMAT,null,orderHolder.getFileName());
+            ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.PO_ID_INVALID_FORMAT,extraDesc,orderHolder.getFileName());
             orderHolder.addInvoiceOrderRejectReason(rejectReason,poIDFieldName,PurapKeyConstants.ERROR_REJECT_INVOICE_POID_INVALID);
             return;
         }
@@ -288,7 +290,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         PurchaseOrderDocument poDoc = orderHolder.getPurchaseOrderDocument();
         
         if (poDoc == null){
-            ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.PO_NOT_EXISTS,null,orderHolder.getFileName());
+            ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.PO_NOT_EXISTS,extraDesc,orderHolder.getFileName());
             orderHolder.addInvoiceOrderRejectReason(rejectReason,poIDFieldName,PurapKeyConstants.ERROR_REJECT_INVOICE__PO_NOT_EXISTS);
             return;
         }

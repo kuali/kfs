@@ -417,8 +417,8 @@
   <bean id="LineItemReceivingDocument-lineItemReceivingStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
 	<property name="name" value="lineItemReceivingStatusCode"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Receiving Line Status Code"/>
-    <property name="shortLabel" value="Status"/>
+    <property name="label" value="Line Item Receiving Status"/>
+    <property name="shortLabel" value="Line Item Receiving Status"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>

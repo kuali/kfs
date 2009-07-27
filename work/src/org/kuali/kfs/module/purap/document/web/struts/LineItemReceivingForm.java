@@ -36,6 +36,8 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class LineItemReceivingForm extends ReceivingFormBase {
     
@@ -80,6 +82,20 @@ public class LineItemReceivingForm extends ReceivingFormBase {
 
     public void setNewLineItemReceivingItemLine(LineItemReceivingItem newLineItemReceivingItemLine) {
         this.newLineItemReceivingItemLine = newLineItemReceivingItemLine;
+    }
+
+    @Override
+    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+        super.populateHeaderFields(workflowDocument);
+        //leave the first field blank to match the other PURAP docs
+        getDocInfo().add(new HeaderField());
+        
+        if (ObjectUtils.isNotNull(this.getLineItemReceivingDocument().getLineItemReceivingStatus())) {
+            getDocInfo().add(new HeaderField("DataDictionary.LineItemReceivingDocument.attributes.lineItemReceivingStatusCode", this.getLineItemReceivingDocument().getLineItemReceivingStatus().getLineItemReceivingStatusDescription()));
+        }
+        else {
+            getDocInfo().add(new HeaderField("DataDictionary.LineItemReceivingDocument.attributes.lineItemReceivingStatusCode", "Not Available"));
+        }
     }
 
     /**

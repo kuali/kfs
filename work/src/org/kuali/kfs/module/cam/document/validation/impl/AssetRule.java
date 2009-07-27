@@ -55,17 +55,21 @@ import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -555,7 +559,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Check if the Acquisition Type Code has changed or is inactive.
+     * Check if the Acquisition Type Code is valid or is inactive.
      * 
      * @param oldAcquisitionTypeCode
      * @param newAcquisitionTypeCode
@@ -579,7 +583,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Check if the Asset Condition has changed or is inactive.
+     * Check if the Asset Condition is valid or is inactive.
      * 
      * @param oldConditionCode
      * @param newConditionCode
@@ -603,7 +607,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Check if the Asset Depreciation Method has changed or is inactive.
+     * Check if the Asset Depreciation Method is valid or is inactive.
      * 
      * @param oldAssetDepreciationMethod
      * @param newAssetDepreciationMethod
@@ -627,7 +631,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Check if the Asset Status Code has changed or is inactive.
+     * Check if the Asset Status Code is valid or is inactive.
      * 
      * @param oldAssetStatus
      * @param newAssetStatus
@@ -651,7 +655,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Check if the Asset Type Code has changed or is inactive.
+     * Check if the Asset Type Code is valid or is inactive.
      * 
      * @param oldAssetType
      * @param newAssetType
@@ -675,16 +679,17 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Check if the Owner has changed or is inactive.
+     * Check if the Owner is valid or is inactive.
      * 
      * @return boolean
      */
     private boolean checkOwnerChange() {
-        // TODO - need reference object.  contracts and grants table?
+        // TODO - need reference object?  contracts and grants table?
         /*
-        if (!StringUtils.equalsIgnoreCase(newAsset.getAgencyNumber(), oldAsset.getAgencyNumber())) {
-            if (!newAsset.isActive()) {
-                putFieldError(CamsPropertyConstants.Asset.AGENCY_NUMBER, CamsKeyConstants.Asset.ERROR_OWNER_INACTIVE);
+        if (ObjectUtils.isNotNull(newAsset.getAgency()) || StringUtils.isNotBlank(newAsset.getAgencyNumber())) {
+            newAsset.refreshReferenceObject(CamsPropertyConstants.Asset.REF_CONTRACTS_AND_GRANTS_AGENCY);
+            if (ObjectUtils.isNull(newAsset.getAgency())) {
+                putFieldError(CamsPropertyConstants.Asset.AGENCY_NUMBER, CamsKeyConstants.Asset.ERROR_OWNER_INVALID);
                 return false;
             }
         }
@@ -693,28 +698,22 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Check if the Financial Object Sub-Type Code has changed or is inactive.
+     * Check if the Financial Object Sub-Type Code is valid or is inactive.
      * 
      * @param oldObjectSubType
      * @param newObjectSubType
      * @return boolean
      */
     private boolean checkFinancialObjectSubtypeCodeChange() {
-        // TODO - require new Financial Object Subtype Code?
-        //if (ObjectUtils.isNull(newAsset.getFinancialObjectSubType())) {
-        //    putFieldError(CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE, CamsKeyConstants.Asset.ERROR_FINANCIAL_OBJECT_SUBTYPE_CODE_INVALID);
-        //    return false;
-        //}
-        // TODO - need to validate new value
-        if (ObjectUtils.isNotNull(oldAsset.getFinancialObjectSubType())) {
-            if (!StringUtils.equalsIgnoreCase(newAsset.getFinancialObjectSubType().getFinancialObjectSubTypeCode(), oldAsset.getFinancialObjectSubType().getFinancialObjectSubTypeCode())) {
-                newAsset.refreshReferenceObject(CamsPropertyConstants.Asset.REF_OBJECT_SUB_TYPE);
-                if (ObjectUtils.isNotNull(newAsset.getFinancialObjectSubType())) {
-                    if (!newAsset.getFinancialObjectSubType().isActive()) {
-                        putFieldError(CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE, CamsKeyConstants.Asset.ERROR_FINANCIAL_OBJECT_SUBTYPE_CODE_INACTIVE);
-                        return false;
-                    }
-                }
+        if (ObjectUtils.isNotNull(newAsset.getFinancialObjectSubType()) || StringUtils.isNotBlank(newAsset.getFinancialObjectSubTypeCode())) {
+            newAsset.refreshReferenceObject(CamsPropertyConstants.Asset.REF_OBJECT_SUB_TYPE);
+            if (ObjectUtils.isNull(newAsset.getFinancialObjectSubType())) {
+                putFieldError(CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE, CamsKeyConstants.Asset.ERROR_FINANCIAL_OBJECT_SUBTYPE_CODE_INVALID);
+                return false;
+            }
+            else if (!newAsset.getFinancialObjectSubType().isActive()) {
+                putFieldError(CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE, CamsKeyConstants.Asset.ERROR_FINANCIAL_OBJECT_SUBTYPE_CODE_INACTIVE);
+                return false;
             }
         }
         return true;

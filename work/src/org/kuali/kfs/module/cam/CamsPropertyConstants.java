@@ -97,6 +97,7 @@ public class CamsPropertyConstants {
         public static final String REF_ASSET_STATUS = "inventoryStatus";
         public static final String REF_ASSET_TYPE = "capitalAssetType";
         public static final String REF_OBJECT_SUB_TYPE = "financialObjectSubType";
+        public static final String REF_CONTRACTS_AND_GRANTS_AGENCY = "agency";
         
         public static class AssetLocation {
             public static final String CONTACT_NAME = "offCampusLocation.assetLocationContactName";

@@ -51,7 +51,7 @@ public class ReportAggregatorServiceTextImpl implements ReportAggregatorService 
                 prepareForNewFile(aggregateReportWriter);
             }
             pageNumber = dumpFileContents(aggregateReportWriter, file, pageNumber);
-            // file.delete();
+            file.delete();
         }
         aggregateReportWriter.close();
     }

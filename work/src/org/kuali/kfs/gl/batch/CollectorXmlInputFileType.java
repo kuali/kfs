@@ -17,6 +17,7 @@ package org.kuali.kfs.gl.batch;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.batch.service.CollectorHelperService;
@@ -43,7 +44,7 @@ public class CollectorXmlInputFileType extends XmlBatchInputFileTypeBase {
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileTypeIdentifer()
      */
     public String getFileTypeIdentifer() {
-        return KFSConstants.COLLECTOR_FILE_TYPE_INDENTIFIER;
+        return KFSConstants.COLLECTOR_XML_FILE_TYPE_INDENTIFIER;
     }
 
     /**
@@ -60,7 +61,8 @@ public class CollectorXmlInputFileType extends XmlBatchInputFileTypeBase {
      *      java.lang.String)
      */
     public String getFileName(String principalName, Object parsedFileContents, String userIdentifier) {
-        CollectorBatch collectorBatch = (CollectorBatch) parsedFileContents;
+        // this implementation assumes that there is only one batch in the XML file
+        CollectorBatch collectorBatch = ((List<CollectorBatch>) parsedFileContents).get(0);
         
         String fileName = "gl_collector_" + collectorBatch.getChartOfAccountsCode() + collectorBatch.getOrganizationCode();
         fileName += "_" + principalName;
@@ -76,12 +78,16 @@ public class CollectorXmlInputFileType extends XmlBatchInputFileTypeBase {
     }
 
     public boolean validate(Object parsedFileContents) {
-        boolean isValid = collectorHelperService.performValidation((CollectorBatch) parsedFileContents);
-        if (isValid) {
-            isValid = collectorHelperService.checkTrailerTotals((CollectorBatch) parsedFileContents, null);
+        List<CollectorBatch> parsedBatches = (List<CollectorBatch>) parsedFileContents;
+        boolean allBatchesValid = true;
+        for (CollectorBatch batch : parsedBatches) {
+            boolean isValid = collectorHelperService.performValidation(batch);
+            if (isValid) {
+                isValid = collectorHelperService.checkTrailerTotals(batch, null);
+            }
+            allBatchesValid &= isValid;
         }
-    
-        return isValid;
+        return allBatchesValid;
     }
     
     /**

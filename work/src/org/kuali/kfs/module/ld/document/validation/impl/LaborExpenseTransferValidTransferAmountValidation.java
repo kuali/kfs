@@ -94,9 +94,6 @@ public class LaborExpenseTransferValidTransferAmountValidation extends GenericVa
 
             KualiDecimal balanceAmount = getBalanceAmount(fieldValues, accountingLine.getPayrollEndDateFiscalPeriodCode());
             KualiDecimal transferAmount = accountingLine.getAmount();
-            
-            LOG.info("======1" + fieldValues);
-            LOG.info("======2" + balanceAmount + " : " + transferAmount);
 
             // the tranferred amount cannot greater than the balance amount
             if (balanceAmount.abs().isLessThan(transferAmount.abs())) {
@@ -238,8 +235,6 @@ public class LaborExpenseTransferValidTransferAmountValidation extends GenericVa
     private KualiDecimal getBalanceAmountOfGivenPeriod(Map<String, Object> fieldValues, String periodCode) {
         KualiDecimal balanceAmount = KualiDecimal.ZERO;
         List<LedgerBalance> ledgerBalances = (List<LedgerBalance>) SpringContext.getBean(BusinessObjectService.class).findMatching(LedgerBalance.class, fieldValues);
-        
-        LOG.info("========" + ledgerBalances.size());
         
         LedgerBalance summaryBalance = new LedgerBalance();
         for(LedgerBalance balance : ledgerBalances) {

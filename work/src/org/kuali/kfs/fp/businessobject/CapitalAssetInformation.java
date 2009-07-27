@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAssetType;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -217,7 +218,14 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
      * @return Returns the vendorName.
      */
     public String getVendorName() {
-        return vendorName == null && ObjectUtils.isNotNull(vendorDetail) ? vendorDetail.getVendorName() : vendorName;
+        if (ObjectUtils.isNotNull(vendorDetail)) {
+            vendorName = vendorDetail.getVendorName();
+        }
+        else if (StringUtils.isNotBlank(vendorName) && vendorName.indexOf(" > ") > 0){
+                vendorName = vendorName.substring(vendorName.indexOf(" > ") + 2, vendorName.length());
+        }
+
+        return vendorName;
     }
 
     /**

@@ -14,10 +14,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DateTimeService;
 
-/**
- * @author local-jsissom
- *
- */
 public class PunchOutSetupCxml {
   private Person user;
   private B2BInformation b2bInformation;

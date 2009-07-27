@@ -6,10 +6,6 @@ package org.kuali.kfs.module.purap.util.cxml;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-/**
- * @author local-jsissom
- *
- */
 public class CxmlHeader {
   private String fromIdentity;
   private String fromDomain;

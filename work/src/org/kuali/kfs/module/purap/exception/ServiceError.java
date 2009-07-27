@@ -7,10 +7,6 @@ package org.kuali.kfs.module.purap.exception;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
- * @author local-jsissom
- *
- */
 public class ServiceError implements Serializable {
   private String tab;
   private String messageKey;

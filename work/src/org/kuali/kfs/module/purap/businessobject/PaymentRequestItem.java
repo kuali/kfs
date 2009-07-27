@@ -101,7 +101,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         
         // clear amount and desc on below the line - we probably don't need that null
         // itemType check but it's there just in case remove if it causes problems
-        // also do this if of type service, kulpurap - 1242
+        // also do this if of type service
         if ((ObjectUtils.isNotNull(this.getItemType()) && this.getItemType().isAmountBasedGeneralLedgerIndicator())) {
             // setting unit price to be null to be more consistent with other below the line
             this.setItemUnitPrice(null);

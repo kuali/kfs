@@ -709,6 +709,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 // this is probably not the best way of doing it but should work for now if we start excluding discount from below
                 // we will need to manually add
                 purapService.addBelowLineItems(paymentRequestDocument);
+                
+                //fix up below the line items
+                SpringContext.getBean(PaymentRequestService.class).removeIneligibleAdditionalCharges(paymentRequestDocument);
+
                 discountItem = findDiscountItem(paymentRequestDocument);
             }
 

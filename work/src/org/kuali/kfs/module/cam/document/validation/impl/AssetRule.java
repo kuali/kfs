@@ -30,21 +30,15 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.ObjectSubType;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
-import org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType;
 import org.kuali.kfs.module.cam.businessobject.AssetComponent;
-import org.kuali.kfs.module.cam.businessobject.AssetCondition;
-import org.kuali.kfs.module.cam.businessobject.AssetDepreciationMethod;
 import org.kuali.kfs.module.cam.businessobject.AssetFabrication;
 import org.kuali.kfs.module.cam.businessobject.AssetLocation;
 import org.kuali.kfs.module.cam.businessobject.AssetRepairHistory;
-import org.kuali.kfs.module.cam.businessobject.AssetStatus;
-import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.businessobject.AssetWarranty;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.service.AssetComponentService;
@@ -55,21 +49,20 @@ import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
+//import org.kuali.kfs.module.cg.businessobject.Agency;
+//import org.kuali.kfs.module.cg.service.AgencyService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -92,6 +85,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         LOCATION_FIELD_MAP.put(LocationField.COUNTRY_CODE, CamsPropertyConstants.Asset.AssetLocation.COUNTRY_CODE);
     }
 
+    //private AgencyService agencyService = SpringContext.getBean(AgencyService.class);
     private AssetService assetService = SpringContext.getBean(AssetService.class);
     private ParameterService parameterService = SpringContext.getBean(ParameterService.class);
     private PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
@@ -525,7 +519,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         valid &= checkAssetDepreciationMethodChange();
         valid &= checkAssetStatusCodeChange();
         valid &= checkAssetTypeCodeChange();
-        valid &= checkOwnerChange();
         valid &= checkFinancialObjectSubtypeCodeChange();
 
         KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
@@ -675,25 +668,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
                 }
             }
         }
-        return true;
-    }
-
-    /**
-     * Check if the Owner is valid or is inactive.
-     * 
-     * @return boolean
-     */
-    private boolean checkOwnerChange() {
-        // TODO - need reference object?  contracts and grants table?
-        /*
-        if (ObjectUtils.isNotNull(newAsset.getAgency()) || StringUtils.isNotBlank(newAsset.getAgencyNumber())) {
-            newAsset.refreshReferenceObject(CamsPropertyConstants.Asset.REF_CONTRACTS_AND_GRANTS_AGENCY);
-            if (ObjectUtils.isNull(newAsset.getAgency())) {
-                putFieldError(CamsPropertyConstants.Asset.AGENCY_NUMBER, CamsKeyConstants.Asset.ERROR_OWNER_INVALID);
-                return false;
-            }
-        }
-        */
         return true;
     }
 

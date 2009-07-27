@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryTotals;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.businessobject.CollectorHeader;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
@@ -36,6 +37,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * Object representation of collector xml input.
@@ -64,12 +66,16 @@ public class CollectorBatch implements Serializable {
     private Integer totalRecords;
     private KualiDecimal totalAmount;
 
+    private MessageMap messageMap;
+    private OriginEntryTotals originEntryTotals;
     /**
      * Constructs a CollectorBatch
      */
     public CollectorBatch() {
         originEntries = new ArrayList();
         collectorDetails = new ArrayList();
+        messageMap = new MessageMap();
+        originEntryTotals = null;
     }
 
     /**
@@ -476,5 +482,27 @@ public class CollectorBatch implements Serializable {
      */
     public void setBatchName(String batchName) {
         this.batchName = batchName;
+    }
+
+    public MessageMap getMessageMap() {
+        return messageMap;
+    }
+
+    public void setMessageMap(MessageMap messageMap) {
+        if (messageMap == null) {
+            throw new NullPointerException("messageMap is null");
+        }
+        if (this.messageMap.hasMessages()) {
+            throw new RuntimeException("Cannot reset MessageMap unless original instance has no messages.");
+        }
+        this.messageMap = messageMap;
+    }
+
+    public OriginEntryTotals getOriginEntryTotals() {
+        return originEntryTotals;
+    }
+
+    public void setOriginEntryTotals(OriginEntryTotals originEntryTotals) {
+        this.originEntryTotals = originEntryTotals;
     }
 }

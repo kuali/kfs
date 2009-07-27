@@ -44,9 +44,8 @@ import org.kuali.rice.kns.util.MessageMap;
 public class CollectorReportData {
     private Map<String, String> emailSendingStatus;
 
-    private Set<String> unparsableBatchNames;
+    private Set<String> unparsableFileNames;
     private Map<String, List<Message>> validationErrorsForBatchName;
-    private Map<String, OriginEntryTotals> collectorFileTotals;
     private Map<String, CollectorBatch> addedBatches;
     private Map<String, Map<CollectorDetail, List<Message>>> detailScrubberErrors;
     private Map<String, Map<Transaction, List<Message>>> originEntryScrubberErrors;
@@ -58,19 +57,19 @@ public class CollectorReportData {
     private Map<String, Map<DocumentGroupData, OriginEntryTotals>> totalsOnInputOriginEntriesAssociatedWithErrorGroupForBatchName;
     private Map<String, Integer> numInputDetailsForBatchName;
     private Map<String, Integer> numSavedDetailsForBatchName;
-    private SortedMap<String, MessageMap> errorsForBatchName;
     private Map<String, Boolean> validationStatuses;
+    private SortedMap<String, MessageMap> messageMapForFileName;
 
     private LedgerSummaryReport ledgerSummaryReport;
+    private PreScrubberReportData preScrubberReportData;
     
     private int numPersistedBatches;
     private int numNotPersistedBatches;
 
     public CollectorReportData() {
         emailSendingStatus = new HashMap<String, String>();
-        unparsableBatchNames = new TreeSet<String>();
+        unparsableFileNames = new TreeSet<String>();
         validationErrorsForBatchName = new HashMap<String, List<Message>>();
-        collectorFileTotals = new HashMap<String, OriginEntryTotals>();
         addedBatches = new LinkedHashMap<String, CollectorBatch>();
         detailScrubberErrors = new HashMap<String, Map<CollectorDetail, List<Message>>>();
         originEntryScrubberErrors = new HashMap<String, Map<Transaction, List<Message>>>();
@@ -81,10 +80,10 @@ public class CollectorReportData {
         totalsOnInputOriginEntriesAssociatedWithErrorGroupForBatchName = new HashMap<String, Map<DocumentGroupData, OriginEntryTotals>>();
         numInputDetailsForBatchName = new HashMap<String, Integer>();
         numSavedDetailsForBatchName = new HashMap<String, Integer>();
-        errorsForBatchName = new TreeMap<String, MessageMap>();
         validationStatuses = new HashMap<String, Boolean>();
         ledgerSummaryReport = new LedgerSummaryReport();
-        
+        preScrubberReportData = new PreScrubberReportData(0, 0, new TreeSet<String>(), new TreeSet<String>());
+        messageMapForFileName = new TreeMap<String, MessageMap>();
         numPersistedBatches = 0;
         numNotPersistedBatches = 0;
     }
@@ -194,12 +193,12 @@ public class CollectorReportData {
         return demergerReportDataForBatchName.get(batch.getBatchName());
     }
 
-    public void markUnparsableBatchNames(String batchName) {
-        unparsableBatchNames.add(batchName);
+    public void markUnparsableFileNames(String fileName) {
+        unparsableFileNames.add(fileName);
     }
 
-    public Set<String> getAllUnparsableBatchNames() {
-        return Collections.unmodifiableSet(unparsableBatchNames);
+    public Set<String> getAllUnparsableFileNames() {
+        return Collections.unmodifiableSet(unparsableFileNames);
     }
 
     public void setEmailSendingStatusForParsedBatch(CollectorBatch batch, String emailStatus) {
@@ -211,19 +210,6 @@ public class CollectorReportData {
     public Iterator<CollectorBatch> getAddedBatches() {
         return addedBatches.values().iterator();
     }
-
-    public void setOriginEntryTotals(CollectorBatch batch, OriginEntryTotals totals) {
-        throwExceptionIfBatchNotAdded(batch);
-
-        collectorFileTotals.put(batch.getBatchName(), totals);
-    }
-
-    public OriginEntryTotals getOriginEntryTotals(CollectorBatch batch) {
-        throwExceptionIfBatchNotAdded(batch);
-
-        return collectorFileTotals.get(batch.getBatchName());
-    }
-
 
     /**
      * Sets the number of times the details in a batch have had their account numbers changed
@@ -305,32 +291,6 @@ public class CollectorReportData {
         return numSavedDetailsForBatchName.get(batch.getBatchName());
     }
 
-    /**
-     * Retrieves an error map instance for a batch name (typically the file name of the batch file). Each instance of this class
-     * guarantees that each time this method is called with specific batch name, the same error map instance is returned, and that
-     * each that no 2 different batch names will return the same instance
-     * 
-     * @param batchName a batch name
-     * @return a error map instance specific to this batch name
-     */
-    public MessageMap getErrorMapForBatchName(String batchName) {
-        MessageMap errorMap = errorsForBatchName.get(batchName);
-        if (errorMap == null) {
-            errorMap = new MessageMap();
-            errorsForBatchName.put(batchName, errorMap);
-        }
-        return errorMap;
-    }
-
-    /**
-     * Returns a set of batch names that were passed in as parameters into {@link #getErrorMapForBatchName(String)}.
-     * 
-     * @return a set of batch names that have an associated error map
-     */
-    public Set<String> getBatchNamesWithErrorMap() {
-        return errorsForBatchName.keySet();
-    }
-
     public void incrementNumPersistedBatches() {
         numPersistedBatches++;
     }
@@ -388,5 +348,18 @@ public class CollectorReportData {
      */
     public LedgerSummaryReport getLedgerSummaryReport() {
         return ledgerSummaryReport;
+    }
+
+    public PreScrubberReportData getPreScrubberReportData() {
+        return preScrubberReportData;
+    }
+
+    public MessageMap getMessageMapForFileName(String fileName) {
+        MessageMap messageMap = messageMapForFileName.get(fileName);
+        if (messageMap == null) {
+            messageMap = new MessageMap();
+            messageMapForFileName.put(fileName, messageMap);
+        }
+        return messageMap;
     }
 }

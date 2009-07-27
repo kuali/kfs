@@ -26,6 +26,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.Map.Entry;
 
 import org.apache.commons.collections.IteratorUtils;
@@ -34,10 +35,12 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
+import org.kuali.kfs.gl.report.PreScrubberReportData;
 import org.kuali.kfs.gl.service.PreScrubberService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -53,7 +56,7 @@ public class PreScrubberServiceImpl implements PreScrubberService {
     
     private int maxCacheSize = 10000;
     
-    public void preprocessOriginEntries(Iterator<String> inputOriginEntries, String outputFileName) throws IOException {
+    public PreScrubberReportData preprocessOriginEntries(Iterator<String> inputOriginEntries, String outputFileName) throws IOException {
         PrintStream outputStream = new PrintStream(outputFileName);
         
         Map<String, String> chartCodeCache = new LinkedHashMap<String, String>() {
@@ -63,8 +66,8 @@ public class PreScrubberServiceImpl implements PreScrubberService {
             }
         };
         
-        Set<String> nonExistentAccountCache = new SizeLimitedSet();
-        Set<String> multipleAccountCache = new SizeLimitedSet();
+        Set<String> nonExistentAccountCache = new TreeSet<String>();
+        Set<String> multipleAccountCache = new TreeSet<String>();
         
         AccountService accountService = SpringContext.getBean(AccountService.class);
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
@@ -136,6 +139,7 @@ public class PreScrubberServiceImpl implements PreScrubberService {
         finally {
             outputStream.close();
         }
+        return new PreScrubberReportData(inputLines, outputLines, nonExistentAccountCache, multipleAccountCache);
     }
     
     /**
@@ -176,16 +180,6 @@ public class PreScrubberServiceImpl implements PreScrubberService {
 
     public void setMaxCacheSize(int maxCacheSize) {
         this.maxCacheSize = maxCacheSize;
-    }
-    
-    protected class SizeLimitedSet extends LinkedHashSet<String> {
-        public boolean add(String s) {
-            boolean newElementAdded = super.add(s);
-            if (newElementAdded && getMaxCacheSize() > 1 && size() > getMaxCacheSize()) {
-                remove(iterator().next());
-            }
-            return newElementAdded;
-        }
     }
     
     /**

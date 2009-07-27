@@ -23,13 +23,15 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
-import org.apache.commons.collections.Transformer;
-import org.apache.commons.collections.iterators.TransformIterator;
+import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -47,6 +49,7 @@ import org.kuali.kfs.gl.businessobject.CollectorHeader;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.report.CollectorReportData;
+import org.kuali.kfs.gl.report.PreScrubberReportData;
 import org.kuali.kfs.gl.service.CollectorDetailService;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
@@ -104,12 +107,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
     public boolean loadCollectorFile(String fileName, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses, BatchInputFileType collectorInputFileType) {
         boolean isValid = true;
 
-        // the batch name is the file name
-        // we can't use the global variables map to store errors because multiple collector batches/files run by the same thread
-        // if we used the global variables map, all of the parse/validation errors from one file would be retained when
-        // parsing/validating the
-        // the next file, causing all subsequent files to fail validation. So, instead we do one unique error map per file
-        MessageMap fileMessageMap = collectorReportData.getErrorMapForBatchName(fileName);
+        MessageMap fileMessageMap = collectorReportData.getMessageMapForFileName(fileName);
         
         List<CollectorBatch> batches = doCollectorFileParse(fileName, fileMessageMap, collectorInputFileType, collectorReportData);
         for (int i = 0; i < batches.size(); i++) {
@@ -117,36 +115,19 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
 
             collectorBatch.setBatchName(fileName + " Batch " + String.valueOf(i + 1));
             collectorReportData.addBatch(collectorBatch);
-            MessageMap perBatchMessageMap = collectorReportData.getErrorMapForBatchName(collectorBatch.getBatchName());
             
-            isValid &= loadCollectorBatch(collectorBatch, fileName, i + 1, collectorReportData, collectorScrubberStatuses, collectorInputFileType, perBatchMessageMap);
+            isValid &= loadCollectorBatch(collectorBatch, fileName, i + 1, collectorReportData, collectorScrubberStatuses, collectorInputFileType);
         }
         return isValid;
     }
         
-    protected boolean loadCollectorBatch(CollectorBatch batch, String fileName, int batchIndex, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses, BatchInputFileType collectorInputFileType, MessageMap messageMap) {
+    protected boolean loadCollectorBatch(CollectorBatch batch, String fileName, int batchIndex, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses, BatchInputFileType collectorInputFileType) {
         boolean isValid = true;
-
-        String collectorFileDirectoryName = collectorInputFileType.getDirectoryPath();
-        // create a input file for scrubber
-        String collectorInputFileNameForScrubber = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        PrintStream inputFilePs;
-        try {
-            inputFilePs = new PrintStream(collectorInputFileNameForScrubber);
         
-            for (OriginEntryFull entry : batch.getOriginEntries()){
-                inputFilePs.printf("%s\n", entry.getLine());    
-            }
-
-            inputFilePs.close();
-        } catch (IOException e) {
-            throw new RuntimeException("loadCollectorFile Stopped: " + e.getMessage(), e);
-        }
-        
+        MessageMap messageMap = batch.getMessageMap();
         // terminate if there were parse errors
         if (!messageMap.isEmpty()) {
             isValid = false;
-            collectorReportData.markUnparsableBatchNames(batch.getBatchName());
         }
 
         if (isValid) {
@@ -163,6 +144,24 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         if (isValid) {
             // mark batch as valid
             collectorReportData.markValidationStatus(batch, true);
+            
+            prescrubParsedCollectorBatch(batch, collectorReportData);
+            
+            String collectorFileDirectoryName = collectorInputFileType.getDirectoryPath();
+            // create a input file for scrubber
+            String collectorInputFileNameForScrubber = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+            PrintStream inputFilePs;
+            try {
+                inputFilePs = new PrintStream(collectorInputFileNameForScrubber);
+            
+                for (OriginEntryFull entry : batch.getOriginEntries()){
+                    inputFilePs.printf("%s\n", entry.getLine());    
+                }
+
+                inputFilePs.close();
+            } catch (IOException e) {
+                throw new RuntimeException("loadCollectorFile Stopped: " + e.getMessage(), e);
+            }
             
             CollectorScrubberStatus collectorScrubberStatus = collectorScrubberService.scrub(batch, collectorReportData, collectorFileDirectoryName);
             collectorScrubberStatuses.add(collectorScrubberStatus);
@@ -202,7 +201,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @param MessageMap a map of errors resultant from the parsing
      * @return the CollectorBatch of details parsed from the file
      */
-    private List<CollectorBatch> doCollectorFileParse(String fileName, MessageMap MessageMap, BatchInputFileType collectorInputFileType, CollectorReportData collectorReportData) {
+    private List<CollectorBatch> doCollectorFileParse(String fileName, MessageMap messageMap, BatchInputFileType collectorInputFileType, CollectorReportData collectorReportData) {
 
         InputStream inputStream = null;
         try {
@@ -210,7 +209,12 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         }
         catch (FileNotFoundException e) {
             LOG.error("file to parse not found " + fileName, e);
+            collectorReportData.markUnparsableFileNames(fileName);
             throw new RuntimeException("Cannot find the file requested to be parsed " + fileName + " " + e.getMessage(), e);
+        }
+        catch (RuntimeException e) {
+            collectorReportData.markUnparsableFileNames(fileName);
+            throw e;
         }
 
         List<CollectorBatch> parsedObject = null;
@@ -220,44 +224,98 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         }
         catch (IOException e) {
             LOG.error("error while getting file bytes:  " + e.getMessage(), e);
+            collectorReportData.markUnparsableFileNames(fileName);
             throw new RuntimeException("Error encountered while attempting to get file bytes: " + e.getMessage(), e);
         }
         catch (ParseException e1) {
             LOG.error("errors parsing xml " + e1.getMessage(), e1);
-            MessageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML, new String[] { e1.getMessage() });
+            collectorReportData.markUnparsableFileNames(fileName);
+            messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML, new String[] { e1.getMessage() });
         }
-
-        if (parsedObject != null) {
-            for (CollectorBatch collectorBatch : parsedObject) {
-                preprocessParsedCollectorBatch(collectorBatch, collectorReportData);
-            }
+        catch (RuntimeException e) {
+            collectorReportData.markUnparsableFileNames(fileName);
+            throw e;
         }
-        
 
         return parsedObject;
     }
 
-    protected void preprocessParsedCollectorBatch(CollectorBatch collectorBatch, CollectorReportData collectorReportData) {
+    protected void prescrubParsedCollectorBatch(CollectorBatch collectorBatch, CollectorReportData collectorReportData) {
         if (preScrubberService.deriveChartOfAccountsCodeIfSpaces()) {
-            for (OriginEntryFull originEntry : collectorBatch.getOriginEntries()) {
-                if (GeneralLedgerConstants.getSpaceChartOfAccountsCode().equals(originEntry.getChartOfAccountsCode())) {
-                    Collection<Account> accounts = accountService.getAccountsForAccountNumber(originEntry.getAccountNumber());
-                    if (accounts.size() == 1) {
-                        originEntry.setChartOfAccountsCode(accounts.iterator().next().getChartOfAccountsCode());
+            PreScrubberReportData preScrubberReportData = collectorReportData.getPreScrubberReportData();
+            
+            int inputRecords = collectorBatch.getOriginEntries().size();
+            Set<String> noChartCodesCache = new HashSet<String>();
+            Set<String> multipleChartCodesCache = new HashSet<String>();
+            Map<String, String> accountNumberToChartCodeCache = new HashMap<String, String>();
+            
+            Iterator<Object> originEntryAndDetailIterator = IteratorUtils.chainedIterator(collectorBatch.getOriginEntries().iterator(), collectorBatch.getCollectorDetails().iterator());
+            while (originEntryAndDetailIterator.hasNext()) {
+                Object originEntryOrDetail = originEntryAndDetailIterator.next();
+                if (GeneralLedgerConstants.getSpaceChartOfAccountsCode().equals(extractChartOfAccountsCode(originEntryOrDetail))) {
+                    String accountNumber = extractAccountNumber(originEntryOrDetail);
+                    
+                    boolean nonExistent = false;
+                    boolean multipleFound = false;
+                    String chartOfAccountsCode = null;
+                    
+                    if (noChartCodesCache.contains(accountNumber)) {
+                        nonExistent = true;
+                    }
+                    else if (multipleChartCodesCache.contains(accountNumber)) {
+                        multipleFound = true;
+                    }
+                    else if (accountNumberToChartCodeCache.containsKey(accountNumber)) {
+                        chartOfAccountsCode = accountNumberToChartCodeCache.get(accountNumber);
+                    }
+                    else {
+                        Collection<Account> accounts = accountService.getAccountsForAccountNumber(accountNumber);
+                        if (accounts.size() == 1) {
+                            chartOfAccountsCode = accounts.iterator().next().getChartOfAccountsCode();
+                            accountNumberToChartCodeCache.put(accountNumber, chartOfAccountsCode);
+                        }
+                        else if (accounts.size() == 0) {
+                            noChartCodesCache.add(accountNumber);
+                            nonExistent = true;
+                        }
+                        else {
+                            multipleChartCodesCache.add(accountNumber);
+                            multipleFound = true;
+                        }
+                    }
+                    
+                    if (!nonExistent && !multipleFound) {
+                        setChartOfAccountsCode(originEntryOrDetail, chartOfAccountsCode);
                     }
                 }
             }
-            for (CollectorDetail collectorDetail : collectorBatch.getCollectorDetails()) {
-                if (GeneralLedgerConstants.getSpaceChartOfAccountsCode().equals(collectorDetail.getChartOfAccountsCode())) {
-                    Collection<Account> accounts = accountService.getAccountsForAccountNumber(collectorDetail.getAccountNumber());
-                    if (accounts.size() == 1) {
-                        collectorDetail.setChartOfAccountsCode(accounts.iterator().next().getChartOfAccountsCode());
-                    }
-                }
-            }
+            
+            preScrubberReportData.getAccountsWithMultipleCharts().addAll(multipleChartCodesCache);
+            preScrubberReportData.getAccountsWithNoCharts().addAll(noChartCodesCache);
+            preScrubberReportData.setInputRecords(preScrubberReportData.getInputRecords() + inputRecords);
+            preScrubberReportData.setOutputRecords(preScrubberReportData.getOutputRecords() + inputRecords);
         }
     }
 
+    private String extractChartOfAccountsCode(Object originEntryOrDetail) {
+        if (originEntryOrDetail instanceof OriginEntryInformation)
+            return ((OriginEntryInformation) originEntryOrDetail).getChartOfAccountsCode(); 
+        return ((CollectorDetail) originEntryOrDetail).getChartOfAccountsCode();
+    }
+    
+    private String extractAccountNumber(Object originEntryOrDetail) {
+        if (originEntryOrDetail instanceof OriginEntryInformation)
+            return ((OriginEntryInformation) originEntryOrDetail).getAccountNumber(); 
+        return ((CollectorDetail) originEntryOrDetail).getAccountNumber();
+    }
+    
+    private void setChartOfAccountsCode(Object originEntryOrDetail, String chartOfAccountsCode) {
+        if (originEntryOrDetail instanceof OriginEntryInformation)
+            ((OriginEntryInformation) originEntryOrDetail).setChartOfAccountsCode(chartOfAccountsCode);
+        else
+            ((CollectorDetail) originEntryOrDetail).setChartOfAccountsCode(chartOfAccountsCode);
+    }
+    
     /**
      * Validates the contents of a parsed file.
      * 
@@ -510,17 +568,11 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         if (actualRecordCount != batch.getTotalRecords()) {
             LOG.error("trailer check on total count did not pass, expected count: " + String.valueOf(batch.getTotalRecords()) + ", actual count: " + String.valueOf(actualRecordCount));
             MessageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.TRAILER_ERROR_COUNTNOMATCH, String.valueOf(batch.getTotalRecords()), String.valueOf(actualRecordCount));
-
             trailerTotalsMatch = false;
         }
 
-        OriginEntryTotals totals = new OriginEntryTotals();
-        totals.addToTotals(batch.getOriginEntries().iterator());
-
-        if (collectorReportData != null) {
-            collectorReportData.setOriginEntryTotals(batch, totals);
-        }
-
+        OriginEntryTotals totals = batch.getOriginEntryTotals();
+        
         if (batch.getOriginEntries().size() == 0) {
             if (!KualiDecimal.ZERO.equals(batch.getTotalAmount())) {
                 LOG.error("trailer total should be zero when there are no origin entries");

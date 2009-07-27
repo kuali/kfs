@@ -18,8 +18,10 @@ package org.kuali.kfs.gl.service;
 import java.io.IOException;
 import java.util.Iterator;
 
+import org.kuali.kfs.gl.report.PreScrubberReportData;
+
 public interface PreScrubberService {
-    public void preprocessOriginEntries(Iterator<String> inputOriginEntries, String outputFileName) throws IOException;
+    public PreScrubberReportData preprocessOriginEntries(Iterator<String> inputOriginEntries, String outputFileName) throws IOException;
     
     /**
      * Returns whether chart of accounts codes that are spaces should be derived from the account number.  This assumes that a particular account

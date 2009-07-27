@@ -29,52 +29,60 @@ import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.BatchSortService;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.report.PreScrubberReport;
+import org.kuali.kfs.gl.report.PreScrubberReportData;
 import org.kuali.kfs.gl.service.PreScrubberService;
 import org.kuali.kfs.gl.service.ScrubberService;
 import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.springframework.util.StopWatch;
 
 /**
  * A step to run the scrubber process.
  */
-public class PreScrubberStep extends AbstractStep {
+public class PreScrubberStep extends AbstractWrappedBatchStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PreScrubberStep.class);
     private String batchFileDirectoryName;
     private PreScrubberService preScrubberService;
+    private ReportWriterService preScrubberReportWriterService;
     
-    /**
-     * Runs the scrubber process.
-     * 
-     * @param jobName the name of the job this step is being run as part of
-     * @param jobRunDate the time/date the job was started
-     * @return true if the job completed successfully, false if otherwise
-     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String)
-     */
-    public boolean execute(String jobName, Date jobRunDate) {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start(jobName);
+    @Override
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
+                StopWatch stopWatch = new StopWatch();
+                stopWatch.start();
 
-        String inputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        String outputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.PRE_SCRUBBER_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        
-        LineIterator oeIterator = null;
-        try {
-            oeIterator = FileUtils.lineIterator(new File(inputFile));
-            preScrubberService.preprocessOriginEntries(oeIterator, outputFile);
-        }
-        catch (IOException e) {
-            LOG.error("IO exception occurred during pre scrubbing.", e);
-            throw new RuntimeException("IO exception occurred during pre scrubbing.", e);
-        }
-        finally {
-            LineIterator.closeQuietly(oeIterator);
-        }
-        
-        stopWatch.stop();
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("scrubber step of " + jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
-        }
-        return true;
+                String inputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+                String outputFile = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.PRE_SCRUBBER_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+                
+                PreScrubberReportData preScrubberReportData = null;
+                LineIterator oeIterator = null;
+                try {
+                    oeIterator = FileUtils.lineIterator(new File(inputFile));
+                    preScrubberReportData = preScrubberService.preprocessOriginEntries(oeIterator, outputFile);
+                }
+                catch (IOException e) {
+                    LOG.error("IO exception occurred during pre scrubbing.", e);
+                    throw new RuntimeException("IO exception occurred during pre scrubbing.", e);
+                }
+                finally {
+                    LineIterator.closeQuietly(oeIterator);
+                }
+
+                if (preScrubberReportData != null) {
+                    new PreScrubberReport().generateReport(preScrubberReportData, preScrubberReportWriterService);
+                }
+                
+                stopWatch.stop();
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("scrubber step of took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
+                }
+                return true;
+            }
+        };
     }
 
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
@@ -87,5 +95,9 @@ public class PreScrubberStep extends AbstractStep {
 
     public void setPreScrubberService(PreScrubberService preScrubberService) {
         this.preScrubberService = preScrubberService;
+    }
+    
+    public void setPreScrubberReportWriterService(ReportWriterService preScrubberReportWriterService) {
+        this.preScrubberReportWriterService = preScrubberReportWriterService;
     }
 }

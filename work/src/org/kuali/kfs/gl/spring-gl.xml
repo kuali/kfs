@@ -523,6 +523,7 @@
 			<!-- this report writer should be initialized by the collectorStep bean -->
 			<ref bean="collectorReportWriterService"/>
 		</property>
+		<property name="preScrubberService" ref="preScrubberService"/>
 	</bean>
 
 	<bean id="glCashOrganizationReversionCategoryLogic" class="org.kuali.kfs.gl.batch.service.impl.CashOrganizationReversionCategoryLogic" />
@@ -2760,11 +2761,24 @@
         </property>
     </bean>
     
-    <bean id="preScrubberService" class="org.kuali.kfs.gl.service.impl.PreScrubberServiceImpl">
+    <bean id="preScrubberService" class="org.kuali.kfs.gl.service.impl.PreScrubberServiceImpl" parent="wrappedStep">
     </bean>
     
     <bean id="preScrubberStep" class="org.kuali.kfs.gl.batch.PreScrubberStep">
     	<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
     	<property name="preScrubberService" ref="preScrubberService"/>
+    	<property name="wrappingBatchServices">
+			<list>
+				<ref bean="preScrubberReportWriterService" />
+			</list>
+		</property>
     </bean> 
+    
+    <bean id="preScrubberReportWriterService" class="org.kuali.kfs.gl.service.impl.PreScrubberReportWriterTextServiceImpl" parent="reportWriterService">
+		<property name="filePath" value="${temp.directory}"/>
+		<property name="fileNamePrefix" value="scrubberJobReport-00-preScrubber"/>
+        <property name="title" value="Pre-Scrubber Report - Find Chart of Accounts Code For Records With Blank Chart of Accounts Code"/>
+       	<property name="aggregationModeOn" value="true"/>
+       	<property name="preScrubberService" ref="preScrubberService" />
+    </bean>
 </beans>

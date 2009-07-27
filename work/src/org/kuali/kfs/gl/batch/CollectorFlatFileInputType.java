@@ -31,6 +31,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.CollectorHelperService;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryTotals;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
@@ -102,14 +103,13 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#parse(byte[])
      */
     public Object parse(byte[] fileByteContent) throws ParseException {
-        List<CollectorBatch> list = new ArrayList<CollectorBatch>();
+        List<CollectorBatch> batchList = new ArrayList<CollectorBatch>();
         CollectorBatch currentBatch = null;
         BufferedReader bufferedFileReader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(fileByteContent)));
         String fileLine;
         Date curDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         UniversityDate universityDate = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
         int lineNumber = 0;
-        int lineNumberOfLastHeader = -1;
         
         try {
             while ((fileLine = bufferedFileReader.readLine()) != null) {
@@ -117,35 +117,77 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
                 String preprocessedLine = preprocessLine(fileLine);
                 if (fileLine.length() >= 27) {  //if no rec_type, probably a blank or almost blank line at end of file
                     String recordType = extractRecordType(preprocessedLine);
-                    //this chunk translated from collectorDigesterRules.xml
                     if ("HD".equals(recordType)) {  // this is a header line
-                        currentBatch = createCollectorBatch(preprocessedLine);
+                        ensurePreviousBatchTerminated(currentBatch, lineNumber);
+                        currentBatch = createCollectorBatch(preprocessedLine, batchList);
                     }
                     else if ("DT".equals(recordType)) {  //ID billing detail
-                        CollectorDetail collectorDetail = createCollectorDetail(preprocessedLine, curDate, universityDate);
-                        currentBatch.addCollectorDetail(collectorDetail);
+                        currentBatch = createHeaderlessBatchIfNecessary(currentBatch, batchList, lineNumber);
+                        try {
+                            CollectorDetail collectorDetail = createCollectorDetail(preprocessedLine, curDate, universityDate);
+                            currentBatch.addCollectorDetail(collectorDetail);
+                        }
+                        catch (RuntimeException e) {
+                            currentBatch.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, e.getMessage());
+                        }
                     }
                     else if ("TL".equals(recordType)) {  //trailer record
-                        updateCollectorDetailWithTrailerRecords(currentBatch, preprocessedLine);
-                        list.add(currentBatch);
+                        currentBatch = createHeaderlessBatchIfNecessary(currentBatch, batchList, lineNumber);
+                        try {
+                            updateCollectorDetailWithTrailerRecords(currentBatch, preprocessedLine);
+                        }
+                        catch (RuntimeException e) {
+                            currentBatch.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, e.getMessage());
+                        }
                         currentBatch = null;
-                        lineNumberOfLastHeader = -1;
                     }
                     else {  // accounting record/origin entry
-                        OriginEntryFull originEntry = createOriginEntry(preprocessedLine, curDate, universityDate);
-                        currentBatch.addOriginEntry(originEntry);
+                        currentBatch = createHeaderlessBatchIfNecessary(currentBatch, batchList, lineNumber);
+                        try {
+                            OriginEntryFull originEntry = createOriginEntry(preprocessedLine, curDate, universityDate);
+                            currentBatch.addOriginEntry(originEntry);
+                        }
+                        catch (RuntimeException e) {
+                            currentBatch.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, e.getMessage());
+                        }
                     }
                 }
             }
+            // in case we come across a batch that didn't have a trailer record
+            ensurePreviousBatchTerminated(currentBatch, lineNumber);
         }
         catch (IOException e) {
             // probably won't happen since we're reading from a byte array, but just in case
             LOG.error("Error encountered reading from file content", e);
             throw new ParseException("Error encountered reading from file content", e);
         }
-        return list;
+        
+        for (CollectorBatch batch : batchList) {
+            OriginEntryTotals totals = new OriginEntryTotals();
+            totals.addToTotals(batch.getOriginEntries().iterator());
+            batch.setOriginEntryTotals(totals);
+        }
+        return batchList;
     }
 
+    protected void ensurePreviousBatchTerminated(CollectorBatch currentBatch, int lineNumber) {
+        if (currentBatch != null) {
+            // we've encountered a new header, when we're still not done parsing the previous batch (i.e. trailer not found).  This is an error, and mark the old batch as such
+            currentBatch.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.MISSING_TRAILER_RECORD, Integer.toString(lineNumber));
+            currentBatch.setTotalAmount("0");
+            currentBatch.setTotalRecords(0);
+        }
+    }
+    
+    protected CollectorBatch createHeaderlessBatchIfNecessary(CollectorBatch currentBatch, List<CollectorBatch> batchList, int lineNumber) {
+        if (currentBatch != null) {
+            return currentBatch;
+        }
+        CollectorBatch headerlessBatch = new CollectorBatch();
+        headerlessBatch.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.MISSING_HEADER_RECORD, Integer.toString(lineNumber));
+        batchList.add(headerlessBatch);
+        return headerlessBatch;
+    }
     /**
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#process(java.lang.String, java.lang.Object)
      */
@@ -170,7 +212,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
         return amount;
     }
     
-    protected CollectorBatch createCollectorBatch(String headerLine) {
+    protected CollectorBatch createCollectorBatch(String headerLine, List<CollectorBatch> batchList) {
         CollectorBatch newBatch = new CollectorBatch();
         newBatch.setChartOfAccountsCode(StringUtils.trimTrailingWhitespace(headerLine.substring(4, 6)));
         newBatch.setOrganizationCode(StringUtils.trimTrailingWhitespace(headerLine.substring(6, 10)));
@@ -187,6 +229,8 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
         newBatch.setMailingAddress(StringUtils.trimTrailingWhitespace(headerLine.substring(128, 158)));
         newBatch.setCampusCode(StringUtils.trimTrailingWhitespace(headerLine.substring(158, 160)));
         newBatch.setPhoneNumber(StringUtils.trimTrailingWhitespace(headerLine.substring(160)));
+        
+        batchList.add(newBatch);
         return newBatch;
     }
     

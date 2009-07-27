@@ -755,6 +755,8 @@ public class KFSKeyConstants {
         public static final String NONMATCHING_DETAIL_KEY = "error.collector.nonmatchingDetailKey";
         public static final String NOTIFICATION_EMAIL_SENT = "collector.notificationEmailSent";
         public static final String EMAIL_SEND_ERROR = "error.collector.emailSendError";
+        public static final String MISSING_HEADER_RECORD = "error.collector.header.record.missing";
+        public static final String MISSING_TRAILER_RECORD = "error.collector.trailer.record.missing";
     }
 
     public static final class OrganizationReversionProcess {

@@ -16,12 +16,15 @@
 package org.kuali.kfs.gl.batch;
 
 import java.io.File;
+import java.util.Arrays;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.batch.service.CollectorHelperService;
+import org.kuali.kfs.gl.batch.service.impl.OriginEntryTotals;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.XmlBatchInputFileTypeBase;
+import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.rice.kns.service.DateTimeService;
 
 /**
@@ -99,6 +102,15 @@ public class CollectorXmlInputFileType extends XmlBatchInputFileTypeBase {
         return null;
     }
     
+    @Override
+    public Object parse(byte[] fileByteContent) throws ParseException {
+        CollectorBatch batch = (CollectorBatch) super.parse(fileByteContent);
+        OriginEntryTotals totals = new OriginEntryTotals();
+        totals.addToTotals(batch.getOriginEntries().iterator());
+        batch.setOriginEntryTotals(totals);
+        return Arrays.asList(batch);
+    }
+
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }

@@ -123,7 +123,6 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
         if (sourceAccoutingLines != null && !sourceAccoutingLines.isEmpty()) {
             ExpenseTransferAccountingLine sourceAccountingLine = sourceAccoutingLines.get(0);
             this.setUniversityFiscalYear(sourceAccountingLine.getPostingYear());
-            this.getSalaryExpenseTransferDocument().setEmplid(sourceAccountingLine.getEmplid());
         }
     }
 }

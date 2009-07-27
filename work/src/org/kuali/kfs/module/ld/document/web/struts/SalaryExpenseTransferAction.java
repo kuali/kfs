@@ -55,8 +55,9 @@ public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBa
      */
     @Override
     protected void resetLookupFields(ExpenseTransferDocumentFormBase expenseTransferDocumentForm, LedgerBalance balance) {
-        SalaryExpenseTransferForm benefitExpenseTransferForm = (SalaryExpenseTransferForm) expenseTransferDocumentForm;
-        ObjectUtil.buildObject(benefitExpenseTransferForm, balance);
+        SalaryExpenseTransferForm expenseTransferForm = (SalaryExpenseTransferForm) expenseTransferDocumentForm;
+        expenseTransferForm.getSalaryExpenseTransferDocument().setEmplid(balance.getEmplid());
+        ObjectUtil.buildObject(expenseTransferForm, balance);
     }
 
     /**

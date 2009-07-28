@@ -19,9 +19,8 @@ import java.util.Date;
 
 import org.kuali.kfs.module.ar.batch.service.CustomerLoadService;
 import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.kfs.sys.batch.TestingStep;
 
-public class CustomerLoadStep extends AbstractStep implements TestingStep {
+public class CustomerLoadStep extends AbstractStep {
 
     private CustomerLoadService batchService;
     

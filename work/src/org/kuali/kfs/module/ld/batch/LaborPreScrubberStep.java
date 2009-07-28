@@ -17,23 +17,25 @@ package org.kuali.kfs.module.ld.batch;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.report.PreScrubberReport;
+import org.kuali.kfs.gl.report.PreScrubberReportData;
 import org.kuali.kfs.gl.service.PreScrubberService;
 import org.kuali.kfs.module.ld.LaborConstants;
-import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.springframework.util.StopWatch;
 
 public class LaborPreScrubberStep extends AbstractWrappedBatchStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborPreScrubberStep.class);
     private String batchFileDirectoryName;
     private PreScrubberService laborPreScrubberService;
-    
+    private ReportWriterService laborPreScrubberReportWriterService;
     /**
      * @see org.kuali.kfs.sys.batch.AbstractWrappedBatchStep#getCustomBatchExecutor()
      */
@@ -51,10 +53,11 @@ public class LaborPreScrubberStep extends AbstractWrappedBatchStep {
                 String inputFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
                 String outputFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.PRE_SCRUBBER_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
                 
+                PreScrubberReportData preScrubberReportData = null;
                 LineIterator oeIterator = null;
                 try {
                     oeIterator = FileUtils.lineIterator(new File(inputFile));
-                    laborPreScrubberService.preprocessOriginEntries(oeIterator, outputFile);
+                    preScrubberReportData = laborPreScrubberService.preprocessOriginEntries(oeIterator, outputFile);
                 }
                 catch (IOException e) {
                     LOG.error("IO exception occurred during pre scrubbing.", e);
@@ -62,6 +65,11 @@ public class LaborPreScrubberStep extends AbstractWrappedBatchStep {
                 }
                 finally {
                     LineIterator.closeQuietly(oeIterator);
+                }
+                if (preScrubberReportData != null) {
+                    ((WrappingBatchService) laborPreScrubberReportWriterService).initialize();
+                    new PreScrubberReport().generateReport(preScrubberReportData, laborPreScrubberReportWriterService);
+                    ((WrappingBatchService) laborPreScrubberReportWriterService).destroy();
                 }
                 
                 stopWatch.stop();
@@ -84,5 +92,13 @@ public class LaborPreScrubberStep extends AbstractWrappedBatchStep {
 
     public void setLaborPreScrubberService(PreScrubberService preScrubberService) {
         this.laborPreScrubberService = preScrubberService;
+    }
+
+    /**
+     * Sets the laborPreScrubberReportWriterService attribute value.
+     * @param laborPreScrubberReportWriterService The laborPreScrubberReportWriterService to set.
+     */
+    public void setLaborPreScrubberReportWriterService(ReportWriterService laborPreScrubberReportWriterService) {
+        this.laborPreScrubberReportWriterService = laborPreScrubberReportWriterService;
     }
 }

@@ -2774,6 +2774,7 @@
     <bean id="preScrubberStep" class="org.kuali.kfs.gl.batch.PreScrubberStep" parent="wrappedStep">
     	<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
     	<property name="preScrubberService" ref="preScrubberService"/>
+    	<property name="preScrubberReportWriterService" ref="preScrubberReportWriterService"/>
     	<property name="wrappingBatchServices">
 			<list>
 				<ref bean="preScrubberReportWriterService" />

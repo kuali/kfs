@@ -39,6 +39,7 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.Job;
+import org.kuali.kfs.sys.batch.TestingStep;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
@@ -55,7 +56,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
-public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
+public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements TestingStep {
     
     private static final long MAX_SEQ_NBR_OFFSET = 1000;
     

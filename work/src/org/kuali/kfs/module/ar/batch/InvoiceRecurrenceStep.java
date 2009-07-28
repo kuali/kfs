@@ -19,8 +19,9 @@ import java.util.Date;
 
 import org.kuali.kfs.module.ar.batch.service.InvoiceRecurrenceService;
 import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.TestingStep;
 
-public class InvoiceRecurrenceStep extends AbstractStep {
+public class InvoiceRecurrenceStep extends AbstractStep implements TestingStep {
 
     private InvoiceRecurrenceService invoiceRecurrenceService;
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(InvoiceRecurrenceStep.class);

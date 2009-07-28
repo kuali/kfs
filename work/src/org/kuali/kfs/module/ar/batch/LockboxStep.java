@@ -19,8 +19,9 @@ import java.util.Date;
 
 import org.kuali.kfs.module.ar.batch.service.LockboxService;
 import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.TestingStep;
 
-public class LockboxStep extends AbstractStep {
+public class LockboxStep extends AbstractStep implements TestingStep {
 
     private LockboxService lockboxService;
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LockboxStep.class);

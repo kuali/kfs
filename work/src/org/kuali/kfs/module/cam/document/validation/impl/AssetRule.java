@@ -253,6 +253,13 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         Account currentOwnerAccount = newAsset.getOrganizationOwnerAccount();
         Account previoudOwnerAccount = oldAsset.getOrganizationOwnerAccount();
+        
+        // Account is valid?
+        if (ObjectUtils.isNull(currentOwnerAccount) && StringUtils.isNotBlank(newAsset.getOrganizationOwnerAccountNumber())) {
+            putFieldError(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.ORGANIZATION_OWNER_ACCOUNT_INVALID);
+            valid &= false;
+        }
+        
         // check if values changed, if not return
         if (ObjectUtils.isNotNull(previoudOwnerAccount) && ObjectUtils.isNotNull(currentOwnerAccount) && previoudOwnerAccount.getChartOfAccountsCode().equals(currentOwnerAccount.getChartOfAccountsCode()) && previoudOwnerAccount.getAccountNumber().equals(currentOwnerAccount.getAccountNumber())) {
             return valid;
@@ -520,6 +527,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         valid &= checkAssetStatusCodeChange();
         valid &= checkAssetTypeCodeChange();
         valid &= checkFinancialObjectSubtypeCodeChange();
+        valid &= validateAccount();
 
         KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
         // adding asset locks for asset edit only

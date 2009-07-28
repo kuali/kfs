@@ -55,6 +55,7 @@ public class PreScrubberServiceImpl implements PreScrubberService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PreScrubberServiceImpl.class);
     
     private int maxCacheSize = 10000;
+    private ParameterService parameterService;
     
     public PreScrubberReportData preprocessOriginEntries(Iterator<String> inputOriginEntries, String outputFileName) throws IOException {
         PrintStream outputStream = new PrintStream(outputFileName);
@@ -183,11 +184,17 @@ public class PreScrubberServiceImpl implements PreScrubberService {
     }
     
     /**
-     * This method...
      * @return
      */
     public boolean deriveChartOfAccountsCodeIfSpaces() {
-        // return !parameterService.getIndicatorParameter(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND);
-        return false;
+        return !parameterService.getIndicatorParameter(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND);
+    }
+
+    /**
+     * Sets the parameterService attribute value.
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

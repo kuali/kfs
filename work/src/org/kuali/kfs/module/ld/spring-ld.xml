@@ -330,7 +330,8 @@
         <property name="laborDemergerReportWriterService">
 		  	<ref bean="laborDemergerReportWriterService" />
 		</property>
-		<property name="laborPreScrubberService" ref="laborPreScrubberService" />											
+		<property name="laborPreScrubberService" ref="laborPreScrubberService" />
+		<property name="laborPreScrubberReportWriterService" ref="llcpPreScrubberReportWriterService" />
 		<property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
 	</bean>
 	
@@ -1506,7 +1507,7 @@
     </bean>
     
     <bean id="llcpMainReportWriterService" parent="laborMainReportWriterService">
-    	<property name="fileNamePrefix" value="llcpScrubberReports-02-labor_scrubber_report"/>
+    	<property name="fileNamePrefix" value="llcpScrubberReports-03-labor_scrubber_report"/>
     </bean>
     
 	<bean id="laborBadBalanceTypeReportWriterService" parent="reportWriterService">
@@ -1535,7 +1536,7 @@
     
 	<bean id="laborGeneratedTransactionsReportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="reportWriterService">
 		<property name="filePath" value="${temp.directory}"/>
-		<property name="fileNamePrefix" value="llcpScrubberReports-03-labor_scrubber_listing"/>
+		<property name="fileNamePrefix" value="llcpScrubberReports-04-labor_scrubber_listing"/>
         <property name="title" value="Labor Transaction Listing"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
@@ -1560,7 +1561,7 @@
     </bean>
     
     <bean id="llcpLedgerReportWriterService" parent="laborLedgerReportWriterService">
-    	<property name="fileNamePrefix" value="llcpScrubberReports-04-labor_scrubber_ledger"/>
+    	<property name="fileNamePrefix" value="llcpScrubberReports-05-labor_scrubber_ledger"/>
     </bean>
     
  	<bean id="laborDemergerReportWriterService" parent="reportWriterService">
@@ -1578,10 +1579,28 @@
     </bean>
     
     <bean id="laborPreScrubberService" class="org.kuali.kfs.gl.service.impl.PreScrubberServiceImpl">
+    	<property name="parameterService" ref="parameterService"/>
     </bean>
     
-    <bean id="laborPreScrubberStep" class="org.kuali.kfs.module.ld.batch.LaborPreScrubberStep">
+    <bean id="laborPreScrubberStep" class="org.kuali.kfs.module.ld.batch.LaborPreScrubberStep" parent="wrappedStep">
     	<property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
     	<property name="laborPreScrubberService" ref="laborPreScrubberService"/>
+    	<property name="wrappingBatchServices">
+			<list>
+				<ref bean="laborPreScrubberReportWriterService" />
+			</list>
+		</property>
     </bean> 
+    
+    <bean id="laborPreScrubberReportWriterService" class="org.kuali.kfs.gl.service.impl.PreScrubberReportWriterTextServiceImpl" parent="reportWriterService">
+		<property name="filePath" value="${temp.directory}"/>
+		<property name="fileNamePrefix" value="laborScrubberJobReport-00-preScrubber"/>
+        <property name="title" value="Labor Pre-Scrubber Report - Find Chart of Accounts Code For Records With Blank Chart of Accounts Code"/>
+       	<property name="aggregationModeOn" value="true"/>
+       	<property name="preScrubberService" ref="laborPreScrubberService" />
+    </bean>
+    
+    <bean id="llcpPreScrubberReportWriterService" parent="laborPreScrubberReportWriterService">
+		<property name="fileNamePrefix" value="llcpScrubberReports-02-preScrubber"/>
+	</bean>
 </beans>

@@ -25,48 +25,55 @@ import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.service.PreScrubberService;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 import org.springframework.util.StopWatch;
 
-public class LaborPreScrubberStep extends AbstractStep {
+public class LaborPreScrubberStep extends AbstractWrappedBatchStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborPreScrubberStep.class);
     private String batchFileDirectoryName;
     private PreScrubberService laborPreScrubberService;
     
     /**
-     * Runs the scrubber process.
-     * 
-     * @param jobName the name of the job this step is being run as part of
-     * @param jobRunDate the time/date the job was started
-     * @return true if the job completed successfully, false if otherwise
-     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String)
+     * @see org.kuali.kfs.sys.batch.AbstractWrappedBatchStep#getCustomBatchExecutor()
      */
-    public boolean execute(String jobName, Date jobRunDate) {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start(jobName);
+    @Override
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
 
-        String inputFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        String outputFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.PRE_SCRUBBER_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        
-        LineIterator oeIterator = null;
-        try {
-            oeIterator = FileUtils.lineIterator(new File(inputFile));
-            laborPreScrubberService.preprocessOriginEntries(oeIterator, outputFile);
-        }
-        catch (IOException e) {
-            LOG.error("IO exception occurred during pre scrubbing.", e);
-            throw new RuntimeException("IO exception occurred during pre scrubbing.", e);
-        }
-        finally {
-            LineIterator.closeQuietly(oeIterator);
-        }
-        
-        stopWatch.stop();
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("scrubber step of " + jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
-        }
-        return true;
+            /**
+             * @see org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor#execute()
+             */
+            public boolean execute() {
+                StopWatch stopWatch = new StopWatch();
+                stopWatch.start();
+
+                String inputFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+                String outputFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.PRE_SCRUBBER_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+                
+                LineIterator oeIterator = null;
+                try {
+                    oeIterator = FileUtils.lineIterator(new File(inputFile));
+                    laborPreScrubberService.preprocessOriginEntries(oeIterator, outputFile);
+                }
+                catch (IOException e) {
+                    LOG.error("IO exception occurred during pre scrubbing.", e);
+                    throw new RuntimeException("IO exception occurred during pre scrubbing.", e);
+                }
+                finally {
+                    LineIterator.closeQuietly(oeIterator);
+                }
+                
+                stopWatch.stop();
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("labor pre-scrubber scrubber step took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
+                }
+                return true;
+            }
+            
+        };
     }
-
+    
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
     }

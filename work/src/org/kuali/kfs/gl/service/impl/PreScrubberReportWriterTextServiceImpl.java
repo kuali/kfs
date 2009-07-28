@@ -16,9 +16,11 @@
 package org.kuali.kfs.gl.service.impl;
 
 import org.kuali.kfs.gl.service.PreScrubberService;
+import org.kuali.kfs.sys.service.DocumentNumberAwareReportWriterService;
 import org.kuali.kfs.sys.service.impl.ReportWriterTextServiceImpl;
+import org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl;
 
-public class PreScrubberReportWriterTextServiceImpl extends ReportWriterTextServiceImpl {
+public class PreScrubberReportWriterTextServiceImpl extends ScrubberListingReportWriterTextServiceImpl implements DocumentNumberAwareReportWriterService {
     protected boolean enabled;
     protected PreScrubberService preScrubberService;
     
@@ -31,8 +33,8 @@ public class PreScrubberReportWriterTextServiceImpl extends ReportWriterTextServ
     @Override
     public void initialize() {
         if (preScrubberService.deriveChartOfAccountsCodeIfSpaces()) {
-            super.initialize();
             enabled = true;
+            super.initialize();
         }
         else {
             enabled = false;

@@ -56,6 +56,8 @@ import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.gl.report.LedgerSummaryReport;
+import org.kuali.kfs.gl.report.PreScrubberReport;
+import org.kuali.kfs.gl.report.PreScrubberReportData;
 import org.kuali.kfs.gl.report.TransactionListingReport;
 import org.kuali.kfs.gl.service.PreScrubberService;
 import org.kuali.kfs.gl.service.ScrubberReportData;
@@ -119,6 +121,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
     private DocumentNumberAwareReportWriterService scrubberReportWriterService;
     private DocumentNumberAwareReportWriterService scrubberLedgerReportWriterService;
     private DocumentNumberAwareReportWriterService scrubberListingReportWriterService;
+    protected DocumentNumberAwareReportWriterService preScrubberReportWriterService;
     private ReportWriterService scrubberBadBalanceListingReportWriterService;
     private ReportWriterService demergerRemovedTransactionsListingReportWriterService;
     private ReportWriterService demergerReportWriterService;
@@ -216,11 +219,13 @@ public class ScrubberProcessImpl implements ScrubberProcess {
         String prescrubOutput = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.PRE_SCRUBBER_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         runDate = calculateRunDate(dateTimeService.getCurrentDate());
         
+        PreScrubberReportData preScrubberReportData = null;
+        
         // run pre-scrubber on the raw input into the sort process
         LineIterator inputEntries = null;
         try {
             inputEntries = FileUtils.lineIterator(new File(unsortedFile));
-            preScrubberService.preprocessOriginEntries(inputEntries, prescrubOutput);
+            preScrubberReportData = preScrubberService.preprocessOriginEntries(inputEntries, prescrubOutput);
         }
         catch (IOException e1) {
             LOG.error("Error encountered trying to prescrub GLCP/LLCP document", e1);
@@ -229,7 +234,16 @@ public class ScrubberProcessImpl implements ScrubberProcess {
         finally {
             LineIterator.closeQuietly(inputEntries);
         }
-        
+        if (preScrubberReportData != null) {
+            preScrubberReportWriterService.setDocumentNumber(documentNumber);
+            ((WrappingBatchService)preScrubberReportWriterService).initialize();
+            try {
+                new PreScrubberReport().generateReport(preScrubberReportData, preScrubberReportWriterService);
+            }
+            finally {
+                ((WrappingBatchService)preScrubberReportWriterService).destroy();
+            }
+        }
         BatchSortUtil.sortTextFileWithFields(unsortedFile, inputFile, new ScrubberSortComparator());
         
         scrubEntries(true, documentNumber);
@@ -2357,6 +2371,14 @@ public class ScrubberProcessImpl implements ScrubberProcess {
      */
     public ParameterService getParameterService() {
         return parameterService;
+    }
+
+    /**
+     * Sets the preScrubberReportWriterService attribute value.
+     * @param preScrubberReportWriterService The preScrubberReportWriterService to set.
+     */
+    public void setPreScrubberReportWriterService(DocumentNumberAwareReportWriterService preScrubberReportWriterService) {
+        this.preScrubberReportWriterService = preScrubberReportWriterService;
     }
     
     

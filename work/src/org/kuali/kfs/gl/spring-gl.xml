@@ -624,18 +624,15 @@
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 		<property name="scrubberReportWriterService" ref="scrubberReportWriterService" />
         <property name="scrubberLedgerReportWriterService" ref="scrubberLedgerReportWriterService" />
-	
 	</bean>
 	
 	
 	<bean id="reportOnlyScrubberProcess" parent="scrubberProcess-parentBean" scope="prototype">
-	     
-		<property name="preScrubberService">
-			<ref bean="preScrubberService" />
-		</property>
-		
-		<property name="scrubberListingReportWriterService" ref="scrubberListingReportWriterService" />
-		
+		<property name="preScrubberService" ref="preScrubberService" />
+		<property name="scrubberReportWriterService" ref="glcpScrubberReportWriterService" />
+		<property name="scrubberLedgerReportWriterService" ref="glcpScrubberLedgerReportWriterService" />
+		<property name="scrubberListingReportWriterService" ref="glcpScrubberListingReportWriterService" />
+		<property name="preScrubberReportWriterService" ref="glcpPreScrubberReportWriterService" />
 	</bean>
 	
 	<bean id="scrubberProcess" parent="scrubberProcess-parentBean" scope="prototype">
@@ -1645,6 +1642,10 @@
         <property name="aggregationModeOn" value="true"/>
     </bean>
     
+    <bean id="glcpScrubberReportWriterService" parent="scrubberReportWriterService">
+		<property name="fileNamePrefix" value="glcp-scrubberReports-03-scrubber"/>
+    </bean>
+    
     <bean id="scrubberLedgerReportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="reportWriterService">
 		<property name="filePath" value="${temp.directory}"/>
 		<property name="fileNamePrefix" value="scrubberJobReport-05-scrubber_ledger"/>
@@ -1659,9 +1660,9 @@
         <property name="aggregationModeOn" value="true"/>
     </bean>
 
-    <bean id="glcpScrubberLedgerReportWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="scrubberLedgerReportWriterService">
-		<property name="fileNamePrefix" value="glcp-scrubberReports-04-scrubber_ledger"/>
-    </bean>
+    <bean id="glcpScrubberLedgerReportWriterService" parent="scrubberLedgerReportWriterService">
+		<property name="fileNamePrefix" value="glcp-scrubberReports-05-scrubber_ledger"/>
+	</bean>
     
     <bean id="scrubberReportOnlyWriterService" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl" parent="reportWriterService">
 		<property name="filePath" value="${temp.directory}"/>
@@ -2621,6 +2622,11 @@
        	<property name="aggregationModeOn" value="true"/>
     </bean>
     
+    <bean id="glcpScrubberListingReportWriterService" parent="scrubberListingReportWriterService">
+		<property name="filePath" value="${temp.directory}"/>
+		<property name="fileNamePrefix" value="glcp-scrubberReports-04-scrubber_listing"/>
+	</bean>
+	
     <bean id="scrubberBadBalanceListingReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${temp.directory}"/>
 		<property name="fileNamePrefix" value="scrubberJobReport-03-scrubber_badbal"/>
@@ -2762,6 +2768,7 @@
     </bean>
     
     <bean id="preScrubberService" class="org.kuali.kfs.gl.service.impl.PreScrubberServiceImpl">
+    	<property name="parameterService" ref="parameterService"/>
     </bean>
     
     <bean id="preScrubberStep" class="org.kuali.kfs.gl.batch.PreScrubberStep" parent="wrappedStep">
@@ -2780,5 +2787,9 @@
         <property name="title" value="Pre-Scrubber Report - Find Chart of Accounts Code For Records With Blank Chart of Accounts Code"/>
        	<property name="aggregationModeOn" value="true"/>
        	<property name="preScrubberService" ref="preScrubberService" />
+    </bean>
+    
+    <bean id="glcpPreScrubberReportWriterService" parent="preScrubberReportWriterService">
+		<property name="fileNamePrefix" value="glcp-scrubberReports-02-preScrubber"/>
     </bean>
 </beans>

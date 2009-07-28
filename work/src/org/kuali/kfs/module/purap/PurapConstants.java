@@ -84,8 +84,6 @@ public class PurapConstants extends JSTLConstants {
         public static final String SQNA = "SQNA";
         public static final String TINC = "TINC";
     }
-    public static final String LINE_ITEM_IMPORT = "LINE_ITEM_IMPORT";
-    
     public static final String NOTE_TAB_WARNING = "noteWarning";
 
     public static final String QUESTION_INDEX = "questionIndex";

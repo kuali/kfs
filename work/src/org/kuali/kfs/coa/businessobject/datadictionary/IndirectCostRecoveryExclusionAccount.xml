@@ -17,6 +17,7 @@
         <ref bean="IndirectCostRecoveryExclusionAccount-accountNumber"/>
         <ref bean="IndirectCostRecoveryExclusionAccount-financialObjectCode"/>
         <ref bean="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode"/>
+        <ref bean="IndirectCostRecoveryExclusionAccount-active"/>
       </list>
     </property>
   </bean>
@@ -66,6 +67,11 @@
     <property name="label" value="Object Chart"/>
     <property name="shortLabel" value="Object Chart"/>
   </bean>
+  
+  <bean id="IndirectCostRecoveryExclusionAccount-active" parent="IndirectCostRecoveryExclusionAccount-active-parentBean"/>
+  <bean id="IndirectCostRecoveryExclusionAccount-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 
@@ -85,6 +91,7 @@
               <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
               <bean parent="FieldDefinition" p:attributeName="financialObjectChartOfAccountCode"/>
               <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -115,6 +122,7 @@
         <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
         <bean parent="FieldDefinition" p:attributeName="financialObjectChartOfAccountCode"/>
         <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
       </list>
     </property>
     <property name="resultFields">
@@ -123,6 +131,7 @@
         <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
         <bean parent="FieldDefinition" p:attributeName="financialObjectChartOfAccountCode"/>
         <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

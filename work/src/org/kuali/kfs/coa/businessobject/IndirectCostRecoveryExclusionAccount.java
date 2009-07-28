@@ -33,6 +33,7 @@ public class IndirectCostRecoveryExclusionAccount extends PersistableBusinessObj
     private Account account;
     private Chart financialObjectChartOfAccount;
     private ObjectCode objectCodeCurrent;
+    private boolean active; 
 
     public IndirectCostRecoveryExclusionAccount() {
         super();
@@ -185,6 +186,22 @@ public class IndirectCostRecoveryExclusionAccount extends PersistableBusinessObj
     public void setObjectCodeCurrent(ObjectCode objectCodeCurrent) {
         this.objectCodeCurrent = objectCodeCurrent;
     }
+    
+    /**
+     * @return Returns whether the objectCode is active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * @param active Set if the record is active.
+     */
+     
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
 
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()

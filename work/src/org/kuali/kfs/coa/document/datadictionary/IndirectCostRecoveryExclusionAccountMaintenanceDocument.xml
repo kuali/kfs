@@ -16,6 +16,8 @@
         <bean parent="ReferenceDefinition" p:attributeName="account" p:attributeToHighlightOnFail="accountNumber"/>
         <bean parent="ReferenceDefinition" p:attributeName="financialObjectChartOfAccount" p:attributeToHighlightOnFail="financialObjectChartOfAccountCode"/>
         <bean parent="ReferenceDefinition" p:attributeName="objectCodeCurrent" p:attributeToHighlightOnFail="financialObjectCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="active" p:attributeToHighlightOnFail="active"/>
+        
       </list>
     </property>
     <property name="lockingKeys">
@@ -52,6 +54,8 @@
         <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialObjectChartOfAccountCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
+        
       </list>
     </property>
   </bean>

@@ -594,10 +594,10 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     @Override
     public String getDocumentTitle() {
-//       if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(PaymentRequestDocument.class, PurapParameterConstants.PURAP_OVERRIDE_PREQ_DOC_TITLE)) {
+       if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(PaymentRequestDocument.class, PurapParameterConstants.PURAP_OVERRIDE_PREQ_DOC_TITLE)) {
             return getCustomDocumentTitle();
-//        }
-//        return this.buildDocumentTitle(super.getDocumentTitle());
+        }
+        return this.buildDocumentTitle(super.getDocumentTitle());
     }
 
     /**

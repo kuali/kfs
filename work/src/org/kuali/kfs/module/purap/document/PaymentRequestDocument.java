@@ -594,10 +594,10 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     @Override
     public String getDocumentTitle() {
-        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(PaymentRequestDocument.class, PurapParameterConstants.PURAP_OVERRIDE_PREQ_DOC_TITLE)) {
+//       if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(PaymentRequestDocument.class, PurapParameterConstants.PURAP_OVERRIDE_PREQ_DOC_TITLE)) {
             return getCustomDocumentTitle();
-        }
-        return this.buildDocumentTitle(super.getDocumentTitle());
+//        }
+//        return this.buildDocumentTitle(super.getDocumentTitle());
     }
 
     /**
@@ -607,6 +607,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * @return - Customized document title text dependent upon route level.
      */
     private String getCustomDocumentTitle() {
+       
         try {
             // set the workflow document title
             String poNumber = getPurchaseOrderIdentifier().toString();
@@ -621,8 +622,9 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 documentTitle = (new StringBuffer("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Amount: ").append(preqAmount).toString();
             }
             else {
-                PurApAccountingLine theAccount = getFirstAccount();
+                PurApAccountingLine theAccount = getFirstAccount();                
                 String accountNumber = (theAccount != null ? StringUtils.trimToEmpty(theAccount.getAccountNumber()) : "n/a");
+                String accountChart = (theAccount != null ? theAccount.getChartOfAccountsCode() : "");
                 String payDate = (new SimpleDateFormat("MM/dd/yyyy")).format(getPaymentRequestPayDate());
                 String indicator = getTitleIndicator();
                 
@@ -630,13 +632,12 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 if (NodeDetailEnum.VENDOR_TAX_REVIEW.getName().equals(nodeNames[0])) {                
                     String deliveryCampus = StringUtils.trimToEmpty((getProcessingCampus() != null ? getProcessingCampus().getCampus().getCampusShortName() : "n/a"));                
                     String department = (theAccount != null ? StringUtils.trimToEmpty((((theAccount.getAccount() != null) && (theAccount.getAccount().getOrganization() != null)) ? theAccount.getAccount().getOrganization().getOrganizationName() : "")) : "n/a");
-                    documentTitle = (new StringBuffer("Vendor: ")).append(vendorName).append(" PO: ").append(poNumber).append(" Account: ").append(accountNumber).append(" Dept: ").append(department).append(" Delivery Campus: ").append(deliveryCampus).append(" Pay Date: ").append(payDate).append(" ").append(indicator).toString();
+                    documentTitle = (new StringBuffer("Vendor: ")).append(vendorName).append(" PO: ").append(poNumber).append(" Account: ").append(accountChart).append(" ").append(accountNumber).append(" Dept: ").append(department).append(" Delivery Campus: ").append(deliveryCampus).append(" Pay Date: ").append(payDate).append(" ").append(indicator).toString();
                 }
                 else {
-                    documentTitle = (new StringBuffer("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Account: ").append(accountNumber).append(" Amount: ").append(preqAmount).append(" Pay Date: ").append(payDate).append(" ").append(indicator).toString();
+                    documentTitle = (new StringBuffer("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Account: ").append(accountChart).append(" ").append(accountNumber).append(" Amount: ").append(preqAmount).append(" Pay Date: ").append(payDate).append(" ").append(indicator).toString();
                 }            
             }
-           
             return documentTitle;
         }
         catch (WorkflowException e) {

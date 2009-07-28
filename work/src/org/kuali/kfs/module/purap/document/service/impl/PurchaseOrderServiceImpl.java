@@ -861,6 +861,17 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         setCurrentAndPendingIndicatorsForApprovedPODocuments(po);
         setupDocumentForPendingFirstTransmission(po);
         
+        // check thresholds to see if receiving is required for purchase order
+        if (!po.isReceivingDocumentRequiredIndicator()) {
+            setReceivingRequiredIndicatorForPurchaseOrder(po);
+        }
+
+        // update the vendor record if the commodity code used on the PO is not already associated with the vendor.
+        updateVendorCommodityCode(po);
+
+        // PERFORM ANY LOGIC THAT COULD POTENTIALLY CAUSE THE DOCUMENT TO FAIL BEFORE THIS LINE
+        // FOLLOWING LINES COULD INVOLVE TRANSMITTING THE PO TO THE VENDOR WHICH WILL NOT BE REVERSED IN A TRANSACTION ROLLBACK
+        
         // if the document is set in a Pending Transmission status then don't OPEN the PO just leave it as is
         if (!PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(po.getStatusCode())) {
             attemptSetupOfInitialOpenOfDocument(po);
@@ -869,19 +880,17 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             completeB2BPurchaseOrder(po);
         }
         else if (PurchaseOrderStatuses.PENDING_PRINT.equals(po.getStatusCode())) {
-            KualiWorkflowDocument workflowDocument = po.getDocumentHeader().getWorkflowDocument();
-            
-            String userToRouteFyi = "";
+            //default to using user that routed PO
+            String userToRouteFyi = po.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId();
             if (po.getPurchaseOrderAutomaticIndicator()) {
+                //if APO, use the user that initiated the requisition
                 RequisitionDocument req = SpringContext.getBean(RequisitionService.class).getRequisitionById(po.getRequisitionIdentifier());
                 userToRouteFyi = req.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
             }
-            else {
-                userToRouteFyi = po.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId();
-            }
             
             try {
-                workflowDocument.adHocRouteDocumentToPrincipal(KEWConstants.ACTION_REQUEST_FYI_REQ, workflowDocument.getCurrentRouteNodeNames(), "This PO is ready for printing and distribution.", userToRouteFyi, "", true, "PRINT");
+                //send FYI to user for printing
+                po.getDocumentHeader().getWorkflowDocument().adHocRouteDocumentToPrincipal(KEWConstants.ACTION_REQUEST_FYI_REQ, po.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames(), "This PO is ready for printing and distribution.", userToRouteFyi, "", true, "PRINT");
             }
             catch (WorkflowException e) {
                 LOG.error("Error sending FYI to user to print PO.", e);
@@ -889,13 +898,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             }
         }
 
-        // check thresholds to see if receiving is required for purchase order
-        if (!po.isReceivingDocumentRequiredIndicator()) {
-            setReceivingRequiredIndicatorForPurchaseOrder(po);
-        }
-
-        // update the vendor record if the commodity code used on the PO is not already associated with the vendor.
-        updateVendorCommodityCode(po);
     }
 
     private boolean completeB2BPurchaseOrder(PurchaseOrderDocument po) {

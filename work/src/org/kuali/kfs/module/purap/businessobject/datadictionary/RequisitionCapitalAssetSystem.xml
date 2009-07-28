@@ -98,6 +98,8 @@
 
   <bean id="RequisitionCapitalAssetSystem-capitalAssetTypeCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" p:sourceAttributeName="capitalAssetTypeCode">    
     <property name="name" value="capitalAssetTypeCode"/>
+    <property name="label" value="Asset Type"/>
+    <property name="shortLabel" value="Asset Type"/>
   </bean>
   
   <bean id="RequisitionCapitalAssetSystem-purapDocumentIdentifier" parent="RequisitionCapitalAssetSystem-purapDocumentIdentifier-parentBean"/>

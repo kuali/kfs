@@ -73,6 +73,7 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         super();
 
         setPurapDocumentIdentifier(cmDocument.getPurapDocumentIdentifier());
+        setPurapDocument(cmDocument);
         setItemLineNumber(poItem.getItemLineNumber());
         setPoInvoicedTotalQuantity(poItem.getItemInvoicedTotalQuantity());
         setPoUnitPrice(poItem.getItemUnitPrice());

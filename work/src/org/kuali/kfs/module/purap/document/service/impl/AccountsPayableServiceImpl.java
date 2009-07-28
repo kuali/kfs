@@ -486,17 +486,24 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#performLogicForFullEntryCompleted(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     public void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument) {
-        
         AccountsPayableDocument apDocument = (AccountsPayableDocument)purapDocument;
         AccountsPayableDocumentSpecificService accountsPayableDocumentSpecificService = apDocument.getDocumentSpecificService();
+        
         // eliminate unentered items
         purapService.deleteUnenteredItems(apDocument);
+        
         // change accounts from percents to dollars
         purapAccountingService.updateAccountAmounts(apDocument);
+        
+        //set the AP approval date always when the GL entries are created (treated more of an AP processed date)
+        apDocument.setAccountsPayableApprovalTimestamp(dateTimeService.getCurrentTimestamp());
+
         // save for persistence
         SpringContext.getBean(BusinessObjectService.class).save(apDocument);
+
         // do GL entries for document creation
         accountsPayableDocumentSpecificService.generateGLEntriesCreateAccountsPayableDocument(apDocument);
+        
     }
 
     /**

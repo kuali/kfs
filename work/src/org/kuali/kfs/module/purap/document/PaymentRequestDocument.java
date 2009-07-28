@@ -782,9 +782,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         if (NodeDetailEnum.ADHOC_REVIEW.getName().equals(oldNodeName)) {
             SpringContext.getBean(AccountsPayableService.class).performLogicForFullEntryCompleted(this);
         }
-        else if (NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW.getName().equals(oldNodeName)) {
-            setAccountsPayableApprovalTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
-        }
         return true;
     }
 

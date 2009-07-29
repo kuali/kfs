@@ -116,15 +116,11 @@
   </bean>
 
   <bean id="AssetPaymentDetail-overrideCode" parent="AssetPaymentDetail-overrideCode-parentBean"/>
-  <bean id="AssetPaymentDetail-overrideCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetPaymentDetail-overrideCode-parentBean" abstract="true" parent="SourceAccountingLine-overrideCode-parentBean">
     <property name="name" value="overrideCode"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Financial Document Override Code"/>
-    <property name="shortLabel" value="Override CD"/>
-    <property name="maxLength" value="100"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
+    <property name="shortLabel" value="Override CD"/>    
     <property name="control">
       <bean parent="TextControlDefinition" p:size="3"/>
     </property>

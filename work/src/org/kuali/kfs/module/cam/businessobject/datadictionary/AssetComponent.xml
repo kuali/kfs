@@ -304,32 +304,22 @@
   </bean>
   
   <bean id="AssetComponent-governmentTagNumber" parent="AssetComponent-governmentTagNumber-parentBean"/>
-  <bean id="AssetComponent-governmentTagNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetComponent-governmentTagNumber-parentBean" abstract="true" parent="Asset-governmentTagNumber-parentBean">
     <property name="name" value="governmentTagNumber"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Government Tag Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="12"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="14"/>
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false"/>
+       </bean>
     </property>
   </bean>
   
   <bean id="AssetComponent-nationalStockNumber" parent="AssetComponent-nationalStockNumber-parentBean"/>
-  <bean id="AssetComponent-nationalStockNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetComponent-nationalStockNumber-parentBean" abstract="true" parent="Asset-nationalStockNumber-parentBean">
     <property name="name" value="nationalStockNumber"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="National Stock Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="25"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="27"/>
+    <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="false"/>
+       </bean>
     </property>
   </bean>
 

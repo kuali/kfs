@@ -191,18 +191,8 @@
   </bean>
   
   <bean id="AssetGlobalDetail-organizationAssetTypeIdentifier" parent="AssetGlobalDetail-organizationAssetTypeIdentifier-parentBean"/>
-  <bean id="AssetGlobalDetail-organizationAssetTypeIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationAssetTypeIdentifier"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Organization Asset Type Identifier"/>
-    <property name="shortLabel" value="Identifier"/>
-    <property name="maxLength" value="20"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="22"/>
-    </property>
+  <bean id="AssetGlobalDetail-organizationAssetTypeIdentifier-parentBean" abstract="true" parent="AssetOrganization-organizationAssetTypeIdentifier-parentBean">
+    <property name="name" value="organizationAssetTypeIdentifier"/>    
   </bean>
   
   <bean id="AssetGlobalDetail-organizationInventoryName" parent="AssetGlobalDetail-organizationInventoryName-parentBean"/>

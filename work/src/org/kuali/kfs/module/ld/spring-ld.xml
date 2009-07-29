@@ -330,7 +330,7 @@
         <property name="laborDemergerReportWriterService">
 		  	<ref bean="laborDemergerReportWriterService" />
 		</property>
-		<property name="laborPreScrubberService" ref="laborPreScrubberService" />
+		<property name="laborPreScrubberService" ref="laborPreScrubberService" />											
 		<property name="llcpPreScrubberReportWriterService" ref="llcpPreScrubberReportWriterService" />
 		<property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
 	</bean>
@@ -412,10 +412,6 @@
         </property>
         <property name="laborGLLedgerEntryPoster">
             <ref bean="laborGLLedgerEntryPoster" />
-        </property>
-        
-        <property name="laborTransactionDescriptionService">
-            <ref bean="laborTransactionDescriptionService" />
         </property>
         
         <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
@@ -1603,5 +1599,5 @@
     
     <bean id="llcpPreScrubberReportWriterService" parent="laborPreScrubberReportWriterService">
 		<property name="fileNamePrefix" value="llcpScrubberReports-02-preScrubber"/>
-	</bean>
+    </bean> 
 </beans>

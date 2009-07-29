@@ -24,6 +24,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class is a working unit of labor origin entry. It is formed by a group of slimilar labor origin entries. If any two entries
@@ -122,6 +123,10 @@ public class LaborLedgerUnitOfWork {
      * @return true if the given origin entry has the same key as the current unit of work; otherwise, false
      */
     public boolean hasSameKey(LaborOriginEntry laborOriginEntry) {
+        if(ObjectUtils.isNull(laborOriginEntry)) {
+            return false;
+        }
+        
         return ObjectUtil.equals(workingEntry, laborOriginEntry, this.getKeyFields());
     }
 

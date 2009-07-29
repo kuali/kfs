@@ -43,7 +43,6 @@ import org.kuali.kfs.module.ld.batch.service.LaborPosterService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.document.validation.impl.TransactionFieldValidator;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
-import org.kuali.kfs.module.ld.service.LaborTransactionDescriptionService;
 import org.kuali.kfs.module.ld.util.LaborLedgerUnitOfWork;
 import org.kuali.kfs.module.ld.util.LaborOriginEntryFileIterator;
 import org.kuali.kfs.sys.KFSConstants;
@@ -79,8 +78,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     private PostTransaction laborLedgerEntryPoster;
     private PostTransaction laborLedgerBalancePoster;
     private PostTransaction laborGLLedgerEntryPoster;
-    
-    private LaborTransactionDescriptionService laborTransactionDescriptionService;
 
     private int numberOfErrorOriginEntry;
 
@@ -119,7 +116,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        
+
         try {
             POSTER_OUTPUT_ERR_FILE_ps = new PrintStream(postErrFileName);
         }
@@ -161,15 +158,19 @@ public class LaborPosterServiceImpl implements LaborPosterService {
                             LOG.info(loadedCount + " " + laborOriginEntry.toString());
                         }
 
-                        if (postSingleEntryIntoLaborLedger(laborOriginEntry, reportSummary, runDate, currentLine)) {
-                            summarizeLaborGLEntries(laborOriginEntry, laborLedgerUnitOfWork, runDate, lineNumber, glEntryReportSummary);
+                        boolean isPostable = this.postSingleEntryIntoLaborLedger(laborOriginEntry, reportSummary, runDate, currentLine);
+                        if (isPostable) {
+                            this.updateReportSummary(glEntryReportSummary, ORIGN_ENTRY, KFSConstants.OperationType.READ);
+                            this.writeLaborGLEntry(laborOriginEntry, laborLedgerUnitOfWork, runDate, lineNumber, glEntryReportSummary);
+
                             ledgerSummaryReport.summarizeEntry(laborOriginEntry);
+
                             numberOfSelectedOriginEntry++;
                             laborOriginEntry = null;
                         }
                     }
-                    currentLine = INPUT_GLE_FILE_br.readLine();
 
+                    currentLine = INPUT_GLE_FILE_br.readLine();
                 }
                 catch (RuntimeException ioe) {
                     // catch here again, it should be from postSingleEntryIntoLaborLedger
@@ -177,6 +178,8 @@ public class LaborPosterServiceImpl implements LaborPosterService {
                     throw new RuntimeException("Unable to execute: " + ioe.getMessage() + " on line number : " + loadedCount, ioe);
                 }
             }
+
+            this.writeLaborGLEntry(null, laborLedgerUnitOfWork, runDate, lineNumber, glEntryReportSummary);
 
             INPUT_GLE_FILE_br.close();
             INPUT_GLE_FILE.close();
@@ -337,17 +340,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     }
 
     /**
-     * @return the encumbrance update code
-     */
-    protected String getEncumbranceUpdateCode(LaborOriginEntry laborOriginEntry) {
-        String encumbranceUpdateCode = laborOriginEntry.getTransactionEncumbranceUpdateCode();
-        if (KFSConstants.ENCUMB_UPDT_DOCUMENT_CD.equals(encumbranceUpdateCode) || KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(encumbranceUpdateCode)) {
-            return encumbranceUpdateCode;
-        }
-        return null;
-    }
-
-    /**
      * summary the valid origin entries for the General Ledger
      * 
      * @param laborOriginEntry the current entry to check for summarization
@@ -355,39 +347,35 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @param runDate the data when the process is running
      * @param lineNumber the line in the input file (used for error message only)
      */
-    protected void summarizeLaborGLEntries(LaborOriginEntry laborOriginEntry, LaborLedgerUnitOfWork laborLedgerUnitOfWork, Date runDate, int lineNumber, Map<String, Integer> glEntryReportSummary) {
-        // shawn - setup below two fields before making consolidated list
-        String transactionDescription = laborTransactionDescriptionService.getTransactionDescription(laborOriginEntry);
-        laborOriginEntry.setTransactionLedgerEntryDescription(transactionDescription);       
-        laborOriginEntry.setTransactionEncumbranceUpdateCode(this.getEncumbranceUpdateCode(laborOriginEntry));
-
-        updateReportSummary(glEntryReportSummary, ORIGN_ENTRY, KFSConstants.OperationType.READ);
+    protected LaborOriginEntry summarizeLaborGLEntries(LaborOriginEntry laborOriginEntry, LaborLedgerUnitOfWork laborLedgerUnitOfWork, Date runDate, int lineNumber, Map<String, Integer> glEntryReportSummary) {
+        LaborOriginEntry summarizedEntry = null;
 
         if (laborLedgerUnitOfWork.canContain(laborOriginEntry)) {
             laborLedgerUnitOfWork.addEntryIntoUnit(laborOriginEntry);
             updateReportSummary(glEntryReportSummary, ORIGN_ENTRY, KFSConstants.OperationType.SELECT);
         }
         else {
+            summarizedEntry = laborLedgerUnitOfWork.getWorkingEntry();
             laborLedgerUnitOfWork.resetLaborLedgerUnitOfWork(laborOriginEntry);
-            writeLaborGLEntry(laborLedgerUnitOfWork, runDate, lineNumber, glEntryReportSummary);
         }
+
+        return summarizedEntry;
     }
 
-    protected void writeLaborGLEntry(LaborLedgerUnitOfWork laborLedgerUnitOfWork, Date runDate, int lineNumber, Map<String, Integer> glEntryReportSummary) {
+    protected void writeLaborGLEntry(LaborOriginEntry laborOriginEntry, LaborLedgerUnitOfWork laborLedgerUnitOfWork, Date runDate, int lineNumber, Map<String, Integer> glEntryReportSummary) {
+        LaborOriginEntry summarizedEntry = summarizeLaborGLEntries(laborOriginEntry, laborLedgerUnitOfWork, runDate, lineNumber, glEntryReportSummary);
+        if (summarizedEntry == null) {
+            return;
+        }
+
         try {
-            List<Message> errors = this.isPostableForLaborGLEntry(laborLedgerUnitOfWork.getWorkingEntry());
+            List<Message> errors = this.isPostableForLaborGLEntry(summarizedEntry);
             if (errors == null || errors.isEmpty()) {
-                String operationType = laborGLLedgerEntryPoster.post(laborLedgerUnitOfWork.getWorkingEntry(), 0, runDate);
+                String operationType = laborGLLedgerEntryPoster.post(summarizedEntry, 0, runDate);
                 updateReportSummary(glEntryReportSummary, laborGLLedgerEntryPoster.getDestinationName(), operationType);
-                updateReportSummary(glEntryReportSummary, ORIGN_ENTRY, KFSConstants.OperationType.SELECT);
             }
             else {
-                updateReportSummary(glEntryReportSummary, ORIGN_ENTRY, KFSConstants.OperationType.BYPASS); 
-                
-                //KULLAB-719 : Bypassed records need not be displayed in the Detail section of the Report. They need to be only counted in 
-                //             the Report Summary section.
-                
-                //    laborGlEntryStatisticsReportWriterService.writeError(laborLedgerUnitOfWork.getWorkingEntry(), errors);
+                updateReportSummary(glEntryReportSummary, ORIGN_ENTRY, KFSConstants.OperationType.BYPASS);
             }
         }
         catch (RuntimeException ioe) {
@@ -418,7 +406,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             throw new RuntimeException("Unable to execute: " + e.getMessage(), e);
         }
     }
-    
+
     /**
      * Get a set of the balance type codes that are bypassed by Labor Poster
      * 
@@ -554,7 +542,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     public void setLaborGlEntryStatisticsReportWriterService(ReportWriterService laborGlEntryStatisticsReportWriterService) {
         this.laborGlEntryStatisticsReportWriterService = laborGlEntryStatisticsReportWriterService;
     }
-    
+
     /**
      * Sets the batchFileDirectoryName attribute value.
      * 
@@ -562,13 +550,5 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      */
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
-    }
-
-    /**
-     * Sets the laborTransactionDescriptionService attribute value.
-     * @param laborTransactionDescriptionService The laborTransactionDescriptionService to set.
-     */
-    public void setLaborTransactionDescriptionService(LaborTransactionDescriptionService laborTransactionDescriptionService) {
-        this.laborTransactionDescriptionService = laborTransactionDescriptionService;
     }
 }

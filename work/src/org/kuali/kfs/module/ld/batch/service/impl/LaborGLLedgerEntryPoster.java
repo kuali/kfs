@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ld.batch.service.impl;
 
 import java.sql.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.module.ld.LaborConstants;
@@ -52,9 +53,15 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
         laborGeneralLedgerEntry.setTransactionDebitCreditCode(this.getDebitCreditCode(transaction));
         laborGeneralLedgerEntry.setTransactionLedgerEntryAmount(this.getTransactionAmount(transaction));
 
-        laborGeneralLedgerEntry.setTransactionLedgerEntryDescription(laborTransactionDescriptionService.getTransactionDescription(transaction));
+        String description = laborTransactionDescriptionService.getTransactionDescription(transaction);
+        if(StringUtils.isNotEmpty(description)) {
+            laborGeneralLedgerEntry.setTransactionLedgerEntryDescription(description);
+        }
 
-        laborGeneralLedgerEntry.setTransactionEncumbranceUpdateCode(this.getEncumbranceUpdateCode(transaction));
+        String encumbranceUpdateCode = this.getEncumbranceUpdateCode(transaction);
+        if(StringUtils.isNotEmpty(encumbranceUpdateCode)) {
+            laborGeneralLedgerEntry.setTransactionEncumbranceUpdateCode(encumbranceUpdateCode);
+        }
 
         Integer sequenceNumber = laborGeneralLedgerEntryService.getMaxSequenceNumber(laborGeneralLedgerEntry) + 1;
         laborGeneralLedgerEntry.setTransactionLedgerEntrySequenceNumber(sequenceNumber);

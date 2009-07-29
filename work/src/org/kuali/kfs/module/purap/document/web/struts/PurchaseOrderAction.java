@@ -1464,7 +1464,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
         PurchaseOrderVendorQuote vendorQuote = poForm.getNewPurchaseOrderVendorQuote();
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedAddVendorToQuoteEvent("", document, vendorQuote));
+        String errorPrefix = PurapPropertyConstants.NEW_PURCHASE_ORDER_VENDOR_QUOTE_TEXT;
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedAddVendorToQuoteEvent(errorPrefix, document, vendorQuote));
         if (rulePassed) {
             poForm.getNewPurchaseOrderVendorQuote().setDocumentNumber(document.getDocumentNumber());
             document.getPurchaseOrderVendorQuotes().add(vendorQuote);

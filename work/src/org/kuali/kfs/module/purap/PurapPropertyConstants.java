@@ -161,6 +161,7 @@ public class PurapPropertyConstants {
     public static final String PURCHASE_ORDER_QUOTE_DUE_DATE = "purchaseOrderQuoteDueDate";
     public static final String PURCHASE_ORDER_QUOTE_TYPE_CODE = "purchaseOrderQuoteTypeCode";
     public static final String PURCHASE_ORDER_QUOTE_VENDOR_NOTE_TEXT = "purchaseOrderQuoteVendorNoteText";
+    public static final String NEW_PURCHASE_ORDER_VENDOR_QUOTE_TEXT = "newPurchaseOrderVendorQuote";
     public static final String NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_NAME = "newPurchaseOrderVendorQuote.vendorName";
     public static final String NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_LINE_1_ADDR = "newPurchaseOrderVendorQuote.vendorLine1Address";
     public static final String NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_CITY_NAME = "newPurchaseOrderVendorQuote.vendorCityName";    

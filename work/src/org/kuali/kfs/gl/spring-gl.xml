@@ -909,6 +909,10 @@
         <property name="reportWriterService">
             <ref bean="balancingReportWriterService" />
         </property>
+        <property name="ledgerEntryBalanceCachingDao">
+        	<ref bean="glLedgerEntryBalanceCachingDao" />
+        </property>
+        
         <property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
     </bean>
 
@@ -1135,6 +1139,15 @@
 	<bean id="glEntryHistoryDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.EntryHistoryDaoOjb" />
 
 	<bean id="glBalanceHistoryDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.BalanceHistoryDaoOjb" />
+	
+	<bean id="glLedgerEntryBalanceCachingDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.batch.dataaccess.impl.LedgerEntryBalanceCachingDaoJdbc">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
+	</bean>
 
 	<bean id="glLedgerBalancingDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.dataaccess.impl.BalancingDaoJdbc" />
 

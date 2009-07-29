@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.BalanceType;
@@ -469,7 +470,10 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
      * @return Returns the transactionDebitCreditCode
      */
     public String getTransactionDebitCreditCode() {
-        return transactionDebitCreditCode;
+        if (transactionDebitCreditCode == null) 
+            return " "; 
+        else 
+            return transactionDebitCreditCode;
     }
 
     /**

@@ -21,9 +21,11 @@ import java.io.FileReader;
 import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.batch.dataaccess.LedgerEntryBalanceCachingDao;
 import org.kuali.kfs.gl.batch.service.BalancingService;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Entry;
@@ -50,7 +52,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Base service implementation for BalancingService. Useful for generic implementation of common code between labor and GL balancing.
+ * Base service implementation for BalancingService. Useful for generic implementation of common code between la`bor and GL balancing.
  */
 @Transactional
 public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balance> implements BalancingService {
@@ -67,6 +69,7 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
     protected UniversityDateService universityDateService;
     protected LedgerBalancingDao ledgerBalancingDao;
     protected LedgerEntryBalancingDao ledgerEntryBalancingDao;
+    protected LedgerEntryBalanceCachingDao ledgerEntryBalanceCachingDao;
     protected LedgerBalanceBalancingDao ledgerBalanceBalancingDao;
     protected LedgerBalanceHistoryBalancingDao ledgerBalanceHistoryBalancingDao;
     protected LedgerEntryHistoryBalancingDao ledgerEntryHistoryBalancingDao;
@@ -272,58 +275,9 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
         return ignoredRecordsFound;
     }
     
-    /**
-     * Compares entries in the Balance and BalanceHistory tables to ensure the amounts match.
-     * @return count is compare failures
-     */
-    protected Integer compareBalanceHistory() {
-        Integer countComparisionFailures = 0;
-        
-        // TODO findAll might not be a good idea performance wise. Do some kind of LIMIT stepping?
-        // Finding all history lines as starting point for comparision
-        for (Iterator<LedgerBalanceHistory> iterator = businessObjectService.findAll(balanceHistoryPersistentClass).iterator(); iterator.hasNext();) {
-            LedgerBalanceHistory ledgerBalanceHistory = iterator.next();
-            Balance balance = this.getBalance(ledgerBalanceHistory);
-            
-            if (ObjectUtils.isNull(balance) || !ledgerBalanceHistory.compareAmounts(balance)) {
-                // Compare failed, properly log it if we havn't written more then TOTAL_COMPARISION_FAILURES_TO_PRINT yet
-                countComparisionFailures++;
-                if (countComparisionFailures <= this.getComparisonFailuresToPrintPerReport()) {
-                    reportWriterService.writeError(ledgerBalanceHistory, new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, ledgerBalanceHistory.getClass().getSimpleName()));
-                }
-            }
-        }
-        
-        return countComparisionFailures;
-    }
-    
-    /**
-     * Compares entries in the Entry and EntryHistory tables to ensure the amounts match.
-     * @return count is compare failures
-     */
-    protected Integer compareEntryHistory() {
-        Integer countComparisionFailures = 0;
-        
-        // TODO findAll might not be a good idea performance wise. Do some kind of LIMIT stepping?
-        // Finding all history lines as starting point for comparision
-        for (Iterator<LedgerEntryHistory> iterator = businessObjectService.findAll(entryHistoryPersistentClass).iterator(); iterator.hasNext();) {
-            LedgerEntryHistory ledgerEntryHistory = iterator.next();
-            
-            Object[] objects = ledgerEntryBalancingDao.findEntryByGroup(ledgerEntryHistory.getUniversityFiscalYear(), ledgerEntryHistory.getChartOfAccountsCode(), ledgerEntryHistory.getFinancialObjectCode(), ledgerEntryHistory.getFinancialBalanceTypeCode(), ledgerEntryHistory.getUniversityFiscalPeriodCode(), ledgerEntryHistory.getTransactionDebitCreditCode());
-            
-            if (ObjectUtils.isNull(objects) ||
-                    !(((Integer) objects[0]).intValue() == ledgerEntryHistory.getRowCount()
-                            && ((KualiDecimal) objects[1]).equals(ledgerEntryHistory.getTransactionLedgerEntryAmount()))) {
-                // Compare failed, properly log it if we havn't written more then TOTAL_COMPARISION_FAILURES_TO_PRINT yet
-                countComparisionFailures++;
-                if (countComparisionFailures <= this.getComparisonFailuresToPrintPerReport()) {
-                    reportWriterService.writeError(ledgerEntryHistory, new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, ledgerEntryHistory.getClass().getSimpleName()));
-                }
-            }
-        }
-        
-        return countComparisionFailures;
-    }
+    abstract protected Integer compareBalanceHistory();
+    abstract protected Integer compareEntryHistory();
+   
     
     /**
      * Possible override if sub class has additional history tables. Populates custom history tables.
@@ -481,5 +435,13 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
      */
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
+    }
+
+    /**
+     * Sets the ledgerEntryBalanceCachingDao attribute value.
+     * @param ledgerEntryBalanceCachingDao The ledgerEntryBalanceCachingDao to set.
+     */
+    public void setLedgerEntryBalanceCachingDao(LedgerEntryBalanceCachingDao ledgerEntryBalanceCachingDao) {
+        this.ledgerEntryBalanceCachingDao = ledgerEntryBalanceCachingDao;
     }
 }

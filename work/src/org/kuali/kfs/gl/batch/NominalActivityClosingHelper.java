@@ -587,7 +587,7 @@ public class NominalActivityClosingHelper {
         // 1095 007700 DELIMITED BY SIZE
         // 1096 007710 INTO FDOC-NBR OF GLEN-RECORD.
 
-        offsetEntry.setDocumentNumber(new StringBuffer(balance.getOption().getNominalFinancialBalanceTypeCd()).append(balance.getAccountNumber()).toString());
+        offsetEntry.setDocumentNumber(new StringBuffer(balance.getOption().getActualFinancialBalanceTypeCd()).append(balance.getAccountNumber()).toString());
 
         // 1097 007720 MOVE WS-SEQ-NBR
         // 1098 007730 TO TRN-ENTR-SEQ-NBR OF GLEN-RECORD.

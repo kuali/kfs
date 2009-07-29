@@ -82,6 +82,7 @@ public class GeneralLedgerConstants {
         static final public String OBJECT_TYPE_DEBIT_CREDIT_CODE = "FIN_OBJTYP_DBCR_CD";
         static final public String OFFSET_GENERATION_CODE = "FIN_OFFST_GNRTN_CD";
         static final public String TRANSACTION_LEDGER_ENTRY_AMOUNT = "TRN_LDGR_ENTR_AMT";
+        static final public String TRANSACTION_DEBIT_CREDIT_CD = "TRN_DEBIT_CRDT_CD";
 
         static final public String TRANSACTION_DT = "TRANSACTION_DT";
         static final public String FIN_OBJ_TYP_CODE = "FIN_OBJ_TYP_CODE";
@@ -101,6 +102,21 @@ public class GeneralLedgerConstants {
         
         static final public String ACCOUNT_LINE_ENCUMBRANCE_AMOUNT = "ACLN_ENCUM_AMT";
         static final public String ACCOUNT_LINE_ENCUMBRANCE_CLOSED_AMOUNT = "ACLN_ENCUM_CLS_AMT";
+        
+        static final public String MONTH_1_ACCT_AMT = "MO1_ACCT_LN_AMT";
+        static final public String MONTH_2_ACCT_AMT = "MO2_ACCT_LN_AMT";
+        static final public String MONTH_3_ACCT_AMT = "MO3_ACCT_LN_AMT";
+        static final public String MONTH_4_ACCT_AMT = "MO4_ACCT_LN_AMT";
+        static final public String MONTH_5_ACCT_AMT = "MO5_ACCT_LN_AMT";
+        static final public String MONTH_6_ACCT_AMT = "MO6_ACCT_LN_AMT";
+        static final public String MONTH_7_ACCT_AMT = "MO7_ACCT_LN_AMT";
+        static final public String MONTH_8_ACCT_AMT = "MO8_ACCT_LN_AMT";
+        static final public String MONTH_9_ACCT_AMT = "MO9_ACCT_LN_AMT";
+        static final public String MONTH_10_ACCT_AMT = "MO10_ACCT_LN_AMT";
+        static final public String MONTH_11_ACCT_AMT = "MO11_ACCT_LN_AMT";
+        static final public String MONTH_12_ACCT_AMT = "MO12_ACCT_LN_AMT";
+        static final public String MONTH_13_ACCT_AMT = "MO13_ACCT_LN_AMT";
+
     }
 
     public static class BalanceInquiryDrillDowns {

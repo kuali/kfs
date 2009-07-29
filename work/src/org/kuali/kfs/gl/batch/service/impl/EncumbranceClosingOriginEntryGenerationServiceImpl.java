@@ -119,12 +119,52 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
             entry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         }
 
-        entry.setFinancialObjectCode(encumbrance.getObjectCode());
+//        ObjectCode finObjCode = accountingCycleCachingService.getObjectCode(encumbrance.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialObjectCode());
+//        if (finObjCode != null)
+//            entry.setFinancialObjectTypeCode(finObjCode.getFinancialObjectTypeCode());
+//        
+        
+        ObjectCode encumbranceObjectCode = accountingCycleCachingService.getObjectCode(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), encumbrance.getObjectCode());
+        
+        if (null != encumbranceObjectCode) {
+
+            String financialObjectLevelCode = encumbranceObjectCode.getFinancialObjectLevelCode();
+            String financialObjectCode = encumbrance.getObjectCode();
+            
+            String overriddenObjectCode = overrideCostShareObjectCode(financialObjectLevelCode, financialObjectCode);
+            
+            
+            String param = parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_BY_LEVEL_PARM_NM, overriddenObjectCode);
+            if (param == null) {
+                param = parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_BY_LEVEL_PARM_NM, "DEFAULT");
+                if (param == null) {
+                    throw new RuntimeException("Unable to determine cost sharing object code from object level.  Default entry missing.");
+                }
+            }
+            financialObjectCode = param;
+
+         // Lookup the new object code
+            ObjectCode newObjectCode = accountingCycleCachingService.getObjectCode(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), financialObjectCode);
+            if (newObjectCode != null) {
+                entry.setFinancialObjectTypeCode(newObjectCode.getFinancialObjectTypeCode());
+                entry.setFinancialObjectCode(financialObjectCode);
+            }
+            else {
+                LOG.error("Error retrieving ObjectCode("+entry.getUniversityFiscalYear()+"/"+entry.getChartOfAccountsCode()+"/"+financialObjectCode+")");
+                pair.setFatalErrorFlag(true);
+                return pair;
+            }
+        } else {
+
+            LOG.error("Error retrieving ObjectCode("+entry.getUniversityFiscalYear()+"/"+entry.getChartOfAccountsCode()+"/"+entry.getFinancialObjectCode()+")");
+            pair.setFatalErrorFlag(true);
+            return pair;
+
+        }
+        
+        
         entry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         entry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_COST_SHARE_ENCUMBRANCE);
-
-        ObjectCode finObjCode = getObjectCodeService().getByPrimaryId(encumbrance.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialObjectCode());
-        entry.setFinancialObjectTypeCode(finObjCode.getFinancialObjectTypeCode());
 
         entry.setUniversityFiscalPeriodCode(KFSConstants.PERIOD_CODE_BEGINNING_BALANCE);
         entry.setTransactionLedgerEntrySequenceNumber(new Integer(0));
@@ -228,37 +268,26 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
         entry.setAccountNumber(encumbrance.getAccountNumber());
         entry.setSubAccountNumber(encumbrance.getSubAccountNumber());
 
-        ObjectCode objectCode = accountingCycleCachingService.getObjectCode(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), entry.getFinancialObjectCode());
+        ObjectCode objectCode = accountingCycleCachingService.getObjectCode(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), encumbrance.getObjectCode());
         
         if (null != objectCode) {
 
-            String financialObjectLevelCode = objectCode.getFinancialObjectLevelCode();
-            String financialObjectCode = entry.getFinancialObjectCode();
-            
-            String overriddenObjectCode = overrideCostShareObjectCode(financialObjectLevelCode, financialObjectCode);
-            
-            
-            String param = parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_BY_LEVEL_PARM_NM, overriddenObjectCode);
-            if (param == null) {
-                param = parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_BY_LEVEL_PARM_NM, "DEFAULT");
-                if (param == null) {
-                    throw new RuntimeException("Unable to determine cost sharing object code from object level.  Default entry missing.");
-                }
-            }
-            financialObjectCode = param;
+            entry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
 
-         // Lookup the new object code
-            ObjectCode newObjectCode = accountingCycleCachingService.getObjectCode(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), financialObjectCode);
-            if (newObjectCode != null) {
-                entry.setFinancialObjectTypeCode(newObjectCode.getFinancialObjectTypeCode());
-                entry.setFinancialObjectCode(financialObjectCode);
+            if (null != objectCode.getNextYearFinancialObjectCode() && !KFSConstants.EMPTY_STRING.equals(objectCode.getNextYearFinancialObjectCode().trim())) {
+
+                entry.setFinancialObjectCode(objectCode.getNextYearFinancialObjectCode());
+
             }
             else {
-                LOG.error("Error retrieving ObjectCode("+entry.getUniversityFiscalYear()+"/"+entry.getChartOfAccountsCode()+"/"+financialObjectCode+")");
-                pair.setFatalErrorFlag(true);
-                return pair;
+
+                entry.setFinancialObjectCode(encumbrance.getObjectCode());
+
             }
+
         }
+        
+        
         else {
 
             LOG.error("Error retrieving ObjectCode("+entry.getUniversityFiscalYear()+"/"+entry.getChartOfAccountsCode()+"/"+entry.getFinancialObjectCode()+")");

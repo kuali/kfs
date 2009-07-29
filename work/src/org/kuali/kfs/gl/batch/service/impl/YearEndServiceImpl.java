@@ -149,7 +149,7 @@ public class YearEndServiceImpl implements YearEndService {
                     nominalActivityClosingCounts.put("sequenceNumber", new Integer(1));
                 }
                 incrementCount(nominalActivityClosingCounts, "globalSelectCount");
-                OriginEntryFull activityEntry = closingHelper.generateActivityEntry(balance, nominalActivityClosingCounts.get("sequenceHelper"));
+                OriginEntryFull activityEntry = closingHelper.generateActivityEntry(balance, new Integer(1));
                 originEntryService.createEntry(activityEntry, nominalClosingPs);
                 ledgerReport.summarizeEntry(activityEntry);
                 incrementCount(nominalActivityClosingCounts, "sequenceWriteCount");
@@ -157,7 +157,7 @@ public class YearEndServiceImpl implements YearEndService {
                 if (0 == nominalActivityClosingCounts.get("sequenceCheckCount").intValue() % 1000) {
                     LOG.info(new StringBuffer("  SEQUENTIAL RECORDS WRITTEN = ").append(nominalActivityClosingCounts.get("sequenceCheckCount")).toString());
                 }
-                OriginEntryFull offsetEntry = closingHelper.generateOffset(balance, nominalActivityClosingCounts.get("sequenceWriteCount"));           
+                OriginEntryFull offsetEntry = closingHelper.generateOffset(balance, new Integer(1));           
                 originEntryService.createEntry(offsetEntry, nominalClosingPs);
                 ledgerReport.summarizeEntry(offsetEntry);
                 incrementCount(nominalActivityClosingCounts, "sequenceWriteCount");
@@ -347,6 +347,9 @@ public class YearEndServiceImpl implements YearEndService {
                     forwardEncumbranceLedgerReport.summarizeEntry(beginningBalanceEntryPair.getOffset());
                     incrementCount(counts, "originEntriesWritten");
                     incrementCount(counts, "originEntriesWritten");
+                    if (0 == counts.get("originEntriesWritten").intValue() % 1000) {
+                        LOG.info(new StringBuffer(" ORIGIN ENTRIES INSERTED = ").append(counts.get("originEntriesWritten")).toString());
+                    }
                 }
 
                 // handle cost sharing if appropriate.
@@ -369,6 +372,9 @@ public class YearEndServiceImpl implements YearEndService {
                         forwardEncumbranceLedgerReport.summarizeEntry(costShareBeginningBalanceEntryPair.getOffset());
                         incrementCount(counts, "originEntriesWritten");
                         incrementCount(counts, "originEntriesWritten");
+                        if (0 == counts.get("originEntriesWritten").intValue() % 1000) {
+                            LOG.info(new StringBuffer(" ORIGIN ENTRIES INSERTED = ").append(counts.get("originEntriesWritten")).toString());
+                        }
                     }
                 }
             }

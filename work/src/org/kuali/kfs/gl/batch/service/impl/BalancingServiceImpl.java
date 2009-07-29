@@ -17,9 +17,11 @@ package org.kuali.kfs.gl.batch.service.impl;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -35,8 +37,8 @@ import org.kuali.kfs.gl.businessobject.EncumbranceHistory;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.EntryHistory;
 import org.kuali.kfs.gl.businessobject.LedgerBalanceHistory;
-import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.dataaccess.AccountBalanceDao;
 import org.kuali.kfs.gl.dataaccess.BalancingDao;
 import org.kuali.kfs.gl.dataaccess.EncumbranceDao;
@@ -296,6 +298,51 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
     }
     
     /**
+     * Compares entries in the Balance and BalanceHistory tables to ensure the amounts match.
+     * @return count is compare failures
+     */
+    protected Integer compareBalanceHistory() {
+        Integer countComparisionFailures = 0;
+        
+        List data = ledgerEntryBalanceCachingDao.compareBalanceHistory(Balance.class, balanceHistoryPersistentClass, getPastFiscalYearsToConsider());
+
+        if (!data.isEmpty()) {
+            for (Iterator itr = data.iterator(); itr.hasNext();) {
+                BalanceHistory balance = createBalanceFromMap((Map)itr.next());
+                countComparisionFailures++;
+                if (countComparisionFailures <= this.getComparisonFailuresToPrintPerReport()) {
+                    reportWriterService.writeError(balance, new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, balance.getClass().getSimpleName()));
+                }
+            }
+        }
+
+        return countComparisionFailures;
+    }
+    
+    /**
+     * Compares entries in the Entry and EntryHistory tables to ensure the amounts match.
+     * @return count is compare failures
+     */
+    protected Integer compareEntryHistory() {
+        Integer countComparisionFailures = 0;
+        
+        List data = ledgerEntryBalanceCachingDao.compareEntryHistory(Entry.class, entryHistoryPersistentClass, getPastFiscalYearsToConsider());
+        
+        if (!data.isEmpty()) {
+            for (Iterator itr = data.iterator(); itr.hasNext();) {
+                EntryHistory entry = createEntryHistoryFromMap((Map)itr.next());
+                countComparisionFailures++;
+                if (countComparisionFailures <= this.getComparisonFailuresToPrintPerReport()) {
+                  reportWriterService.writeError(entry, new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, entry.getClass().getSimpleName()));
+                }
+                
+            }
+        }
+        
+        return countComparisionFailures;
+    }
+    
+    /**
      * Update the encumbrance history table
      * @param originEntry representing the update details
      * @see org.kuali.kfs.gl.batch.service.impl.PostEncumbrance#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
@@ -331,6 +378,8 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
         businessObjectService.save(encumbranceHistory);
     }
     
+    
+    
     /**
      * @see org.kuali.kfs.gl.batch.service.impl.BalancingServiceBaseImpl#customCompareHistory()
      */
@@ -354,27 +403,21 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
     protected Integer accountBalanceCompareHistory() {
         Integer countComparisionFailures = 0;
         
-        // TODO findAll might not be a good idea performance wise. Do some kind of LIMIT stepping?
-        // Finding all history lines as starting point for comparison
-        for (Iterator<AccountBalanceHistory> iterator = businessObjectService.findAll(AccountBalanceHistory.class).iterator(); iterator.hasNext();) {
-            AccountBalanceHistory accountBalanceHistory = iterator.next();
-            
-            AccountBalance accountBalance = (AccountBalance) businessObjectService.retrieve(new AccountBalance(accountBalanceHistory));
-            
-            if (!accountBalanceHistory.compareAmounts(accountBalance)) {
-                // Compare failed, properly log it if we havn't written more then TOTAL_COMPARISION_FAILURES_TO_PRINT yet
+        List data = ledgerEntryBalanceCachingDao.accountBalanceCompareHistory(AccountBalance.class, AccountBalanceHistory.class, getPastFiscalYearsToConsider());
+
+        if (!data.isEmpty()) {
+            for (Iterator itr = data.iterator(); itr.hasNext();) {
+                AccountBalanceHistory accountBalanceHistory = createAccountBalanceHistoryFromMap((Map)itr.next());
                 countComparisionFailures++;
                 if (countComparisionFailures <= this.getComparisonFailuresToPrintPerReport()) {
                     reportWriterService.writeError(accountBalanceHistory, new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, accountBalanceHistory.getClass().getSimpleName()));
                 }
             }
-        }
-        
-        if (countComparisionFailures != 0) {
+            
+        } else {
             reportWriterService.writeNewLines(1);
             reportWriterService.writeFormattedMessageLine(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), (AccountBalanceHistory.class).getSimpleName(), countComparisionFailures, this.getComparisonFailuresToPrintPerReport());
         }
-        
         return countComparisionFailures;
     }
     
@@ -385,27 +428,25 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
     protected Integer encumbranceCompareHistory() {
         Integer countComparisionFailures = 0;
         
-        // TODO findAll might not be a good idea performance wise. Do some kind of LIMIT stepping?
-        // Finding all history lines as starting point for comparison
-        for (Iterator<EncumbranceHistory> iterator = businessObjectService.findAll(EncumbranceHistory.class).iterator(); iterator.hasNext();) {
-            EncumbranceHistory encumbranceHistory = iterator.next();
-            
-            Encumbrance encumbrance = (Encumbrance) businessObjectService.retrieve(new Encumbrance(encumbranceHistory));
-            
-            if (!encumbranceHistory.compareAmounts(encumbrance)) {
-                // Compare failed, properly log it if we havn't written more then TOTAL_COMPARISION_FAILURES_TO_PRINT yet
+        List data = ledgerEntryBalanceCachingDao.encumbranceCompareHistory(Encumbrance.class, EncumbranceHistory.class, getPastFiscalYearsToConsider());
+        
+        if (!data.isEmpty()) {
+            for (Iterator itr = data.iterator(); itr.hasNext();) {
+                EncumbranceHistory encumbranceHistory = createEncumbranceHistoryFromMap((Map)itr.next());
                 countComparisionFailures++;
                 if (countComparisionFailures <= this.getComparisonFailuresToPrintPerReport()) {
                     reportWriterService.writeError(encumbranceHistory, new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING), Message.TYPE_WARNING, encumbranceHistory.getClass().getSimpleName()));
                 }
             }
-        }
-        
-        if (countComparisionFailures != 0) {
+            
+        } else {
             reportWriterService.writeNewLines(1);
             reportWriterService.writeFormattedMessageLine(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.MESSAGE_BATCH_BALANCING_FAILURE_COUNT), (EncumbranceHistory.class).getSimpleName(), countComparisionFailures, this.getComparisonFailuresToPrintPerReport());
         }
         
+        
+        countComparisionFailures = data.size();
+
         return countComparisionFailures;
     }
     
@@ -448,4 +489,96 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
     public void setEncumbranceDao(EncumbranceDao encumbranceDao) {
         this.encumbranceDao = encumbranceDao;
     }
+    
+    private BalanceHistory createBalanceFromMap(Map<String, Object> map) {
+        BalanceHistory balance = new BalanceHistory();
+        balance.setUniversityFiscalYear(((BigDecimal)(map.get(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR))).intValue());
+        balance.setChartOfAccountsCode((String)map.get(GeneralLedgerConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE));
+        balance.setAccountNumber((String)map.get(GeneralLedgerConstants.ColumnNames.ACCOUNT_NUMBER));
+        balance.setSubAccountNumber((String)map.get(GeneralLedgerConstants.ColumnNames.SUB_ACCOUNT_NUMBER));
+        balance.setObjectCode((String)map.get(GeneralLedgerConstants.ColumnNames.OBJECT_CODE));
+        balance.setSubObjectCode((String)map.get(GeneralLedgerConstants.ColumnNames.SUB_OBJECT_CODE));
+        balance.setBalanceTypeCode((String)map.get(GeneralLedgerConstants.ColumnNames.BALANCE_TYPE_CODE));
+        balance.setObjectTypeCode((String)map.get(GeneralLedgerConstants.ColumnNames.OBJECT_TYPE_CODE));
+        
+        balance.setAccountLineAnnualBalanceAmount(convertBigDecimalToKualiDecimal((BigDecimal)map.get(GeneralLedgerConstants.ColumnNames.ACCOUNTING_LINE_ACTUALS_BALANCE_AMOUNT)));
+        balance.setContractsGrantsBeginningBalanceAmount(convertBigDecimalToKualiDecimal((BigDecimal)map.get(GeneralLedgerConstants.ColumnNames.CONTRACT_AND_GRANTS_BEGINNING_BALANCE)));
+        balance.setBeginningBalanceLineAmount(convertBigDecimalToKualiDecimal((BigDecimal)map.get(GeneralLedgerConstants.ColumnNames.BEGINNING_BALANCE)));
+        balance.setMonth1Amount(convertBigDecimalToKualiDecimal((BigDecimal)map.get(GeneralLedgerConstants.ColumnNames.MONTH_1_ACCT_AMT)));
+        balance.setMonth2Amount(convertBigDecimalToKualiDecimal((BigDecimal)map.get(GeneralLedgerConstants.ColumnNames.MONTH_2_ACCT_AMT)));
+        balance.setMonth3Amount(convertBigDecimalToKualiDecimal((BigDecimal)map.get(GeneralLedgerConstants.ColumnNames.MONTH_3_ACCT_AMT)));
+        balance.setMonth4Amount(convertBigDecimalToKualiDecimal((BigDecimal)map.get(GeneralLedgerConstants.ColumnNames.MONTH_4_ACCT_AMT)));
+        balance.setMonth5Amount(convertBigDecimalToKualiDecimal((BigDecimal)map.get(GeneralLedgerConstants.ColumnNames.MONTH_5_ACCT_AMT)));
+        balance.setMonth6Amount(convertBigDecimalToKualiDecimal((BigDecimal)map.get(GeneralLedgerConstants.ColumnNames.MONTH_6_ACCT_AMT)));
+        balance.setMonth7Amount(convertBigDecimalToKualiDecimal((BigDecimal)map.get(GeneralLedgerConstants.ColumnNames.MONTH_7_ACCT_AMT)));
+        balance.setMonth8Amount(convertBigDecimalToKualiDecimal((BigDecimal)map.get(GeneralLedgerConstants.ColumnNames.MONTH_8_ACCT_AMT)));
+        balance.setMonth9Amount(convertBigDecimalToKualiDecimal((BigDecimal)map.get(GeneralLedgerConstants.ColumnNames.MONTH_9_ACCT_AMT)));
+        balance.setMonth10Amount(convertBigDecimalToKualiDecimal((BigDecimal)map.get(GeneralLedgerConstants.ColumnNames.MONTH_10_ACCT_AMT)));
+        balance.setMonth11Amount(convertBigDecimalToKualiDecimal((BigDecimal)map.get(GeneralLedgerConstants.ColumnNames.MONTH_11_ACCT_AMT)));
+        balance.setMonth12Amount(convertBigDecimalToKualiDecimal((BigDecimal)map.get(GeneralLedgerConstants.ColumnNames.MONTH_12_ACCT_AMT)));
+        balance.setMonth13Amount(convertBigDecimalToKualiDecimal((BigDecimal)map.get(GeneralLedgerConstants.ColumnNames.MONTH_13_ACCT_AMT)));
+        
+        return balance;
+        
+    }
+    
+    private EntryHistory createEntryHistoryFromMap(Map<String, Object> map) {
+        EntryHistory entry = new EntryHistory();
+        entry.setUniversityFiscalYear(((BigDecimal)(map.get(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR))).intValue());
+        entry.setChartOfAccountsCode((String)map.get(GeneralLedgerConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE));
+        entry.setFinancialObjectCode((String)map.get(GeneralLedgerConstants.ColumnNames.OBJECT_CODE));
+        entry.setFinancialBalanceTypeCode((String)map.get(GeneralLedgerConstants.ColumnNames.BALANCE_TYPE_CODE));
+        entry.setUniversityFiscalPeriodCode((String)map.get(GeneralLedgerConstants.ColumnNames.FISCAL_PERIOD_CODE));
+       // entry.setFinancialObjectTypeCode((String)map.get(GeneralLedgerConstants.ColumnNames.OBJECT_TYPE_CODE));
+        entry.setTransactionDebitCreditCode((String)map.get(GeneralLedgerConstants.ColumnNames.TRANSACTION_DEBIT_CREDIT_CD));
+        entry.setTransactionLedgerEntryAmount(convertBigDecimalToKualiDecimal((BigDecimal)map.get(GeneralLedgerConstants.ColumnNames.TRANSACTION_LEDGER_ENTRY_AMOUNT)));
+        
+        return entry;
+        
+    }
+    
+    private AccountBalanceHistory createAccountBalanceHistoryFromMap(Map<String, Object> map) {
+        //UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT 
+        AccountBalanceHistory accountBalanceHistory = new AccountBalanceHistory();
+        accountBalanceHistory.setUniversityFiscalYear(((BigDecimal)(map.get(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR))).intValue());
+        accountBalanceHistory.setChartOfAccountsCode((String)map.get(GeneralLedgerConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE));
+        accountBalanceHistory.setAccountNumber((String)map.get(GeneralLedgerConstants.ColumnNames.ACCOUNT_NUMBER));
+        accountBalanceHistory.setSubAccountNumber((String)map.get(GeneralLedgerConstants.ColumnNames.SUB_ACCOUNT_NUMBER));
+        accountBalanceHistory.setObjectCode((String)map.get(GeneralLedgerConstants.ColumnNames.OBJECT_CODE));
+        accountBalanceHistory.setSubObjectCode((String)map.get(GeneralLedgerConstants.ColumnNames.SUB_OBJECT_CODE));
+        accountBalanceHistory.setCurrentBudgetLineBalanceAmount(convertBigDecimalToKualiDecimal((BigDecimal)map.get(GeneralLedgerConstants.ColumnNames.CURRENT_BUDGET_LINE_BALANCE_AMOUNT)));
+        accountBalanceHistory.setAccountLineActualsBalanceAmount(convertBigDecimalToKualiDecimal((BigDecimal)map.get(GeneralLedgerConstants.ColumnNames.ACCOUNT_LINE_ACTUALS_BALANCE_AMOUNT)));
+        accountBalanceHistory.setAccountLineEncumbranceBalanceAmount(convertBigDecimalToKualiDecimal((BigDecimal)map.get(GeneralLedgerConstants.ColumnNames.ACCOUNT_LINE_ENCUMBRANCE_BALANCE_AMOUNT)));
+
+        
+        return accountBalanceHistory;
+    }
+    
+    private EncumbranceHistory createEncumbranceHistoryFromMap(Map<String, Object> map) {
+        EncumbranceHistory encumbranceHistory = new EncumbranceHistory();
+        encumbranceHistory.setUniversityFiscalYear(((BigDecimal)(map.get(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR))).intValue());
+        encumbranceHistory.setChartOfAccountsCode((String)map.get(GeneralLedgerConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE));
+        encumbranceHistory.setAccountNumber((String)map.get(GeneralLedgerConstants.ColumnNames.ACCOUNT_NUMBER));
+        encumbranceHistory.setSubAccountNumber((String)map.get(GeneralLedgerConstants.ColumnNames.SUB_ACCOUNT_NUMBER));
+        encumbranceHistory.setObjectCode((String)map.get(GeneralLedgerConstants.ColumnNames.OBJECT_CODE));
+        encumbranceHistory.setSubObjectCode((String)map.get(GeneralLedgerConstants.ColumnNames.SUB_OBJECT_CODE));
+        encumbranceHistory.setBalanceTypeCode((String)map.get(GeneralLedgerConstants.ColumnNames.BALANCE_TYPE_CODE));
+        encumbranceHistory.setDocumentTypeCode((String)map.get(GeneralLedgerConstants.ColumnNames.FINANCIAL_DOCUMENT_TYPE_CODE));
+        encumbranceHistory.setOriginCode((String)map.get(GeneralLedgerConstants.ColumnNames.ORIGINATION_CODE));
+        encumbranceHistory.setDocumentNumber((String)map.get(GeneralLedgerConstants.ColumnNames.DOCUMENT_NUMBER));
+        encumbranceHistory.setAccountLineEncumbranceAmount(convertBigDecimalToKualiDecimal((BigDecimal)map.get(GeneralLedgerConstants.ColumnNames.ACCOUNT_LINE_ENCUMBRANCE_AMOUNT)));
+        encumbranceHistory.setAccountLineEncumbranceClosedAmount(convertBigDecimalToKualiDecimal((BigDecimal)map.get(GeneralLedgerConstants.ColumnNames.ACCOUNT_LINE_ENCUMBRANCE_CLOSED_AMOUNT)));
+
+        
+        return encumbranceHistory;
+    }
+    
+    private KualiDecimal convertBigDecimalToKualiDecimal(BigDecimal biggy) {
+        if (ObjectUtils.isNull(biggy))
+            return new KualiDecimal(0);   
+        else 
+            return new KualiDecimal(biggy);
+    
+    }
+    
 }

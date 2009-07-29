@@ -19,6 +19,7 @@ import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.batch.service.ScrubberProcess;
 import org.kuali.kfs.gl.report.CollectorReportData;
 import org.kuali.kfs.gl.service.ScrubberService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -31,8 +32,8 @@ public class ScrubberServiceImpl implements ScrubberService {
     private ScrubberProcess reportOnlyScrubberProcess;
     private ScrubberProcess scrubberProcess;
     private ScrubberProcess demergerScrubberProcess;
-    private ScrubberProcess batchScrubberProcess;
     
+    private static final String COLLECTOR_SCRUBBER_PROCESS_BEAN_NAME = "batchScrubberProcess";
     /**
      * This process will call the scrubber in a read only mode. It will scrub a single group, won't create any output in origin
      * entry. It will create a the scrubber report
@@ -75,8 +76,7 @@ public class ScrubberServiceImpl implements ScrubberService {
      * @see org.kuali.kfs.gl.service.ScrubberService#scrubCollectorBatch(org.kuali.kfs.gl.batch.CollectorBatch, org.kuali.kfs.gl.report.CollectorReportData, org.kuali.kfs.gl.service.OriginEntryService, org.kuali.kfs.gl.service.OriginEntryGroupService)
      */
     public void scrubCollectorBatch(ScrubberStatus scrubberStatus, CollectorBatch batch, CollectorReportData collectorReportData) {
-        // this service is especially developed to support collector scrubbing, demerger, and report generation
-            //new ScrubberProcessImpl(flexibleOffsetAccountService, accountingCycleCachingService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, scrubberValidator, generatedCostShareOriginEntryObjectCodeOverride, runDateService, collectorFileDirectoryName, null, null, null, null, null, null, null);
+        ScrubberProcess batchScrubberProcess = (ScrubberProcess) SpringContext.getService(COLLECTOR_SCRUBBER_PROCESS_BEAN_NAME);
         batchScrubberProcess.scrubCollectorBatch(scrubberStatus, batch, collectorReportData);
     }
     
@@ -110,14 +110,4 @@ public class ScrubberServiceImpl implements ScrubberService {
     public void setDemergerScrubberProcess(ScrubberProcess demergerScrubberProcess) {
         this.demergerScrubberProcess = demergerScrubberProcess;
     }
-
-    /**
-     * Sets the batchScrubberProcess attribute value.
-     * @param batchScrubberProcess The batchScrubberProcess to set.
-     */
-    public void setBatchScrubberProcess(ScrubberProcess batchScrubberProcess) {
-        this.batchScrubberProcess = batchScrubberProcess;
-    }
-
-  
 }

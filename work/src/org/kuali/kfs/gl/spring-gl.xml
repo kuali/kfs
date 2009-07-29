@@ -659,10 +659,7 @@
 		<property name="scrubberProcess">
 			<ref bean="scrubberProcess"/>
 		</property>		
-		<property name="batchScrubberProcess">
-			<ref bean="batchScrubberProcess"/>
-		</property>
-			<property name="demergerScrubberProcess">
+		<property name="demergerScrubberProcess">
 			<ref bean="demergerScrubberProcess"/>
 		</property>
 		<property name="reportOnlyScrubberProcess">

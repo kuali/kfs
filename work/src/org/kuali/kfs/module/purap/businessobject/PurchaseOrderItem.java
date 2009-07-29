@@ -278,8 +278,11 @@ public class PurchaseOrderItem extends PurchasingItemBase {
             // else add outstanding quantity * unit price
             BigDecimal qty = new BigDecimal(this.getOutstandingQuantity().toString());
             outstandingAmount = outstandingAmount.add(new KualiDecimal(this.getItemUnitPrice().multiply(qty)));
+            
+            KualiDecimal itemTaxAmount = this.getItemTaxAmount() == null ? ZERO : this.getItemTaxAmount();
+            KualiDecimal outstandingTaxAmount = new KualiDecimal(qty).divide(this.getItemQuantity()).multiply(itemTaxAmount);
+            outstandingAmount = outstandingAmount.add(outstandingTaxAmount);
         }
-
 
         // return the total encumbrance subtracted by the outstanding amount from above
         return totalEncumberance.subtract(outstandingAmount);

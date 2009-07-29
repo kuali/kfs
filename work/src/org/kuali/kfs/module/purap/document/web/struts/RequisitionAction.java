@@ -157,4 +157,17 @@ public class RequisitionAction extends PurchasingActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Set up blanket approve indicator which will be used to decide if need to run accounting line validation at the time of
+     * blanket approve.
+     * 
+     * @see org.kuali.kfs.module.purap.document.web.struts.PurchasingActionBase#blanketApprove(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RequisitionDocument document = (RequisitionDocument) ((PurchasingFormBase) form).getDocument();
+        document.setBlanketApproveRequest(true);
+        return super.blanketApprove(mapping, form, request, response);
+    }
 }

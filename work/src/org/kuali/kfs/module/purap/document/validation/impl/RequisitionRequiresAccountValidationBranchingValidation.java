@@ -41,7 +41,7 @@ public class RequisitionRequiresAccountValidationBranchingValidation extends Bra
         if (req.isDocumentStoppedInRouteNode(NodeDetailEnum.HAS_ACCOUNTING_LINES) ||
             req.isDocumentStoppedInRouteNode(NodeDetailEnum.ACCOUNT_REVIEW) ||
             req.isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW) ||
-            !itemForValidation.getSourceAccountingLines().isEmpty()) {
+            !itemForValidation.getSourceAccountingLines().isEmpty() || req.isBlanketApproveRequest()) {
             return NEEDS_ACCOUNT_VALIDATION;
         } else {
             return KFSConstants.EMPTY_STRING;

@@ -90,7 +90,10 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     private String alternate3VendorName;
     private String alternate4VendorName;
     private String alternate5VendorName;
-    private KualiDecimal organizationAutomaticPurchaseOrderLimit;    
+    private KualiDecimal organizationAutomaticPurchaseOrderLimit;
+    
+    // non-persistent property used for controlling validation for accounting lines when doc is request for blanket approve.
+    private boolean isBlanketApproveRequest = false;
     
     /**
      * Default constructor.
@@ -681,5 +684,23 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     public Date getCreateDateForResult() {
         return this.getDocumentHeader().getWorkflowDocument().getCreateDate();
     }
+
+    /**
+     * Gets the isBlanketApproveRequest attribute. 
+     * @return Returns the isBlanketApproveRequest.
+     */
+    public boolean isBlanketApproveRequest() {
+        return isBlanketApproveRequest;
+    }
+
+    /**
+     * Sets the isBlanketApproveRequest attribute value.
+     * @param isBlanketApproveRequest The isBlanketApproveRequest to set.
+     */
+    public void setBlanketApproveRequest(boolean isBlanketApproveRequest) {
+        this.isBlanketApproveRequest = isBlanketApproveRequest;
+    }
+    
+    
 }
 

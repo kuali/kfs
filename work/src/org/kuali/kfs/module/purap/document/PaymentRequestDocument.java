@@ -181,7 +181,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     public Integer getRequisitionIdentifier() {
-        return requisitionIdentifier;
+        return getPurchaseOrderDocument().getRequisitionIdentifier();
     }
 
     public void setRequisitionIdentifier(Integer requisitionIdentifier) {

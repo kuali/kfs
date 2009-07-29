@@ -6,8 +6,7 @@
       <parent>COA</parent>
       <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="AccountSupervisor"/>
-          <requests name="AccountSupervisor" nextNode="Account"/>
+          <start name="AdHoc" nextNode="Account"/>
           <requests name="Account" nextNode="OrganizationHierarchy"/>
           <requests name="OrganizationHierarchy" nextNode="Chart"/>
           <requests name="Chart"/>
@@ -15,10 +14,6 @@
       </routePaths>
       <routeNodes>
         <start name="AdHoc"/>
-        <role name="AccountSupervisor">
-          <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-          <activationType>P</activationType>
-        </role>
         <role name="Account">
           <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>

@@ -137,9 +137,7 @@
 	    		<entry key="Account" value-ref="SubObjectCodeGlobalMaintenanceDocument-RoutingType-Account"/>
     			<entry key="OrganizationHierarchy" value-ref="SubObjectCodeGlobalMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
     			<entry key="Chart" value-ref="SubObjectCodeGlobalMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
-    			<entry key="AccountSupervisor" value-ref="SubObjectCodeGlobalMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
-    			
-    		</map>
+       		</map>
 		</property>
 	</bean>
 	

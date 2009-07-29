@@ -88,6 +88,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Attachment;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.mail.InvalidAddressException;
 import org.kuali.rice.kns.mail.MailMessage;
@@ -103,6 +104,7 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.springframework.transaction.annotation.Transactional;
@@ -722,12 +724,18 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         note.setAttachment(attachment);
         attachment.setNote(note);
-        try{
-            SpringContext.getBean(NoteService.class).save(note);
-        }catch(Exception e){ 
-            throw new RuntimeException(e);
-        }
+        
+        PersistableBusinessObject noteParent = getNoteParent(eInvoiceRejectDocument, note);
+        noteParent.addNote(note);
         //eInvoiceRejectDocument.getDocumentHeader().addNote(note);
+    }
+    
+    private PersistableBusinessObject getNoteParent(ElectronicInvoiceRejectDocument document, Note newNote) {
+        //get the property name to set (this assumes this is a document type note)
+        String propertyName = SpringContext.getBean(NoteService.class).extractNoteProperty(newNote);
+        //get BO to set
+        PersistableBusinessObject noteParent = (PersistableBusinessObject)ObjectUtils.getPropertyValue(document, propertyName);
+        return noteParent;
     }
     
     public ElectronicInvoiceRejectDocument createRejectDocument(ElectronicInvoice eInvoice,

@@ -49,6 +49,7 @@ public class PurapPropertyConstants {
     public static final String ITEM_REASON_ADDED = "itemReasonAdded";
     public static final String ITEM_TAX_AMOUNT = "itemTaxAmount";
     public static final String ITEM_SALES_TAX_AMOUNT = "itemSalesTaxAmount";
+    public static final String TOTAL_AMOUNT = "totalAmount";
     
     // ITEM TYPE
     public static final String ITEM_TYPE_QUANTITY_BASED = "quantityBasedGeneralLedgerIndicator";

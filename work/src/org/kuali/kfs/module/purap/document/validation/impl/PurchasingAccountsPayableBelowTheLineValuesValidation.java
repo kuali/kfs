@@ -76,6 +76,14 @@ public class PurchasingAccountsPayableBelowTheLineValuesValidation extends Gener
                     GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_DESCRIPTION, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, "The item description of " + itemForValidation.getItemType().getItemTypeDescription(), "empty");
                 }
             }
+            
+            //now check total amount, if positive check if they should really be negative
+            if (ObjectUtils.isNotNull(itemForValidation.getTotalAmount()) && itemForValidation.getTotalAmount().isPositive()){
+                if (parameterService.parameterExists(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.ITEM_ALLOWS_POSITIVE) && !parameterService.getParameterEvaluator(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.ITEM_ALLOWS_POSITIVE, itemForValidation.getItemTypeCode()).evaluationSucceeds()) {
+                    valid = false;
+                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.TOTAL_AMOUNT, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, itemForValidation.getItemType().getItemTypeDescription() + " Total Amount", "positive");
+                }                
+            }
         }
         catch (ClassNotFoundException e) {
             throw new RuntimeException("The valideBelowTheLineValues of PurchasingAccountsPayableDocumentRuleBase was unable to resolve a document type class: " + PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType), e);

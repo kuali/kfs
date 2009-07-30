@@ -780,8 +780,21 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         }
         emailTextErrorList.append("\n\n");
         
+        addRejectReasonsToNote(emailTextErrorList.toString(), eInvoiceRejectDocument);
         return eInvoiceRejectDocument;
     }
+    
+    private void addRejectReasonsToNote(String rejectReasons, ElectronicInvoiceRejectDocument eInvoiceRejectDocument){
+
+        try {
+            Note note = SpringContext.getBean(DocumentService.class).createNoteFromDocument(eInvoiceRejectDocument, rejectReasons);
+            PersistableBusinessObject noteParent = getNoteParent(eInvoiceRejectDocument, note);
+            noteParent.addNote(note);
+        }catch (Exception e) {
+            LOG.error("Error creating reject reason note - " + e.getMessage());
+        }
+    }
+    
     
     private String generateRejectDocumentDescription(ElectronicInvoice eInvoice,
                                                      ElectronicInvoiceOrder electronicInvoiceOrder){

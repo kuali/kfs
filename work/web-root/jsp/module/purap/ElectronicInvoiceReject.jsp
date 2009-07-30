@@ -39,14 +39,14 @@
 	
 	<kul:tab tabTitle="Comparison Data" defaultOpen="TRUE" tabErrorKey="${PurapConstants.REJECT_DOCUMENT_TAB_ERRORS}">
 	    <div class="tab-container">
-
+			<c:if test="${fn:length(KualiForm.document.invoiceRejectReasons)>0}" >
 			<div class="error" align="left">Reject Reasons:</div>
 			<ul>
 			<logic:iterate indexId="ctr" name="KualiForm" property="document.invoiceRejectReasons" id="reason">
 				<li class="error">${KualiForm.document.invoiceRejectReasons[ctr].invoiceRejectReasonDescription}</li>
 			</logic:iterate>
 			</ul>
-
+			</c:if>
  	        <table cellpadding="0" cellspacing="0" class="datatable" summary="Vendor Section">
 	            <tr>
 	                <td colspan="4" class="subhead">Electronic Invoice Data</td>

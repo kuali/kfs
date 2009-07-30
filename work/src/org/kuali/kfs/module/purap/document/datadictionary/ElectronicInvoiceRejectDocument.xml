@@ -116,6 +116,8 @@
         <ref bean="ElectronicInvoiceRejectDocument-invoiceNumberAcceptIndicator"/>
         <ref bean="ElectronicInvoiceRejectDocument-invoiceResearchIndicatorForResult"/>
         <ref bean="ElectronicInvoiceRejectDocument-accountsPayableApprovalDateForSearch"/>
+        
+        <ref bean="ElectronicInvoiceRejectDocument-workflowStatusForResult"/>   
       </list>
     </property>
     <property name="relationships">
@@ -1461,6 +1463,21 @@
     </property>
   </bean>
   
+  <bean id="ElectronicInvoiceRejectDocument-workflowStatusForResult" parent="ElectronicInvoiceRejectDocument-workflowStatusForResult-parentBean"/>
+
+  <bean id="ElectronicInvoiceRejectDocument-workflowStatusForResult-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="workflowStatusForResult"/>
+    <property name="label" value="Document Status"/>
+    <property name="shortLabel" value="Status"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
+    </property>
+  </bean>
+  
   <bean id="ElectronicInvoiceRejectDocument-accountsPayableApprovalDateForSearch" parent="ElectronicInvoiceRejectDocument-accountsPayableApprovalDateForSearch-parentBean"/>
 
   <bean id="ElectronicInvoiceRejectDocument-accountsPayableApprovalDateForSearch-parentBean" abstract="true" parent="GenericAttributes-genericDate">
@@ -1636,6 +1653,21 @@
     				  </list>
     			  </property>
     		  </bean>  
+    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		      <property name="searchingAttribute">
+    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                          <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument"/>
+    					  <property name="attributeName" value="workflowStatusForResult"/>
+    					  <property name="showAttributeInSearchCriteria" value="false"/>
+    					  <property name="showAttributeInResultSet" value="true"/>
+    				  </bean>
+    			  </property>
+    			  <property name="documentValues">
+    			      <list>
+    					  <value>workflowStatusForResult</value>
+    				  </list>
+    			  </property>
+    		  </bean>
     		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
     			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">

@@ -249,7 +249,6 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         boolean holdIndicator = paymentRequestDocument.isHoldIndicator();        
         boolean extracted = paymentRequestDocument.isExtracted();
         
-        //FIXME hjs-cleanup: we should probably move this to the purapconstants like the other statuses
         boolean preroute = 
             PaymentRequestStatuses.IN_PROCESS.equals(docStatus) || 
             PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(docStatus);
@@ -287,7 +286,6 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         boolean holdIndicator = paymentRequestDocument.isHoldIndicator();        
         boolean extracted = paymentRequestDocument.isExtracted();
         
-        //FIXME hjs-cleanup: we should probably move this to the purapconstants like the other statuses
         boolean preroute = 
             PaymentRequestStatuses.IN_PROCESS.equals(docStatus) || 
             PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(docStatus);

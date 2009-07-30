@@ -446,12 +446,15 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
             return;
         }else{
             
-            if ((itemHolder.getInvoiceItemQuantity().compareTo(poItem.getItemOutstandingEncumberedQuantity().bigDecimalValue())) > 0) {
-                //we have more quantity on the e-invoice than left outstanding encumbered on the PO item
-                String extraDescription = "Invoice Item Line Number:" + itemHolder.getInvoiceItemLineNumber();
-                ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.PO_ITEM_QTY_LESSTHAN_INVOICE_ITEM_QTY,extraDescription,orderHolder.getFileName());
-                orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_QUANTITY,PurapKeyConstants.ERROR_REJECT_POITEM_LESS_OUTSTANDING_QTY);
-                return;
+            if(!itemHolder.getInvoiceOrderHolder().getPurchaseOrderDocument().isReceivingDocumentRequiredIndicator()){ 
+
+                if ((itemHolder.getInvoiceItemQuantity().compareTo(poItem.getItemOutstandingEncumberedQuantity().bigDecimalValue())) > 0) {
+                    //we have more quantity on the e-invoice than left outstanding encumbered on the PO item
+                    String extraDescription = "Invoice Item Line Number:" + itemHolder.getInvoiceItemLineNumber();
+                    ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.PO_ITEM_QTY_LESSTHAN_INVOICE_ITEM_QTY,extraDescription,orderHolder.getFileName());
+                    orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_QUANTITY,PurapKeyConstants.ERROR_REJECT_POITEM_LESS_OUTSTANDING_QTY);
+                    return;
+                }
             }
         }
         

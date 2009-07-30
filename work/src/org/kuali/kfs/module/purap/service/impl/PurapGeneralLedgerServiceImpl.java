@@ -969,7 +969,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
                         //add tax for encumbrance
                         KualiDecimal itemTaxAmount = poItem.getItemTaxAmount() == null ? ZERO : poItem.getItemTaxAmount();
-                        KualiDecimal encumbranceTaxAmount = encumbranceQuantity.divide(outstandingEncumberedQuantity).multiply(itemTaxAmount);
+                        KualiDecimal encumbranceTaxAmount = encumbranceQuantity.divide(poItem.getItemQuantity()).multiply(itemTaxAmount);
                         itemDisEncumber = itemDisEncumber.add(encumbranceTaxAmount);
                     }
                     else {
@@ -1137,7 +1137,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
                     //add tax for encumbrance
                     KualiDecimal itemTaxAmount = poItem.getItemTaxAmount() == null ? ZERO : poItem.getItemTaxAmount();
-                    KualiDecimal encumbranceTaxAmount = preqQuantity.divide(poItem.getItemOutstandingEncumberedQuantity()).multiply(itemTaxAmount);
+                    KualiDecimal encumbranceTaxAmount = preqQuantity.divide(poItem.getItemQuantity()).multiply(itemTaxAmount);
                     itemReEncumber = itemReEncumber.add(encumbranceTaxAmount);
 
                 }
@@ -1290,8 +1290,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                     LOG.debug("getCreditMemoEncumbrance() " + logItmNbr + " Calculate encumbrance based on quantity");
 
                     // Do encumbrance calculations based on quantity                    
-                    KualiDecimal cmQuantity = cmItem.getItemQuantity() == null ? ZERO : cmItem.getItemQuantity();
-                    KualiDecimal outstandingEncumberedQuantity = poItem.getItemOutstandingEncumberedQuantity();
+                    KualiDecimal cmQuantity = cmItem.getItemQuantity() == null ? ZERO : cmItem.getItemQuantity();                    
                     
                     KualiDecimal encumbranceQuantityChange = calculateQuantityChange(cancel, poItem, cmQuantity);
 
@@ -1301,7 +1300,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                     
                     //add tax for encumbrance
                     KualiDecimal itemTaxAmount = poItem.getItemTaxAmount() == null ? ZERO : poItem.getItemTaxAmount();
-                    KualiDecimal encumbranceTaxAmount = encumbranceQuantityChange.divide(outstandingEncumberedQuantity).multiply(itemTaxAmount);
+                    KualiDecimal encumbranceTaxAmount = encumbranceQuantityChange.divide(poItem.getItemQuantity()).multiply(itemTaxAmount);
                     itemDisEncumber = itemDisEncumber.add(encumbranceTaxAmount);
                 }
                 else {

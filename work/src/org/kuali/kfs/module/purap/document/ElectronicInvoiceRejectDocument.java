@@ -25,6 +25,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
+import org.kuali.kfs.module.purap.util.PurapSearchUtils;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
@@ -1870,6 +1871,10 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         return null;
     }
 
+    public String getWorkflowStatusForResult(){
+        return PurapSearchUtils.getWorkFlowStatusString(getDocumentHeader());
+    }
+    
     /**
      * Checks whether the related purchase order views need a warning to be displayed, 
      * i.e. if at least one of the purchase orders has never been opened.

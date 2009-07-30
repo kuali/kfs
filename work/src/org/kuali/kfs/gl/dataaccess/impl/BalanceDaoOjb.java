@@ -816,7 +816,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
             if (parameterService.parameterExists(OrganizationReversion.class, PARAMETER_PREFIX + i)) {
                 ParameterEvaluator parameterEvaluator = parameterService.getParameterEvaluator(OrganizationReversion.class, PARAMETER_PREFIX + i);
                 String currentRule = parameterEvaluator.getValue();
-                if (!endOfYear) {
+                if (endOfYear) {
                     currentRule = currentRule.replaceAll("account\\.", "priorYearAccount.");
                 }
                 if (StringUtils.isNotBlank(currentRule)) {

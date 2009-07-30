@@ -94,7 +94,7 @@ public class OrganizationReversionProcessImpl implements OrganizationReversionPr
     private Map jobParameters;
     private Map<String, Integer> organizationReversionCounts;
 
-    private boolean endOfYear;
+    private boolean usePriorYearInformation;
 
     private boolean holdGeneratedOriginEntries = false;
     private List<OriginEntryFull> generatedOriginEntries;
@@ -114,8 +114,7 @@ public class OrganizationReversionProcessImpl implements OrganizationReversionPr
     private String FUND_REVERTED_TO_MESSAGE;
     private String FUND_REVERTED_FROM_MESSAGE;
 
-    private SystemOptions priorYearOptions;
-    private SystemOptions currentYearOptions;
+    private SystemOptions systemOptions;
     private Integer paramFiscalYear;
     
     private LedgerSummaryReport ledgerReport;
@@ -140,7 +139,7 @@ public class OrganizationReversionProcessImpl implements OrganizationReversionPr
         this.FUND_REVERTED_TO_MESSAGE = getConfigurationService().getPropertyString(KFSKeyConstants.OrganizationReversionProcess.FUND_REVERTED_TO);
         this.FUND_REVERTED_FROM_MESSAGE = getConfigurationService().getPropertyString(KFSKeyConstants.OrganizationReversionProcess.FUND_REVERTED_FROM);
         
-        outputFileName = getBatchFileDirectoryName() + File.separator + (endOfYear ? GeneralLedgerConstants.BatchFileSystem.ORGANIZATION_REVERSION_CLOSING_FILE : GeneralLedgerConstants.BatchFileSystem.ORGANIZATION_REVERSION_PRE_CLOSING_FILE) + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
+        outputFileName = getBatchFileDirectoryName() + File.separator + (usePriorYearInformation ? GeneralLedgerConstants.BatchFileSystem.ORGANIZATION_REVERSION_CLOSING_FILE : GeneralLedgerConstants.BatchFileSystem.ORGANIZATION_REVERSION_PRE_CLOSING_FILE) + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
     }
 
     /**
@@ -161,7 +160,7 @@ public class OrganizationReversionProcessImpl implements OrganizationReversionPr
         try {
             outputPs = new PrintStream(outputFile);
         
-            Iterator<Balance> balances = getBalanceService().findOrganizationReversionBalancesForFiscalYear((Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR), endOfYear);
+            Iterator<Balance> balances = getBalanceService().findOrganizationReversionBalancesForFiscalYear((Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR), usePriorYearInformation);
             processBalances(balances);
             
             outputPs.close();
@@ -252,11 +251,11 @@ public class OrganizationReversionProcessImpl implements OrganizationReversionPr
     protected void retrieveCurrentReversionAndAccount(Balance bal) throws FatalErrorException {
         // initialize the account
         if ((account == null) || (!bal.getChartOfAccountsCode().equals(account.getChartOfAccountsCode())) || (!bal.getAccountNumber().equals(account.getAccountNumber()))) {
-            if (endOfYear) {
-                account = bal.getAccount();
+            if (usePriorYearInformation) {
+                account = getPriorYearAccountService().getByPrimaryKey(bal.getChartOfAccountsCode(), bal.getAccountNumber());
             }
             else {
-                account = getPriorYearAccountService().getByPrimaryKey(bal.getChartOfAccountsCode(), bal.getAccountNumber());
+                account = bal.getAccount();
             }
         }
 
@@ -294,13 +293,7 @@ public class OrganizationReversionProcessImpl implements OrganizationReversionPr
         organizationReversionCounts.put("balancesSelected", new Integer(0));
         organizationReversionCounts.put("recordsWritten", new Integer(0));
 
-        this.priorYearOptions = SpringContext.getBean(OptionsService.class).getOptions(paramFiscalYear);
-        if (this.endOfYear) {
-            this.currentYearOptions = priorYearOptions;
-        }
-        else {
-            this.currentYearOptions = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
-        }
+        this.systemOptions = SpringContext.getBean(OptionsService.class).getOptions(paramFiscalYear);
         
         ledgerReport = new LedgerSummaryReport();
     }
@@ -311,17 +304,13 @@ public class OrganizationReversionProcessImpl implements OrganizationReversionPr
      * @param bal the current balance to process
      */
     protected void calculateBucketAmounts(Balance bal) {
-        SystemOptions options = priorYearOptions;
-        if (endOfYear) {
-            options = currentYearOptions;
-        }
         getPersistenceService().retrieveReferenceObject(bal, "financialObject");
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("CONSIDERING IF TO ADD BALANCE: " + bal.getUniversityFiscalYear() + bal.getChartOfAccountsCode() + bal.getAccountNumber() + bal.getSubAccountNumber() + bal.getObjectCode() + bal.getSubObjectCode() + bal.getBalanceTypeCode() + bal.getObjectTypeCode() + " " + bal.getAccountLineAnnualBalanceAmount().add(bal.getBeginningBalanceLineAmount()));
         }
 
-        if (getCashOrganizationReversionCategoryLogic().containsObjectCode(bal.getFinancialObject()) && bal.getBalanceTypeCode().equals(options.getActualFinancialBalanceTypeCd())) {
+        if (getCashOrganizationReversionCategoryLogic().containsObjectCode(bal.getFinancialObject()) && bal.getBalanceTypeCode().equals(systemOptions.getActualFinancialBalanceTypeCd())) {
             unitOfWork.addTotalCash(bal.getBeginningBalanceLineAmount());
             unitOfWork.addTotalCash(bal.getAccountLineAnnualBalanceAmount());
             incrementCount("balancesSelected");
@@ -333,7 +322,7 @@ public class OrganizationReversionProcessImpl implements OrganizationReversionPr
             for (OrganizationReversionCategory cat : categoryList) {
                 OrganizationReversionCategoryLogic logic = categories.get(cat.getOrganizationReversionCategoryCode());
                 if (logic.containsObjectCode(bal.getFinancialObject())) {
-                    if (options.getActualFinancialBalanceTypeCd().equals(bal.getBalanceTypeCode())) {
+                    if (systemOptions.getActualFinancialBalanceTypeCd().equals(bal.getBalanceTypeCode())) {
                         // Actual
                         unitOfWork.addActualAmount(cat.getOrganizationReversionCategoryCode(), bal.getBeginningBalanceLineAmount());
                         unitOfWork.addActualAmount(cat.getOrganizationReversionCategoryCode(), bal.getAccountLineAnnualBalanceAmount());
@@ -342,7 +331,7 @@ public class OrganizationReversionProcessImpl implements OrganizationReversionPr
                             LOG.debug("ADDING BALANCE TO ACTUAL: " + bal.getUniversityFiscalYear() + bal.getChartOfAccountsCode() + bal.getAccountNumber() + bal.getSubAccountNumber() + bal.getObjectCode() + bal.getSubObjectCode() + bal.getBalanceTypeCode() + bal.getObjectTypeCode() + " " + bal.getAccountLineAnnualBalanceAmount().add(bal.getBeginningBalanceLineAmount()) + " TO ACTUAL, ACTUAL FOR CATEGORY " + cat.getOrganizationReversionCategoryName() + " NOW = " + unitOfWork.getCategoryAmounts().get(cat.getOrganizationReversionCategoryCode()).getActual());
                         }
                     }
-                    else if (options.getFinObjTypeExpenditureexpCd().equals(bal.getBalanceTypeCode()) || options.getCostShareEncumbranceBalanceTypeCd().equals(bal.getBalanceTypeCode()) || options.getIntrnlEncumFinBalanceTypCd().equals(bal.getBalanceTypeCode())) {
+                    else if (systemOptions.getFinObjTypeExpenditureexpCd().equals(bal.getBalanceTypeCode()) || systemOptions.getCostShareEncumbranceBalanceTypeCd().equals(bal.getBalanceTypeCode()) || systemOptions.getIntrnlEncumFinBalanceTypCd().equals(bal.getBalanceTypeCode())) {
                         // Encumbrance
                         KualiDecimal amount = bal.getBeginningBalanceLineAmount().add(bal.getAccountLineAnnualBalanceAmount());
                         if (amount.isPositive()) {
@@ -450,12 +439,7 @@ public class OrganizationReversionProcessImpl implements OrganizationReversionPr
         entry.setSubAccountNumber(unitOfWork.subAccountNumber);
         entry.setFinancialObjectCode(organizationReversion.getOrganizationChartCashObjectCode());
         entry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
-        if (entry.getUniversityFiscalYear().equals(paramFiscalYear)) {
-            entry.setFinancialBalanceTypeCode(priorYearOptions.getNominalFinancialBalanceTypeCd());
-        }
-        else {
-            entry.setFinancialBalanceTypeCode(currentYearOptions.getNominalFinancialBalanceTypeCd());
-        }
+        entry.setFinancialBalanceTypeCode(systemOptions.getNominalFinancialBalanceTypeCd());
 
         getPersistenceService().retrieveReferenceObject(entry, KFSPropertyConstants.FINANCIAL_OBJECT);
         if (ObjectUtils.isNull(entry.getFinancialObject())) {
@@ -994,7 +978,21 @@ public class OrganizationReversionProcessImpl implements OrganizationReversionPr
      */
     private void incrementCount(String countName, int increment) {
         Integer count = organizationReversionCounts.get(countName);
-        organizationReversionCounts.put(countName, new Integer(count.intValue() + increment));
+        if (countName.equals("recordsWritten")) {
+            int countAsInt = count.intValue();
+            // add by 1, so we're guaranteed to hit the 1000th
+            for (int i = 1; i <= increment; i++) {
+                countAsInt += 1;
+                if (countAsInt % 1000 == 0) {
+                    LOG.info(" ORIGIN ENTRIES INSERTED = "+countAsInt);
+                } else if (countAsInt == 367471) {
+                    LOG.info(" YOU HAVE ACHIEVED 367471 ORIGIN ENTRIES INSERTED!  TRIUMPH IS YOURS!  ");
+                }
+            }
+            organizationReversionCounts.put(countName, new Integer(countAsInt));
+        } else {
+            organizationReversionCounts.put(countName, new Integer(count.intValue() + increment));
+        }
     }
     
     /**
@@ -1166,19 +1164,19 @@ public class OrganizationReversionProcessImpl implements OrganizationReversionPr
     }
 
     /**
-     * Gets the endOfYear attribute. 
-     * @return Returns the endOfYear.
+     * Gets the usePriorYearInformation attribute. 
+     * @return Returns the usePriorYearInformation.
      */
-    public boolean isEndOfYear() {
-        return endOfYear;
+    public boolean isUsePriorYearInformation() {
+        return usePriorYearInformation;
     }
 
     /**
-     * Sets the endOfYear attribute value.
-     * @param endOfYear The endOfYear to set.
+     * Sets the usePriorYearInformation attribute value.
+     * @param usePriorYearInformation The usePriorYearInformation to set.
      */
-    public void setEndOfYear(boolean endOfYear) {
-        this.endOfYear = endOfYear;
+    public void setUsePriorYearInformation(boolean endOfYear) {
+        this.usePriorYearInformation = endOfYear;
     }
 
     /**

@@ -42,7 +42,7 @@ public class OrganizationReversionTestProcess extends OrganizationReversionProce
 
         initializeProcess();
         
-        Iterator<Balance> balances = getBalanceService().findOrganizationReversionBalancesForFiscalYear((Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR), isEndOfYear());
+        Iterator<Balance> balances = getBalanceService().findOrganizationReversionBalancesForFiscalYear((Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR), isUsePriorYearInformation());
         processBalances(balances);
             
     }

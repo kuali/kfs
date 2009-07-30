@@ -58,8 +58,8 @@
 				<value>encumbranceForwardJob</value>
 				<value>balanceForwardJob</value>
 				<value>nominalActivityClosingJob</value>
-				<value>organizationReversionClosingJob</value>
-				<value>organizationReversionOpeningJob</value>
+				<value>organizationReversionPriorYearAccountJob</value>
+				<value>organizationReversionCurrentYearAccountJob</value>
 				<value>sufficientFundsSyncJob</value>
 				<value>manualPurgeJob</value>
 				<value>clearOldOriginEntriesJob</value>
@@ -386,7 +386,7 @@
 		</property>
 	</bean>
 	
-	<bean id="glOrganizationReversionBeginningOfYearProcess" class="org.kuali.kfs.gl.batch.service.impl.OrganizationReversionProcessImpl" scope="prototype">
+	<bean id="glOrganizationReversionCurrentYearAccountProcess" class="org.kuali.kfs.gl.batch.service.impl.OrganizationReversionProcessImpl" scope="prototype">
 		<property name="organizationReversionService" ref="organizationReversionService" />
 		<property name="balanceService" ref="glBalanceService" />
 		<property name="originEntryService" ref="originEntryService" />
@@ -400,11 +400,11 @@
 		<property name="cashOrganizationReversionCategoryLogic">
 			<ref bean="glCashOrganizationReversionCategoryLogic" />
 		</property>
-		<property name="endOfYear" value="false" />
+		<property name="usePriorYearInformation" value="false" />
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 	
-	<bean id="glOrganizationReversionEndOfYearProcess" class="org.kuali.kfs.gl.batch.service.impl.OrganizationReversionProcessImpl" scope="prototype">
+	<bean id="glOrganizationReversionPriorYearAccountProcess" class="org.kuali.kfs.gl.batch.service.impl.OrganizationReversionProcessImpl" scope="prototype">
 		<property name="organizationReversionService" ref="organizationReversionService" />
 		<property name="balanceService" ref="glBalanceService" />
 		<property name="originEntryService" ref="originEntryService" />
@@ -418,7 +418,7 @@
 		<property name="cashOrganizationReversionCategoryLogic">
 			<ref bean="glCashOrganizationReversionCategoryLogic" />
 		</property>
-		<property name="endOfYear" value="true" />
+		<property name="usePriorYearInformation" value="true" />
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 	
@@ -1489,10 +1489,10 @@
 		</property>
 	</bean>
 	
-	<bean id="organizationReversionClosingJob" parent="unscheduledJobDescriptor">
+	<bean id="organizationReversionPriorYearAccountJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="organizationReversionClosingStep" />
+				<ref bean="organizationReversionPriorYearAccountStep" />
 			</list>
 		</property>
 		<property name="dependencies">
@@ -1502,10 +1502,10 @@
 		</property>
 	</bean>
 		
-	<bean id="organizationReversionOpeningJob" parent="unscheduledJobDescriptor">
+	<bean id="organizationReversionCurrentYearAccountJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="organizationReversionOpeningStep" />
+				<ref bean="organizationReversionCurrentYearAccountStep" />
 			</list>
 		</property>
 		<property name="dependencies">
@@ -2064,7 +2064,7 @@
 		</property>
 	</bean>
 
-	<bean id="organizationReversionClosingStep" class="org.kuali.kfs.gl.batch.OrganizationReversionEndOfYearStep" parent="wrappedStep">
+	<bean id="organizationReversionPriorYearAccountStep" class="org.kuali.kfs.gl.batch.OrganizationReversionPriorYearAccountStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="organizationReversionReportWriterService"/>
@@ -2075,7 +2075,7 @@
 		</property>
 	</bean>
 
-	<bean id="organizationReversionOpeningStep" class="org.kuali.kfs.gl.batch.OrganizationReversionBeginningOfYearStep" parent="wrappedStep">
+	<bean id="organizationReversionCurrentYearAccountStep" class="org.kuali.kfs.gl.batch.OrganizationReversionCurrentYearAccountStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="organizationReversionReportWriterService"/>

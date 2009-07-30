@@ -40,7 +40,7 @@
 		<property name="cashOrganizationReversionCategoryLogic">
 			<ref bean="glCashOrganizationReversionCategoryLogic" />
 		</property>
-		<property name="endOfYear" value="false" />
+		<property name="usePriorYearInformation" value="false" />
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/test_directory/originEntry"/>
 	</bean>
     
@@ -215,9 +215,6 @@
 	<bean id="glScrubberService" class="org.kuali.kfs.gl.service.impl.ScrubberServiceImpl">
 		<property name="scrubberProcess">
 			<ref bean="mockScrubberProcess"/>
-		</property>
-		<property name="batchScrubberProcess">
-			<ref bean="mockBatchScrubberProcess"/>
 		</property>
 		<property name="demergerScrubberProcess">
 			<ref bean="mockDemergerScrubberProcess"/>

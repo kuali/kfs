@@ -304,13 +304,23 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @return
      */
     protected boolean isItemFullyPretagged(Pretag preTag, AssetGlobal assetGlobal) {
-        return isItemPretagged(preTag) && preTag.getPretagDetails().size() >= assetGlobal.getAssetSharedDetails().size();
+        if (isItemPretagged(preTag)) {
+            List<PretagDetail> pretagDetails = preTag.getPretagDetails();
+            int pretagSize = 0;
+            for (PretagDetail pretagDetail : pretagDetails) {
+                if (pretagDetail.isActive()) {
+                    pretagSize++;
+                }
+            }
+            return pretagSize >= assetGlobal.getAssetSharedDetails().size();
+        }
+        return false;
     }
 
 
     /**
      * Set asset global detail location information from PurAp input. In this method, no grouping for shared location because
-     * AssetGlobalMaintainableImpl.processAfterRetrieve() will group the shared location anyway.
+     * AssetGlobalMaintainableImpl.processAfterRetrieve() will group the shared location anyway...
      * 
      * @param capitalAssetSystem
      * @param assetDetailsList
@@ -679,7 +689,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @return
      */
     protected boolean isItemPretagged(Pretag preTag) {
-        return ObjectUtils.isNotNull(preTag) && ObjectUtils.isNotNull(preTag.getPretagDetails()) && !preTag.getPretagDetails().isEmpty();
+        return ObjectUtils.isNotNull(preTag) && preTag.isActive() && ObjectUtils.isNotNull(preTag.getPretagDetails()) && !preTag.getPretagDetails().isEmpty();
     }
 
 

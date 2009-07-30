@@ -58,6 +58,7 @@
 				<value>purgeJob</value>
 				<value>fiscalYearMakerJob</value>
 				<value>clearCacheJob</value>
+				<value>purgeReportsAndStagingJob</value>
             </list>
         </property>
         <property name="fiscalYearMakers">
@@ -251,7 +252,30 @@
 		</property>
 	</bean>
 	
+	<bean id="purgeReportsAndStagingJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="filePurgeStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="filePurgeStep" class="org.kuali.kfs.sys.batch.FilePurgeStep" parent="step">
+		<property name="directories">
+			<list>
+				<value>${reports.directory}</value>
+				<value>${staging.directory}</value>
+				<value>${temp.directory}</value>
+			</list>
+		</property>
+		
+	</bean>
+	
+	
 	<!-- end core batch jobs -->
+	
+	<bean id="FilePurgeCustomAge" class="org.kuali.kfs.sys.batch.FilePurgeCustomAge" />
+	
 	
 	<bean id="financialSystemUserService" class="org.kuali.kfs.sys.service.impl.FinancialSystemUserServiceImpl" />
 	

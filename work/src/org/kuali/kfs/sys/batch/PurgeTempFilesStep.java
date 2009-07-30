@@ -39,7 +39,7 @@ public class PurgeTempFilesStep extends AbstractStep {
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         Calendar calendar = getDateTimeService().getCurrentCalendar();
         calendar.add(Calendar.DATE, -1);
-        String location = kualiConfigurationService.getPropertyString(KFSConstants.TEMP_DIRECTORY_KEY) + "/";
+        String location = kualiConfigurationService.getPropertyString(KFSConstants.TEMP_DIRECTORY_KEY) + File.separator;
         deleteTempBefore(location, calendar.getTimeInMillis());
         return true;
     }

@@ -82,7 +82,6 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         RequisitionDocument r = requisitionService.getRequisitionById(purchaseOrder.getRequisitionIdentifier());
         KualiWorkflowDocument reqWorkflowDoc = r.getDocumentHeader().getWorkflowDocument();
 
-//FIXME hjs (sciquest)        
         LOG.debug("sendPurchaseOrder(): punchoutUrl is " + b2bPunchoutURL);
 
         String validateErrors = verifyCxmlPOData(purchaseOrder, reqWorkflowDoc.getInitiatorNetworkId(), b2bPurchaseOrderPassword, contractManager, contractManagerEmail, vendorDuns);

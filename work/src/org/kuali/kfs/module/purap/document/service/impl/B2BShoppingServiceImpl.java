@@ -90,8 +90,6 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
 
     private B2BInformation getB2bShoppingConfigurationInformation() {
         B2BInformation b2b = new B2BInformation();
-
-        //FIXME hjs (Sciquest)
         b2b.setPunchoutURL(b2bPunchoutURL);
         b2b.setPunchbackURL(b2bPunchbackURL);
         b2b.setEnvironment(b2bEnvironment);

@@ -48,7 +48,7 @@ public class ElectronicInvoiceRejectForm extends FinancialSystemTransactionalDoc
     }
 
     /**
-     * Build additional payment request specific buttons and set extraButtons list.
+     * Build additional electronic invoice specific buttons and set extraButtons list.
      * 
      * @return - list of extra buttons to be displayed to the user
      */
@@ -62,11 +62,13 @@ public class ElectronicInvoiceRejectForm extends FinancialSystemTransactionalDoc
         String externalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY);
         String appExternalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
 
-      if (eirDoc.isInvoiceResearchIndicator()) {
-          addExtraButton("methodToCall.completeResearch", appExternalImageURL + "buttonsmall_complresearch.gif", "Complete Research");
-      } else {
-          addExtraButton("methodToCall.startResearch", appExternalImageURL + "buttonsmall_research.gif", "Research");
-      }
+        if (eirDoc.getDocumentHeader().getWorkflowDocument().stateIsEnroute()){
+          if (eirDoc.isInvoiceResearchIndicator()) {
+              addExtraButton("methodToCall.completeResearch", appExternalImageURL + "buttonsmall_complresearch.gif", "Complete Research");
+          } else {
+              addExtraButton("methodToCall.startResearch", appExternalImageURL + "buttonsmall_research.gif", "Research");
+          }
+        }
 
         return extraButtons;
     }

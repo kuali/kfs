@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -1903,6 +1904,21 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         }
         return false;
     }
+    
+    /**
+     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange()
+     */
+    @Override
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        LOG.debug("doRouteStatusChange() started");
+        super.doRouteStatusChange(statusChangeEvent);
+        if (this.getDocumentHeader().getWorkflowDocument().stateIsApproved()){ 
+            //Set the current date as approval timestamp
+            this.setAccountsPayableApprovalTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
+           } 
+
+    }
+
 }
 /*
  * Copyright 2007 The Kuali Foundation.

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.gl.batch.service;
 
+import java.io.PrintStream;
 import java.util.List;
 
 import org.kuali.kfs.gl.batch.CollectorBatch;
@@ -36,9 +37,10 @@ public interface CollectorHelperService {
      * @param collectorReportData the object used to store all of the collector status information for reporting
      * @param collectorScrubberStatuses if the collector scrubber is able to be invoked upon this collector batch, then the status
      *        info of the collector status run is added to the end of this list
+     * @param the output stream to which to store origin entries that properly pass validation
      * @return boolean - true if load was successful, false if errors were encountered
      */
-    public boolean loadCollectorFile(String fileName, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses, BatchInputFileType collectorInputFileType);
+    public boolean loadCollectorFile(String fileName, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses, BatchInputFileType collectorInputFileType, PrintStream originEntryOutputPs);
 
     /**
      * Validates the contents of a parsed file.

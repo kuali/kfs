@@ -15,11 +15,16 @@
  */
 package org.kuali.kfs.gl.batch;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
@@ -76,6 +81,7 @@ public class CollectorBatch implements Serializable {
         collectorDetails = new ArrayList();
         messageMap = new MessageMap();
         originEntryTotals = null;
+        totalRecords = 0;
     }
 
     /**
@@ -266,7 +272,7 @@ public class CollectorBatch implements Serializable {
      * @param originEntryGroup the group into which to store the origin entries
      * @param collectorReportData report data
      */
-    public void setDefaultsAndStore(CollectorReportData collectorReportData) {
+    public void setDefaultsAndStore(CollectorReportData collectorReportData, String demergerOutputFileName, PrintStream originEntryOutputPs) {
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);  
         
         // persistHeader is used to persist a collector header record into the DB
@@ -279,6 +285,24 @@ public class CollectorBatch implements Serializable {
         }
         businessObjectService.save(persistHeader);
               
+        // store origin entries by using the demerger output file
+        
+        BufferedReader inputFileReader = null;
+        try {
+            inputFileReader = new BufferedReader(new FileReader(demergerOutputFileName));
+            String line = null;
+            while ((line = inputFileReader.readLine()) != null) {
+                originEntryOutputPs.printf("%s\n", line);
+            }
+        }
+        catch (IOException e) {
+            throw new RuntimeException("IO Error encountered trying to persist collector batch.", e);
+        }
+        finally {
+            IOUtils.closeQuietly(inputFileReader);
+            inputFileReader = null;
+        }
+        
         int countOfdetails = collectorDetails.size();
         for (int numSavedDetails = 0; numSavedDetails < countOfdetails; numSavedDetails++) {
             CollectorDetail idDetail = this.collectorDetails.get(numSavedDetails);           

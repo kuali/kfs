@@ -95,7 +95,7 @@ public class CollectorServiceImpl implements CollectorService {
                     boolean processSuccess = false;
                     try {
                         LOG.info("Collecting file: " + inputFileName);
-                        processSuccess = collectorHelperService.loadCollectorFile(inputFileName, collectorReportData, collectorScrubberStatuses, collectorInputFileType);
+                        processSuccess = collectorHelperService.loadCollectorFile(inputFileName, collectorReportData, collectorScrubberStatuses, collectorInputFileType, collectorFinalOutputFilePs);
                     }
                     catch (RuntimeException e) {
                         LOG.error("Caught exception trying to load collector file: " + inputFileName, e);
@@ -103,16 +103,6 @@ public class CollectorServiceImpl implements CollectorService {
                     processedFiles.add(inputFileName);
                     
                     if (processSuccess) {
-                        String collectorEachInputFileName = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_DEMERGER_VAILD_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-                        //concatenate all output(scrbout2) file. 
-                        inputFileReader = new BufferedReader(new FileReader(collectorEachInputFileName));
-                        String line = null;
-                            while ((line = inputFileReader.readLine()) != null) {
-                                collectorFinalOutputFilePs.printf("%s\n", line);
-                            }    
-                            inputFileReader.close();
-                            inputFileReader = null;  
-                          
                         //create done file    
                         String doneFileName = collectorFinalOutputFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
                         File doneFile = new File (doneFileName);
@@ -120,16 +110,13 @@ public class CollectorServiceImpl implements CollectorService {
                             try {
                                 doneFile.createNewFile();
                             } catch (IOException e) {
-                                throw new RuntimeException();
+                                throw new RuntimeException("Error creating collector done file", e);
                             }
                         }
                     }
                 }
                 updateCollectorReportDataWithExecutionStatistics(collectorReportData, collectorScrubberStatuses);
             }
-        }
-        catch (IOException e) {
-            throw new RuntimeException("writing all collector result files to output file process Stopped: " + e.getMessage(), e); 
         }
         finally {
             collectorScrubberService.removeTempGroups(collectorScrubberStatuses);

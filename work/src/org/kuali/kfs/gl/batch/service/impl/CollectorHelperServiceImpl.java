@@ -15,9 +15,11 @@
  */
 package org.kuali.kfs.gl.batch.service.impl;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -101,10 +103,11 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @param collectorReportData the object used to store all of the collector status information for reporting
      * @param collectorScrubberStatuses if the collector scrubber is able to be invoked upon this collector batch, then the status
      *        info of the collector status run is added to the end of this list
+     * @param the output stream to which to store origin entries that properly pass validation
      * @return boolean - true if load was successful, false if errors were encountered
      * @see org.kuali.kfs.gl.batch.service.CollectorService#loadCollectorFile(java.lang.String)
      */
-    public boolean loadCollectorFile(String fileName, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses, BatchInputFileType collectorInputFileType) {
+    public boolean loadCollectorFile(String fileName, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses, BatchInputFileType collectorInputFileType, PrintStream originEntryOutputPs) {
         boolean isValid = true;
 
         MessageMap fileMessageMap = collectorReportData.getMessageMapForFileName(fileName);
@@ -116,12 +119,12 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             collectorBatch.setBatchName(fileName + " Batch " + String.valueOf(i + 1));
             collectorReportData.addBatch(collectorBatch);
             
-            isValid &= loadCollectorBatch(collectorBatch, fileName, i + 1, collectorReportData, collectorScrubberStatuses, collectorInputFileType);
+            isValid &= loadCollectorBatch(collectorBatch, fileName, i + 1, collectorReportData, collectorScrubberStatuses, collectorInputFileType, originEntryOutputPs);
         }
         return isValid;
     }
         
-    protected boolean loadCollectorBatch(CollectorBatch batch, String fileName, int batchIndex, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses, BatchInputFileType collectorInputFileType) {
+    protected boolean loadCollectorBatch(CollectorBatch batch, String fileName, int batchIndex, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses, BatchInputFileType collectorInputFileType, PrintStream originEntryOutputPs) {
         boolean isValid = true;
         
         MessageMap messageMap = batch.getMessageMap();
@@ -150,25 +153,26 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             String collectorFileDirectoryName = collectorInputFileType.getDirectoryPath();
             // create a input file for scrubber
             String collectorInputFileNameForScrubber = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_BACKUP_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-            PrintStream inputFilePs;
+            PrintStream inputFilePs = null;
             try {
                 inputFilePs = new PrintStream(collectorInputFileNameForScrubber);
             
                 for (OriginEntryFull entry : batch.getOriginEntries()){
                     inputFilePs.printf("%s\n", entry.getLine());    
                 }
-
-                inputFilePs.close();
             } catch (IOException e) {
                 throw new RuntimeException("loadCollectorFile Stopped: " + e.getMessage(), e);
+            } finally {
+                IOUtils.closeQuietly(inputFilePs);
             }
             
             CollectorScrubberStatus collectorScrubberStatus = collectorScrubberService.scrub(batch, collectorReportData, collectorFileDirectoryName);
             collectorScrubberStatuses.add(collectorScrubberStatus);
             processInterDepartmentalBillingAmounts(batch);
 
-            // store origin group, entries, and id billings
-            batch.setDefaultsAndStore(collectorReportData);
+            // store origin group, entries, and collector detairs
+            String collectorDemergerOutputFileName = batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.COLLECTOR_DEMERGER_VAILD_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;  
+            batch.setDefaultsAndStore(collectorReportData, collectorDemergerOutputFileName, originEntryOutputPs);
             collectorReportData.incrementNumPersistedBatches();
         }
         else {

@@ -724,7 +724,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
 
                     if (!isFatal(transactionErrors)) {
                         saveValidTransaction = true;
-
+                        
                         if (!collectorMode) {
 
                             // See if unit of work has changed
@@ -835,19 +835,14 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                                 scrubCostShareAmount = KualiDecimal.ZERO;
                             }
 
-                            if (transactionErrors.size() > 0) {
-                                handleTransactionErrors(OriginEntryFull.copyFromOriginEntryable(scrubbedEntry), transactionErrors);
-                            }
-
                             lastEntry = scrubbedEntry;
                         }
                     }
                     else {
                         // Error transaction
                         saveErrorTransaction = true;
-                        handleTransactionErrors(OriginEntryFull.copyFromOriginEntryable(unscrubbedEntry), transactionErrors);
                     }
-
+                    handleTransactionErrors(OriginEntryFull.copyFromOriginEntryable(unscrubbedEntry), transactionErrors);
                     if (!collectorMode) {
                         ledgerSummaryReport.summarizeEntry(unscrubbedEntry);
                     }

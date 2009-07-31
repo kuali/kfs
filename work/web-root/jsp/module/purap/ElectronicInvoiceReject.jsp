@@ -342,7 +342,7 @@
 				            </tr>
 							<tr>
 					            <kul:htmlAttributeHeaderCell attributeEntry="${purapItemAttributes.itemLineNumber}"/>
-					            <kul:htmlAttributeHeaderCell attributeEntry="${purapItemAttributes.itemQuantity}"/>
+					            <kul:htmlAttributeHeaderCell attributeEntry="${purapItemAttributes.outstandingQuantity}"/>
 					            <kul:htmlAttributeHeaderCell attributeEntry="${purapItemAttributes.itemUnitOfMeasureCode}"/>
 								<kul:htmlAttributeHeaderCell attributeEntry="${purapItemAttributes.itemCatalogNumber}" />
 								<kul:htmlAttributeHeaderCell attributeEntry="${purapItemAttributes.itemDescription}" />
@@ -361,7 +361,7 @@
 									<td class="datacell">
 									    <kul:htmlControlAttribute
 										    attributeEntry="${purapItemAttributes.itemQuantity}"
-										    property="document.currentPurchaseOrderDocument.items[${ctr}].itemQuantity"
+										    property="document.currentPurchaseOrderDocument.items[${ctr}].outstandingQuantity"
 										    readOnly="true" />
 									</td>
 									<td class="datacell">

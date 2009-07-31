@@ -1010,38 +1010,48 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      *
      * @param po The PurchaseOrderDocument containing the vendor that we want to update.
      */
-    public void updateVendorCommodityCode(PurchaseOrderDocument po)  {
-        try {
-            VendorDetail oldVendorDetail = po.getVendorDetail();
-            VendorDetail newVendorDetail = updateVendorWithMissingCommodityCodesIfNecessary(po);
-            if (newVendorDetail != null) {
-                //spawn a new vendor maintenance document to add the note
-                MaintenanceDocument vendorMaintDoc = (MaintenanceDocument)documentService.getNewDocument("PVEN");
-                vendorMaintDoc.getDocumentHeader().setDocumentDescription("Automatically spawned from PO");
-                vendorMaintDoc.getOldMaintainableObject().setBusinessObject(oldVendorDetail);
-                vendorMaintDoc.getNewMaintainableObject().setBusinessObject(newVendorDetail);
-                vendorMaintDoc.getNewMaintainableObject().setMaintenanceAction(KFSConstants.MAINTENANCE_EDIT_ACTION);
-                vendorMaintDoc.getNewMaintainableObject().setDocumentNumber(vendorMaintDoc.getDocumentNumber());
-                boolean isVendorLocked = checkForLockingDocument(vendorMaintDoc);
-                if (!isVendorLocked) {
-                    addNoteForCommodityCodeToVendor(vendorMaintDoc.getNewMaintainableObject(), vendorMaintDoc.getDocumentNumber(), po.getPurapDocumentIdentifier());
-                    documentService.routeDocument(vendorMaintDoc, null, null);
+    public void updateVendorCommodityCode(PurchaseOrderDocument po) {
+        String noteText = "";
+        VendorDetail oldVendorDetail = po.getVendorDetail();
+        VendorDetail newVendorDetail = updateVendorWithMissingCommodityCodesIfNecessary(po);
+        if (newVendorDetail != null) {
+            try {
+                // spawn a new vendor maintenance document to add the note
+                MaintenanceDocument vendorMaintDoc = null;
+                try {
+                    vendorMaintDoc = (MaintenanceDocument) documentService.getNewDocument("PVEN");
+                    vendorMaintDoc.getDocumentHeader().setDocumentDescription("Automatically spawned from PO");
+                    vendorMaintDoc.getOldMaintainableObject().setBusinessObject(oldVendorDetail);
+                    vendorMaintDoc.getNewMaintainableObject().setBusinessObject(newVendorDetail);
+                    vendorMaintDoc.getNewMaintainableObject().setMaintenanceAction(KFSConstants.MAINTENANCE_EDIT_ACTION);
+                    vendorMaintDoc.getNewMaintainableObject().setDocumentNumber(vendorMaintDoc.getDocumentNumber());
+                    boolean isVendorLocked = checkForLockingDocument(vendorMaintDoc);
+                    if (!isVendorLocked) {
+                        addNoteForCommodityCodeToVendor(vendorMaintDoc.getNewMaintainableObject(), vendorMaintDoc.getDocumentNumber(), po.getPurapDocumentIdentifier());
+                        documentService.routeDocument(vendorMaintDoc, null, null);
+                    }
+                    else {
+                        // Add a note to the PO to tell the users that we can't automatically update the vendor because it's locked.
+                        noteText = "Unable to automatically update vendor because it is locked";
+                    }
                 }
-                else {
-                    //Add a note to the PO to tell the users that we can't automatically update the vendor because it's locked.
-                    try {
-                        Note note = documentService.createNoteFromDocument(po, "Unable to automatically update vendor because it is locked");
-                        documentService.addNoteToDocument(po, note);
-                        purapService.saveDocumentNoValidation(po);
+                catch (Exception e) {
+                    if (ObjectUtils.isNull(vendorMaintDoc)) {
+                        noteText = "Unable to create a new VendorDetailMaintenanceDocument to update the vendor with new commodity codes";
                     }
-                    catch (Exception e) {
-                        throw new RuntimeException(e);
+                    else {
+                        noteText = "Unable to route a new VendorDetailMaintenanceDocument to update the vendor with new commodity codes";
                     }
+                }
+                finally {
+                    Note note = documentService.createNoteFromDocument(po, noteText);
+                    documentService.addNoteToDocument(po, note);
+                    noteService.save(note);
                 }
             }
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
+            catch (Exception e) {
+                LOG.error("updateVendorCommodityCode() unable to add a note(" + noteText + ") to PO document " + po.getDocumentNumber());
+            }
         }
     }
 

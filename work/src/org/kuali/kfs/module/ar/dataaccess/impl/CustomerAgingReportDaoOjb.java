@@ -38,7 +38,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         HashMap<String, KualiDecimal> map = new HashMap<String, KualiDecimal>();
         Criteria criteria = new Criteria();
         if (begin != null) {
-            criteria.addGreaterThan("customerInvoiceDocument.billingDate", begin);
+            criteria.addGreaterOrEqualThan("customerInvoiceDocument.billingDate", begin);
         }
         if (end != null) {
             criteria.addLessOrEqualThan("customerInvoiceDocument.billingDate", end);
@@ -46,6 +46,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         criteria.addEqualTo("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
         criteria.addEqualTo("customerInvoiceDocument.accountsReceivableDocumentHeader.processingChartOfAccountCode", chart);
         criteria.addEqualTo("customerInvoiceDocument.accountsReceivableDocumentHeader.processingOrganizationCode", org);
+        criteria.addEqualTo("customerInvoiceDocument.openInvoiceIndicator", true);
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(CustomerInvoiceDetail.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName", "sum(amount)" }, criteria);
         reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber");
         reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName");
@@ -66,7 +67,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         HashMap<String, KualiDecimal> map = new HashMap<String, KualiDecimal>();
         Criteria criteria = new Criteria();
         if (begin != null) {
-            criteria.addGreaterThan("customerInvoiceDocument.billingDate", begin);
+            criteria.addGreaterOrEqualThan("customerInvoiceDocument.billingDate", begin);
         }
         if (end != null) {
             criteria.addLessOrEqualThan("customerInvoiceDocument.billingDate", end);
@@ -74,6 +75,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         criteria.addEqualTo("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
         criteria.addEqualTo("customerInvoiceDocument.accountsReceivableDocumentHeader.processingChartOfAccountCode", chart);
         criteria.addEqualTo("customerInvoiceDocument.accountsReceivableDocumentHeader.processingOrganizationCode", org);
+        criteria.addEqualTo("customerInvoiceDocument.openInvoiceIndicator", true);
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(InvoicePaidApplied.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName", "sum(invoiceItemAppliedAmount)" }, criteria);
         reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber");
         reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName");
@@ -95,7 +97,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         HashMap<String, KualiDecimal> map = new HashMap<String, KualiDecimal>();
         Criteria subCriteria = new Criteria();
         if (begin != null) {
-            subCriteria.addGreaterThan("customerInvoiceDocument.billingDate", begin);
+            subCriteria.addGreaterOrEqualThan("customerInvoiceDocument.billingDate", begin);
         }
         if (end != null) {
             subCriteria.addLessOrEqualThan("customerInvoiceDocument.billingDate", end);
@@ -103,6 +105,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         subCriteria.addEqualTo("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
         subCriteria.addEqualTo("customerInvoiceDocument.accountsReceivableDocumentHeader.processingChartOfAccountCode", chart);
         subCriteria.addEqualTo("customerInvoiceDocument.accountsReceivableDocumentHeader.processingOrganizationCode", org);
+        subCriteria.addEqualTo("customerInvoiceDocument.openInvoiceIndicator", true);
         subCriteria.addEqualToField("documentNumber", Criteria.PARENT_QUERY_PREFIX + "documentNumber");
 
         ReportQueryByCriteria subReportQuery = new ReportQueryByCriteria(CustomerInvoiceDetail.class, new String[] { "invoiceItemDiscountLineNumber" }, subCriteria);
@@ -130,7 +133,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         HashMap<String, KualiDecimal> map = new HashMap<String, KualiDecimal>();
         Criteria criteria = new Criteria();
         if (begin != null) {
-            criteria.addGreaterThan("customerInvoiceDocument.billingDate", begin);
+            criteria.addGreaterOrEqualThan("customerInvoiceDocument.billingDate", begin);
         }
         if (end != null) {
             criteria.addLessOrEqualThan("customerInvoiceDocument.billingDate", end);
@@ -138,6 +141,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         criteria.addEqualTo("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
         criteria.addEqualTo("customerInvoiceDocument.billByChartOfAccountCode", chart);
         criteria.addEqualTo("customerInvoiceDocument.billedByOrganizationCode", org);
+        criteria.addEqualTo("customerInvoiceDocument.openInvoiceIndicator", true);
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(CustomerInvoiceDetail.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName", "sum(amount)" }, criteria);
         reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber");
         reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName");
@@ -158,7 +162,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         HashMap<String, KualiDecimal> map = new HashMap<String, KualiDecimal>();
         Criteria criteria = new Criteria();
         if (begin != null) {
-            criteria.addGreaterThan("customerInvoiceDocument.billingDate", begin);
+            criteria.addGreaterOrEqualThan("customerInvoiceDocument.billingDate", begin);
         }
         if (end != null) {
             criteria.addLessOrEqualThan("customerInvoiceDocument.billingDate", end);
@@ -166,6 +170,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         criteria.addEqualTo("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
         criteria.addEqualTo("customerInvoiceDocument.billByChartOfAccountCode", chart);
         criteria.addEqualTo("customerInvoiceDocument.billedByOrganizationCode", org);
+        criteria.addEqualTo("customerInvoiceDocument.openInvoiceIndicator", true);
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(InvoicePaidApplied.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName", "sum(invoiceItemAppliedAmount)" }, criteria);
         reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber");
         reportByCriteria.addGroupBy("customerInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName");
@@ -187,7 +192,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         HashMap<String, KualiDecimal> map = new HashMap<String, KualiDecimal>();
         Criteria subCriteria = new Criteria();
         if (begin != null) {
-            subCriteria.addGreaterThan("customerInvoiceDocument.billingDate", begin);
+            subCriteria.addGreaterOrEqualThan("customerInvoiceDocument.billingDate", begin);
         }
         if (end != null) {
             subCriteria.addLessOrEqualThan("customerInvoiceDocument.billingDate", end);
@@ -195,6 +200,7 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         subCriteria.addEqualTo("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
         subCriteria.addEqualTo("customerInvoiceDocument.billByChartOfAccountCode", chart);
         subCriteria.addEqualTo("customerInvoiceDocument.billedByOrganizationCode", org);
+        subCriteria.addEqualTo("customerInvoiceDocument.openInvoiceIndicator", true);
         subCriteria.addEqualToField("documentNumber", Criteria.PARENT_QUERY_PREFIX + "documentNumber");
 
         ReportQueryByCriteria subReportQuery = new ReportQueryByCriteria(CustomerInvoiceDetail.class, new String[] { "invoiceItemDiscountLineNumber" }, subCriteria);
@@ -222,12 +228,13 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         HashMap<String, KualiDecimal> map = new HashMap<String, KualiDecimal>();
         Criteria criteria = new Criteria();
         if (begin != null) {
-            criteria.addGreaterThan("customerInvoiceDocument.billingDate", begin);
+            criteria.addGreaterOrEqualThan("customerInvoiceDocument.billingDate", begin);
         }
         if (end != null) {
             criteria.addLessOrEqualThan("customerInvoiceDocument.billingDate", end);
         }
         criteria.addEqualTo("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+        criteria.addEqualTo("customerInvoiceDocument.openInvoiceIndicator", true);
         criteria.addEqualTo("chartOfAccountsCode", chart);
         criteria.addEqualTo("accountNumber", account);
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(CustomerInvoiceDetail.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName", "sum(amount)" }, criteria);
@@ -250,12 +257,13 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         HashMap<String, KualiDecimal> map = new HashMap<String, KualiDecimal>();
         Criteria criteria = new Criteria();
         if (begin != null) {
-            criteria.addGreaterThan("customerInvoiceDocument.billingDate", begin);
+            criteria.addGreaterOrEqualThan("customerInvoiceDocument.billingDate", begin);
         }
         if (end != null) {
             criteria.addLessOrEqualThan("customerInvoiceDocument.billingDate", end);
         }
         criteria.addEqualTo("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+        criteria.addEqualTo("customerInvoiceDocument.openInvoiceIndicator", true);
         criteria.addEqualTo("invoiceDetail.chartOfAccountsCode", chart);
         criteria.addEqualTo("invoiceDetail.accountNumber", account);
         ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(InvoicePaidApplied.class, new String[] { "customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber", "customerInvoiceDocument.accountsReceivableDocumentHeader.customer.customerName", "sum(invoiceItemAppliedAmount)" }, criteria);
@@ -279,12 +287,13 @@ public class CustomerAgingReportDaoOjb extends PlatformAwareDaoBaseOjb implement
         HashMap<String, KualiDecimal> map = new HashMap<String, KualiDecimal>();
         Criteria subCriteria = new Criteria();
         if (begin != null) {
-            subCriteria.addGreaterThan("customerInvoiceDocument.billingDate", begin);
+            subCriteria.addGreaterOrEqualThan("customerInvoiceDocument.billingDate", begin);
         }
         if (end != null) {
             subCriteria.addLessOrEqualThan("customerInvoiceDocument.billingDate", end);
         }
         subCriteria.addEqualTo("customerInvoiceDocument.documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+        subCriteria.addEqualTo("customerInvoiceDocument.openInvoiceIndicator", true);
         subCriteria.addEqualTo("chartOfAccountsCode", chart);
         subCriteria.addEqualTo("accountNumber", account);
         subCriteria.addEqualToField("documentNumber", Criteria.PARENT_QUERY_PREFIX + "documentNumber");

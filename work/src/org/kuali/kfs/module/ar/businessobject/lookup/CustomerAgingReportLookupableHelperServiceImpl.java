@@ -139,10 +139,14 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             e.printStackTrace();
         }
         Date cutoffdate30 = DateUtils.addDays(reportRunDate, -30);
+        Date cutoffdate31 = DateUtils.addDays(reportRunDate, -31);
         Date cutoffdate60 = DateUtils.addDays(reportRunDate, -60);
+        Date cutoffdate61 = DateUtils.addDays(reportRunDate, -61);
         Date cutoffdate90 = DateUtils.addDays(reportRunDate, -90);
+        Date cutoffdate91 = DateUtils.addDays(reportRunDate, -91);
         // Date cutoffdate120 = DateUtils.addDays(reportRunDate, -120);
         Date cutoffdate120 = DateUtils.addDays(reportRunDate, -1 * Integer.parseInt(nbrDaysForLastBucket));
+        Date cutoffdate121 = DateUtils.addDays(cutoffdate120, -1);
 
         // LOG.info("\t\t********** REPORT DATE\t\t"+reportRunDate.toString());
         // LOG.info("\t\t*********************** cutoffdate 30:\t\t"+cutoffdate30.toString());
@@ -159,37 +163,37 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             // 30 days
             computeFor0To30DaysByProcessingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate30.getTime()), new java.sql.Date(reportRunDate.getTime()), knownCustomers);
             // 60 days
-            computeFor31To60DaysByProcessingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate60.getTime()), new java.sql.Date(cutoffdate30.getTime()), knownCustomers);
+            computeFor31To60DaysByProcessingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate60.getTime()), new java.sql.Date(cutoffdate31.getTime()), knownCustomers);
             // 90 days
-            computeFor61To90DaysByProcessingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate90.getTime()), new java.sql.Date(cutoffdate60.getTime()), knownCustomers);
+            computeFor61To90DaysByProcessingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate90.getTime()), new java.sql.Date(cutoffdate61.getTime()), knownCustomers);
             // 120 days
-            computeFor91ToSYSPRDaysByProcessingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate120.getTime()), new java.sql.Date(cutoffdate90.getTime()), knownCustomers);
+            computeFor91ToSYSPRDaysByProcessingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate120.getTime()), new java.sql.Date(cutoffdate91.getTime()), knownCustomers);
             // 120 + older
-            computeForSYSPRplus1orMoreDaysByProcessingChartAndOrg(agingReportDao, null, new java.sql.Date(cutoffdate120.getTime()), knownCustomers);
+            computeForSYSPRplus1orMoreDaysByProcessingChartAndOrg(agingReportDao, null, new java.sql.Date(cutoffdate121.getTime()), knownCustomers);
         }
         if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.BILLING_ORG) && StringUtils.isNotBlank(processingOrBillingChartCode) && StringUtils.isNotBlank(orgCode)) {
             // 30 days
             computeFor0To30DaysByBillingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate30.getTime()), new java.sql.Date(reportRunDate.getTime()), knownCustomers);
             // 60 days
-            computeFor31To60DaysByBillingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate60.getTime()), new java.sql.Date(cutoffdate30.getTime()), knownCustomers);
+            computeFor31To60DaysByBillingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate60.getTime()), new java.sql.Date(cutoffdate31.getTime()), knownCustomers);
             // 90 days
-            computeFor61To90DaysByBillingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate90.getTime()), new java.sql.Date(cutoffdate60.getTime()), knownCustomers);
+            computeFor61To90DaysByBillingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate90.getTime()), new java.sql.Date(cutoffdate61.getTime()), knownCustomers);
             // 120 days
-            computeFor91ToSYSPRDaysByBillingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate120.getTime()), new java.sql.Date(cutoffdate90.getTime()), knownCustomers);
+            computeFor91ToSYSPRDaysByBillingChartAndOrg(agingReportDao, new java.sql.Date(cutoffdate120.getTime()), new java.sql.Date(cutoffdate91.getTime()), knownCustomers);
             // 120 + older
-            computeForSYSPRplus1orMoreDaysByBillingChartAndOrg(agingReportDao, null, new java.sql.Date(cutoffdate120.getTime()), knownCustomers);
+            computeForSYSPRplus1orMoreDaysByBillingChartAndOrg(agingReportDao, null, new java.sql.Date(cutoffdate121.getTime()), knownCustomers);
         }
         if (reportOption.equalsIgnoreCase(ArConstants.CustomerAgingReportFields.ACCT) && StringUtils.isNotBlank(accountChartCode) && StringUtils.isNotBlank(accountNumber)) {
             // 30 days
             computeFor0To30DaysByAccount(agingReportDao, new java.sql.Date(cutoffdate30.getTime()), new java.sql.Date(reportRunDate.getTime()), knownCustomers);
             // 60 days
-            computeFor31To60DaysByAccount(agingReportDao, new java.sql.Date(cutoffdate60.getTime()), new java.sql.Date(cutoffdate30.getTime()), knownCustomers);
+            computeFor31To60DaysByAccount(agingReportDao, new java.sql.Date(cutoffdate60.getTime()), new java.sql.Date(cutoffdate31.getTime()), knownCustomers);
             // 90 days
-            computeFor61To90DaysByAccount(agingReportDao, new java.sql.Date(cutoffdate90.getTime()), new java.sql.Date(cutoffdate60.getTime()), knownCustomers);
+            computeFor61To90DaysByAccount(agingReportDao, new java.sql.Date(cutoffdate90.getTime()), new java.sql.Date(cutoffdate61.getTime()), knownCustomers);
             // 120 days
-            computeFor91ToSYSPRDaysByAccount(agingReportDao, new java.sql.Date(cutoffdate120.getTime()), new java.sql.Date(cutoffdate90.getTime()), knownCustomers);
+            computeFor91ToSYSPRDaysByAccount(agingReportDao, new java.sql.Date(cutoffdate120.getTime()), new java.sql.Date(cutoffdate91.getTime()), knownCustomers);
             // 120 + older
-            computeForSYSPRplus1orMoreDaysByAccount(agingReportDao, null, new java.sql.Date(cutoffdate120.getTime()), knownCustomers);
+            computeForSYSPRplus1orMoreDaysByAccount(agingReportDao, null, new java.sql.Date(cutoffdate121.getTime()), knownCustomers);
         }
 
         List<CustomerAgingReportDetail> results = new ArrayList<CustomerAgingReportDetail>();

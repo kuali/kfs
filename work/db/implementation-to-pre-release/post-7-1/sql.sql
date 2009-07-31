@@ -1,3 +1,19 @@
+--KFSMI-3949
+
+update krns_parm_t
+ set parm_nm= 'CORPORATION_OWNERSHIP_TYPE'
+ WHERE PARM_NM = 'CORPORATION_OWNERSHIP_TYPE ';
+update krns_parm_t
+set parm_nm= 'NUMBER_OF_DAYS_SINCE_LAST_ UPDATE'
+WHERE PARM_NM = ' NUMBER_OF_DAYS_SINCE_LAST_UPDATE ';
+--KFSMI-4294
+update krim_perm_t
+set desc_txt = 'Authorizes user to access the Collector Flat File Upload page.'
+where perm_id = '385';
+insert into krim_role_perm_t 
+select '707',sys_guid(),1, '17', '385','Y'
+from dual;
+
 --KFSMI-4177
 CREATE OR REPLACE VIEW pur_po_itm_tot_enc_v AS
 (select a.FDOC_NBR AS fdoc_nbr,

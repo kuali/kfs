@@ -781,14 +781,20 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             LOG.info("Reject document has been created (DocNo=" + eInvoiceRejectDocument.getDocumentNumber() + ")");
         }
         
-        emailTextErrorList.append("An Invoice from file '" + eInvoice.getFileName() + "' has been rejected due to the following errors:\n");
-        for (Iterator iter = eInvoiceRejectDocument.getInvoiceRejectReasons().iterator(); iter.hasNext();) {
+        emailTextErrorList.append("An Invoice from file '" + eInvoice.getFileName() + "' has been rejected due to the following error(s):\n");
+        
+        StringBuffer rejectReasonNote = new StringBuffer();
+        rejectReasonNote.append("This reject document has been created because of the following reason(s):\n");
+        int index = 1;
+        for (Iterator iter = eInvoiceRejectDocument.getInvoiceRejectReasons().iterator(); iter.hasNext();index++) {
           ElectronicInvoiceRejectReason reason = (ElectronicInvoiceRejectReason) iter.next();
           emailTextErrorList.append("    - " + reason.getInvoiceRejectReasonDescription() + "\n");
+          rejectReasonNote.append(" " + index + ". " + reason.getInvoiceRejectReasonDescription() + "\n");
         }
+        
         emailTextErrorList.append("\n\n");
         
-        addRejectReasonsToNote(emailTextErrorList.toString(), eInvoiceRejectDocument);
+        addRejectReasonsToNote(rejectReasonNote.toString(), eInvoiceRejectDocument);
         return eInvoiceRejectDocument;
     }
     

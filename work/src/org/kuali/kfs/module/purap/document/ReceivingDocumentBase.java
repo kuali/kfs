@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.Carrier;
 import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingStatus;
@@ -586,6 +587,9 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     }
 
     public LineItemReceivingStatus getLineItemReceivingStatus() {
+        if (ObjectUtils.isNull(this.lineItemReceivingStatus) && StringUtils.isNotEmpty(this.getLineItemReceivingStatusCode()))  {
+            this.refreshReferenceObject(PurapPropertyConstants.LINE_ITEM_RECEIVING_STATUS);
+        }
         return lineItemReceivingStatus;
     }
 

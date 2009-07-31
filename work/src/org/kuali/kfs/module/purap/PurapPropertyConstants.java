@@ -206,6 +206,7 @@ public class PurapPropertyConstants {
     public static final String SHIPMENT_RECEIVED_DATE = "shipmentReceivedDate";
     public static final String SHIPMENT_PACKING_SLIP_NUMBER = "shipmentPackingSlipNumber";
     public static final String SHIPMENT_BILL_OF_LADING_NUMBER = "shipmentBillOfLadingNumber";
+    public static final String LINE_ITEM_RECEIVING_STATUS = "lineItemReceivingStatus";
     
     //ASSIGN CONTRACT MANAGER DOCUMENT
     public static final String REQUISITION_IDENTIFIER = "requisitionIdentifier";

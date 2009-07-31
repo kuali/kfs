@@ -424,6 +424,10 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 
                 ElectronicInvoiceRejectDocument rejectDocument = createRejectDocument(eInvoice, order,eInvoiceLoad);
                 
+                if (orderHolder.getAccountsPayablePurchasingDocumentLinkIdentifier() != null){
+                    rejectDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(orderHolder.getAccountsPayablePurchasingDocumentLinkIdentifier());
+                }
+                
                 String dunsNumber = StringUtils.isEmpty(eInvoice.getDunsNumber()) ?
                                     UNKNOWN_DUNS_IDENTIFIER :
                                     eInvoice.getDunsNumber();
@@ -444,6 +448,10 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                     GlobalVariables.getMessageMap().clear();
                     
                     ElectronicInvoiceRejectDocument rejectDocument = createRejectDocument(eInvoice, order,eInvoiceLoad);
+                    
+                    if (orderHolder.getAccountsPayablePurchasingDocumentLinkIdentifier() != null){
+                        rejectDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(orderHolder.getAccountsPayablePurchasingDocumentLinkIdentifier());
+                    }
                     
                     ElectronicInvoiceLoadSummary loadSummary = getOrCreateLoadSummary(eInvoiceLoad, eInvoice.getDunsNumber());
                     loadSummary.addFailedInvoiceOrder(rejectDocument.getTotalAmount(),eInvoice);
@@ -1087,6 +1095,10 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         preqDoc.setAccountsPayableProcessorIdentifier("E-Invoice");
         preqDoc.setVendorCustomerNumber(orderHolder.getCustomerNumber());
         preqDoc.setCreatedByElectronicInvoice(true);
+        
+        if (orderHolder.getAccountsPayablePurchasingDocumentLinkIdentifier() != null){
+            preqDoc.setAccountsPayablePurchasingDocumentLinkIdentifier(orderHolder.getAccountsPayablePurchasingDocumentLinkIdentifier());
+        }
         
         //Copied from PaymentRequestServiceImpl.populatePaymentRequest()
         //set bank code to default bank code in the system parameter

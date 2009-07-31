@@ -288,6 +288,15 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         return totalEncumberance.subtract(outstandingAmount);
     }
     
+    /**
+     * Exists due to a setter requirement by the htmlControlAttribute
+     * @deprecated
+     * @param amount - outstanding quantity
+     */
+    public void setOutstandingQuantity(){
+        // do nothing
+    }
+    
     public KualiDecimal getOutstandingQuantity() {
             KualiDecimal outstandingQuantity = (this.getItemQuantity() != null) ? this.getItemQuantity() : KualiDecimal.ZERO;
             KualiDecimal invoicedQuantity = (this.getItemInvoicedTotalQuantity() != null) ? this.getItemInvoicedTotalQuantity() : KualiDecimal.ZERO;

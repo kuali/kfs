@@ -3395,6 +3395,13 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectView" table="AP_ELCTRNC_INV_RJT_DOC_T">
+    <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" primarykey="true" jdbc-type="INTEGER"/>
+    <field-descriptor name="purapDocumentIdentifier" column="INV_RJT_ID" primarykey="true" jdbc-type="INTEGER"/>
+    <field-descriptor name="documentNumber" column="FDOC_NBR" primarykey="true" jdbc-type="VARCHAR"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+</class-descriptor>
+
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.PurchaseOrderView" table="PUR_PO_T">
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" primarykey="true" jdbc-type="INTEGER"/>
     <field-descriptor name="purapDocumentIdentifier" column="PO_ID" primarykey="true" jdbc-type="INTEGER"/>

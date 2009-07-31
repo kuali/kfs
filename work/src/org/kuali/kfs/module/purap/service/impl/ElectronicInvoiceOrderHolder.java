@@ -723,6 +723,18 @@ public class ElectronicInvoiceOrderHolder {
         return noteBuffer.toString();
     }
     
+    public Integer getAccountsPayablePurchasingDocumentLinkIdentifier(){
+        if (isRejectDocumentHolder()){
+            return rejectDocument.getAccountsPayablePurchasingDocumentLinkIdentifier();
+        }else{
+            if (poDocument != null){
+                return poDocument.getAccountsPayablePurchasingDocumentLinkIdentifier();
+            }else{
+                return null;
+            }
+        }
+    }
+    
     private class FieldErrorHelper {
         
         private String fieldName;

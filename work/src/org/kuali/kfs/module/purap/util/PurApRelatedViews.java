@@ -25,6 +25,7 @@ import org.kuali.kfs.module.purap.businessobject.AbstractRelatedView;
 import org.kuali.kfs.module.purap.businessobject.BulkReceivingView;
 import org.kuali.kfs.module.purap.businessobject.CorrectionReceivingView;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
+import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectView;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingView;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
@@ -47,6 +48,7 @@ public class PurApRelatedViews {
     private transient List<BulkReceivingView> relatedBulkReceivingViews;    
     private transient List<PurchaseOrderViewGroup> groupedRelatedPurchaseOrderViews;
     private transient List<ReceivingViewGroup> groupedRelatedReceivingViews;
+    private transient List<ElectronicInvoiceRejectView> relatedRejectViews;
     
     public PurApRelatedViews(String documentNumber, Integer accountsPayablePurchasingDocumentLinkIdentifier) {
         super();
@@ -69,6 +71,7 @@ public class PurApRelatedViews {
         relatedBulkReceivingViews = null;
         groupedRelatedPurchaseOrderViews = null;
         groupedRelatedReceivingViews = null;
+        relatedRejectViews = null;
     }
     
     public List updateRelatedView(Class<?> clazz, List<? extends AbstractRelatedView> relatedList, boolean removeCurrentDocument) {
@@ -94,6 +97,11 @@ public class PurApRelatedViews {
         return relatedRequisitionViews;
     }
 
+    public List<ElectronicInvoiceRejectView> getRelatedRejectViews() {
+        relatedRejectViews = updateRelatedView(ElectronicInvoiceRejectView.class, relatedRejectViews, true);
+        return relatedRejectViews;
+    }
+    
     /**
      * Obtains a list of related PurchaseOrderViews, first ordered by POIDs descending, then by document numbers descending;
      * thus POs with newer POIDs will be in the front, and within the same POID, the current PO will be in the front. 

@@ -61,5 +61,9 @@
 		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
 			viewList="document.relatedViews.relatedCreditMemoViews"
 			limitByPoId="${limitByPoId}" /> 
+			
+		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
+			viewList="document.relatedViews.relatedRejectViews"
+			limitByPoId="${limitByPoId}" /> 	
     </div>
 </kul:tab>

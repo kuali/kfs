@@ -24,6 +24,7 @@ import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReason;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
+import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.module.purap.util.PurapSearchUtils;
 import org.kuali.kfs.sys.ObjectUtil;
@@ -129,6 +130,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
 
     private boolean invoiceNumberAcceptIndicator = false;
     private boolean invoiceResearchIndicator = false;
+    private Timestamp invoiceFileTimeStampForSearch;
     
     private Timestamp accountsPayableApprovalTimestamp;
     
@@ -1871,6 +1873,19 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         return null;
     }
 
+    public Timestamp getInvoiceFileTimeStampForSearch() {
+        Date invoiceDate = ElectronicInvoiceUtils.getDate(getInvoiceFileDate());
+        if (invoiceDate != null){
+            return new Timestamp(invoiceDate.getTime());   
+        }else{
+            return null;
+        }
+    }
+
+    public void setInvoiceFileTimeStampForSearch(Timestamp invoiceFileTimeStamp) {
+        //Not needed
+    }
+    
     public String getWorkflowStatusForResult(){
         return PurapSearchUtils.getWorkFlowStatusString(getDocumentHeader());
     }

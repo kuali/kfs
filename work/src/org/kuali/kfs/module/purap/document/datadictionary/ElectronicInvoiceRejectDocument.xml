@@ -118,6 +118,7 @@
         <ref bean="ElectronicInvoiceRejectDocument-accountsPayableApprovalDateForSearch"/>
         
         <ref bean="ElectronicInvoiceRejectDocument-workflowStatusForResult"/>   
+        <ref bean="ElectronicInvoiceRejectDocument-invoiceFileTimeStampForSearch"/>
       </list>
     </property>
     <property name="relationships">
@@ -1486,6 +1487,14 @@
     <property name="shortLabel" value="Approval Date"/>
   </bean>
   
+  <bean id="ElectronicInvoiceRejectDocument-invoiceFileTimeStampForSearch" parent="ElectronicInvoiceRejectDocument-invoiceFileTimeStampForSearch-parentBean"/>
+
+  <bean id="ElectronicInvoiceRejectDocument-invoiceFileTimeStampForSearch-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="invoiceFileTimeStampForSearch"/>
+    <property name="label" value="Invoice Date"/>
+    <property name="shortLabel" value="Invoice Date"/>
+  </bean>
+  
   <!-- workflow attributes -->
   <bean id="ElectronicInvoiceRejectDocument-workflowAttributes" parent="ElectronicInvoiceRejectDocument-workflowAttributes-parentBean"/>
   
@@ -1598,14 +1607,14 @@
     		      <property name="searchingAttribute">
     			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument"/>
-    					  <property name="attributeName" value="invoiceFileDate"/>
+    					  <property name="attributeName" value="invoiceFileTimeStampForSearch"/>
     					  <property name="showAttributeInSearchCriteria" value="true"/>
                           <property name="showAttributeInResultSet" value="true"/>    					  
     				  </bean>
     			  </property>
     			  <property name="documentValues">
     			      <list>
-    					  <value>invoiceFileDate</value>
+    					  <value>invoiceFileTimeStampForSearch</value>
     				  </list>
     			  </property>
     		  </bean> 

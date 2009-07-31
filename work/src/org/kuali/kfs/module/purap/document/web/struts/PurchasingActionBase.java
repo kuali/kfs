@@ -1320,8 +1320,10 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      * @return true if calculation is required, false otherwise
      */
     protected boolean requiresCalculate(PurchasingFormBase purForm) {
-        boolean requiresCalculate = true;        
-        requiresCalculate = !purForm.isCalculated() && purForm.canUserCalculate();
+        boolean requiresCalculate = true;
+        boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);
+        
+        requiresCalculate = salesTaxInd && (!purForm.isCalculated() && purForm.canUserCalculate());
 
         return requiresCalculate;
     }

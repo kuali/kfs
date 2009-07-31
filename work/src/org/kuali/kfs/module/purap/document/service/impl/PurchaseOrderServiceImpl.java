@@ -1044,9 +1044,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     }
                 }
                 finally {
-                    Note note = documentService.createNoteFromDocument(po, noteText);
-                    documentService.addNoteToDocument(po, note);
-                    noteService.save(note);
+                    if (StringUtils.isNotBlank(noteText)) {
+                        // update on purchase order notes
+                        Note note = documentService.createNoteFromDocument(po, noteText);
+                        documentService.addNoteToDocument(po, note);
+                        noteService.save(note);
+                    }
                 }
             }
             catch (Exception e) {

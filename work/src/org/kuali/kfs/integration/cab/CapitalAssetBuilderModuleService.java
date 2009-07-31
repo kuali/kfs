@@ -25,7 +25,13 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.kns.bo.DocumentHeader;
 
 public interface CapitalAssetBuilderModuleService {
-
+    /**
+     * Check the existence of asset type code
+     * 
+     * @param assetTypeCode
+     * @return
+     */
+    public boolean isAssetTypeExisting(String assetTypeCode);
     /**
      * Get current Purchase Order Document number for given CAMS Document Number
      * 

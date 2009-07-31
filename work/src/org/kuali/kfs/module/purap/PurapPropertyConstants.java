@@ -122,6 +122,9 @@ public class PurapPropertyConstants {
     public static final String CAPITAL_ASSET_LOCATION_BUILDING = "buildingCode";
     public static final String CAPITAL_ASSET_LOCATION_ROOM = "buildingRoomNumber";
     
+    // Purchasing Capital Asset System Base
+    public static final String CAPITAL_ASSET_TYPE_CODE = "capitalAssetTypeCode";
+    
     // Receiving Address
     public static final String RECEIVING_ADDRESS_DEFAULT_INDICATOR = "defaultIndicator";
     public static final String RECEIVING_ADDRESS_ACTIVE = "active";

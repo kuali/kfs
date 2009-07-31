@@ -110,4 +110,9 @@ public class CapitalAssetBuilderModuleServiceNoOp implements CapitalAssetBuilder
         return false;
     }
 
+    public boolean isAssetTypeExisting(String assetTypeCode) {
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        return false;
+    }
+
 }

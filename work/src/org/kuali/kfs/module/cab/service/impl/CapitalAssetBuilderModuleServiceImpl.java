@@ -1417,11 +1417,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     private boolean validateNewCapitalAssetFields(CapitalAssetInformation capitalAssetInformation) {
         boolean valid = true;
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE, capitalAssetInformation.getCapitalAssetTypeCode().toString());
-        AssetType assetType = (AssetType) this.getBusinessObjectService().findByPrimaryKey(AssetType.class, params);
-
-        if (ObjectUtils.isNull(assetType)) {
+        if (!isAssetTypeExisting(capitalAssetInformation.getCapitalAssetTypeCode().toString())) {
             valid = false;
             String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE);
             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
@@ -1452,7 +1448,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 String label = this.getDataDictionaryService().getAttributeLabel(Campus.class, KFSPropertyConstants.CAMPUS_CODE);
                 GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.CAMPUS_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
             }
-
+            
+            Map<String, String> params;
             params = new HashMap<String, String>();
             params.put(KFSPropertyConstants.CAMPUS_CODE, dtl.getCampusCode());
             params.put(KFSPropertyConstants.BUILDING_CODE, dtl.getBuildingCode());
@@ -1475,6 +1472,19 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
 
         return valid;
+    }
+
+    /**
+     * Check assetTypeCode existence.
+     * 
+     * @param assetTypeCode
+     * @return
+     */
+    public boolean isAssetTypeExisting(String assetTypeCode) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE, assetTypeCode);
+        AssetType assetType = (AssetType) this.getBusinessObjectService().findByPrimaryKey(AssetType.class, params);
+        return ObjectUtils.isNotNull(assetType);
     }
 
     /**

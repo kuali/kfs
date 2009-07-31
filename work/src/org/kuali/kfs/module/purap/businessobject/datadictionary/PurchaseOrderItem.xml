@@ -38,6 +38,7 @@
         <ref bean="PurchaseOrderItem-movingToSplit"/>
         <ref bean="PurchaseOrderItem-itemTaxAmount"/>
         <ref bean="PurchaseOrderItem-totalAmount"/>
+		<ref bean="PurchaseOrderItem-outstandingQuantity"/>
       </list>
     </property>
   </bean>
@@ -321,6 +322,17 @@
     <property name="shortLabel" value="Total Amount"/>
   </bean>
 
+  <bean id="PurchaseOrderItem-outstandingQuantity" parent="PurchaseOrderItem-outstandingQuantity-parentBean"/>
+
+  <bean id="PurchaseOrderItem-outstandingQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
+    <property name="name" value="outstandingQuantity"/>
+    <property name="label" value="Item Open Quantity"/>
+    <property name="shortLabel" value="Open Qty"/>
+     <property name="validationPattern">
+      <bean parent="FixedPointValidationPattern" p:precision="11" p:scale="2"  p:allowNegative="true"/>
+    </property>
+  </bean>
+  
 <!-- Business Object Inquiry Definition -->
 
 

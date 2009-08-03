@@ -1272,6 +1272,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             PurchaseOrderItem poItem = getPoItem(po, cmItem.getItemLineNumber(), cmItem.getItemType());
 
             KualiDecimal itemDisEncumber = null; // Amount to disencumber for this item
+            KualiDecimal itemAlterInvoiceAmt = null; // Amount to alter the invoicedAmt on the PO item
 
             String logItmNbr = "Item # " + cmItem.getItemLineNumber();
             LOG.debug("getCreditMemoEncumbrance() " + logItmNbr);
@@ -1302,6 +1303,11 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                     KualiDecimal itemTaxAmount = poItem.getItemTaxAmount() == null ? ZERO : poItem.getItemTaxAmount();
                     KualiDecimal encumbranceTaxAmount = encumbranceQuantityChange.divide(poItem.getItemQuantity()).multiply(itemTaxAmount);
                     itemDisEncumber = itemDisEncumber.add(encumbranceTaxAmount);
+                    
+                    itemAlterInvoiceAmt = cmItemTotalAmount;
+                    if (cancel) {
+                        itemAlterInvoiceAmt = itemAlterInvoiceAmt.multiply(new KualiDecimal("-1"));
+                    }
                 }
                 else {
                     LOG.debug("getCreditMemoEncumbrance() " + logItmNbr + " Calculate encumbrance based on amount");
@@ -1327,10 +1333,18 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                             itemDisEncumber = poItem.getTotalAmount().subtract(poItem.getItemOutstandingEncumberedAmount());
                         }
                     }
+                    itemAlterInvoiceAmt = itemDisEncumber;
                 }
 
+                // alter the encumbrance based on what was originally encumbered
                 poItem.setItemOutstandingEncumberedAmount(poItem.getItemOutstandingEncumberedAmount().add(itemDisEncumber));
-                poItem.setItemInvoicedTotalAmount(poItem.getItemInvoicedTotalAmount().subtract(itemDisEncumber));
+
+                // alter the invoiced amt based on what was actually credited on the credit memo
+                poItem.setItemInvoicedTotalAmount(poItem.getItemInvoicedTotalAmount().subtract(itemAlterInvoiceAmt));
+                if (poItem.getItemInvoicedTotalAmount().compareTo(ZERO) < 0) {
+                    poItem.setItemInvoicedTotalAmount(ZERO);
+                }
+
 
                 LOG.debug("getCreditMemoEncumbrance() " + logItmNbr + " Amount to disencumber: " + itemDisEncumber);
 

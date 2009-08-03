@@ -281,7 +281,9 @@
 		class="org.kuali.kfs.coa.dataaccess.impl.PriorYearAccountDaoOjb" />
 
 	<bean id="priorYearAccountDaoJdbc" parent="platformAwareDaoJdbc"
-		class="org.kuali.kfs.coa.dataaccess.impl.PriorYearAccountDaoJdbc" />
+		class="org.kuali.kfs.coa.dataaccess.impl.PriorYearAccountDaoJdbcImpl">
+		<property name="persistenceStructureService" ref="persistenceStructureService" />
+	</bean>
 
 	<bean id="priorYearOrganizationDao" parent="platformAwareDaoJdbc"
 		class="org.kuali.kfs.coa.dataaccess.impl.PriorYearOrganizationDaoJdbc" />

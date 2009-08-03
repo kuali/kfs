@@ -19,7 +19,8 @@ package org.kuali.kfs.coa.service.impl;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.PriorYearAccount;
 import org.kuali.kfs.coa.dataaccess.PriorYearAccountDao;
-import org.kuali.kfs.coa.dataaccess.impl.PriorYearAccountDaoJdbc;
+import org.kuali.kfs.coa.dataaccess.PriorYearAccountDaoJdbc;
+import org.kuali.kfs.coa.dataaccess.impl.PriorYearAccountDaoJdbcImpl;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -76,7 +77,7 @@ public class PriorYearAccountServiceImpl implements PriorYearAccountService {
      * 
      * @param priorYearAccountDaoJdbc The priorYearAccountDaoJdbc to set.
      */
-    public void setPriorYearAccountDaoJdbc(PriorYearAccountDaoJdbc priorYearAccountDaoJdbc) {
+    public void setPriorYearAccountDaoJdbc(PriorYearAccountDaoJdbcImpl priorYearAccountDaoJdbc) {
         this.priorYearAccountDaoJdbc = priorYearAccountDaoJdbc;
     }
 }

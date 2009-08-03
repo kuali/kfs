@@ -17,12 +17,14 @@ package org.kuali.kfs.gl.batch.service.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.businessobject.PriorYearAccount;
@@ -51,6 +53,7 @@ import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -399,15 +402,11 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
         }
 
         if (getEncumbranceBalanceTypeCodes().contains(encumbrance.getBalanceTypeCode())) {
-            // internal encumbrances are forwarded, unless they are labor distribution
-            if (KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE.equals(encumbrance.getBalanceTypeCode())) {
-                if (KFSConstants.LABOR_DISTRIBUTION_ORIGIN_CODE.equals(encumbrance.getOriginCode())) {
-                    return false;
-                }
-                else {
-                    return true;
-                }
-            }
+
+            ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(EncumbranceForwardStep.class, GeneralLedgerConstants.EncumbranceClosingOriginEntry.FORWARD_ENCUMBRANCE_BALANCE_TYPE_AND_ORIGIN_CODE,encumbrance.getBalanceTypeCode(),  encumbrance.getOriginCode());
+            if (evaluator.evaluationSucceeds())
+                return false;
+
             else if (KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE.equals(encumbrance.getBalanceTypeCode())) {
                 // pre-encumbrances are forwarded, but only if they're related to contracts and grants accounts
                 PriorYearAccount priorYearAccount = getPriorYearAccountService().getByPrimaryKey(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber());
@@ -425,7 +424,6 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
                 return true;
             }
         }
-
         // we're still here? because we're not of a valid encumbrance balance type; we don't get forwarded
         return false;
 
@@ -437,16 +435,17 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
     protected List<String> getEncumbranceBalanceTypeCodes() {
         List<String> balanceTypeCodes = new ArrayList<String>();
         
+        
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put("active", Boolean.TRUE);
         keys.put("finBalanceTypeEncumIndicator", Boolean.TRUE);
-        //Collection balanceTypes = businessObjectService.findMatching(BalanceType.class, keys);
-        //for (Object balanceTypeAsObject : balanceTypes) {
-        //    balanceTypeCodes.add(((BalanceType)balanceTypeAsObject).getCode());
-        //}
-        balanceTypeCodes.add("IE");
-        balanceTypeCodes.add("PE");
-        balanceTypeCodes.add("EX");
+        Collection balanceTypes = businessObjectService.findMatching(BalanceType.class, keys);
+        for (Object balanceTypeAsObject : balanceTypes) {
+            ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(EncumbranceForwardStep.class, GeneralLedgerConstants.EncumbranceClosingOriginEntry.FORWARDING_ENCUMBRANCE_BALANCE_TYPES, ((BalanceType)balanceTypeAsObject).getCode());
+            if (evaluator.evaluationSucceeds())
+                balanceTypeCodes.add(((BalanceType)balanceTypeAsObject).getCode()); 
+        }
+       
         return balanceTypeCodes;
     }
     

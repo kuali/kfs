@@ -94,7 +94,7 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
                     if (searchingAttribute.isShowAttributeInResultSet()){
                         String label =  ddService.getAttributeLabel(searchingAttribute.getBusinessObjectClassName(), searchingAttribute.getAttributeName());
                         searchableAttributeFieldNames.add(label);
-                        addColumnUsingKey(columns, new HashMap<String,String>(), searchingAttribute.getAttributeName(), label);
+                        addColumnUsingKey(columns, searchingAttribute.getAttributeName(), label);
                     } 
                 }
                 addSearchableAttributeColumnsBasedOnFields(columns, getSearchCriteria(), searchableAttributeFieldNames);

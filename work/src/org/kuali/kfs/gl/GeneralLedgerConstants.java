@@ -299,6 +299,8 @@ public class GeneralLedgerConstants {
         static final public String OFFSET_OBJECT_CODE_FOR_INTERNAL_ENCUMBRANCE = "OFFSET_OBJECT_CODE_FOR_INTERNAL_ENCUMBRANCE";
         static final public String OFFSET_OBJECT_CODE_FOR_PRE_ENCUMBRANCE = "OFFSET_OBJECT_CODE_FOR_PRE_ENCUMBRANCE";
         static final public String OFFSET_OBJECT_CODE_FOR_EXTERNAL_ENCUMBRANCE = "OFFSET_OBJECT_CODE_FOR_EXTERNAL_ENCUMBRANCE";
+        static final public String FORWARDING_ENCUMBRANCE_BALANCE_TYPES = "FORWARDING_ENCUMBRANCE_BALANCE_TYPES";
+        static final public String FORWARD_ENCUMBRANCE_BALANCE_TYPE_AND_ORIGIN_CODE = "FORWARD_ENCUMBRANCE_BALANCE_TYPE_AND_ORIGIN_CODE";
     }
 
     // Some static method calls below that could be done in static variables instead but isn't safe to do during class loading

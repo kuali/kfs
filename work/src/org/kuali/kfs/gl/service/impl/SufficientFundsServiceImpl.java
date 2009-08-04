@@ -16,13 +16,12 @@
 package org.kuali.kfs.gl.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.ObjectLevelService;
@@ -33,16 +32,17 @@ import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao;
-import org.kuali.kfs.gl.service.SufficientFundRebuildService;
 import org.kuali.kfs.gl.service.SufficientFundsService;
 import org.kuali.kfs.gl.service.SufficientFundsServiceConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -62,7 +62,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
     private SufficientFundBalancesDao sufficientFundBalancesDao;
     private OptionsService optionsService;
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
-    private SufficientFundRebuildService sufficientFundRebuildService;
+    private BusinessObjectService businessObjectService;
 
     /**
      * Default constructor
@@ -82,7 +82,6 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
      *      java.lang.String)
      */
     public String getSufficientFundsObjectCode(ObjectCode financialObject, String accountSufficientFundsCode) {
-        financialObject.refreshNonUpdateableReferences();
 
         if (KFSConstants.SF_TYPE_NO_CHECKING.equals(accountSufficientFundsCode)) {
             return KFSConstants.NOT_AVAILABLE_STRING;
@@ -100,6 +99,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
             return financialObject.getFinancialObjectLevelCode();
         }
         else if (KFSConstants.SF_TYPE_CONSOLIDATION.equals(accountSufficientFundsCode)) {
+            financialObject.refreshReferenceObject("financialObjectLevel");
             return financialObject.getFinancialObjectLevel().getFinancialConsolidationObjectCode();
         }
         else {
@@ -251,8 +251,12 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
         SufficientFundBalances sfBalance = sufficientFundBalancesDao.getByPrimaryId(item.getYear().getUniversityFiscalYear(), item.getAccount().getChartOfAccountsCode(), item.getAccount().getAccountNumber(), item.getSufficientFundsObjectCode());
 
         if (sfBalance == null) {
-            SufficientFundRebuild sufficientFundRebuild = sufficientFundRebuildService.getByAccount(item.getAccount().getChartOfAccountsCode(), item.getAccount().getAccountNumber());
-            if (sufficientFundRebuild != null) {
+            Map criteria = new HashMap();
+            criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, item.getAccount().getChartOfAccountsCode());
+            criteria.put(KFSPropertyConstants.ACCOUNT_NUMBER_FINANCIAL_OBJECT_CODE, item.getAccount().getAccountNumber());
+            
+            Collection sufficientFundRebuilds = businessObjectService.findMatching(SufficientFundRebuild.class, criteria);
+            if (sufficientFundRebuilds != null && sufficientFundRebuilds.size() > 0) {
                 LOG.debug("hasSufficientFundsOnItem() No balance record and waiting on rebuild, no sufficient funds");
                 return false;
             }
@@ -458,8 +462,8 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
     public void setSufficientFundsDao(SufficientFundsDao sufficientFundsDao) {
         this.sufficientFundsDao = sufficientFundsDao;
     }
-
-    public void setSufficientFundRebuildService(SufficientFundRebuildService sufficientFundRebuildService) {
-        this.sufficientFundRebuildService = sufficientFundRebuildService;
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.gl.batch.service.impl;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,16 +32,17 @@ import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.gl.dataaccess.BalanceDao;
 import org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao;
-import org.kuali.kfs.gl.service.SufficientFundRebuildService;
 import org.kuali.kfs.gl.service.SufficientFundsService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.OptionsDao;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -63,10 +61,10 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     private BalanceDao balanceDao;
     private SufficientFundBalancesDao sufficientFundBalancesDao;
     private SufficientFundsService sufficientFundsService;
-    private SufficientFundRebuildService sufficientFundRebuildService;
     private OptionsDao optionsDao;
     private AccountService accountService;
     private ReportWriterService reportWriterService;
+    private BusinessObjectService boService;
 
     private Date runDate;
     private SystemOptions options;
@@ -122,7 +120,10 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         if (LOG.isDebugEnabled()) {
             LOG.debug("rebuildSufficientFunds() Converting O types to A types");
         }
-        for (Iterator iter = sufficientFundRebuildService.getAllObjectEntries().iterator(); iter.hasNext();) {
+        Map criteria = new HashMap();
+        criteria.put(KFSPropertyConstants.ACCOUNT_FINANCIAL_OBJECT_TYPE_CODE, KFSConstants.SF_TYPE_ACCOUNT);
+        
+        for (Iterator iter = boService.findMatching(SufficientFundRebuild.class, criteria).iterator(); iter.hasNext();) {
             SufficientFundRebuild sfrb = (SufficientFundRebuild) iter.next();
             ++sfrbRecordsReadCount;
 
@@ -133,14 +134,18 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
             if (transactionErrors.size() > 0) {
                 reportWriterService.writeError(sfrb, transactionErrors);
             }
-            else {
-                sufficientFundRebuildService.delete(sfrb);
-            }
+//            else {
+//                sufficientFundRebuildService.delete(sfrb);
+//            }
         }
-
+        criteria.clear();
+        
         // Get all the A types and process them
         LOG.debug("rebuildSufficientFunds() Calculating SF balances for all A types");
-        for (Iterator iter = sufficientFundRebuildService.getAllAccountEntries().iterator(); iter.hasNext();) {
+        
+        criteria.put(KFSPropertyConstants.ACCOUNT_FINANCIAL_OBJECT_TYPE_CODE, KFSConstants.SF_TYPE_OBJECT);
+
+        for (Iterator iter = boService.findMatching(SufficientFundRebuild.class, criteria).iterator(); iter.hasNext();) {
             SufficientFundRebuild sfrb = (SufficientFundRebuild) iter.next();
             ++sfrbRecordsReadCount;
 
@@ -152,14 +157,14 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
                 reportWriterService.writeError(sfrb, transactionErrors);
             }
 
-            sufficientFundRebuildService.delete(sfrb);
+            //sufficientFundRebuildService.delete(sfrb);
 
         }
 
         // Look at all the left over rows. There shouldn't be any left if all are O's and A's without error.
         // Write out error messages for any that aren't A or O
         LOG.debug("rebuildSufficientFunds() Handle any non-A and non-O types");
-        for (Iterator iter = sufficientFundRebuildService.getAll().iterator(); iter.hasNext();) {
+        for (Iterator iter = boService.findAll(SufficientFundRebuild.class).iterator(); iter.hasNext();) {
             SufficientFundRebuild sfrb = (SufficientFundRebuild) iter.next();
 
             if ((!KFSConstants.SF_TYPE_ACCOUNT.equals(sfrb.getAccountFinancialObjectTypeCode())) && (!KFSConstants.SF_TYPE_OBJECT.equals(sfrb.getAccountFinancialObjectTypeCode()))) {
@@ -213,17 +218,24 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         ++sfrbRecordsConvertedCount;
         Collection fundBalances = sufficientFundBalancesDao.getByObjectCode(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode());
 
+        Map criteria = new HashMap();
+        
         for (Iterator fundBalancesIter = fundBalances.iterator(); fundBalancesIter.hasNext();) {
             SufficientFundBalances sfbl = (SufficientFundBalances) fundBalancesIter.next();
 
-            SufficientFundRebuild altSfrb = sufficientFundRebuildService.get(sfbl.getChartOfAccountsCode(), KFSConstants.SF_TYPE_ACCOUNT, sfbl.getAccountNumber());
+            criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, sfbl.getChartOfAccountsCode());
+            criteria.put(KFSPropertyConstants.ACCOUNT_FINANCIAL_OBJECT_TYPE_CODE, KFSConstants.SF_TYPE_ACCOUNT);
+            criteria.put(KFSPropertyConstants.ACCOUNT_NUMBER_FINANCIAL_OBJECT_CODE, sfbl.getAccountNumber());
+            
+            SufficientFundRebuild altSfrb = (SufficientFundRebuild)boService.findByPrimaryKey(SufficientFundRebuild.class, criteria);
             if (altSfrb == null) {
                 altSfrb = new SufficientFundRebuild();
                 altSfrb.setAccountFinancialObjectTypeCode(KFSConstants.SF_TYPE_ACCOUNT);
                 altSfrb.setAccountNumberFinancialObjectCode(sfbl.getAccountNumber());
                 altSfrb.setChartOfAccountsCode(sfbl.getChartOfAccountsCode());
-                sufficientFundRebuildService.save(altSfrb);
+                boService.save(altSfrb);
             }
+            criteria.clear();
         }
     }
 
@@ -446,10 +458,6 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         this.sufficientFundBalancesDao = sufficientFundBalancesDao;
     }
 
-    public void setSufficientFundRebuildService(SufficientFundRebuildService sufficientFundRebuildService) {
-        this.sufficientFundRebuildService = sufficientFundRebuildService;
-    }
-
     public void setOptionsDao(OptionsDao optionsDao) {
         this.optionsDao = optionsDao;
     }
@@ -464,5 +472,9 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
 
     public void setSufficientFundsService(SufficientFundsService sfs) {
         sufficientFundsService = sfs;
+    }
+    
+    public void setBusinessObjectService(BusinessObjectService bos) {
+        boService = bos;
     }
 }

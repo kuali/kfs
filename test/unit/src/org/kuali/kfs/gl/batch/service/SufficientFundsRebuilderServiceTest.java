@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao;
@@ -29,7 +28,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
-import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.Guid;
 
@@ -44,6 +43,7 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
     private SufficientFundRebuildDao sufficientFundRebuildDao = null;
     private SufficientFundBalancesDao sufficientFundBalancesDao = null;
     protected PersistenceService persistenceService;
+    protected BusinessObjectService boService;
     protected UnitTestSqlDao unitTestSqlDao = null;
 
     /**
@@ -59,7 +59,9 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
         sufficientFundRebuildDao = SpringContext.getBean(SufficientFundRebuildDao.class);
         sufficientFundBalancesDao = SpringContext.getBean(SufficientFundBalancesDao.class);
         persistenceService = SpringContext.getBean(PersistenceService.class);
+        boService = SpringContext.getBean(BusinessObjectService.class);
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
+       
     }
 
     /**
@@ -126,7 +128,7 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
         // be loaded.
         persistenceService.retrieveNonKeyFields(sfrb);
 
-        sufficientFundRebuildDao.save(sfrb);
+        boService.save(sfrb);
         return sfrb;
     }
 

@@ -98,6 +98,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.mail.MailMessage;
 import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -1027,6 +1028,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     vendorMaintDoc.getNewMaintainableObject().setDocumentNumber(vendorMaintDoc.getDocumentNumber());
                     boolean isVendorLocked = checkForLockingDocument(vendorMaintDoc);
                     if (!isVendorLocked) {
+                        //validating vendor doc to capture exception before trying to route which if exception happens in docService, then PO will fail too
+                        vendorMaintDoc.validateBusinessRules(new RouteDocumentEvent(vendorMaintDoc));
                         addNoteForCommodityCodeToVendor(vendorMaintDoc.getNewMaintainableObject(), vendorMaintDoc.getDocumentNumber(), po.getPurapDocumentIdentifier());
                         documentService.routeDocument(vendorMaintDoc, null, null);
                     }

@@ -62,8 +62,6 @@
 				<value>organizationReversionCurrentYearAccountJob</value>
 				<value>sufficientFundsSyncJob</value>
 				<value>manualPurgeJob</value>
-				<value>clearOldOriginEntriesJob</value>
-				<value>purgeCorrectionProcessFilesJob</value>
 				<value>posterBalancingHistorySyncJob</value>
 			</list>
 		</property>
@@ -593,6 +591,7 @@
 		<property name="priorYearAccountService" ref="priorYearAccountService" />
 		<property name="subFundGroupService" ref="subFundGroupService" />
 		<property name="accountingCycleCachingService" ref="accountingCycleCachingService" />
+		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
 	<bean id="scrubberProcess-parentBean" class="org.kuali.kfs.gl.batch.service.impl.ScrubberProcessImpl" abstract="true">
@@ -728,11 +727,11 @@
 		<property name="sufficientFundBalancesDao">
 			<ref bean="glSufficientFundBalancesDao" />
 		</property>
-		<property name="sufficientFundRebuildService">
-			<ref bean="glSufficientFundRebuildService" />
-		</property>
 		<property name="optionsDao">
 			<ref bean="optionsDao" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService"/>
 		</property>
 		<property name="reportWriterService" ref="sufficientFundRebuildReportWriterService" />
 		<property name="accountService">
@@ -941,12 +940,6 @@
 	<bean id="glEncumbranceService" class="org.kuali.kfs.gl.service.impl.EncumbranceServiceImpl">
 		<property name="encumbranceDao">
 			<ref bean="glEncumbranceDao" />
-		</property>
-	</bean>
-
-	<bean id="glSufficientFundRebuildService" class="org.kuali.kfs.gl.service.impl.SufficientFundRebuildServiceImpl">
-		<property name="sufficientFundRebuildDao">
-			<ref bean="glSufficientFundRebuildDao" />
 		</property>
 	</bean>
 
@@ -1183,7 +1176,7 @@
 	
 	<bean id="glReversalDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.ReversalDaoOjb" />
 
-	<bean id="glSufficientFundRebuildDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.SufficientFundRebuildDaoOjb" />
+	<bean id="glSufficientFundRebuildDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.SufficientFundRebuildDaoJdbc" />
 
 	<bean id="glCollectorDetailDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.CollectorDetailDaoOjb" />
 
@@ -1211,9 +1204,6 @@
 		</property>
 		<property name="generalLedgerPendingEntryService">
 			<ref bean="generalLedgerPendingEntryService" />
-		</property>
-		<property name="sufficientFundRebuildService">
-			<ref bean="glSufficientFundRebuildService" />
 		</property>
 	</bean>
 
@@ -1288,7 +1278,7 @@
 	<bean id="scrubberJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="createBackupGroupStep" />
+<!--				<ref bean="createBackupGroupStep" />-->
 				<ref bean="preScrubberStep" />
 				<ref bean="scrubberSortStep" />
 				<ref bean="scrubberStep" />
@@ -1429,13 +1419,13 @@
 		</property>
 	</bean>
 	
-	<bean id="clearOldOriginEntriesJob" parent="unscheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="clearOldOriginEntryStep" />
-			</list>
-		</property>		
-	</bean>
+<!--	<bean id="clearOldOriginEntriesJob" parent="unscheduledJobDescriptor">-->
+<!--		<property name="steps">-->
+<!--			<list>-->
+<!--				<ref bean="clearOldOriginEntryStep" />-->
+<!--			</list>-->
+<!--		</property>		-->
+<!--	</bean>-->
 	
 	<bean id="manualPurgeJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
@@ -2052,18 +2042,6 @@
 		<property name="balanceService" ref="glBalanceService" />
 	</bean>
 
-	<bean id="createBackupGroupStep" class="org.kuali.kfs.gl.batch.CreateBackupGroupStep" parent="step">
-		<property name="originEntryGroupService">
-			<ref bean="originEntryGroupService" />
-		</property>
-	</bean>
-
-	<bean id="clearOldOriginEntryStep" class="org.kuali.kfs.gl.batch.ClearOldOriginEntryStep" parent="step">
-		<property name="originEntryGroupService">
-			<ref bean="originEntryGroupService" />
-		</property>
-	</bean>
-
 	<bean id="organizationReversionPriorYearAccountStep" class="org.kuali.kfs.gl.batch.OrganizationReversionPriorYearAccountStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
 			<list>
@@ -2117,21 +2095,6 @@
 			</list>
 		</property>
 		<property name="scrubberService" ref="glScrubberService" />
-	</bean>
-	
-
-	<bean id="purgeCorrectionProcessFilesStep" class="org.kuali.kfs.gl.batch.PurgeCorrectionProcessFilesStep" parent="step">
-		<property name="correctionDocumentService">
-			<ref bean="correctionDocumentService"/>
-		</property>
-	</bean>
-	
-	<bean id="purgeCorrectionProcessFilesJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="purgeCorrectionProcessFilesStep" />
-			</list>
-		</property>
 	</bean>
 	
 	<bean id="markScrubbableBackupGroupsAsUnscrubbableStep" class="org.kuali.kfs.gl.batch.MarkScrubbableBackupGroupsAsUnscrubbableStep" parent="step">

@@ -290,7 +290,7 @@
     <property name="shortLabel" value="Extract Date"/>
   </bean>
   
-  <bean id="VendorCreditMemoDocument-extractedIndicatorForSearching" parent="VendorCreditMemoDocument-extractedTimestamp-parentBean">
+  <bean id="VendorCreditMemoDocument-extractedIndicatorForSearching" parent="GenericAttributes-activeIndicator">
   	<property name="name" value="extractedIndicatorForSearching"/>
   	<property name="label" value="Extracted"/>
   	<property name="control">

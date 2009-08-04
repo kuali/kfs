@@ -324,7 +324,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         CapitalAssetSystem system = document.getPurchasingCapitalAssetSystems().get(Integer.parseInt(systemIndex));
 
         if ("new".equals(assetLocationIndex)) {
-            useOffCampusAssetLocationBuilding(system.getNewPurchasingCapitalAssetLocationLine());
+            useOffCampusAssetLocationBuilding(baseForm.getNewPurchasingCapitalAssetLocationLine());
         }
         else {
             useOffCampusAssetLocationBuilding(system.getCapitalAssetLocations().get(Integer.parseInt(assetLocationIndex)));

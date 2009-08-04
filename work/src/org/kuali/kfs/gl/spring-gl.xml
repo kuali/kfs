@@ -695,9 +695,7 @@
 	</bean>
 
 	<bean id="glSufficientFundsSyncService" class="org.kuali.kfs.gl.batch.service.impl.SufficientFundsSyncServiceImpl">
-		<property name="accountService">
-			<ref bean="accountService" />
-		</property>
+		
 		<property name="sufficientFundRebuildDao">
 			<ref bean="glSufficientFundRebuildDao" />
 		</property>
@@ -1176,7 +1174,7 @@
 	
 	<bean id="glReversalDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.ReversalDaoOjb" />
 
-	<bean id="glSufficientFundRebuildDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.SufficientFundRebuildDaoJdbc" />
+	<bean id="glSufficientFundRebuildDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.dataaccess.impl.SufficientFundRebuildDaoJdbc" />
 
 	<bean id="glCollectorDetailDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.CollectorDetailDaoOjb" />
 

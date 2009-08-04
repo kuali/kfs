@@ -178,9 +178,6 @@
 		<property name="sufficientFundBalancesDao">
 			<ref bean="glSufficientFundBalancesDao" />
 		</property>
-		<property name="sufficientFundRebuildService">
-			<ref bean="glSufficientFundRebuildService" />
-		</property>
 		<property name="optionsDao">
 			<ref bean="optionsDao" />
 		</property>

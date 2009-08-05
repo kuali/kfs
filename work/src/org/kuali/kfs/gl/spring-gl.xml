@@ -1279,7 +1279,7 @@
 	<bean id="scrubberJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<!--  <ref bean="createBackupGroupStep" />-->
+				<ref bean="createBackupGroupStep" />
 				<ref bean="preScrubberStep" />
 				<ref bean="scrubberSortStep" />
 				<ref bean="scrubberStep" />
@@ -2041,6 +2041,12 @@
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 		<property name="reversalService" ref="reversalService" />
 		<property name="balanceService" ref="glBalanceService" />
+	</bean>
+
+	<bean id="createBackupGroupStep" class="org.kuali.kfs.gl.batch.CreateBackupGroupStep" parent="step">
+		<property name="originEntryGroupService">
+			<ref bean="originEntryGroupService" />
+		</property>
 	</bean>
 
 	<bean id="organizationReversionPriorYearAccountStep" class="org.kuali.kfs.gl.batch.OrganizationReversionPriorYearAccountStep" parent="wrappedStep">

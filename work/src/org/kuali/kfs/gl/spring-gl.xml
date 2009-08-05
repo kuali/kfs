@@ -1279,7 +1279,7 @@
 	<bean id="scrubberJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="createBackupGroupStep" />
+				<!--  <ref bean="createBackupGroupStep" />-->
 				<ref bean="preScrubberStep" />
 				<ref bean="scrubberSortStep" />
 				<ref bean="scrubberStep" />

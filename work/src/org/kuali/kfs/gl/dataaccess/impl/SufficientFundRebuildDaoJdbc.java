@@ -39,5 +39,11 @@ public class SufficientFundRebuildDaoJdbc extends PlatformAwareDaoBaseJdbc imple
         getSimpleJdbcTemplate().update("DELETE FROM GL_SF_REBUILD_T");
 
     }
+    
+    public void purgeAccountAndObjectBalances() {
+        getSimpleJdbcTemplate().update("DELETE FROM GL_SF_BALANCES_T WHERE EXISTS (SELECT 'x' FROM GL_SF_REBUILD_T WHERE GL_SF_BALANCES_T.fin_coa_cd = fin_coa_cd AND GL_SF_BALANCES_T.account_nbr = acct_nbr_fobj_cd AND (acct_fobj_typ_cd = 'A' or acct_fobj_typ_cd = 'O') )");
+    }
+    
+    
 
 }

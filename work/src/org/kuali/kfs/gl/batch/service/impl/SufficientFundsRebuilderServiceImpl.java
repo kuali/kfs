@@ -32,6 +32,7 @@ import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.gl.dataaccess.BalanceDao;
 import org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao;
+import org.kuali.kfs.gl.dataaccess.SufficientFundRebuildDao;
 import org.kuali.kfs.gl.service.SufficientFundsService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -60,6 +61,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     private KualiConfigurationService kualiConfigurationService;
     private BalanceDao balanceDao;
     private SufficientFundBalancesDao sufficientFundBalancesDao;
+    private SufficientFundRebuildDao sufficientFundRebuildDao;
     private SufficientFundsService sufficientFundsService;
     private OptionsDao optionsDao;
     private AccountService accountService;
@@ -160,6 +162,8 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
             //sufficientFundRebuildService.delete(sfrb);
 
         }
+        
+        sufficientFundRebuildDao.purgeAccountAndObjectBalances();
 
         // Look at all the left over rows. There shouldn't be any left if all are O's and A's without error.
         // Write out error messages for any that aren't A or O
@@ -476,5 +480,9 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     
     public void setBusinessObjectService(BusinessObjectService bos) {
         boService = bos;
+    }
+    
+    public void setSufficientFundRebuildDao(SufficientFundRebuildDao sufficientFundRebuildDao) {
+        this.sufficientFundRebuildDao = sufficientFundRebuildDao;
     }
 }

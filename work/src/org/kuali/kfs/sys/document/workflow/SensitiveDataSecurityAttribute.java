@@ -65,7 +65,8 @@ public class SensitiveDataSecurityAttribute implements SecurityAttribute {
         final DocumentEntry docEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(docTypeName);
         if (docEntry instanceof FinancialSystemTransactionalDocumentEntry) {
             if (((FinancialSystemTransactionalDocumentEntry)docEntry).isPotentiallySensitive()) {
-                List<String> sensitiveDataCode = workflowUtils.getSearchableAttributeStringValuesByKey(documentId, "sensitive");
+                String[] sensitiveDataCodeArray = workflowUtils.getSearchableAttributeStringValuesByKey(documentId, "sensitive");
+                List<String> sensitiveDataCode = Arrays.asList(sensitiveDataCodeArray);
                 if ( sensitiveDataCode != null && sensitiveDataCode.contains("Y")) {
 
                     DocumentAuthorizer docAuthorizer = docHelperService.getDocumentAuthorizer(docTypeName);

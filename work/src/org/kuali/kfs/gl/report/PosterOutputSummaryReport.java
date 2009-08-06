@@ -102,6 +102,8 @@ public class PosterOutputSummaryReport {
                     balanceTypeFiscalYearTotal = new PosterOutputSummaryBalanceTypeFiscalYearTotal(entry.getBalanceTypeCode(), entry.getUniversityFiscalYear());
                     balanceTypeTotal = new PosterOutputSummaryBalanceTypeTotal(entry.getBalanceTypeCode());
                     currentBalanceTypeCode = entry.getBalanceTypeCode();
+                    currentFiscalYear = entry.getUniversityFiscalYear();
+                    currentFiscalPeriod = entry.getFiscalPeriodCode();
                     
                     // new top-level header for balance types
                     reportWriterService.pageBreak();
@@ -115,6 +117,7 @@ public class PosterOutputSummaryReport {
                     balanceTypeFiscalYearAndPeriodTotal = new PosterOutputSummaryBalanceTypeFiscalYearAndPeriodTotal(entry.getBalanceTypeCode(), entry.getUniversityFiscalYear(), entry.getFiscalPeriodCode());
                     balanceTypeFiscalYearTotal = new PosterOutputSummaryBalanceTypeFiscalYearTotal(entry.getBalanceTypeCode(), entry.getUniversityFiscalYear());
                     currentFiscalYear = entry.getUniversityFiscalYear();
+                    currentFiscalPeriod = entry.getFiscalPeriodCode();
                 } else if (!entry.getFiscalPeriodCode().equals(currentFiscalPeriod)) {
                     reportWriterService.writeTableRow(balanceTypeFiscalYearAndPeriodTotal);
                     

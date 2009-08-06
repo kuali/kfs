@@ -404,9 +404,9 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
         if (getEncumbranceBalanceTypeCodes().contains(encumbrance.getBalanceTypeCode())) {
 
             ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(EncumbranceForwardStep.class, GeneralLedgerConstants.EncumbranceClosingOriginEntry.FORWARD_ENCUMBRANCE_BALANCE_TYPE_AND_ORIGIN_CODE,encumbrance.getBalanceTypeCode(),  encumbrance.getOriginCode());
-            if (evaluator.evaluationSucceeds())
+            if (!evaluator.evaluationSucceeds()) {
                 return false;
-
+            }
             else if (KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE.equals(encumbrance.getBalanceTypeCode())) {
                 // pre-encumbrances are forwarded, but only if they're related to contracts and grants accounts
                 PriorYearAccount priorYearAccount = getPriorYearAccountService().getByPrimaryKey(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber());

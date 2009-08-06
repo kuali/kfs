@@ -32,15 +32,6 @@ public interface OriginEntryGroupService {
     public void createBackupGroup();
 
     public void createLaborBackupGroup();
-    
-    /**
-     * Delete all the groups (and entries) where the group is this many days old or older
-     * 
-     * @param days groups older than the given days will be deleted by this method
-     */
-    public void deleteOlderGroups(int days);
-    
-    public void deleteOlderLaborGroups(int days);
 
     public File createLaborGroup(String fileName);
 

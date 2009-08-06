@@ -41,7 +41,7 @@ public class GeneralLedgerConstants {
     public static final String EMPTY_CODE = "";
     public static final String ERROR_CODE = "E";
 
-    public static final String RETAIN_DAYS = "RETAIN_DAYS";
+    //public static final String RETAIN_DAYS = "RETAIN_DAYS";
 
     public static class DummyBusinessObject {
         static final public String COST_SHARE_OPTION = "dummyBusinessObject.costShareOption";

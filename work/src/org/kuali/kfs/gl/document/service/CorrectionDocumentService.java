@@ -238,8 +238,6 @@ public interface CorrectionDocumentService {
     
     public String createOutputFileForProcessing(String docId, java.util.Date today);
     
-    public void deleteOlderCorrectionDocumentFiles(int days, java.util.Date today);
-    
     public String getBatchFileDirectoryName();
     
     public String getGlcpDirectoryName();

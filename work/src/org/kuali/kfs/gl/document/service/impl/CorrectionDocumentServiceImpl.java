@@ -899,21 +899,6 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
 
         CorrectionDocumentUtils.copyStatisticsToDocument(statistics, document);
     }
-
-
-    public void deleteOlderCorrectionDocumentFiles(int days, java.util.Date today ){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(today);
-        calendar.add(Calendar.DAY_OF_MONTH, 0 - days);
-        File[] allFilesList = new File(getGlcpDirectoryName()).listFiles(new CorrectionFileFilter());
-        
-        for (File file: allFilesList) {
-            java.util.Date fileDate = new java.util.Date(file.lastModified());
-            if (fileDate.before(calendar.getTime())){
-                file.delete();
-            }
-        }
-    }
     
     final class CorrectionFileFilter implements FilenameFilter {
         /**

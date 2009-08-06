@@ -229,51 +229,6 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     }
 
     /**
-     * Deletes all groups older than a given number of days
-     * 
-     * @param days the number of days that groups older than should be deleted
-     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#deleteOlderGroups(int)
-     */
-    public void deleteOlderGroups(int days) {
-        LOG.debug("deleteOlderGroups() started");
-
-        Calendar today = dateTimeService.getCurrentCalendar();
-        today.add(Calendar.DAY_OF_MONTH, 0 - days);
-
-        File[] allFilesList = new File(batchFileDirectoryName).listFiles();
-
-        for (File file : allFilesList) {
-            java.sql.Date fileDate = new java.sql.Date(file.lastModified());
-            if (fileDate.before(today.getTime())) {
-                file.delete();
-            }
-        }
-    }
-
-
-    /**
-     * Deletes all groups older than a given number of days
-     * 
-     * @param days the number of days that groups older than should be deleted
-     * @see org.kuali.kfs.gl.service.OriginEntryGroupService#deleteOlderGroups(int)
-     */
-    public void deleteOlderLaborGroups(int days) {
-        LOG.debug("deleteOlderGroups() started");
-
-        Calendar today = dateTimeService.getCurrentCalendar();
-        today.add(Calendar.DAY_OF_MONTH, 0 - days);
-
-        File[] allFilesList = new File(batchLaborFileDirectoryName).listFiles();
-
-        for (File file : allFilesList) {
-            java.sql.Date fileDate = new java.sql.Date(file.lastModified());
-            if (fileDate.before(today.getTime())) {
-                file.delete();
-            }
-        }
-    }
-
-    /**
      * @see org.kuali.kfs.gl.service.OriginEntryGroupService#createLaborGroup(java.lang.String)
      */
     public File createLaborGroup(String fileName) {

@@ -85,7 +85,6 @@ public class LaborPosterServiceTest extends KualiTestBase {
 
         groupFieldValues = new HashMap();
         groupFieldValues.put(KFSPropertyConstants.SOURCE_CODE, LABOR_SCRUBBER_VALID);
-        originEntryGroupService.deleteOlderGroups(0);
         
         //businessObjectService.deleteMatching(OriginEntryGroup.class, groupFieldValues);
 

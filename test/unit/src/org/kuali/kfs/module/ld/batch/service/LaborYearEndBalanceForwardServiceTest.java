@@ -73,7 +73,6 @@ public class LaborYearEndBalanceForwardServiceTest extends KualiTestBase {
 
         groupFieldValues = new HashMap();
         groupFieldValues.put(KFSPropertyConstants.SOURCE_CODE, LABOR_YEAR_END_BALANCE_FORWARD);
-        originEntryGroupService.deleteOlderGroups(0);
         //businessObjectService.deleteMatching(OriginEntryGroup.class, groupFieldValues);
 
         LaborOriginEntry cleanup = new LaborOriginEntry();

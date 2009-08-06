@@ -54,7 +54,6 @@
 				<value>posterJob</value>
 				<value>posterBalancingJob</value>
 				<value>sufficientFundsJob</value>
-				<value>clearPendingEntriesJob</value>
 				<value>encumbranceForwardJob</value>
 				<value>balanceForwardJob</value>
 				<value>nominalActivityClosingJob</value>
@@ -1420,6 +1419,12 @@
 		</property>
 	</bean>
 	
+	<bean id="createBackupGroupStep" class="org.kuali.kfs.gl.batch.CreateBackupGroupStep" parent="step">
+		<property name="originEntryGroupService">
+			<ref bean="originEntryGroupService" />
+		</property>
+	</bean>
+	
 <!--	<bean id="clearOldOriginEntriesJob" parent="unscheduledJobDescriptor">-->
 <!--		<property name="steps">-->
 <!--			<list>-->
@@ -2041,12 +2046,6 @@
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 		<property name="reversalService" ref="reversalService" />
 		<property name="balanceService" ref="glBalanceService" />
-	</bean>
-
-	<bean id="createBackupGroupStep" class="org.kuali.kfs.gl.batch.CreateBackupGroupStep" parent="step">
-		<property name="originEntryGroupService">
-			<ref bean="originEntryGroupService" />
-		</property>
 	</bean>
 
 	<bean id="organizationReversionPriorYearAccountStep" class="org.kuali.kfs.gl.batch.OrganizationReversionPriorYearAccountStep" parent="wrappedStep">

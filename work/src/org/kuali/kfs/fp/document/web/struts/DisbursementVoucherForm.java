@@ -51,6 +51,13 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     private String vendorHeaderGeneratedIdentifier = StringUtils.EMPTY;
     private String vendorDetailAssignedIdentifier = StringUtils.EMPTY;
     private String vendorAddressGeneratedIdentifier;
+    
+    private String tempPayeeIdNumber;
+    private String tempVendorHeaderGeneratedIdentifier = StringUtils.EMPTY;
+    private String tempVendorDetailAssignedIdentifier = StringUtils.EMPTY;
+    private String tempVendorAddressGeneratedIdentifier;
+    private String oldPayeeType = StringUtils.EMPTY;
+    
     private boolean hasMultipleAddresses = false;
 
     private DisbursementVoucherNonEmployeeExpense newNonEmployeeExpenseLine;
@@ -175,6 +182,31 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
 
         this.payeeIdNumber = payeeIdNumber;
     }
+    
+    /**
+     * Gets the payeeIdNumber attribute.
+     * 
+     * @return Returns the payeeIdNumber.
+     */
+    public String getTempPayeeIdNumber() {
+        return tempPayeeIdNumber;
+    }
+
+    /**
+     * Sets the payeeIdNumber attribute value.
+     * 
+     * @param payeeIdNumber The payeeIdNumber to set.
+     */
+    public void setTempPayeeIdNumber(String payeeIdNumber) {
+        String separator = "-";
+        if (this.isVendor() && StringUtils.contains(payeeIdNumber, separator)) {
+            this.tempVendorHeaderGeneratedIdentifier = StringUtils.substringBefore(payeeIdNumber, separator);
+            this.tempVendorDetailAssignedIdentifier = StringUtils.substringAfter(payeeIdNumber, separator);
+        }
+
+        this.tempPayeeIdNumber = payeeIdNumber;
+    }
+    
 
     /**
      * Gets the hasMultipleAddresses attribute.
@@ -255,6 +287,74 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
      */
     public void setVendorAddressGeneratedIdentifier(String vendorAddressGeneratedIdentifier) {
         this.vendorAddressGeneratedIdentifier = vendorAddressGeneratedIdentifier;
+    }
+    
+    
+
+    /**
+     * Gets the tempVendorHeaderGeneratedIdentifier attribute. 
+     * @return Returns the tempVendorHeaderGeneratedIdentifier.
+     */
+    public String getTempVendorHeaderGeneratedIdentifier() {
+        return tempVendorHeaderGeneratedIdentifier;
+    }
+
+    /**
+     * Sets the tempVendorHeaderGeneratedIdentifier attribute value.
+     * @param tempVendorHeaderGeneratedIdentifier The tempVendorHeaderGeneratedIdentifier to set.
+     */
+    public void setTempVendorHeaderGeneratedIdentifier(String tempVendorHeaderGeneratedIdentifier) {
+        this.tempVendorHeaderGeneratedIdentifier = tempVendorHeaderGeneratedIdentifier;
+    }
+
+    /**
+     * Gets the tempVendorDetailAssignedIdentifier attribute. 
+     * @return Returns the tempVendorDetailAssignedIdentifier.
+     */
+    public String getTempVendorDetailAssignedIdentifier() {
+        return tempVendorDetailAssignedIdentifier;
+    }
+
+    /**
+     * Sets the tempVendorDetailAssignedIdentifier attribute value.
+     * @param tempVendorDetailAssignedIdentifier The tempVendorDetailAssignedIdentifier to set.
+     */
+    public void setTempVendorDetailAssignedIdentifier(String tempVendorDetailAssignedIdentifier) {
+        this.tempVendorDetailAssignedIdentifier = tempVendorDetailAssignedIdentifier;
+    }
+
+    /**
+     * Gets the tempVendorAddressGeneratedIdentifier attribute. 
+     * @return Returns the tempVendorAddressGeneratedIdentifier.
+     */
+    public String getTempVendorAddressGeneratedIdentifier() {
+        return tempVendorAddressGeneratedIdentifier;
+    }
+
+    /**
+     * Sets the tempVendorAddressGeneratedIdentifier attribute value.
+     * @param tempVendorAddressGeneratedIdentifier The tempVendorAddressGeneratedIdentifier to set.
+     */
+    public void setTempVendorAddressGeneratedIdentifier(String tempVendorAddressGeneratedIdentifier) {
+        this.tempVendorAddressGeneratedIdentifier = tempVendorAddressGeneratedIdentifier;
+    }
+    
+    
+
+    /**
+     * Gets the oldPayeeType attribute. 
+     * @return Returns the oldPayeeType.
+     */
+    public String getOldPayeeType() {
+        return oldPayeeType;
+    }
+
+    /**
+     * Sets the oldPayeeType attribute value.
+     * @param oldPayeeType The oldPayeeType to set.
+     */
+    public void setOldPayeeType(String oldPayeeType) {
+        this.oldPayeeType = oldPayeeType;
     }
 
     /**

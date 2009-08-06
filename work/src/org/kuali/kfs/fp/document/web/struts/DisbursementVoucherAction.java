@@ -454,6 +454,16 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         boolean isPayeeLookupable = KFSConstants.KUALI_DISBURSEMENT_PAYEE_LOOKUPABLE_IMPL.equals(refreshCaller);
         boolean isAddressLookupable = KFSConstants.KUALI_VENDOR_ADDRESS_LOOKUPABLE_IMPL.equals(refreshCaller);
 
+        if (refreshCaller == null) {
+            dvForm.setPayeeIdNumber(dvForm.getTempPayeeIdNumber());
+            dvForm.setHasMultipleAddresses(false);
+            if (StringUtils.equals(dvForm.getOldPayeeType(), "Employee")) {
+                this.setupPayeeAsEmployee(dvForm, dvForm.getPayeeIdNumber());
+            } else if (StringUtils.equals(dvForm.getOldPayeeType(), "Vendor")) {
+                this.setupPayeeAsVendor(dvForm, dvForm.getPayeeIdNumber(), dvForm.getTempVendorAddressGeneratedIdentifier());
+            }
+        }
+        
         // do not execute the further refreshing logic if the refresh caller is not a lookupable
         if (!isPayeeLookupable && !isAddressLookupable) {
             return null;
@@ -567,6 +577,9 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeIdNumber);
         if (person != null) {
             ((DisbursementVoucherDocument) dvForm.getDocument()).templateEmployee(person);
+            dvForm.setTempPayeeIdNumber(payeeIdNumber);
+            dvForm.setOldPayeeType("Employee");
+
         }
         else {
             LOG.error("Exception while attempting to retrieve universal user by universal user id " + payeeIdNumber);
@@ -586,6 +599,9 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
             try {
                 vendorAddress.setVendorAddressGeneratedIdentifier(new Integer(payeeAddressIdentifier));
                 vendorAddress = (VendorAddress) SpringContext.getBean(BusinessObjectService.class).retrieve(vendorAddress);
+                dvForm.setTempPayeeIdNumber(payeeIdNumber);
+                dvForm.setOldPayeeType("Vendor");
+
             }
             catch (Exception e) {
                 LOG.error("Exception while attempting to retrieve vendor address for vendor address id " + payeeAddressIdentifier + ": " + e);

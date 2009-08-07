@@ -560,7 +560,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
      */
     protected MailMessage buildMailMessage(String toAddress, String message, String roleNamespace, String roleName, String principalId) {
         MailMessage mailMessage = new MailMessage();
-        mailMessage.setFromAddress(getFromAddress());
+        mailMessage.setFromAddress(getFromAddress(toAddress));
         mailMessage.setSubject(getMailMessageSubject(roleNamespace, roleName, principalId));
         
         Set<String> toAddresses = new HashSet<String>();
@@ -583,10 +583,11 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
     }
     
     /**
-     * @return the constant from address to send the mail message with
+     * @param toAddress the e-mail the mail is being sent to
+     * @return the from address to send mail from; in the default version, the given toAddress (but since this is a method, implementers can override)
      */
-    protected String getFromAddress() {
-        return "kbatch-l@indiana.edu";
+    protected String getFromAddress(String toAddress) {
+        return toAddress;
     }
     
     /**

@@ -853,12 +853,12 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         setProjectCode(getValue(line, 64, 74));
         setTransactionLedgerEntryDescription(getValue(line, 74, 114));
         
-        if (!line.substring(114, 134).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+        if (!line.substring(114, 135).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setTransactionLedgerEntryAmount(new KualiDecimal(line.substring(114, 134).trim()));
+                setTransactionLedgerEntryAmount(new KualiDecimal(line.substring(114, 135).trim()));
             }
             catch (NumberFormatException e) {
-                returnList.add(new Message("Transaction Amount '" + line.substring(114, 134) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Transaction Amount '" + line.substring(114, 135) + "' contains an invalid value." , Message.TYPE_FATAL));
                 setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
             }
         } else {
@@ -866,82 +866,82 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
             setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
         }
         
-        setTransactionDebitCreditCode(line.substring(134, 135));
+        setTransactionDebitCreditCode(line.substring(135, 136));
         
-        if (!line.substring(135, 145).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+        if (!line.substring(136, 146).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setTransactionDate(parseDate(line.substring(135, 145), false));
+                setTransactionDate(parseDate(line.substring(136, 146), false));
             }
             catch (ParseException e) {
                 setTransactionDate(null);
-                returnList.add(new Message("Transaction Date '" + line.substring(135, 145) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Transaction Date '" + line.substring(136, 146) + "' contains an invalid value." , Message.TYPE_FATAL));
             }
         } else {
             setTransactionDate(null);
         }
         
-        setOrganizationDocumentNumber(getValue(line, 145, 155));
-        setOrganizationReferenceId(getValue(line, 155, 163));
-        setReferenceFinancialDocumentTypeCode(getValue(line, 163, 167));
-        setReferenceFinancialSystemOriginationCode(getValue(line, 167, 169));
-        setReferenceFinancialDocumentNumber(getValue(line, 169, 183));
+        setOrganizationDocumentNumber(getValue(line, 146, 156));
+        setOrganizationReferenceId(getValue(line, 156, 164));
+        setReferenceFinancialDocumentTypeCode(getValue(line, 164, 168));
+        setReferenceFinancialSystemOriginationCode(getValue(line, 168, 170));
+        setReferenceFinancialDocumentNumber(getValue(line, 170, 184));
         
-        if (!line.substring(183, 193).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+        if (!line.substring(184, 194).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setFinancialDocumentReversalDate(parseDate(line.substring(183, 193), false));
+                setFinancialDocumentReversalDate(parseDate(line.substring(184, 194), false));
             }
             catch (ParseException e) {
                 setFinancialDocumentReversalDate(null);
-                returnList.add(new Message("Reversal Date '" + line.substring(183, 193) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Reversal Date '" + line.substring(184, 194) + "' contains an invalid value." , Message.TYPE_FATAL));
             }
         } else {
             setFinancialDocumentReversalDate(null);
         }
         
-        setTransactionEncumbranceUpdateCode(getValue(line, 193, 194));
+        setTransactionEncumbranceUpdateCode(getValue(line, 194, 195));
 
-        if (!line.substring(194, 204).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+        if (!line.substring(195, 205).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setTransactionPostingDate(parseDate(getValue(line, 194, 204), false));
+                setTransactionPostingDate(parseDate(getValue(line, 195, 205), false));
             }
             catch (ParseException e) {
                 setTransactionPostingDate(null);
-                returnList.add(new Message("Transaction Posting Date '" + line.substring(194, 204) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Transaction Posting Date '" + line.substring(195, 205) + "' contains an invalid value." , Message.TYPE_FATAL));
             }
         } else {
             setTransactionPostingDate(null);
         }
         
-        if (!line.substring(204, 214).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+        if (!line.substring(205, 215).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setPayPeriodEndDate(parseDate(getValue(line, 204, 214), false));
+                setPayPeriodEndDate(parseDate(getValue(line, 205, 215), false));
             }
             catch (ParseException e) {
                 setPayPeriodEndDate(null);
-                returnList.add(new Message("Pay Period End Date '" + line.substring(204, 214) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Pay Period End Date '" + line.substring(205, 215) + "' contains an invalid value." , Message.TYPE_FATAL));
             }
         } else {
             setPayPeriodEndDate(null);
         }
         
-        if (!line.substring(214, 223).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+        if (!line.substring(215, 224).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setTransactionTotalHours(new BigDecimal(getValue(line, 214, 223)));
+                setTransactionTotalHours(new BigDecimal(getValue(line, 215, 224)));
             }
             catch (NumberFormatException e) {
                 setTransactionTotalHours(null);
-                returnList.add(new Message("Transaction Total Hours '" + line.substring(214, 223) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Transaction Total Hours '" + line.substring(215, 224) + "' contains an invalid value." , Message.TYPE_FATAL));
             }
         } else {
             setTransactionTotalHours(null);
         }
 
-        if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(line.substring(223, 227))) {
+        if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(line.substring(224, 228))) {
             try {
-                setPayrollEndDateFiscalYear(new Integer(getValue(line, 223, 227)));
+                setPayrollEndDateFiscalYear(new Integer(getValue(line, 224, 228)));
             }
             catch (NumberFormatException e) {
-                returnList.add(new Message("Payroll End Date Fiscal Year '" + line.substring(223, 227) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Payroll End Date Fiscal Year '" + line.substring(224, 228) + "' contains an invalid value." , Message.TYPE_FATAL));
                 setPayrollEndDateFiscalYear(null);
             }
         }
@@ -949,33 +949,33 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
             setPayrollEndDateFiscalYear(null);
         }
 
-        setPayrollEndDateFiscalPeriodCode(getValue(line, 227, 229));
-        setEmplid(getValue(line, 229, 240));
+        setPayrollEndDateFiscalPeriodCode(getValue(line, 228, 230));
+        setEmplid(getValue(line, 230, 241));
 
-        if (!line.substring(240, 243).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+        if (!line.substring(241, 244).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setEmployeeRecord(new Integer(getValue(line, 240, 243)));
+                setEmployeeRecord(new Integer(getValue(line, 241, 244)));
             }
             catch (NumberFormatException e) {
-                returnList.add(new Message("Employee Record '" + line.substring(240, 243) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Employee Record '" + line.substring(241, 244) + "' contains an invalid value." , Message.TYPE_FATAL));
                 setEmployeeRecord(null);
             }
         } else {
             setEmployeeRecord(null);
         }
         
-        setEarnCode(getValue(line, 243, 246));
-        setPayGroup(getValue(line, 246, 249));
-        setSalaryAdministrationPlan(getValue(line, 249, 253));
-        setGrade(getValue(line, 253, 256));
-        setRunIdentifier(getValue(line, 256, 266));
-        setLaborLedgerOriginalChartOfAccountsCode(getValue(line, 266, 268));
-        setLaborLedgerOriginalAccountNumber(getValue(line, 268, 275));
-        setLaborLedgerOriginalSubAccountNumber(getValue(line, 275, 280));
-        setLaborLedgerOriginalFinancialObjectCode(getValue(line, 280, 284));
-        setLaborLedgerOriginalFinancialSubObjectCode(getValue(line, 284, 287));
-        setHrmsCompany(getValue(line, 287, 290));
-        setSetid(getValue(line, 290, 295));
+        setEarnCode(getValue(line, 244, 247));
+        setPayGroup(getValue(line, 247, 250));
+        setSalaryAdministrationPlan(getValue(line, 250, 254));
+        setGrade(getValue(line, 254, 257));
+        setRunIdentifier(getValue(line, 257, 267));
+        setLaborLedgerOriginalChartOfAccountsCode(getValue(line, 267, 269));
+        setLaborLedgerOriginalAccountNumber(getValue(line, 269, 276));
+        setLaborLedgerOriginalSubAccountNumber(getValue(line, 276, 281));
+        setLaborLedgerOriginalFinancialObjectCode(getValue(line, 281, 285));
+        setLaborLedgerOriginalFinancialSubObjectCode(getValue(line, 285, 288));
+        setHrmsCompany(getValue(line, 288, 291));
+        setSetid(getValue(line, 291, 296));
         
         return returnList;
     }
@@ -1309,26 +1309,6 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         else if ("payrollEndDateFiscalPeriodCode".equals(fieldName)) {
             setPayrollEndDateFiscalPeriodCode(fieldValue);
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         else if ("emplid".equals(fieldName)) {
             setEmplid(fieldValue);
         }

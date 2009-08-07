@@ -222,12 +222,12 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         
         setTransactionLedgerEntryDescription(getValue(line, 56, 96));
         
-        if (!getValue(line, 96, 116).equals(GeneralLedgerConstants.EMPTY_CODE)){
+        if (!getValue(line, 96, 117).equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setTransactionLedgerEntryAmount(new KualiDecimal(getValue(line, 96, 116).trim()));
+                setTransactionLedgerEntryAmount(new KualiDecimal(getValue(line, 96, 117).trim()));
             }
             catch (NumberFormatException e) {
-                returnList.add(new Message("Transaction Amount '" + line.substring(96, 116) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Transaction Amount '" + line.substring(96, 117) + "' contains an invalid value." , Message.TYPE_FATAL));
                 setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
             }
         } else {
@@ -235,40 +235,40 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
             setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
         }
         
-        setTransactionDebitCreditCode(line.substring(116, 117));
+        setTransactionDebitCreditCode(line.substring(117, 118));
 
-        if (!getValue(line, 117, 127).equals(GeneralLedgerConstants.EMPTY_CODE)){
+        if (!getValue(line, 118, 128).equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setTransactionDate(parseDate(getValue(line, 117, 127), false));
+                setTransactionDate(parseDate(getValue(line, 118, 128), false));
             }
             catch (ParseException e) {
                 setTransactionDate(null);
-                returnList.add(new Message("Transaction Date '" + line.substring(117, 127) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Transaction Date '" + line.substring(118, 128) + "' contains an invalid value." , Message.TYPE_FATAL));
             }
         } else {
             setTransactionDate(null);
         }
         
-        setOrganizationDocumentNumber(getValue(line, 127, 137));
-        setProjectCode(getValue(line, 137, 147));
-        setOrganizationReferenceId(getValue(line, 147, 155));
-        setReferenceFinancialDocumentTypeCode(getValue(line, 155, 159));
-        setReferenceFinancialSystemOriginationCode(getValue(line, 159, 161));
-        setReferenceFinancialDocumentNumber(getValue(line, 161, 175));
+        setOrganizationDocumentNumber(getValue(line, 128, 138));
+        setProjectCode(getValue(line, 138, 148));
+        setOrganizationReferenceId(getValue(line, 148, 156));
+        setReferenceFinancialDocumentTypeCode(getValue(line, 156, 160));
+        setReferenceFinancialSystemOriginationCode(getValue(line, 160, 162));
+        setReferenceFinancialDocumentNumber(getValue(line, 162, 176));
         if (!getValue(line, 175, 185).equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setFinancialDocumentReversalDate(parseDate(getValue(line, 175, 185), false));
+                setFinancialDocumentReversalDate(parseDate(getValue(line, 176, 186), false));
             }
             catch (ParseException e) {
                 setFinancialDocumentReversalDate(null);
-                returnList.add(new Message("Reversal Date '" + line.substring(175, 185) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Reversal Date '" + line.substring(176, 186) + "' contains an invalid value." , Message.TYPE_FATAL));
                 
             }
         } else {
             setFinancialDocumentReversalDate(null);
         }
         
-        setTransactionEncumbranceUpdateCode(getValue(line, 185, 186));
+        setTransactionEncumbranceUpdateCode(getValue(line, 186, 187));
 
     
     return returnList;
@@ -345,7 +345,7 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
             } else {
                 sb.append("+");
             }
-            sb.append(ZERO_TRANSACTION_LEDGER_ENTRY_AMOUNT.substring(1, 20 - a.length()));
+            sb.append(ZERO_TRANSACTION_LEDGER_ENTRY_AMOUNT.substring(1, 21 - a.length()));
             sb.append(a);
         }
         sb.append(getField(1, transactionDebitCreditCode));

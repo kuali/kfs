@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
@@ -260,9 +259,11 @@ public class PosterServiceImpl implements PosterService {
                 reportWriterService.writeStatisticLine("SEQUENTIAL RECORDS READ                    %,9d", reportSummary.get("SEQUENTIAL,S"));
             }
             else {
-                LOG.debug("postEntries() Processing reversal transactions");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("postEntries() Processing reversal transactions");
+                }
                 
-                final String GL_REVERSAL_T = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Reversal.class).getFullTableName();
+                final String GL_REVERSAL_T = getPersistenceStructureService().getTableName(Reversal.class);
                 Iterator reversalTransactions = reversalDao.getByDate(runDate);
                 TransactionListingReport reversalListingReport = new TransactionListingReport();
                 while (reversalTransactions.hasNext()) {
@@ -300,7 +301,7 @@ public class PosterServiceImpl implements PosterService {
             reportWriterService.writeStatisticLine("SFBL RECORDS UPDATED  (GL_SF_BALANCES_T)   %,9d", reportSummary.get("GL_SF_BALANCES_T,U"));
             reportWriterService.writeStatisticLine("ACBL RECORDS INSERTED (GL_ACCT_BALANCES_T) %,9d", reportSummary.get("GL_ACCT_BALANCES_T,I"));
             reportWriterService.writeStatisticLine("ACBL RECORDS UPDATED  (GL_ACCT_BALANCES_T) %,9d", reportSummary.get("GL_ACCT_BALANCES_T,U"));
-            reportWriterService.writeStatisticLine("WARNING RECORDS WRITTEN                    %,9d", reportSummary.get("WARNING,I"));
+            reportWriterService.writeStatisticLine("ERROR RECORDS WRITTEN                    %,9d", reportSummary.get("WARNING,I"));
         }
         catch (RuntimeException re) {
             LOG.error("postEntries stopped due to: " + re.getMessage() + " on line number : " + ecount, re);
@@ -338,7 +339,7 @@ public class PosterServiceImpl implements PosterService {
         Transaction originalTransaction = tran;
 
         try {
-            final String GL_ORIGIN_ENTRY_T = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(OriginEntryFull.class).getFullTableName();
+            final String GL_ORIGIN_ENTRY_T = getPersistenceStructureService().getTableName(OriginEntryFull.class);
 
             // Update select count in the report
             if ((mode == PosterService.MODE_ENTRIES) || (mode == PosterService.MODE_ICR)) {
@@ -427,7 +428,7 @@ public class PosterServiceImpl implements PosterService {
                 // No error so post it
                 for (Iterator posterIter = transactionPosters.iterator(); posterIter.hasNext();) {
                     PostTransaction poster = (PostTransaction) posterIter.next();
-                    String actionCode = poster.post(tran, mode, runUniversityDate.getUniversityDate());
+                    String actionCode = poster.post(tran, mode, runUniversityDate.getUniversityDate(), reportWriterService);
 
                     if (actionCode.startsWith(GeneralLedgerConstants.ERROR_CODE)) {
                         errors = new ArrayList<Message>();
@@ -452,7 +453,7 @@ public class PosterServiceImpl implements PosterService {
                     if (mode == PosterService.MODE_REVERSAL) {
                         createOutputEntry(tran, OUTPUT_GLE_FILE_ps);
                         reversalDao.delete((Reversal) originalTransaction);
-                        addReporting(reportSummary, MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Reversal.class).getFullTableName(), GeneralLedgerConstants.DELETE_CODE);
+                        addReporting(reportSummary, getPersistenceStructureService().getTableName(Reversal.class), GeneralLedgerConstants.DELETE_CODE);
                     }
                     
                     ledgerSummaryReport.summarizeEntry(new OriginEntryFull(tran));
@@ -1059,6 +1060,14 @@ public class PosterServiceImpl implements PosterService {
 
     public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
         this.persistenceStructureService = persistenceStructureService;
+    }
+
+    /**
+     * Gets the persistenceStructureService attribute. 
+     * @return Returns the persistenceStructureService.
+     */
+    public PersistenceStructureService getPersistenceStructureService() {
+        return persistenceStructureService;
     }
 
     public void setReportWriterService(ReportWriterService reportWriterService) {

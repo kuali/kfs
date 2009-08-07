@@ -26,6 +26,7 @@ import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,10 +54,11 @@ public class PostSufficientFundBalances implements PostTransaction {
      * @param t the transaction which is being posted
      * @param mode the mode the poster is currently running in
      * @param postDate the date this transaction should post to
+     * @param posterReportWriterService the writer service where the poster is writing its report
      * @return the accomplished post type
      * @see org.kuali.kfs.gl.batch.service.PostTransaction#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
-    public String post(Transaction t, int mode, Date postDate) {
+    public String post(Transaction t, int mode, Date postDate, ReportWriterService posterReportWriterService) {
         LOG.debug("post() started");
 
         String returnCode = GeneralLedgerConstants.UPDATE_CODE;

@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.ld.batch.service.impl;
 
-import static org.kuali.kfs.gl.businessobject.OriginEntrySource.LABOR_MAIN_POSTER_VALID;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -40,6 +38,7 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 
@@ -58,6 +57,8 @@ public class LaborLedgerEntryPosterTestBroken extends KualiTestBase {
     private PostTransaction laborLedgerEntryPoster;
     private OriginEntryGroupService originEntryGroupService;
     private LaborLedgerEntryService laborLedgerEntryService;
+    
+    private static final String MOCK_REPORT_WRITER_BEAN_NAME = "mockReportWriterService";
 
     @Override
     public void setUp() throws Exception {
@@ -93,9 +94,11 @@ public class LaborLedgerEntryPosterTestBroken extends KualiTestBase {
 
         List<LaborOriginEntry> transactionList = LaborTestDataPreparator.getLaborOriginEntryList(properties, "post.testData", numberOfTestData, group1);
         Map<String, Integer> operationType = new HashMap<String, Integer>();
+        
+        ReportWriterService mockReportWriterService = SpringContext.getBeansOfType(ReportWriterService.class).get(LaborLedgerEntryPosterTestBroken.MOCK_REPORT_WRITER_BEAN_NAME);
 
         for (LaborOriginEntry transaction : transactionList) {
-            String operation = laborLedgerEntryPoster.post(transaction, 0, today);
+            String operation = laborLedgerEntryPoster.post(transaction, 0, today, mockReportWriterService);
             Integer currentNumber = operationType.get(operation);
             Integer numberOfOperation = currentNumber != null ? currentNumber + 1 : 1;
             operationType.put(operation, numberOfOperation);

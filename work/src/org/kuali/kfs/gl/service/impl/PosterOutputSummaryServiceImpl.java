@@ -75,13 +75,13 @@ public class PosterOutputSummaryServiceImpl implements PosterOutputSummaryServic
              */
             public int compare(PosterOutputSummaryEntry vladimir, PosterOutputSummaryEntry estragon) {
                 if (shouldCompare(vladimir.getBalanceTypeCode(), estragon.getBalanceTypeCode())) {
-                    return vladimir.getBalanceTypeCode().compareTo(estragon.getBalanceTypeCode());
+                    return vladimir.getBalanceTypeCode().toUpperCase().compareTo(estragon.getBalanceTypeCode().toUpperCase());
                 } else if (shouldCompare(vladimir.getUniversityFiscalYear(), estragon.getUniversityFiscalYear())) {
                     return vladimir.getUniversityFiscalYear().compareTo(estragon.getUniversityFiscalYear());
                 } else if (shouldCompare(vladimir.getFiscalPeriodCode(), estragon.getFiscalPeriodCode())) {
-                    return vladimir.getFiscalPeriodCode().compareTo(estragon.getFiscalPeriodCode());
+                    return vladimir.getFiscalPeriodCode().toUpperCase().compareTo(estragon.getFiscalPeriodCode().toUpperCase());
                 } else if (shouldCompare(vladimir.getFundGroup(), estragon.getFundGroup())) {
-                    return vladimir.getFundGroup().compareTo(estragon.getFundGroup());
+                    return vladimir.getFundGroup().toUpperCase().compareTo(estragon.getFundGroup().toUpperCase());
                 } else {
                     return 0;
                 }
@@ -94,7 +94,7 @@ public class PosterOutputSummaryServiceImpl implements PosterOutputSummaryServic
              * @return true if comparison of these two Strings would be meaningful
              */
             protected boolean shouldCompare(String s1, String s2) {
-                return !StringUtils.isBlank(s1) && !StringUtils.isBlank(s2) && !s1.equals(s2);
+                return !StringUtils.isBlank(s1) && !StringUtils.isBlank(s2) && !s1.equalsIgnoreCase(s2);
             }
             
             /**

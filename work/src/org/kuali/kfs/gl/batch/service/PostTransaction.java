@@ -22,6 +22,7 @@ package org.kuali.kfs.gl.batch.service;
 import java.util.Date;
 
 import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.sys.service.ReportWriterService;
 
 /**
  * An interface that delcares the methods that the Poster needs to post a transaction.
@@ -33,9 +34,10 @@ public interface PostTransaction {
      * @param t Transaction to post
      * @param mode PosterService.MODE_ENTRIES or PosterService.MODE_REVERSAL
      * @param postDate post date/time
+     * @param posterReportWriterService the writer service where the poster is writing its report 
      * @return The letter I if a row was inserted, U updated, D deleted. The string can have multiple codes.
      */
-    public String post(Transaction t, int mode, Date postDate);
+    public String post(Transaction t, int mode, Date postDate, ReportWriterService posterReportWriterService);
 
     /**
      * The name of the destination for the post (ie, the database table name where resultant records will be posted)

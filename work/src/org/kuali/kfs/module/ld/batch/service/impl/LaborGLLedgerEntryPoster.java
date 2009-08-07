@@ -27,6 +27,7 @@ import org.kuali.kfs.module.ld.service.LaborTransactionDescriptionService;
 import org.kuali.kfs.module.ld.util.DebitCreditUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,7 +44,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
     /**
      * @see org.kuali.kfs.gl.batch.service.PostTransaction#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
-    public String post(Transaction transaction, int mode, java.util.Date postDate) {
+    public String post(Transaction transaction, int mode, java.util.Date postDate, ReportWriterService posterReportWriterService) {
         String operationType = KFSConstants.OperationType.INSERT;
         LaborGeneralLedgerEntry laborGeneralLedgerEntry = new LaborGeneralLedgerEntry();
         ObjectUtil.buildObject(laborGeneralLedgerEntry, transaction);

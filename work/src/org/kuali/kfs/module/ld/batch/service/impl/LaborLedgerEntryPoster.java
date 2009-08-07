@@ -25,6 +25,7 @@ import org.kuali.kfs.module.ld.businessobject.LaborTransaction;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 import org.kuali.kfs.module.ld.service.LaborLedgerEntryService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -38,7 +39,7 @@ public class LaborLedgerEntryPoster implements PostTransaction {
     /**
      * @see org.kuali.kfs.gl.batch.service.PostTransaction#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
-    public String post(Transaction transaction, int mode, java.util.Date postDate) {
+    public String post(Transaction transaction, int mode, java.util.Date postDate, ReportWriterService posterReportWriterService) {
         String operationType = KFSConstants.OperationType.INSERT;
         LedgerEntry ledgerEntry = new LedgerEntry((LaborTransaction) transaction);
         // ObjectUtil.buildObject(ledgerEntry, transaction);

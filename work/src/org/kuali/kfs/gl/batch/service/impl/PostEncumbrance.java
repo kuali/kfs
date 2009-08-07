@@ -31,6 +31,7 @@ import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
@@ -61,9 +62,10 @@ public class PostEncumbrance implements PostTransaction, EncumbranceCalculator {
      * @param t the transaction which is being posted
      * @param mode the mode the poster is currently running in
      * @param postDate the date this transaction should post to
+     * @param posterReportWriterService the writer service where the poster is writing its report
      * @return the accomplished post type
      */
-    public String post(Transaction t, int mode, Date postDate) {
+    public String post(Transaction t, int mode, Date postDate, ReportWriterService posterReportWriterService) {
         LOG.debug("post() started");
 
         String returnCode = GeneralLedgerConstants.UPDATE_CODE;

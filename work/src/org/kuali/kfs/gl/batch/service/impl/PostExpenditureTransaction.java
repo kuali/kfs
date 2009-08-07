@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.gl.batch.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -33,6 +35,8 @@ import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -75,23 +79,24 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
     /**
      * This will determine if this transaction is an ICR eligible transaction
      * 
+     * @param transaction the transaction which is being determined to be ICR or not
      * @param objectType the object type of the transaction
      * @param account the account of the transaction
-     * @param subAccountNumber the subAccountNumber of the transaction
      * @param objectCode the object code of the transaction
-     * @param universityFiscalPeriodCode the accounting period code of the transaction
      * @return true if the transaction is an ICR transaction and therefore should have an expenditure transaction created for it; false if otherwise
      */
-    public boolean isIcrTransaction(ObjectType objectType, Account account, String subAccountNumber, ObjectCode objectCode, String universityFiscalPeriodCode) {
-        LOG.debug("isIcrTransaction() started");
+    public boolean isIcrTransaction(Transaction transaction, ReportWriterService reportWriterService) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("isIcrTransaction() started");
+        }
         
         // Is the ICR indicator set?
         // Is the period code a non-balance period, as specified by KFS-GL / Poster Indirect Cost Recoveries Step / INDIRECT_COST_FISCAL_PERIODS? If so, continue, if not, we aren't posting this transaction
-        if (objectType.isFinObjectTypeIcrSelectionIndicator() && getParameterService().getParameterEvaluator(PosterIndirectCostRecoveryEntriesStep.class, PostExpenditureTransaction.INDIRECT_COST_FISCAL_PERIODS_PARAMETER, universityFiscalPeriodCode).evaluationSucceeds()) {
+        if (transaction.getObjectType().isFinObjectTypeIcrSelectionIndicator() && getParameterService().getParameterEvaluator(PosterIndirectCostRecoveryEntriesStep.class, PostExpenditureTransaction.INDIRECT_COST_FISCAL_PERIODS_PARAMETER, transaction.getUniversityFiscalPeriodCode()).evaluationSucceeds()) {
             // Continue on the posting process
 
-            // Check the sub account type code. A21 subaccounts with the type of CS don't get posted
-            A21SubAccount a21SubAccount = accountingCycleCachingService.getA21SubAccount(account.getChartOfAccountsCode(), account.getAccountNumber(), subAccountNumber);
+            // Check the sub account type code. A21 sub-accounts with the type of CS don't get posted
+            A21SubAccount a21SubAccount = accountingCycleCachingService.getA21SubAccount(transaction.getAccount().getChartOfAccountsCode(), transaction.getAccount().getAccountNumber(), transaction.getSubAccountNumber());
             String financialIcrSeriesIdentifier;
             String indirectCostRecoveryTypeCode;
             
@@ -99,23 +104,28 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
             if (a21SubAccount != null) {
                 if (StringUtils.hasText(a21SubAccount.getFinancialIcrSeriesIdentifier()) && StringUtils.hasText(a21SubAccount.getIndirectCostRecoveryTypeCode())) {
                     // the sub account is set up for ICR, make sure that the corresponding account is as well, just for validation purposes
-                    if (!StringUtils.hasText(account.getFinancialIcrSeriesIdentifier()) || !StringUtils.hasText(account.getAcctIndirectCostRcvyTypeCd())) {
-                        throw new IncorrectIndirectCostRecoveryMetadataException();
+                    if (!StringUtils.hasText(transaction.getAccount().getFinancialIcrSeriesIdentifier()) || !StringUtils.hasText(transaction.getAccount().getAcctIndirectCostRcvyTypeCd())) {
+                        List<Message> warnings = new ArrayList<Message>();
+                        warnings.add(new Message("Warning - excluding transaction from Indirect Cost Recovery because Sub-Account is set up for ICR, but Account is not.", Message.TYPE_WARNING));
+                        reportWriterService.writeError(transaction, warnings);
                     }
+                }
+                
+                if (StringUtils.hasText(a21SubAccount.getFinancialIcrSeriesIdentifier()) && StringUtils.hasText(a21SubAccount.getIndirectCostRecoveryTypeCode())) {
                     // A21SubAccount info set up correctly
                     financialIcrSeriesIdentifier = a21SubAccount.getFinancialIcrSeriesIdentifier();
                     indirectCostRecoveryTypeCode = a21SubAccount.getIndirectCostRecoveryTypeCode();
                 }
                 else {
                     // we had an A21SubAccount, but it was not set up for ICR, use account values instead
-                    financialIcrSeriesIdentifier = account.getFinancialIcrSeriesIdentifier();
-                    indirectCostRecoveryTypeCode = account.getAcctIndirectCostRcvyTypeCd();
+                    financialIcrSeriesIdentifier = transaction.getAccount().getFinancialIcrSeriesIdentifier();
+                    indirectCostRecoveryTypeCode = transaction.getAccount().getAcctIndirectCostRcvyTypeCd();
                 }
             }
             else {
                 // no A21SubAccount found, default to using Account
-                financialIcrSeriesIdentifier = account.getFinancialIcrSeriesIdentifier();
-                indirectCostRecoveryTypeCode = account.getAcctIndirectCostRcvyTypeCd();
+                financialIcrSeriesIdentifier = transaction.getAccount().getFinancialIcrSeriesIdentifier();
+                indirectCostRecoveryTypeCode = transaction.getAccount().getAcctIndirectCostRcvyTypeCd();
             }
             
             // the ICR Series identifier set?
@@ -132,8 +142,8 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
 
             // do we have an exclusion by type or by account?  then we don't have to post no expenditure transaction
             final boolean selfAndTopLevelOnly = getParameterService().getIndicatorParameter(PosterIndirectCostRecoveryEntriesStep.class, PostExpenditureTransaction.ICR_EXCLUSIONS_AT_TRANSACTION_AND_TOP_LEVEL_ONLY_PARAMETER_NAME);
-            if (excludedByType(indirectCostRecoveryTypeCode, objectCode, selfAndTopLevelOnly)) return false;
-            if (excludedByAccount(account, objectCode, selfAndTopLevelOnly)) return false;
+            if (excludedByType(indirectCostRecoveryTypeCode, transaction.getFinancialObject(), selfAndTopLevelOnly)) return false;
+            if (excludedByAccount(transaction.getAccount(), transaction.getFinancialObject(), selfAndTopLevelOnly)) return false;
 
             return true;  // still here?  then I guess we don't have an exclusion
         }
@@ -255,24 +265,19 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
      * @param t the transaction which is being posted
      * @param mode the mode the poster is currently running in
      * @param postDate the date this transaction should post to
+     * @param posterReportWriterService the writer service where the poster is writing its report
      * @return the accomplished post type
      * @see org.kuali.kfs.gl.batch.service.PostTransaction#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
      */
-    public String post(Transaction t, int mode, Date postDate) {
+    public String post(Transaction t, int mode, Date postDate, ReportWriterService posterReportWriterService) {
         LOG.debug("post() started");
 
-        try {
-            if (!hasValidObjectCodeReportingHierarchy(t.getFinancialObject())) {
-                // I agree with the commenter below...this seems totally lame
-                return GeneralLedgerConstants.ERROR_CODE + ": Warning - excluding transaction from Indirect Cost Recovery because "+t.getFinancialObject().toString()+" has an invalid reports to hierarchy";
-            }
-            else if (isIcrTransaction(t.getObjectType(), t.getAccount(), t.getSubAccountNumber(), t.getFinancialObject(), t.getUniversityFiscalPeriodCode())) {
-                return postTransaction(t, mode);
-            }
+        if (!hasValidObjectCodeReportingHierarchy(t.getFinancialObject())) {
+            // I agree with the commenter below...this seems totally lame
+            return GeneralLedgerConstants.ERROR_CODE + ": Warning - excluding transaction from Indirect Cost Recovery because "+t.getFinancialObject().toString()+" has an invalid reports to hierarchy";
         }
-        catch (IncorrectIndirectCostRecoveryMetadataException e) {
-            // HACK ALERT: the code that calls this method requires that an error message begin with GeneralLedgerConstants.ERROR_CODE, which is "E"
-            return GeneralLedgerConstants.ERROR_CODE + "rror - excluding transaction from Indirect Cost Recovery because Sub-Account is set up for ICR, but Account is not.";
+        else if (isIcrTransaction(t, posterReportWriterService)) {
+            return postTransaction(t, mode);
         }
         return GeneralLedgerConstants.EMPTY_CODE;
     }
@@ -320,9 +325,6 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
      */
     public String getDestinationName() {
         return persistenceStructureService.getTableName(ExpenditureTransaction.class);
-    }
-    
-    protected class IncorrectIndirectCostRecoveryMetadataException extends RuntimeException {
     }
 
     public void setAccountingCycleCachingService(AccountingCycleCachingService accountingCycleCachingService) {

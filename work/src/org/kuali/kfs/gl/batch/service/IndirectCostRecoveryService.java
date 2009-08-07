@@ -18,20 +18,21 @@ package org.kuali.kfs.gl.batch.service;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectType;
+import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.sys.service.ReportWriterService;
 
 /**
  * An interface with a predicate that tells if a transaction with the given fields would be an ICR transaction or not
  */
 public interface IndirectCostRecoveryService {
     /**
-     * Determines if a transaction with the given parameters would be subject to indirect cost recovery
+     * This will determine if this transaction is an ICR eligible transaction
      * 
+     * @param transaction the transaction which is being determined to be ICR or not
      * @param objectType the object type of the transaction
      * @param account the account of the transaction
-     * @param subAccountNumber the sub account number of the transaction
-     * @param objectCode the financial object code of the transaction
-     * @param universityFiscalPeriodCode the period code of the transactions
-     * @return true if these all mean the transaction is an indirect cost recovery transaction, false otherwise
+     * @param objectCode the object code of the transaction
+     * @return true if the transaction is an ICR transaction and therefore should have an expenditure transaction created for it; false if otherwise
      */
-    public boolean isIcrTransaction(ObjectType objectType, Account account, String subAccountNumber, ObjectCode objectCode, String universityFiscalPeriodCode);
+    public abstract boolean isIcrTransaction(Transaction transaction, ReportWriterService reportWriterService);
 }

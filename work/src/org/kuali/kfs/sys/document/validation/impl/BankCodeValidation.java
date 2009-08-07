@@ -23,6 +23,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Performs bank code validation.
@@ -55,7 +56,12 @@ public class BankCodeValidation {
         }
 
         Bank bank = SpringContext.getBean(BankService.class).getByPrimaryId(bankCode);
- 
+        
+        if (ObjectUtils.isNull(bank)) {
+            GlobalVariables.getMessageMap().putError(bankCodeProperty, KFSKeyConstants.ERROR_DOCUMENT_BANKACCMAINT_INVALID_BANK);
+            return false;
+        }
+        
         // validate deposit
         if (requireDeposit && !bank.isBankDepositIndicator()) {
             GlobalVariables.getMessageMap().putError(bankCodeProperty, KFSKeyConstants.Bank.ERROR_DEPOSIT_NOT_SUPPORTED);

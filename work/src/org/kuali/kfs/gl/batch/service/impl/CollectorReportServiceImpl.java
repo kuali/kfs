@@ -371,7 +371,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
                     // collector)
                     // was specific about treating only a code of 'D' as a debit
 
-                    collectorReportWriterService.writeFormattedMessageLine("Message sent to %s for Document %s", batch.getEmailAddress(), errorDocumentGroupEntry.getKey().getDocumentNumber());
+                    collectorReportWriterService.writeFormattedMessageLine("Message sent to %-40s for Document %s", batch.getEmailAddress(), errorDocumentGroupEntry.getKey().getDocumentNumber());
                     int documentTransactionCount = errorDocumentGroupEntry.getValue().getNumCreditEntries() + errorDocumentGroupEntry.getValue().getNumDebitEntries() + errorDocumentGroupEntry.getValue().getNumOtherEntries();
                     aggregateTransactionCount += documentTransactionCount;
                     aggregateDebitAmount = aggregateDebitAmount.add(errorDocumentGroupEntry.getValue().getDebitAmount());

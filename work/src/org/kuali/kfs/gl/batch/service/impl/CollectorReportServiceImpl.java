@@ -171,18 +171,20 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
         collectorReportWriterService.writeNewLines(2);
         collectorReportWriterService.writeFormattedMessageLine("***** Totals for Creation of GLE Data  *****");
-        collectorReportWriterService.writeFormattedMessageLine("      Total Records Read     %09d", aggregateTotalRecordsCountFromTrailer);
-        collectorReportWriterService.writeFormattedMessageLine("      Total Groups Read      %09d", collectorReportData.getNumPersistedBatches());
-        collectorReportWriterService.writeFormattedMessageLine("      Total Groups Bypassed  %09d", collectorReportData.getNumNotPersistedBatches());
-        collectorReportWriterService.writeFormattedMessageLine("      Total WWW Records Out  %09d", aggregateNumInputDetails);
+        collectorReportWriterService.writeFormattedMessageLine("      Total Records Read      %09d", aggregateTotalRecordsCountFromTrailer);
+        collectorReportWriterService.writeFormattedMessageLine("      Total Groups Read       %09d", collectorReportData.getNumPersistedBatches());
+        collectorReportWriterService.writeFormattedMessageLine("      Total Groups Bypassed   %09d", collectorReportData.getNumNotPersistedBatches());
+        int totalRecordsBypassed = collectorReportData.getNumNotPersistedOriginEntryRecords() + collectorReportData.getNumNotPersistedCollectorDetailRecords();
+        collectorReportWriterService.writeFormattedMessageLine("      Total Records Bypassed  %09d", totalRecordsBypassed);
+        collectorReportWriterService.writeFormattedMessageLine("      Total WWW Records Out   %09d", aggregateNumInputDetails);
         int aggregateOriginEntryCountFromParsedData = aggregateOriginEntryTotals.getNumCreditEntries() + aggregateOriginEntryTotals.getNumDebitEntries() + aggregateOriginEntryTotals.getNumOtherEntries();
-        collectorReportWriterService.writeFormattedMessageLine("      Total GLE Records Out  %09d", aggregateOriginEntryCountFromParsedData);
-        collectorReportWriterService.writeFormattedMessageLine("      Total GLE Debits       %19s", new KualiDecimalFormatter(aggregateOriginEntryTotals.getDebitAmount()));
-        collectorReportWriterService.writeFormattedMessageLine("      Debit Count            %09d", aggregateOriginEntryTotals.getNumDebitEntries());
-        collectorReportWriterService.writeFormattedMessageLine("      Total GLE Credits      %19s", new KualiDecimalFormatter(aggregateOriginEntryTotals.getCreditAmount()));
-        collectorReportWriterService.writeFormattedMessageLine("      Debit Count            %09d", aggregateOriginEntryTotals.getNumCreditEntries());
-        collectorReportWriterService.writeFormattedMessageLine("      Total GLE Not C or D   %19s", new KualiDecimalFormatter(aggregateOriginEntryTotals.getOtherAmount()));
-        collectorReportWriterService.writeFormattedMessageLine("      Not C or D Count       %09d", aggregateOriginEntryTotals.getNumOtherEntries());
+        collectorReportWriterService.writeFormattedMessageLine("      Total GLE Records Out   %09d", aggregateOriginEntryCountFromParsedData);
+        collectorReportWriterService.writeFormattedMessageLine("      Total GLE Debits        %19s", new KualiDecimalFormatter(aggregateOriginEntryTotals.getDebitAmount()));
+        collectorReportWriterService.writeFormattedMessageLine("      Debit Count             %09d", aggregateOriginEntryTotals.getNumDebitEntries());
+        collectorReportWriterService.writeFormattedMessageLine("      Total GLE Credits       %19s", new KualiDecimalFormatter(aggregateOriginEntryTotals.getCreditAmount()));
+        collectorReportWriterService.writeFormattedMessageLine("      Debit Count             %09d", aggregateOriginEntryTotals.getNumCreditEntries());
+        collectorReportWriterService.writeFormattedMessageLine("      Total GLE Not C or D    %19s", new KualiDecimalFormatter(aggregateOriginEntryTotals.getOtherAmount()));
+        collectorReportWriterService.writeFormattedMessageLine("      Not C or D Count        %09d", aggregateOriginEntryTotals.getNumOtherEntries());
         collectorReportWriterService.writeNewLines(1);
         collectorReportWriterService.writeFormattedMessageLine("Inserted %d detail records into gl_id_bill_t", aggregateNumSavedDetails);
     }

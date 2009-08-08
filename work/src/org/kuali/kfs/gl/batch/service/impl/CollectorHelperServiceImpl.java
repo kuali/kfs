@@ -177,7 +177,8 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         }
         else {
             collectorReportData.incrementNumNonPersistedBatches();
-
+            collectorReportData.incrementNumNotPersistedOriginEntryRecords(batch.getOriginEntries().size());
+            collectorReportData.incrementNumNotPersistedCollectorDetailRecords(batch.getCollectorDetails().size());
             // mark batch as invalid
             collectorReportData.markValidationStatus(batch, false);
         }

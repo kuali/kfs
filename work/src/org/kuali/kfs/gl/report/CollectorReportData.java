@@ -65,6 +65,8 @@ public class CollectorReportData {
     
     private int numPersistedBatches;
     private int numNotPersistedBatches;
+    private int numNotPersistedOriginEntryRecords;
+    private int numNotPersistedCollectorDetailRecords;
 
     public CollectorReportData() {
         emailSendingStatus = new HashMap<String, String>();
@@ -86,6 +88,7 @@ public class CollectorReportData {
         messageMapForFileName = new TreeMap<String, MessageMap>();
         numPersistedBatches = 0;
         numNotPersistedBatches = 0;
+        numNotPersistedOriginEntryRecords = 0;
     }
 
     /**
@@ -318,6 +321,22 @@ public class CollectorReportData {
         return numNotPersistedBatches;
     }
 
+    public void incrementNumNotPersistedOriginEntryRecords(int records) {
+        numNotPersistedOriginEntryRecords += records;
+    }
+    
+    public int getNumNotPersistedOriginEntryRecords() {
+        return numNotPersistedOriginEntryRecords;
+    }
+
+    public void incrementNumNotPersistedCollectorDetailRecords(int records) {
+        numNotPersistedCollectorDetailRecords += records;
+    }
+    
+    public int getNumNotPersistedCollectorDetailRecords() {
+        return numNotPersistedCollectorDetailRecords;
+    }
+    
     /**
      * Marks whether or not a batch is valid or not
      * 
@@ -327,7 +346,7 @@ public class CollectorReportData {
     public void markValidationStatus(CollectorBatch batch, boolean validStatus) {
         throwExceptionIfBatchNotAdded(batch);
 
-        validationStatuses.put(batch.getBatchName(), new Boolean(validStatus));
+        validationStatuses.put(batch.getBatchName(), Boolean.valueOf(validStatus));
     }
 
     /**

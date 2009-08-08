@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -43,8 +44,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.ErrorMessage;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.kns.util.TypedArrayList;
 import org.springframework.util.StringUtils;;
 
 public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
@@ -168,10 +172,41 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
             OriginEntryTotals totals = new OriginEntryTotals();
             totals.addToTotals(batch.getOriginEntries().iterator());
             batch.setOriginEntryTotals(totals);
+            
+            // now copy all the messages from the per-batch message map into the global map, so that we can display the messages on the upload screen
+            copyAllMessages(batch.getMessageMap(), GlobalVariables.getMessageMap());
         }
         return batchList;
     }
 
+    private void copyAllMessages(MessageMap sourceMap, MessageMap destMap) {
+        copyAllMessagesHelper(sourceMap.getInfoMessages(), "info", destMap);
+        copyAllMessagesHelper(sourceMap.getWarningMessages(), "warning", destMap);
+        copyAllMessagesHelper(sourceMap.getErrorMessages(), "error", destMap);
+    }
+    
+    private void copyAllMessagesHelper(Map<String, TypedArrayList> sourceMessages, String type, MessageMap destMap) {
+        for (String key : sourceMessages.keySet()) {
+            TypedArrayList messages = sourceMessages.get(key);
+            if (messages != null) {
+                for (Object o : messages) {
+                    ErrorMessage message = (ErrorMessage) o;
+                    if ("info".equals(type)) {
+                        destMap.putInfoWithoutFullErrorPath(key, message.getErrorKey(), message.getMessageParameters());
+                    }
+                    else if ("warning".equals(type)) {
+                        destMap.putWarningWithoutFullErrorPath(key, message.getErrorKey(), message.getMessageParameters());
+                    }
+                    else if ("error".equals(type)) {
+                        destMap.putErrorWithoutFullErrorPath(key, message.getErrorKey(), message.getMessageParameters());
+                    }
+                    else {
+                        throw new IllegalArgumentException();
+                    }
+                }
+            }
+        }
+    }
     protected void ensurePreviousBatchTerminated(CollectorBatch currentBatch, int lineNumber) {
         if (currentBatch != null) {
             // we've encountered a new header, when we're still not done parsing the previous batch (i.e. trailer not found).  This is an error, and mark the old batch as such

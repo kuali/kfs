@@ -116,7 +116,6 @@
 				attributeEntry="${itemAttributes.itemDescription}" />
 			<kul:htmlAttributeHeaderCell colspan="${colSpanExtendedPrice}"
 				attributeEntry="${itemAttributes.extendedPrice}" />
-
 			<c:if test="${purapTaxEnabled}">
 			    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" />				
 			    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" />
@@ -131,12 +130,10 @@
 	    <c:otherwise>
 			<kul:htmlAttributeHeaderCell colspan="${colSpanExtendedPrice}"
 				attributeEntry="${itemAttributes.extendedPrice}" />
-
 			<c:if test="${purapTaxEnabled}">
 			    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" />				
 			    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" />
-			</c:if>
-				
+			</c:if>				
 			<kul:htmlAttributeHeaderCell colspan="${colSpanDescription}"
 				attributeEntry="${itemAttributes.itemDescription}" />
 			<c:if test="${colSpanBlank > 0}">
@@ -289,8 +286,7 @@
 				accountPrefix="document.item[${ctr}]." 
 				itemColSpan="${mainColumnCount}"/>
 		</c:if>
-		
-		
+				
 		<c:if test="${(((!empty KualiForm.editingMode['allowItemEntry']) && (!empty itemLine.itemUnitPrice)) || (empty KualiForm.editingMode['allowItemEntry']))}">
 		    <c:if test="${(!amendmentEntry && KualiForm.document.statusCode!='AFOA') || (KualiForm.document.statusCode=='AFOA' && !empty KualiForm.document.items[ctr].itemUnitPrice)}">
 			    <c:if test="${showAmount}">

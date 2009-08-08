@@ -52,8 +52,8 @@
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" width="12%"/>
 		
 		<c:if test="${purapTaxEnabled}">
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" width="12%"/>		
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" width="12%"/>
+			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" width="12%"/>		
+			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" width="12%"/>
 		</c:if>
 
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" width="12%"/>
@@ -86,7 +86,6 @@
     
         <!--  hit form method to increment tab index -->
         <c:set var="dummyIncrementer" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
-
         <c:set var="currentTab" value="${kfunc:getTabState(KualiForm, tabKey)}"/>
 
 		<%-- default to closed --%>
@@ -196,17 +195,18 @@
 				    property="document.item[${ctr}].itemAssignedToTradeInIndicator"
 				    readOnly="true" />
 			</td>			    
-			<td class="infoline">
+			<td class="infoline" colspan="${descriptionColSpan}">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemDescription}"
 				    property="document.item[${ctr}].itemDescription"
 				    readOnly="true" />
 			</td>			
 		</tr>
+		
 		<c:set var="hideFields" value="amount" />
 		<c:if test="${showAmount}">
 			<c:set var="hideFields" value="" />
-		</c:if>
+		</c:if>		
 		<purap:purapGeneralAccounting
 			accountPrefix="document.item[${ctr}]." 
 			itemColSpan="${mainColumnCount}" />	

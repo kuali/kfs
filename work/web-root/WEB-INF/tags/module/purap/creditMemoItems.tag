@@ -24,9 +24,9 @@
 <c:set var="clearAllTaxes" value="${(not empty KualiForm.editingMode['clearAllTaxes'])}" />
 <c:set var="purapTaxEnabled" value="${(not empty KualiForm.editingMode['purapTaxEnabled'])}" />
 
-<c:set var="descriptionColSpan" value="3"/>
+<c:set var="descriptionColSpan" value="4"/>
 <c:if test="${purapTaxEnabled}">
-	<c:set var="descriptionColSpan" value="1"/>
+	<c:set var="descriptionColSpan" value="2"/>
 </c:if>
 		
 <tr>
@@ -63,8 +63,8 @@
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" width="12%"/>
 
 		<c:if test="${purapTaxEnabled}">
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" width="12%"/>		
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" width="12%"/>
+			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" width="12%"/>		
+			<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" width="12%"/>
 		</c:if>
 
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" width="12%"/>
@@ -96,9 +96,7 @@
         
         <!--  hit form method to increment tab index -->
         <c:set var="dummyIncrementer" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
-
         <c:set var="currentTab" value="${kfunc:getTabState(KualiForm, tabKey)}"/>
-
 
 		<%-- default to closed --%>
 		<c:choose>
@@ -244,8 +242,8 @@
 				    attributeEntry="${itemAttributes.itemCatalogNumber}"
 				    property="document.item[${ctr}].itemCatalogNumber"
 				    readOnly="true" />
-		    </td>
-			<td class="infoline">
+		    </td>		    
+			<td class="infoline" colspan="${descriptionColSpan}"/>
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemDescription}"
 				    property="document.item[${ctr}].itemDescription"

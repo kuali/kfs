@@ -17,6 +17,9 @@ package org.kuali.kfs.gl.batch.service.impl;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Formattable;
+import java.util.Formatter;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -51,14 +54,13 @@ import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
 /**
  * The base implementation of the CollectorReportService
  */
 public class CollectorReportServiceImpl implements CollectorReportService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectorReportServiceImpl.class);
-
-    private static final String CURRENCY_SYMBOL = "$";
 
     private DateTimeService dateTimeService;
     private ParameterService parameterService;
@@ -175,11 +177,11 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         collectorReportWriterService.writeFormattedMessageLine("      Total WWW Records Out  %09d", aggregateNumInputDetails);
         int aggregateOriginEntryCountFromParsedData = aggregateOriginEntryTotals.getNumCreditEntries() + aggregateOriginEntryTotals.getNumDebitEntries() + aggregateOriginEntryTotals.getNumOtherEntries();
         collectorReportWriterService.writeFormattedMessageLine("      Total GLE Records Out  %09d", aggregateOriginEntryCountFromParsedData);
-        collectorReportWriterService.writeFormattedMessageLine("      Total GLE Debits       %19s", CURRENCY_SYMBOL + aggregateOriginEntryTotals.getDebitAmount());
+        collectorReportWriterService.writeFormattedMessageLine("      Total GLE Debits       %19s", new KualiDecimalFormatter(aggregateOriginEntryTotals.getDebitAmount()));
         collectorReportWriterService.writeFormattedMessageLine("      Debit Count            %09d", aggregateOriginEntryTotals.getNumDebitEntries());
-        collectorReportWriterService.writeFormattedMessageLine("      Total GLE Credits      %19s", CURRENCY_SYMBOL + aggregateOriginEntryTotals.getCreditAmount());
+        collectorReportWriterService.writeFormattedMessageLine("      Total GLE Credits      %19s", new KualiDecimalFormatter(aggregateOriginEntryTotals.getCreditAmount()));
         collectorReportWriterService.writeFormattedMessageLine("      Debit Count            %09d", aggregateOriginEntryTotals.getNumCreditEntries());
-        collectorReportWriterService.writeFormattedMessageLine("      Total GLE Not C or D   %19s", CURRENCY_SYMBOL + aggregateOriginEntryTotals.getOtherAmount());
+        collectorReportWriterService.writeFormattedMessageLine("      Total GLE Not C or D   %19s", new KualiDecimalFormatter(aggregateOriginEntryTotals.getOtherAmount()));
         collectorReportWriterService.writeFormattedMessageLine("      Not C or D Count       %09d", aggregateOriginEntryTotals.getNumOtherEntries());
         collectorReportWriterService.writeNewLines(1);
         collectorReportWriterService.writeFormattedMessageLine("Inserted %d detail records into gl_id_bill_t", aggregateNumSavedDetails);
@@ -216,10 +218,10 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         }
         else {
             // SUMMARY TOTALS HERE
-            appendAmountCountLine(buf, "Group Credits     = ", Integer.toString(totals.getNumCreditEntries()), CURRENCY_SYMBOL + totals.getCreditAmount().toString());
-            appendAmountCountLine(buf, "Group Debits      = ", Integer.toString(totals.getNumDebitEntries()), CURRENCY_SYMBOL + totals.getDebitAmount().toString());
-            appendAmountCountLine(buf, "Group Not C/D     = ", Integer.toString(totals.getNumOtherEntries()), CURRENCY_SYMBOL + totals.getOtherAmount().toString());
-            appendAmountCountLine(buf, "Valid Group Count = ", batch.getTotalRecords().toString(), CURRENCY_SYMBOL + batch.getTotalAmount());
+            appendAmountCountLine(buf, "Group Credits     = ", Integer.toString(totals.getNumCreditEntries()), totals.getCreditAmount());
+            appendAmountCountLine(buf, "Group Debits      = ", Integer.toString(totals.getNumDebitEntries()), totals.getDebitAmount());
+            appendAmountCountLine(buf, "Group Not C/D     = ", Integer.toString(totals.getNumOtherEntries()), totals.getOtherAmount());
+            appendAmountCountLine(buf, "Valid Group Count = ", batch.getTotalRecords().toString(), batch.getTotalAmount());
         }
     }
 
@@ -231,13 +233,17 @@ public class CollectorReportServiceImpl implements CollectorReportService {
      * @param count the Collector count
      * @param amountString the Collector amount
      */
-    protected void appendAmountCountLine(StringBuilder buf, String countTitle, String count, String amountString) {
+    protected void appendAmountCountLine(StringBuilder buf, String countTitle, String count, KualiDecimal amount) {
         appendPaddingString(buf, ' ', countTitle.length(), 35);
         buf.append(countTitle);
 
         appendPaddingString(buf, '0', count.length(), 5);
         buf.append(count);
 
+        Map<String, String> settings = new HashMap<String, String>();
+        settings.put(CurrencyFormatter.SHOW_SYMBOL, Boolean.TRUE.toString());
+        org.kuali.rice.kns.web.format.Formatter f = org.kuali.rice.kns.web.format.Formatter.getFormatter(KualiDecimal.class, settings);
+        String amountString = (String) f.format(amount);
         appendPaddingString(buf, ' ', amountString.length(), 21);
         buf.append(amountString).append("\n");
 
@@ -375,12 +381,12 @@ public class CollectorReportServiceImpl implements CollectorReportService {
                     int documentTransactionCount = errorDocumentGroupEntry.getValue().getNumCreditEntries() + errorDocumentGroupEntry.getValue().getNumDebitEntries() + errorDocumentGroupEntry.getValue().getNumOtherEntries();
                     aggregateTransactionCount += documentTransactionCount;
                     aggregateDebitAmount = aggregateDebitAmount.add(errorDocumentGroupEntry.getValue().getDebitAmount());
-                    collectorReportWriterService.writeFormattedMessageLine("Total Transactions %d for Total Debit Amount %s%s", documentTransactionCount, CURRENCY_SYMBOL, errorDocumentGroupEntry.getValue().getDebitAmount());
+                    collectorReportWriterService.writeFormattedMessageLine("Total Transactions %d for Total Debit Amount %s", documentTransactionCount, new KualiDecimalFormatter(errorDocumentGroupEntry.getValue().getDebitAmount()));
                 }
             }
         }
         collectorReportWriterService.writeFormattedMessageLine("Total Error Records %d", aggregateTransactionCount);
-        collectorReportWriterService.writeFormattedMessageLine("Total Debit Dollars %s%s", CURRENCY_SYMBOL, aggregateDebitAmount);
+        collectorReportWriterService.writeFormattedMessageLine("Total Debit Dollars %s", new KualiDecimalFormatter(aggregateDebitAmount));
     }
 
     /**
@@ -714,5 +720,20 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     public void setPreScrubberService(PreScrubberService preScrubberService) {
         this.preScrubberService = preScrubberService;
+    }
+    
+    protected class KualiDecimalFormatter implements Formattable {
+        private KualiDecimal number;
+        
+        public KualiDecimalFormatter(KualiDecimal numberToFormat) {
+            this.number = numberToFormat;
+        }
+        
+        public void formatTo(Formatter formatter, int flags, int width, int precision) {
+            Map<String, String> settings = new HashMap<String, String>();
+            settings.put(CurrencyFormatter.SHOW_SYMBOL, Boolean.TRUE.toString());
+            org.kuali.rice.kns.web.format.Formatter cf = org.kuali.rice.kns.web.format.Formatter.getFormatter(KualiDecimal.class, settings);
+            formatter.format((String) cf.format(number));
+        }
     }
 }

@@ -43,6 +43,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 import org.springframework.util.StringUtils;;
 
 public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
@@ -124,7 +126,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
                     else if ("DT".equals(recordType)) {  //ID billing detail
                         currentBatch = createHeaderlessBatchIfNecessary(currentBatch, batchList, lineNumber);
                         try {
-                            CollectorDetail collectorDetail = createCollectorDetail(preprocessedLine, curDate, universityDate, lineNumber);
+                            CollectorDetail collectorDetail = createCollectorDetail(preprocessedLine, curDate, universityDate, lineNumber, currentBatch.getMessageMap());
                             currentBatch.addCollectorDetail(collectorDetail);
                         }
                         catch (RuntimeException e) {
@@ -144,7 +146,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
                     else {  // accounting record/origin entry
                         currentBatch = createHeaderlessBatchIfNecessary(currentBatch, batchList, lineNumber);
                         try {
-                            OriginEntryFull originEntry = createOriginEntry(preprocessedLine, curDate, universityDate, lineNumber);
+                            OriginEntryFull originEntry = createOriginEntry(preprocessedLine, curDate, universityDate, lineNumber, currentBatch.getMessageMap());
                             currentBatch.addOriginEntry(originEntry);
                         }
                         catch (RuntimeException e) {
@@ -234,7 +236,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
         return newBatch;
     }
     
-    protected CollectorDetail createCollectorDetail(String detailLine, Date curDate, UniversityDate universityDate, int lineNumber) {
+    protected CollectorDetail createCollectorDetail(String detailLine, Date curDate, UniversityDate universityDate, int lineNumber, MessageMap messageMap) {
         CollectorDetail collectorDetail = new CollectorDetail();
         collectorDetail.setCreateDate(curDate);
         collectorDetail.setUniversityFiscalYear(new Integer(StringUtils.trimTrailingWhitespace(detailLine.substring(0, 4))));
@@ -257,7 +259,8 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
             collectorDetail.setCollectorDetailItemAmount(addDecimalPoint(StringUtils.trimTrailingWhitespace(detailLine.substring(51, 71))));
         }
         catch (NumberFormatException e) {
-            throw new RuntimeException("Collector detail amount cannot be parsed on line " + lineNumber + " amount string " + detailLine.substring(51, 71));
+            collectorDetail.setCollectorDetailItemAmount(KualiDecimal.ZERO);
+            messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Collector detail amount cannot be parsed on line " + lineNumber + " amount string " + detailLine.substring(51, 71));
         }
         if (KFSConstants.GL_CREDIT_CODE.equalsIgnoreCase(detailLine.substring(71, 72))) {
             collectorDetail.setCollectorDetailItemAmount(collectorDetail.getCollectorDetailItemAmount().negated());
@@ -281,11 +284,12 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
             currentBatch.setTotalAmount(addDecimalPoint(StringUtils.trimTrailingWhitespace(fileLine.substring(92,112))));
         }
         catch (NumberFormatException e) {
-            throw new RuntimeException("Collector trailer total amount cannot be parsed on line " + lineNumber + " amount string " + fileLine.substring(92,112));
+            currentBatch.setTotalAmount(KualiDecimal.ZERO);
+            currentBatch.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Collector trailer total amount cannot be parsed on line " + lineNumber + " amount string " + fileLine.substring(92,112));
         }
     }
     
-    protected OriginEntryFull createOriginEntry(String fileLine, Date curDate, UniversityDate universityDate, int lineNumber) {
+    protected OriginEntryFull createOriginEntry(String fileLine, Date curDate, UniversityDate universityDate, int lineNumber, MessageMap messageMap) {
         OriginEntryFull originEntry = new OriginEntryFull();
         fileLine = org.apache.commons.lang.StringUtils.chomp(fileLine);
         fileLine = org.apache.commons.lang.StringUtils.rightPad(fileLine, 187, " ");
@@ -322,7 +326,8 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
             originEntry.setTransactionLedgerEntryAmount(addDecimalPoint(StringUtils.trimWhitespace(fileLine.substring(97, 117))));  //sometimes this has leading whitespace too
         }
         catch (NumberFormatException e) {
-            throw new RuntimeException("Collector origin entry amount cannot be parsed on line " + lineNumber + " amount string " + fileLine.substring(97, 117));
+            originEntry.setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
+            messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Collector origin entry amount cannot be parsed on line " + lineNumber + " amount string " + fileLine.substring(97, 117));
         }
         originEntry.setTransactionDebitCreditCode(StringUtils.trimTrailingWhitespace(fileLine.substring(117, 118)));
         if (!fileLine.substring(118, 128).equals("          ")) {

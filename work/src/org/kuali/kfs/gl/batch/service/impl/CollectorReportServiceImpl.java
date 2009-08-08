@@ -242,12 +242,19 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         appendPaddingString(buf, '0', count.length(), 5);
         buf.append(count);
 
-        Map<String, String> settings = new HashMap<String, String>();
-        settings.put(CurrencyFormatter.SHOW_SYMBOL, Boolean.TRUE.toString());
-        org.kuali.rice.kns.web.format.Formatter f = org.kuali.rice.kns.web.format.Formatter.getFormatter(KualiDecimal.class, settings);
-        String amountString = (String) f.format(amount);
-        appendPaddingString(buf, ' ', amountString.length(), 21);
-        buf.append(amountString).append("\n");
+        if (amount == null) {
+            buf.append(StringUtils.leftPad("N/A", 21));
+        }
+        else {
+            Map<String, String> settings = new HashMap<String, String>();
+            settings.put(CurrencyFormatter.SHOW_SYMBOL, Boolean.TRUE.toString());
+            org.kuali.rice.kns.web.format.Formatter f = org.kuali.rice.kns.web.format.Formatter.getFormatter(KualiDecimal.class, settings);
+            String amountString = (String) f.format(amount);
+            appendPaddingString(buf, ' ', amountString.length(), 21);
+            buf.append(amountString);
+        }
+        
+        buf.append("\n");
 
     }
 

@@ -124,7 +124,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
                     else if ("DT".equals(recordType)) {  //ID billing detail
                         currentBatch = createHeaderlessBatchIfNecessary(currentBatch, batchList, lineNumber);
                         try {
-                            CollectorDetail collectorDetail = createCollectorDetail(preprocessedLine, curDate, universityDate);
+                            CollectorDetail collectorDetail = createCollectorDetail(preprocessedLine, curDate, universityDate, lineNumber);
                             currentBatch.addCollectorDetail(collectorDetail);
                         }
                         catch (RuntimeException e) {
@@ -134,7 +134,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
                     else if ("TL".equals(recordType)) {  //trailer record
                         currentBatch = createHeaderlessBatchIfNecessary(currentBatch, batchList, lineNumber);
                         try {
-                            updateCollectorDetailWithTrailerRecords(currentBatch, preprocessedLine);
+                            updateCollectorDetailWithTrailerRecords(currentBatch, preprocessedLine, lineNumber);
                         }
                         catch (RuntimeException e) {
                             currentBatch.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, e.getMessage());
@@ -144,7 +144,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
                     else {  // accounting record/origin entry
                         currentBatch = createHeaderlessBatchIfNecessary(currentBatch, batchList, lineNumber);
                         try {
-                            OriginEntryFull originEntry = createOriginEntry(preprocessedLine, curDate, universityDate);
+                            OriginEntryFull originEntry = createOriginEntry(preprocessedLine, curDate, universityDate, lineNumber);
                             currentBatch.addOriginEntry(originEntry);
                         }
                         catch (RuntimeException e) {
@@ -234,7 +234,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
         return newBatch;
     }
     
-    protected CollectorDetail createCollectorDetail(String detailLine, Date curDate, UniversityDate universityDate) {
+    protected CollectorDetail createCollectorDetail(String detailLine, Date curDate, UniversityDate universityDate, int lineNumber) {
         CollectorDetail collectorDetail = new CollectorDetail();
         collectorDetail.setCreateDate(curDate);
         collectorDetail.setUniversityFiscalYear(new Integer(StringUtils.trimTrailingWhitespace(detailLine.substring(0, 4))));
@@ -253,7 +253,12 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
         collectorDetail.setFinancialDocumentTypeCode(StringUtils.trimTrailingWhitespace(detailLine.substring(31, 35)));
         collectorDetail.setFinancialSystemOriginationCode(StringUtils.trimTrailingWhitespace(detailLine.substring(35, 37)));
         collectorDetail.setDocumentNumber(StringUtils.trimTrailingWhitespace(detailLine.substring(37, 51)));
-        collectorDetail.setCollectorDetailItemAmount(addDecimalPoint(StringUtils.trimTrailingWhitespace(detailLine.substring(51, 71))));
+        try {
+            collectorDetail.setCollectorDetailItemAmount(addDecimalPoint(StringUtils.trimTrailingWhitespace(detailLine.substring(51, 71))));
+        }
+        catch (NumberFormatException e) {
+            throw new RuntimeException("Collector detail amount cannot be parsed on line " + lineNumber + " amount string " + detailLine.substring(51, 71));
+        }
         if (KFSConstants.GL_CREDIT_CODE.equalsIgnoreCase(detailLine.substring(71, 72))) {
             collectorDetail.setCollectorDetailItemAmount(collectorDetail.getCollectorDetailItemAmount().negated());
         }
@@ -270,12 +275,17 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
         return collectorDetail;
     }
     
-    protected void updateCollectorDetailWithTrailerRecords(CollectorBatch currentBatch, String fileLine) {
+    protected void updateCollectorDetailWithTrailerRecords(CollectorBatch currentBatch, String fileLine, int lineNumber) {
         currentBatch.setTotalRecords(new Integer(StringUtils.trimTrailingWhitespace(fileLine.substring(46,51))));
-        currentBatch.setTotalAmount(addDecimalPoint(StringUtils.trimTrailingWhitespace(fileLine.substring(92,112))));
+        try {
+            currentBatch.setTotalAmount(addDecimalPoint(StringUtils.trimTrailingWhitespace(fileLine.substring(92,112))));
+        }
+        catch (NumberFormatException e) {
+            throw new RuntimeException("Collector trailer total amount cannot be parsed on line " + lineNumber + " amount string " + fileLine.substring(92,112));
+        }
     }
     
-    protected OriginEntryFull createOriginEntry(String fileLine, Date curDate, UniversityDate universityDate) {
+    protected OriginEntryFull createOriginEntry(String fileLine, Date curDate, UniversityDate universityDate, int lineNumber) {
         OriginEntryFull originEntry = new OriginEntryFull();
         fileLine = org.apache.commons.lang.StringUtils.chomp(fileLine);
         fileLine = org.apache.commons.lang.StringUtils.rightPad(fileLine, 187, " ");
@@ -308,7 +318,12 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
             originEntry.setTransactionLedgerEntrySequenceNumber(new Integer(1));
         }
         originEntry.setTransactionLedgerEntryDescription(StringUtils.trimTrailingWhitespace(fileLine.substring(56, 96)));
-        originEntry.setTransactionLedgerEntryAmount(addDecimalPoint(StringUtils.trimWhitespace(fileLine.substring(97, 117))));  //sometimes this has leading whitespace too
+        try {
+            originEntry.setTransactionLedgerEntryAmount(addDecimalPoint(StringUtils.trimWhitespace(fileLine.substring(97, 117))));  //sometimes this has leading whitespace too
+        }
+        catch (NumberFormatException e) {
+            throw new RuntimeException("Collector origin entry amount cannot be parsed on line " + lineNumber + " amount string " + fileLine.substring(97, 117));
+        }
         originEntry.setTransactionDebitCreditCode(StringUtils.trimTrailingWhitespace(fileLine.substring(117, 118)));
         if (!fileLine.substring(118, 128).equals("          ")) {
             originEntry.setTransactionDate(parseSqlDate(fileLine.substring(118, 128)));

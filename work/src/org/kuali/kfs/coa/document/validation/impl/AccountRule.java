@@ -48,6 +48,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageMap;
@@ -61,7 +62,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountRule.class);
 
     private static final String ACCT_PREFIX_RESTRICTION = "PREFIXES";
-    private static final String ACCT_CAPITAL_SUBFUNDGROUP = "CAPITAL_SUB_FUND_GROUP";
+    private static final String ACCT_CAPITAL_SUBFUNDGROUP = "CAPITAL_SUB_FUND_GROUPS";
 
     private static final String GENERAL_FUND_CD = "GF";
     private static final String RESTRICTED_FUND_CD = "RF";
@@ -973,9 +974,9 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
                 // Attempt to get the right SubFundGroup code to check the following logic with. If the value isn't available, go
                 // ahead
                 // and die, as this indicates a mis-configured application, and important business rules wont be implemented without it.
-                String capitalSubFundGroup = getParameterService().getParameterValue(Account.class, ACCT_CAPITAL_SUBFUNDGROUP);
+                ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(Account.class, ACCT_CAPITAL_SUBFUNDGROUP, subFundGroupCode.trim());
 
-                if (capitalSubFundGroup.equalsIgnoreCase(subFundGroupCode.trim())) {
+                if (evaluator.evaluationSucceeds()) {
 
                     // if sub_fund_grp_cd is 'PFCMR' then campus_cd must be entered
                     if (StringUtils.isBlank(campusCode)) {

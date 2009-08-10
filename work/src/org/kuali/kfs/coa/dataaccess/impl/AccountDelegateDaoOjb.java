@@ -102,12 +102,13 @@ public class AccountDelegateDaoOjb extends PlatformAwareDaoBaseOjb implements Ac
         criteria.addEqualTo("accountsDelegatePrmrtIndicator", (primary ? "Y" : "N"));
         criteria.addEqualTo("active", "Y");
         criteria.addEqualTo("account.active", "Y");
-        criteria.addLessOrEqualThan("accountDelegateStartDate", getDateTimeService().getCurrentDate());
+        criteria.addLessOrEqualThan("accountDelegateStartDate", getDateTimeService().getCurrentTimestamp());
         
         ReportQueryByCriteria reportQuery = QueryFactory.newReportQuery(AccountDelegate.class, criteria);
         reportQuery.setAttributes(new String[] { "count(*)" });
         
         int resultCount = 0;
+        //TODO: getReportQueryIteratorByQuery can be changed to getCount...
         Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportQuery);
         while (iter.hasNext()) {
             final Object[] results = (Object[])iter.next();

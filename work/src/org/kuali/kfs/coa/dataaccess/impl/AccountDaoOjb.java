@@ -345,7 +345,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
     protected Criteria getAccountExpiredCriteria() {
         Criteria criteria = new Criteria();
         criteria.addNotNull("accountExpirationDate");
-        criteria.addLessOrEqualThan("accountExpirationDate", dateTimeService.getCurrentDate());
+        criteria.addLessOrEqualThan("accountExpirationDate", dateTimeService.getCurrentTimestamp());
         return criteria;
     }
     
@@ -358,7 +358,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         criteria.addIsNull("accountExpirationDate");
         
         Criteria notYetExpiredCriteria = new Criteria();
-        notYetExpiredCriteria.addGreaterThan("accountExpirationDate", dateTimeService.getCurrentDate());
+        notYetExpiredCriteria.addGreaterThan("accountExpirationDate", dateTimeService.getCurrentTimestamp());
         
         criteria.addOrCriteria(notYetExpiredCriteria);
         return criteria;

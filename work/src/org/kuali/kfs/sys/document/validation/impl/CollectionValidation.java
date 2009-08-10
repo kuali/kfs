@@ -48,7 +48,7 @@ public class CollectionValidation extends CompositeValidation {
         
         int count = 0;
         while (iter.hasNext()) {
-            validateEachObject(event, iter.next(), count);
+            result &= validateEachObject(event, iter.next(), count);
             count += 1;
         }
         

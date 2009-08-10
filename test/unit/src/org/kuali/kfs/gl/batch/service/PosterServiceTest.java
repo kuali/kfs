@@ -489,15 +489,25 @@ public class PosterServiceTest extends OriginEntryTestBase {
      * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
-    /*public void testPostGlAccountBalance() throws Exception {
+    public void testPostGlAccountBalance() throws Exception {
         LOG.debug("testPostGlAccountBalance() started");
 
-        String[] inputTransactions = { TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---TREX07CHKDPDGLACCTBA1     12345DESCRIPTION                                           123.45D"+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       ", TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---ACEX07CHKDPDGLACCTBA1     12345DESCRIPTION                                          1445.00D"+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       ", TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---EXEX07CHKDPDGLACCTBA1     12345DESCRIPTION                                           345.00D"+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       ", TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---CBEX07CHKDPDGLACCTBA1     12345DESCRIPTION                                           222.00 "+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       ",
-                TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---ACEX07CHKDPDGLACCTBA1     12345DESCRIPTION                                             5.00C"+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       ", TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---EXEX07CHKDPDGLACCTBA1     12345DESCRIPTION                                             5.00C"+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       ", TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---CBEX07CHKDPDGLACCTBA1     12345DESCRIPTION                                            -2.00 "+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       " };
+        String[] inputTransactions = { TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---TREX07CHKDPDGLACCTBA1     12345DESCRIPTION                                           123.45D"+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       ", 
+                                       TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---ACEX07CHKDPDGLACCTBA1     12345DESCRIPTION                                          1445.00D"+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       ", 
+                                       TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---TREX07CHKDPDGLACCTBA1     12345DESCRIPTION                                           345.00D"+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       ", 
+                                       TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---CBEX07CHKDPDGLACCTBA1     12345DESCRIPTION                                           222.00 "+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       ",
+                                       TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---ACEX07CHKDPDGLACCTBA1     12345DESCRIPTION                                             5.00C"+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       ", 
+                                       TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---TREX07CHKDPDGLACCTBA1     12345DESCRIPTION                                             5.00C"+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       ", 
+                                       TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---CBEX07CHKDPDGLACCTBA1     12345DESCRIPTION                                            -2.00 "+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       " };
 
-        EntryHolder[] outputTransactions = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---TREX07CHKDPDGLACCTBA1     12345DESCRIPTION                                           123.45D"+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---ACEX07CHKDPDGLACCTBA1     12345DESCRIPTION                                          1445.00D"+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---EXEX07CHKDPDGLACCTBA1     12345DESCRIPTION                                           345.00D"+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       "),
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---CBEX07CHKDPDGLACCTBA1     12345DESCRIPTION                                           222.00 "+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---ACEX07CHKDPDGLACCTBA1     12345DESCRIPTION                                             5.00C"+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---EXEX07CHKDPDGLACCTBA1     12345DESCRIPTION                                             5.00C"+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       "),
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---CBEX07CHKDPDGLACCTBA1     12345DESCRIPTION                                            -2.00 "+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       ") };
+        EntryHolder[] outputTransactions = new EntryHolder[] { 
+                                           new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---TREX07CHKDPDGLACCTBA1     12345DESCRIPTION                                           123.45D"+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       "), 
+                                           new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---ACEX07CHKDPDGLACCTBA1     12345DESCRIPTION                                          1445.00D"+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       "), 
+                                           new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---TREX07CHKDPDGLACCTBA1     12345DESCRIPTION                                           345.00D"+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       "),
+                                           new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---CBEX07CHKDPDGLACCTBA1     12345DESCRIPTION                                           222.00 "+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       "), 
+                                           new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---ACEX07CHKDPDGLACCTBA1     12345DESCRIPTION                                             5.00C"+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       "), 
+                                           new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---TREX07CHKDPDGLACCTBA1     12345DESCRIPTION                                             5.00C"+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       "),
+                                           new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA6044900-----4166---CBEX07CHKDPDGLACCTBA1     12345DESCRIPTION                                            -2.00 "+TestUtils.getFiscalYearForTesting()+"-01-05ABCDEFGHIJ----------12345678                                                                       ") };
 
         clearBatchFiles();
         clearGlAccountBalanceTable();
@@ -519,126 +529,148 @@ public class PosterServiceTest extends OriginEntryTestBase {
         assertEquals("FIN_SUB_OBJ_CD is wrong", "---", bal.get("FIN_SUB_OBJ_CD"));
         assertEquals("CURR_BDLN_BAL_AMT is wrong", 220.00, getAmount(bal, "CURR_BDLN_BAL_AMT"), 0.01);
         assertEquals("ACLN_ACTLS_BAL_AMT is wrong", 1440.00, getAmount(bal, "ACLN_ACTLS_BAL_AMT"), 0.01);
-        assertEquals("ACLN_ENCUM_BAL_AMT is wrong", 340.00, getAmount(bal, "ACLN_ENCUM_BAL_AMT"), 0.01);
-    }*/
+        assertEquals("ACLN_ENCUM_BAL_AMT is wrong", 0.00, getAmount(bal, "ACLN_ENCUM_BAL_AMT"), 0.01);
+    }
 
-//    /**
-//     * Covers posting entry's effects on expenditure transactions
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    // @RelatesTo(RelatesTo.JiraIssue.KULRNE4797)
-//    public void testPostExpenditureTransaction() throws Exception {
-//        LOG.debug("testPostExpenditureTransaction() started");
-//
-//        String[] inputTransactions = {
-//        // Not posted because icr type cd = 10
-//                "2007BL2231499-----4166---ACEX07CHKDPDET0000011     12345DESCRIPTION                                      11000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ",
-//
-//                // Not posted because icr type cd is null
-//                "2007BA9019993-----4166---ACEX07CHKDPDET0000011     12345DESCRIPTION                                      11000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ",
-//
-//                // Not posted because the period code is AB, BB or CB
-//                "2007BL4031407-----4166---ACEXABCHKDPDET0000011     12345DESCRIPTION                                      12000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BL4031407-----4166---ACEXBBCHKDPDET0000011     12345DESCRIPTION                                          0.12C2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BL4031407-----4166---ACEXCBCHKDPDET0000011     12345DESCRIPTION                                      12000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ",
-//
-//                // Posted
-//                "2007BL4031407-----4166---ACEX07CHKDPDET0000011     12345DESCRIPTION                                      12000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BL4031407-----4166---ACEX07CHKDPDET0000011     12345DESCRIPTION                                          0.12C2006-01-05ABCDEFGHIJ----------12345678                                                                       ",
-//
-//                // Posted
-//                "2007BL4131406-----2400---EXEX07CHKDPDET0000011     12345DESCRIPTION                                         12.00C2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BL4131406-----2400---EXEX07CHKDPDET0000011     12345DESCRIPTION                                          2.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ",
-//
-//                // Not posted - excluded account
-//                "2007BL4431406-----2400---EXEX07CHKDPDET0000011     12345DESCRIPTION                                         33.00C2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BL4431406-----2400---EXEX07CHKDPDET0000011     12345DESCRIPTION                                          4.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ",
-//
-//                // Not posted - excluded type (23)
-//                "2007BL4431407-----2400---EXEX07CHKDPDET0000011     12345DESCRIPTION                                         44.00C2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BL4431407-----2400---EXEX07CHKDPDET0000011     12345DESCRIPTION                                          5.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ",
-//
-//                // Posted, non-CS sub acct
-//                "2007BL4631464XXX  4166---ACEX07CHKDPDET0000021     12345DESCRIPTION                                         25.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BL4631464XXX  4166---ACEX07CHKDPDET0000021     12345DESCRIPTION                                          2.00C2006-01-05ABCDEFGHIJ----------12345678                                                                       ", };
-//
-//        EntryHolder[] outputTransactions = new EntryHolder[] { new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL2231499-----4166---ACEX07CHKDPDET0000011     12345DESCRIPTION                                      11000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA9019993-----4166---ACEX07CHKDPDET0000011     12345DESCRIPTION                                      11000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL4031407-----4166---ACEXABCHKDPDET0000011     12345DESCRIPTION                                      12000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "),
-//                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL4031407-----4166---ACEXBBCHKDPDET0000011     12345DESCRIPTION                                          0.12C2006-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL4031407-----4166---ACEXCBCHKDPDET0000011     12345DESCRIPTION                                      12000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL4031407-----4166---ACEX07CHKDPDET0000011     12345DESCRIPTION                                      12000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "),
-//                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL4031407-----4166---ACEX07CHKDPDET0000011     12345DESCRIPTION                                          0.12C2006-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL4131406-----2400---EXEX07CHKDPDET0000011     12345DESCRIPTION                                         12.00C2006-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL4131406-----2400---EXEX07CHKDPDET0000011     12345DESCRIPTION                                          2.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "),
-//                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL4431406-----2400---EXEX07CHKDPDET0000011     12345DESCRIPTION                                         33.00C2006-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL4431406-----2400---EXEX07CHKDPDET0000011     12345DESCRIPTION                                          4.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL4431407-----2400---EXEX07CHKDPDET0000011     12345DESCRIPTION                                         44.00C2006-01-05ABCDEFGHIJ----------12345678                                                                       "),
-//                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL4431407-----2400---EXEX07CHKDPDET0000011     12345DESCRIPTION                                          5.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL4631464XXX  4166---ACEX07CHKDPDET0000021     12345DESCRIPTION                                         25.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL4631464XXX  4166---ACEX07CHKDPDET0000021     12345DESCRIPTION                                          2.00C2006-01-05ABCDEFGHIJ----------12345678                                                                       "),
-//
-//                new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID, "2007BA9019993-----4166---ACEX07CHKDPDET0000011     12345DESCRIPTION                                      11000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID, "2007BL2231499-----4166---ACEX07CHKDPDET0000011     12345DESCRIPTION                                      11000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID, "2007BL4031407-----4166---ACEX07CHKDPDET0000011     12345DESCRIPTION                                          0.12C2006-01-05ABCDEFGHIJ----------12345678                                                                       "),
-//                new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID, "2007BL4031407-----4166---ACEX07CHKDPDET0000011     12345DESCRIPTION                                      12000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID, "2007BL4031407-----4166---ACEXABCHKDPDET0000011     12345DESCRIPTION                                      12000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID, "2007BL4031407-----4166---ACEXBBCHKDPDET0000011     12345DESCRIPTION                                          0.12C2006-01-05ABCDEFGHIJ----------12345678                                                                       "),
-//                new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID, "2007BL4031407-----4166---ACEXCBCHKDPDET0000011     12345DESCRIPTION                                      12000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID, "2007BL4131406-----2400---EXEX07CHKDPDET0000011     12345DESCRIPTION                                          2.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID, "2007BL4131406-----2400---EXEX07CHKDPDET0000011     12345DESCRIPTION                                         12.00C2006-01-05ABCDEFGHIJ----------12345678                                                                       "),
-//                new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID, "2007BL4431406-----2400---EXEX07CHKDPDET0000011     12345DESCRIPTION                                          4.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID, "2007BL4431406-----2400---EXEX07CHKDPDET0000011     12345DESCRIPTION                                         33.00C2006-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID, "2007BL4431407-----2400---EXEX07CHKDPDET0000011     12345DESCRIPTION                                          5.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "),
-//                new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID, "2007BL4431407-----2400---EXEX07CHKDPDET0000011     12345DESCRIPTION                                         44.00C2006-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID, "2007BL4631464XXX  4166---ACEX07CHKDPDET0000021     12345DESCRIPTION                                          2.00C2006-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID, "2007BL4631464XXX  4166---ACEX07CHKDPDET0000021     12345DESCRIPTION                                         25.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "), };
-//
-//        clearOriginEntryTables();
-//        clearExpenditureTable();
-//
-//        // Add sub account for testing
-//        unitTestSqlDao.sqlCommand("delete from ca_sub_acct_t where fin_coa_cd = 'BL' and account_nbr = '4631464' and sub_acct_nbr = 'XXX'");
-//        unitTestSqlDao.sqlCommand("delete from ca_a21_sub_acct_t where fin_coa_cd = 'BL' and account_nbr = '4631464' and sub_acct_nbr = 'XXX'");
-//        unitTestSqlDao.sqlCommand("insert into ca_sub_acct_t (FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,OBJ_ID,VER_NBR,SUB_ACCT_NM,SUB_ACCT_ACTV_CD,FIN_RPT_CHRT_CD,FIN_RPT_ORG_CD,FIN_RPT_CD) values ('BL','4631464','XXX','" + new Guid().toString() + "',1,'XXX','N',null,null,null)");
-//        unitTestSqlDao.sqlCommand("INSERT INTO CA_A21_SUB_ACCT_T (FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, OBJ_ID, VER_NBR, SUB_ACCT_TYP_CD, ICR_TYP_CD, FIN_SERIES_ID, ICR_FIN_COA_CD, ICR_ACCOUNT_NBR, OFF_CMP_CD, CST_SHR_COA_CD, CST_SHRSRCACCT_NBR, CST_SRCSUBACCT_NBR) VALUES ('BL','4631464','XXX','" + new Guid().toString() + "',1,'EX',null,'000',null,null,null,'BL','1031400',null)");
-//
-//        // Modify account for testing
-//        unitTestSqlDao.sqlCommand("update ca_account_t set fin_series_id = '11' where account_nbr = '9019993'");
-//
-//        // Exclude account
-//        unitTestSqlDao.sqlCommand("delete from ca_icr_excl_acct_t where account_nbr = '4431406'");
-//        unitTestSqlDao.sqlCommand("insert into CA_ICR_EXCL_ACCT_T (FIN_COA_CD, ACCOUNT_NBR, FIN_OBJ_COA_CD, FIN_OBJECT_CD, OBJ_ID, VER_NBR) values ('BL','4431406','BL','2400','" + new Guid().toString() + "',1)");
-//
-//        // Exclude type
-//        unitTestSqlDao.sqlCommand("delete from ca_icr_excl_type_t where acct_icr_typ_cd = '23' and fin_coa_cd = 'BL'");
-//        unitTestSqlDao.sqlCommand("insert into CA_ICR_EXCL_TYPE_T (ACCT_ICR_TYP_CD, FIN_COA_CD, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_ICR_EXCL_TYP_ACTV_IND) values ('23','BL','2401','" + new Guid().toString() + "',1,'Y')");
-//
-//        loadInputTransactions(OriginEntrySource.SCRUBBER_VALID, inputTransactions);
-//        posterService.postMainEntries();
-//
-//        assertOriginEntries(3, outputTransactions);
-//
-//        List trans = unitTestSqlDao.sqlSelect("select * from GL_EXPEND_TRN_T order by account_nbr");
-//
-//        assertEquals("Wrong number of transactions", 4, trans.size());
-//        Map acct4031407 = (Map) trans.get(0);
-//        assertEquals("Account wrong", "4031407", acct4031407.get("ACCOUNT_NBR"));
-//        assertEquals("Amount wrong", 11999.88, getAmount(acct4031407, "ACCT_OBJ_DCST_AMT"), 0.01);
-//        Map acct4131406 = (Map) trans.get(1);
-//        assertEquals("Account wrong", "4131406", acct4131406.get("ACCOUNT_NBR"));
-//        assertEquals("Amount wrong", -10.00, getAmount(acct4131406, "ACCT_OBJ_DCST_AMT"), 0.01);
-//        Map acct4631464 = (Map) trans.get(3);
-//        assertEquals("Account wrong", "4631464", acct4631464.get("ACCOUNT_NBR"));
-//        assertEquals("Amount wrong", 23.00, getAmount(acct4631464, "ACCT_OBJ_DCST_AMT"), 0.01);
-//    }
-//
-//    /**
-//     * Covers the reversal poster
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testReversalPoster() throws Exception {
-//        LOG.debug("testPostReversalPosting() started");
-//
-//        // First post these entries to the reversal table
-//        String[] inputTransactions = { "2007BL2231408-----5300---ACEX07CHKDPDREVTEST01     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                    2003-10-01    ", "2007BL2231408-----5300---ACEX07CHKDPDREVTEST02     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                    2003-12-31    ", "2007BL2231408-----5300---ACEX07CHKDPDREVTEST03     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                    2004-01-01    ", "2007BL2231408-----5300---ACEX07CHKDPDREVTEST04     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                    2004-01-02    ", "2007BL2231408-----5300---ACEX07CHKDPDREVTEST05     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                    2005-03-01    " };
-//
-//        clearOriginEntryTables();
-//        clearReversalTable();
-//        loadInputTransactions(OriginEntrySource.SCRUBBER_VALID, inputTransactions);
-//        posterService.postMainEntries();
-//
-//        unitTestSqlDao.clearCache();
-//
-//        // Now post the reversal entries
-//        clearGlEntryTable("BL", "2231408");
-//        posterService.postReversalEntries();
-//
-//        List results = unitTestSqlDao.sqlSelect("select * from gl_entry_t where account_nbr = '2231408' order by fdoc_nbr");
-//        assertEquals("Wrong number of posted entries", 3, results.size());
-//        Map row1 = (Map) results.get(0);
-//        Map row2 = (Map) results.get(1);
-//        Map row3 = (Map) results.get(2);
-//
-//        assertEquals("Wrong doc nbr", "REVTEST01", row1.get("FDOC_NBR"));
-//        assertEquals("Wrong doc nbr", "REVTEST02", row2.get("FDOC_NBR"));
-//        assertEquals("Wrong doc nbr", "REVTEST03", row3.get("FDOC_NBR"));
-//    }
+    /**
+     * Covers posting entry's effects on expenditure transactions
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
+    // @RelatesTo(RelatesTo.JiraIssue.KULRNE4797)
+    public void testPostExpenditureTransaction() throws Exception {
+        LOG.debug("testPostExpenditureTransaction() started");
+
+        String[] inputTransactions = {
+        // Not posted because icr type cd = 10
+                TestUtils.getFiscalYearForTesting()+ "BL2231499-----4166---ACEX07CHKDPDET0000011     12345DESCRIPTION                                         11000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ",
+
+                // Not posted because icr type cd is null
+                TestUtils.getFiscalYearForTesting()+"BA9019993-----4166---ACEX07CHKDPDET0000011     12345DESCRIPTION                                         11000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ",
+
+                // Not posted because the period code is AB, BB or CB
+                TestUtils.getFiscalYearForTesting()+"BL4031407-----4166---ACEXABCHKDPDET0000011     12345DESCRIPTION                                         12000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", 
+                TestUtils.getFiscalYearForTesting()+"BL4031407-----4166---ACEXBBCHKDPDET0000011     12345DESCRIPTION                                             0.12C2006-01-05ABCDEFGHIJ----------12345678                                                                       ", 
+                TestUtils.getFiscalYearForTesting()+"BL4031407-----4166---ACEXCBCHKDPDET0000011     12345DESCRIPTION                                         12000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ",
+
+                // Posted
+                TestUtils.getFiscalYearForTesting()+"BL4031407-----4166---ACEX07CHKDPDET0000011     12345DESCRIPTION                                         12000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", 
+                TestUtils.getFiscalYearForTesting()+"BL4031407-----4166---ACEX07CHKDPDET0000011     12345DESCRIPTION                                             0.12C2006-01-05ABCDEFGHIJ----------12345678                                                                       ",
+
+                // Posted
+                TestUtils.getFiscalYearForTesting()+"BL4131406-----2400---ACEX07CHKDPDET0000011     12345DESCRIPTION                                            12.00C2006-01-05ABCDEFGHIJ----------12345678                                                                       ", 
+                TestUtils.getFiscalYearForTesting()+"BL4131406-----2400---ACEX07CHKDPDET0000011     12345DESCRIPTION                                             2.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ",
+
+                // Not posted - excluded account
+                TestUtils.getFiscalYearForTesting()+"BL4431406-----2400---ACEX07CHKDPDET0000011     12345DESCRIPTION                                            33.00C2006-01-05ABCDEFGHIJ----------12345678                                                                       ", 
+                TestUtils.getFiscalYearForTesting()+"BL4431406-----2400---ACEX07CHKDPDET0000011     12345DESCRIPTION                                             4.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ",
+
+                // Not posted - excluded type (23)
+                TestUtils.getFiscalYearForTesting()+"BL4431407-----2400---ACEX07CHKDPDET0000011     12345DESCRIPTION                                            44.00C2006-01-05ABCDEFGHIJ----------12345678                                                                       ", 
+                TestUtils.getFiscalYearForTesting()+"BL4431407-----2400---ACEX07CHKDPDET0000011     12345DESCRIPTION                                             5.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ",
+
+                // Posted, non-CS sub acct
+                TestUtils.getFiscalYearForTesting()+"BL4631464XXX  4166---ACEX07CHKDPDET0000021     12345DESCRIPTION                                            25.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", 
+                TestUtils.getFiscalYearForTesting()+"BL4631464XXX  4166---ACEX07CHKDPDET0000021     12345DESCRIPTION                                             2.00C2006-01-05ABCDEFGHIJ----------12345678                                                                       ", };
+
+        EntryHolder[] outputTransactions = new EntryHolder[] { 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL2231499-----4166---ACEX07CHKDPDET0000011     12345DESCRIPTION                                         11000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BA9019993-----4166---ACEX07CHKDPDET0000011     12345DESCRIPTION                                         11000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL4031407-----4166---ACEXABCHKDPDET0000011     12345DESCRIPTION                                         12000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL4031407-----4166---ACEXBBCHKDPDET0000011     12345DESCRIPTION                                             0.12C2006-01-05ABCDEFGHIJ----------12345678                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL4031407-----4166---ACEXCBCHKDPDET0000011     12345DESCRIPTION                                         12000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL4031407-----4166---ACEX07CHKDPDET0000011     12345DESCRIPTION                                         12000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL4031407-----4166---ACEX07CHKDPDET0000011     12345DESCRIPTION                                             0.12C2006-01-05ABCDEFGHIJ----------12345678                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL4131406-----2400---ACEX07CHKDPDET0000011     12345DESCRIPTION                                            12.00C2006-01-05ABCDEFGHIJ----------12345678                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL4131406-----2400---ACEX07CHKDPDET0000011     12345DESCRIPTION                                             2.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL4431406-----2400---ACEX07CHKDPDET0000011     12345DESCRIPTION                                            33.00C2006-01-05ABCDEFGHIJ----------12345678                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL4431406-----2400---ACEX07CHKDPDET0000011     12345DESCRIPTION                                             4.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL4431407-----2400---ACEX07CHKDPDET0000011     12345DESCRIPTION                                            44.00C2006-01-05ABCDEFGHIJ----------12345678                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL4431407-----2400---ACEX07CHKDPDET0000011     12345DESCRIPTION                                             5.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL4631464XXX  4166---ACEX07CHKDPDET0000021     12345DESCRIPTION                                            25.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, TestUtils.getFiscalYearForTesting()+"BL4631464XXX  4166---ACEX07CHKDPDET0000021     12345DESCRIPTION                                             2.00C2006-01-05ABCDEFGHIJ----------12345678                                                                       "),
+                
+        };
+
+        clearBatchFiles();
+        clearExpenditureTable();
+
+        // Add sub account for testing
+        unitTestSqlDao.sqlCommand("delete from ca_sub_acct_t where fin_coa_cd = 'BL' and account_nbr = '4631464' and sub_acct_nbr = 'XXX'");
+        unitTestSqlDao.sqlCommand("delete from ca_a21_sub_acct_t where fin_coa_cd = 'BL' and account_nbr = '4631464' and sub_acct_nbr = 'XXX'");
+        unitTestSqlDao.sqlCommand("insert into ca_sub_acct_t (FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,OBJ_ID,VER_NBR,SUB_ACCT_NM,SUB_ACCT_ACTV_CD,FIN_RPT_CHRT_CD,FIN_RPT_ORG_CD,FIN_RPT_CD) values ('BL','4631464','XXX','" + new Guid().toString() + "',1,'XXX','N',null,null,null)");
+        unitTestSqlDao.sqlCommand("INSERT INTO CA_A21_SUB_ACCT_T (FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, OBJ_ID, VER_NBR, SUB_ACCT_TYP_CD, ICR_TYP_CD, FIN_SERIES_ID, ICR_FIN_COA_CD, ICR_ACCOUNT_NBR, OFF_CMP_CD, CST_SHR_COA_CD, CST_SHRSRCACCT_NBR, CST_SRCSUBACCT_NBR) VALUES ('BL','4631464','XXX','" + new Guid().toString() + "',1,'EX',null,'000',null,null,null,'BL','1031400',null)");
+
+        // Modify account for testing
+        unitTestSqlDao.sqlCommand("update ca_account_t set fin_series_id = '11' where account_nbr = '9019993'");
+
+        // Exclude account
+        unitTestSqlDao.sqlCommand("delete from ca_icr_excl_acct_t where account_nbr = '4431406'");
+        unitTestSqlDao.sqlCommand("insert into CA_ICR_EXCL_ACCT_T (FIN_COA_CD, ACCOUNT_NBR, FIN_OBJ_COA_CD, FIN_OBJECT_CD, OBJ_ID, VER_NBR) values ('BL','4431406','BL','2400','" + new Guid().toString() + "',1)");
+
+        // Exclude type
+        unitTestSqlDao.sqlCommand("delete from ca_icr_excl_type_t where acct_icr_typ_cd = '23' and fin_coa_cd = 'BL'");
+        unitTestSqlDao.sqlCommand("insert into CA_ICR_EXCL_TYPE_T (ACCT_ICR_TYP_CD, FIN_COA_CD, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_ICR_EXCL_TYP_ACTV_IND) values ('23','BL','2401','" + new Guid().toString() + "',1,'Y')");
+
+        loadInputTransactions(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, inputTransactions);
+        posterService.postMainEntries();
+
+        assertOriginEntries(2, outputTransactions);
+
+        List trans = unitTestSqlDao.sqlSelect("select * from GL_EXPEND_TRN_T order by account_nbr");
+
+        assertEquals("Wrong number of transactions", 4, trans.size());
+        Map acct4031407 = (Map) trans.get(0);
+        assertEquals("Account wrong", "4031407", acct4031407.get("ACCOUNT_NBR"));
+        assertEquals("Amount wrong", 11999.88, getAmount(acct4031407, "ACCT_OBJ_DCST_AMT"), 0.01);
+        Map acct4131406 = (Map) trans.get(1);
+        assertEquals("Account wrong", "4131406", acct4131406.get("ACCOUNT_NBR"));
+        assertEquals("Amount wrong", -10.00, getAmount(acct4131406, "ACCT_OBJ_DCST_AMT"), 0.01);
+        Map acct4631464 = (Map) trans.get(3);
+        assertEquals("Account wrong", "4631464", acct4631464.get("ACCOUNT_NBR"));
+        assertEquals("Amount wrong", 23.00, getAmount(acct4631464, "ACCT_OBJ_DCST_AMT"), 0.01);
+    }
+
+    /**
+     * Covers the reversal poster
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
+    public void testReversalPoster() throws Exception {
+        LOG.debug("testPostReversalPosting() started");
+
+        // First post these entries to the reversal table
+        String[] inputTransactions = { TestUtils.getFiscalYearForTesting()+"BL2231408-----5300---ACEX07CHKDPDREVTEST01     12345214090047 EVERETT J PRESCOTT INC.                    1445.00D2008-01-05ABCDEFGHIJ----------12345678                    2007-10-01    ", 
+                                       TestUtils.getFiscalYearForTesting()+"BL2231408-----5300---ACEX07CHKDPDREVTEST02     12345214090047 EVERETT J PRESCOTT INC.                    1445.00D2008-01-05ABCDEFGHIJ----------12345678                    2007-12-31    ", 
+                                       TestUtils.getFiscalYearForTesting()+"BL2231408-----5300---ACEX07CHKDPDREVTEST03     12345214090047 EVERETT J PRESCOTT INC.                    1445.00D2008-01-05ABCDEFGHIJ----------12345678                    2008-01-01    ", 
+                                       TestUtils.getFiscalYearForTesting()+"BL2231408-----5300---ACEX07CHKDPDREVTEST04     12345214090047 EVERETT J PRESCOTT INC.                    1445.00D2008-01-05ABCDEFGHIJ----------12345678                    2008-01-02    ", 
+                                       TestUtils.getFiscalYearForTesting()+"BL2231408-----5300---ACEX07CHKDPDREVTEST05     12345214090047 EVERETT J PRESCOTT INC.                    1445.00D2008-01-05ABCDEFGHIJ----------12345678                    2009-03-01    " };
+
+        clearBatchFiles();
+        clearReversalTable();
+        loadInputTransactions(GeneralLedgerConstants.BatchFileSystem.POSTER_INPUT_FILE, inputTransactions);
+        posterService.postMainEntries();
+
+        unitTestSqlDao.clearCache();
+
+        // Now post the reversal entries
+        clearGlEntryTable("BL", "2231408");
+        posterService.postReversalEntries();
+
+        List results = unitTestSqlDao.sqlSelect("select * from gl_entry_t where account_nbr = '2231408' order by fdoc_nbr");
+        assertEquals("Wrong number of posted entries", 5, results.size());
+        Map row1 = (Map) results.get(0);
+        Map row2 = (Map) results.get(1);
+        Map row3 = (Map) results.get(2);
+        Map row4 = (Map) results.get(3);
+        Map row5 = (Map) results.get(4);
+
+        assertEquals("Wrong doc nbr", "REVTEST01", row1.get("FDOC_NBR"));
+        assertEquals("Wrong doc nbr", "REVTEST02", row2.get("FDOC_NBR"));
+        assertEquals("Wrong doc nbr", "REVTEST03", row3.get("FDOC_NBR"));
+        assertEquals("Wrong doc nbr", "REVTEST04", row4.get("FDOC_NBR"));
+        assertEquals("Wrong doc nbr", "REVTEST05", row5.get("FDOC_NBR"));
+    }
 //
 //    /**
 //     * Covers poster ICR generation

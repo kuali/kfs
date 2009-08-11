@@ -84,7 +84,7 @@
                         readOnly="true" />&nbsp; </b>
                 </div>
 			</td>
-			<td class="datacell colspan=3">&nbsp;</td>
+			<td class="datacell" colspan=3">&nbsp;</td>
 		</tr>
 		<!-- END TOTAL SECTION -->
 		

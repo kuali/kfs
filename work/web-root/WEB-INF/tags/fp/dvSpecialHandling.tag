@@ -23,33 +23,33 @@
             <tr>
               <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrSpecialHandlingPersonName}"/></div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingPersonName}" property="document.dvPayeeDetail.disbVchrSpecialHandlingPersonName" readOnly="${!fullEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingPersonName}" property="document.dvPayeeDetail.disbVchrSpecialHandlingPersonName" readOnly="${!fullEntryMode && !paymentHandlingEntryMode}"/>  
               </td>
               <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrSpecialHandlingCityName}"/></div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingCityName}" property="document.dvPayeeDetail.disbVchrSpecialHandlingCityName" readOnly="${!fullEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingCityName}" property="document.dvPayeeDetail.disbVchrSpecialHandlingCityName" readOnly="${!fullEntryMode && !paymentHandlingEntryMode}"/>  
               </td>
             </tr>
             
             <tr>
               <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrSpecialHandlingLine1Addr}"/></div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingLine1Addr}" property="document.dvPayeeDetail.disbVchrSpecialHandlingLine1Addr" readOnly="${!fullEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingLine1Addr}" property="document.dvPayeeDetail.disbVchrSpecialHandlingLine1Addr" readOnly="${!fullEntryMode && !paymentHandlingEntryMode}"/>  
               </td>
               <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrSpecialHandlingStateCode}"/></div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingStateCode}" property="document.dvPayeeDetail.disbVchrSpecialHandlingStateCode" readOnly="${!fullEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingStateCode}" property="document.dvPayeeDetail.disbVchrSpecialHandlingStateCode" readOnly="${!fullEntryMode && !paymentHandlingEntryMode}"/>  
               </td>
             </tr>
             
             <tr>
               <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrSpecialHandlingLine2Addr}"/></div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingLine2Addr}" property="document.dvPayeeDetail.disbVchrSpecialHandlingLine2Addr" readOnly="${!fullEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingLine2Addr}" property="document.dvPayeeDetail.disbVchrSpecialHandlingLine2Addr" readOnly="${!fullEntryMode && !paymentHandlingEntryMode}"/>  
               </td>
               <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrSpecialHandlingZipCode}"/></div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingZipCode}" property="document.dvPayeeDetail.disbVchrSpecialHandlingZipCode" readOnly="${!fullEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingZipCode}" property="document.dvPayeeDetail.disbVchrSpecialHandlingZipCode" readOnly="${!fullEntryMode && !paymentHandlingEntryMode}"/>  
               </td>
             </tr>
             
@@ -59,7 +59,7 @@
               </td>
               <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrSpecialHandlingCountryCode}"/></div></th>
               <td align=left valign=middle class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingCountryCode}" property="document.dvPayeeDetail.disbVchrSpecialHandlingCountryCode" readOnly="${!fullEntryMode}"/>  
+                <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrSpecialHandlingCountryCode}" property="document.dvPayeeDetail.disbVchrSpecialHandlingCountryCode" readOnly="${!fullEntryMode && !paymentHandlingEntryMode}"/>  
               </td>
             </tr>
      </table>

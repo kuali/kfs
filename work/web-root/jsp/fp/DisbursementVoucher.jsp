@@ -35,6 +35,9 @@
 	<c:set var="adminEntryMode" value="${canEdit && KualiForm.editingMode['adminEntry']}" scope="request" />
 	<c:set var="payeeEntryMode" value="${canEdit && KualiForm.editingMode['payeeEntry']}" scope="request" />
 	
+	<c:set var="paymentHandlingEntryMode" value="${canEdit && KualiForm.editingMode['paymentHandlingEntry']}" scope="request" />
+	<c:set var="voucherDeadlineEntryMode" value="${canEdit && KualiForm.editingMode['voucherDeadlineEntry']}" scope="request" />
+	
 	<sys:documentOverview editingMode="${KualiForm.editingMode}" includeBankCode="true"
 	  bankProperty="document.disbVchrBankCode" 
 	  bankObjectProperty="document.bank"

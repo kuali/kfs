@@ -544,6 +544,19 @@ public class CheckModularization {
         ddErrorMessage.append( " / " ).append( errorType ).append( ": " ).append( problemClassName );
     }
 
+    protected boolean validateDdBusinessObjectClassReference( String errorType, String testClassName, String namespaceCode, String businessObjectClassName, String attributeName, List<String> disallowedPackages ) {
+        if (StringUtils.isBlank(testClassName)) {
+            return true;
+        }
+        try {
+            Class<?> testClass = Class.forName(testClassName);
+            return validateDdBusinessObjectClassReference(errorType, testClass, namespaceCode, businessObjectClassName, attributeName, disallowedPackages);
+        }
+        catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     protected boolean validateDdBusinessObjectClassReference( String errorType, Class<? extends Object> testClass, String namespaceCode, String businessObjectClassName, String attributeName, List<String> disallowedPackages ) {
         if ( testClass != null ) {
             if ( doesPackagePrefixMatch(testClass.getName(), disallowedPackages) ) {

@@ -145,6 +145,8 @@ public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBa
     @Override
     public List<String> getUniqueAttributes(String kimTypeId){
         List<String> uniqueAttributes = new ArrayList<String>();
+        uniqueAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+        uniqueAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
         uniqueAttributes.add(KimAttributes.NAMESPACE_CODE);
         return uniqueAttributes;
     }

@@ -931,12 +931,12 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(employee.getEmployeeId());
         this.getDvPayeeDetail().setDisbVchrPayeePersonName(employee.getName());
 
-        this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(employee.getAddressLine1());
-        this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr(employee.getAddressLine2());
-        this.getDvPayeeDetail().setDisbVchrPayeeCityName(employee.getAddressCityName());
-        this.getDvPayeeDetail().setDisbVchrPayeeStateCode(employee.getAddressStateCode());
-        this.getDvPayeeDetail().setDisbVchrPayeeZipCode(employee.getAddressPostalCode());
-        this.getDvPayeeDetail().setDisbVchrPayeeCountryCode(employee.getAddressCountryCode());
+        this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(employee.getAddressLine1Unmasked());
+        this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr(employee.getAddressLine2Unmasked());
+        this.getDvPayeeDetail().setDisbVchrPayeeCityName(employee.getAddressCityNameUnmasked());
+        this.getDvPayeeDetail().setDisbVchrPayeeStateCode(employee.getAddressStateCodeUnmasked());
+        this.getDvPayeeDetail().setDisbVchrPayeeZipCode(employee.getAddressPostalCodeUnmasked());
+        this.getDvPayeeDetail().setDisbVchrPayeeCountryCode(employee.getAddressCountryCodeUnmasked());
 
         this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(true);
         // I'm assuming that if a tax id type code other than 'S' is present ('S'=SSN), then the employee must be foreign
@@ -1625,7 +1625,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * 
      * @return
      */
-    protected boolean isTravelReviewRequired() {
+    public boolean isTravelReviewRequired() {
         String paymentReasonCode = this.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
 
         return this.getDvPymentReasonService().isPrepaidTravelPaymentReason(paymentReasonCode) || this.getDvPymentReasonService().isNonEmployeeTravelPaymentReason(paymentReasonCode);

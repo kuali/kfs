@@ -9,7 +9,7 @@
 	<property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentPreRules"/>   
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.DisbursementVoucherDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.DisbursementVoucherDocumentPresentationController"/>
     
     <property name="sessionDocument" value="true"/>

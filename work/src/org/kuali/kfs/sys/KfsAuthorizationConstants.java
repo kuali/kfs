@@ -22,7 +22,6 @@ public class KfsAuthorizationConstants extends JSTLConstants {
 
     public static class TransactionalEditMode extends EditMode {
         public static final String EXPENSE_ENTRY = "expenseEntry";
-        public static final String EXPENSE_SPECIAL_ENTRY = "expenseSpecialEntry";
     }
 
     public static class DisbursementVoucherEditMode extends TransactionalEditMode {
@@ -33,6 +32,8 @@ public class KfsAuthorizationConstants extends JSTLConstants {
         public static final String TRAVEL_ENTRY = "travelEntry";
         public static final String ADMIN_ENTRY = "adminEntry";
         public static final String FULL_ENTRY = "fullEntry";
+        public static final String PAYMENT_HANDLING_ENTRY = "paymentHandlingEntry";
+        public static final String VOUCHER_DEADLINE_ENTRY = "voucherDeadlineEntry";
     }
 
     public static class DistributionOfIncomeAndExpenseEditMode extends EditMode {

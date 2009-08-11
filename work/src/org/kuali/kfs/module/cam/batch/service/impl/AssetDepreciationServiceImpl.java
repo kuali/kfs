@@ -190,7 +190,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
         }
         catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Error occurred", e);
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "**************************************************************************");
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "AN ERROR HAS OCCURRED! - ERROR: " + e.getMessage());
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "**************************************************************************");
@@ -374,7 +374,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             return depreciationTransactionSummary;
         }
         catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Error occurred", e);
             throw new IllegalStateException(kualiConfigurationService.getPropertyString(CamsKeyConstants.Depreciation.ERROR_WHEN_CALCULATING_DEPRECIATION) + " :" + e.getMessage());
         }
     }
@@ -533,7 +533,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             System.out.println(new Date() + "GL processed " + counter);
         }
         catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Error occurred", e);
             throw new IllegalStateException(kualiConfigurationService.getPropertyString(CamsKeyConstants.Depreciation.ERROR_WHEN_UPDATING_GL_PENDING_ENTRY_TABLE) + " :" + e.getMessage());
         }
         LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - end");
@@ -594,6 +594,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             }
         }
         catch (Exception e) {
+            LOG.error("Error occurred", e);
             throw new IllegalStateException(kualiConfigurationService.getPropertyString(CamsKeyConstants.Depreciation.ERROR_WHEN_CALCULATING_BASE_AMOUNT) + " :" + e.getMessage());
         }
         LOG.debug("getBaseAmountOfAssets(Collection<AssetPayment> depreciableAssetsCollection) - End.");

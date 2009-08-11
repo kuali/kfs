@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cam.report;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -70,7 +71,7 @@ public class DepreciationReport {
 
             SimpleDateFormat sdf = new SimpleDateFormat(CamsConstants.DateFormats.YEAR_MONTH_DAY_NO_DELIMITER + "_" + CamsConstants.DateFormats.MILITARY_TIME_NO_DELIMITER);
 
-            String filename = destinationDirectory + "/" + CamsConstants.Report.FILE_PREFIX + "_" + CamsConstants.Depreciation.REPORT_FILE_NAME + "_" + sdf.format(dateTimeService.getCurrentDate()) + "." + CamsConstants.Report.REPORT_EXTENSION;
+            String filename = destinationDirectory + File.separator + "cam" + File.separator + CamsConstants.Report.FILE_PREFIX + "_" + CamsConstants.Depreciation.REPORT_FILE_NAME + "_" + sdf.format(dateTimeService.getCurrentDate()) + "." + CamsConstants.Report.REPORT_EXTENSION;
 
             Font headerFont = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL);
 

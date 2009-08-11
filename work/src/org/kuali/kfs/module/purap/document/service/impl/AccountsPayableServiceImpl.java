@@ -148,18 +148,14 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         // document is past full entry and
         // user is a fiscal officer and a system parameter is set to allow viewing
         // and if the continuation account indicator is set
-        if (purapService.isFullDocumentEntryCompleted(document) &&
-            (isFiscalUser(document, user) && "Y".equals(showContinuationAccountWaringFO)) && (document.isContinuationAccountIndicator())) {
-
+        if (isFiscalUser(document, user) && "Y".equals(showContinuationAccountWaringFO) && (document.isContinuationAccountIndicator())) {
             GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED);
         }
 
         // document is past full entry and
         // user is an AP User and a system parameter is set to allow viewing
         // and if the continuation account indicator is set
-        if (purapService.isFullDocumentEntryCompleted(document) &&
-            (isAPUser(document, user) && "Y".equals(showContinuationAccountWaringAP)) && (document.isContinuationAccountIndicator())) {
-
+        if (isAPUser(document, user) && "Y".equals(showContinuationAccountWaringAP) && (document.isContinuationAccountIndicator())) {
             GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED);
         }
 
@@ -251,6 +247,11 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         Integer POID = document.getPurchaseOrderIdentifier();
 
         PurchaseOrderDocument po = document.getPurchaseOrderDocument();
+        if (po == null && document instanceof VendorCreditMemoDocument){
+            if (((VendorCreditMemoDocument)document).getPaymentRequestDocument() != null){
+                po = ((VendorCreditMemoDocument)document).getPaymentRequestDocument().getPurchaseOrderDocument();
+            }
+        }
 
         if (po != null) {
             // get list of active accounts
@@ -460,8 +461,10 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     private boolean isAPUser(AccountsPayableDocument document, Person user) {
         boolean isFiscalUser = false;
 
-        if (PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(document.getStatusCode()) && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
-            isFiscalUser = true;
+        if ((PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(document.getStatusCode()) && 
+             document.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) ||
+             PaymentRequestStatuses.IN_PROCESS.equals(document.getStatusCode())) {
+                isFiscalUser = true;
         }
 
         return isFiscalUser;

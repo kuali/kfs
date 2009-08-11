@@ -80,6 +80,18 @@ import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableActionBase.class);
 
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingAccountsPayableFormBase baseForm = (PurchasingAccountsPayableFormBase) form;
+        AccountsPayableDocumentBase document = (AccountsPayableDocumentBase) baseForm.getDocument();
+        
+        ActionForward fwd = super.execute(mapping, form, request, response);
+        
+        SpringContext.getBean(AccountsPayableService.class).generateExpiredOrClosedAccountWarning(document);
+        
+        return fwd;
+        
+    }
     /**
      * Performs refresh of objects after a lookup.
      * 
@@ -115,7 +127,6 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         super.loadDocument(kualiDocumentFormBase);
         AccountsPayableDocument document = (AccountsPayableDocument) kualiDocumentFormBase.getDocument();
 
-        SpringContext.getBean(AccountsPayableService.class).generateExpiredOrClosedAccountWarning(document);
         SpringContext.getBean(AccountsPayableService.class).updateItemList(document);
         ((AccountsPayableFormBase) kualiDocumentFormBase).updateItemCounts();
     }

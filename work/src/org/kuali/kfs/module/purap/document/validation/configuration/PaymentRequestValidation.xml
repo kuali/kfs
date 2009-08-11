@@ -487,6 +487,23 @@
   			<list>
   				<bean parent="PaymentRequest-taxAreaValidation" scope="prototype"/>
   				<bean parent="AccountsPayable-preCalculateValidation" scope="prototype"/>
+			    <bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
+  					<property name="collectionProperty" value="document.items" />
+  					<property name="validations">
+  					  <list>  					  						
+						<bean parent="PaymentRequest-nonZeroAccountingLineAmountValidation" scope="prototype">
+							<property name="parameterProperties">
+					            <list>
+			  	                    <bean parent="validationFieldConversion">
+				   	                    <property name="sourceEventProperty" value="iterationSubject" />
+							            <property name="targetValidationProperty" value="itemForValidation" />
+						            </bean>						            
+								</list>
+							</property>
+						</bean>																									
+					  </list>
+					</property>
+				</bean>  				
 			</list>
 		</property>
 	</bean>

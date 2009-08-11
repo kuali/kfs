@@ -629,6 +629,8 @@
 	</bean>
 	
 <!-- Payment Request Definitions -->
+	<bean id="PaymentRequest-nonZeroAccountingLineAmountValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestNonZeroAccountingLineAmountValidation" abstract="true"/>
+
 	<bean id="PaymentRequest-invoiceImageAttachmentValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestInvoiceImageAttachmentValidation" abstract="true"/>
 	
 	<bean id="PaymentRequest-accountingLineDataDictionaryValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurapAccountingLineDataDictionaryValidation" abstract="true">

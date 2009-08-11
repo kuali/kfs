@@ -225,7 +225,8 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_TOTAL_NEGATIVE = "errors.item.total.negative";
     public static final String ERROR_ITEM_QUANTITY = "errors.item.quantity";
     public static final String ERROR_ITEM_ACCOUNTING_NOT_ALLOWED = "errors.item.accounting.notallowed";
-    public static final String ERROR_ITEM_ACCOUNTING_INCOMPLETE = "errors.item.accounting.incomplete";
+    public static final String ERROR_ITEM_ACCOUNTING_INCOMPLETE = "errors.item.accounting.incomplete";    
+    public static final String ERROR_ITEM_ACCOUNTING_AMOUNT_INVALID = "errors.item.accounting.amount.invalid";
     public static final String ERROR_ITEM_ACCOUNTING_TOTAL = "errors.item.accounting.total";
     public static final String ERROR_ITEM_ACCOUNTING_TOTAL_AMOUNT = "errors.item.accounting.total.amount";
     public static final String ERROR_PURCHASE_ORDER_EXCEEDING_TOTAL_LIMIT = "errors.purchaseorder.exceedingTotalLimit";

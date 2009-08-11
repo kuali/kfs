@@ -46,7 +46,7 @@ public class CamsPropertyConstants {
         public static final String ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE = "organizationOwnerChartOfAccountsCode";
         public static final String ORGANIZATION_OWNER_ACCOUNT_NUMBER = "organizationOwnerAccountNumber";
         public static final String ORGANIZATION_CODE = "organizationOwnerAccount.organizationCode";
-        public static final String ORGANIZATION_OWNER_ACCOUNTS_COA_CODE = "organizationOwnerAccount.chartOfAccountsCode";        
+        public static final String ORGANIZATION_OWNER_ACCOUNTS_COA_CODE = "organizationOwnerAccount.chartOfAccountsCode";
         public static final String ORGANIZATION_TEXT = "assetOrganization.organizationText";
         public static final String VENDOR_NAME = "vendorName";
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
@@ -98,7 +98,7 @@ public class CamsPropertyConstants {
         public static final String REF_ASSET_TYPE = "capitalAssetType";
         public static final String REF_OBJECT_SUB_TYPE = "financialObjectSubType";
         public static final String REF_CONTRACTS_AND_GRANTS_AGENCY = "agency";
-        
+
         public static class AssetLocation {
             public static final String CONTACT_NAME = "offCampusLocation.assetLocationContactName";
             public static final String STREET_ADDRESS = "offCampusLocation.assetLocationStreetAddress";
@@ -111,6 +111,7 @@ public class CamsPropertyConstants {
 
     public static class AssetObject {
         public static final String UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";
+        public static final String ACTIVE = "active";
     }
 
     public static class AssetPayment {
@@ -180,7 +181,7 @@ public class CamsPropertyConstants {
 
     }
 
-    public static class AssetLocationGlobalDetail{
+    public static class AssetLocationGlobalDetail {
         public static final String ASSET = "asset";
         public static final String CAPITAL_ASSET_NUMBER = "assetLocationGlobalDetails.capitalAssetNumber";
     }
@@ -232,7 +233,7 @@ public class CamsPropertyConstants {
         public static final String SHARED_RETIREMENT_INFO = "sharedRetirementInfo";
         public static final String MERGED_TARGET_CAPITAL_ASSET_NUMBER = "mergedTargetCapitalAssetNumber";
         public static final String MERGED_TARGET_CAPITAL_ASSET = "mergedTargetCapitalAsset";
-        public static final String MERGED_TARGET_CAPITAL_ASSET_DESC   = "mergedTargetCapitalAssetDescription";
+        public static final String MERGED_TARGET_CAPITAL_ASSET_DESC = "mergedTargetCapitalAssetDescription";
         public static final String RETIREMENT_REASON_CODE = "retirementReasonCode";
         public static final String ASSET_RETIREMENT_GLOBAL_DETAILS = "assetRetirementGlobalDetails";
         public static final String CAPITAL_ASSET_NUMBER = "assetRetirementGlobalDetails.capitalAssetNumber";
@@ -393,13 +394,12 @@ public class CamsPropertyConstants {
     }
 
     public static final String ASSET_LOCATION_COMMON_ERROR_SECTION_ID = "assetLocationErrorSection";
-    public static final String COMMON_ERROR_SECTION_ID="commonErrorSection";    
-    public static final String BCIE_GLOBAL_REPLACE_ERROR_SECTION_ID="globalReplaceErrorSection";
-    public static final String DOCUMENT_NUMBER="documentNumber";
+    public static final String COMMON_ERROR_SECTION_ID = "commonErrorSection";
+    public static final String BCIE_GLOBAL_REPLACE_ERROR_SECTION_ID = "globalReplaceErrorSection";
+    public static final String DOCUMENT_NUMBER = "documentNumber";
 
 
     public static class AssetLock {
         public static final String DOCUMENT_NUMBER = "documentNumber";
     }
 }
-

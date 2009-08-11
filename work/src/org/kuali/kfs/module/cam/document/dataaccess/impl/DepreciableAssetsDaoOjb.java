@@ -15,6 +15,7 @@
 package org.kuali.kfs.module.cam.document.dataaccess.impl;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,15 +25,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.batch.AssetPaymentInfo;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
@@ -40,12 +40,10 @@ import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 import org.kuali.kfs.module.cam.document.AssetTransferDocument;
 import org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao;
-import org.kuali.kfs.module.cam.util.AssetSeparatePaymentDistributor;
+import org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -56,6 +54,8 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.spring.CacheNoCopy;
+import org.kuali.rice.kns.util.spring.Cached;
 
 public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements DepreciableAssetsDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DepreciableAssetsDaoOjb.class);
@@ -65,8 +65,8 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     private OptionsService optionsService;
     private BusinessObjectService businessObjectService;
     private UniversityDateDao universityDateDao;
+    private DepreciationBatchDao depreciationBatchDao;
 
-    private Criteria assetCriteria = new Criteria();
     private String errorMsg = new String();
 
     private final static String PAYMENT_TO_ASSET_REFERENCE_DESCRIPTOR = "asset.";
@@ -74,232 +74,55 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     private final static String ASSET_TO_ASSET_TYPE_REFERENCE_DESCRIPTOR = "asset.capitalAssetType.";
     private final static String[] REPORT_GROUP = { "*** BEFORE RUNNING DEPRECIATION PROCESS ****", "*** AFTER RUNNING DEPRECIATION PROCESS ****" };
 
-    /**
-     * @see org.kuali.module.cams.dao.CamsDepreciableAssetsDao#getListOfDepreciableAssets()
-     */
-    public Collection<AssetPayment> getListOfDepreciableAssets(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
+
+    public Collection<AssetPaymentInfo> getListOfDepreciableAssetPaymentInfo(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
         LOG.debug("getListOfDepreciableAssets() -  started");
-
+        List<AssetPaymentInfo> assetPaymentKeys = new ArrayList<AssetPaymentInfo>();
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Retreving eligible asset payments.");
+        ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(AssetPayment.class, new String[] { "capitalAssetNumber", "paymentSequenceNumber", "asset.depreciationDate", "asset.primaryDepreciationMethodCode", "asset.salvageAmount", "asset.capitalAssetType.depreciableLifeLimit", "account.organization.organizationPlantChartCode", "account.organization.organizationPlantAccountNumber", "account.organization.campusPlantChartCode", "account.organization.campusPlantAccountNumber", "financialObject.financialObjectTypeCode", "financialObject.financialObjectSubTypeCode", "primaryDepreciationBaseAmount", "financialObjectCode", "accumulatedPrimaryDepreciationAmount", "subAccountNumber", "financialSubObjectCode", "projectCode" }, this.getDepreciationCriteria(fiscalYear, fiscalMonth, depreciationDate, false));
+        reportByCriteria.addOrderByAscending(CamsPropertyConstants.AssetPayment.CAPITAL_ASSET_NUMBER);
+        reportByCriteria.addOrderByAscending(CamsPropertyConstants.AssetPayment.ORIGINATION_CODE);
+        reportByCriteria.addOrderByAscending(CamsPropertyConstants.AssetPayment.ACCOUNT_NUMBER);
+        reportByCriteria.addOrderByAscending(CamsPropertyConstants.AssetPayment.SUB_ACCOUNT_NUMBER);
+        reportByCriteria.addOrderByAscending(CamsPropertyConstants.AssetPayment.OBJECT_CODE);
+        reportByCriteria.addOrderByAscending(CamsPropertyConstants.AssetPayment.SUB_OBJECT_CODE);
+        reportByCriteria.addOrderByAscending(CamsPropertyConstants.AssetPayment.OBJECT_TYPE_CODE);
+        reportByCriteria.addOrderByAscending(CamsPropertyConstants.AssetPayment.PROJECT_CODE);
+        Iterator<?> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportByCriteria);
 
-        QueryByCriteria q = QueryFactory.newQuery(AssetPayment.class, this.getDepreciationCriteria(fiscalYear, fiscalMonth, depreciationDate, false));
-        q.addOrderByAscending(CamsPropertyConstants.AssetPayment.CAPITAL_ASSET_NUMBER);
-        q.addOrderByAscending(CamsPropertyConstants.AssetPayment.ORIGINATION_CODE);
-        q.addOrderByAscending(CamsPropertyConstants.AssetPayment.ACCOUNT_NUMBER);
-        q.addOrderByAscending(CamsPropertyConstants.AssetPayment.SUB_ACCOUNT_NUMBER);
-        q.addOrderByAscending(CamsPropertyConstants.AssetPayment.OBJECT_CODE);
-        q.addOrderByAscending(CamsPropertyConstants.AssetPayment.SUB_OBJECT_CODE);
-        q.addOrderByAscending(CamsPropertyConstants.AssetPayment.OBJECT_TYPE_CODE);
-        q.addOrderByAscending(CamsPropertyConstants.AssetPayment.PROJECT_CODE);
-        Collection<AssetPayment> iter = getPersistenceBrokerTemplate().getCollectionByQuery(q);
-
-        return iter;
-    }
-
-
-    /**
-     * @see org.kuali.module.cams.dao.CamsDepreciableAssetsDao#updateAssetPayments(java.util.List)
-     */
-    public void initializeAssetPayment(Integer fiscalMonth) throws Exception { 
-        LOG.debug("initializeAssetPayments() -  started");
-
-        Criteria criteria = new Criteria();
-        Collection<AssetPayment> assetPayments;
-
-        // If we are in the first month of the fiscal year, then add the previous year depreciation amounts into previous year
-        // depreciation field.
-        if (fiscalMonth == 1) {
-            LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Fiscal month = 1. Therefore, initializing each month with zeros.");
-
-            criteria.addNotNull(CamsPropertyConstants.AssetPayment.CAPITAL_ASSET_NUMBER);
-            QueryByCriteria q = QueryFactory.newQuery(AssetPayment.class, criteria);
-            assetPayments = getPersistenceBrokerTemplate().getCollectionByQuery(q);
-
-            for (AssetPayment assetPayment : assetPayments) {
-                if (assetPayment != null) {
-                    assetPayment.setPreviousYearPrimaryDepreciationAmount(AssetSeparatePaymentDistributor.sumPeriodicDepreciationAmounts(assetPayment));                        
-                    assetPayment.setPeriod1Depreciation1Amount(new KualiDecimal(0));
-                    assetPayment.setPeriod2Depreciation1Amount(new KualiDecimal(0));
-                    assetPayment.setPeriod3Depreciation1Amount(new KualiDecimal(0));
-                    assetPayment.setPeriod4Depreciation1Amount(new KualiDecimal(0));
-                    assetPayment.setPeriod5Depreciation1Amount(new KualiDecimal(0));
-                    assetPayment.setPeriod6Depreciation1Amount(new KualiDecimal(0));
-                    assetPayment.setPeriod7Depreciation1Amount(new KualiDecimal(0));
-                    assetPayment.setPeriod8Depreciation1Amount(new KualiDecimal(0));
-                    assetPayment.setPeriod9Depreciation1Amount(new KualiDecimal(0));
-                    assetPayment.setPeriod10Depreciation1Amount(new KualiDecimal(0));
-                    assetPayment.setPeriod11Depreciation1Amount(new KualiDecimal(0));
-                    assetPayment.setPeriod12Depreciation1Amount(new KualiDecimal(0));
-
-                    LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Initializing asset payment - Asset:" + assetPayment.getCapitalAssetNumber() + " - Sequence#:" + assetPayment.getPaymentSequenceNumber());
-                    getPersistenceBrokerTemplate().store(assetPayment);
-                    LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Initializing asset payment - Asset:" + assetPayment.getCapitalAssetNumber() + " - Sequence#:" + assetPayment.getPaymentSequenceNumber() + " was successfully saved.");
-                }
-            }
+        while (iterator != null && iterator.hasNext()) {
+            Object[] data = (Object[]) iterator.next();
+            AssetPaymentInfo assetPaymentInfo = new AssetPaymentInfo();
+            assetPaymentInfo.setCapitalAssetNumber(Long.valueOf(data[0].toString()));
+            assetPaymentInfo.setPaymentSequenceNumber(Integer.valueOf(data[1].toString()));
+            assetPaymentInfo.setDepreciationDate((Date) data[2]);
+            assetPaymentInfo.setPrimaryDepreciationMethodCode(data[3].toString());
+            assetPaymentInfo.setSalvageAmount((KualiDecimal) data[4]);
+            assetPaymentInfo.setDepreciableLifeLimit(Integer.valueOf(data[5].toString()));
+            assetPaymentInfo.setOrganizationPlantChartCode(data[6].toString());
+            assetPaymentInfo.setOrganizationPlantAccountNumber(data[7].toString());
+            assetPaymentInfo.setCampusPlantChartCode(data[8].toString());
+            assetPaymentInfo.setCampusPlantAccountNumber(data[9].toString());
+            assetPaymentInfo.setFinancialObjectTypeCode(data[10].toString());
+            assetPaymentInfo.setFinancialObjectSubTypeCode(data[11].toString());
+            // payment related info
+            assetPaymentInfo.setPrimaryDepreciationBaseAmount((KualiDecimal) data[12]);
+            assetPaymentInfo.setFinancialObjectCode(data[13].toString());
+            assetPaymentInfo.setAccumulatedPrimaryDepreciationAmount((KualiDecimal) data[14]);
+            assetPaymentInfo.setSubAccountNumber(data[15].toString());
+            assetPaymentInfo.setFinancialSubObjectCode(data[16].toString());
+            assetPaymentInfo.setProjectCode(data[17].toString());
+            assetPaymentKeys.add(assetPaymentInfo);
         }
-        LOG.debug("initializeAssetPayments() -  ended");
+        return assetPaymentKeys;
     }
-
-
-    /**
-     * 
-     * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao#updateAssets(java.lang.Integer, java.lang.Integer)
-     */
-    public void updateAssetsCreatedInLastFiscalPeriod(Integer fiscalMonth, Integer fiscalYear) {
-        LOG.debug("updateAssetInformation() -  started");
-
-        // If we are in the last month of the fiscal year
-        if (fiscalMonth == 12) {
-            LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Fiscal period/month = 12. Checking whether there are assets with creation date > 07/01/<fiscal year>.");
-
-            //Getting last date of fiscal year
-            UniversityDate lastFiscalYearDate = universityDateDao.getLastFiscalYearDate(fiscalYear);
-            if (lastFiscalYearDate == null) {
-                throw new IllegalStateException(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
-            }
-
-            List<String> movableEquipmentObjectSubTypes = new ArrayList<String>();
-            if (parameterService.parameterExists(Asset.class, CamsConstants.Parameters.MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES)) {
-                movableEquipmentObjectSubTypes = parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES);
-            }
-
-            //Only update assets with a object sub type code equals to any MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES.
-            if (!movableEquipmentObjectSubTypes.isEmpty()) {
-                Criteria criteria = new Criteria();
-                criteria.addGreaterThan(CamsPropertyConstants.Asset.CREATE_DATE, lastFiscalYearDate.getUniversityDate());
-                criteria.addIn(CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE, movableEquipmentObjectSubTypes);
-
-                QueryByCriteria q = QueryFactory.newQuery(Asset.class, criteria);
-                Collection<Asset> assets = getPersistenceBrokerTemplate().getCollectionByQuery(q);
-
-                for (Asset asset: assets) {
-                    if (asset!= null) {                    
-                        asset.setCapitalAssetInServiceDate(lastFiscalYearDate.getUniversityDate());
-                        asset.setDepreciationDate(lastFiscalYearDate.getUniversityDate());
-                        asset.setFinancialDocumentPostingPeriodCode(fiscalMonth.toString());
-                        asset.setFinancialDocumentPostingYear(fiscalYear);
-
-                        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Updating asset depreciation date - Asset:" + asset.getCapitalAssetNumber() + " - Depreciation date:"+lastFiscalYearDate.getUniversityDate());
-                        getPersistenceBrokerTemplate().store(asset);                
-                    }
-                }
-            }
-        }
-        LOG.debug("updateAssetInformation() -  ended");
-    }
-
-    /**
-     * @see org.kuali.module.cams.dao.CamsDepreciableAssetsDao#updateAssetPayments(java.util.List)
-     */
-    public void updateAssetPayments(String capitalAssetNumber, String paymentSequenceNumber, KualiDecimal transactionAmount, KualiDecimal accumulatedDepreciationAmount, Integer fiscalMonth) {
-        LOG.debug("updateAssetPayments() -  started");
-
-        HashMap<String, Object> keys = new HashMap<String, Object>();
-        keys.put(CamsPropertyConstants.AssetPayment.CAPITAL_ASSET_NUMBER, capitalAssetNumber);
-        keys.put(CamsPropertyConstants.AssetPayment.PAYMENT_SEQ_NUMBER, paymentSequenceNumber);
-
-        AssetPayment assetPayment = (AssetPayment) businessObjectService.findByPrimaryKey(AssetPayment.class, keys);
-
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Updating depreciation amount - Asset:" + assetPayment.getCapitalAssetNumber() + " - Sequence#:" + assetPayment.getPaymentSequenceNumber());
-
-        assetPayment.setAccumulatedPrimaryDepreciationAmount(accumulatedDepreciationAmount);
-
-        if (fiscalMonth == 1)
-            assetPayment.setPeriod1Depreciation1Amount(transactionAmount);
-        else if (fiscalMonth == 2)
-            assetPayment.setPeriod2Depreciation1Amount(transactionAmount);
-        else if (fiscalMonth == 3)
-            assetPayment.setPeriod3Depreciation1Amount(transactionAmount);
-        else if (fiscalMonth == 4)
-            assetPayment.setPeriod4Depreciation1Amount(transactionAmount);
-        else if (fiscalMonth == 5)
-            assetPayment.setPeriod5Depreciation1Amount(transactionAmount);
-        else if (fiscalMonth == 6)
-            assetPayment.setPeriod6Depreciation1Amount(transactionAmount);
-        else if (fiscalMonth == 7)
-            assetPayment.setPeriod7Depreciation1Amount(transactionAmount);
-        else if (fiscalMonth == 8)
-            assetPayment.setPeriod8Depreciation1Amount(transactionAmount);
-        else if (fiscalMonth == 9)
-            assetPayment.setPeriod9Depreciation1Amount(transactionAmount);
-        else if (fiscalMonth == 10)
-            assetPayment.setPeriod10Depreciation1Amount(transactionAmount);
-        else if (fiscalMonth == 11)
-            assetPayment.setPeriod11Depreciation1Amount(transactionAmount);
-        else if (fiscalMonth == 12)
-            assetPayment.setPeriod12Depreciation1Amount(transactionAmount);
-
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Saving depreciation amount - Asset:" + assetPayment.getCapitalAssetNumber() + " - Sequence#:" + assetPayment.getPaymentSequenceNumber());
-        businessObjectService.save(assetPayment);
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Depreciation amount - Asset:" + assetPayment.getCapitalAssetNumber() + " - Sequence#:" + assetPayment.getPaymentSequenceNumber() + " was saved successfully.");
-
-        LOG.debug("updateAssetPayments() -  ended");
-    }
-
-
-    /**
-     * This method generates a sub query that will retrieve all the assets with pending transfers and pending retriments
-     * 
-     * @return
-     */
-    private List<String> getAssetsWithPendingAssetDocuments() {
-        LOG.debug("getAssetsWithPendingAssetDocuments() -  started");
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Creating subqueries for assets with pending transfers and retirement documents.");
-
-        Object[] fieldValue;
-
-        List<String> notPendingDocStatuses = new ArrayList<String>();
-        notPendingDocStatuses.add(KFSConstants.DocumentStatusCodes.APPROVED);
-        notPendingDocStatuses.add(KFSConstants.DocumentStatusCodes.CANCELLED);
-        notPendingDocStatuses.add(KFSConstants.DocumentStatusCodes.DISAPPROVED);
-
-
-        List<String> capitalAssetNumbers = new ArrayList<String>();
-
-        Criteria criteria = new Criteria();
-
-        // Retired assets sub query
-        ReportQueryByCriteria arSubQuery;
-        criteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
-        ReportQueryByCriteria q = QueryFactory.newReportQuery(AssetRetirementGlobalDetail.class, criteria);
-        q.setAttributes(new String[] { CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER });
-
-        Iterator<Object> i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
-        while (i.hasNext()) {
-            fieldValue = (Object[]) i.next();
-            if (fieldValue[0] != null) {
-                capitalAssetNumbers.add(convertCountValueToString(fieldValue[0]));
-            }
-        }
-
-        // transferred assets sub query
-        criteria = new Criteria();
-        criteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
-
-        q = QueryFactory.newReportQuery(AssetTransferDocument.class, criteria);
-        q.setAttributes(new String[] { CamsPropertyConstants.AssetTransferDocument.CAPITAL_ASSET_NUMBER });
-
-        i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
-
-        while (i.hasNext()) {
-            fieldValue = (Object[]) i.next();
-            if (fieldValue[0] != null) {
-                capitalAssetNumbers.add(convertCountValueToString(fieldValue[0]));
-            }
-        }
-
-        LOG.debug("getAssetsWithPendingAssetDocuments() -  Ended");
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished done creating subqueries for assets with pending transfers and retirement documents.");
-        return capitalAssetNumbers;
-    }
-
 
     /**
      * This method returns the number of assets with pending transfers or retirements
      * 
      * @return
      */
-    private int getNumberOfAssetsBeingRetiredAndTransferred() {
+    protected int getNumberOfAssetsBeingRetiredAndTransferred() {
         LOG.debug("getNumberOfAssetsBeingRetiredAndTransferred() -  Started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting the number of assets being retired or transferred.");
 
@@ -332,7 +155,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      *        from criteria
      * @return
      */
-    private Criteria getDepreciationCriteria(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, boolean federallyOwnedCriteria) {
+    protected Criteria getDepreciationCriteria(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, boolean federallyOwnedCriteria) {
         LOG.debug("createDepreciationCriteria() -  started");
 
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Creating criteria for asset payments - Include federally owned? " + federallyOwnedCriteria);
@@ -342,7 +165,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         List<String> notAcceptedAssetStatus = new ArrayList<String>();
 
         assetTransferCode.add(CamsConstants.AssetPayment.TRANSFER_PAYMENT_CODE_N);
-        assetTransferCode.add(" ");
+        assetTransferCode.add("");
 
         depreciationMethodList.add(CamsConstants.Asset.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE);
         depreciationMethodList.add(CamsConstants.Asset.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
@@ -425,11 +248,18 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
                 criteria.addNotIn(PAYMENT_TO_OBJECT_REFERENCE_DESCRIPTOR + KFSPropertyConstants.FINANCIAL_OBJECT_SUB_TYPE_CODE, federallyOwnedObjectSubTypes);
             }
         }
-        // Getting a list of assets being transferred or retired which documents are pending of approval.
-        List<String> assetsWithPendingDocs = this.getAssetsWithPendingAssetDocuments();
-        if (!assetsWithPendingDocs.isEmpty()) {
-            criteria.addNotIn(CamsPropertyConstants.AssetPayment.CAPITAL_ASSET_NUMBER, assetsWithPendingDocs);
-        }
+
+        Criteria retireNotExists = new Criteria();
+        retireNotExists.addEqualTo(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.ENROUTE);
+        retireNotExists.addEqualToField("capitalAssetNumber", Criteria.PARENT_QUERY_PREFIX + "capitalAssetNumber");
+        ReportQueryByCriteria retireNotExistsQuery = QueryFactory.newReportQuery(AssetRetirementGlobalDetail.class, new String[] { CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER }, retireNotExists, false);
+        criteria.addNotExists(retireNotExistsQuery);
+
+        Criteria transferNotExists = new Criteria();
+        transferNotExists.addEqualTo(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.ENROUTE);
+        transferNotExists.addEqualToField("capitalAssetNumber", Criteria.PARENT_QUERY_PREFIX + "capitalAssetNumber");
+        ReportQueryByCriteria transferNotExistsQuery = QueryFactory.newReportQuery(AssetTransferDocument.class, new String[] { CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER }, transferNotExists, false);
+        criteria.addNotExists(transferNotExistsQuery);
 
         LOG.debug("createDepreciationCriteria() -  ended");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished creating criteria for asset payments - Include federally owned? " + federallyOwnedCriteria);
@@ -475,7 +305,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
             reportLine.add(columns.clone());
 
             columns[0] = "Number of assets fully depreciated";
-            columns[1] = getFullyDepreciatedAssetCount().toString();
+            columns[1] = depreciationBatchDao.getFullyDepreciatedAssetCount().toString();
             reportLine.add(columns.clone());
         }
 
@@ -550,7 +380,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
          * it should be stop but, not until part of the pdf report List is populated so it can be written.
          */
         processAlreadyRan = false;
-        if (fiscalMonth > 1) {        
+        if (fiscalMonth > 1) {
             if (((KualiDecimal) data[3 + fiscalMonth]).compareTo(new KualiDecimal(0)) != 0)
                 processAlreadyRan = true;
         }
@@ -642,7 +472,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
             KualiDecimal credits = new KualiDecimal(0);
 
             // Document Number created
-            columns[0] = "Document Number";
+            columns[0] = "Document Number(s)";
             columns[1] = documentNumber;
             reportLine.add(columns.clone());
 
@@ -738,57 +568,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         return reportLine;
     }
 
-    /**
-     * This method counts the number of assets fully depreciated comparing the depreciation base amount with the accumulated
-     * depreciation amount
-     * 
-     * @return
-     */
-    private Integer getFullyDepreciatedAssetCount() {
-        LOG.debug("DepreciableAssetsDaoOjb.getFullyDepreciatedAssetCount() -  started");
-
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting the number of assets fully depreciated.");
-
-
-        List<String> assetTransferCode = new ArrayList<String>();
-        assetTransferCode.add(CamsConstants.AssetPayment.TRANSFER_PAYMENT_CODE_N);
-        assetTransferCode.add(" ");
-
-        Criteria criteria = new Criteria();
-        criteria.addIn(CamsPropertyConstants.AssetPayment.TRANSFER_PAYMENT_CODE, assetTransferCode);
-
-        ReportQueryByCriteria q = QueryFactory.newReportQuery(AssetPayment.class, criteria);
-        q.setAttributes(new String[] { PAYMENT_TO_ASSET_REFERENCE_DESCRIPTOR + CamsPropertyConstants.Asset.SALVAGE_AMOUNT, "SUM(" + CamsPropertyConstants.AssetPayment.PRIMARY_DEPRECIATION_BASE_AMOUNT + ")", "SUM(" + CamsPropertyConstants.AssetPayment.ACCUMULATED_DEPRECIATION_AMOUNT + ")" });
-        q.addGroupBy(CamsPropertyConstants.AssetPayment.CAPITAL_ASSET_NUMBER);
-        q.addGroupBy(PAYMENT_TO_ASSET_REFERENCE_DESCRIPTOR + CamsPropertyConstants.Asset.SALVAGE_AMOUNT);
-        Iterator<Object> i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
-
-        Object[] fieldValue;
-
-        Integer fullyDepreciatedCounter = 0;
-        while (i.hasNext()) {
-            fieldValue = (Object[]) i.next();
-
-            KualiDecimal salvageAmount = new KualiDecimal(0);
-            if (fieldValue[0] != null)
-                salvageAmount = (KualiDecimal) fieldValue[0];
-
-            KualiDecimal baseAmount = new KualiDecimal(0);
-            if (fieldValue[1] != null)
-                baseAmount = (KualiDecimal) fieldValue[1];
-
-            KualiDecimal accumulatedDepreciation = new KualiDecimal(0);
-            if (fieldValue[2] != null)
-                accumulatedDepreciation = (KualiDecimal) fieldValue[2];
-
-            if (baseAmount.subtract(salvageAmount).compareTo(accumulatedDepreciation) == 0) {
-                fullyDepreciatedCounter++;
-            }
-        }
-        LOG.debug("DepreciableAssetsDaoOjb.getFullyDepreciatedAssetCount() -  ended");
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting the number of assets fully depreciated.");
-        return fullyDepreciatedCounter;
-    }
 
     /**
      * This method the number of federally owned asset payments
@@ -798,7 +577,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @param depreciationDate
      * @return # of federally owned assets
      */
-    private int getFederallyOwnedAssetPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
+    protected int getFederallyOwnedAssetPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
         LOG.debug("DepreciableAssetsDaoOjb.getFederallyOwnedAssetPaymentCount() -  started");
 
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting the number of federally owned asset payments.");
@@ -822,7 +601,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @param fiscalYear
      * @return
      */
-    private Object getCOAsCount() {
+    protected Object getCOAsCount() {
         LOG.debug("DepreciableAssetsDaoOjb.getCOAsCount() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting the number of campus plant fund accounts.");
 
@@ -849,7 +628,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * 
      * @return
      */
-    private List<String> getFederallyOwnedObjectSubTypes() {
+    protected List<String> getFederallyOwnedObjectSubTypes() {
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "getting the federally owned object subtype codes.");
 
         List<String> federallyOwnedObjectSubTypes = new ArrayList<String>();
@@ -864,6 +643,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     /**
      * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao#getAssetObjectCodes(java.lang.Integer)
      */
+    @CacheNoCopy
     public Collection<AssetObjectCode> getAssetObjectCodes(Integer fiscalYear) {
         LOG.debug("DepreciableAssetsDAoOjb.getAssetObjectCodes() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting asset object codes.");
@@ -871,6 +651,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         Collection<AssetObjectCode> assetObjectCodesCollection;
         HashMap<String, Object> fields = new HashMap<String, Object>();
         fields.put(CamsPropertyConstants.AssetObject.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        fields.put(CamsPropertyConstants.AssetObject.ACTIVE, Boolean.TRUE);
         assetObjectCodesCollection = (Collection<AssetObjectCode>) businessObjectService.findMatching(AssetObjectCode.class, fields);
 
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting asset object codes - which are:" + assetObjectCodesCollection.toString());
@@ -884,7 +665,8 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @param fiscalYear
      * @return a List<String>
      */
-    private List<String> getExpenseObjectCodes(Integer fiscalYear) {
+    @CacheNoCopy
+    protected List<String> getExpenseObjectCodes(Integer fiscalYear) {
         LOG.debug("DepreciableAssetsDAoOjb.getExpenseObjectCodes() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting expense object codes");
 
@@ -912,7 +694,8 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @param fiscalYear
      * @return List<String>
      */
-    private List<String> getAccumulatedDepreciationObjectCodes(Integer fiscalYear) {
+    @CacheNoCopy
+    protected List<String> getAccumulatedDepreciationObjectCodes(Integer fiscalYear) {
         LOG.debug("DepreciableAssetsDAoOjb.getAccumulatedDepreciationObjectCodes() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting accum depreciation object codes");
 
@@ -940,7 +723,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @param fiscalYear
      * @return number of object codes found
      */
-    private Object getAssetObjectCodesCount(Integer fiscalYear) {
+    protected Object getAssetObjectCodesCount(Integer fiscalYear) {
         LOG.debug("DepreciableAssetsDAoOjb.getAssetObjectCodesCount() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting asset object code count.");
 
@@ -963,9 +746,9 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @param fieldValue
      * @return String
      */
-    private String convertCountValueToString(Object fieldValue) {
+    protected String convertCountValueToString(Object fieldValue) {
         if (fieldValue == null)
-            fieldValue = new BigDecimal(0);
+            return "0.0";
 
         if (fieldValue instanceof BigDecimal) {
             return ((BigDecimal) fieldValue).toString();
@@ -997,6 +780,24 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
     public void setUniversityDateDao(UniversityDateDao universityDateDao) {
         this.universityDateDao = universityDateDao;
+    }
+
+    /**
+     * Gets the depreciationBatchDao attribute.
+     * 
+     * @return Returns the depreciationBatchDao.
+     */
+    public DepreciationBatchDao getDepreciationBatchDao() {
+        return depreciationBatchDao;
+    }
+
+    /**
+     * Sets the depreciationBatchDao attribute value.
+     * 
+     * @param depreciationBatchDao The depreciationBatchDao to set.
+     */
+    public void setDepreciationBatchDao(DepreciationBatchDao depreciationBatchDao) {
+        this.depreciationBatchDao = depreciationBatchDao;
     }
 
 } // end of class

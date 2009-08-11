@@ -96,6 +96,9 @@
         <property name="depreciableAssetsDao">
             <ref bean="depreciableAssetsDao" />
         </property>
+        <property name="depreciationBatchDao">
+            <ref bean="depreciationBatchDao" />
+        </property>
         <property name="camsReportService">
             <ref bean="camsReportService" />
         </property>        
@@ -113,16 +116,13 @@
 		</property>
 		<property name="workflowDocumentService">
 			<ref bean="workflowDocumentService" />
-		</property>
-		<property name="homeOriginationService">
-			<ref bean="homeOriginationService" />
-		</property>
+		</property>		
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
-		</property>		
+		</property>				
     </bean>
 
 	<bean id="depreciableAssetsDao" parent="platformAwareDao" class="org.kuali.kfs.module.cam.document.dataaccess.impl.DepreciableAssetsDaoOjb">
@@ -143,7 +143,30 @@
       	</property>
 		<property name="universityDateDao">
 			<ref bean="universityDateDao" />
+		</property>
+		<property name="depreciationBatchDao">
+			<ref bean="depreciationBatchDao" />
 		</property>		                				                		
+	</bean>
+	<bean id="depreciationBatchDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.cam.document.dataaccess.impl.DepreciationBatchDaoJdbc">
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+        <property name="parameterService">
+            <ref bean="parameterService" />
+        </property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+        <property name="optionsService">
+            <ref bean="optionsService" />
+        </property>
+     	<property name="businessObjectService">
+            <ref bean="businessObjectService" />
+      	</property>
+		<property name="universityDateDao">
+			<ref bean="universityDateDao" />
+		</property>		
 	</bean>	
 
     <bean id="assetDepreciationStep" class="org.kuali.kfs.module.cam.batch.AssetDepreciationStep" parent="step">

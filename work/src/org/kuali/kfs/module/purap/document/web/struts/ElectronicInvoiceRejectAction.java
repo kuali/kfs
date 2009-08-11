@@ -22,58 +22,47 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
-import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.document.Document;
 
 /**
- * Struts Action for Credit Memo document.
+ * Struts Action for Electronic invoice document.
  */
 public class ElectronicInvoiceRejectAction extends FinancialSystemTransactionalDocumentActionBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceRejectAction.class);
-
+    
     public ActionForward startResearch(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
         ElectronicInvoiceRejectForm electronicInvoiceRejectForm = (ElectronicInvoiceRejectForm) form;
         ElectronicInvoiceRejectDocument eirDocument = (ElectronicInvoiceRejectDocument) electronicInvoiceRejectForm.getDocument();
         eirDocument.setInvoiceResearchIndicator(true);
 
-         Note noteObj = SpringContext.getBean(DocumentService.class).createNoteFromDocument(eirDocument, "Research started by: " + GlobalVariables.getUserSession().getPerson().getName());
-         //eirDocument.getDocumentHeader().addNote(noteObj);
-         PersistableBusinessObject noteParent = getNoteParent(eirDocument, noteObj);
-         noteParent.addNote(noteObj);
-         this.getNoteService().save(noteObj);
-
-//         if (SpringContext.getBean(DocumentService.class).addNoteToDocument(eirDocument, noteObj)) {
-//             SpringContext.getBean(NoteService.class).save(noteObj);
-//             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(eirDocument);
-//         }
-         getDocumentService().saveDocument(eirDocument);
+        Note noteObj = SpringContext.getBean(DocumentService.class).createNoteFromDocument(eirDocument, "Research started by: " + GlobalVariables.getUserSession().getPerson().getName());
+        PersistableBusinessObject noteParent = getNoteParent(eirDocument, noteObj);
+        noteParent.addNote(noteObj);
+        this.getNoteService().save(noteObj);
+        getDocumentService().saveDocument(eirDocument);
+         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward completeResearch(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
         ElectronicInvoiceRejectForm electronicInvoiceRejectForm = (ElectronicInvoiceRejectForm) form;
         ElectronicInvoiceRejectDocument eirDocument = (ElectronicInvoiceRejectDocument) electronicInvoiceRejectForm.getDocument();
         eirDocument.setInvoiceResearchIndicator(false);
 
         Note noteObj = SpringContext.getBean(DocumentService.class).createNoteFromDocument(eirDocument, "Research completed by: " + GlobalVariables.getUserSession().getPerson().getName());
-        //eirDocument.getDocumentHeader().addNote(noteObj);
         PersistableBusinessObject noteParent = getNoteParent(eirDocument, noteObj);
         noteParent.addNote(noteObj);
         this.getNoteService().save(noteObj);
-//        if (SpringContext.getBean(DocumentService.class).addNoteToDocument(eirDocument, noteObj)) {
-//            SpringContext.getBean(NoteService.class).save(noteObj);
-//            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(eirDocument);
-//        }
         getDocumentService().saveDocument(eirDocument);
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
     }

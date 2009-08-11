@@ -3363,3 +3363,8 @@ delete from krns_parm_t where nmspc_cd = 'KFS-GL' and parm_dtl_typ_cd = 'PurgeCo
 /
 delete from krns_parm_t where nmspc_cd = 'KFS-GL' and parm_dtl_typ_cd = 'ClearOldOriginEntryStep' and parm_nm = 'RETAIN_DAYS'
 /
+
+--KFSMI-4667
+insert into krim_role_perm_t(role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind)
+    values ('321',sys_guid(),1, '41','212','Y')
+/

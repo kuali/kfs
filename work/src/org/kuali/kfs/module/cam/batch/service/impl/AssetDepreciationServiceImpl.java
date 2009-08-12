@@ -33,6 +33,7 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.batch.AssetPaymentInfo;
@@ -49,6 +50,7 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -541,22 +543,25 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         return assetsBaseAmount;
     }
 
-    private ObjectCode getDepreciationObjectCode(Map<String, ObjectCode> capitalizationObjectCodes, AssetPaymentInfo assetPaymentInfo, String capitalizationFinancialObjectCode) {
+    /**
+     * Depreciation object code is returned from cache or from DB
+     * 
+     * @param capitalizationObjectCodes collection cache
+     * @param assetPaymentInfo
+     * @param capitalizationFinancialObjectCode
+     * @return
+     */
+    private ObjectCode getDepreciationObjectCode(Map<String, ObjectCode> capObjectCodesCache, AssetPaymentInfo assetPaymentInfo, String capitalizationFinancialObjectCode) {
         ObjectCode deprObjCode = null;
         String key = assetPaymentInfo.getChartOfAccountsCode() + "-" + capitalizationFinancialObjectCode;
-        if ((deprObjCode = capitalizationObjectCodes.get(key)) == null) {
-            Map<String, Object> primaryKeys = new HashMap<String, Object>();
-            primaryKeys.put("universityFiscalYear", fiscalYear);
-            primaryKeys.put("chartOfAccountsCode", assetPaymentInfo.getChartOfAccountsCode());
-            primaryKeys.put("financialObjectCode", capitalizationFinancialObjectCode);
-            deprObjCode = (ObjectCode) businessObjectService.findByPrimaryKey(ObjectCode.class, primaryKeys);
+        if ((deprObjCode = capObjectCodesCache.get(key)) == null) {
+            deprObjCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(fiscalYear, assetPaymentInfo.getChartOfAccountsCode(), capitalizationFinancialObjectCode);
             if (ObjectUtils.isNotNull(deprObjCode)) {
-                capitalizationObjectCodes.put(key, deprObjCode);
+                capObjectCodesCache.put(key, deprObjCode);
             }
         }
         return deprObjCode;
     }
-
 
     protected Map<String, AssetObjectCode> buildChartObjectToCapitalizationObjectMap() {
         Map<String, AssetObjectCode> assetObjectCodeMap = new HashMap<String, AssetObjectCode>();

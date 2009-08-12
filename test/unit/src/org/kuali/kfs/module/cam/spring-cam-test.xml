@@ -21,5 +21,8 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean id="assetDepreciationUtilDao" parent="platformAwareDao" class="org.kuali.kfs.module.cam.document.dataaccess.impl.AssetDepreciationUtilDaoOjb" />
+    <bean id="mockDepreciationBatchDao" class="org.kuali.kfs.module.cam.document.dataaccess.impl.MockDepreciationBatchDao">
+    	<property name="impl" ref="depreciationBatchDao" ></property>
+    </bean>
     
 </beans>

@@ -92,8 +92,6 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
                 pstmt.setLong(3, assetPayments.get(index).getCapitalAssetNumber());
                 pstmt.setInt(4, assetPayments.get(index).getPaymentSequenceNumber());
             }
-
-
         });
     }
 

@@ -269,7 +269,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao#generateStatistics(boolean, java.lang.String,
      *      java.lang.Integer, java.lang.Integer, java.util.Calendar)
      */
-    public List<String[]> generateStatistics(boolean beforeDepreciationReport, String documentNumber, Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
+    public List<String[]> generateStatistics(boolean beforeDepreciationReport, List<String> documentNumbers, Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
         LOG.debug("generateStatistics() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "generating statistics for report - " + (beforeDepreciationReport ? "Before part." : "After part"));
 
@@ -473,7 +473,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
             // Document Number created
             columns[0] = "Document Number(s)";
-            columns[1] = documentNumber;
+            columns[1] = documentNumbers.toString();
             reportLine.add(columns.clone());
 
             // Expense Debit
@@ -481,7 +481,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
             criteria = new Criteria();
             criteria.addIn(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, depreExpObjCodes);
             criteria.addEqualTo(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE, KFSConstants.GL_DEBIT_CODE);
-            criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+            criteria.addIn(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumbers);
 
             q = QueryFactory.newReportQuery(GeneralLedgerPendingEntry.class, criteria);
             q.setAttributes(new String[] { "SUM(" + KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
@@ -499,7 +499,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
             criteria = new Criteria();
             criteria.addIn(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, accumulatedDepreciationObjCodes);
             criteria.addEqualTo(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE, KFSConstants.GL_CREDIT_CODE);
-            criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+            criteria.addIn(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumbers);
 
             q = QueryFactory.newReportQuery(GeneralLedgerPendingEntry.class, criteria);
             q.setAttributes(new String[] { "SUM(" + KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
@@ -517,7 +517,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
             criteria = new Criteria();
             criteria.addIn(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, accumulatedDepreciationObjCodes);
             criteria.addEqualTo(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE, KFSConstants.GL_DEBIT_CODE);
-            criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+            criteria.addIn(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumbers);
 
             q = QueryFactory.newReportQuery(GeneralLedgerPendingEntry.class, criteria);
             q.setAttributes(new String[] { "SUM(" + KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
@@ -534,7 +534,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
             criteria = new Criteria();
             criteria.addIn(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, depreExpObjCodes);
             criteria.addEqualTo(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE, KFSConstants.GL_CREDIT_CODE);
-            criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+            criteria.addIn(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumbers);
 
             q = QueryFactory.newReportQuery(GeneralLedgerPendingEntry.class, criteria);
             q.setAttributes(new String[] { "SUM(" + KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });

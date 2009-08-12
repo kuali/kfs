@@ -26,13 +26,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
-//@Transactional
+// @Transactional
 
-public enum AssetDepreciationServiceFixture{
+public enum AssetDepreciationServiceFixture {
 
     DATA();
-    private BusinessObjectService businessObjectService;    
-    private UnitTestSqlDao unitTestSqlDao;    
+    private BusinessObjectService businessObjectService;
 
     private int testDataPos;
     private static Properties properties;
@@ -47,32 +46,31 @@ public enum AssetDepreciationServiceFixture{
         }
     }
 
-    static String TEST_RECORD="testRecord";
-    static String ASSET="asset";
-    static String ASSET_PAYMENT="assetPayment";
-    static String DEPRECIATION_DATE="depreciationDate";
-    static String FIELD_NAMES="fieldNames";
-    static String NUM_OF_REC="numOfRecords";
-    static String DELIMINATOR="deliminator";
-    static String RESULT="result";
-    
-    private AssetDepreciationServiceFixture() {  
-        businessObjectService = SpringContext.getBean(BusinessObjectService.class);        
-        unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
+    static String TEST_RECORD = "testRecord";
+    static String ASSET = "asset";
+    static String ASSET_PAYMENT = "assetPayment";
+    static String DEPRECIATION_DATE = "depreciationDate";
+    static String FIELD_NAMES = "fieldNames";
+    static String NUM_OF_REC = "numOfRecords";
+    static String DELIMINATOR = "deliminator";
+    static String RESULT = "result";
+
+    private AssetDepreciationServiceFixture() {
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
     }
 
     @SuppressWarnings("deprecation")
     public List<Asset> getAssets() {
-        Integer numOfRecords = new Integer(properties.getProperty(ASSET+"."+NUM_OF_REC));                        
+        Integer numOfRecords = new Integer(properties.getProperty(ASSET + "." + NUM_OF_REC));
         List<Asset> assets = new ArrayList<Asset>();
 
         String deliminator = properties.getProperty(DELIMINATOR);
-        String fieldNames = properties.getProperty(ASSET+"."+FIELD_NAMES);
+        String fieldNames = properties.getProperty(ASSET + "." + FIELD_NAMES);
 
-        for(int i=1;i<=numOfRecords.intValue();i++) {
-            String propertyKey = ASSET+"."+TEST_RECORD + i;
+        for (int i = 1; i <= numOfRecords.intValue(); i++) {
+            String propertyKey = ASSET + "." + TEST_RECORD + i;
 
-            Asset asset = CamsFixture.DATA_POPULATOR.buildTestDataObject(Asset.class, properties, propertyKey, fieldNames, deliminator);            
+            Asset asset = CamsFixture.DATA_POPULATOR.buildTestDataObject(Asset.class, properties, propertyKey, fieldNames, deliminator);
             assets.add(asset);
         }
         return assets;
@@ -80,41 +78,41 @@ public enum AssetDepreciationServiceFixture{
 
     @SuppressWarnings("deprecation")
     public String getDepreciationDate() {
-        return properties.getProperty(DEPRECIATION_DATE);                        
+        return properties.getProperty(DEPRECIATION_DATE);
     }
 
     @SuppressWarnings("deprecation")
     public List<AssetPayment> getAssetPaymentsFromPropertiesFile() {
-        Integer numOfRecords = new Integer(properties.getProperty(ASSET_PAYMENT+"."+NUM_OF_REC));                        
+        Integer numOfRecords = new Integer(properties.getProperty(ASSET_PAYMENT + "." + NUM_OF_REC));
         List<AssetPayment> assetPayments = new ArrayList<AssetPayment>();
 
         String deliminator = properties.getProperty(DELIMINATOR);
-        String fieldNames = properties.getProperty(ASSET_PAYMENT+"."+FIELD_NAMES);
+        String fieldNames = properties.getProperty(ASSET_PAYMENT + "." + FIELD_NAMES);
 
-        for(int i=1;i<=numOfRecords.intValue();i++) {
-            String propertyKey = ASSET_PAYMENT+"."+TEST_RECORD + i;
+        for (int i = 1; i <= numOfRecords.intValue(); i++) {
+            String propertyKey = ASSET_PAYMENT + "." + TEST_RECORD + i;
 
-            AssetPayment assetPayment = CamsFixture.DATA_POPULATOR.buildTestDataObject(AssetPayment.class, properties, propertyKey, fieldNames, deliminator);            
+            AssetPayment assetPayment = CamsFixture.DATA_POPULATOR.buildTestDataObject(AssetPayment.class, properties, propertyKey, fieldNames, deliminator);
             assetPayments.add(assetPayment);
         }
         return assetPayments;
-    }                  
+    }
 
     @SuppressWarnings("deprecation")
     public List<AssetPayment> getResultsFromPropertiesFile() {
-        Integer numOfRecords = new Integer(properties.getProperty(RESULT+"."+NUM_OF_REC));                        
+        Integer numOfRecords = new Integer(properties.getProperty(RESULT + "." + NUM_OF_REC));
         List<AssetPayment> assetPayments = new ArrayList<AssetPayment>();
 
         String deliminator = properties.getProperty(DELIMINATOR);
-        String fieldNames = properties.getProperty(RESULT+"."+FIELD_NAMES);
+        String fieldNames = properties.getProperty(RESULT + "." + FIELD_NAMES);
 
-        for(int i=1;i<=numOfRecords.intValue();i++) {
-            String propertyKey = RESULT+"."+TEST_RECORD + i;
+        for (int i = 1; i <= numOfRecords.intValue(); i++) {
+            String propertyKey = RESULT + "." + TEST_RECORD + i;
 
-            AssetPayment assetPayment = CamsFixture.DATA_POPULATOR.buildTestDataObject(AssetPayment.class, properties, propertyKey, fieldNames, deliminator);            
+            AssetPayment assetPayment = CamsFixture.DATA_POPULATOR.buildTestDataObject(AssetPayment.class, properties, propertyKey, fieldNames, deliminator);
             assetPayments.add(assetPayment);
         }
         return assetPayments;
-    }                  
+    }
 
 }

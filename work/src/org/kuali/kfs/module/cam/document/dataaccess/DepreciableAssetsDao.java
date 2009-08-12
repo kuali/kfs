@@ -34,7 +34,7 @@ public interface DepreciableAssetsDao {
      * @param depreciationDate depreciation date that will be print out
      * @return
      */
-    public List<String[]> generateStatistics(boolean beforeDepreciationReport, String documentNumber, Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate);
+    public List<String[]> generateStatistics(boolean beforeDepreciationReport, List<String> documentNumbers, Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate);
 
 
     /**

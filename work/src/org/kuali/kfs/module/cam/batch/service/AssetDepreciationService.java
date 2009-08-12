@@ -15,11 +15,19 @@
  */
 package org.kuali.kfs.module.cam.batch.service;
 
+import org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao;
+
 public interface AssetDepreciationService {
     /**
-     * 
      * This method runs depreciation process
      */
     public void runDepreciation();
-    
+
+    /**
+     * Sets depreciation batch dao implementation
+     * 
+     * @param depreciationBatchDao
+     */
+    public void setDepreciationBatchDao(DepreciationBatchDao depreciationBatchDao);
+
 }

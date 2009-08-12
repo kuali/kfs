@@ -44,7 +44,6 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
         editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TAX_ENTRY);
         editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.FRN_ENTRY);
         editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.WIRE_ENTRY);
-        editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.ADMIN_ENTRY);
 
         addFullEntryEntryMode(document, editModes);
         addPayeeEditEntryMode(document, editModes);
@@ -89,7 +88,7 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYMENT_HANDLING_ENTRY);
         }
         final List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
-        if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.ACCOUNT) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.CAMPUS) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.TRAVEL)) {
+        if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.ACCOUNT) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.CAMPUS) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.TRAVEL) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.TAX)) {
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYMENT_HANDLING_ENTRY);
         }
     }
@@ -106,7 +105,7 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.VOUCHER_DEADLINE_ENTRY);
         }
         final List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
-        if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.ACCOUNT) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.CAMPUS)) {
+        if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.ACCOUNT) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.CAMPUS) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.TAX)) {
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.VOUCHER_DEADLINE_ENTRY);
         }
     }
@@ -120,7 +119,7 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
         final KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         
         final List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
-        if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.ACCOUNT)) { // FO? Then only allow this if we're going to route to travel node anyway
+        if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.ACCOUNT) || currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.TAX)) { // FO or tax manager? Then only allow this if we're going to route to travel node anyway
             if (((DisbursementVoucherDocument)document).isTravelReviewRequired()) {
                 editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TRAVEL_ENTRY);
             }

@@ -120,7 +120,6 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
         candidateEdiModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.FRN_ENTRY);
         candidateEdiModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TRAVEL_ENTRY);
         candidateEdiModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.WIRE_ENTRY);
-        candidateEdiModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.ADMIN_ENTRY);
 
         return candidateEdiModes;
     }

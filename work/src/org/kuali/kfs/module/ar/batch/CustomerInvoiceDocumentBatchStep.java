@@ -72,6 +72,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
     // parameter constants and logging
     private static final int NUMBER_OF_INVOICES_TO_CREATE = 5;
     private static final String RUN_INDICATOR_PARAMETER_NAMESPACE_CODE = "KFS-AR";
+    private static final String RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE = "KUALI";
     private static final String RUN_INDICATOR_PARAMETER_NAMESPACE_STEP = "CustomerInvoiceDocumentBatchStep";
     private static final String RUN_INDICATOR_PARAMETER_VALUE = "N"; // Tells the job framework whether to run this job or not; set to NO because the CustomerInvoiceDocumentBatchStep needs to only be run once after database initialization.
     private static final String RUN_INDICATOR_PARAMETER_ALLOWED = "A";
@@ -192,6 +193,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
            runIndicatorParameter.setParameterDescription(RUN_INDICATOR_PARAMETER_DESCRIPTION);
            runIndicatorParameter.setParameterConstraintCode(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_ALLOWED);
            runIndicatorParameter.setParameterTypeCode(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_TYPE);
+           runIndicatorParameter.setParameterApplicationNamespaceCode(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE);
         }
         runIndicatorParameter.setParameterValue(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_VALUE);
         businessObjectService.save(runIndicatorParameter);

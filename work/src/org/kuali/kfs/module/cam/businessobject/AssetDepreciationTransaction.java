@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class AssetDepreciationTransaction extends TransientBusinessObjectBase implements Cloneable {
+public class AssetDepreciationTransaction extends TransientBusinessObjectBase {
     private Long capitalAssetNumber;
     private String documentNumber;
     private String chartOfAccountsCode;
@@ -33,35 +33,26 @@ public class AssetDepreciationTransaction extends TransientBusinessObjectBase im
     private String projectCode;
     private KualiDecimal transactionAmount;
     private String transactionLedgerEntryDescription;
-    
+
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransientBusinessObjectBase.class);
-    
-    public Object clone()  {
-        try
-        {
-            return (AssetDepreciationTransaction)super.clone();
-        }
-        catch (CloneNotSupportedException e)
-        {
-            throw new InternalError(e.toString());
-        }
-    }
-    
+
+
     public AssetDepreciationTransaction() {
         super();
     }
+
     @Override
-    protected LinkedHashMap<String,Object> toStringMapper() {
-        LinkedHashMap<String,Object> m = new LinkedHashMap<String,Object>();
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        LinkedHashMap<String, Object> m = new LinkedHashMap<String, Object>();
         m.put("AssetNumber", this.capitalAssetNumber);
-        m.put("accountNumber",this.accountNumber);
-        m.put("subAccountNumber",this.subAccountNumber);
-        m.put("financialObjectCode",this.financialObjectCode);
-        m.put("financialSubObjectCode",this.financialSubObjectCode);
-        m.put("financialObjectTypeCode",this.financialObjectTypeCode);
+        m.put("accountNumber", this.accountNumber);
+        m.put("subAccountNumber", this.subAccountNumber);
+        m.put("financialObjectCode", this.financialObjectCode);
+        m.put("financialSubObjectCode", this.financialSubObjectCode);
+        m.put("financialObjectTypeCode", this.financialObjectTypeCode);
         m.put(" projectCode", this.projectCode);
-        m.put("transactionType",this.transactionType);
-        m.put("transactionAmount",this.transactionAmount);
+        m.put("transactionType", this.transactionType);
+        m.put("transactionAmount", this.transactionAmount);
         return m;
     }
 
@@ -173,12 +164,10 @@ public class AssetDepreciationTransaction extends TransientBusinessObjectBase im
     public void setTransactionAmount(KualiDecimal transactionAmount) {
         this.transactionAmount = transactionAmount;
     }
-    
+
     public String getKey() {
-        return (this.getCapitalAssetNumber().toString()+this.getChartOfAccountsCode()+
-        this.getAccountNumber()+this.getSubAccountNumber()+this.getFinancialObjectCode()+this.getFinancialSubObjectCode()+this.getFinancialObjectTypeCode()+
-        this.getProjectCode()+this.getTransactionType());
-        
+        return (this.getCapitalAssetNumber().toString() + this.getChartOfAccountsCode() + this.getAccountNumber() + this.getSubAccountNumber() + this.getFinancialObjectCode() + this.getFinancialSubObjectCode() + this.getFinancialObjectTypeCode() + this.getProjectCode() + this.getTransactionType());
+
     }
 
     public String getTransactionLedgerEntryDescription() {
@@ -188,5 +177,5 @@ public class AssetDepreciationTransaction extends TransientBusinessObjectBase im
     public void setTransactionLedgerEntryDescription(String transactionLedgerEntryDescription) {
         this.transactionLedgerEntryDescription = transactionLedgerEntryDescription;
     }
-    
+
 }

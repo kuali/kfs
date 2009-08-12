@@ -42,7 +42,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-@ConfigureContext(session = UserNameFixture.kfs)
+@ConfigureContext(session = UserNameFixture.kfs, shouldCommitTransactions = false)
 public class AssetDepreciationServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetDepreciationServiceTest.class);
 

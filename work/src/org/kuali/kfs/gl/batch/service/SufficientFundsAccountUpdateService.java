@@ -19,7 +19,7 @@ package org.kuali.kfs.gl.batch.service;
 /**
  * An interface declaring a method that runs the sufficient funds rebuilder process.
  */
-public interface SufficientFundsRebuilderService {
+public interface SufficientFundsAccountUpdateService {
 
     /**
      * Rebuilds all necessary sufficient funds balances.

@@ -15,15 +15,15 @@
  */
 package org.kuali.kfs.gl.batch;
 
-import org.kuali.kfs.gl.batch.service.SufficientFundsRebuilderService;
+import org.kuali.kfs.gl.batch.service.SufficientFundsAccountUpdateService;
 import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
 import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
 /**
  * A step to run the process that rebuilds information that supports sufficient funds inquiries
  */
-public class SufficientFundsRebuilderStep extends AbstractWrappedBatchStep {
-    private SufficientFundsRebuilderService sufficientFundsRebuilderService;
+public class SufficientFundsAccountUpdateStep extends AbstractWrappedBatchStep {
+    private SufficientFundsAccountUpdateService sufficientFundsAccountUpdateService;
 
     /**
      * Return a proper batch executor
@@ -39,7 +39,7 @@ public class SufficientFundsRebuilderStep extends AbstractWrappedBatchStep {
              * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String)
              */
             public boolean execute() {
-                sufficientFundsRebuilderService.rebuildSufficientFunds();
+                sufficientFundsAccountUpdateService.rebuildSufficientFunds();
                 return true;
             }
         };
@@ -47,12 +47,12 @@ public class SufficientFundsRebuilderStep extends AbstractWrappedBatchStep {
 
 
     /**
-     * Sets the sufficientFundsRebuilderService, allowing the injection of an implementation of that service
+     * Sets the sufficientFundsAccountUpdateService, allowing the injection of an implementation of that service
      * 
-     * @param sufficientFundsRebuilderService an implementation sufficientFundsRebuilderService to set
-     * @see org.kuali.kfs.gl.batch.service.SufficientFundsRebuilderService
+     * @param sufficientFundsAccountUpdateService an implementation sufficientFundsAccountUpdateService to set
+     * @see org.kuali.kfs.gl.batch.service.SufficientFundsAccountUpdateService
      */
-    public void setSufficientFundsRebuilderService(SufficientFundsRebuilderService sfrs) {
-        sufficientFundsRebuilderService = sfrs;
+    public void setSufficientFundsAccountUpdateService(SufficientFundsAccountUpdateService sfrs) {
+        sufficientFundsAccountUpdateService = sfrs;
     }
 }

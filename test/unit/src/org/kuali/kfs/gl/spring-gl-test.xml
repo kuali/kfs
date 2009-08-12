@@ -165,7 +165,7 @@
         
     <bean id="mockReportWriterService" class="org.kuali.kfs.gl.service.impl.MockReportWriterService" />
     
-    <bean id="glSufficientFundsRebuilderService" class="org.kuali.kfs.gl.batch.service.impl.SufficientFundsRebuilderServiceImpl">
+    <bean id="glSufficientFundsAccountUpdateService" class="org.kuali.kfs.gl.batch.service.impl.SufficientFundsAccountUpdateServiceImpl">
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>

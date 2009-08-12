@@ -28,7 +28,7 @@ import org.kuali.kfs.gl.batch.service.CollectorServiceTest;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryTest;
 import org.kuali.kfs.gl.batch.service.PosterServiceTest;
 import org.kuali.kfs.gl.batch.service.RunDateServiceTest;
-import org.kuali.kfs.gl.batch.service.SufficientFundsRebuilderServiceTest;
+import org.kuali.kfs.gl.batch.service.SufficientFundsAccountUpdateServiceTest;
 import org.kuali.kfs.gl.businessobject.OriginEntryTest;
 import org.kuali.kfs.gl.businessobject.lookup.AccountBalanceLookupableHelperServiceTest;
 import org.kuali.kfs.gl.businessobject.lookup.BalanceLookupableHelperServiceTest;
@@ -89,7 +89,7 @@ public class AllTests {
         suite.addTestSuite(RunDateServiceTest.class);
         suite.addTestSuite(ScrubberFlexibleOffsetTest.class);
         suite.addTestSuite(ScrubberServiceTest.class);
-        suite.addTestSuite(SufficientFundsRebuilderServiceTest.class);
+        suite.addTestSuite(SufficientFundsAccountUpdateServiceTest.class);
         suite.addTestSuite(SufficientFundsServiceTest.class);
 
         // org.kuali.module.gl.service.impl.orgreversion

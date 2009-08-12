@@ -20,7 +20,7 @@ package org.kuali.kfs.gl.batch.service;
  * that this service is only run under unusual circumstances; most of the time, simply saving object codes and
  * accounts will save the records that this service would, in general, generate
  */
-public interface SufficientFundsSyncService {
+public interface SufficientFundsFullRebuildService {
     /**
      * Makes certain that sufficient fund balances will be rebuilt for all accounts and object codes
      */

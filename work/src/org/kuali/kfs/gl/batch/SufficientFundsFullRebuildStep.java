@@ -17,7 +17,7 @@ package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.gl.batch.service.SufficientFundsSyncService;
+import org.kuali.kfs.gl.batch.service.SufficientFundsFullRebuildService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.TestingStep;
 
@@ -26,9 +26,9 @@ import org.kuali.kfs.sys.batch.TestingStep;
  * as Account, Chart, and Object Code records, when saved, will populate the sufficient funds tables, making this task redundant.
  * However, if that information has not been built, this job will generate that information.
  */
-public class SufficientFundsSyncStep extends AbstractStep implements TestingStep {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsSyncStep.class);
-    private SufficientFundsSyncService sufficientFundsSyncService;
+public class SufficientFundsFullRebuildStep extends AbstractStep implements TestingStep {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsFullRebuildStep.class);
+    private SufficientFundsFullRebuildService sufficientFundsFullRebuildService;
 
     /**
      * Runs the sufficient funds sync service.
@@ -39,17 +39,17 @@ public class SufficientFundsSyncStep extends AbstractStep implements TestingStep
      * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) {
-        sufficientFundsSyncService.syncSufficientFunds();
+        sufficientFundsFullRebuildService.syncSufficientFunds();
         return true;
     }
 
     /**
-     * Sets the sufficientFundsSyncService, allowing the injection of an implementation of that service
+     * Sets the sufficientFundsFullRebuildService, allowing the injection of an implementation of that service
      * 
-     * @param sufficientFundsSyncService an implementation sufficientFundsSyncService to set
-     * @see org.kuali.kfs.gl.batch.service.SufficientFundsSyncService
+     * @param sufficientFundsFullRebuildService an implementation sufficientFundsFullRebuildService to set
+     * @see org.kuali.kfs.gl.batch.service.SufficientFundsFullRebuildService
      */
-    public void setSufficientFundsSyncService(SufficientFundsSyncService sfss) {
-        sufficientFundsSyncService = sfss;
+    public void setSufficientFundsFullRebuildService(SufficientFundsFullRebuildService sfss) {
+        sufficientFundsFullRebuildService = sfss;
     }
 }

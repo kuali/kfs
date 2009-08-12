@@ -33,13 +33,13 @@ import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.Guid;
 
 /**
- * Tests the SufficientFundsRebuilderService
+ * Tests the SufficientFundsAccountUpdateService
  */
 @ConfigureContext
-public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsRebuilderServiceTest.class);
+public class SufficientFundsAccountUpdateServiceTest extends KualiTestBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsAccountUpdateServiceTest.class);
 
-    private SufficientFundsRebuilderService sufficientFundsRebuilderService = null;
+    private SufficientFundsAccountUpdateService sufficientFundsAccountUpdateService = null;
     private SufficientFundRebuildDao sufficientFundRebuildDao = null;
     private SufficientFundBalancesDao sufficientFundBalancesDao = null;
     protected PersistenceService persistenceService;
@@ -55,7 +55,7 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
         super.setUp();
         LOG.debug("setUp() started");
 
-        sufficientFundsRebuilderService = SpringContext.getBean(SufficientFundsRebuilderService.class);
+        sufficientFundsAccountUpdateService = SpringContext.getBean(SufficientFundsAccountUpdateService.class);
         sufficientFundRebuildDao = SpringContext.getBean(SufficientFundRebuildDao.class);
         sufficientFundBalancesDao = SpringContext.getBean(SufficientFundBalancesDao.class);
         persistenceService = SpringContext.getBean(PersistenceService.class);
@@ -79,7 +79,7 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
         populateGLSFRebuildTableForConversion();
         populateGLSFBalanceTableForConversion();
         prepareGLBalancesTable();
-        sufficientFundsRebuilderService.rebuildSufficientFunds();
+        sufficientFundsAccountUpdateService.rebuildSufficientFunds();
         assertSFRBEmpty();
         assertSFBLEntries(expectedOutput);
     }
@@ -98,7 +98,7 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
         clearSufficientFundRebuildTable();
         populateGLSFRebuildTable();
         prepareGLBalancesTable();
-        sufficientFundsRebuilderService.rebuildSufficientFunds();
+        sufficientFundsAccountUpdateService.rebuildSufficientFunds();
         assertSFRBEmpty();
         assertSFBLEntries(expectedOutput);
     }

@@ -53,13 +53,13 @@
 				<value>scrubberJob</value>
 				<value>posterJob</value>
 				<value>posterBalancingJob</value>
-				<value>sufficientFundsJob</value>
+				<value>sufficientFundsAccountUpdateJob</value>
 				<value>encumbranceForwardJob</value>
 				<value>balanceForwardJob</value>
 				<value>nominalActivityClosingJob</value>
 				<value>organizationReversionPriorYearAccountJob</value>
 				<value>organizationReversionCurrentYearAccountJob</value>
-				<value>sufficientFundsSyncJob</value>
+				<value>sufficientFundsFullRebuildJob</value>
 				<value>manualPurgeJob</value>
 				<value>posterBalancingHistorySyncJob</value>
 			</list>
@@ -693,8 +693,7 @@
 		</property>
 	</bean>
 
-	<bean id="glSufficientFundsSyncService" class="org.kuali.kfs.gl.batch.service.impl.SufficientFundsSyncServiceImpl">
-		
+	<bean id="glSufficientFundsFullRebuildService" class="org.kuali.kfs.gl.batch.service.impl.SufficientFundsFullRebuildServiceImpl">
 		<property name="sufficientFundRebuildDao">
 			<ref bean="glSufficientFundRebuildDao" />
 		</property>
@@ -711,7 +710,7 @@
         </property>
     </bean>
 
-	<bean id="glSufficientFundsRebuilderService" class="org.kuali.kfs.gl.batch.service.impl.SufficientFundsRebuilderServiceImpl">
+	<bean id="glSufficientFundsAccountUpdateService" class="org.kuali.kfs.gl.batch.service.impl.SufficientFundsAccountUpdateServiceImpl">
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
@@ -1385,10 +1384,10 @@
 	</bean>
 	
 	
-	<bean id="sufficientFundsJob" parent="scheduledJobDescriptor">
+	<bean id="sufficientFundsAccountUpdateJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="sufficientFundsRebuilderStep" />
+				<ref bean="sufficientFundsAccountUpdateStep" />
 			</list>
 		</property>
 		<property name="dependencies">
@@ -1398,10 +1397,10 @@
 		</property>
 	</bean>
 	
-	<bean id="sufficientFundsSyncJob" parent="unscheduledJobDescriptor">
+	<bean id="sufficientFundsFullRebuildJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="sufficientFundsSyncStep" />
+				<ref bean="sufficientFundsFullRebuildStep" />
 			</list>
 		</property>
 	</bean>
@@ -1565,14 +1564,14 @@
 		</property>
 	</bean>
 
-	<bean id="sufficientFundsRebuilderStep" class="org.kuali.kfs.gl.batch.SufficientFundsRebuilderStep" parent="wrappedStep">
+	<bean id="sufficientFundsAccountUpdateStep" class="org.kuali.kfs.gl.batch.SufficientFundsAccountUpdateStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="sufficientFundRebuildReportWriterService" />
 			</list>
 		</property>
-		<property name="sufficientFundsRebuilderService">
-			<ref bean="glSufficientFundsRebuilderService" />
+		<property name="sufficientFundsAccountUpdateService">
+			<ref bean="glSufficientFundsAccountUpdateService" />
 		</property>
 	</bean>
 	
@@ -1988,9 +1987,9 @@
 		</property>
 	</bean>
 
-	<bean id="sufficientFundsSyncStep" class="org.kuali.kfs.gl.batch.SufficientFundsSyncStep" parent="step">
-		<property name="sufficientFundsSyncService">
-			<ref bean="glSufficientFundsSyncService" />
+	<bean id="sufficientFundsFullRebuildStep" class="org.kuali.kfs.gl.batch.SufficientFundsFullRebuildStep" parent="step">
+		<property name="sufficientFundsFullRebuildService">
+			<ref bean="glSufficientFundsFullRebuildService" />
 		</property>
 	</bean>
 

@@ -19,24 +19,24 @@ import java.util.Iterator;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.gl.batch.service.SufficientFundsSyncService;
+import org.kuali.kfs.gl.batch.service.SufficientFundsFullRebuildService;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.gl.dataaccess.SufficientFundRebuildDao;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * The base implementation of SufficientFundsSyncService
+ * The base implementation of SufficientFundsFullRebuildService
  */
 @Transactional
-public class SufficientFundsSyncServiceImpl implements SufficientFundsSyncService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsSyncServiceImpl.class);
+public class SufficientFundsFullRebuildServiceImpl implements SufficientFundsFullRebuildService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsFullRebuildServiceImpl.class);
 
   //  private AccountService accountService;
     private SufficientFundRebuildDao sufficientFundRebuildDao;
 
     /**
      * Goes through all accounts in the database, and generates a sufficient fund rebuild record for each one!
-     * @see org.kuali.kfs.gl.batch.service.SufficientFundsSyncService#syncSufficientFunds()
+     * @see org.kuali.kfs.gl.batch.service.SufficientFundsFullRebuildService#syncSufficientFunds()
      */
     public void syncSufficientFunds() {
         LOG.debug("syncSufficientFunds() started");

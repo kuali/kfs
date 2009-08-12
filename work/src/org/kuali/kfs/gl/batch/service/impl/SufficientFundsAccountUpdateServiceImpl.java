@@ -26,7 +26,7 @@ import java.util.Map;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.batch.service.SufficientFundsRebuilderService;
+import org.kuali.kfs.gl.batch.service.SufficientFundsAccountUpdateService;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
@@ -51,11 +51,11 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * The default implementation of SufficientFundsRebuilderService
+ * The default implementation of SufficientFundsAccountUpdateService
  */
 @Transactional
-public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebuilderService {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsRebuilderServiceImpl.class);
+public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsAccountUpdateService {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsAccountUpdateServiceImpl.class);
 
     private DateTimeService dateTimeService;
     private KualiConfigurationService kualiConfigurationService;
@@ -89,9 +89,9 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     private SufficientFundBalances currentSfbl = null;
 
     /**
-     * Constructs a SufficientFundsRebuilderServiceImpl instance
+     * Constructs a SufficientFundsAccountUpdateServiceImpl instance
      */
-    public SufficientFundsRebuilderServiceImpl() {
+    public SufficientFundsAccountUpdateServiceImpl() {
         super();
     }
 
@@ -107,7 +107,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
 
     /**
      * Rebuilds all necessary sufficient funds balances.
-     * @see org.kuali.kfs.gl.batch.service.SufficientFundsRebuilderService#rebuildSufficientFunds()
+     * @see org.kuali.kfs.gl.batch.service.SufficientFundsAccountUpdateService#rebuildSufficientFunds()
      */
     public void rebuildSufficientFunds() { // driver
         LOG.debug("rebuildSufficientFunds() started");

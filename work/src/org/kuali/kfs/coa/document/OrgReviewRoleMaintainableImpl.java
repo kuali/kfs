@@ -178,7 +178,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
             }
             //orr.setReviewRolesIndicator(orr.getReviewRolesIndicator());
         }
-        //super.setBusinessObject(orr);
+        super.setBusinessObject(orr);
     }
     
     public List<RoleResponsibilityActionInfo> getRoleRspActions(String roleMemberId){
@@ -383,7 +383,8 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                     List<RoleResponsibilityActionInfo> roleRspActionsToSave = getRoleRspActions(orr, roleMember);
                     if(roleRspActionsToSave!=null){
                         for(RoleResponsibilityActionInfo rspActionInfo: roleRspActionsToSave){
-                            getRoleManagementService().saveRoleRspActions(roleMember.getRoleId(), 
+                            getRoleManagementService().saveRoleRspActions(
+                                    rspActionInfo.getRoleResponsibilityActionId(), roleMember.getRoleId(), 
                                     rspActionInfo.getRoleResponsibilityId(), savedObject.getRoleMemberId(), 
                                     rspActionInfo.getActionTypeCode(), rspActionInfo.getActionPolicyCode(), 
                                     rspActionInfo.getPriorityNumber(), new Boolean(rspActionInfo.isForceAction()));

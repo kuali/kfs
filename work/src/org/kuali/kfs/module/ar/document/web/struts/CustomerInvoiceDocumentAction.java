@@ -373,12 +373,42 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
     public ActionForward refreshBillToAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CustomerInvoiceDocument customerInvoiceDocument = ((CustomerInvoiceDocumentForm) form).getCustomerInvoiceDocument();
-        CustomerAddress customerBillToAddress = SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomerNumber());
+        
+        CustomerAddress customerBillToAddress = null;
+        if (ObjectUtils.isNotNull(customerInvoiceDocument.getCustomerBillToAddressIdentifier())) {
+            int customerBillToAddressIdentifier = customerInvoiceDocument.getCustomerBillToAddressIdentifier();
+           
+            customerBillToAddress = SpringContext.getBean(CustomerAddressService.class).getByPrimaryKey(customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomerNumber(), customerBillToAddressIdentifier);
+            if (ObjectUtils.isNotNull(customerBillToAddress)) {
+                customerInvoiceDocument.setCustomerBillToAddress(customerBillToAddress);
+                customerInvoiceDocument.setCustomerBillToAddressOnInvoice(customerBillToAddress);
+                customerInvoiceDocument.setCustomerBillToAddressIdentifier(customerBillToAddressIdentifier);
+            } else {
+                customerBillToAddress = SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomerNumber());
 
-        if (ObjectUtils.isNotNull(customerBillToAddress)) {
-            customerInvoiceDocument.setCustomerBillToAddress(customerBillToAddress);
-            customerInvoiceDocument.setCustomerBillToAddressOnInvoice(customerBillToAddress);
-            customerInvoiceDocument.setCustomerBillToAddressIdentifier(customerBillToAddress.getCustomerAddressIdentifier());
+                if (ObjectUtils.isNotNull(customerBillToAddress)) {
+                    customerInvoiceDocument.setCustomerBillToAddress(customerBillToAddress);
+                    customerInvoiceDocument.setCustomerBillToAddressOnInvoice(customerBillToAddress);
+                    customerInvoiceDocument.setCustomerBillToAddressIdentifier(customerBillToAddress.getCustomerAddressIdentifier());
+                } else {
+                    customerInvoiceDocument.setCustomerBillToAddress(null);
+                    customerInvoiceDocument.setCustomerBillToAddressOnInvoice(null);
+                    customerInvoiceDocument.setCustomerBillToAddressIdentifier(null);
+                }
+            }
+            
+        } else {
+            customerBillToAddress = SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomerNumber());
+
+            if (ObjectUtils.isNotNull(customerBillToAddress)) {
+                customerInvoiceDocument.setCustomerBillToAddress(customerBillToAddress);
+                customerInvoiceDocument.setCustomerBillToAddressOnInvoice(customerBillToAddress);
+                customerInvoiceDocument.setCustomerBillToAddressIdentifier(customerBillToAddress.getCustomerAddressIdentifier());
+            } else {
+                customerInvoiceDocument.setCustomerBillToAddress(null);
+                customerInvoiceDocument.setCustomerBillToAddressOnInvoice(null);
+                customerInvoiceDocument.setCustomerBillToAddressIdentifier(null);
+            }
         }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

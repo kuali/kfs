@@ -40,6 +40,7 @@ import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.batch.BalanceForwardStep;
 import org.kuali.kfs.gl.batch.service.FilteringBalanceIterator;
 import org.kuali.kfs.gl.businessobject.Balance;
+import org.kuali.kfs.gl.businessobject.CashBalance;
 import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.BalanceDao;
@@ -328,11 +329,11 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @return an OJB ReportQuery to use as the query 
      */
     private ReportQueryByCriteria getCashBalanceCountQuery(Map fieldValues) {
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance());
+        Criteria criteria = buildCriteriaFromMap(fieldValues, new CashBalance());
         criteria.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
         criteria.addEqualToField("chart.financialCashObjectCode", KFSPropertyConstants.OBJECT_CODE);
 
-        ReportQueryByCriteria query = QueryFactory.newReportQuery(Balance.class, criteria);
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(CashBalance.class, criteria);
 
         List groupByList = buildGroupByList();
         groupByList.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
@@ -357,11 +358,11 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @return the OJB query to perform
      */
     private Query getCashBalanceQuery(Map fieldValues, boolean isConsolidated) {
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance());
+        Criteria criteria = buildCriteriaFromMap(fieldValues, new CashBalance());
         criteria.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
         criteria.addEqualToField("chart.financialCashObjectCode", KFSPropertyConstants.OBJECT_CODE);
 
-        ReportQueryByCriteria query = QueryFactory.newReportQuery(Balance.class, criteria);
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(CashBalance.class, criteria);
         List attributeList = buildAttributeList(false);
         List groupByList = buildGroupByList();
 
@@ -476,7 +477,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
             }
         }
 
-        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(localFieldValues, new Balance()));
+        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(localFieldValues, balance));
         return criteria;
     }
 

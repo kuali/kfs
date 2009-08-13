@@ -87,8 +87,17 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         
         ActionForward fwd = super.execute(mapping, form, request, response);
         
-        SpringContext.getBean(AccountsPayableService.class).generateExpiredOrClosedAccountWarning(document);
+        boolean foundAccountExpiredWarning = false;
+        for(int i=0;i<GlobalVariables.getMessageList().size();i++){
+            if (StringUtils.equals(GlobalVariables.getMessageList().get(i).getErrorKey(),PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED)){
+                foundAccountExpiredWarning = true;
+            }   
+        }
         
+        if (!foundAccountExpiredWarning){
+            SpringContext.getBean(AccountsPayableService.class).generateExpiredOrClosedAccountWarning(document);
+        }
+            
         return fwd;
         
     }
@@ -127,6 +136,8 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         super.loadDocument(kualiDocumentFormBase);
         AccountsPayableDocument document = (AccountsPayableDocument) kualiDocumentFormBase.getDocument();
 
+        SpringContext.getBean(AccountsPayableService.class).generateExpiredOrClosedAccountWarning(document);
+        
         SpringContext.getBean(AccountsPayableService.class).updateItemList(document);
         ((AccountsPayableFormBase) kualiDocumentFormBase).updateItemCounts();
     }

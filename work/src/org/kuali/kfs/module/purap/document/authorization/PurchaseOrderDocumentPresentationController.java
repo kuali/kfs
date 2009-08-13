@@ -31,35 +31,12 @@ import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
 public class PurchaseOrderDocumentPresentationController extends PurchasingAccountsPayableDocumentPresentationController {
-
-//  FIXME hjs: do we need this??
-//  else if (PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(statusCode)) {
-//  if (SpringContext.getBean(PurApWorkflowIntegrationService.class).isActionRequestedOfUserAtNodeName(po.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getPerson())) {
-//  /*
-//  * code below for overriding workflow buttons has to do with hiding the workflow buttons but still allowing the
-//  * actions... this is needed because document service calls this method (getDocumentActionFlags) before it will
-//  * allow a workflow action to be performed
-//  */
-//  if (ObjectUtils.isNotNull(po.getOverrideWorkflowButtons()) && (po.getOverrideWorkflowButtons())) {
-//  /*
-//  * if document is in pending transmission status and current user has document transmission action request then
-//  * assume that the transmit button/action whatever it might be will take associated workflow action for user
-//  * automatically
-//  */
-//  flags.setCanApprove(false);
-//  flags.setCanDisapprove(false);
-//  flags.setCanAcknowledge(false);
-//  flags.setCanFYI(false);
-//  }
-//  }
-//  }
 
     @Override
     protected boolean canEdit(Document document) {
@@ -75,6 +52,15 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
             return false;
         }
         return super.canEdit(document);
+    }
+
+    @Override
+    protected boolean canFyi(Document document) {
+        PurchaseOrderDocument poDocument = (PurchaseOrderDocument) document;
+        if (PurchaseOrderStatuses.PENDING_PRINT.equals(poDocument.getStatusCode())) {
+            return false;
+        }
+        return super.canFyi(document);
     }
 
     @Override

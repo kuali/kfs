@@ -28,6 +28,6 @@
 </head>
 
 <body onload="reload()">
-<portal:iframePortletContainer channelTitle="Shop Catalogs" channelUrl="${KualiForm.shopUrl}" />
+<portal:iframePortletContainer channelTitle="Shop Catalogs" channelUrl="${KualiForm.shopUrl}" frameHeight="1000"/>
 </body>
 </html:html>

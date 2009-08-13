@@ -143,7 +143,15 @@ public class CreditMemoItem extends AccountsPayableItemBase {
 
         setPreqUnitPrice(preqItem.getItemUnitPrice());
         setItemTypeCode(preqItem.getItemTypeCode());
-        setItemUnitPrice(preqItem.getItemUnitPrice());
+
+        if ((ObjectUtils.isNotNull(this.getItemType()) && this.getItemType().isAmountBasedGeneralLedgerIndicator())) {
+            // setting unit price to be null to be more consistent with other below the line
+            this.setItemUnitPrice(null);
+        }
+        else {
+            setItemUnitPrice(preqItem.getItemUnitPrice());
+        }
+
         setItemCatalogNumber(preqItem.getItemCatalogNumber());
         setItemDescription(preqItem.getItemDescription());
         

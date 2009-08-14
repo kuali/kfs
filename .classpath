@@ -92,8 +92,8 @@
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/opensaml-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/wsdl4j-1.6.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/jaxen-1.1.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/rice-api-1.0.0-SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/rice-impl-1.0.0-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/rice-api-1.0.1-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/rice-impl-1.0.1-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/bcprov-jdk15-133.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/cas-client-core-3.1.6.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/opencsv-1.8.jar"/>

@@ -633,10 +633,14 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     public List<Long> getWorkflowEngineDocumentIdsToLock() {
         List<String> docIdStrings = new ArrayList<String>();
         docIdStrings.add(getDocumentNumber());
+        String currentDocumentTypeName = this.getDocumentHeader().getWorkflowDocument().getDocumentType();
         
         List<PurchaseOrderView> relatedPoViews = getRelatedViews().getRelatedPurchaseOrderViews();
         for (PurchaseOrderView poView : relatedPoViews) {
-            docIdStrings.add(poView.getDocumentNumber());
+            //don't lock related PO's if this is a split PO that's in process
+            if(!(PurapConstants.PurchaseOrderStatuses.IN_PROCESS.equals(this.getStatusCode()) && PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT.equals(currentDocumentTypeName))){
+                docIdStrings.add(poView.getDocumentNumber());
+            }
         }
         
         //  convert our easy to use List<String> to a Long[]

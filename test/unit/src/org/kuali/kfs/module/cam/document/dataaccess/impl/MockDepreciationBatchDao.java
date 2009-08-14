@@ -19,10 +19,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.cam.batch.AssetPaymentInfo;
 import org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class MockDepreciationBatchDao implements DepreciationBatchDao {
     private DepreciationBatchDao impl;
@@ -56,6 +58,10 @@ public class MockDepreciationBatchDao implements DepreciationBatchDao {
     public void updateAssetsCreatedInLastFiscalPeriod(Integer fiscalMonth, Integer fiscalYear) {
         impl.updateAssetsCreatedInLastFiscalPeriod(fiscalMonth, fiscalYear);
 
+    }
+
+    public Map<Long, KualiDecimal> getPrimaryDepreciationBaseAmountForSV() {
+        return impl.getPrimaryDepreciationBaseAmountForSV();
     }
 
     /**

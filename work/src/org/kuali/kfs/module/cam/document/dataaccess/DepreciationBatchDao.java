@@ -18,10 +18,12 @@ package org.kuali.kfs.module.cam.document.dataaccess;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.cam.batch.AssetPaymentInfo;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Interface declaring DAO methods required by CAMS depreciation batch job
@@ -76,4 +78,11 @@ public interface DepreciationBatchDao {
      * @return count of assets matching condition
      */
     public Integer getFullyDepreciatedAssetCount();
+
+    /**
+     * Primary depreciation base amount for assets with Salvage Value depreciation method code.
+     * 
+     * @return Map
+     */
+    public Map<Long, KualiDecimal> getPrimaryDepreciationBaseAmountForSV();
 }

@@ -23,7 +23,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.batch.AssetPaymentInfo;
@@ -265,9 +267,30 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         return assetPaymentDetails;
     }
 
+    /**
+     * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao#getFullyDepreciatedAssetCount()
+     */
     public Integer getFullyDepreciatedAssetCount() {
         int count = getJdbcTemplate().queryForInt("SELECT COUNT(1) FROM CM_CPTLAST_T AST, (SELECT CPTLAST_NBR, (SUM(AST_DEPR1_BASE_AMT - AST_ACUM_DEPR1_AMT) - (SELECT 0.0+CPTLAST_SALVAG_AMT FROM CM_CPTLAST_T X WHERE X.CPTLAST_NBR = Y.CPTLAST_NBR)) BAL FROM CM_AST_PAYMENT_T Y WHERE AST_DEPR1_BASE_AMT IS NOT NULL AND AST_DEPR1_BASE_AMT <> 0.0 AND AST_ACUM_DEPR1_AMT IS NOT NULL AND AST_ACUM_DEPR1_AMT <> 0.0 AND (AST_TRNFR_PMT_CD = 'N' OR AST_TRNFR_PMT_CD = '' OR AST_TRNFR_PMT_CD IS NULL) GROUP BY CPTLAST_NBR) PMT WHERE PMT.BAL = 0.0 AND AST.CPTLAST_NBR = PMT.CPTLAST_NBR");
         return count;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao#getPrimaryDepreciationBaseAmountForSV()
+     */
+    public Map<Long, KualiDecimal> getPrimaryDepreciationBaseAmountForSV() {
+        final Map<Long, KualiDecimal> amountMap = new HashMap<Long, KualiDecimal>();
+        getJdbcTemplate().query("SELECT PMT.CPTLAST_NBR, SUM(PMT.AST_DEPR1_BASE_AMT) FROM CM_CPTLAST_T AST, CM_AST_PAYMENT_T PMT WHERE AST.CPTLAST_NBR = PMT.CPTLAST_NBR AND AST.AST_DEPR_MTHD1_CD = '" + CamsConstants.Asset.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE + "' GROUP BY PMT.CPTLAST_NBR", new ResultSetExtractor() {
+
+            public Object extractData(ResultSet rs) throws SQLException, DataAccessException {
+                while (rs != null && rs.next()) {
+                    amountMap.put(rs.getLong(1), new KualiDecimal(rs.getBigDecimal(2)));
+                }
+                return amountMap;
+            }
+
+        });
+        return amountMap;
     }
 
     /**
@@ -285,6 +308,7 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting the federally owned object subtype codes which are:" + federallyOwnedObjectSubTypes.toString());
         return federallyOwnedObjectSubTypes;
     }
+
 
     /**
      * Utility method that will convert a list into IN string clause for SQL

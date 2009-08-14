@@ -619,7 +619,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
        
             // if this doc is final or will be final
             if (nodeNames.length == 0 || getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-                documentTitle = (new StringBuffer("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Amount: ").append(preqAmount).toString();
+                documentTitle = (new StringBuffer("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Amount: ").append(preqAmount).toString();            
             }
             else {
                 PurApAccountingLine theAccount = getFirstAccount();                
@@ -629,8 +629,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 String indicator = getTitleIndicator();
                 
                 // if routing with tax
-                if (NodeDetailEnum.VENDOR_TAX_REVIEW.getName().equals(nodeNames[0])) {                
-                    String deliveryCampus = StringUtils.trimToEmpty((getProcessingCampus() != null ? getProcessingCampus().getCampus().getCampusShortName() : "n/a"));                
+                if (NodeDetailEnum.VENDOR_TAX_REVIEW.getName().equals(nodeNames[0]) || getStatusCode().equals(PaymentRequestStatuses.AWAITING_TAX_REVIEW)) {
+                    String deliveryCampus = StringUtils.trimToEmpty((getProcessingCampus() != null ? getProcessingCampus().getCampus().getCampusCode(): "n/a"));                
                     String department = (theAccount != null ? StringUtils.trimToEmpty((((theAccount.getAccount() != null) && (theAccount.getAccount().getOrganization() != null)) ? theAccount.getAccount().getOrganization().getOrganizationName() : "")) : "n/a");
                     documentTitle = (new StringBuffer("Vendor: ")).append(vendorName).append(" PO: ").append(poNumber).append(" Account: ").append(accountChart).append(" ").append(accountNumber).append(" Dept: ").append(department).append(" Delivery Campus: ").append(deliveryCampus).append(" Pay Date: ").append(payDate).append(" ").append(indicator).toString();
                 }

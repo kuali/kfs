@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.service.AccountDelegateService;
@@ -45,7 +44,6 @@ import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
-import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 import org.kuali.rice.kns.mail.InvalidAddressException;
 import org.kuali.rice.kns.mail.MailMessage;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -57,8 +55,6 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
 public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
 
-    private static final Logger LOG = Logger.getLogger(AccountDerivedRoleTypeServiceImpl.class);
-    
     private AccountService accountService;
     private ContractsAndGrantsModuleService contractsAndGrantsModuleService;
     private AccountDelegateService accountDelegateService;
@@ -373,9 +369,7 @@ public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeService
             getMailService().sendMessage(mailMessage);
         }
         catch (InvalidAddressException iae) {
-            //Making this change as part of KULRICE-3433
-            //TODO: confirm if this is acceptable 
-            LOG.error("Could not mail principal inactivation notification to "+toAddress);
+            throw new RuntimeException("Could not mail principal inactivation notification to "+toAddress);
         }
         
     }

@@ -71,7 +71,6 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -627,9 +626,11 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 String accountChart = (theAccount != null ? theAccount.getChartOfAccountsCode() : "");
                 String payDate = (new SimpleDateFormat("MM/dd/yyyy")).format(getPaymentRequestPayDate());
                 String indicator = getTitleIndicator();
-                
+
                 // if routing with tax
-                if (NodeDetailEnum.VENDOR_TAX_REVIEW.getName().equals(nodeNames[0]) || getStatusCode().equals(PaymentRequestStatuses.AWAITING_TAX_REVIEW)) {
+                NodeDetails currentNodeDetails = NodeDetailEnum.VENDOR_TAX_REVIEW.getNodeDetailByName(nodeNames[0]);
+                if (NodeDetailEnum.VENDOR_TAX_REVIEW.getName().equals(nodeNames[0]) || (currentNodeDetails != null && NodeDetailEnum.VENDOR_TAX_REVIEW.getOrdinal() - currentNodeDetails.getOrdinal() == 1)) {
+                //if (NodeDetailEnum.VENDOR_TAX_REVIEW.getName().equals(nodeNames[0]) || getStatusCode().equals(PaymentRequestStatuses.AWAITING_TAX_REVIEW)) {
                     String deliveryCampus = StringUtils.trimToEmpty((getProcessingCampus() != null ? getProcessingCampus().getCampus().getCampusCode(): "n/a"));                
                     String department = (theAccount != null ? StringUtils.trimToEmpty((((theAccount.getAccount() != null) && (theAccount.getAccount().getOrganization() != null)) ? theAccount.getAccount().getOrganization().getOrganizationName() : "")) : "n/a");
                     documentTitle = (new StringBuffer("Vendor: ")).append(vendorName).append(" PO: ").append(poNumber).append(" Account: ").append(accountChart).append(" ").append(accountNumber).append(" Dept: ").append(department).append(" Delivery Campus: ").append(deliveryCampus).append(" Pay Date: ").append(payDate).append(" ").append(indicator).toString();

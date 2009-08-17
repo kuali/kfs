@@ -1189,6 +1189,9 @@
 		<property name="objectLevelService">
 			<ref bean="objectLevelService" />
 		</property>
+		 <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>

@@ -199,6 +199,8 @@ public interface ReceivingDocument extends TransactionalDocument, PurapItemOpera
 
     public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier);
     
+    public boolean getIsATypeOfPurAPRecDoc();
+
     public boolean getIsATypeOfPurDoc();
 
     public boolean getIsATypeOfPODoc();

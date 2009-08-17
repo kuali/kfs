@@ -292,6 +292,13 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
     public List<PurApItem> getTradeInItems();
     
     /**
+     * Always returns true. 
+     * This method is needed here because it's called by some tag files shared with PurAp documents.
+     * @return true.
+     */
+    public boolean getIsATypeOfPurAPRecDoc();
+
+    /**
      * Determines whether the document is a type of PurchasingDocument.
      * @return true if the document is a type of PurchasingDocument.
      */

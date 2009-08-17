@@ -19,6 +19,7 @@
               description="The DataDictionary entry containing attributes for this row's fields."%>
               
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
+<c:set var="isATypeOfPurAPRecDoc" value="${KualiForm.document.isATypeOfPurAPRecDoc}" />
 <c:set var="isATypeOfPODoc" value="${KualiForm.document.isATypeOfPODoc}" />
 <c:set var="isRequisition" value="${KualiForm.document.isReqsDoc}" />
 
@@ -62,8 +63,10 @@
 			viewList="document.relatedViews.relatedCreditMemoViews"
 			limitByPoId="${limitByPoId}" /> 
 			
-		<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
-			viewList="document.relatedViews.relatedRejectViews"
-			limitByPoId="${limitByPoId}" /> 	
+		<c:if test="${!isATypeOfPurAPRecDoc}">		
+			<purap:relatedDocumentsDetail documentAttributes="${documentAttributes}"
+				viewList="document.relatedViews.relatedRejectViews"
+				limitByPoId="${limitByPoId}" /> 	
+		</c:if>
     </div>
 </kul:tab>

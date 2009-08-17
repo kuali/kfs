@@ -1813,6 +1813,14 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
      * Always returns false. 
      * This method is needed here because it's called by some tag files shared with PurAp documents.
      */
+    public boolean getIsATypeOfPurAPRecDoc() {
+        return false;
+    }
+    
+    /**
+     * Always returns false. 
+     * This method is needed here because it's called by some tag files shared with PurAp documents.
+     */
     public boolean getIsATypeOfPurDoc() {
         return false;
     }

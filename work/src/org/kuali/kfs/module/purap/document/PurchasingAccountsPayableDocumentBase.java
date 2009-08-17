@@ -1066,6 +1066,13 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
     
     /**
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument.getIsATypeOfPurAPRecDoc().
+     */
+    public boolean getIsATypeOfPurAPRecDoc() {
+        return true;
+    }
+    
+    /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument.getIsATypeOfPurDoc().
      */
     public boolean getIsATypeOfPurDoc() {

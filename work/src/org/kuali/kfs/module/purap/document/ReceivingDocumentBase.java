@@ -614,6 +614,14 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     }
     
     /**
+     * Always returns true. 
+     * This method is needed here because it's called by some tag files shared with PurAp documents.
+     */
+    public boolean getIsATypeOfPurAPRecDoc() {
+        return true;
+    }
+
+    /**
      * Always returns false. 
      * This method is needed here because it's called by some tag files shared with PurAp documents.
      */

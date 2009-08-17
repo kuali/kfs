@@ -3368,3 +3368,16 @@ delete from krns_parm_t where nmspc_cd = 'KFS-GL' and parm_dtl_typ_cd = 'ClearOl
 insert into krim_role_perm_t(role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind)
     values ('321',sys_guid(),1, '41','212','Y')
 /
+
+--KFSMI-3949 Part III
+update krns_parm_t set parm_nm = 'NUMBER_OF_DAYS_SINCE_LAST_UPDATE' where nmspc_cd = 'KFS-SYS' and parm_dtl_typ_cd = 'PurgeSessionDocumentsStep' and parm_nm = 'NUMBER_OF_DAYS_SINCE_LAST_ UPDATE'
+
+--KFSMI-4283 Part 2
+update krew_doc_typ_t set lbl = 'Check Cancel & Re-Issue' where doc_typ_nm = 'CHKR' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set lbl = 'Check Cancellation' where doc_typ_nm = 'CHKC' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set lbl = 'ACH Cancel & Re-Issue' where doc_typ_nm = 'ACHR' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set lbl = 'ACH Cancellation' where doc_typ_nm = 'ACHC' and actv_ind = 1 and cur_ind = 1
+/

@@ -277,12 +277,20 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
      * @return - Customized document title text dependent upon route level.
      */
     private String getCustomDocumentTitle() {
-        // set the workflow document title
-        String poNumber = getPurchaseOrderIdentifier().toString();
+        String popreq = "";
+        if (this.isSourceDocumentPurchaseOrder()) {
+            String poNumber = getPurchaseOrderIdentifier().toString();
+            popreq = new StringBuffer("PO: ").append(poNumber).toString();
+        }
+        else if (this.isSourceDocumentPaymentRequest()) {
+            String preqNumber = this.getPaymentRequestIdentifier().toString();
+            popreq = new StringBuffer("PREQ: ").append(preqNumber).toString();
+        }
+
         String vendorName = StringUtils.trimToEmpty(getVendorName());
         String cmAmount = getGrandTotal().toString();
         String indicator = getTitleIndicator();
-        String documentTitle = new StringBuffer("PO: ").append(poNumber).append(" Vendor: ").append(vendorName).append(" Amount: ").append(cmAmount).append(" ").append(indicator).toString();
+        String documentTitle = new StringBuffer(popreq).append(" Vendor: ").append(vendorName).append(" Amount: ").append(cmAmount).append(" ").append(indicator).toString();
         return documentTitle;
     }
     

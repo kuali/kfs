@@ -224,6 +224,8 @@ public class CustomerInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOjb imple
         Criteria criteria = new Criteria();
         criteria.addEqualTo("accountsReceivableDocumentHeader.customerNumber", customerNumber==null?customerNumber:customerNumber.toUpperCase());
         criteria.addEqualTo("openInvoiceIndicator", "true");
+        criteria.addEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+
         
         QueryByCriteria qbc = QueryFactory.newQuery(CustomerInvoiceDocument.class, criteria);
         
@@ -244,6 +246,8 @@ public class CustomerInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOjb imple
         criteria.addLike("accountsReceivableDocumentHeader.customer.customerName", customerName);
         criteria.addEqualTo("accountsReceivableDocumentHeader.customer.customerTypeCode", customerTypeCode);
         criteria.addEqualTo("openInvoiceIndicator", "true");
+        criteria.addEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+
         
         QueryByCriteria qbc = QueryFactory.newQuery(CustomerInvoiceDocument.class, criteria);
         
@@ -263,6 +267,8 @@ public class CustomerInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOjb imple
         Criteria criteria = new Criteria();
         criteria.addLike("accountsReceivableDocumentHeader.customer.customerName", customerName);
         criteria.addEqualTo("openInvoiceIndicator", "true");
+        criteria.addEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+
         
         QueryByCriteria qbc = QueryFactory.newQuery(CustomerInvoiceDocument.class, criteria);
         
@@ -285,6 +291,8 @@ public class CustomerInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOjb imple
         Criteria criteria = new Criteria();
         criteria.addEqualTo("accountsReceivableDocumentHeader.customer.customerTypeCode", customerTypeCode);
         criteria.addEqualTo("openInvoiceIndicator", "true");
+        criteria.addEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+
         
         QueryByCriteria qbc = QueryFactory.newQuery(CustomerInvoiceDocument.class, criteria);
         

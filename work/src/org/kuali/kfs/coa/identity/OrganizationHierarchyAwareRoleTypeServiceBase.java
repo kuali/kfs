@@ -114,7 +114,15 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends KimR
         Collections.sort(listToSort);
         // restore them to the list in their sorted order
         roleMembers.clear();
+        int group = 0; // counter for the group number to add to the roleSortingCode
+        String lastRoleSortingCode = "";
         for ( SortableRoleMembershipHolder srmh : listToSort ) {
+            if ( !srmh.rmi.getRoleSortingCode().equals( lastRoleSortingCode ) ) {
+                group++;
+                lastRoleSortingCode = srmh.rmi.getRoleSortingCode();
+            }
+            
+            srmh.rmi.setRoleSortingCode( StringUtils.leftPad(Integer.toString(group), 3, '0') + "/" + srmh.rmi.getRoleSortingCode() );
             roleMembers.add( srmh.rmi );
         }
         return roleMembers;

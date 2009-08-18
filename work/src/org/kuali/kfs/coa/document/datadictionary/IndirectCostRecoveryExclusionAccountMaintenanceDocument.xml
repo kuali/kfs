@@ -16,7 +16,6 @@
         <bean parent="ReferenceDefinition" p:attributeName="account" p:attributeToHighlightOnFail="accountNumber"/>
         <bean parent="ReferenceDefinition" p:attributeName="financialObjectChartOfAccount" p:attributeToHighlightOnFail="financialObjectChartOfAccountCode"/>
         <bean parent="ReferenceDefinition" p:attributeName="objectCodeCurrent" p:attributeToHighlightOnFail="financialObjectCode"/>
-        <bean parent="ReferenceDefinition" p:attributeName="active" p:attributeToHighlightOnFail="active"/>
         
       </list>
     </property>

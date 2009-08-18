@@ -224,7 +224,7 @@
 		</columnHeader>
 		<detail>
 			<band height="22"  isSplitAllowed="false" >
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						style="dataCell"
 						mode="Transparent"
@@ -233,12 +233,12 @@
 						width="40"
 						height="20"
 						key="textField-7"
-						stretchType="RelativeToTallestObject"/>
-					<box leftPadding="10"></box>
-					<textElement textAlignment="Right" verticalAlignment="Top" lineSpacing="1_1_2">
-						<font fontName="Times New Roman"/>
+						stretchType="RelativeToBandHeight"/>
+					<box leftPadding="1"></box>
+					<textElement textAlignment="Center" verticalAlignment="Top" lineSpacing="1_1_2">
+						<font fontName="Times New Roman" size="9"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{invoiceItemQuantity}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{invoiceItemQuantity}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -252,7 +252,7 @@
 						stretchType="RelativeToTallestObject"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Center" verticalAlignment="Top" lineSpacing="1_1_2">
-						<font fontName="Times New Roman"/>
+						<font fontName="Times New Roman" size="9"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{invoiceItemUnitOfMeasureCode}]]></textFieldExpression>
 				</textField>
@@ -269,7 +269,7 @@
 						isPrintWhenDetailOverflows="true"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="1_1_2">
-						<font fontName="Times New Roman"/>
+						<font fontName="Times New Roman" size="9"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{invoiceItemDescription}]]></textFieldExpression>
 				</textField>
@@ -285,7 +285,7 @@
 						stretchType="RelativeToTallestObject"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Center" verticalAlignment="Top" lineSpacing="1_1_2">
-						<font fontName="Times New Roman"/>
+						<font fontName="Times New Roman" size="9"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{invoiceItemCode}]]></textFieldExpression>
 				</textField>
@@ -301,7 +301,7 @@
 						stretchType="RelativeToTallestObject"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Right" verticalAlignment="Top" lineSpacing="1_1_2">
-						<font fontName="Times New Roman"/>
+						<font fontName="Times New Roman" size="9"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{invoiceItemUnitPrice}]]></textFieldExpression>
 				</textField>
@@ -317,7 +317,7 @@
 						stretchType="RelativeToTallestObject"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Right" verticalAlignment="Top" lineSpacing="1_1_2">
-						<font fontName="Times New Roman"/>
+						<font fontName="Times New Roman" size="9"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{amount}]]></textFieldExpression>
 				</textField>
@@ -333,7 +333,7 @@
 						stretchType="RelativeToTallestObject"/>
 					<box leftPadding="10"></box>
 					<textElement textAlignment="Right" verticalAlignment="Top" lineSpacing="1_1_2">
-						<font fontName="Times New Roman"/>
+						<font fontName="Times New Roman" size="9"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{invoiceItemTaxAmount}]]></textFieldExpression>
 				</textField>
@@ -342,16 +342,20 @@
 		<columnFooter>
 			<band height="80"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement mode="Opaque" x="76" y="2" width="400" height="15" key="staticText-86">
-						<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue()==1)]]></printWhenExpression>
-					</reportElement>
+					<reportElement
+						mode="Opaque"
+						x="76"
+						y="2"
+						width="400"
+						height="15"
+						key="staticText-86">
+							<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue()==1)]]></printWhenExpression>
+						</reportElement>
 					<box></box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="8" isItalic="true" />
+						<font size="8" isItalic="true"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String">
-						<![CDATA["(additional invoice lines may be printed on the following pages)"]]>
-					</textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA["(additional invoice lines may be printed on the following pages)"]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0.00 %" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement

@@ -48,6 +48,7 @@ public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
     private String paymentClaimStatusCode;
     
     private AdvanceDepositDocument generatingDocument;
+    private SourceAccountingLine generatingAccountingLine;
     private AccountingPeriod financialDocumentPostingPeriod;
     private DocumentHeader generatingDocumentHeader;
 
@@ -204,11 +205,21 @@ public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
      * @return the accounting line that describes the transaction responsible for the creation of this record
      */
     public SourceAccountingLine getGeneratingAccountingLine() {
-        AdvanceDepositDocument generatingDocument = getGeneratingDocument();
-        if (generatingDocument != null && generatingDocument.getSourceAccountingLines() != null) {
-            return generatingDocument.getSourceAccountingLine(financialDocumentLineNumber.intValue() - 1);
+        if (generatingAccountingLine == null) {
+            final AdvanceDepositDocument generatingDocument = getGeneratingDocument();
+            if (generatingDocument != null && generatingDocument.getSourceAccountingLines() != null) {
+                int count = 0;
+                
+                while (generatingAccountingLine == null && count < generatingDocument.getSourceAccountingLines().size()) {
+                    if (generatingDocument.getSourceAccountingLine(count).getSequenceNumber().equals(getFinancialDocumentLineNumber())) {
+                        generatingAccountingLine = generatingDocument.getSourceAccountingLine(count);
+                    }
+                    count += 1;
+                }
+                
+            }
         }
-        return null;
+        return generatingAccountingLine;
     }
     
     /**

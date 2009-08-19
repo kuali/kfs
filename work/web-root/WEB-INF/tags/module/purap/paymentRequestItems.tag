@@ -29,9 +29,9 @@
 <c:set var="tabindexOverrideBase" value="50" />
 <c:set var="fullDocEntryCompleted" value="${(not empty KualiForm.editingMode['fullDocumentEntryCompleted'])}" />
 
-<c:set var="descriptionColSpan" value="3"/>
+<c:set var="colSpanDescription" value="3"/>
 <c:if test="${purapTaxEnabled}">
-	<c:set var="descriptionColSpan" value="1"/>
+	<c:set var="colSpanDescription" value="1"/>
 </c:if>
 
 <tr>
@@ -58,7 +58,7 @@
 
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" width="12%"/>
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" width="25%"/>		
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="25%" colspan="${descriptionColSpan}"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="25%" colspan="${colSpanDescription}"/>
 	</tr>
 </c:if>
 
@@ -99,7 +99,7 @@
 		</c:choose>
 
 		<tr>
-			<td class="infoline" nowrap="nowrap">
+			<td class="infoline" nowrap="nowrap" rowspan="2">
 				  &nbsp;<b><bean:write name="KualiForm" property="document.item[${ctr}].itemLineNumber"/></b> 
 			</td>
 			<td class="infoline">
@@ -195,7 +195,7 @@
 				    property="document.item[${ctr}].itemAssignedToTradeInIndicator"
 				    readOnly="true" />
 			</td>			    
-			<td class="infoline" colspan="${descriptionColSpan}">
+			<td class="infoline" colspan="${colSpanDescription}">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemDescription}"
 				    property="document.item[${ctr}].itemDescription"
@@ -209,7 +209,7 @@
 		</c:if>		
 		<purap:purapGeneralAccounting
 			accountPrefix="document.item[${ctr}]." 
-			itemColSpan="${mainColumnCount}" />	
+			itemColSpan="${mainColumnCount-1}" />	
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 			</tbody>
 		</c:if>

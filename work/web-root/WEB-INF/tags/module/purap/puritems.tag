@@ -43,23 +43,27 @@
 <c:set var="hasLineItems" value="${fn:length(KualiForm.document.items) > fn:length(KualiForm.document.belowTheLineTypes)}" />
 
 <c:set var="tabindexOverrideBase" value="50" />
-<c:set var="mainColumnCount" value="12"/>
-<c:if test="${purapTaxEnabled}">
-	<c:set var="mainColumnCount" value="14"/>
-</c:if>
+
+<c:set var="mainColumnCount" value="15"/>
+<c:set var="colSpanItemType" value="6"/>
+<c:set var="colSpanDescription" value="2"/>
+<c:set var="colSpanExtendedPrice" value="1"/>
 
 <c:choose>
 <c:when test="${displayRequisitionFields}">
-	<c:set var="colSpanItemType" value="6"/>
-	<c:set var="colSpanDescription" value="2"/>
-	<c:set var="colSpanExtendedPrice" value="1"/>
 	<c:set var="colSpanAmountPaid" value="0"/>
 </c:when>
 <c:otherwise>
-	<c:set var="colSpanItemType" value="6"/>
-	<c:set var="colSpanDescription" value="2"/>
-	<c:set var="colSpanExtendedPrice" value="1"/>
 	<c:set var="colSpanAmountPaid" value="1"/>
+</c:otherwise>
+</c:choose>
+
+<c:choose>
+<c:when test="${displayCommodityCodeFields}">
+	<c:set var="colSpanCatlogNumber" value="1"/>
+</c:when>
+<c:otherwise>
+	<c:set var="colSpanCatlogNumber" value="2"/>
 </c:otherwise>
 </c:choose>
 
@@ -112,28 +116,39 @@
 					</NOSCRIPT>
 				</td>
 			</tr>
+			
 			<tr>
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTypeCode}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}"/>
 				<kul:htmlAttributeHeaderCell><kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" useShortLabel="true"/></kul:htmlAttributeHeaderCell>
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" colspan="${colSpanCatlogNumber}" />
+				
 				<c:if test="${displayCommodityCodeFields}">
 	                <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchasingCommodityCode}" />
 				</c:if>
+				
                 <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" forceRequired="true"/>
                 <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" forceRequired="true"/>
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
+				
+				<c:set var="colSpanAction" value="5" />
+				
 				<c:if test="${purapTaxEnabled}">
 				    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" />				
 				    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" />
-				</c:if>
+				    <c:set var="colSpanAction" value="${colSpanAction - 2 }" />
+				</c:if>  					
+				
 				<c:if test="${displayRequisitionFields}">
 				    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}" />
-				</c:if>
+				    <c:set var="colSpanAction" value="${colSpanAction - 1 }" />
+				</c:if> 					
+				
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" />
-				<kul:htmlAttributeHeaderCell literalLabel="Actions" colspan="2" />
+				<kul:htmlAttributeHeaderCell literalLabel="Action" colspan="${colSpanAction}" />
 			</tr>
+			
 			<tr>
                 <td class="infoline">
                     <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemLineNumber}" property="newPurchasingItemLine.itemLineNumber" readOnly="true"/>
@@ -158,10 +173,11 @@
                         <html:hidden write="true" property="${itemUnitOfMeasureDescriptionField}"/>&nbsp;        
                     </div>                     
                 </td>					    
-				<td class="infoline">
+				<td class="infoline" colspan="${colSpanCatlogNumber}">
 				    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemCatalogNumber}" property="newPurchasingItemLine.itemCatalogNumber" tabindexOverride="${tabindexOverrideBase + 0}"/>
 			    </td>
-			    <c:if test = "${displayCommodityCodeFields}">
+			    
+			    <c:if test="${displayCommodityCodeFields}">
                     <td class="infoline" >
                         <c:set var="commodityCodeField"  value="newPurchasingItemLine.purchasingCommodityCode" />
                         <c:set var="commodityDescriptionField"  value="newPurchasingItemLine.commodityCode.commodityDescription" />
@@ -175,7 +191,8 @@
                             <html:hidden write="true" property="${commodityDescriptionField}"/>&nbsp;        
                         </div>                     
                     </td>		
-                </c:if>
+                </c:if>				
+                
 				<td class="infoline">
 				   <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="newPurchasingItemLine.itemDescription" tabindexOverride="${tabindexOverrideBase + 0}"/>
 			       <kul:expandedTextArea 
@@ -192,19 +209,21 @@
  				    <div align="right">
  				        <kul:htmlControlAttribute attributeEntry="${itemAttributes.extendedPrice}" property="newPurchasingItemLine.extendedPrice" readOnly="true" />
 					</div>
-				</td>				
+				</td>	
+							
 				<c:if test="${purapTaxEnabled}">
-				<td class="infoline">
- 				    <div align="right">
- 				        <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTaxAmount}" property="newPurchasingItemLine.itemTaxAmount" readOnly="true" />
-					</div>
-				</td>				
-				<td class="infoline">
- 				    <div align="right">
- 				        <kul:htmlControlAttribute attributeEntry="${itemAttributes.totalAmount}" property="newPurchasingItemLine.totalAmount" readOnly="true" />
-					</div>
-				</td>
+					<td class="infoline">
+ 				    	<div align="right">
+ 				        	<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTaxAmount}" property="newPurchasingItemLine.itemTaxAmount" readOnly="true" />
+						</div>
+					</td>				
+					<td class="infoline">
+ 				    	<div align="right">
+ 				        	<kul:htmlControlAttribute attributeEntry="${itemAttributes.totalAmount}" property="newPurchasingItemLine.totalAmount" readOnly="true" />
+						</div>
+					</td>
 				</c:if>
+				
 				<c:if test="${displayRequisitionFields}">
 					<td class="infoline">
   					    <div align="center">
@@ -212,12 +231,13 @@
 						</div>
 					</td>
 				</c:if>
+				
 			    <td class="infoline">
   					<div align="center">
   		                <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" property="newPurchasingItemLine.itemAssignedToTradeInIndicator" tabindexOverride="${tabindexOverrideBase + 0}"/>
 					</div>
 				</td>				
-				<td class="infoline" colspan="2">
+				<td class="infoline" colspan="${colSpanAction}">
 				    <div align="center">
 				        <html:image property="methodToCall.addItem" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert an Item" title="Add an Item" styleClass="tinybutton" tabindex="${tabindexOverrideBase + 0}"/>
 				    </div>
@@ -245,37 +265,49 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTypeCode}" hideRequiredAsterisk="true" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" colspan="${colSpanCatlogNumber}" />
+				
 				<c:if test="${displayCommodityCodeFields}">
 				    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchasingCommodityCode}" />
 				</c:if>
+				
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />				
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />	
+							
+				<c:set var="colSpanAction" value="6" />
+											
 				<c:if test="${purapTaxEnabled}">
 					<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" />				
 					<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" />
+					<c:set var="colSpanAction" value="${colSpanAction - 2 }" />
 				</c:if>
+				
 				<c:if test="${displayRequisitionFields and !lockB2BEntry}">
 					<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}" />
+					<c:set var="colSpanAction" value="${colSpanAction - 1 }" />
 				</c:if>
+				
 				<c:if test="${!lockB2BEntry}">
 					<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" />
+					<c:set var="colSpanAction" value="${colSpanAction - 1 }" />
 				</c:if>
+				
 				<!-- TODO: PHASE 2B -->
 				<c:if test="${isATypeOfPODoc}">
+					<c:set var="colSpanAction" value="${colSpanAction - 1 }" />
 				    <c:choose>
-                        <c:when test="${((documentType != 'PO') && !(fullEntryMode or amendmentEntry))}">
-                            <kul:htmlAttributeHeaderCell literalLabel="Inactive"/>
+                        <c:when test="${(documentType != 'PO' && !(fullEntryMode or amendmentEntry))}">
+                            <kul:htmlAttributeHeaderCell literalLabel="Inactive" colspan="${colSpanAction}"/>
                         </c:when>
                         <c:otherwise>
-                            <kul:htmlAttributeHeaderCell literalLabel="Actions"/>
+                            <kul:htmlAttributeHeaderCell literalLabel="Actions" colspan="${colSpanAction}"/>
                         </c:otherwise>
                     </c:choose>
                     <kul:htmlAttributeHeaderCell literalLabel="Amount Paid" />
                 </c:if>
                 <c:if test="${!isATypeOfPODoc}">
-                    <kul:htmlAttributeHeaderCell literalLabel="Actions"/>
+                    <kul:htmlAttributeHeaderCell literalLabel="Actions" colspan="${colSpanAction}"/>
                 </c:if>
 			</tr>
 		</c:if>
@@ -369,13 +401,14 @@
                             <html:hidden write="true" property="document.item[${ctr}].itemUnitOfMeasure.itemUnitOfMeasureDescription"/>&nbsp;  
                         </div>                        
                     </td>				    
-					<td class="infoline">
+					<td class="infoline" colspan="${colSpanCatlogNumber}" >					
 					    <kul:htmlControlAttribute
 						    attributeEntry="${itemAttributes.itemCatalogNumber}"
 						    property="document.item[${ctr}].itemCatalogNumber"
 						    readOnly="${not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))) or lockB2BEntry}" 
 						    tabindexOverride="${tabindexOverrideBase + 0}"/>
 				    </td>
+				    
 				    <c:if test="${displayCommodityCodeFields}">
                         <td class="infoline" >
                             <kul:htmlControlAttribute 
@@ -393,7 +426,8 @@
                                 <html:hidden write="true" property="document.item[${ctr}].commodityCode.commodityDescription"/>&nbsp;  
                             </div>                        
                         </td>
-                    </c:if>			    
+                    </c:if>						
+                    	    
 					<td class="infoline">
 						 <kul:htmlControlAttribute
 						    attributeEntry="${itemAttributes.itemDescription}"
@@ -406,7 +440,7 @@
 								action="purapRequisition"
 								textAreaLabel="description" />
 						</c:if>
-					</td>
+					</td>					
 					<td class="infoline">
 					    <div align="right">
 					        <kul:htmlControlAttribute
@@ -423,6 +457,7 @@
 						        property="document.item[${ctr}].extendedPrice" readOnly="${true}"/>
 					    </div>
 					</td>
+					
 					<c:if test="${purapTaxEnabled}">
 						<td class="infoline">
 					    	<div align="right">
@@ -441,6 +476,7 @@
 					    	</div>
 						</td>
 					</c:if>
+					
 					<c:if test="${displayRequisitionFields and !lockB2BEntry}">
 						<td class="infoline">
 							<div align="center">
@@ -451,7 +487,8 @@
 							    tabindexOverride="${tabindexOverrideBase + 0}"/>
 					    	</div>
 						</td>
-					</c:if>					
+					</c:if>				
+						
 					<c:if test="${!lockB2BEntry}">
 				    	<td class="infoline">
                             <div align="center">
@@ -463,34 +500,34 @@
                             </div>
 						</td>
 					</c:if>
-					<c:if test="${( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemInvoicedTotalAmount == null)) or (amendmentEntry) or (isATypeOfPODoc and ! itemLine.itemActiveIndicator) or (not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)))}">
-						<td class="infoline" rowspan="2">
-						    <div align="center">						    	
-						    	<c:if test="${(fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemInvoicedTotalAmount == null or itemLine.newItemForAmendment)}">
+					
+					<td class="infoline" rowspan="2" colspan="${colSpanAction}">
+					    <div align="center">				
+					    	<c:choose>		    	
+					    	<c:when test="${fullEntryMode and !amendmentEntry or amendmentEntry and (itemLine.itemInvoicedTotalAmount == null or itemLine.newItemForAmendment)}">
+					        	<html:image
+						        	property="methodToCall.deleteItem.line${ctr}"
+						        	src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif"
+						        	alt="Delete Item ${ctr+1}" title="Delete Item ${ctr+1}"
+						        	styleClass="tinybutton" /><br><br>
+						    </c:when>
+						    <c:when test="${amendmentEntry and itemLine.canInactivateItem and itemLine.itemInvoicedTotalAmount != null}">
 						        <html:image
-							        property="methodToCall.deleteItem.line${ctr}"
-							        src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif"
-							        alt="Delete Item ${ctr+1}" title="Delete Item ${ctr+1}"
-							        styleClass="tinybutton" /><br><br>
-							    </c:if>
-							    <c:if test="${amendmentEntry}">
-							    	<c:if test="${(itemLine.canInactivateItem and itemLine.itemInvoicedTotalAmount != null)}">
-							        <html:image
-								        property="methodToCall.inactivateItem.line${ctr}"
-							    	    src="${ConfigProperties.externalizable.images.url}tinybutton-inactivate.gif"
-								        alt="Inactivate Item ${ctr+1}" title="Inactivate Item ${ctr+1}"
-								        styleClass="tinybutton" /><br><br>
-							    	</c:if>
-							    </c:if>
-							    <c:if test="${(isATypeOfPODoc and ! itemLine.itemActiveIndicator)}">
-						    		<div align="center">Inactive</div><br><br>						    
-							    </c:if>							    
-							    <c:if test="${(not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator)))}">							    	
-						    		<div align="center">&nbsp;</div>
-							    </c:if>							    
-							</div>
-						</td>
-					</c:if>
+							       	property="methodToCall.inactivateItem.line${ctr}"
+						        	src="${ConfigProperties.externalizable.images.url}tinybutton-inactivate.gif"
+						        	alt="Inactivate Item ${ctr+1}" title="Inactivate Item ${ctr+1}"
+						        	styleClass="tinybutton" /><br><br>
+					    	</c:when>
+						    <c:when test="${isATypeOfPODoc and !itemLine.itemActiveIndicator}">
+					    		<div align="center">Inactive</div><br><br>						    
+						    </c:when>							    
+						    <c:otherwise>							    	
+					    		<div align="center">&nbsp;</div>
+						    </c:otherwise>
+						    </c:choose>						    
+						</div>
+					</td>
+					
 					<c:if test="${isATypeOfPODoc}">
 					    <td class="infoline" rowspan="2">
 					        <div align="right">
@@ -499,37 +536,37 @@
 						        property="document.item[${ctr}].itemInvoicedTotalAmount" readOnly="${true}"/>
 					        </div>
 					    </td>
+					    
 					</c:if>
 				</tr>
 				
-				<c:set var="subtractor" value="3"/>
-				<c:if test="${displayRequisitionFields and !lockB2BEntry}">
-					<c:set var="subtractor" value="2"/>
+				<c:set var="accountColumnCount" value="${mainColumnCount - colSpanAction - 1}"/>
+				<c:if test="${isATypeOfPODoc}">
+					<c:set var="accountColumnCount" value="${accountColumnCount - 1}"/>
 				</c:if>
-				<c:set var="columnCount" value="${mainColumnCount - subtractor}"/>
 				
 				<c:choose>
                 <c:when test="${amendmentEntry}">                
                     <c:choose>
-	    			    <c:when test="${ (itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)) )}">
-				    <c:set target="${KualiForm.accountingLineEditingMode}" property="fullEntry" value="true" />
-					<purap:purapGeneralAccounting
-						accountPrefix="document.item[${ctr}]." 
-						itemColSpan="${columnCount}" />
-    				    </c:when>
-	        			<c:otherwise>
-				    <c:set target="${KualiForm.editingMode}" property="viewOnly" value="true" />
-					<purap:purapGeneralAccounting 
-						accountPrefix="document.item[${ctr}]." 
-						itemColSpan="${columnCount}" />
-				        </c:otherwise>
+	    			<c:when test="${itemLine.itemActiveIndicator and (!amendmentEntryWithUnpaidPreqOrCM or itemLine.itemInvoicedTotalAmount == null or itemLine.newItemForAmendment)}">
+				    	<c:set target="${KualiForm.accountingLineEditingMode}" property="fullEntry" value="true" />
+						<purap:purapGeneralAccounting
+							accountPrefix="document.item[${ctr}]." 
+							itemColSpan="${accountColumnCount}" />
+    				</c:when>
+	        		<c:otherwise>
+				    	<c:set target="${KualiForm.editingMode}" property="viewOnly" value="true" />
+						<purap:purapGeneralAccounting 
+							accountPrefix="document.item[${ctr}]." 
+							itemColSpan="${accountColumnCount}" />
+				    </c:otherwise>
 				    </c:choose>
 				</c:when>
 				<c:when test="${unorderedItemAccountEntry and itemLine.newUnorderedItem}">
 				    <c:set target="${KualiForm.accountingLineEditingMode}" property="fullEntry" value="true" />
 					<purap:purapGeneralAccounting
 						accountPrefix="document.item[${ctr}]." 
-						itemColSpan="${columnCount}" />				
+						itemColSpan="${accountColumnCount}" />				
 				</c:when>
 				<c:when test="${(!amendmentEntry)}">
 					<c:if test="${!empty KualiForm.editingMode['allowItemEntry'] && (KualiForm.editingMode['allowItemEntry'] == itemLine.itemIdentifier)}" >
@@ -537,7 +574,7 @@
 					</c:if>					
 					<purap:purapGeneralAccounting 
 						accountPrefix="document.item[${ctr}]." 
-						itemColSpan="${columnCount}" />
+						itemColSpan="${accountColumnCount}" />
 				</c:when>
 				</c:choose>
 				
@@ -589,7 +626,7 @@
                         readOnly="true" />&nbsp; </b>
                 </div>
 			</td>
-			<td colspan=7 class="datacell">&nbsp;</td>
+			<td class="datacell" colspan="${mainColumnCount-11}">&nbsp;</td>
 		</tr>
 
 		<tr>
@@ -606,7 +643,7 @@
                         readOnly="true" />&nbsp; </b>
                 </div>
 			</td>
-			<td colspan=7 class="datacell">&nbsp;</td>
+			<td class="datacell" colspan="${mainColumnCount-11}">&nbsp;</td>
 		</tr>
 		</c:if>
 
@@ -624,7 +661,7 @@
                         readOnly="true" />&nbsp; </b>
                 </div>
 			</td>
-			<td colspan=7 class="datacell">&nbsp;</td>
+			<td class="datacell" colspan="${mainColumnCount-11}">&nbsp;</td>
 		</tr>
 
 		<tr>
@@ -658,7 +695,7 @@
                     </div>
 			    </c:if>
 			</td>
-			<td colspan="7" class="datacell">&nbsp;</td>
+			<td class="datacell"  colspan="${mainColumnCount-11}">&nbsp;</td>
 		</tr>
 		<!-- END TOTAL SECTION -->
 

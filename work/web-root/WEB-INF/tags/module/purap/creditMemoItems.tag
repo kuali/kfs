@@ -24,9 +24,9 @@
 <c:set var="clearAllTaxes" value="${(not empty KualiForm.editingMode['clearAllTaxes'])}" />
 <c:set var="purapTaxEnabled" value="${(not empty KualiForm.editingMode['purapTaxEnabled'])}" />
 
-<c:set var="descriptionColSpan" value="4"/>
+<c:set var="colSpanDescription" value="4"/>
 <c:if test="${purapTaxEnabled}">
-	<c:set var="descriptionColSpan" value="2"/>
+	<c:set var="colSpanDescription" value="2"/>
 </c:if>
 		
 <tr>
@@ -68,7 +68,7 @@
 		</c:if>
 
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" width="12%"/>
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="25%" colspan="${descriptionColSpan}"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="25%" colspan="${colSpanDescription}"/>
 	</tr>
 </c:if>
 
@@ -109,7 +109,7 @@
 		</c:choose>
 
 		<tr>
-			<td class="infoline" nowrap="nowrap">
+			<td class="infoline" nowrap="nowrap" rowspan="2">
                &nbsp;<b><bean:write name="KualiForm" property="document.item[${ctr}].itemLineNumber"/></b> 
 			</td>
 			
@@ -243,7 +243,7 @@
 				    property="document.item[${ctr}].itemCatalogNumber"
 				    readOnly="true" />
 		    </td>		    
-			<td class="infoline" colspan="${descriptionColSpan}"/>
+			<td class="infoline" colspan="${colSpanDescription}"/>
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemDescription}"
 				    property="document.item[${ctr}].itemDescription"
@@ -253,7 +253,7 @@
 
 		<purap:purapGeneralAccounting
 			accountPrefix="document.item[${ctr}]." 
-			itemColSpan="${mainColumnCount}"/>	
+			itemColSpan="${mainColumnCount-1}"/>	
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 			</tbody>
 		</c:if>

@@ -37,7 +37,7 @@
 	    <c:if test="${empty isCreditMemo or !isCreditMemo}" >
 			<c:set var="mainColumnCount" value="12"/>
 			<c:set var="colSpanItemType" value="4"/>
-			<c:set var="colSpanDescription" value="7"/>
+			<c:set var="colSpanDescription" value="5"/>
 			<c:set var="colSpanExtendedPrice" value="1"/>
 			
     		<purap:purPOLineItemTotals documentAttributes="${documentAttributes}" />
@@ -99,8 +99,8 @@
 			specialItemTotalType="DISC" 
 			mainColumnCount="${mainColumnCount}"
 			colSpanItemType="${colSpanItemType}" 
-			colSpanExtendedPrice="${colSpanExtendedPrice}"
 			colSpanDescription="${colSpanDescription}" 
+			colSpanExtendedPrice="${colSpanExtendedPrice}"
 			colSpanAmountPaid="0">
 			<jsp:attribute name="specialItemTotalOverride">
 				<tr>
@@ -159,7 +159,7 @@
                         readOnly="true" />&nbsp; </b>
                 </div>
 			</td>
-			<td valign="middle" class="datacell" colspan="5">
+			<td valign="middle" class="datacell" colspan="3">
 				&nbsp;
 			</td>
 		</tr>
@@ -177,7 +177,7 @@
                         readOnly="true" />&nbsp; </b>
                 </div>
 			</td>
-			<td valign="middle" class="datacell" colspan="5">
+			<td valign="middle" class="datacell" colspan="3">
 				&nbsp;
 			</td>
 		</tr>
@@ -201,7 +201,7 @@
                         readOnly="true" />&nbsp; </b>
                 </div>
 			</td>
-			<td colspan=5 class="datacell">
+			<td class="datacell" colspan="3">
               <c:if test="${empty isCreditMemo or !isCreditMemo}" >
 	              <c:if test="${empty KualiForm.document.recurringPaymentTypeCode and !empty KualiForm.editingMode['allowClosePurchaseOrder']}" >
 	              	<kul:htmlControlAttribute

@@ -22,17 +22,14 @@
 
 	<bean id="DistributionOfIncomeAndExpense-routeDocumentValidation" parent="DistributionOfIncomeAndExpense-routeDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="DistributionOfIncomeAndExpense-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="DistributionOfIncomeAndExpense-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   		
   			<list>
   				<bean parent="AccountingDocument-debitsAndCreditsBalanceValidation" scope="prototype">
         			<property name="parameterProperties">
            				<list>
-             				<bean parent="validationFieldConversion">
-               					<property name="sourceEventProperty" value="document" />
-               					<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-             				</bean>
+             				<bean parent="accountingDocumentFieldConversion" />
            				</list> 
                    </property>
        			</bean>
@@ -40,41 +37,13 @@
   				<bean parent="AccountingDocument-optionalOneSidedDocumentAccountingLinesCountValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
+							<bean parent="accountingDocumentFieldConversion" />
 						</list>
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>
 				<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />  
   			</list>
-  		
-  		
-  		<!--  	<list>
-  		 		<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-  					<property name="parameterProperties">
-  						<list>
-  							<bean parent="validationFieldConversion">
-  								<property name="sourceEventProperty" value="iterationSubject" />
-  								<property name="targetValidationProperty" value="businessObjectForValidation" />
-  							</bean>
-  						</list>
-  					</property>
-  				</bean>
-  				<bean parent="AccountingDocument-optionalOneSidedDocumentAccountingLinesCountValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-						</list>
-					</property>
-					<property name="quitOnFail" value="true" />
-				</bean>
-  			</list> -->
   		</property>
   	</bean>
   	
@@ -84,7 +53,7 @@
   
   	<bean id="DistributionOfIncomeAndExpense-approveDocumentValidation" parent="DistributionOfIncomeAndExpense-approveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="DistributionOfIncomeAndExpense-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="DistributionOfIncomeAndExpense-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list><bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" /></list>
   		</property>
@@ -92,7 +61,7 @@
   
 	<bean id="DistributionOfIncomeAndExpense-blanketApproveDocumentValidation" parent="DistributionOfIncomeAndExpense-blanketApproveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="DistributionOfIncomeAndExpense-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="DistributionOfIncomeAndExpense-blanketApproveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" />
@@ -103,7 +72,7 @@
   
 	<bean id="DistributionOfIncomeAndExpense-addAccountingLineValidation" parent="DistributionOfIncomeAndExpense-addAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="DistributionOfIncomeAndExpense-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="DistributionOfIncomeAndExpense-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" scope="prototype" />
   		</property>
@@ -111,7 +80,7 @@
   
 	<bean id="DistributionOfIncomeAndExpense-deleteAccountingLineValidation" parent="DistributionOfIncomeAndExpense-deleteAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="DistributionOfIncomeAndExpense-deleteAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="DistributionOfIncomeAndExpense-deleteAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
   		</property>
@@ -119,7 +88,7 @@
   
 	<bean id="DistributionOfIncomeAndExpense-updateAccountingLineValidation" parent="DistributionOfIncomeAndExpense-updateAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="DistributionOfIncomeAndExpense-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="DistributionOfIncomeAndExpense-updateAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<bean parent="AccountingDocument-UpdateAccountingLine-DefaultValidation" scope="prototype" />
   		</property>
@@ -127,7 +96,7 @@
   
 	<bean id="DistributionOfIncomeAndExpense-reviewAccountingLineValidation" parent="DistributionOfIncomeAndExpense-reviewAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="DistributionOfIncomeAndExpense-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="DistributionOfIncomeAndExpense-reviewAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<bean parent="AccountingDocument-ReviewAccountingLine-DefaultValidation" scope="prototype" />
   		</property>

@@ -19,30 +19,32 @@
     xmlns:p="http://www.springframework.org/schema/p"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        
+    <bean id="InternalBilling-checkAllItemsValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+		<property name="collectionProperty" value="document.items" />
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="iterationSubject" />
+								<property name="targetValidationProperty" value="businessObjectForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
 
 	<bean id="InternalBilling-routeDocumentValidation" parent="InternalBilling-routeDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="InternalBilling-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="InternalBilling-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="AccountingDocument-RouteDocument-DefaultValidation" scope="prototype" />
-  				<bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
-  					<property name="collectionProperty" value="document.items" />
-  					<property name="validations">
-  						<list>
-  							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-  								<property name="parameterProperties">
-  									<list>
-  										<bean parent="validationFieldConversion">
-  											<property name="sourceEventProperty" value="iterationSubject" />
-  											<property name="targetValidationProperty" value="businessObjectForValidation" />
-  										</bean>
-  									</list>
-  								</property>
-  							</bean>
-  						</list>
-  					</property>
-  				</bean>
+  				<bean parent="InternalBilling-checkAllItemsValidation" scope="prototype" />
   				<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />  				
   			</list>
   		</property>
@@ -54,7 +56,7 @@
   
   	<bean id="InternalBilling-approveDocumentValidation" parent="InternalBilling-approveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="InternalBilling-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="InternalBilling-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list><bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" /></list>
   		</property>
@@ -62,7 +64,7 @@
   
 	<bean id="InternalBilling-blanketApproveDocumentValidation" parent="InternalBilling-blanketApproveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="InternalBilling-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="InternalBilling-blanketApproveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" />
@@ -70,64 +72,54 @@
   			</list>
   		</property>
 	</bean>
+		
+	<bean id="InternalBilling-addAccountingLineValidation-AccountingLineGroupedValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="validationFieldConversion">
+							<property name="sourceEventProperty" value="accountingLine" />
+							<property name="targetValidationProperty" value="businessObjectForValidation" />
+						</bean>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="InternalBilling-accountingLineAmountNonZeroValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+					<property name="accountingDocumentParameterPropertyName" value="document" />
+					<property name="accountingLineParameterPropertyName" value="accountingLine" />
+				</bean>
+			</list>
+		</property>
+	</bean>
   
 	<bean id="InternalBilling-addAccountingLineValidation" parent="InternalBilling-addAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="InternalBilling-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="InternalBilling-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-  				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
-  					<property name="validations">
-  						<list>
-  							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-								<property name="parameterProperties">
-									<bean parent="validationFieldConversion">
-										<property name="sourceEventProperty" value="accountingLine" />
-										<property name="targetValidationProperty" value="businessObjectForValidation" />
-									</bean>
-								</property>
-								<property name="quitOnFail" value="true" />
-							</bean>
-							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="accountingLine" />
-											<property name="targetValidationProperty" value="accountingLineForValidation" />
-										</bean>
-									</list>
-								</property>
-								<property name="quitOnFail" value="true" />
-							</bean>
-							<bean parent="InternalBilling-accountingLineAmountNonZeroValidation" scope="prototype">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="accountingLine" />
-											<property name="targetValidationProperty" value="accountingLineForValidation" />
-										</bean>
-									</list>
-								</property>
-								<property name="quitOnFail" value="true" />
-							</bean>
-							<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
-								<property name="accountingDocumentParameterPropertyName" value="document" />
-								<property name="accountingLineParameterPropertyName" value="accountingLine" />
-							</bean>
-						</list>
-					</property>
-				</bean>
+  				<bean parent="InternalBilling-addAccountingLineValidation-AccountingLineGroupedValidation" scope="prototype" />
 				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
+							<bean parent="accountingDocumentFieldConversion" />
+							<bean parent="accountingLineFieldConversion" />
 						</list>
 					</property>
 				</bean>
@@ -137,68 +129,58 @@
   
 	<bean id="InternalBilling-deleteAccountingLineValidation" parent="InternalBilling-deleteAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="InternalBilling-deleteAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="InternalBilling-deleteAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
   		</property>
 	</bean>
+	
+	<bean id="InternalBilling-updatedAccountingLineValidation-AccountingLineGroupedValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="validationFieldConversion">
+							<property name="sourceEventProperty" value="updatedAccountingLine" />
+							<property name="targetValidationProperty" value="businessObjectForValidation" />
+						</bean>
+					</property>
+				</bean>
+				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="updatedAccountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="InternalBilling-accountingLineAmountNonZeroValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="updatedAccountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+					<property name="accountingDocumentParameterPropertyName" value="document" />
+					<property name="accountingLineParameterPropertyName" value="updatedAccountingLine" />
+				</bean>
+			</list>
+		</property>
+	</bean>
   
 	<bean id="InternalBilling-updateAccountingLineValidation" parent="InternalBilling-updateAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="InternalBilling-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="InternalBilling-updateAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
-					<property name="validations">
-						<list>
-							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-								<property name="parameterProperties">
-									<bean parent="validationFieldConversion">
-										<property name="sourceEventProperty" value="updatedAccountingLine" />
-										<property name="targetValidationProperty" value="businessObjectForValidation" />
-									</bean>
-								</property>
-							</bean>
-							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="updatedAccountingLine" />
-											<property name="targetValidationProperty" value="accountingLineForValidation" />
-										</bean>
-									</list>
-								</property>
-								<property name="quitOnFail" value="true" />
-							</bean>
-							<bean parent="InternalBilling-accountingLineAmountNonZeroValidation" scope="prototype">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="updatedAccountingLine" />
-											<property name="targetValidationProperty" value="accountingLineForValidation" />
-										</bean>
-									</list>
-								</property>
-								<property name="quitOnFail" value="true" />
-							</bean>
-							<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
-								<property name="accountingDocumentParameterPropertyName" value="document" />
-								<property name="accountingLineParameterPropertyName" value="updatedAccountingLine" />
-							</bean>
-						</list>
-					</property>
-				</bean>
+				<bean parent="InternalBilling-updatedAccountingLineValidation-AccountingLineGroupedValidation" scope="prototype" />
 				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="updatedAccountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
+							<bean parent="accountingDocumentFieldConversion" />
+							<bean parent="updatedAccountingLineFieldConversion" />
 						</list>
 					</property>
 				</bean>
@@ -208,48 +190,36 @@
   
 	<bean id="InternalBilling-reviewAccountingLineValidation" parent="InternalBilling-reviewAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="InternalBilling-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="InternalBilling-reviewAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
-					<property name="validations">
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="validationFieldConversion">
+							<property name="sourceEventProperty" value="accountingLine" />
+							<property name="targetValidationProperty" value="businessObjectForValidation" />
+						</bean>
+					</property>
+				</bean>
+				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
 						<list>
-							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-								<property name="parameterProperties">
-									<bean parent="validationFieldConversion">
-										<property name="sourceEventProperty" value="accountingLine" />
-										<property name="targetValidationProperty" value="businessObjectForValidation" />
-									</bean>
-								</property>
-							</bean>
-							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="accountingLine" />
-											<property name="targetValidationProperty" value="accountingLineForValidation" />
-										</bean>
-									</list>
-								</property>
-								<property name="quitOnFail" value="true" />
-							</bean>
-							<bean parent="InternalBilling-accountingLineAmountNonZeroValidation" scope="prototype">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="accountingLine" />
-											<property name="targetValidationProperty" value="accountingLineForValidation" />
-										</bean>
-									</list>
-								</property>
-								<property name="quitOnFail" value="true" />
-							</bean>
-							<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
-								<property name="accountingDocumentParameterPropertyName" value="document" />
-								<property name="accountingLineParameterPropertyName" value="accountingLine" />
-							</bean>
+							<bean parent="accountingLineFieldConversion" />
 						</list>
 					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="InternalBilling-accountingLineAmountNonZeroValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+					<property name="accountingDocumentParameterPropertyName" value="document" />
+					<property name="accountingLineParameterPropertyName" value="accountingLine" />
 				</bean>
 			</list>
   		</property>

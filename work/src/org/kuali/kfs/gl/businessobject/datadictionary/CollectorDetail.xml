@@ -10,7 +10,7 @@
         <ref bean="CollectorDetail-universityFiscalPeriodCode"/>
         <ref bean="CollectorDetail-universityFiscalYear"/>
         <ref bean="CollectorDetail-createDate"/>
-        <ref bean="CollectorDetail-createSequence"/>
+        <ref bean="CollectorDetail-transactionLedgerEntrySequenceNumber"/>
         <ref bean="CollectorDetail-chartOfAccountsCode"/>
         <ref bean="CollectorDetail-accountNumber"/>
         <ref bean="CollectorDetail-subAccountNumber"/>
@@ -65,18 +65,10 @@
       <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
-  <bean id="CollectorDetail-createSequence" parent="CollectorDetail-createSequence-parentBean"/>
+  <bean id="CollectorDetail-transactionLedgerEntrySequenceNumber" parent="CollectorDetail-transactionLedgerEntrySequenceNumber-parentBean"/>
 
-  <bean id="CollectorDetail-createSequence-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="createSequence"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Creation Sequence"/>
-    <property name="shortLabel" value="CreationSeq"/>
-    <property name="maxLength" value="8"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="8"/>
-    </property>
-  </bean>
+  <bean id="CollectorDetail-transactionLedgerEntrySequenceNumber-parentBean" abstract="true" parent="Entry-transactionLedgerEntrySequenceNumber" />
+
   <bean id="CollectorDetail-chartOfAccountsCode" parent="CollectorDetail-chartOfAccountsCode-parentBean"/>
 
   <bean id="CollectorDetail-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">

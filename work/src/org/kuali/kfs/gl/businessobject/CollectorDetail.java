@@ -37,7 +37,7 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
     private String universityFiscalPeriodCode;
     private Integer universityFiscalYear;
     private Date createDate;
-    private String createSequence;
+    private Integer transactionLedgerEntrySequenceNumber;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
@@ -122,25 +122,21 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
         this.createDate = createDate;
     }
 
-
     /**
-     * Gets the createSequence attribute.
-     * 
-     * @return Returns the createSequence
+     * Gets the transactionLedgerEntrySequenceNumber attribute. 
+     * @return Returns the transactionLedgerEntrySequenceNumber.
      */
-    public String getCreateSequence() {
-        return createSequence;
+    public Integer getTransactionLedgerEntrySequenceNumber() {
+        return transactionLedgerEntrySequenceNumber;
     }
 
     /**
-     * Sets the createSequence attribute.
-     * 
-     * @param createSequence The createSequence to set.
+     * Sets the transactionLedgerEntrySequenceNumber attribute value.
+     * @param transactionLedgerEntrySequenceNumber The transactionLedgerEntrySequenceNumber to set.
      */
-    public void setCreateSequence(String createSequence) {
-        this.createSequence = createSequence;
+    public void setTransactionLedgerEntrySequenceNumber(Integer transactionLedgerEntrySequenceNumber) {
+        this.transactionLedgerEntrySequenceNumber = transactionLedgerEntrySequenceNumber;
     }
-
 
     /**
      * Gets the chartOfAccountsCode attribute.
@@ -427,7 +423,7 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
         if (getCreateDate() != null) {
             m.put("createDate", getCreateDate().toString());
         }
-        m.put("createSequence", getCreateSequence());
+        m.put("transactionLedgerEntrySequenceNumber", getTransactionLedgerEntrySequenceNumber());
         m.put("chartOfAccountsCode", getChartOfAccountsCode());
         m.put("accountNumber", getAccountNumber());
         m.put("subAccountNumber", getSubAccountNumber());

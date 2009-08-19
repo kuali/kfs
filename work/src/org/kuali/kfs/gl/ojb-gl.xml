@@ -716,7 +716,7 @@
     <field-descriptor name="universityFiscalPeriodCode" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true" />
     <field-descriptor name="createDate" column="CREATE_DT" jdbc-type="DATE" primarykey="true" index="true" />
-    <field-descriptor name="createSequence" column="CREATE_SEQ" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="transactionLedgerEntrySequenceNumber" column="TRN_ENTR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" />
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />

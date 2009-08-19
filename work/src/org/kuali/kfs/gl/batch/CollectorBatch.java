@@ -307,7 +307,7 @@ public class CollectorBatch implements Serializable {
         for (int numSavedDetails = 0; numSavedDetails < countOfdetails; numSavedDetails++) {
             CollectorDetail idDetail = this.collectorDetails.get(numSavedDetails);           
             setDefaultsCollectorDetail(idDetail);
-            idDetail.setCreateSequence(StringUtils.EMPTY + numSavedDetails);
+            idDetail.setTransactionLedgerEntrySequenceNumber(new Integer(numSavedDetails));
             
             CollectorDetail foundIdDetail = (CollectorDetail) businessObjectService.retrieve(idDetail);
             if (foundIdDetail != null) {

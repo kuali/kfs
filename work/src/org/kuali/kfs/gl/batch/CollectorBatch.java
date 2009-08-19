@@ -25,9 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.gl.batch.service.RunDateService;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryTotals;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.businessobject.CollectorHeader;
@@ -35,6 +35,7 @@ import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.gl.report.CollectorReportData;
+import org.kuali.kfs.gl.service.CollectorDetailService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
@@ -274,6 +275,7 @@ public class CollectorBatch implements Serializable {
      */
     public void setDefaultsAndStore(CollectorReportData collectorReportData, String demergerOutputFileName, PrintStream originEntryOutputPs) {
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);  
+        CollectorDetailService collectorDetailService = SpringContext.getBean(CollectorDetailService.class);
         
         // persistHeader is used to persist a collector header record into the DB
         CollectorHeader persistHeader = createCollectorHeaderForStorage();
@@ -301,14 +303,23 @@ public class CollectorBatch implements Serializable {
         finally {
             IOUtils.closeQuietly(inputFileReader);
             inputFileReader = null;
-        }
+        }  
+        Date nowDate  = new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+        RunDateService runDateService = SpringContext.getBean(RunDateService.class);
+        Date createDate = new java.sql.Date((runDateService.calculateRunDate(nowDate).getTime()));
         
+        Integer sequenceNumber = new Integer(0);
+        Integer nextSequence = collectorDetailService.getNextCreateSequence(createDate);
+        if (nextSequence != null) {
+            sequenceNumber = nextSequence;
+        }
         int countOfdetails = collectorDetails.size();
         for (int numSavedDetails = 0; numSavedDetails < countOfdetails; numSavedDetails++) {
             CollectorDetail idDetail = this.collectorDetails.get(numSavedDetails);           
-            setDefaultsCollectorDetail(idDetail);
-            idDetail.setTransactionLedgerEntrySequenceNumber(new Integer(numSavedDetails));
-            
+          //  setDefaultsCollectorDetail(idDetail);
+         
+            idDetail.setTransactionLedgerEntrySequenceNumber( ++sequenceNumber);
+            idDetail.setCreateDate(createDate);
             CollectorDetail foundIdDetail = (CollectorDetail) businessObjectService.retrieve(idDetail);
             if (foundIdDetail != null) {
                 idDetail.setVersionNumber(foundIdDetail.getVersionNumber());
@@ -404,19 +415,19 @@ public class CollectorBatch implements Serializable {
         return header;
     }
 
-    /**
-     * Sets defaults for missing id billing fields.
-     * 
-     * @param idDetail CollectorDetail object which has its create date being set
-     */
-    private void setDefaultsCollectorDetail(CollectorDetail idDetail) {
-        // TODO: Get current fiscal year and period if blank?
-        // idBilling.setUniversityFiscalPeriodCode(String.valueOf(RandomUtils.nextInt(2)));
-        // idBilling.setCreateSequence(String.valueOf(RandomUtils.nextInt(2)));
-        // idBilling.setInterDepartmentalBillingSequenceNumber(String.valueOf(RandomUtils.nextInt(2)));
-        idDetail.setCreateDate(new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
-        
-    }
+//    /**
+//     * Sets defaults for missing id billing fields.
+//     * 
+//     * @param idDetail CollectorDetail object which has its create date being set
+//     */
+//    private void setDefaultsCollectorDetail(CollectorDetail idDetail) {
+//        // TODO: Get current fiscal year and period if blank?
+//        // idBilling.setUniversityFiscalPeriodCode(String.valueOf(RandomUtils.nextInt(2)));
+//        // idBilling.setCreateSequence(String.valueOf(RandomUtils.nextInt(2)));
+//        // idBilling.setInterDepartmentalBillingSequenceNumber(String.valueOf(RandomUtils.nextInt(2)));
+//        idDetail.setCreateDate(new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+//        
+//    }
 
     /**
      * Gets the campusCode attribute.

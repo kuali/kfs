@@ -15,12 +15,18 @@
  */
 package org.kuali.kfs.gl.dataaccess.impl;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.Iterator;
+
 import org.apache.ojb.broker.metadata.ClassDescriptor;
 import org.apache.ojb.broker.metadata.ClassNotPersistenceCapableException;
 import org.apache.ojb.broker.metadata.DescriptorRepository;
 import org.apache.ojb.broker.metadata.MetadataManager;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.dataaccess.CollectorDetailDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -52,7 +58,7 @@ public class CollectorDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Co
         Criteria criteria = new Criteria();
         criteria.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         criteria.addLessThan(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, new Integer(universityFiscalYear));
-
+        
         getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(CollectorDetail.class, criteria));
 
         // This is required because if any deleted items are in the cache, deleteByQuery doesn't
@@ -92,4 +98,22 @@ public class CollectorDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Co
     }
 
 
+    public Integer getMaxCreateSequence(Date date) {
+        Criteria crit = new Criteria();
+        crit.addEqualTo("CREATE_DT", date);
+
+        ReportQueryByCriteria q = QueryFactory.newReportQuery(CollectorDetail.class, crit);
+        q.setAttributes(new String[] { "max(transactionLedgerEntrySequenceNumber)" });
+
+        Iterator<Object[]> iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
+        if (iter.hasNext()) {
+            Object[] result = iter.next();
+            if (result[0] != null) {
+                return new Integer(((BigDecimal)result[0]).intValue());
+            }
+        }
+        return null;
+    }
+    
+    
 }

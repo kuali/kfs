@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.gl.service.impl;
 
+import java.sql.Date;
+
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.dataaccess.CollectorDetailDao;
 import org.kuali.kfs.gl.service.CollectorDetailService;
@@ -40,6 +42,10 @@ public class CollectorDetailServiceImpl implements CollectorDetailService {
         LOG.debug("purgeYearByChart() started");
 
         collectorDetailDao.purgeYearByChart(chartOfAccountsCode, universityFiscalYear);
+    }
+    
+    public Integer getNextCreateSequence(Date date) {
+        return collectorDetailDao.getMaxCreateSequence(date);
     }
 
     /**

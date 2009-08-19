@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.gl.service;
 
+import java.sql.Date;
+
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 
 /**
@@ -29,6 +31,8 @@ public interface CollectorDetailService {
      */
     public void purgeYearByChart(String chartOfAccountsCode, int universityFiscalYear);
 
+    
+    public Integer getNextCreateSequence(Date date);
     /**
      * Saves a CollectorDetail
      * 

@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.gl.dataaccess;
 
+import java.sql.Date;
+
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 
 /**
@@ -42,4 +44,7 @@ public interface CollectorDetailDao {
      * @return String representing DB table name for CollectorDetails
      */
     public String retrieveCollectorDetailTableName();
+    
+    
+    public Integer getMaxCreateSequence(Date date);
 }

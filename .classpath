@@ -8,7 +8,7 @@
 	<classpathentry exported="true" kind="var" path="TOMCAT_LIB_HOME/servlet-api.jar"/>
 	<classpathentry exported="true" kind="var" path="TOMCAT_LIB_HOME/jsp-api.jar"/>
 	<classpathentry exported="true" kind="var" path="DRIVERS_DIRECTORY/ojdbc14.jar"/>
-	<classpathentry kind="var" path="DRIVERS_DIRECTORY/mysql-connector-java-5.0.5-bin.jar"/>
+	<classpathentry kind="var" path="DRIVERS_DIRECTORY/mysql-connector-java-5.0.8-bin.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/activation-1.0.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/backport-util-concurrent-2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/commons-beanutils-1.7.jar"/>
@@ -41,6 +41,7 @@
 	<classpathentry exported="true" kind="lib" path="build/external/appserver/jotm.jar"/>
 	<classpathentry exported="true" kind="lib" path="build/external/appserver/xapool.jar"/>
 	<classpathentry exported="true" kind="lib" path="build/log4j-1.2.14.jar"/>
+	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/commons-logging-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/jboss-common-core-2.0.4.GA.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/persistence-api-1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/jaxb-api-2.1.jar"/>

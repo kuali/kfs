@@ -24,7 +24,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,15 +94,12 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     private Integer fiscalMonth;
     private String errorMsg = "";
     private List<String> documentNos = new ArrayList<String>();
-
     private DepreciationBatchDao depreciationBatchDao;
 
     /**
      * @see org.kuali.kfs.module.cam.batch.service.AssetDepreciationService#runDepreciation()
      */
     public void runDepreciation() {
-        // FIXME - Harsha should remove all sysout and performance monitoring log later
-        System.out.println("Started runDepreciation at " + new Date());
         List<String[]> reportLog = new ArrayList<String[]>();
         boolean hasErrors = false;
         Calendar depreciationDate = Calendar.getInstance();
@@ -145,40 +141,20 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             this.fiscalMonth = new Integer(universityDate.getUniversityFiscalAccountingPeriod());
             // If the depreciation date is not = to the system date then, the depreciation process cannot run.
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Fiscal Year = " + this.fiscalYear + " & Fiscal Period=" + this.fiscalMonth);
-            System.out.println("BEGIN generateStatistics()");
-            long start = System.currentTimeMillis();
             reportLog.addAll(depreciableAssetsDao.generateStatistics(true, null, fiscalYear, fiscalMonth, depreciationDate));
-            long end = System.currentTimeMillis();
-            System.out.println("END generateStatistics() " + (end - start) + " ms");
-
             // update if fiscal period is 12
             depreciationBatchDao.updateAssetsCreatedInLastFiscalPeriod(fiscalMonth, fiscalYear);
-
             // Retrieving eligible asset payment details
-            System.out.println("BEGIN getListOfDepreciableAssetPaymentInfo()");
-            start = System.currentTimeMillis();
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting list of asset payments eligible for depreciation.");
             Collection<AssetPaymentInfo> depreciableAssetsCollection = depreciationBatchDao.getListOfDepreciableAssetPaymentInfo(this.fiscalYear, this.fiscalMonth, depreciationDate);
-            end = System.currentTimeMillis();
-            System.out.println("END getListOfDepreciableAssetPaymentInfo() " + (end - start) + " ms");
-
             // if we have assets eligible for depreciation then, calculate depreciation and create glpe's transactions
             if (depreciableAssetsCollection != null && !depreciableAssetsCollection.isEmpty()) {
-                System.out.println("BEGIN calculateDepreciation()");
-                start = System.currentTimeMillis();
                 SortedMap<String, AssetDepreciationTransaction> depreciationTransactions = this.calculateDepreciation(depreciableAssetsCollection, depreciationDate);
-                end = System.currentTimeMillis();
-                System.out.println("END calculateDepreciation() " + (end - start) + " ms");
-                System.out.println("BEGIN processGeneralLedgerPendingEntry()");
-                start = System.currentTimeMillis();
                 processGeneralLedgerPendingEntry(depreciationTransactions);
-                end = System.currentTimeMillis();
-                System.out.println("END processGeneralLedgerPendingEntry() " + (end - start) + " ms");
             }
             else {
                 throw new IllegalStateException(kualiConfigurationService.getPropertyString(CamsKeyConstants.Depreciation.NO_ELIGIBLE_FOR_DEPRECIATION_ASSETS_FOUND));
             }
-
         }
         catch (Exception e) {
             LOG.error("Error occurred", e);
@@ -198,9 +174,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
             LOG.info("*******" + CamsConstants.Depreciation.DEPRECIATION_BATCH + " HAS ENDED *******");
         }
-        System.out.println("Finished runDepreciation at " + new Date());
     }
-
 
     /**
      * This method calculates the depreciation of each asset payment, creates the depreciation transactions that will be stored in
@@ -330,9 +304,6 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                     getDepreciationBatchDao().updateAssetPayments(saveList, fiscalMonth);
                     saveList.clear();
                 }
-                if (counter % 10000 == 0) {
-                    System.out.println("" + new Date() + " Processed count - " + counter);
-                }
                 // if the asset has a depreciation amount > than 0 then, create its debits and credits.
                 if (!transactionAmount.isZero()) {
                     this.populateDepreciationTransaction(assetPaymentInfo, transactionType, plantCOA, plantAccount, accumulatedDepreciationFinancialObject, depreciationExpenseFinancialObject, depreciationTransactionSummary);
@@ -342,7 +313,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             }
             getDepreciationBatchDao().updateAssetPayments(saveList, fiscalMonth);
             saveList.clear();
-            System.out.println("" + new Date() + "Finished count - " + counter);
+
             return depreciationTransactionSummary;
         }
         catch (Exception e) {
@@ -422,7 +393,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
             List<GeneralLedgerPendingEntry> saveList = new ArrayList<GeneralLedgerPendingEntry>();
             int counter = 0;
-            System.out.println("GL Size is " + trans.size());
+
             for (Object key : trans.keySet()) {
                 counter++;
                 AssetDepreciationTransaction t = trans.get(key);
@@ -458,9 +429,6 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                         getDepreciationBatchDao().savePendingGLEntries(saveList);
                         saveList.clear();
                     }
-                    if (counter % 10000 == 0) {
-                        System.out.println(new Date() + "GL processed " + counter);
-                    }
                     if (sequenceHelper.getSequenceCounter() == 99999) {
                         // create new document and sequence is reset
                         documentNumber = createNewDepreciationDocument();
@@ -471,7 +439,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             // save last list
             getDepreciationBatchDao().savePendingGLEntries(saveList);
             saveList.clear();
-            System.out.println(new Date() + "GL processed " + counter);
+
         }
         catch (Exception e) {
             LOG.error("Error occurred", e);

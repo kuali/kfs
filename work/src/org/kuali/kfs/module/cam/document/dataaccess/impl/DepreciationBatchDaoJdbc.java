@@ -230,7 +230,7 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
                 while (rs != null && rs.next()) {
                     counter++;
                     if (counter % 10000 == 0) {
-                        System.out.println("Result row at " + new java.util.Date() + " -  " + counter);
+                        LOG.info("Reading result row at " + new java.util.Date() + " -  " + counter);
                     }
                     AssetPaymentInfo assetPaymentInfo = new AssetPaymentInfo();
                     assetPaymentInfo.setCapitalAssetNumber(rs.getLong(1));

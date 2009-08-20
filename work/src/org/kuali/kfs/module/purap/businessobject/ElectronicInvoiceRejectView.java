@@ -26,6 +26,19 @@ public class ElectronicInvoiceRejectView extends AbstractRelatedView {
 
     private Integer purchaseOrderIdentifier;
     
+    @Override
+    public String getDocumentIdentifierString() {
+        return getDocumentNumber();
+    }
+
+    public Integer getPurchaseOrderIdentifier() {
+        return purchaseOrderIdentifier;
+    }
+
+    public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
+        this.purchaseOrderIdentifier = purchaseOrderIdentifier;
+    }
+    
     /**
      * The next three methods are overridden but shouldnt be! If they arent overridden, they dont show up in the tag, not sure why
      * at this point! (AAP)
@@ -37,19 +50,6 @@ public class ElectronicInvoiceRejectView extends AbstractRelatedView {
         return super.getPurapDocumentIdentifier();
     }
 
-    @Override
-    public String getDocumentIdentifierString() {
-        return super.getDocumentIdentifierString();
-    }
-
-    public Integer getPurchaseOrderIdentifier() {
-        return purchaseOrderIdentifier;
-    }
-
-    public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
-        this.purchaseOrderIdentifier = purchaseOrderIdentifier;
-    }
-    
     /**
      * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getNotes()
      */

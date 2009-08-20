@@ -630,7 +630,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 // if routing with tax
                 NodeDetails currentNodeDetails = NodeDetailEnum.VENDOR_TAX_REVIEW.getNodeDetailByName(nodeNames[0]);
                 if (NodeDetailEnum.VENDOR_TAX_REVIEW.getName().equals(nodeNames[0])
-                        || (currentNodeDetails != null && NodeDetailEnum.VENDOR_TAX_REVIEW.getOrdinal() - currentNodeDetails.getOrdinal() == 1))  
+                        || (currentNodeDetails != null && NodeDetailEnum.VENDOR_TAX_REVIEW.getOrdinal() - currentNodeDetails.getOrdinal() == 1)  
                         || getStatusCode().equals(PaymentRequestStatuses.AWAITING_TAX_REVIEW)) {
                     String deliveryCampus = StringUtils.trimToEmpty((getProcessingCampus() != null ? getProcessingCampus().getCampus().getCampusCode(): "n/a"));                
                     String department = (theAccount != null ? StringUtils.trimToEmpty((((theAccount.getAccount() != null) && (theAccount.getAccount().getOrganization() != null)) ? theAccount.getAccount().getOrganization().getOrganizationName() : "")) : "n/a");

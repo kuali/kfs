@@ -24,6 +24,16 @@
 <c:set var="purapTaxEnabled" value="${(not empty KualiForm.editingMode['purapTaxEnabled'])}" />
 <c:set var="tabindexOverrideBase" value="50" />
 
+<c:set var="mainColumnCount" value="12"/>
+<c:set var="colSpanItemType" value="6"/>
+<c:set var="colSpanExtendedPrice" value="1"/>
+<c:if test="${purapTaxEnabled}">
+	<c:set var="colSpanDescription" value="3"/>
+</c:if>	
+<c:if test="${!purapTaxEnabled}">
+	<c:set var="colSpanDescription" value="5"/>
+</c:if>	
+
 <kul:tab tabTitle="Process Items" defaultOpen="true" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
 	<div class="tab-container" align=center>
 	<c:if test="${!KualiForm.document.inquiryRendered}">
@@ -35,13 +45,8 @@
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Items Section">
 	
 	    <c:if test="${empty isCreditMemo or !isCreditMemo}" >
-			<c:set var="mainColumnCount" value="12"/>
-			<c:set var="colSpanItemType" value="4"/>
-			<c:set var="colSpanDescription" value="5"/>
-			<c:set var="colSpanExtendedPrice" value="1"/>
-			
-    		<purap:purPOLineItemTotals documentAttributes="${documentAttributes}" />
-
+			<c:set var="colSpanItemType" value="4"/>			
+    		<purap:purPOLineItemTotals documentAttributes="${documentAttributes}" mainColumnCount="${mainColumnCount}" />
 	    	<purap:paymentRequestItems 
 		    	itemAttributes="${itemAttributes}"
 	    		accountingLineAttributes="${accountingLineAttributes}" 
@@ -50,33 +55,29 @@
 		</c:if>
 
         <!--  replace literal with PurapConstants once exported -->
-	    <c:if test="${isCreditMemo and !(KualiForm.document.creditMemoType eq 'Vendor')}" >
-			<c:set var="mainColumnCount" value="12"/>
-			<c:set var="colSpanItemType" value="6"/>
-			<c:set var="colSpanDescription" value="5"/>
-			<c:set var="colSpanExtendedPrice" value="1"/>
-			
-	    	<purap:creditMemoItems 
-		    	itemAttributes="${itemAttributes}"
-	    		accountingLineAttributes="${accountingLineAttributes}" 
-	    		mainColumnCount="${mainColumnCount}" />
-	    </c:if>
-
-		<c:if test="${isCreditMemo and (KualiForm.document.creditMemoType eq 'Vendor')}" >
-			<c:set var="mainColumnCount" value="12"/>
-			<c:set var="colSpanItemType" value="6"/>
-			<c:set var="colSpanDescription" value="5"/>
-			<c:set var="colSpanExtendedPrice" value="1"/>
+	    <c:if test="${isCreditMemo && !(KualiForm.document.creditMemoType eq 'Vendor')}" >
+	    		<purap:creditMemoItems 
+		    		itemAttributes="${itemAttributes}"
+	    			accountingLineAttributes="${accountingLineAttributes}" 
+	    			mainColumnCount="${mainColumnCount}" />
 		</c:if>
 
-		<!-- BEGIN TOTAL SECTION -->
+		<!-- BEGIN SUBTOTAL SECTION -->
+		<c:set var="colSpanTotalLabel" value="${mainColumnCount-colSpanDescription-colSpanExtendedPrice}"/>
+		<c:set var="colSpanTotalAmount" value="${colSpanExtendedPrice}"/>
+		<c:set var="colSpanTotalBlank" value="${colSpanDescription}"/>					
+		<c:if test="${purapTaxEnabled}">		
+			<c:set var="colSpanTotalAmount" value="1"/>
+			<c:set var="colSpanTotalLabel" value="${mainColumnCount-colSpanTotalBlank-colSpanTotalAmount}"/>		
+		</c:if>
+		
 		<tr>
-			<td align=right width='75%' colspan="8" scope="row" class="datacell">
+			<td align=right width='75%' scope="row" class="datacell" colspan="${colSpanTotalLabel}">
 			    <div align="right">
 			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.lineItemTotal}" skipHelpUrl="true"/></b>&nbsp;
 			    </div>
 			</td>
-			<td valign=middle class="datacell" colspan="1">
+			<td valign=middle class="datacell" colspan="${colSpanTotalAmount}">
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
                         attributeEntry="${DataDictionary.PaymentRequestDocument.lineItemTotal}"
@@ -84,9 +85,9 @@
                         readOnly="true" />&nbsp; </b>
                 </div>
 			</td>
-			<td class="datacell" colspan=3">&nbsp;</td>
+			<td class="datacell" colspan="${colSpanTotalBlank}">&nbsp;</td>
 		</tr>
-		<!-- END TOTAL SECTION -->
+		<!-- END SUBTOTAL SECTION -->
 		
 		<c:set var="showInvoiced" value="${empty isCreditMemo or !isCreditMemo}" />
 		<purap:miscitems 
@@ -104,21 +105,20 @@
 			colSpanAmountPaid="0">
 			<jsp:attribute name="specialItemTotalOverride">
 				<tr>
-					<td align=right width='75%' colspan="8" scope="row" class="datacell">
+					<td align=right width='75%' scope="row" class="datacell" colspan="${colSpanTotalLabel}">
 			 			<div align="right">
 			        		<b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grandTotalExcludingDiscount}" skipHelpUrl="true" /></b>&nbsp;
 			    		</div>
 					</td>
-					<td valign=middle class="datacell" colspan="1">
+					<td valign=middle class="datacell" colspan="${colSpanTotalAmount}">
 		    		    <div align="right"><b>
                             <kul:htmlControlAttribute
                                 attributeEntry="${DataDictionary.PaymentRequestDocument.grandTotalExcludingDiscount}"
                                 property="document.grandPreTaxTotalExcludingDiscount"
                                 readOnly="true" />&nbsp; </b>
                         </div>
-					</td>
-	
-					<td colspan=5 class="datacell">
+					</td>	
+					<td class="datacell" colspan="${colSpanTotalBlank}">
 						&nbsp;
 					</td>
 				</tr>
@@ -140,9 +140,9 @@
 		</c:if> 
 		
 		<!-- BEGIN TOTAL SECTION -->
-		<c:if test="${purapTaxEnabled}">
+		<c:if test="${purapTaxEnabled}">		
 		<tr>
-			<td align=right width='75%' colspan="8" scope="row" class="datacell">
+			<td align=right width='75%' scope="row" class="datacell" colspan="${colSpanTotalLabel}">
 			    <div align="right">
 					<c:if test="${(empty isCreditMemo or !isCreditMemo) and purapTaxEnabled and KualiForm.document.useTaxIndicator}" >
 					<b>[Vendor Remit Amount]</b>
@@ -151,7 +151,7 @@
 			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grandPreTaxTotal}" skipHelpUrl="true" /></b>&nbsp;
 			    </div>
 			</td>
-			<td valign=middle class="datacell" colspan="1">
+			<td valign=middle class="datacell" colspan="${colSpanTotalAmount}">
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
                         attributeEntry="${DataDictionary.PaymentRequestDocument.grandPreTaxTotal}"
@@ -159,17 +159,18 @@
                         readOnly="true" />&nbsp; </b>
                 </div>
 			</td>
-			<td valign="middle" class="datacell" colspan="3">
+			<td valign="middle" class="datacell" colspan="${colSpanTotalBlank}">
 				&nbsp;
 			</td>
 		</tr>
+		
 		<tr>
-			<td align=right width='75%' colspan="8" scope="row" class="datacell">
+			<td align=right width='75%' scope="row" class="datacell" colspan="${colSpanTotalLabel}">
 			    <div align="right">
 			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grandTaxAmount}" skipHelpUrl="true" /></b>&nbsp;
 			    </div>
 			</td>
-			<td valign=middle class="datacell" colspan="1">
+			<td valign=middle class="datacell" colspan="${colSpanTotalAmount}">
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
                         attributeEntry="${DataDictionary.PaymentRequestDocument.grandTaxAmount}"
@@ -177,14 +178,14 @@
                         readOnly="true" />&nbsp; </b>
                 </div>
 			</td>
-			<td valign="middle" class="datacell" colspan="3">
+			<td valign="middle" class="datacell" colspan="${colSpanTotalBlank}">
 				&nbsp;
 			</td>
 		</tr>
 		</c:if>
 
 		<tr>
-			<td align=right width='75%' colspan="8" scope="row" class="datacell">
+			<td align=right width='75%' scope="row" class="datacell" colspan="${colSpanTotalLabel}">
 			    <div align="right">
 					<c:if test="${(empty isCreditMemo or !isCreditMemo) and purapTaxEnabled and !KualiForm.document.useTaxIndicator}" >
 					<b>[Vendor Remit Amount]</b>
@@ -193,7 +194,7 @@
 			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grandTotal}" skipHelpUrl="true" /></b>&nbsp;
 			    </div>
 			</td>
-			<td valign=middle class="datacell" colspan="1">
+			<td valign=middle class="datacell" colspan="${colSpanTotalAmount}">
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
                         attributeEntry="${DataDictionary.PaymentRequestDocument.grandTotal}"
@@ -201,7 +202,7 @@
                         readOnly="true" />&nbsp; </b>
                 </div>
 			</td>
-			<td class="datacell" colspan="3">
+			<td class="datacell" colspan="${colSpanTotalBlank}">
               <c:if test="${empty isCreditMemo or !isCreditMemo}" >
 	              <c:if test="${empty KualiForm.document.recurringPaymentTypeCode and !empty KualiForm.editingMode['allowClosePurchaseOrder']}" >
 	              	<kul:htmlControlAttribute
@@ -223,12 +224,13 @@
 					    <kul:htmlAttributeLabel attributeEntry="${documentAttributes.reopenPurchaseOrderIndicator}" skipHelpUrl="true" noColon="true" />
 	              </c:if>
 	              <c:if test="${not empty KualiForm.document.paymentRequestDocument.recurringPaymentTypeCode and not fullDocumentEntryCompleted}">
-	                Recurring PO
+	              	Recurring PO
 	              </c:if>			
               </c:if>		
 			</td>
-		</tr>
+		</tr>		
 		<!-- END TOTAL SECTION -->
+		
 	</table>
 
 	</div>

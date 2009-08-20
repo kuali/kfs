@@ -611,14 +611,22 @@
             </td>
 		</tr>
 
-		<c:if test="${purapTaxEnabled}">
+		<c:set var="colSpanTotalLabel" value="${colSpanItemType+colSpanDescription}"/>
+		<c:set var="colSpanTotalAmount" value="${colSpanExtendedPrice}"/>
+		<c:set var="colSpanTotalBlank" value="${mainColumnCount-colSpanTotalLabel-colSpanTotalAmount}"/>		
+		
+		<c:if test="${purapTaxEnabled}">		
+		<c:set var="colSpanTotalBlank" value="${colSpanTotalBlank-2}"/>
+		<c:set var="colSpanTotalAmount" value="1"/>
+		<c:set var="colSpanTotalLabel" value="${mainColumnCount-colSpanTotalBlank-colSpanTotalAmount}"/>
+		
 		<tr>
-			<th align=right width='75%' colspan=10 scope="row">
+			<th align=right width='75%' colspan="${colSpanTotalLabel}" scope="row">
 			    <div align="right">
 			        <kul:htmlAttributeLabel attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalPreTaxDollarAmount}" />
 			    </div>
 			</th>
-			<td valign=middle class="datacell">
+			<td valign=middle class="datacell" colspan="${colSpanTotalAmount}">
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
                         attributeEntry="${DataDictionary.RequisitionDocument.totalPreTaxDollarAmount}"
@@ -626,16 +634,16 @@
                         readOnly="true" />&nbsp; </b>
                 </div>
 			</td>
-			<td class="datacell" colspan="${mainColumnCount-11}">&nbsp;</td>
+			<td class="datacell" colspan="${colSpanTotalBlank}">&nbsp;</td>
 		</tr>
 
 		<tr>
-			<th align=right width='75%' colspan=10 scope="row">
+			<th align=right width='75%' colspan="${colSpanTotalLabel}" scope="row">
 			    <div align="right">
 			        <kul:htmlAttributeLabel attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalTaxAmount}" />
 			    </div>
 			</th>
-			<td valign=middle class="datacell">
+			<td valign=middle class="datacell" colspan="${colSpanTotalAmount}">
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
                         attributeEntry="${DataDictionary.RequisitionDocument.totalTaxAmount}"
@@ -643,17 +651,17 @@
                         readOnly="true" />&nbsp; </b>
                 </div>
 			</td>
-			<td class="datacell" colspan="${mainColumnCount-11}">&nbsp;</td>
+			<td class="datacell" colspan="${colSpanTotalBlank}">&nbsp;</td>
 		</tr>
 		</c:if>
 
 		<tr>
-			<th align=right width='75%' colspan=10 scope="row">
+			<th align=right width='75%' colspan="${colSpanTotalLabel}" scope="row">
 			    <div align="right">
 			        <kul:htmlAttributeLabel attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalDollarAmount}" />
 			    </div>
 			</th>
-			<td valign=middle class="datacell">
+			<td valign=middle class="datacell"  colspan="${colSpanTotalAmount}">
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
                         attributeEntry="${DataDictionary.RequisitionDocument.totalDollarAmount}"
@@ -661,11 +669,11 @@
                         readOnly="true" />&nbsp; </b>
                 </div>
 			</td>
-			<td class="datacell" colspan="${mainColumnCount-11}">&nbsp;</td>
+			<td class="datacell" colspan="${colSpanTotalBlank}">&nbsp;</td>
 		</tr>
 
 		<tr>
-			<th align=right width='75%' colspan=10 scope="row">
+			<th align=right width='75%' colspan="${colSpanTotalLabel}" scope="row">
 			    <c:if test="${displayRequisitionFields}">
 				    <div align="right">
 				        <kul:htmlAttributeLabel attributeEntry="${DataDictionary.RequisitionDocument.attributes.organizationAutomaticPurchaseOrderLimit}" />
@@ -677,7 +685,7 @@
                     </div>
                 </c:if>
             </th>
-			<td align=right valign=middle class="datacell">
+			<td align=right valign=middle class="datacell" colspan="${colSpanTotalAmount}">
 			    <c:if test="${displayRequisitionFields}">
 				    <div align="right">
 				        <kul:htmlControlAttribute
@@ -695,8 +703,8 @@
                     </div>
 			    </c:if>
 			</td>
-			<td class="datacell"  colspan="${mainColumnCount-11}">&nbsp;</td>
-		</tr>
+			<td class="datacell" colspan="${colSpanTotalBlank}">&nbsp;</td>
+		</tr>		
 		<!-- END TOTAL SECTION -->
 
 	</table>

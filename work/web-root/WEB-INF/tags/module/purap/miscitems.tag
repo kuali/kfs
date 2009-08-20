@@ -129,7 +129,6 @@
 			<c:if test="${purapTaxEnabled}">
 			    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" />				
 			    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" />
-			    <c:set var="colSpanDescription" value="${colSpanDescription - 2}"/>			    
 			</c:if>				
 			<kul:htmlAttributeHeaderCell colspan="${colSpanDescription}"
 				attributeEntry="${itemAttributes.itemDescription}" />
@@ -206,13 +205,13 @@
 				</c:if>
 					
 				<c:if test="${colSpanBlank > 0}">					
-					<td colspan="${colSpanBlank}" class="infoline">
+					<td class="infoline" colspan="${colSpanBlank}">
 						&nbsp;
 					</td>					
 				</c:if>		
 				
 				<c:if test="${isATypeOfPODoc}">
-			    	<td class="infoline" rowspan="${colSpanExtendedPrice}">
+			    	<td class="infoline">
 			        	<div align="right">
 					    	<kul:htmlControlAttribute
 				            	attributeEntry="${itemAttributes.itemInvoicedTotalAmount}"
@@ -273,10 +272,8 @@
 				itemColSpan="${mainColumnCount}"/>
 		</c:if>
 				
-		<c:if test="${(((!empty KualiForm.editingMode['allowItemEntry']) && (!empty itemLine.itemUnitPrice)) || (empty KualiForm.editingMode['allowItemEntry']))}">
-		    <c:if test="${(!amendmentEntry && KualiForm.document.statusCode!='AFOA') || (KualiForm.document.statusCode=='AFOA' && !empty KualiForm.document.items[ctr].itemUnitPrice)}">
-			    <c:if test="${showAmount}">
-			    </c:if>
+		<c:if test="${!empty KualiForm.editingMode['allowItemEntry'] && !empty itemLine.itemUnitPrice || empty KualiForm.editingMode['allowItemEntry']}">
+		    <c:if test="${!amendmentEntry && KualiForm.document.statusCode!='AFOA' || KualiForm.document.statusCode=='AFOA' && !empty KualiForm.document.items[ctr].itemUnitPrice}">
 			    <purap:purapGeneralAccounting 
 				    accountPrefix="document.item[${ctr}]."
 				    itemColSpan="${mainColumnCount}" />

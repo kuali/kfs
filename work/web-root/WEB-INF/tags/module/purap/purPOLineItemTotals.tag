@@ -16,9 +16,10 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields." %>
+<%@ attribute name="mainColumnCount" required="true" %>
 
 <tr>
-	<td colspan="12" class="subhead">
+	<td colspan="${mainColumnCount}" class="subhead">
 	    <span class="subhead-left">Purchase Order Line Item Totals</span>
 	</td>
 </tr>
@@ -26,7 +27,7 @@
 <tr>
 	<kul:htmlAttributeHeaderCell attributeEntry="${documentAttributes.itemTotalPoEncumbranceAmount}" colspan="4"/>
 	<kul:htmlAttributeHeaderCell attributeEntry="${documentAttributes.itemTotalPoEncumbranceAmountRelieved}" colspan="4"/>
-	<kul:htmlAttributeHeaderCell attributeEntry="${documentAttributes.itemTotalPoPaidAmount}" colspan="4"/>
+	<kul:htmlAttributeHeaderCell attributeEntry="${documentAttributes.itemTotalPoPaidAmount}" colspan="${mainColumnCount-8}"/>
 </tr>
 
 <tr>
@@ -46,7 +47,7 @@
 		    readOnly="true" />
 		</div>
 	</td>
-	<td class="infoline" colspan="4">
+	<td class="infoline" colspan="${mainColumnCount-8}">
 		<div align="right">
 	    <kul:htmlControlAttribute
 		    attributeEntry="${documentAttributes.itemTotalPoPaidAmount}"
@@ -57,5 +58,5 @@
 </tr>
 
 <tr>
-	<th height=30 colspan="12">&nbsp;</th>
+	<th height=30 colspan="${mainColumnCount}">&nbsp;</th>
 </tr>

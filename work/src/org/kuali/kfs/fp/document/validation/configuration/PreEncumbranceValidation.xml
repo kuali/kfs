@@ -22,26 +22,20 @@
 
 	<bean id="PreEncumbrance-routeDocumentValidation" parent="PreEncumbrance-routeDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="PreEncumbrance-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="PreEncumbrance-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   		 		<bean parent="PreEncumbrance-requiredAccountingLinesCountValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
+							<bean parent="accountingDocumentFieldConversion" />
 						</list>
 					</property>
 				</bean>
 				<bean parent="PreEncumbrance-reversalDateValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
+							<bean parent="accountingDocumentFieldConversion" />
 						</list>
 					</property>
 				</bean>
@@ -55,7 +49,7 @@
   
   	<bean id="PreEncumbrance-approveDocumentValidation" parent="PreEncumbrance-approveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="PreEncumbrance-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="PreEncumbrance-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list><bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" /></list>
   		</property>
@@ -63,7 +57,7 @@
   
 	<bean id="PreEncumbrance-blanketApproveDocumentValidation" parent="PreEncumbrance-blanketApproveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="PreEncumbrance-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="PreEncumbrance-blanketApproveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list><bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" /></list>
   		</property>
@@ -71,17 +65,14 @@
   
 	<bean id="PreEncumbrance-addAccountingLineValidation" parent="PreEncumbrance-addAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="PreEncumbrance-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PreEncumbrance-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" scope="prototype" />
   				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
+							<bean parent="accountingLineFieldConversion" />
 						</list>
 					</property>
 					<property name="quitOnFail" value="true" />
@@ -92,7 +83,7 @@
   
 	<bean id="PreEncumbrance-deleteAccountingLineValidation" parent="PreEncumbrance-deleteAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="PreEncumbrance-deleteAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PreEncumbrance-deleteAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
   		</property>
@@ -100,17 +91,14 @@
   
 	<bean id="PreEncumbrance-updateAccountingLineValidation" parent="PreEncumbrance-updateAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="PreEncumbrance-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PreEncumbrance-updateAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="AccountingDocument-UpdateAccountingLine-DefaultValidation" scope="prototype" />
   				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="updatedAccountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
+							<bean parent="updatedAccountingLineFieldConversion" />
 						</list>
 					</property>
 					<property name="quitOnFail" value="true" />
@@ -121,17 +109,14 @@
   
 	<bean id="PreEncumbrance-reviewAccountingLineValidation" parent="PreEncumbrance-reviewAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="PreEncumbrance-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PreEncumbrance-reviewAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="AccountingDocument-ReviewAccountingLine-DefaultValidation" scope="prototype" />
   				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
+							<bean parent="accountingLineFieldConversion" />
 						</list>
 					</property>
 					<property name="quitOnFail" value="true" />

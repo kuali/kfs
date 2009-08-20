@@ -22,17 +22,14 @@
 
 	<bean id="NonCheckDisbursement-routeDocumentValidation" parent="NonCheckDisbursement-routeDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="NonCheckDisbursement-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="NonCheckDisbursement-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="AccountingDocument-oneSidedRequiredAccountingLinesCountValidation" scope="prototype">
 					<property name="requiredMinimumCount" value="1" />
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
+							<bean parent="accountingDocumentFieldConversion" />
 						</list>
 					</property>
 				</bean>
@@ -46,7 +43,7 @@
   
   	<bean id="NonCheckDisbursement-approveDocumentValidation" parent="NonCheckDisbursement-approveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="NonCheckDisbursement-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="NonCheckDisbursement-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list><bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" /></list>
   		</property>
@@ -54,7 +51,7 @@
   
 	<bean id="NonCheckDisbursement-blanketApproveDocumentValidation" parent="NonCheckDisbursement-blanketApproveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="NonCheckDisbursement-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="NonCheckDisbursement-blanketApproveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list><bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" /></list>
   		</property>
@@ -62,17 +59,14 @@
   
 	<bean id="NonCheckDisbursement-addAccountingLineValidation" parent="NonCheckDisbursement-addAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="NonCheckDisbursement-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="NonCheckDisbursement-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" scope="prototype" />
   				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
+							<bean parent="accountingLineFieldConversion" />
 						</list>
 					</property>
 					<property name="quitOnFail" value="true" />
@@ -80,10 +74,7 @@
 				<bean parent="NonCheckDisbursement-requiredReferenceFieldValidation" scope="prototype" >
   					<property name="parameterProperties">
        	    			<list>
-       		     			<bean parent="validationFieldConversion">
-           	    				<property name="sourceEventProperty" value="accountingLine" />
-           	    				<property name="targetValidationProperty" value="accountingLineForValidation" />
-           		  			</bean>
+       		     			<bean parent="accountingLineFieldConversion" />
            				</list> 
            			</property>
             	</bean> 
@@ -93,7 +84,7 @@
   
 	<bean id="NonCheckDisbursement-deleteAccountingLineValidation" parent="NonCheckDisbursement-deleteAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="NonCheckDisbursement-deleteAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="NonCheckDisbursement-deleteAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
   		</property>
@@ -101,17 +92,14 @@
   
 	<bean id="NonCheckDisbursement-updateAccountingLineValidation" parent="NonCheckDisbursement-updateAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="NonCheckDisbursement-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="NonCheckDisbursement-updateAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="AccountingDocument-UpdateAccountingLine-DefaultValidation" scope="prototype" />
   				<bean parent="NonCheckDisbursement-requiredReferenceFieldValidation" scope="prototype" >
   					<property name="parameterProperties">
        	    			<list>
-       		     			<bean parent="validationFieldConversion">
-           	    				<property name="sourceEventProperty" value="accountingLine" />
-           	    				<property name="targetValidationProperty" value="accountingLineForValidation" />
-           		  			</bean>
+       		     			<bean parent="updatedAccountingLineFieldConversion" />
            				</list> 
            			</property>
             	</bean>
@@ -121,7 +109,7 @@
   
 	<bean id="NonCheckDisbursement-reviewAccountingLineValidation" parent="NonCheckDisbursement-reviewAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="NonCheckDisbursement-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="NonCheckDisbursement-reviewAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   				<bean parent="AccountingDocument-ReviewAccountingLine-DefaultValidation" scope="prototype" />
   		</property>

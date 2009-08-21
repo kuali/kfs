@@ -39,6 +39,6 @@ if (top.location != self.location) {
     <h1 class="kfs"></h1>Kuali Financial System
   </div>
   <div id="feedback">
-  	<a class="portal_link" href="<bean:message key="app.feedback.link"/>" target="_blank" title="<bean:message key="app.feedback.linkText" />"><bean:message key="app.feedback.linkText" /></a>
+  	<a class="portal_link" href="<bean:message key="app.feedback.link" arg0="${ConfigProperties.app.feedback.link.override}" />" target="_blank" title="<bean:message key="app.feedback.linkText" arg0="${ConfigProperties.app.feedback.linkText.override}" />"><bean:message key="app.feedback.linkText" arg0="${ConfigProperties.app.feedback.linkText.override}" /></a>
   </div>
   <div id="build">${ConfigProperties.version} (${ConfigProperties.datasource.ojb.platform})</div>

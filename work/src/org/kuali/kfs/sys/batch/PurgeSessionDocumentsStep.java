@@ -36,7 +36,7 @@ public class PurgeSessionDocumentsStep extends AbstractStep {
     public boolean execute(String jobName, Date jobRunDate) {
         try {
             LOG.info("executing PurgeSessionDocumentsStep");
-            String maxAgeInDaysStr = getParameterService().getParameterValue(getClass(), KFSConstants.SystemGroupParameterNames.NUMBER_OF_DAYS_SINCE_LAST_UPDATE);
+            String maxAgeInDaysStr = getParameterService().getParameterValue(PurgeSessionDocumentsStep.class, KFSConstants.SystemGroupParameterNames.NUMBER_OF_DAYS_SINCE_LAST_UPDATE);
             int maxAgeInDays = Integer.parseInt(maxAgeInDaysStr);
 
             Calendar expirationCal = getDateTimeService().getCurrentCalendar();

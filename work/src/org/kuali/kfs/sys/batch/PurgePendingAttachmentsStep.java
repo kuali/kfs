@@ -45,7 +45,7 @@ public class PurgePendingAttachmentsStep extends AbstractStep {
      */
     public boolean execute(String jobName, Date jobRunDate) {
         Calendar calendar = getDateTimeService().getCurrentCalendar();
-        String maxAgeInSecondsStr = getParameterService().getParameterValue(getClass(), KFSConstants.SystemGroupParameterNames.PURGE_PENDING_ATTACHMENTS_STEP_MAX_AGE);
+        String maxAgeInSecondsStr = getParameterService().getParameterValue(PurgePendingAttachmentsStep.class, KFSConstants.SystemGroupParameterNames.PURGE_PENDING_ATTACHMENTS_STEP_MAX_AGE);
         int maxAgeInSeconds = Integer.parseInt(maxAgeInSecondsStr);
         calendar.add(Calendar.SECOND, -maxAgeInSeconds);
         getAttachmentService().deletePendingAttachmentsModifiedBefore(calendar.getTimeInMillis());

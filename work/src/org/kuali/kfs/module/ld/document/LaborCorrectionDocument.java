@@ -77,7 +77,13 @@ public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocum
                 doc.setCorrectionOutputFileName(outputFileName);
                 LaborCorrectionProcessScrubberStep step = (LaborCorrectionProcessScrubberStep) BatchSpringContext.getStep(LaborCorrectionProcessScrubberStep.STEP_NAME);
                 step.setDocumentId(docId);
-                step.execute(getClass().getName(), dateTimeService.getCurrentDate());
+                try {
+                    step.execute(getClass().getName(), dateTimeService.getCurrentDate());
+                }
+                catch (RuntimeException e) {
+                    LOG.error("LLCP scrubber encountered error:", e);
+                    throw e;
+                }
                 step.setDocumentId(null);
                 
                 laborCorrectionDocumentService.generateCorrectionReport(this);

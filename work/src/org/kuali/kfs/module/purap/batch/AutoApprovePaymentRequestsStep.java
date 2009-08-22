@@ -26,6 +26,7 @@ import org.kuali.rice.kns.service.DateTimeService;
  * Step used to auto approve payment requests that meet a certain criteria
  */
 public class AutoApprovePaymentRequestsStep extends AbstractStep {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AutoApprovePaymentRequestsStep.class);
 
     private PaymentRequestService paymentRequestService;
 
@@ -49,7 +50,17 @@ public class AutoApprovePaymentRequestsStep extends AbstractStep {
      * @throws InterruptedException
      */
     public boolean execute() throws InterruptedException {
-        return execute(null, SpringContext.getBean(DateTimeService.class).getCurrentDate());
+        try {
+            return execute(null, SpringContext.getBean(DateTimeService.class).getCurrentDate());
+        }
+        catch (InterruptedException e) {
+            LOG.error("Exception occured executing step", e);
+            throw e;
+        }
+        catch (RuntimeException e) {
+            LOG.error("Exception occured executing step", e);
+            throw e;
+        }
     }
 
     public void setPaymentRequestService(PaymentRequestService paymentRequestService) {

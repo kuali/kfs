@@ -162,7 +162,17 @@ public class Job implements StatefulJob, InterruptableJob {
             }
             StopWatch stopWatch = new StopWatch();
             stopWatch.start(jobName);
-            continueJob = step.execute(jobName, jobRunDate);
+            try {
+                continueJob = step.execute(jobName, jobRunDate);
+            }
+            catch (InterruptedException e) {
+                LOG.error("Exception occured executing step", e);
+                throw e;
+            }
+            catch (RuntimeException e) {
+                LOG.error("Exception occured executing step", e);
+                throw e;
+            }
             stopWatch.stop();
             LOG.info(new StringBuffer("Step ").append(step.getName()).append(" of ").append(jobName).append(" took ").append(stopWatch.getTotalTimeSeconds() / 60.0).append(" minutes to complete").toString());
             if (!continueJob) {

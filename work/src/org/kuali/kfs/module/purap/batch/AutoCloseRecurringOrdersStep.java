@@ -26,7 +26,8 @@ import org.kuali.rice.kns.service.DateTimeService;
  * Step used to auto approve purchase orders that meet a certain criteria
  */
 public class AutoCloseRecurringOrdersStep extends AbstractStep {
-
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AutoCloseRecurringOrdersStep.class);
+    
     private PurchaseOrderService purchaseOrderService;
 
     public AutoCloseRecurringOrdersStep() {
@@ -49,7 +50,17 @@ public class AutoCloseRecurringOrdersStep extends AbstractStep {
      * @throws InterruptedException
      */
     public boolean execute() throws InterruptedException {
-        return execute(null, SpringContext.getBean(DateTimeService.class).getCurrentDate());
+        try {
+            return execute(null, SpringContext.getBean(DateTimeService.class).getCurrentDate());
+        }
+        catch (InterruptedException e) {
+            LOG.error("Exception occured executing step", e);
+            throw e;
+        }
+        catch (RuntimeException e) {
+            LOG.error("Exception occured executing step", e);
+            throw e;
+        }
     }
 
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {

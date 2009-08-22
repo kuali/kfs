@@ -42,7 +42,17 @@ public class ExtractPdpImmediatesStep extends AbstractStep {
     }
 
     public boolean execute() throws InterruptedException {
-        return execute(null, dateTimeService.getCurrentDate());
+        try {
+            return execute(null, dateTimeService.getCurrentDate());
+        }
+        catch (InterruptedException e) {
+            LOG.error("Exception occured executing step", e);
+            throw e;
+        }
+        catch (RuntimeException e) {
+            LOG.error("Exception occured executing step", e);
+            throw e;
+        }
     }
 
     public void setPdpExtractService(PdpExtractService pdpExtractService) {

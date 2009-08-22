@@ -49,6 +49,8 @@ import org.kuali.rice.kns.service.PersistenceService;
  * instances to scrub multiple batches may lead to unpredictable results.
  */
 public class CollectorScrubberProcess {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectorScrubberProcess.class);
+    
     protected CollectorBatch batch;
     protected String inputFileName;
     protected String validFileName;
@@ -105,7 +107,13 @@ public class CollectorScrubberProcess {
         step.setBatch(batch);
         step.setCollectorReportData(collectorReportData);
                 
-        step.execute(getClass().getName(), dateTimeService.getCurrentDate());
+        try {
+            step.execute(getClass().getName(), dateTimeService.getCurrentDate());
+        }
+        catch (RuntimeException e) {
+            LOG.error("Exception occured executing step", e);
+            throw e;
+        }
         
         CollectorScrubberStatus collectorScrubberStatus = new CollectorScrubberStatus();
         // extract the group BOs form the scrubber

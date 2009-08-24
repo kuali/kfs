@@ -949,25 +949,24 @@ public class PurapServiceImpl implements PurapService {
      * @param item
      * @return
      */
-    private boolean doesCommodityAllowCallToTaxService(PurApItem item){
-        
+    private boolean doesCommodityAllowCallToTaxService(PurApItem item) {
         boolean callService = true;
-        
-        if( item instanceof PurchasingItem){
-            
-            PurchasingItemBase purItem = (PurchasingItemBase)item;
-            callService = isCommodityCodeTaxable(purItem.getCommodityCode());
-            
-        }//if not a purchasing item, then pull item from PO
-        else if( item instanceof AccountsPayableItem){
-            AccountsPayableItem apItem = (AccountsPayableItem)item;            
-            PurchaseOrderItem poItem = apItem.getPurchaseOrderItem();
-            
-            if(ObjectUtils.isNotNull(poItem)){
-                callService = isCommodityCodeTaxable(poItem.getCommodityCode());
+
+        // only check for commodity code on above the line times (additional charges don't allow commodity code)
+        if (item.getItemType().isLineItemIndicator()) {
+            if (item instanceof PurchasingItem) {
+                PurchasingItemBase purItem = (PurchasingItemBase) item;
+                callService = isCommodityCodeTaxable(purItem.getCommodityCode());
+            }// if not a purchasing item, then pull item from PO
+            else if (item instanceof AccountsPayableItem) {
+                AccountsPayableItem apItem = (AccountsPayableItem) item;
+                PurchaseOrderItem poItem = apItem.getPurchaseOrderItem();
+                if (ObjectUtils.isNotNull(poItem)) {
+                    callService = isCommodityCodeTaxable(poItem.getCommodityCode());
+                }
             }
-            
         }
+
         return callService;
     }
 

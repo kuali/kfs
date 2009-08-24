@@ -19,30 +19,39 @@
     xmlns:p="http://www.springframework.org/schema/p"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        
+    <bean id="cashReceiptFamilyDocumentFieldConversion" parent="validationFieldConversion">
+		<property name="sourceEventProperty" value="document" />
+		<property name="targetValidationProperty" value="cashReceiptFamilyDocumentForValidation" />
+	</bean>
+	
+	<bean id="checkFieldConversion" parent="validationFieldConversion">
+		<property name="sourceEventProperty" value="check" />
+		<property name="targetValidationProperty" value="checkForValidation" />
+	</bean>
+	
+	<bean id="cashRecieptDocumentFieldConversion" parent="validationFieldConversion">
+		<property name="sourceEventProperty" value="document" />
+		<property name="targetValidationProperty" value="cashReceiptDocumentForValidation" />
+	</bean>
 
 	<bean id="CashReceipt-routeDocumentValidation" parent="CashReceipt-routeDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="CashReceipt-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CashReceipt-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-oneSidedRequiredAccountingLinesCountValidation" scope="prototype">
 					<property name="requiredMinimumCount" value="1" />
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
+							<bean parent="accountingDocumentFieldConversion" />
 						</list>
 					</property>
 				</bean>
 				<bean parent="CashReceiptFamily-documentTotalValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="cashReceiptFamilyDocumentForValidation" />
-							</bean>
+							<bean parent="cashReceiptFamilyDocumentFieldConversion" />
 						</list>
 					</property>
 				</bean>
@@ -52,45 +61,16 @@
 		</property>
 	</bean>
 	
-	<bean id="CashReceipt-saveDocumentValidation" parent="CashReceipt-saveDocumentValidation-parentBean" scope="prototype" />
-	
-	<bean id="CashReceipt-saveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CashReceipt-saveEvent-accoutingLinesCheck" abstract="true" parent="CollectionValidation" scope="prototype">
+		<property name="collectionProperty" value="document.sourceAccountingLines" />
 		<property name="validations">
 			<list>
-				<bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" />
-				<bean parent="CashReceiptFamily-accountingLineTotalValidation" scope="prototype">
+				<bean parent="CashReceipt-accountAndObjectValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="CashReceipt-cashTotalsValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="cashReceiptDocumentForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
-					<property name="collectionProperty" value="document.sourceAccountingLines" />
-					<property name="validations">
-						<list>
-							<bean parent="CashReceipt-accountAndObjectValidation" scope="prototype">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="iterationSubject" />
-											<property name="targetValidationProperty" value="accountingLineForValidation" />
-										</bean>
-									</list>
-								</property>
+								<property name="sourceEventProperty" value="iterationSubject" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
 							</bean>
 						</list>
 					</property>
@@ -99,28 +79,47 @@
 		</property>
 	</bean>
 	
+	<bean id="CashReceipt-saveDocumentValidation" parent="CashReceipt-saveDocumentValidation-parentBean" scope="prototype" />
+	
+	<bean id="CashReceipt-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" />
+				<bean parent="CashReceiptFamily-accountingLineTotalValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="CashReceipt-cashTotalsValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="cashRecieptDocumentFieldConversion" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="CashReceipt-saveEvent-accoutingLinesCheck" scope="prototype" />
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="CashReceipt-approveDocumentValidation" parent="CashReceipt-approveDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="CashReceipt-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CashReceipt-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-accountingLineGroupTotalsUnchangedValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
+							<bean parent="accountingDocumentFieldConversion" />
 						</list>
 					</property>
 				</bean>
 				<bean parent="CashReceipt-cashDrawerOpenValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="cashReceiptDocumentForValidation" />
-							</bean>
+							<bean parent="cashRecieptDocumentFieldConversion" />
 						</list>
 					</property>
 				</bean>
@@ -130,16 +129,13 @@
 	
 	<bean id="CashReceipt-blanketApproveDocumentValidation" parent="CashReceipt-blanketApproveDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="CashReceipt-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CashReceipt-blanketApproveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="CashReceipt-cashDrawerOpenValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="cashReceiptDocumentForValidation" />
-							</bean>
+							<bean parent="cashRecieptDocumentFieldConversion" />
 						</list>
 					</property>
 				</bean>
@@ -148,150 +144,7 @@
 		</property>
 	</bean>
 	
-	<bean id="CashReceipt-addAccountingLineValidation" parent="CashReceipt-addAccountingLineValidation-parentBean" scope="prototype" />
-	
-	<bean id="CashReceipt-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-		<property name="validations">
-			<list>
-				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
-					<property name="validations">
-						<list>
-							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-								<property name="parameterProperties">
-									<bean parent="validationFieldConversion">
-										<property name="sourceEventProperty" value="accountingLine" />
-										<property name="targetValidationProperty" value="businessObjectForValidation" />
-									</bean>
-								</property>
-							</bean>
-							<bean parent="CashReceiptFamily-accountingLineAmountValidation" scope="prototype">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="accountingLine" />
-											<property name="targetValidationProperty" value="accountingLineForValidation" />
-										</bean>
-									</list>
-								</property>
-								<property name="quitOnFail" value="true" />
-							</bean>
-							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="accountingLine" />
-											<property name="targetValidationProperty" value="accountingLineForValidation" />
-										</bean>
-									</list>
-								</property>
-								<property name="quitOnFail" value="true" />
-							</bean>
-							<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
-								<property name="accountingDocumentParameterPropertyName" value="document" />
-								<property name="accountingLineParameterPropertyName" value="accountingLine" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
-					<property name="quitOnFail" value="true" />
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="CashReceipt-accountAndObjectValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="CashReceipt-deleteAccountingLineValidation" parent="CashReceipt-deleteAccountingLineValidation-parentBean" scope="prototype" />
-	
-	<bean id="CashReceipt-deleteAccountingLineValidation-parentBean" parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" abstract="true" />
-	
-	<bean id="CashReceipt-updateAccountingLineValidation" parent="CashReceipt-updateAccountingLineValidation-parentBean" scope="prototype" />
-	
-	<bean id="CashReceipt-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-		<property name="validations">
-			<list>
-				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
-					<property name="validations">
-						<list>
-							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-								<property name="parameterProperties">
-									<bean parent="validationFieldConversion">
-										<property name="sourceEventProperty" value="updatedAccountingLine" />
-										<property name="targetValidationProperty" value="businessObjectForValidation" />
-									</bean>
-								</property>
-							</bean>
-							<bean parent="CashReceiptFamily-accountingLineAmountValidation" scope="prototype">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="updatedAccountingLine" />
-											<property name="targetValidationProperty" value="accountingLineForValidation" />
-										</bean>
-									</list>
-								</property>
-								<property name="quitOnFail" value="true" />
-							</bean>
-							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="updatedAccountingLine" />
-											<property name="targetValidationProperty" value="accountingLineForValidation" />
-										</bean>
-									</list>
-								</property>
-								<property name="quitOnFail" value="true" />
-							</bean>
-							<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
-								<property name="accountingDocumentParameterPropertyName" value="document" />
-								<property name="accountingLineParameterPropertyName" value="updatedAccountingLine" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="updatedAccountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="CashReceipt-reviewAccountingLineValidation" parent="CashReceipt-reviewAccountingLineValidation-parentBean" scope="prototype" />
-	
-	<bean id="CashReceipt-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CashReciept-addAccountingLine-failFastValidation" abstract="true" parent="CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
@@ -305,10 +158,7 @@
 				<bean parent="CashReceiptFamily-accountingLineAmountValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
+							<bean parent="accountingLineFieldConversion" />
 						</list>
 					</property>
 					<property name="quitOnFail" value="true" />
@@ -316,10 +166,127 @@
 				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+					<property name="accountingDocumentParameterPropertyName" value="document" />
+					<property name="accountingLineParameterPropertyName" value="accountingLine" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="CashReceipt-addAccountingLineValidation" parent="CashReceipt-addAccountingLineValidation-parentBean" scope="prototype" />
+	
+	<bean id="CashReceipt-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="CashReciept-addAccountingLine-failFastValidation" scope="prototype" />
+				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
+					<property name="quitOnFail" value="true" />
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="CashReceipt-accountAndObjectValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="CashReceipt-deleteAccountingLineValidation" parent="CashReceipt-deleteAccountingLineValidation-parentBean" scope="prototype" />
+	
+	<bean id="CashReceipt-deleteAccountingLineValidation-parentBean" parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" abstract="true" />
+	
+	<bean id="CashReceipt-updateAccountingLine-failFastValidation" abstract="true" parent="CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="validationFieldConversion">
+							<property name="sourceEventProperty" value="updatedAccountingLine" />
+							<property name="targetValidationProperty" value="businessObjectForValidation" />
+						</bean>
+					</property>
+				</bean>
+				<bean parent="CashReceiptFamily-accountingLineAmountValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="updatedAccountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="updatedAccountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+					<property name="accountingDocumentParameterPropertyName" value="document" />
+					<property name="accountingLineParameterPropertyName" value="updatedAccountingLine" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="CashReceipt-updateAccountingLineValidation" parent="CashReceipt-updateAccountingLineValidation-parentBean" scope="prototype" />
+	
+	<bean id="CashReceipt-updateAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="CashReceipt-updateAccountingLine-failFastValidation" scope="prototype" />
+				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+							<bean parent="updatedAccountingLineFieldConversion" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="CashReceipt-reviewAccountingLineValidation" parent="CashReceipt-reviewAccountingLineValidation-parentBean" scope="prototype" />
+	
+	<bean id="CashReceipt-reviewAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="validationFieldConversion">
+							<property name="sourceEventProperty" value="accountingLine" />
+							<property name="targetValidationProperty" value="businessObjectForValidation" />
+						</bean>
+					</property>
+				</bean>
+				<bean parent="CashReceiptFamily-accountingLineAmountValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingLineFieldConversion" />
 						</list>
 					</property>
 				</bean>
@@ -333,7 +300,7 @@
 	
 	<bean id="CashReceipt-addCheckValidation" parent="CashReceipt-addCheckValidation-parentBean" scope="prototype" />
 	
-	<bean id="CashReceipt-addCheckValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CashReceipt-addCheckValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
@@ -350,20 +317,14 @@
 					<property name="quitOnFail" value="true" />
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="check" />
-								<property name="targetValidationProperty" value="checkForValidation" />
-							</bean>
+							<bean parent="checkFieldConversion" />
 						</list>
 					</property>
 				</bean>
 				<bean parent="CashReceipt-checkAmountPositiveValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="check" />
-								<property name="targetValidationProperty" value="checkForValidation" />
-							</bean>
+							<bean parent="checkFieldConversion" />
 						</list>
 					</property>
 				</bean>
@@ -373,7 +334,7 @@
 	
 	<bean id="CashReceipt-updateCheckValidation" parent="CashReceipt-updateCheckValidation-parentBean" scope="prototype" />
 	
-	<bean id="CashReceipt-updateCheckValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CashReceipt-updateCheckValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
@@ -390,20 +351,14 @@
 					<property name="quitOnFail" value="true" />
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="check" />
-								<property name="targetValidationProperty" value="checkForValidation" />
-							</bean>
+							<bean parent="checkFieldConversion" />
 						</list>
 					</property>
 				</bean>
 				<bean parent="CashReceipt-checkAmountPositiveValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="check" />
-								<property name="targetValidationProperty" value="checkForValidation" />
-							</bean>
+							<bean parent="checkFieldConversion" />
 						</list>
 					</property>
 				</bean>

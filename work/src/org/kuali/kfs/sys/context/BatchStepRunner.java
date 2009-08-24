@@ -15,15 +15,24 @@
  */
 package org.kuali.kfs.sys.context;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Appender;
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Logger;
+import org.apache.log4j.NDC;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchSpringContext;
 import org.kuali.kfs.sys.batch.Job;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.service.ModuleService;
 import org.kuali.rice.kns.service.ParameterService;
 
 public class BatchStepRunner {
@@ -53,8 +62,34 @@ public class BatchStepRunner {
             for (int i = 0; i < stepNames.length; ++i) {
                 Step step = BatchSpringContext.getStep(stepNames[i]);
                 if ( step != null ) {
-                    if (!Job.runStep(parameterService, jobName, i, step, jobRunDate) ) {
-                        System.exit(4);
+                    ModuleService module = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService( step.getClass() );                    
+                    Appender ndcAppender = null; 
+                    String nestedDiagnosticContext = 
+                            StringUtils.substringAfter( module.getModuleConfiguration().getNamespaceCode(), "-").toLowerCase()
+                            + File.separator + step.getName()
+                            + "-" + dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate());
+                    boolean ndcSet = false;;
+                    try {
+                        ndcAppender = new FileAppender(Logger.getRootLogger().getAppender("LogFile").getLayout(), getLogFileName(nestedDiagnosticContext));
+                        ndcAppender.addFilter(new NDCFilter(nestedDiagnosticContext));
+                        Logger.getRootLogger().addAppender(ndcAppender);
+                        NDC.push(nestedDiagnosticContext);
+                        ndcSet = true;
+                    } catch (Exception ex) {
+                        LOG.warn("Could not initialize custom logging for step: " + step.getName(), ex);
+                    }
+                    try {
+                        if (!Job.runStep(parameterService, jobName, i, step, jobRunDate) ) {
+                            System.exit(4);
+                        }
+                    } catch ( RuntimeException ex ) {                        
+                        throw ex;
+                    } finally {
+                        if ( ndcSet ) {
+                            ndcAppender.close();
+                            Logger.getRootLogger().removeAppender(ndcAppender);
+                            NDC.pop();
+                        }
                     }
                 } else {
                     throw new IllegalArgumentException( "Unable to find step: " + stepNames[i] );
@@ -69,4 +104,11 @@ public class BatchStepRunner {
             System.exit(8);
         }
     }
+    
+    protected static String getLogFileName(String nestedDiagnosticContext) {
+        return SpringContext.getBean( KualiConfigurationService.class ).getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY) 
+                + File.separator 
+                + nestedDiagnosticContext + ".log";
+    }
+
 }

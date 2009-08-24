@@ -38,12 +38,12 @@ import org.quartz.JobExecutionException;
 
 public class JobListener implements org.quartz.JobListener {
     private static final Logger LOG = Logger.getLogger(JobListener.class);
-    private static final String NAME = "jobListener";
+    protected static final String NAME = "jobListener";
     public static final String REQUESTOR_EMAIL_ADDRESS_KEY = "requestorEmailAdress";
-    private SchedulerService schedulerService;
-    private KualiConfigurationService configurationService;
-    private MailService mailService;
-    private DateTimeService dateTimeService;
+    protected SchedulerService schedulerService;
+    protected KualiConfigurationService configurationService;
+    protected MailService mailService;
+    protected DateTimeService dateTimeService;
 
     /**
      * @see org.quartz.JobListener#jobWasExecuted(org.quartz.JobExecutionContext, org.quartz.JobExecutionException)
@@ -82,7 +82,7 @@ public class JobListener implements org.quartz.JobListener {
         }
     }
 
-    private void initializeLogging(JobExecutionContext jobExecutionContext) {
+    protected void initializeLogging(JobExecutionContext jobExecutionContext) {
         try {
             Calendar startTimeCalendar = dateTimeService.getCurrentCalendar();
             StringBuffer nestedDiagnosticContext = new StringBuffer(StringUtils.substringAfter(BatchSpringContext.getJobDescriptor(jobExecutionContext.getJobDetail().getName()).getNamespaceCode(), "-").toLowerCase()).append(File.separator).append(jobExecutionContext.getJobDetail().getName()).append("-").append(dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate()));
@@ -102,11 +102,11 @@ public class JobListener implements org.quartz.JobListener {
         NDC.pop();
     }
 
-    private String getLogFileName(String nestedDiagnosticContext) {
+    protected String getLogFileName(String nestedDiagnosticContext) {
         return new StringBuffer(configurationService.getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY)).append(File.separator).append(nestedDiagnosticContext.toString()).append(".log").toString();
     }
 
-    private void notify(JobExecutionContext jobExecutionContext, String jobStatus) {
+    protected void notify(JobExecutionContext jobExecutionContext, String jobStatus) {
         try {
             StringBuffer mailMessageSubject = new StringBuffer(configurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY)).append(": ").append(jobExecutionContext.getJobDetail().getGroup()).append(": ").append(jobExecutionContext.getJobDetail().getName());
             MailMessage mailMessage = new MailMessage();

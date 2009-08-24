@@ -39,11 +39,9 @@
   <bean id="SubObjectCodeGlobal-financialSubObjectCode" parent="SubObjectCodeGlobal-financialSubObjectCode-parentBean"/>
 
   <bean id="SubObjectCodeGlobal-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode"/>
-  <bean id="SubObjectCodeGlobal-financialSubObjectCodeName" parent="SubObjectCodeGlobal-financialSubObjectCodeName-parentBean">
-    <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern"/>
-    </property>  
-  </bean> 	
+  
+  <bean id="SubObjectCodeGlobal-financialSubObjectCodeName" parent="SubObjectCodeGlobal-financialSubObjectCodeName-parentBean"/>
+  
   <bean id="SubObjectCodeGlobal-financialSubObjectCodeName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSubObjectCodeName"/>
     <property name="forceUppercase" value="false"/>

@@ -20,9 +20,38 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
         
+	<bean id="CashControl-validateCustomerNumberAndLineAmounts" abstract="true" parent="CollectionValidation" scope="prototype">
+  		<property name="collectionProperty" value="document.cashControlDetails" />
+  		<property name="validations">
+ 			<list>
+				<bean parent="CashControl-customerNumberValidation">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="iterationSubject" />
+								<property name="targetValidationProperty" value="cashControlDetail" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="CashControl-lineAmountValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="iterationSubject" />
+								<property name="targetValidationProperty" value="cashControlDetail" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+        
     <bean id="CashControl-saveDocumentValidation" parent="CashControl-saveDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="CashControl-saveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CashControl-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
   			<list>
 				<bean parent="CashControl-checkGLPEsNotGeneratedValidation">
@@ -47,41 +76,15 @@
 					</property>				
 					<property name="quitOnFail" value="true" />
 				</bean>
- 				<bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
-  					<property name="collectionProperty" value="document.cashControlDetails" />
-  					<property name="validations">
-  						<list>
-							<bean parent="CashControl-customerNumberValidation">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="iterationSubject" />
-											<property name="targetValidationProperty" value="cashControlDetail" />
-										</bean>
-									</list>
-								</property>
-							</bean>
-							<bean parent="CashControl-lineAmountValidation" scope="prototype">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="iterationSubject" />
-											<property name="targetValidationProperty" value="cashControlDetail" />
-										</bean>
-									</list>
-								</property>
-								<property name="quitOnFail" value="true" />
-							</bean>
-  						</list>
-					</property>
-				</bean>
+ 				<bean parent="CashControl-validateCustomerNumberAndLineAmounts" scope="prototype"/>
+
   			</list>
 		</property>
 	</bean>
   
   	<bean id="CashControl-approveDocumentValidation" parent="CashControl-approveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="CashControl-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="CashControl-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
 				<bean parent="CashControl-allAppDocsApprovedValidation">
@@ -116,7 +119,7 @@
   
 	<bean id="CashControl-blanketApproveDocumentValidation" parent="CashControl-blanketApproveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="CashControl-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="CashControl-blanketApproveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list></list>
   		</property>
@@ -124,7 +127,7 @@
 	
 	<bean id="CashControl-addCashControlDetailValidation" parent="CashControl-addCashControlDetailValidation-parentBean" scope="prototype" />
   
-  	<bean id="CashControl-addCashControlDetailValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="CashControl-addCashControlDetailValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
@@ -182,7 +185,7 @@
 	
 	<bean id="CashControl-deleteCashControlDetailValidation" parent="CashControl-deleteCashControlDetailValidation-parentBean" scope="prototype" />
   
-  	<bean id="CashControl-deleteCashControlDetailValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="CashControl-deleteCashControlDetailValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
 				<bean parent="CashControl-checkGLPEsNotGeneratedValidation">
@@ -201,7 +204,7 @@
 	
 	<bean id="CashControl-generateReferenceDocumentValidation" parent="CashControl-generateReferenceDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="CashControl-generateReferenceDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="CashControl-generateReferenceDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
 				<bean parent="CashControl-paymentMediumValidation">
@@ -232,7 +235,7 @@
 	
 	<bean id="CashControl-routeDocumentValidation" parent="CashControl-routeDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="CashControl-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CashControl-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
   			<list>
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
@@ -279,34 +282,9 @@
 					</property>				
 					<property name="quitOnFail" value="true" />
 				</bean>
- 				<bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
-  					<property name="collectionProperty" value="document.cashControlDetails" />
-  					<property name="validations">
-  						<list>
-							<bean parent="CashControl-customerNumberValidation">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="iterationSubject" />
-											<property name="targetValidationProperty" value="cashControlDetail" />
-										</bean>
-									</list>
-								</property>
-							</bean>
-							<bean parent="CashControl-lineAmountValidation" scope="prototype">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="iterationSubject" />
-											<property name="targetValidationProperty" value="cashControlDetail" />
-										</bean>
-									</list>
-								</property>
-								<property name="quitOnFail" value="true" />
-							</bean>
-  						</list>
-					</property>
-				</bean>
+				
+ 				<bean parent="CashControl-validateCustomerNumberAndLineAmounts" scope="prototype"/>
+  					
 			</list>
   		</property>
 	</bean>	

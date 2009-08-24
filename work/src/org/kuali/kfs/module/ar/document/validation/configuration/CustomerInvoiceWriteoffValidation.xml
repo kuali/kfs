@@ -22,7 +22,7 @@
         
     <bean id="CustomerInvoiceWriteoff-saveDocumentValidation" parent="CustomerInvoiceWriteoff-saveDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="CustomerInvoiceWriteoff-saveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CustomerInvoiceWriteoff-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list></list>
 		</property>
@@ -30,7 +30,7 @@
   
   	<bean id="CustomerInvoiceWriteoff-approveDocumentValidation" parent="CustomerInvoiceWriteoff-approveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="CustomerInvoiceWriteoff-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="CustomerInvoiceWriteoff-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list></list>
   		</property>
@@ -38,7 +38,7 @@
   
 	<bean id="CustomerInvoiceWriteoff-blanketApproveDocumentValidation" parent="CustomerInvoiceWriteoff-blanketApproveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="CustomerInvoiceWriteoff-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="CustomerInvoiceWriteoff-blanketApproveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list></list>
   		</property>
@@ -46,7 +46,7 @@
    	
 	<bean id="CustomerInvoiceWriteoff-continueCustomerInvoiceWriteoffDocumentValidation" parent="CustomerInvoiceWriteoff-continueCustomerInvoiceWriteoffDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="CustomerInvoiceWriteoff-continueCustomerInvoiceWriteoffDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CustomerInvoiceWriteoff-continueCustomerInvoiceWriteoffDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
 				<bean parent="CustomerInvoiceWriteoff-invoiceNumberValidation">
@@ -99,7 +99,7 @@
 	
 	<bean id="CustomerInvoiceWriteoff-routeDocumentValidation" parent="CustomerInvoiceWriteoff-routeDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="CustomerInvoiceWriteoff-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CustomerInvoiceWriteoff-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
   			<list>
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
@@ -140,62 +140,11 @@
 						<map>
 							<entry>
 								<key><value>isChartCodeWriteoffGLPEValidation</value></key>
-				 				<bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
-  									<property name="collectionProperty" value="document.customerInvoiceDocument.customerInvoiceDetailsWithoutDiscounts" />
-  									<property name="validations">
-  										<list>
-											<bean parent="CustomerInvoiceWriteoff-chartCodeHasCorrespondingWriteoffObjectCodeValidation" scope="prototype">
-												<property name="parameterProperties">
-													<list>
-														<bean parent="validationFieldConversion">
-															<property name="sourceEventProperty" value="iterationSubject" />
-															<property name="targetValidationProperty" value="customerInvoiceDetail" />
-														</bean>
-													</list>
-												</property>
-											</bean>
-  										</list>
-									</property>
-								</bean>
+				 				<bean parent="CustomerInvoiceWriteoff-isChartCodeWriteoffGLPEBranch" scope="prototype"/>
 							</entry>
 							<entry>
 								<key><value>isOrgAccountingDefaultWriteoffGLPEValidation</value></key>
-				 				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype">
-  									<property name="validations">
-  										<list>
-											<bean parent="CustomerInvoiceWriteoff-chartOfAccountsCodeValidation" scope="prototype">
-												<property name="parameterProperties">
-													<list>
-														<bean parent="validationFieldConversion">
-															<property name="sourceEventProperty" value="document" />
-															<property name="targetValidationProperty" value="customerInvoiceWriteoffDocument" />
-														</bean>
-													</list>
-												</property>
-											</bean>
-											<bean parent="CustomerInvoiceWriteoff-accountNumberValidation" scope="prototype">
-												<property name="parameterProperties">
-													<list>
-														<bean parent="validationFieldConversion">
-															<property name="sourceEventProperty" value="document" />
-															<property name="targetValidationProperty" value="customerInvoiceWriteoffDocument" />
-														</bean>
-													</list>
-												</property>
-											</bean>
-											<bean parent="CustomerInvoiceWriteoff-financialObjectCodeValidation" scope="prototype">
-												<property name="parameterProperties">
-													<list>
-														<bean parent="validationFieldConversion">
-															<property name="sourceEventProperty" value="document" />
-															<property name="targetValidationProperty" value="customerInvoiceWriteoffDocument" />
-														</bean>
-													</list>
-												</property>
-											</bean>
-  										</list>
-									</property>
-								</bean>
+				 				<bean parent="CustomerInvoiceWriteoff-isOrgAccountinDefaultWriteoffGLPEBranch" scope="prototype"/>
 							</entry>
 						</map>
 					</property>
@@ -203,5 +152,60 @@
 			</list>
   		</property>
 	</bean>	
+	
+	<bean id="CustomerInvoiceWriteoff-isChartCodeWriteoffGLPEBranch" abstract="true" parent="CollectionValidation" scope="prototype">
+  		<property name="collectionProperty" value="document.customerInvoiceDocument.customerInvoiceDetailsWithoutDiscounts" />
+  		<property name="validations">
+  			<list>
+				<bean parent="CustomerInvoiceWriteoff-chartCodeHasCorrespondingWriteoffObjectCodeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="iterationSubject" />
+								<property name="targetValidationProperty" value="customerInvoiceDetail" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+  			</list>
+		</property>
+	</bean>
+	
+	<bean id="CustomerInvoiceWriteoff-isOrgAccountinDefaultWriteoffGLPEBranch" abstract="true" parent="CompositeValidation" scope="prototype">
+  		<property name="validations">
+  			<list>
+				<bean parent="CustomerInvoiceWriteoff-chartOfAccountsCodeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="customerInvoiceWriteoffDocument" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="CustomerInvoiceWriteoff-accountNumberValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="customerInvoiceWriteoffDocument" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="CustomerInvoiceWriteoff-financialObjectCodeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="customerInvoiceWriteoffDocument" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+  			</list>
+		</property>
+	</bean>
 	
 </beans>

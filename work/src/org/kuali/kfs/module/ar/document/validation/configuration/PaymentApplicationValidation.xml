@@ -21,35 +21,35 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean id="PaymentApplication-saveDocumentValidation" parent="PaymentApplication-saveDocumentValidation-parentBean" scope="prototype" />
-	<bean id="PaymentApplication-saveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PaymentApplication-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list></list>
 		</property>
 	</bean>
   
   	<bean id="PaymentApplication-approveDocumentValidation" parent="PaymentApplication-approveDocumentValidation-parentBean" scope="prototype" />
-  	<bean id="PaymentApplication-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="PaymentApplication-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list></list>
   		</property>
   	</bean>
   
 	<bean id="PaymentApplication-blanketApproveDocumentValidation" parent="PaymentApplication-blanketApproveDocumentValidation-parentBean" scope="prototype" />
-  	<bean id="PaymentApplication-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="PaymentApplication-blanketApproveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list></list>
   		</property>
 	</bean>        
    	
 	<bean id="PaymentApplication-continuePaymentApplicationDocumentValidation" parent="PaymentApplication-continuePaymentApplicationDocumentValidation-parentBean" scope="prototype" />
-	<bean id="PaymentApplication-continuePaymentApplicationDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PaymentApplication-continuePaymentApplicationDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list></list>
 		</property>
 	</bean>
 	
 	<bean id="PaymentApplication-routeDocumentValidation" parent="PaymentApplication-routeDocumentValidation-parentBean" scope="prototype" />
-	<bean id="PaymentApplication-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PaymentApplication-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
   			<list>
 				<bean parent="PaymentApplication-fullBalanceIsAppliedValidation" scope="prototype">

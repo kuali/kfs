@@ -22,7 +22,7 @@
         
     <bean id="CustomerInvoice-saveDocumentValidation" parent="CustomerInvoice-saveDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="CustomerInvoice-saveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CustomerInvoice-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="CustomerInvoice-customerNumberValidation" scope="prototype">
@@ -41,7 +41,7 @@
   
   	<bean id="CustomerInvoice-approveDocumentValidation" parent="CustomerInvoice-approveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="CustomerInvoice-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="CustomerInvoice-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list></list>
   		</property>
@@ -49,7 +49,7 @@
   
 	<bean id="CustomerInvoice-blanketApproveDocumentValidation" parent="CustomerInvoice-blanketApproveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="CustomerInvoice-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="CustomerInvoice-blanketApproveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list></list>
   		</property>
@@ -57,7 +57,7 @@
    	
 	<bean id="CustomerInvoice-addAccountingLineValidation" parent="CustomerInvoice-addAccountingLineValidation-parentBean" scope="prototype" />
 	
-	<bean id="CustomerInvoice-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CustomerInvoice-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
@@ -91,29 +91,11 @@
 						<map>
 							<entry>
 								<key><value>isChartCodeReceivableValidation</value></key>
-								<bean parent="CustomerInvoice-detailChartCodeReceivableValidation" scope="prototype">
-									<property name="parameterProperties">
-										<list>
-											<bean parent="validationFieldConversion">
-												<property name="sourceEventProperty" value="accountingLine" />
-												<property name="targetValidationProperty" value="customerInvoiceDetail" />
-											</bean>
-										</list>
-									</property>
-								</bean>
+								<bean parent="CustomerInvoice-isChartCodeReceivableBranch" scope="prototype"/>
 							</entry>
 							<entry>
 								<key><value>isSubFundGroupReceivableValidation</value></key>
-								<bean parent="CustomerInvoice-detailSubFundGroupReceivableValidation" scope="prototype">
-									<property name="parameterProperties">
-										<list>
-											<bean parent="validationFieldConversion">
-												<property name="sourceEventProperty" value="accountingLine" />
-												<property name="targetValidationProperty" value="customerInvoiceDetail" />
-											</bean>
-										</list>
-									</property>
-								</bean>
+								<bean parent="CustomerInvoice-isSubFundGroupReceivableBranch" scope="prototype"/>
 							</entry>
 							<entry>
 								<key><value>isFauReceivableValidation</value></key>
@@ -183,37 +165,11 @@
 						<map>
 							<entry>
 								<key><value>isDiscountValidation</value></key>
-								<bean parent="CustomerInvoice-detailDiscountGreaterThanParentValidation" scope="prototype">
-									<property name="parameterProperties">
-										<list>
-											<bean parent="validationFieldConversion">
-												<property name="sourceEventProperty" value="accountingLine" />
-												<property name="targetValidationProperty" value="discountCustomerInvoiceDetail" />
-											</bean>
-											<bean parent="validationFieldConversion">
-												<property name="sourceEventProperty" value="document" />
-												<property name="targetValidationProperty" value="customerInvoiceDocument" />
-											</bean>											
-										</list>
-									</property>
-								</bean>
+								<bean parent="CustomerInvoice-isDiscountBranch" scope="prototype"/>
 							</entry>
 							<entry>
 								<key><value>isParentValidation</value></key>
-								<bean parent="CustomerInvoice-detailParentLessThanDiscountValidation" scope="prototype">
-									<property name="parameterProperties">
-										<list>
-											<bean parent="validationFieldConversion">
-												<property name="sourceEventProperty" value="accountingLine" />
-												<property name="targetValidationProperty" value="parentCustomerInvoiceDetail" />
-											</bean>
-											<bean parent="validationFieldConversion">
-												<property name="sourceEventProperty" value="document" />
-												<property name="targetValidationProperty" value="customerInvoiceDocument" />
-											</bean>											
-										</list>
-									</property>
-								</bean>
+								<bean parent="CustomerInvoice-isParentBranch" scope="prototype"/>
 							</entry>							
 						</map>
 					</property>
@@ -222,9 +178,62 @@
   		</property>
 	</bean>
 	
+	<bean id="CustomerInvoice-isChartCodeReceivableBranch" abstract="true" parent="CustomerInvoice-detailChartCodeReceivableValidation" scope="prototype">
+		<property name="parameterProperties">
+			<list>
+				<bean parent="validationFieldConversion">
+					<property name="sourceEventProperty" value="accountingLine" />
+					<property name="targetValidationProperty" value="customerInvoiceDetail" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+							
+	<bean id="CustomerInvoice-isSubFundGroupReceivableBranch" abstract="true" parent="CustomerInvoice-detailSubFundGroupReceivableValidation" scope="prototype">
+		<property name="parameterProperties">
+			<list>
+				<bean parent="validationFieldConversion">
+					<property name="sourceEventProperty" value="accountingLine" />
+					<property name="targetValidationProperty" value="customerInvoiceDetail" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="CustomerInvoice-isDiscountBranch" abstract="true" parent="CustomerInvoice-detailDiscountGreaterThanParentValidation" scope="prototype">
+		<property name="parameterProperties">
+			<list>
+				<bean parent="validationFieldConversion">
+					<property name="sourceEventProperty" value="accountingLine" />
+					<property name="targetValidationProperty" value="discountCustomerInvoiceDetail" />
+				</bean>
+				<bean parent="validationFieldConversion">
+					<property name="sourceEventProperty" value="document" />
+					<property name="targetValidationProperty" value="customerInvoiceDocument" />
+				</bean>											
+			</list>
+		</property>
+	</bean>
+
+	<bean id="CustomerInvoice-isParentBranch" abstract="true" parent="CustomerInvoice-detailParentLessThanDiscountValidation" scope="prototype">
+		<property name="parameterProperties">
+			<list>
+				<bean parent="validationFieldConversion">
+					<property name="sourceEventProperty" value="accountingLine" />
+					<property name="targetValidationProperty" value="parentCustomerInvoiceDetail" />
+				</bean>
+				<bean parent="validationFieldConversion">
+					<property name="sourceEventProperty" value="document" />
+					<property name="targetValidationProperty" value="customerInvoiceDocument" />
+				</bean>											
+			</list>
+		</property>
+	</bean>
+	
+	
 <bean id="CustomerInvoice-deleteAccountingLineValidation" parent="CustomerInvoice-deleteAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="CustomerInvoice-deleteAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CustomerInvoice-deleteAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
   		</property>
@@ -232,7 +241,7 @@
   
 	<bean id="CustomerInvoice-updateAccountingLineValidation" parent="CustomerInvoice-updateAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="CustomerInvoice-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CustomerInvoice-updateAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list></list>
   		</property>
@@ -240,7 +249,7 @@
   
 	<bean id="CustomerInvoice-reviewAccountingLineValidation" parent="CustomerInvoice-reviewAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="CustomerInvoice-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CustomerInvoice-reviewAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list></list>
   		</property>
@@ -248,7 +257,7 @@
 	
 	<bean id="CustomerInvoice-receivableValidation" parent="CustomerInvoice-receivableValidation-parentBean" scope="prototype" />
 	
-	<bean id="CustomerInvoice-receivableValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CustomerInvoice-receivableValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
 				<bean parent="CustomerInvoice-receivableChartOfAccountsCodeValidation" scope="prototype">
@@ -317,7 +326,7 @@
 	
 	<bean id="CustomerInvoice-recalculateCustomerInvoiceDetailValidation" parent="CustomerInvoice-recalculateCustomerInvoiceDetailValidation-parentBean" scope="prototype" />
 	
-	<bean id="CustomerInvoice-recalculateCustomerInvoiceDetailValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CustomerInvoice-recalculateCustomerInvoiceDetailValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
 				<bean parent="CustomerInvoice-detailUnitPriceValidation">
@@ -372,37 +381,11 @@
 						<map>
 							<entry>
 								<key><value>isDiscountValidation</value></key>
-								<bean parent="CustomerInvoice-detailDiscountGreaterThanParentValidation" scope="prototype">
-									<property name="parameterProperties">
-										<list>
-											<bean parent="validationFieldConversion">
-												<property name="sourceEventProperty" value="customerInvoiceDetail" />
-												<property name="targetValidationProperty" value="discountCustomerInvoiceDetail" />
-											</bean>
-											<bean parent="validationFieldConversion">
-												<property name="sourceEventProperty" value="document" />
-												<property name="targetValidationProperty" value="customerInvoiceDocument" />
-											</bean>											
-										</list>
-									</property>
-								</bean>
+								<bean parent="CustomerInvoice-isDiscountBranch" scope="prototype"/>
 							</entry>
 							<entry>
 								<key><value>isParentValidation</value></key>
-								<bean parent="CustomerInvoice-detailParentLessThanDiscountValidation" scope="prototype">
-									<property name="parameterProperties">
-										<list>
-											<bean parent="validationFieldConversion">
-												<property name="sourceEventProperty" value="customerInvoiceDetail" />
-												<property name="targetValidationProperty" value="parentCustomerInvoiceDetail" />
-											</bean>
-											<bean parent="validationFieldConversion">
-												<property name="sourceEventProperty" value="document" />
-												<property name="targetValidationProperty" value="customerInvoiceDocument" />
-											</bean>											
-										</list>
-									</property>
-								</bean>
+								<bean parent="CustomerInvoice-isParentBranch" scope="prototype"/>
 							</entry>							
 						</map>
 					</property>
@@ -413,7 +396,7 @@
 	
 	<bean id="CustomerInvoice-discountCustomerInvoiceDetailValidation" parent="CustomerInvoice-discountCustomerInvoiceDetailValidation-parentBean" scope="prototype" />
 	
-	<bean id="CustomerInvoice-discountCustomerInvoiceDetailValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CustomerInvoice-discountCustomerInvoiceDetailValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
 				<bean parent="CustomerInvoice-detailUnitPriceValidation">
@@ -456,7 +439,7 @@
 	
 	<bean id="CustomerInvoice-routeDocumentValidation" parent="CustomerInvoice-routeDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="CustomerInvoice-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="CustomerInvoice-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
   			<list>
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">

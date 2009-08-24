@@ -21,7 +21,7 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 		
 	<bean id="BenefitExpenseTransferDocument-blanketApproveDocumentValidation" parent="BenefitExpenseTransferDocument-blanketApproveDocumentValidation-parentBean" scope="prototype" />        
-  	<bean id="BenefitExpenseTransferDocument-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="BenefitExpenseTransferDocument-blanketApproveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" /> 
@@ -30,14 +30,14 @@
 	</bean>        
 
 	<bean id="BenefitExpenseTransferDocument-reviewAccountingLineValidation" parent="BenefitExpenseTransferDocument-reviewAccountingLineValidation-parentBean" scope="prototype" /> 
-	<bean id="BenefitExpenseTransferDocument-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="BenefitExpenseTransferDocument-reviewAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<bean parent="AccountingDocument-ReviewAccountingLine-DefaultValidation" scope="prototype" />
   		</property>
 	</bean>	
 
 	<bean id="BenefitExpenseTransferDocument-approveDocumentValidation" parent="BenefitExpenseTransferDocument-approveDocumentValidation-parentBean" scope="prototype" />
-	<bean id="BenefitExpenseTransferDocument-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="BenefitExpenseTransferDocument-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" />
@@ -46,7 +46,7 @@
 	</bean>	
 		
 	<bean id="BenefitExpenseTransferDocument-routeDocumentValidation" parent="BenefitExpenseTransferDocument-routeDocumentValidation-parentBean" scope="prototype" />
-	<bean id="BenefitExpenseTransferDocument-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="BenefitExpenseTransferDocument-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-RouteDocument-DefaultValidation" scope="prototype" />
@@ -122,7 +122,7 @@
 	</bean>	
 	
 	<bean id="BenefitExpenseTransferDocument-addAccountingLineValidation" parent="BenefitExpenseTransferDocument-addAccountingLineValidation-parentBean" scope="prototype" />	
-	<bean id="BenefitExpenseTransferDocument-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="BenefitExpenseTransferDocument-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" scope="prototype" />
@@ -195,7 +195,7 @@
 	</bean>
 	
 	<bean id="BenefitExpenseTransferDocument-updateAccountingLineValidation" parent="BenefitExpenseTransferDocument-updateAccountingLineValidation-parentBean" scope="prototype" />
-	<bean id="BenefitExpenseTransferDocument-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="BenefitExpenseTransferDocument-updateAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-UpdateAccountingLine-DefaultValidation" scope="prototype" />

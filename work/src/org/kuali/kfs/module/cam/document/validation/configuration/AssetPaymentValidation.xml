@@ -22,7 +22,7 @@
     
     <bean id="AssetPayment-saveDocumentValidation" parent="AssetPayment-saveDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="AssetPayment-saveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="AssetPayment-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 			</list>
@@ -32,7 +32,7 @@
 	
 	<bean id="AssetPayment-routeDocumentValidation" parent="AssetPayment-routeDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="AssetPayment-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="AssetPayment-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>  	
   			</list>
@@ -40,7 +40,7 @@
   	</bean>
   
     <bean id="AssetPayment-assetPaymentPrepareRouteValidation" parent="AssetPayment-assetPaymentPrepareRouteValidation-parentBean" scope="prototype" />
-    <bean id="AssetPayment-assetPaymentPrepareRouteValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+    <bean id="AssetPayment-assetPaymentPrepareRouteValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
     	<property name="validations">
   			<list> 
   				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
@@ -71,7 +71,7 @@
     
   	<bean id="AssetPayment-approveDocumentValidation" parent="AssetPayment-approveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="AssetPayment-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="AssetPayment-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list><bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" /></list>
   		</property>
@@ -79,7 +79,7 @@
   
 	<bean id="AssetPayment-blanketApproveDocumentValidation" parent="AssetPayment-blanketApproveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="AssetPayment-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="AssetPayment-blanketApproveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list><bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" /></list>
   		</property>
@@ -87,7 +87,7 @@
   
 	<bean id="AssetPayment-manuallyAddAccountingLineValidation" parent="AssetPayment-manuallyAddAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="AssetPayment-manuallyAddAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="AssetPayment-manuallyAddAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
@@ -110,7 +110,7 @@
 	</bean>
 	<bean id="AssetPayment-addAccountingLineValidation" parent="AssetPayment-addAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="AssetPayment-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="AssetPayment-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
 				<bean parent="AssetPayment-postingDateValidation" scope="prototype">
@@ -174,7 +174,7 @@
   
 	<bean id="AssetPayment-deleteAccountingLineValidation" parent="AssetPayment-deleteAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="AssetPayment-deleteAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="AssetPayment-deleteAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
   		</property>
@@ -182,7 +182,7 @@
   
 	<bean id="AssetPayment-updateAccountingLineValidation" parent="AssetPayment-updateAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="AssetPayment-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="AssetPayment-updateAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
 				<bean parent="AssetPayment-postingDateValidation" scope="prototype">
@@ -247,7 +247,7 @@
   
 	<bean id="AssetPayment-reviewAccountingLineValidation" parent="AssetPayment-reviewAccountingLineValidation-parentBean" scope="prototype" />
   
-	<bean id="AssetPayment-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="AssetPayment-reviewAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
 				<bean parent="AssetPayment-zeroAmountValidation" scope="prototype">
@@ -293,7 +293,7 @@
 
 	<bean id="AssetPayment-addAssetPaymentAssetValidation" parent="AssetPayment-addAssetPaymentAssetValidation-parentBean" scope="prototype" />
 		
-	<bean id="AssetPayment-addAssetPaymentAssetValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="AssetPayment-addAssetPaymentAssetValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
   			<list>
 				<bean parent="AssetPayment-addAssetValidation" scope="prototype">

@@ -21,7 +21,7 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="SalaryExpenseTransferDocument-blanketApproveDocumentValidation" parent="SalaryExpenseTransferDocument-blanketApproveDocumentValidation-parentBean" scope="prototype" />        
-  	<bean id="SalaryExpenseTransferDocument-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="SalaryExpenseTransferDocument-blanketApproveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" /> 
@@ -30,7 +30,7 @@
 	</bean>        
 
 	<bean id="SalaryExpenseTransferDocument-approveDocumentValidation" parent="SalaryExpenseTransferDocument-approveDocumentValidation-parentBean" scope="prototype" />
-	<bean id="SalaryExpenseTransferDocument-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="SalaryExpenseTransferDocument-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" />
@@ -39,14 +39,14 @@
 	</bean>
 	
 	<bean id="SalaryExpenseTransferDocument-reviewAccountingLineValidation" parent="SalaryExpenseTransferDocument-reviewAccountingLineValidation-parentBean" scope="prototype" /> 
-	<bean id="SalaryExpenseTransferDocument-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="SalaryExpenseTransferDocument-reviewAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<bean parent="AccountingDocument-ReviewAccountingLine-DefaultValidation" scope="prototype" />
   		</property>
 	</bean>	
 		
 	<bean id="SalaryExpenseTransferDocument-saveDocumentValidation" parent="SalaryExpenseTransferDocument-saveDocumentValidation-parentBean" scope="prototype" />		
-	<bean id="SalaryExpenseTransferDocument-saveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="SalaryExpenseTransferDocument-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>		
 				<bean parent="SalaryExpenseTransferDocument-accountingLinesSameEmployeeValidation" scope="prototype">
@@ -65,7 +65,7 @@
 	</bean>
 		
 	<bean id="SalaryExpenseTransferDocument-addAccountingLineValidation" parent="SalaryExpenseTransferDocument-addAccountingLineValidation-parentBean" scope="prototype" />	
-	<bean id="SalaryExpenseTransferDocument-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="SalaryExpenseTransferDocument-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" scope="prototype" />	
@@ -123,7 +123,7 @@
 	</bean>
 	
 	<bean id="SalaryExpenseTransferDocument-updateAccountingLineValidation" parent="SalaryExpenseTransferDocument-updateAccountingLineValidation-parentBean" scope="prototype" />		
-	<bean id="SalaryExpenseTransferDocument-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="SalaryExpenseTransferDocument-updateAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="SalaryExpenseTransferDocument-accountingLinesSameEmployeeValidation" scope="prototype">
@@ -192,7 +192,7 @@
 	</bean>
 
 	<bean id="SalaryExpenseTransferDocument-routeDocumentValidation" parent="SalaryExpenseTransferDocument-routeDocumentValidation-parentBean" scope="prototype" />	
-	<bean id="SalaryExpenseTransferDocument-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="SalaryExpenseTransferDocument-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
 				<bean parent="LaborExpenseTransferDocument-accountLineTotalsMatchValidation" scope="prototpye">

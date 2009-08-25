@@ -132,10 +132,7 @@
 			<list>
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
-						<bean parent="validationFieldConversion">
-							<property name="sourceEventProperty" value="accountingLine" />
-							<property name="targetValidationProperty" value="businessObjectForValidation" />
-						</bean>
+						<bean parent="accountingLineToBusinessObjectFieldConversion" />
 					</property>
 				</bean>
 				<bean parent="Purchasing-accountingLineDataDictionaryValidation" scope="prototype">
@@ -175,7 +172,7 @@
   			<list>
   				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
-						<bean parent="validationFieldConversion" p:sourceEventProperty="updatedAccountingLine" p:targetValidationProperty="businessObjectForValidation" />
+						<bean parent="updatedAccountingLineToBusinessObjectFieldConversion" />
 					</property>
 					<property name="quitOnFail" value="false" />
 				</bean>
@@ -220,10 +217,7 @@
 				<bean parent="PurchaseOrder-splitValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
+							<bean parent="accountingDocumentFieldConversion" />
 						</list>
 					</property>
 				</bean>
@@ -240,10 +234,7 @@
 				<bean parent="PurchaseOrder-addQuoteToVendorValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
+							<bean parent="accountingDocumentFieldConversion" />
 							<bean parent="validationFieldConversion">
 								<property name="sourceEventProperty" value="vendorQuote" />
 								<property name="targetValidationProperty" value="vendorQuote" />
@@ -272,10 +263,7 @@
 				<bean parent="PurchaseOrder-assignSensitiveDataValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
+							<bean parent="accountingDocumentFieldConversion" />
 							<bean parent="validationFieldConversion">
 								<property name="sourceEventProperty" value="sensitiveDataAssignmentReason" />
 								<property name="targetValidationProperty" value="sensitiveDataAssignmentReason" />

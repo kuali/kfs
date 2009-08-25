@@ -50,6 +50,7 @@
 		<property name="validations">
 			<list>
 				<bean parent="PurchasingAccountsPayable-newProcessItemValidation-parentBean" scope="prototype"/>
+				<bean parent="PaymentRequest-purchaseOrderIdValidation" scope="prototype" />
 			</list>
 		</property>
 	</bean>
@@ -62,7 +63,7 @@
 		</property>
 	</bean>
 	
-	<bean id="PaymentRequest-routeDocument-fullDocumentEntryCompletedBranchingValidation" abstract="true" parent="PaymentRequest-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
+	<bean id="PaymentRequest-routeDocument-fullDocumentEntryCompletedBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
 		<property name="branchMap">
 			<map>
 				<entry>
@@ -105,21 +106,6 @@
 				<bean parent="PaymentRequest-invoiceValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  									
-				
-				<bean parent="PurchasingAccountsPayable-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
-					<property name="branchMap">
-						<map>
-							<entry>							
-								<key><value>notFullDocumentEntry</value></key>
-								<bean parent="PaymentRequest-purchaseOrderIdValidation" scope="prototype" />
-							</entry>		
-							<entry>							
-								<key><value>fullDocumentEntry</value></key>
-								<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />								
-							</entry>							
-						</map>
-					</property>
-				</bean>
 														
 				<bean parent="PaymentRequest-dateForContinueValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
@@ -157,27 +143,46 @@
 		</property>
 	</bean>
 	
+	<bean id="PaymentRequest-approveDocument-fullDocumentEntryCompleted-notFullDocumentEntryBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="PurchasingAccountsPayable-newProcessItemValidation-parentBean" scope="prototype"/>
+				<bean parent="PaymentRequest-purchaseOrderIdValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PaymentRequest-approveDocument-fullDocumentEntryCompleted-fullDocumentEntryBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="PaymentRequest-newProcessItemValidation-parentBean" scope="prototype" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PaymentRequest-approveDocument-fullDocumentEntryCompletedBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
+		<property name="branchMap">
+			<map>
+				<entry>
+					<key><value>notFullDocumentEntry</value></key>
+					<bean parent="PaymentRequest-approveDocument-fullDocumentEntryCompleted-notFullDocumentEntryBranchCompositeValidation" scope="prototype"/>				
+				</entry>		
+				<entry>							
+					<key><value>fullDocumentEntry</value></key>
+					<bean parent="PaymentRequest-approveDocument-fullDocumentEntryCompleted-fullDocumentEntryBranchCompositeValidation" scope="prototype" />								
+				</entry>									
+			</map>
+		</property>
+	</bean>
+	
   	<bean id="PaymentRequest-approveDocumentValidation" parent="PaymentRequest-approveDocumentValidation-parentBean" scope="prototype" />
   
   	<bean id="PaymentRequest-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
 			    <bean parent="PaymentRequest-approveDocument-itemsCollectionValidation" scope="prototype" />
-
-				<bean parent="PaymentRequest-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
-					<property name="branchMap">
-						<map>
-							<entry>
-								<key><value>notFullDocumentEntry</value></key>
-				<bean parent="PurchasingAccountsPayable-newProcessItemValidation-parentBean" scope="prototype"/>				
-							</entry>		
-							<entry>							
-								<key><value>fullDocumentEntry</value></key>
-								<bean parent="PaymentRequest-newProcessItemValidation-parentBean" scope="prototype" />								
-							</entry>									
-						</map>
-					</property>
-				</bean>	 	
+			    
+			    <bean parent="PaymentRequest-approveDocument-fullDocumentEntryCompletedBranchingValidation" scope="prototype" />
 											
 				<bean parent="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
@@ -189,21 +194,6 @@
 				
 				<bean parent="PaymentRequest-invoiceValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
-				</bean>  									
-				
-				<bean parent="PurchasingAccountsPayable-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
-					<property name="branchMap">
-						<map>
-							<entry>
-								<key><value>notFullDocumentEntry</value></key>
-								<bean parent="PaymentRequest-purchaseOrderIdValidation" scope="prototype" />
-							</entry>							
-							<entry>							
-								<key><value>fullDocumentEntry</value></key>
-								<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />								
-							</entry>														
-						</map>
-					</property>
 				</bean>				
 										
 				<bean parent="PaymentRequest-dateForContinueValidation" scope="prototype">								
@@ -242,10 +232,7 @@
 			<list>
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
-						<bean parent="validationFieldConversion">
-							<property name="sourceEventProperty" value="accountingLine" />
-							<property name="targetValidationProperty" value="businessObjectForValidation" />
-						</bean>
+						<bean parent="accountingLineToBusinessObjectFieldConversion" />
 					</property>
 				</bean>
 				<bean parent="PaymentRequest-accountingLineDataDictionaryValidation" scope="prototype">
@@ -305,10 +292,7 @@
 			<list>
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
-						<bean parent="validationFieldConversion">
-							<property name="sourceEventProperty" value="updatedAccountingLine" />
-							<property name="targetValidationProperty" value="businessObjectForValidation" />
-						</bean>
+						<bean parent="updatedAccountingLineToBusinessObjectFieldConversion" />
 					</property>
 				</bean>
 				<bean parent="PaymentRequest-accountingLineDataDictionaryValidation" scope="prototype">
@@ -372,10 +356,7 @@
   			
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
-						<bean parent="validationFieldConversion">
-							<property name="sourceEventProperty" value="accountingLine" />
-							<property name="targetValidationProperty" value="businessObjectForValidation" />
-						</bean>
+						<bean parent="accountingLineToBusinessObjectFieldConversion" />
 					</property>
 				</bean>
 				<bean parent="PaymentRequest-accountingLineDataDictionaryValidation" scope="prototype">
@@ -541,6 +522,38 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="PaymentRequest-eInvoice-fullDocumentEntryCompleted-notFullDocumentEntryBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="PurchasingAccountsPayable-newProcessItemValidation-parentBean" scope="prototype"/>
+				<bean parent="PaymentRequest-purchaseOrderIdValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PaymentRequest-eInvoice-fullDocumentEntryCompleted-fullDocumentEntryBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="PaymentRequest-newProcessItemValidation-parentBean" scope="prototype" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PaymentRequest-eInvoice-fullDocumentEntryCompletedBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
+		<property name="branchMap">
+			<map>
+				<entry>
+					<key><value>notFullDocumentEntry</value></key>
+					<bean parent="PaymentRequest-eInvoice-fullDocumentEntryCompleted-notFullDocumentEntryBranchCompositeValidation" scope="prototype"/>				
+				</entry>		
+				<entry>							
+					<key><value>fullDocumentEntry</value></key>
+					<bean parent="PaymentRequest-eInvoice-fullDocumentEntryCompleted-fullDocumentEntryBranchCompositeValidation" scope="prototype" />							
+				</entry>									
+			</map>
+		</property>
+	</bean>
 
     <bean id="PaymentRequest-eInvoiceValidation" parent="PaymentRequest-eInvoiceValidation-parentBean" scope="prototype" />
   
@@ -549,20 +562,7 @@
   			<list>
 			    <bean parent="PaymentRequest-eInvoice-itemsCollectionValidation" scope="prototype" />
 
-				<bean parent="PaymentRequest-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
-					<property name="branchMap">
-						<map>
-							<entry>
-								<key><value>notFullDocumentEntry</value></key>
-				<bean parent="PurchasingAccountsPayable-newProcessItemValidation-parentBean" scope="prototype"/>				
-							</entry>		
-							<entry>							
-								<key><value>fullDocumentEntry</value></key>
-								<bean parent="PaymentRequest-newProcessItemValidation-parentBean" scope="prototype" />								
-							</entry>									
-						</map>
-					</property>
-				</bean>	 	
+				<bean parent="PaymentRequest-eInvoice-fullDocumentEntryCompletedBranchingValidation" scope="prototype" />	 	
 
 				<bean parent="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
@@ -573,21 +573,6 @@
 				<bean parent="PaymentRequest-invoiceValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  									
-				
-				<bean parent="PurchasingAccountsPayable-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
-					<property name="branchMap">
-						<map>
-							<entry>							
-								<key><value>notFullDocumentEntry</value></key>
-								<bean parent="PaymentRequest-purchaseOrderIdValidation" scope="prototype" />
-							</entry>		
-							<entry>							
-								<key><value>fullDocumentEntry</value></key>
-								<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />								
-							</entry>									
-						</map>
-					</property>
-				</bean>
 														
 				<bean parent="PaymentRequest-dateForContinueValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />

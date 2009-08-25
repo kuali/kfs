@@ -97,10 +97,7 @@
 			<list>
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
-						<bean parent="validationFieldConversion">
-							<property name="sourceEventProperty" value="accountingLine" />
-							<property name="targetValidationProperty" value="businessObjectForValidation" />
-						</bean>
+						<bean parent="accountingLineToBusinessObjectFieldConversion" />
 					</property>
 				</bean>
 				<bean parent="CashReceiptFamily-accountingLineAmountValidation" scope="prototype">
@@ -131,10 +128,7 @@
 			<list>
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
-						<bean parent="validationFieldConversion">
-							<property name="sourceEventProperty" value="updatedAccountingLine" />
-							<property name="targetValidationProperty" value="businessObjectForValidation" />
-						</bean>
+						<bean parent="updatedAccountingLineToBusinessObjectFieldConversion" />
 					</property>
 				</bean>
 				<bean parent="CashReceiptFamily-accountingLineAmountValidation" scope="prototype">
@@ -164,10 +158,7 @@
 			<list>
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
-						<bean parent="validationFieldConversion">
-							<property name="sourceEventProperty" value="accountingLine" />
-							<property name="targetValidationProperty" value="businessObjectForValidation" />
-						</bean>
+						<bean parent="accountingLineToBusinessObjectFieldConversion" />
 					</property>
 				</bean>
 				<bean parent="CashReceiptFamily-accountingLineAmountValidation" scope="prototype">

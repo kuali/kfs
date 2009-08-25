@@ -132,10 +132,7 @@
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="businessObjectForValidation" />
-							</bean>
+							<bean parent="accountingLineToBusinessObjectFieldConversion" />
 						</list>
 					</property>
 				</bean>
@@ -176,10 +173,7 @@
 			<list>
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
-						<bean parent="validationFieldConversion">
-							<property name="sourceEventProperty" value="updatedAccountingLine" />
-							<property name="targetValidationProperty" value="businessObjectForValidation" />
-						</bean>
+						<bean parent="updatedAccountingLineToBusinessObjectFieldConversion" />
 					</property>
 				</bean>
 				<bean parent="Purchasing-accountingLineDataDictionaryValidation" scope="prototype">
@@ -238,19 +232,13 @@
 				</bean>  			
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
-						<bean parent="validationFieldConversion">
-							<property name="sourceEventProperty" value="accountingLine" />
-							<property name="targetValidationProperty" value="businessObjectForValidation" />
-						</bean>
+						<bean parent="accountingLineToBusinessObjectFieldConversion" />
 					</property>
 				</bean>
 				<bean parent="Purchasing-accountingLineDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
+							<bean parent="accountingLineFieldConversion" />
 						</list>
 					</property>
 				</bean>

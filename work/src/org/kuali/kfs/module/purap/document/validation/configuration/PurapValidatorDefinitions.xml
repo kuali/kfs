@@ -931,9 +931,6 @@
     </bean>
 
     <!--  Payment Request validations -->
-	<bean id="PaymentRequest-fullDocumentEntryCompletedBranchingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestFullDocumentEntryCompletedBranchingValidation" abstract="true">
-		<property name="purapService" ref="purapService" />
-	</bean>
 	
 	<bean id="PaymentRequest-newProcessItem-itemsCollection-itemConsideredEnteredBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-itemConsideredEnteredBranchingValidation" scope="prototype">
 		<property name="branchMap">

@@ -23,7 +23,7 @@
     <!-- Route Document Event -->
 	<bean id="PurchaseOrderReopen-routeDocumentValidation" parent="PurchaseOrderReopen-routeDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="PurchaseOrderReopen-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="PurchaseOrderReopen-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>  				  				
   				<bean parent="Purchasing-newProcessItemValidation-parentBean" scope="prototype">								
@@ -56,7 +56,7 @@
 	<!-- Approve Document Events -->
   	<bean id="PurchaseOrderReopen-approveDocumentValidation" parent="PurchaseOrderReopen-approveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="PurchaseOrderReopen-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="PurchaseOrderReopen-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="Purchasing-newProcessItemValidation-parentBean" scope="prototype">								
@@ -90,7 +90,7 @@
 	<!-- Add Item Event -->
 	<bean id="PurchaseOrderReopen-addPurchasingAccountsPayableItemValidation" parent="PurchaseOrderReopen-addPurchasingAccountsPayableItemValidation-parentBean" scope="prototype" />
   
-	<bean id="PurchaseOrderReopen-addPurchasingAccountsPayableItemValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PurchaseOrderReopen-addPurchasingAccountsPayableItemValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
 				<bean parent="Purchasing-addItemValidation" scope="prototype">
@@ -110,7 +110,7 @@
 	<!-- Import Item Event -->
 	<bean id="PurchaseOrderReopen-importPurchasingAccountsPayableItemValidation" parent="PurchaseOrderReopen-importPurchasingAccountsPayableItemValidation-parentBean" scope="prototype" />
   
-	<bean id="PurchaseOrderReopen-importPurchasingAccountsPayableItemValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PurchaseOrderReopen-importPurchasingAccountsPayableItemValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
 				<bean parent="Purchasing-importItemValidation" scope="prototype">
@@ -130,7 +130,7 @@
 	<!-- Save Document Event -->
 	<bean id="PurchaseOrderReopen-saveDocumentValidation" parent="PurchaseOrderReopen-saveDocumentValidation-parentBean" scope="prototype" />
   
-	<bean id="PurchaseOrderReopen-saveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PurchaseOrderReopen-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
 				<bean parent="PurchaseOrderReopen-saveValidation" scope="prototype"/>

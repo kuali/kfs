@@ -23,7 +23,7 @@
 	<!-- Route Document Event -->
 	<bean id="BulkReceivingDocument-routeDocumentValidation" parent="BulkReceivingDocument-routeDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="BulkReceivingDocument-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="BulkReceivingDocument-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="BulkReceivingDocument-purchaseOrderIdValidation" scope="prototype" />
@@ -35,7 +35,7 @@
 	<!-- Continue Purap Event -->
     <bean id="BulkReceivingDocument-continuePurapValidation" parent="BulkReceivingDocument-continuePurapValidation-parentBean" scope="prototype" />
   
-	<bean id="BulkReceivingDocument-continuePurapValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="BulkReceivingDocument-continuePurapValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="BulkReceivingDocument-purchaseOrderIdValidation" scope="prototype" />

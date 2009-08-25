@@ -269,7 +269,7 @@
 		</property>
 	</bean>
 	
-	<bean id="AccountingDocument-DeleteAccountingLine-DefaultValidation" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="AccountingDocument-DeleteAccountingLine-DefaultValidation" parent="CompositeValidation" scope="prototype" abstract="true">
 		<!-- NO EXTRA VALIDATIONS -->
 		<property name="validations">
 			<list></list>

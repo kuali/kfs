@@ -22,66 +22,77 @@
 
 
 	<!-- Route Document Event -->
+	<bean id="PaymentRequest-routeDocument-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+  		<property name="collectionProperty" value="document.items" />
+  		<property name="validations">
+  			<list>  					  						
+				<bean parent="PaymentRequest-reviewValidation" scope="prototype">
+					<property name="parameterProperties">
+			            <list>
+							<bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>
+				</bean>
+
+				<bean parent="PaymentRequest-processItemValidation" scope="prototype">
+					<property name="parameterProperties">
+			            <list>
+	  	                    <bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>
+				</bean>			
+																						
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PaymentRequest-routeDocument-fullDocumentEntryCompletedBranchingValidation-notFullDocumentEntryBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="PurchasingAccountsPayable-newProcessItemValidation-parentBean" scope="prototype"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PaymentRequest-routeDocument-fullDocumentEntryCompletedBranchingValidation-fullDocumentEntryBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="PaymentRequest-newProcessItemValidation-parentBean" scope="prototype" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PaymentRequest-routeDocument-fullDocumentEntryCompletedBranchingValidation" abstract="true" parent="PaymentRequest-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
+		<property name="branchMap">
+			<map>
+				<entry>
+					<key><value>notFullDocumentEntry</value></key>
+					<bean parent="PaymentRequest-routeDocument-fullDocumentEntryCompletedBranchingValidation-notFullDocumentEntryBranchCompositeValidation" scope="prototype" />
+				</entry>		
+				<entry>							
+					<key><value>fullDocumentEntry</value></key>
+					<bean parent="PaymentRequest-routeDocument-fullDocumentEntryCompletedBranchingValidation-fullDocumentEntryBranchCompositeValidation" scope="prototype" />								
+				</entry>									
+			</map>
+		</property>
+	</bean>
+	
 	<bean id="PaymentRequest-routeDocumentValidation" parent="PaymentRequest-routeDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="PaymentRequest-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="PaymentRequest-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="PurchasingAccountsPayable-bankCodeValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
+							<bean parent="accountingDocumentFieldConversion" />
 						</list>
 					</property>
 				</bean>
   			
-			    <bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
-  					<property name="collectionProperty" value="document.items" />
-  					<property name="validations">
-  					  <list>  					  						
-						<bean parent="PaymentRequest-reviewValidation" scope="prototype">
-							<property name="parameterProperties">
-					            <list>
-			  	                    <bean parent="validationFieldConversion">
-				   	                    <property name="sourceEventProperty" value="iterationSubject" />
-							            <property name="targetValidationProperty" value="itemForValidation" />
-						            </bean>
-								</list>
-							</property>
-						</bean>
+			    <bean parent="PaymentRequest-routeDocument-itemsCollectionValidation" scope="prototype" />
 
-						<bean parent="PaymentRequest-processItemValidation" scope="prototype">
-							<property name="parameterProperties">
-					            <list>
-			  	                    <bean parent="validationFieldConversion">
-				   	                    <property name="sourceEventProperty" value="iterationSubject" />
-							            <property name="targetValidationProperty" value="itemForValidation" />
-						            </bean>
-								</list>
-							</property>
-						</bean>			
-																						
-					  </list>
-					</property>
-				</bean>
-
-				<bean parent="PaymentRequest-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
-					<property name="branchMap">
-						<map>
-							<entry>
-								<key><value>notFullDocumentEntry</value></key>
-				<bean parent="PurchasingAccountsPayable-newProcessItemValidation-parentBean" scope="prototype"/>				
-							</entry>		
-							<entry>							
-								<key><value>fullDocumentEntry</value></key>
-								<bean parent="PaymentRequest-newProcessItemValidation-parentBean" scope="prototype" />								
-							</entry>									
-						</map>
-					</property>
-				</bean>	 	
+				<bean parent="PaymentRequest-routeDocument-fullDocumentEntryCompletedBranchingValidation" scope="prototype" />	 	
 																
 				<bean parent="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
@@ -129,30 +140,29 @@
 		</property>
   	</bean>
 
-	<!-- Approve Document Event -->  
-  	<bean id="PaymentRequest-approveDocumentValidation" parent="PaymentRequest-approveDocumentValidation-parentBean" scope="prototype" />
-  
-  	<bean id="PaymentRequest-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<!-- Approve Document Event -->
+	<bean id="PaymentRequest-approveDocument-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+  		<property name="collectionProperty" value="document.items" />
   		<property name="validations">
   			<list>
-			    <bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
-  					<property name="collectionProperty" value="document.items" />
-  					<property name="validations">
-  						<list>
-						<bean parent="PaymentRequest-processItemValidation" scope="prototype">
-							<property name="parameterProperties">
-					            <list>
-			  	                    <bean parent="validationFieldConversion">
-				   	                    <property name="sourceEventProperty" value="iterationSubject" />
-							            <property name="targetValidationProperty" value="itemForValidation" />
-						            </bean>
-								</list>
-							</property>
-						</bean>
-						
+				<bean parent="PaymentRequest-processItemValidation" scope="prototype">
+					<property name="parameterProperties">
+			            <list>
+	  	                    <bean parent="itemIterationSubjectFieldConversation" />
 						</list>
 					</property>
 				</bean>
+				
+			</list>
+		</property>
+	</bean>
+	
+  	<bean id="PaymentRequest-approveDocumentValidation" parent="PaymentRequest-approveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="PaymentRequest-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+			    <bean parent="PaymentRequest-approveDocument-itemsCollectionValidation" scope="prototype" />
 
 				<bean parent="PaymentRequest-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
 					<property name="branchMap">
@@ -218,7 +228,7 @@
 	<!-- Blanket Approve Accounting Line Event -->
 	<bean id="PaymentRequest-blanketApproveDocumentValidation" parent="PaymentRequest-blanketApproveDocumentValidation-parentBean" scope="prototype" />
   
-	<bean id="PaymentRequest-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PaymentRequest-blanketApproveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" />
@@ -227,222 +237,9 @@
 	</bean>	
 	
     <!-- Add Accounting Line Event -->
-	<bean id="PaymentRequest-addAccountingLineValidation" parent="PaymentRequest-addAccountingLineValidation-parentBean" scope="prototype" />
-  
-	<bean id="PaymentRequest-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<list>
-				<bean parent="AccountingDocument-newAccountingLineBranchingValidation" scope="prototype">
-					<property name="branchMap">
-						<map>
-							<entry>
-								<key><value>isNewLine</value></key>
-								<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />
-							</entry>
-							<entry>
-								<key><value>isOldLine</value></key>
-								<bean parent="PurchasingAccountsPayable-fixErrorPathValidation" scope="prototype">
-									<property name="parameterProperties">
-										<list>
-											<bean parent="validationFieldConversion">
-												<property name="sourceEventProperty" value="accountingLine" />
-												<property name="targetValidationProperty" value="accountingLineForValidation" />
-											</bean>
-										</list>
-									</property>
-								</bean>
-							</entry>
-						</map>
-					</property>
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>  			
-				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
-					<property name="validations">
-						<list>
-							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-								<property name="parameterProperties">
-									<bean parent="validationFieldConversion">
-										<property name="sourceEventProperty" value="accountingLine" />
-										<property name="targetValidationProperty" value="businessObjectForValidation" />
-									</bean>
-								</property>
-							</bean>
-							<bean parent="PaymentRequest-accountingLineDataDictionaryValidation" scope="prototype">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="accountingLine" />
-											<property name="targetValidationProperty" value="accountingLineForValidation" />
-										</bean>
-									</list>
-								</property>
-								<property name="quitOnFail" value="true" />
-							</bean>
-							<bean parent="PurchasingAccountsPayable-accountingLineValuesAllowedValidation-parentBean" scope="prototype"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="PaymentRequest-accountingLineAccessibleBranchingValidation" scope="prototype">
-					<property name="branchMap">
-						<map>
-							<entry>
-								<key><value>useDefaultAccountingLineAccessible</value></key>
-								<bean parent="PurchasingAccountsPayable-accountingLineAccessibleValidation" scope="prototype">
-									<property name="parameterProperties">
-										<list>
-											<bean parent="validationFieldConversion">
-												<property name="sourceEventProperty" value="document" />
-												<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-											</bean>
-											<bean parent="validationFieldConversion">
-												<property name="sourceEventProperty" value="accountingLine" />
-												<property name="targetValidationProperty" value="accountingLineForValidation" />
-											</bean>
-										</list>
-									</property>
-								</bean>															
-							</entry>
-						</map>
-					</property>
-				</bean>								
-			</list>
-		</property>
-	</bean>	
-		
-	<!-- Update Accounting Line Event -->
-    <bean id="PaymentRequest-updateAccountingLineValidation" parent="PaymentRequest-updateAccountingLineValidation-parentBean" scope="prototype" />
-  
-	<bean id="PaymentRequest-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<list>
-				<bean parent="AccountingDocument-newAccountingLineBranchingValidation" scope="prototype">
-					<property name="branchMap">
-						<map>
-							<entry>
-								<key><value>isNewLine</value></key>
-								<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />
-							</entry>
-							<entry>
-								<key><value>isOldLine</value></key>
-								<bean parent="PurchasingAccountsPayable-fixErrorPathValidation" scope="prototype">
-									<property name="parameterProperties">
-										<list>
-											<bean parent="validationFieldConversion">
-												<property name="sourceEventProperty" value="accountingLine" />
-												<property name="targetValidationProperty" value="accountingLineForValidation" />
-											</bean>
-										</list>
-									</property>
-								</bean>
-							</entry>
-						</map>
-					</property>
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>  	  			
-				<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
-					<property name="validations">
-						<list>
-							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-								<property name="parameterProperties">
-									<bean parent="validationFieldConversion">
-										<property name="sourceEventProperty" value="updatedAccountingLine" />
-										<property name="targetValidationProperty" value="businessObjectForValidation" />
-									</bean>
-								</property>
-							</bean>
-							<bean parent="PaymentRequest-accountingLineDataDictionaryValidation" scope="prototype">
-								<property name="parameterProperties">
-									<list>
-										<bean parent="validationFieldConversion">
-											<property name="sourceEventProperty" value="updatedAccountingLine" />
-											<property name="targetValidationProperty" value="accountingLineForValidation" />
-										</bean>
-									</list>
-								</property>
-								<property name="quitOnFail" value="true" />
-							</bean>
-							<bean parent="PurchasingAccountsPayable-updatedAccountingLineValuesAllowedValidation-parentBean" scope="prototype"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="PaymentRequest-accountingLineAccessibleBranchingValidation" scope="prototype">
-					<property name="branchMap">
-						<map>
-							<entry>
-								<key><value>useDefaultAccountingLineAccessible</value></key>
-								<bean parent="PurchasingAccountsPayable-accountingLineAccessibleValidation" scope="prototype">
-									<property name="parameterProperties">
-										<list>
-											<bean parent="validationFieldConversion">
-												<property name="sourceEventProperty" value="document" />
-												<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-											</bean>
-											<bean parent="validationFieldConversion">
-												<property name="sourceEventProperty" value="updatedAccountingLine" />
-												<property name="targetValidationProperty" value="accountingLineForValidation" />
-											</bean>
-										</list>
-									</property>
-								</bean>															
-							</entry>
-						</map>
-					</property>
-				</bean>								
-  			</list>
-  		</property>						
-	</bean>
-	
-	<!-- Review Accounting Line Event -->
-    <bean id="PaymentRequest-reviewAccountingLineValidation" parent="PaymentRequest-reviewAccountingLineValidation-parentBean" scope="prototype" />
-  
-	<bean id="PaymentRequest-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<list>
-				<bean parent="AccountingDocument-newAccountingLineBranchingValidation" scope="prototype">
-					<property name="branchMap">
-						<map>
-							<entry>
-								<key><value>isNewLine</value></key>
-								<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />
-							</entry>
-							<entry>
-								<key><value>isOldLine</value></key>
-								<bean parent="PurchasingAccountsPayable-fixErrorPathValidation" scope="prototype">
-									<property name="parameterProperties">
-										<list>
-											<bean parent="validationFieldConversion">
-												<property name="sourceEventProperty" value="accountingLine" />
-												<property name="targetValidationProperty" value="accountingLineForValidation" />
-											</bean>
-										</list>
-									</property>
-								</bean>
-							</entry>
-						</map>
-					</property>
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>  			
+    <bean id="PaymentRequest-addAccountingLine-failFastValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
 						<bean parent="validationFieldConversion">
@@ -454,10 +251,137 @@
 				<bean parent="PaymentRequest-accountingLineDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="PurchasingAccountsPayable-accountingLineValuesAllowedValidation-parentBean" scope="prototype"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PaymentRequest-addAccountingLine-accountingLineAccessibleBranchingValidation-useDefaultAccountingLineAccessibleBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="PurchasingAccountsPayable-accountingLineAccessibleValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PaymentRequest-addAccountingLine-accountingLineAccessibleBranchingValidation" abstract="true" parent="PaymentRequest-accountingLineAccessibleBranchingValidation" scope="prototype">
+		<property name="branchMap">
+			<map>
+				<entry>
+					<key><value>useDefaultAccountingLineAccessible</value></key>
+					<bean parent="PaymentRequest-addAccountingLine-accountingLineAccessibleBranchingValidation-useDefaultAccountingLineAccessibleBranchCompositeValidation" scope="prototype" />														
+				</entry>
+			</map>
+		</property>
+	</bean>
+    
+	<bean id="PaymentRequest-addAccountingLineValidation" parent="PaymentRequest-addAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="PaymentRequest-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+				<bean parent="PurchasingAccountsPayable-accountingLine-newAccountingLineBranchingValidation" scope="prototype" />		
+				<bean parent="PaymentRequest-addAccountingLine-failFastValidation" scope="prototype" />
+				<bean parent="PaymentRequest-addAccountingLine-accountingLineAccessibleBranchingValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>	
+		
+	<!-- Update Accounting Line Event -->
+	<bean id="PaymentRequest-updateAccountingLine-failFastValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="validationFieldConversion">
+							<property name="sourceEventProperty" value="updatedAccountingLine" />
+							<property name="targetValidationProperty" value="businessObjectForValidation" />
+						</bean>
+					</property>
+				</bean>
+				<bean parent="PaymentRequest-accountingLineDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="updatedAccountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="PurchasingAccountsPayable-updatedAccountingLineValuesAllowedValidation-parentBean" scope="prototype"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PaymentRequest-updateAccountingLine-accountingLineAccessible-useDefaultAccountingLineAccessibleBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="PurchasingAccountsPayable-accountingLineAccessibleValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+							<bean parent="updatedAccountingLineFieldConversion" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PaymentRequest-updateAccountingLine-accountingLineAccessibleBranchingValidation" abstract="true" parent="PaymentRequest-accountingLineAccessibleBranchingValidation" scope="prototype">
+		<property name="branchMap">
+			<map>
+				<entry>
+					<key><value>useDefaultAccountingLineAccessible</value></key>
+					<bean parent="PaymentRequest-updateAccountingLine-accountingLineAccessible-useDefaultAccountingLineAccessibleBranchCompositeValidation" scope="prototype" />															
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+    <bean id="PaymentRequest-updateAccountingLineValidation" parent="PaymentRequest-updateAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="PaymentRequest-updateAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="PurchasingAccountsPayable-updatedAccountingLine-newAccountingLineBranchingValidation" scope="prototype" />
+  				<bean parent="PaymentRequest-updateAccountingLine-failFastValidation" scope="prototype" />  	  			
+				<bean parent="PaymentRequest-updateAccountingLine-accountingLineAccessibleBranchingValidation" scope="prototype" />							
+  			</list>
+  		</property>						
+	</bean>
+	
+	<!-- Review Accounting Line Event -->
+    <bean id="PaymentRequest-reviewAccountingLineValidation" parent="PaymentRequest-reviewAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="PaymentRequest-reviewAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+				<bean parent="PurchasingAccountsPayable-accountingLine-newAccountingLineBranchingValidation" scope="prototype" />
+  			
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="validationFieldConversion">
+							<property name="sourceEventProperty" value="accountingLine" />
+							<property name="targetValidationProperty" value="businessObjectForValidation" />
+						</bean>
+					</property>
+				</bean>
+				<bean parent="PaymentRequest-accountingLineDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingLineFieldConversion" />
 						</list>
 					</property>
 				</bean>
@@ -469,7 +393,7 @@
 	<!-- Continue Purap Event -->
     <bean id="PaymentRequest-continuePurapValidation" parent="PaymentRequest-continuePurapValidation-parentBean" scope="prototype" />
   
-	<bean id="PaymentRequest-continuePurapValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PaymentRequest-continuePurapValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="PaymentRequest-purchaseOrderIdValidation" scope="prototype" />
@@ -480,30 +404,29 @@
 	</bean>
 
 	<!-- Pre Calculate Accounts Payable Event -->
+	<bean id="PaymentRequest-preCalculateAccountsPayable-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+  		<property name="collectionProperty" value="document.items" />
+  		<property name="validations">
+  			<list>  					  						
+				<bean parent="PaymentRequest-nonZeroAccountingLineAmountValidation" scope="prototype">
+					<property name="parameterProperties">
+			            <list>
+	  	                    <bean parent="itemIterationSubjectFieldConversation" />						            
+						</list>
+					</property>
+				</bean>																									
+			</list>
+		</property>
+	</bean>
+	
     <bean id="PaymentRequest-preCalculateAccountsPayableValidation" parent="PaymentRequest-preCalculateAccountsPayableValidation-parentBean" scope="prototype" />
   
-	<bean id="PaymentRequest-preCalculateAccountsPayableValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PaymentRequest-preCalculateAccountsPayableValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="PaymentRequest-taxAreaValidation" scope="prototype"/>
   				<bean parent="AccountsPayable-preCalculateValidation" scope="prototype"/>
-			    <bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
-  					<property name="collectionProperty" value="document.items" />
-  					<property name="validations">
-  					  <list>  					  						
-						<bean parent="PaymentRequest-nonZeroAccountingLineAmountValidation" scope="prototype">
-							<property name="parameterProperties">
-					            <list>
-			  	                    <bean parent="validationFieldConversion">
-				   	                    <property name="sourceEventProperty" value="iterationSubject" />
-							            <property name="targetValidationProperty" value="itemForValidation" />
-						            </bean>						            
-								</list>
-							</property>
-						</bean>																									
-					  </list>
-					</property>
-				</bean>  				
+			    <bean parent="PaymentRequest-preCalculateAccountsPayable-itemsCollectionValidation" scope="prototype" />				
 			</list>
 		</property>
 	</bean>
@@ -511,7 +434,7 @@
 	<!-- Calculate Accounts Payable Event --> 
     <bean id="PaymentRequest-calculateAccountsPayableValidation" parent="PaymentRequest-calculateAccountsPayableValidation-parentBean" scope="prototype" />
 	
-	<bean id="PaymentRequest-calculateAccountsPayableValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PaymentRequest-calculateAccountsPayableValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="PaymentRequest-totalsValidation" scope="prototype" />
@@ -521,39 +444,11 @@
   			</list>
   		</property>										
 	</bean>
-					
-	<!-- 
-    <bean id="PaymentRequest-calculateAccountsPayableValidation-parentBean" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestCalculationBranchingValidation" scope="prototype" abstract="true">
-		<property name="branchMap">
-			<map>
-				<entry>							
-					<key><value>notAwaitingTaxReview</value></key>
-					<bean class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-  						<property name="validations">
-  							<list>
-  								<bean parent="PaymentRequest-totalsValidation" scope="prototype" />
-  								<bean parent="PaymentRequest-payDateNotOverThresholdDaysAwayValidation" scope="prototype" />
-  								<bean parent="PaymentRequest-grandTotalOverZeroValidation" scope="prototype" />
-  								<bean parent="PaymentRequest-payDateNotPastValidation" scope="prototype" />
-  							</list>
-  						</property>										
-					</bean>
-				</entry>		
-				<entry>							
-					<key><value>waitingTaxReview</value></key>
-  					<bean parent="PaymentRequest-taxAreaValidation" scope="prototype">
-  						<property name="quitOnFail" value="true" />
-					</bean>  				  					  															  				  							
-				</entry>		
-			</map>
-		</property>
-	</bean>
-	-->
 
 	<!-- Cancel Accounts Payable Event -->
     <bean id="PaymentRequest-cancelAccountsPayableValidation" parent="PaymentRequest-cancelAccountsPayableValidation-parentBean" scope="prototype" />
   
-	<bean id="PaymentRequest-cancelAccountsPayableValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PaymentRequest-cancelAccountsPayableValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
   			<list>
   				<bean parent="PaymentRequest-cancelValidation" scope="prototype" />
@@ -564,7 +459,7 @@
 	<!-- Add Item Event -->
     <bean id="PaymentRequest-addPurchasingAccountsPayableItemValidation" parent="PaymentRequest-addPurchasingAccountsPayableItemValidation-parentBean" scope="prototype" />
   
-	<bean id="PaymentRequest-addPurchasingAccountsPayableItemValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PaymentRequest-addPurchasingAccountsPayableItemValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
   			<list>
 				<bean parent="PurchasingAccountsPayable-addItemValidation" scope="prototype">
@@ -584,7 +479,7 @@
 	<!-- Import Item Event -->
     <bean id="PaymentRequest-importPurchasingAccountsPayableItemValidation" parent="PaymentRequest-importPurchasingAccountsPayableItemValidation-parentBean" scope="prototype" />
   
-	<bean id="PaymentRequest-importPurchasingAccountsPayableItemValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PaymentRequest-importPurchasingAccountsPayableItemValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
   			<list>		
 				<bean parent="PurchasingAccountsPayable-importItemValidation" scope="prototype">
@@ -604,59 +499,55 @@
 	<!-- Save Document Event -->
     <bean id="PaymentRequest-saveDocumentValidation" parent="PaymentRequest-saveDocumentValidation-parentBean" scope="prototype" />
   
-	<bean id="PaymentRequest-saveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PaymentRequest-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
   			<list>
   				<bean parent="PaymentRequest-payDateNotPastValidation" scope="prototype"/>		  			
 			</list>
 		</property>
-	</bean>       
-
-    <bean id="PaymentRequest-eInvoiceValidation" parent="PaymentRequest-eInvoiceValidation-parentBean" scope="prototype" />
-  
-	<bean id="PaymentRequest-eInvoiceValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
-		<property name="validations">
-  			<list>
-			    <bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
-  					<property name="collectionProperty" value="document.items" />
-  					<property name="validations">
-  						<list>
-						<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-							<property name="parameterProperties">
-								<list>
-									<bean parent="validationFieldConversion">
-										<property name="sourceEventProperty" value="iterationSubject" />
-										<property name="targetValidationProperty" value="businessObjectForValidation" />
-									</bean>
-								</list>
-							</property>
-						</bean>
-						
-						<bean parent="PaymentRequest-reviewValidation" scope="prototype">
-							<property name="parameterProperties">
-					            <list>
-			  	                    <bean parent="validationFieldConversion">
-				   	                    <property name="sourceEventProperty" value="iterationSubject" />
-							            <property name="targetValidationProperty" value="itemForValidation" />
-						            </bean>
-								</list>
-							</property>
-						</bean>
-
-						<bean parent="PaymentRequest-processItemValidation" scope="prototype">
-							<property name="parameterProperties">
-					            <list>
-			  	                    <bean parent="validationFieldConversion">
-				   	                    <property name="sourceEventProperty" value="iterationSubject" />
-							            <property name="targetValidationProperty" value="itemForValidation" />
-						            </bean>
-								</list>
-							</property>
-						</bean>
-																				
+	</bean>
+	
+	<bean id="PaymentRequest-eInvoice-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+ 		<property name="collectionProperty" value="document.items" />
+ 		<property name="validations">
+ 			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="iterationSubject" />
+								<property name="targetValidationProperty" value="businessObjectForValidation" />
+							</bean>
 						</list>
 					</property>
 				</bean>
+					
+				<bean parent="PaymentRequest-reviewValidation" scope="prototype">
+					<property name="parameterProperties">
+			            <list>
+	  	                    <bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>
+				</bean>
+
+				<bean parent="PaymentRequest-processItemValidation" scope="prototype">
+					<property name="parameterProperties">
+			            <list>
+	  	                    <bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>
+				</bean>
+																			
+			</list>
+		</property>
+	</bean>
+
+    <bean id="PaymentRequest-eInvoiceValidation" parent="PaymentRequest-eInvoiceValidation-parentBean" scope="prototype" />
+  
+	<bean id="PaymentRequest-eInvoiceValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>
+			    <bean parent="PaymentRequest-eInvoice-itemsCollectionValidation" scope="prototype" />
 
 				<bean parent="PaymentRequest-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
 					<property name="branchMap">
@@ -712,91 +603,109 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="PaymentRequest-expiredAccountWarning-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+  		<property name="collectionProperty" value="document.items" />
+  		<property name="validations">
+			<list>	  									
+				<bean parent="PaymentRequest-expiredAccountWarningValidation" scope="prototype">
+					<property name="parameterProperties">
+			            <list>
+	  	                    <bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>
+				</bean>						  									
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PaymentRequest-expiredAccountWarning-fullDocumentEntryCompleted-fullDocumentEntryBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="PaymentRequest-expiredAccountWarning-itemsCollectionValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PaymentRequest-expiredAccountWarning-fullDocumentEntryCompletedBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
+		<property name="branchMap">
+			<map>
+				<entry>							
+					<key><value>fullDocumentEntry</value></key>	
+					<bean parent="PaymentRequest-expiredAccountWarning-fullDocumentEntryCompleted-fullDocumentEntryBranchCompositeValidation" scope="prototype" />															
+				</entry>
+				<entry>							
+					<key><value>notFullDocumentEntry</value></key>
+					<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />								
+				</entry>		
+			</map>
+		</property>
+	</bean>  		
 
     <bean id="PaymentRequest-expiredAccountWarningEvent" parent="PaymentRequest-expiredAccountWarningEvent-parentBean" scope="prototype" />
   
-	<bean id="PaymentRequest-expiredAccountWarningEvent-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PaymentRequest-expiredAccountWarningEvent-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
   			<list>
-				<bean parent="PurchasingAccountsPayable-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
-					<property name="branchMap">
-						<map>
-							<entry>							
-								<key><value>fullDocumentEntry</value></key>								
-								<bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
-  									<property name="collectionProperty" value="document.items" />
-  									<property name="validations">
-	  									<list>	  									
-	  										<bean parent="PaymentRequest-expiredAccountWarningValidation" scope="prototype">
-												<property name="parameterProperties">
-										            <list>
-								  	                    <bean parent="validationFieldConversion">
-									   	                    <property name="sourceEventProperty" value="iterationSubject" />
-												            <property name="targetValidationProperty" value="itemForValidation" />
-											            </bean>
-													</list>
-												</property>
-											</bean>						  									
-	  									</list>
-	  								</property>
-	  							</bean>								
-							</entry>
-							<entry>							
-								<key><value>notFullDocumentEntry</value></key>
-								<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />								
-							</entry>		
-						</map>
-					</property>
-				</bean>  			
+				<bean parent="PaymentRequest-expiredAccountWarning-fullDocumentEntryCompletedBranchingValidation" scope="prototype" />	
 			</list>
 		</property>
 	</bean>
 
     <bean id="PaymentRequest-payDateNotOverThresholdDaysAwayEvent" parent="PaymentRequest-payDateNotOverThresholdDaysAwayEvent-parentBean" scope="prototype" />
   
-	<bean id="PaymentRequest-payDateNotOverThresholdDaysAwayEvent-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PaymentRequest-payDateNotOverThresholdDaysAwayEvent-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
   			<list>
   				<bean parent="PaymentRequest-payDateNotOverThresholdDaysAwayValidation" scope="prototype"/>  				
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="PaymentRequest-tradeInWarning-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+  		<property name="collectionProperty" value="document.items" />
+  		<property name="validations">
+	  		<list>	  									  			  			
+				<bean parent="PaymentRequest-tradeInWarningValidation" scope="prototype">
+					<property name="parameterProperties">
+			            <list>
+		 	                <bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>
+	  			</bean>
+	  		</list>
+	  	</property>
+   </bean>
+	
+	<bean id="PaymentRequest-tradeInWarning-fullDocumentEntryCompleted-notFullDocumentEntryBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="PaymentRequest-tradeInWarning-itemsCollectionValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PaymentRequest-tradeInWarning-fullDocumentEntryCompletedBranchingValidation" parent="PurchasingAccountsPayable-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
+		<property name="branchMap">
+			<map>
+				<entry>							
+					<key><value>notFullDocumentEntry</value></key>								
+					<bean parent="PaymentRequest-tradeInWarning-fullDocumentEntryCompleted-notFullDocumentEntryBranchCompositeValidation" scope="prototype" />
+				</entry>
+				<entry>							
+					<key><value>fullDocumentEntry</value></key>
+					<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />								
+				</entry>									
+			</map>
+		</property>
+	</bean>
 
     <bean id="PaymentRequest-tradeInWarningEvent" parent="PaymentRequest-tradeInWarningEvent-parentBean" scope="prototype" />
   
-	<bean id="PaymentRequest-tradeInWarningEvent-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PaymentRequest-tradeInWarningEvent-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
   			<list>
-				<bean parent="PurchasingAccountsPayable-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
-					<property name="branchMap">
-						<map>
-							<entry>							
-								<key><value>notFullDocumentEntry</value></key>								
-								<bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
-  									<property name="collectionProperty" value="document.items" />
-  									<property name="validations">
-	  									<list>	  									  			  			
-								  			<bean parent="PaymentRequest-tradeInWarningValidation" scope="prototype">
-												<property name="parameterProperties">
-										            <list>
-									 	                <bean parent="validationFieldConversion">
-									   	                    <property name="sourceEventProperty" value="iterationSubject" />
-												            <property name="targetValidationProperty" value="itemForValidation" />
-											            </bean>
-													</list>
-												</property>
-								  			</bean>
-								  		</list>
-								  	</property>
-							   </bean>
-							</entry>
-							<entry>							
-								<key><value>fullDocumentEntry</value></key>
-								<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />								
-							</entry>									
-						</map>
-					</property>
-				</bean>
+				<bean parent="PaymentRequest-tradeInWarning-fullDocumentEntryCompletedBranchingValidation" scope="prototype" />
 			</list>
 		</property>
 	</bean>

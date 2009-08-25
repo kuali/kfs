@@ -23,7 +23,7 @@
     <!-- Route Document Event -->
 	<bean id="PurchaseOrderClose-routeDocumentValidation" parent="PurchaseOrderClose-routeDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="PurchaseOrderClose-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="PurchaseOrderClose-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="Purchasing-newProcessItemValidation-parentBean" scope="prototype">								
@@ -56,7 +56,7 @@
 	<!-- Approve Document Events -->
   	<bean id="PurchaseOrderClose-approveDocumentValidation" parent="PurchaseOrderClose-approveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="PurchaseOrderClose-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="PurchaseOrderClose-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
   				<bean parent="Purchasing-newProcessItemValidation-parentBean" scope="prototype">								
@@ -90,7 +90,7 @@
 	<!-- Add Item Event -->
 	<bean id="PurchaseOrderClose-addPurchasingAccountsPayableItemValidation" parent="PurchaseOrderClose-addPurchasingAccountsPayableItemValidation-parentBean" scope="prototype" />
   
-	<bean id="PurchaseOrderClose-addPurchasingAccountsPayableItemValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PurchaseOrderClose-addPurchasingAccountsPayableItemValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
 				<bean parent="Purchasing-addItemValidation" scope="prototype">
@@ -110,7 +110,7 @@
 	<!-- Import Item Event -->
 	<bean id="PurchaseOrderClose-importPurchasingAccountsPayableItemValidation" parent="PurchaseOrderClose-importPurchasingAccountsPayableItemValidation-parentBean" scope="prototype" />
   
-	<bean id="PurchaseOrderClose-importPurchasingAccountsPayableItemValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PurchaseOrderClose-importPurchasingAccountsPayableItemValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
 				<bean parent="Purchasing-importItemValidation" scope="prototype">
@@ -128,49 +128,55 @@
 	</bean>
 
 	<!-- Save Document Event -->
+	<bean id="PurchaseOrderClose-saveDocument-itemCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+		<property name="collectionProperty" value="document.items" />
+		<property name="validations">
+			<list>
+				<bean parent="PurchaseOrderClose-saveDocument-lineItemIndicatorBranchingValidation" scope="prototype" />
+			</list>
+		</property>			
+	</bean>
+	
+	<bean id="PurchaseOrderClose-saveDocument-lineItemIndicator-isLineIndicatorBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="Purchasing-commodityCodeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PurchaseOrderClose-saveDocument-lineItemIndicatorBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-lineItemIndicatorBranchingValidation" scope="prototype">
+		<property name="branchMap">
+			<map>
+				<entry>
+					<key><value>isLineItemIndicator</value></key>
+					<bean parent="PurchaseOrderClose-saveDocument-lineItemIndicator-isLineIndicatorBranchCompositeValidation" scope="prototype" />						                                
+				</entry>
+				<entry>
+					<key><value>isNotLineItemIndicator</value></key>
+					<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />
+				</entry>					                    
+			</map>
+		</property>
+		<property name="parameterProperties">
+			<list>
+				<bean parent="itemIterationSubjectFieldConversation" />
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="PurchaseOrderClose-saveDocumentValidation" parent="PurchaseOrderClose-saveDocumentValidation-parentBean" scope="prototype" />
   
-	<bean id="PurchaseOrderClose-saveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+	<bean id="PurchaseOrderClose-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-			    <bean class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" scope="prototype">
-  					<property name="collectionProperty" value="document.items" />
-  					<property name="validations">
-  						<list>
-							<bean parent="PurchasingAccountsPayable-lineItemIndicatorBranchingValidation" scope="prototype">
-			                    <property name="branchMap">
-				                    <map>
-					                    <entry>
-						                    <key><value>isLineItemIndicator</value></key>
-			                                <bean parent="Purchasing-commodityCodeValidation" scope="prototype">
-												<property name="parameterProperties">
-										            <list>
-								  	                    <bean parent="validationFieldConversion">
-									   	                    <property name="sourceEventProperty" value="iterationSubject" />
-												            <property name="targetValidationProperty" value="itemForValidation" />
-											            </bean>
-										            </list>
-									            </property>
-									       	</bean>							                                
-					                    </entry>
-					                    <entry>
-						                    <key><value>isNotLineItemIndicator</value></key>
-											<bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />
-					                    </entry>					                    
-				                    </map>
-					            </property>
-			                    <property name="parameterProperties">
-						            <list>
-				  	                    <bean parent="validationFieldConversion">
-					   	                    <property name="sourceEventProperty" value="iterationSubject" />
-								            <property name="targetValidationProperty" value="itemForValidation" />
-							            </bean>
-						            </list>
-					            </property>
-				            </bean>
-						</list>
-					</property>			
-				</bean>
+			    <bean parent="PurchaseOrderClose-saveDocument-itemCollectionValidation" scope="prototype" />
 			</list>
 		</property>
 	</bean>

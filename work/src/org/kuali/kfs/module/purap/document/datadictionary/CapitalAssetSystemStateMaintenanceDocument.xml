@@ -26,7 +26,6 @@
 
 <!-- Maintenance Section Definitions -->
 
-
   <bean id="CapitalAssetSystemStateMaintenanceDocument-EditCapitalAssetSystemState" parent="CapitalAssetSystemStateMaintenanceDocument-EditCapitalAssetSystemState-parentBean"/>
 
   <bean id="CapitalAssetSystemStateMaintenanceDocument-EditCapitalAssetSystemState-parentBean" abstract="true" parent="MaintainableSectionDefinition">

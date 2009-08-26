@@ -278,14 +278,16 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
      */
     private String getCustomDocumentTitle() {
         String popreq = "";
-        if (this.isSourceDocumentPurchaseOrder()) {
+        if (this.isSourceDocumentPurchaseOrder() || this.isSourceDocumentPaymentRequest()) {
             String poNumber = getPurchaseOrderIdentifier().toString();
             popreq = new StringBuffer("PO: ").append(poNumber).toString();
         }
+        /*
         else if (this.isSourceDocumentPaymentRequest()) {
             String preqNumber = this.getPaymentRequestIdentifier().toString();
             popreq = new StringBuffer("PREQ: ").append(preqNumber).toString();
         }
+        */
 
         String vendorName = StringUtils.trimToEmpty(getVendorName());
         String cmAmount = getGrandTotal().toString();

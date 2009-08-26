@@ -1317,7 +1317,7 @@
 		<property name="dependencies">
 			<map>
 				<entry key="scrubberJob" value="hardDependency" />
-				<entry key="sufficientFundsJob" value="hardDependency" />
+				<entry key="sufficientFundsAccountUpdateJob" value="hardDependency" />
 			</map>
 		</property>
 	</bean>

@@ -191,8 +191,8 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
     public static final String TAX_TYPE_SSN = "1";
     public static final String TAX_TYPE_FEIN = "0";
     
-    public static final String TAX_ID_TYPE_SSN = "S";
-    public static final String TAX_ID_TYPE_FEIN = "F";
+    public static final String TAX_ID_TYPE_SSN = "TAX";
+    //public static final String TAX_ID_TYPE_FEIN = "F";
 
     public static final String NRA_TAX_INCOME_CLASS_FELLOWSHIP = "F";
     public static final String NRA_TAX_INCOME_CLASS_INDEPENDENT_CONTRACTOR = "I";

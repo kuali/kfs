@@ -91,13 +91,11 @@
   			</list>
   		</property>
 	</bean>
-  
-	<bean id="ServiceBilling-addAccountingLineValidation" parent="ServiceBilling-addAccountingLineValidation-parentBean" scope="prototype" />
-  
-	<bean id="ServiceBilling-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<list>
-  				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+	
+	<bean id="ServiceBilling-addAccountingLine-fastFailValidation" abstract="true" scope="prototype" parent="CompositeValidation">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
 						<bean parent="accountingLineToBusinessObjectFieldConversion" />
 					</property>
@@ -119,6 +117,20 @@
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>
+				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+					<property name="accountingDocumentParameterPropertyName" value="document" />
+					<property name="accountingLineParameterPropertyName" value="accountingLine" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+  
+	<bean id="ServiceBilling-addAccountingLineValidation" parent="ServiceBilling-addAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="ServiceBilling-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="ServiceBilling-addAccountingLine-fastFailValidation" scope="prototype" />
 				<bean parent="ServiceBilling-accountingLineAccessibleValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
@@ -138,13 +150,11 @@
   			<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
   		</property>
 	</bean>
-  
-	<bean id="ServiceBilling-updateAccountingLineValidation" parent="ServiceBilling-updateAccountingLineValidation-parentBean" scope="prototype" />
-  
-	<bean id="ServiceBilling-updateAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
-  		<property name="validations">
-  			<list>
- 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+	
+	<bean id="ServiceBilling-updateAccountingLine-fastFailValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
 						<bean parent="updatedAccountingLineToBusinessObjectFieldConversion" />
 					</property>
@@ -166,7 +176,21 @@
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>
-				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
+				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+					<property name="accountingDocumentParameterPropertyName" value="document" />
+					<property name="accountingLineParameterPropertyName" value="updatedAccountingLine" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+  
+	<bean id="ServiceBilling-updateAccountingLineValidation" parent="ServiceBilling-updateAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="ServiceBilling-updateAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+ 				<bean parent="ServiceBilling-updateAccountingLine-fastFailValidation" scope="prototype" />
+				<bean parent="ServiceBilling-accountingLineAccessibleValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="accountingDocumentFieldConversion" />

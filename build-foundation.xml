@@ -181,8 +181,8 @@ are intended for use only by Kuali Foundation developers.
       		<fileset dir="${build.user.directory}/${ant.project.name}" includes="**/**" />
       		<filterset>
         		<filter token="rice-datasource-url" value="${rice.datasource.url}" />
-        		<filter token="rice-datasource-username-dev" value="${rice.datasource.username.dev}" />
-        		<filter token="rice-datasource-password-dev" value="${rice.datasource.password.dev}" />
+        		<filter token="rice-datasource-username" value="${rice.datasource.username}" />
+        		<filter token="rice-datasource-password" value="${rice.datasource.password}" />
         		<filter token="rice-datasource-username-test" value="${rice.datasource.username.test}" />
         		<filter token="rice-datasource-password-test" value="${rice.datasource.password.test}" />
       		</filterset>
@@ -197,6 +197,13 @@ are intended for use only by Kuali Foundation developers.
   
 	<target name="update-rice-basic" depends="init-property-files,update-rice-jars,update-rice-web" />
   
+    <target name="update-rice-server" depends="update-rice-jars,update-rice-server-war" />
+    
+    <target name="update-rice-server-war" depends="init-property-files">
+        <maven goals="package" modulePath="/web" />
+        <copy file="${rice.project.directory}/web/${rice.output.directory}/${rice.name}-web-${rice.version}.war" todir="${build.project.directory}" />
+    </target>
+    
 	<target name="update-rice-jars" depends="init-property-files">
     	<delete>
       		<fileset dir="${basedir}" includes="${lib.directory}/${rice.output.file.prefix}${rice.output.lib.suffix}" />
@@ -209,7 +216,12 @@ are intended for use only by Kuali Foundation developers.
             </then>
         </if>
         <maven goals="install" modulePath="/api" />
-        <maven goals="package" modulePath="/impl" />
+        <maven goals="install" modulePath="/impl" />
+        
+        <!--
+        <maven goals="install" options="-e -Dmaven.test.skip=true" />
+      	-->
+      
     	<copy todir="${lib.directory}" flatten="true">
       		<fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.lib.suffix}" excludes="${rice.excludes}" />
     	</copy>
@@ -244,8 +256,7 @@ are intended for use only by Kuali Foundation developers.
     	</delete>
     	<zip destfile="${build.project.directory}/${rice.name}-${rice.version}-licenses.zip" basedir="${rice.project.directory}/${licenses.directory}" excludes="**/CVS" />
   	</target>
-
-	
+		
 	<target name="build-dd-doc" depends="init-properties" description="Builds documentation for the Data Dictionary custom tags.">
 		<taskdef name="xsddoc" classname="net.sf.xframe.xsddoc.Task">
 			<classpath>

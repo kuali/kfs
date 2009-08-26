@@ -22,7 +22,6 @@
 	<param name="transaction.timeout">3600</param>
 	<param name="memory.monitor.threshold">.85</param>
 	<param name="production.environment.code">prd</param>
-	<param name="maintain.users.locally">true</param>
 
 	<param name="log4j.reload.minutes">5</param>
 	<param name="log4j.settings.path">classpath:log4j.properties</param>
@@ -32,12 +31,12 @@
 	<param name="serviceServletUrl">${application.url}/remoting/</param>
 
 	<param name="datasource.url">@rice-datasource-url@</param>
-	<param name="datasource.username">@rice-datasource-username-dev@</param>
-	<param name="datasource.password">@rice-datasource-password-dev@</param>
-	<param name="datasource.ojb.platform">Oracle9i</param>
-	<param name="datasource.platform">org.kuali.rice.core.database.platform.OracleDatabasePlatform</param>
-	<param name="datasource.driver.name">oracle.jdbc.driver.OracleDriver</param>
-	<param name="datasource.pool.validationQuery">select 1 from dual</param>
+	<param name="datasource.username">@rice-datasource-username@</param>
+	<param name="datasource.password">@rice-datasource-password@</param>
+	<param name="datasource.ojb.platform">@rice-datasource-ojb-platform@</param>
+	<param name="datasource.platform">@rice-datasource-platform@</param>
+	<param name="datasource.driver.name">@rice-datasource-driver@</param>
+	<param name="datasource.pool.validationQuery">@rice-datasource-validationQuery@</param>
 	<param name="datasource.pool.maxWait">30000</param>
 	<param name="datasource.pool.minSize">0</param>
 	<param name="datasource.pool.maxSize">50</param>
@@ -90,7 +89,7 @@
     <param name="notification.quartz.autostartup">true</param>
     <param name="notification.concurrent.jobs">true</param>
 
-    <param name="notification.basewebappurl">http://localhost:8080/kr-dev/ken</param>
+    <param name="notification.basewebappurl">http://localhost:8080/kr-${environment}/ken</param>
     
     <param name="notification.ojb.platform">Oracle</param>
     

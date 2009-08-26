@@ -38,6 +38,15 @@ import org.kuali.rice.kns.web.ui.Row;
 
 public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.workflow.attribute.DataDictionaryDocumentSearchCustomizer {
 
+    /**
+     * Constructs a DataDictionaryDocumentSearchCustomizer.java.
+     */
+    public DataDictionaryDocumentSearchCustomizer() {
+        setProcessResultSet(false);
+        setProcessFinalResults(false);
+    }
+
+
     @Override
     public List<Column> constructColumnList(DocSearchCriteriaDTO criteria) {
         List<Column> tempColumns = new ArrayList<Column>();

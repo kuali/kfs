@@ -1,0 +1,65 @@
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<config>
+
+	<!-- Please fill in a value for this parameter! -->
+	<param name="app.context.name">kr-${build.environment}</param>
+	<param name="application.url">${rice.server.url}</param>
+
+	<param name="workflow.url">${rice.server.url}/kew</param>
+
+	<param name="plugin.dir">/usr/local/rice/plugins</param>
+
+	<param name="datasource.ojb.platform">${datasource.ojb.platform}</param>
+	<param name="datasource.platform">${rice.server.datasource.platform}</param>
+	<param name="datasource.url">${rice.server.datasource.url}</param>
+	<param name="datasource.username">${rice.server.datasource.username}</param>
+	<param name="datasource.password">${rice.server.datasource.password}</param>
+	<param name="datasource.driver.name">${rice.server.datasource.driver.class}</param>
+	<param name="datasource.pool.size">${rice.server.datasource.pool.size}</param>
+	<param name="datasource.pool.maxWait">${rice.server.datasource.connection.timeout}</param>
+	<param name="datasource.pool.validationQuery">${rice.server.datasource.validating.query}</param>
+		
+	<param name="attachment.dir.location">${attachments.directory}</param>
+
+	<!-- log4j settings -->
+	<param name="log4j.settings.path">${log4j.settings.file}</param>
+	<param name="log4j.settings.reloadInterval">${log4j.reload.minutes}</param>
+
+	<!-- Keystore Configuration -->
+	<param name="keystore.file">${keystore.file}</param>
+	<param name="keystore.alias">${keystore.alias}</param>
+	<param name="keystore.password">${keystore.password}</param>
+
+	<!-- CAS Login Filter - use if you don't want to go through CAS -->
+	<param name="filter.login.class">org.jasig.cas.client.authentication.AuthenticationFilter</param>
+    <param name="filter.login.casServerLoginUrl">${cas.url}/login</param>
+    <param name="filter.login.serverName">${rice.appserver.url}</param>
+    <param name="filtermapping.login.1">/*</param>
+       
+    <param name="filter.validation.class">org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter</param>
+    <param name="filter.validation.casServerUrlPrefix">${cas.url}</param>
+    <param name="filter.validation.serverName">${rice.appserver.url}</param>
+    <param name="filtermapping.validation.2">/*</param>
+        
+    <param name="filter.caswrapper.class">org.jasig.cas.client.util.HttpServletRequestWrapperFilter</param>
+    <param name="filtermapping.caswrapper.3">/*</param>
+
+
+    <!-- Sample Application Flag -->
+    <param name="sample.enabled">false</param>
+
+</config>

@@ -939,7 +939,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         this.getDvPayeeDetail().setDisbVchrPayeeCountryCode(employee.getAddressCountryCodeUnmasked());
 
         this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(true);
-        // I'm assuming that if a tax id type code other than 'S' is present ('S'=SSN), then the employee must be foreign
+        // I'm assuming that if a tax id type code other than 'TAX' is present, then the employee must be foreign
         for ( String externalIdentifierTypeCode : employee.getExternalIdentifiers().keySet() ) {
             if (DisbursementVoucherConstants.TAX_ID_TYPE_SSN.equals(externalIdentifierTypeCode)) {
                 this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
@@ -1011,23 +1011,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             payeeDetail.setDvPayeeSubjectPaymentCode(getVendorService().isSubjectPaymentVendor(payeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger()));
         }
         else if (payeeDetail.isEmployee()) {
-            // Determine if employee is a non-resident alien
-            Person person = getPersonService().getPerson(payeeDetail.getDisbVchrEmployeeIdNumber());
-            if (person != null) {
-                payeeDetail.setDisbVchrAlienPaymentCode(true);
-                for ( String externalIdentifierTypeCode : person.getExternalIdentifiers().keySet() ) {
-                    if (DisbursementVoucherConstants.TAX_ID_TYPE_SSN.equals(externalIdentifierTypeCode)) {
-                        this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
-                    }
-                }
-            }
-            else {
-                // Setting value to false, because I can't retrieve the value for the Person
-                payeeDetail.setDisbVchrAlienPaymentCode(false);
-            }
-
-            // Determine if employee is ... an employee! :-)
-            payeeDetail.setDisbVchrPayeeEmployeeCode(true);
 
             // Determine if employee is a research subject
             ParameterEvaluator researchPaymentReasonCodeEvaluator = getParameterService().getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_PAYMENT_REASONS_PARM_NM, payeeDetail.getDisbVchrPaymentReasonCode());

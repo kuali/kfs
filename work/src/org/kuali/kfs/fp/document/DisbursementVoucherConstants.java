@@ -24,6 +24,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ParameterKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.service.ParameterService;
 
 /**
@@ -191,7 +192,7 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
     public static final String TAX_TYPE_SSN = "1";
     public static final String TAX_TYPE_FEIN = "0";
     
-    public static final String TAX_ID_TYPE_SSN = "TAX";
+    public static final String TAX_ID_TYPE_SSN = KimConstants.PersonExternalIdentifierTypes.TAX;
     //public static final String TAX_ID_TYPE_FEIN = "F";
 
     public static final String NRA_TAX_INCOME_CLASS_FELLOWSHIP = "F";

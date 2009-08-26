@@ -58,14 +58,7 @@ public class ExtractTransactionsServiceImpl implements ExtractTransactionsServic
 
         // add time info to filename - better to move in common place?
         java.util.Date jobRunDate = dateTimeService.getCurrentDate();
-        String timeString = jobRunDate.toString();
-        String year = timeString.substring(timeString.length() - 4, timeString.length());
-        String month = timeString.substring(4, 7);
-        String day = timeString.substring(8, 10);
-        String hour = timeString.substring(11, 13);
-        String min = timeString.substring(14, 16);
-        String sec = timeString.substring(17, 19);
-        String fileTimeInfo = "." + year + "-" + month + "-" + day + "." + hour + "-" + min + "-" + sec;
+        String fileTimeInfo = "." + dateTimeService.toDateTimeStringForFilename(jobRunDate);
 
         String extractTGlTransactionFileName = GeneralLedgerConstants.BatchFileSystem.EXTRACT_TRANSACTION_FILE + fileTimeInfo + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         File extractTGlTransactionFile = new File(batchFileDirectoryName + File.separator + extractTGlTransactionFileName);

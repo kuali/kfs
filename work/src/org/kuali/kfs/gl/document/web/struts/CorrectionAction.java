@@ -1865,22 +1865,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         }
         return present;
     }
-    
-    protected String buildFileExtensionWithDate(Date date){
 
-        String timeString = date.toString();
-        String year = timeString.substring(timeString.length() - 4, timeString.length());
-        String month = timeString.substring(4, 7);
-        String day = timeString.substring(8, 10);
-        String hour = timeString.substring(11, 13);
-        String min = timeString.substring(14, 16);
-        String sec = timeString.substring(17, 19);
-        
-        return "." + year + "-" + month + "-" + day + "." + hour + "-" + min + "-" + sec + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        
-        
-    }
-    
     protected int getMaxEntryId(List<OriginEntryFull> entryList){
         int maxEntryId = 0;
         List<OriginEntryFull> sortList = entryList;

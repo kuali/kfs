@@ -18,6 +18,8 @@ package org.kuali.kfs.gl.batch.service.impl;
 import java.util.Date;
 
 import org.kuali.kfs.gl.batch.service.BatchFileService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * A general use implementation of BatchFileServiceImpl
@@ -25,17 +27,9 @@ import org.kuali.kfs.gl.batch.service.BatchFileService;
 public class BatchFileServiceImpl implements BatchFileService {
 
     public String addTimeInfoToFilename(String fileName, Date timeInfo){
-        
-        
-        String timeString = timeInfo.toString();
-        String year = timeString.substring(timeString.length() - 4, timeString.length());
-        String month = timeString.substring(4, 7);
-        String day = timeString.substring(8, 10);
-        String hour = timeString.substring(11, 13);
-        String min = timeString.substring(14, 16);
-        String sec = timeString.substring(17, 19);
-
-        return fileName + "." + year + "-" + month + "-" + day + "." + hour + "-" + min + "-" + sec;
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        String formattedDate = dateTimeService.toDateTimeStringForFilename(timeInfo);
+        return fileName + "." + formattedDate;
         
     }
 }

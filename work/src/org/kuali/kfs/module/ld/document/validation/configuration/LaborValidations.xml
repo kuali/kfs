@@ -36,6 +36,8 @@
 
 	<bean id="BenefitExpenseTransferDocument-sameFringeBenefitObjectCodeValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.BenefitExpenseTransferSameFringeBenefitObjectCodeValidation" ></bean>
 	
+	<bean id="BenefitExpenseTransferDocument-pendingLedgerEntryValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.BenefitExpenseTransferPendingLegerEntryValidation" />
+	
 	<bean id="LaborExpenseTransferDocument-amountValidValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.LaborExpenseTransfeAmountValidValidation" ></bean>	
 
 	<bean id="LaborExpenseTransferDocument-accountAcceptFringeBenefitValidation" abstract="true" class="org.kuali.kfs.module.ld.document.validation.impl.LaborExpenseTransferAccountAcceptFringeBenefitValidation" />	

@@ -117,6 +117,17 @@
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>
+				<bean parent="BenefitExpenseTransferDocument-pendingLedgerEntryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="documentForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
 			</list>
 		</property>	
 	</bean>	

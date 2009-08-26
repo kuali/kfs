@@ -22,11 +22,13 @@ import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.JRParameter;
 
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.report.service.CustomerCreditMemoReportService;
 import org.kuali.kfs.module.ar.report.util.CustomerCreditMemoReportDataHolder;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.ReportGenerationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -37,19 +39,41 @@ public class CustomerCreditMemoReportServiceImpl implements CustomerCreditMemoRe
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerCreditMemoReportServiceImpl.class);
 
     private ReportGenerationService reportGenerationService;
+    private ParameterService parameterService;
     private ReportInfo customerCreditMemoReportInfo;
+    private ReportInfo customerCreditMemoReportInfoNoTax;
 
     /**
      * @see org.kuali.module.effort.service.EffortCertificationReportService#generateReportForExtractProcess(org.kuali.module.effort.util.ExtractProcessReportDataHolder, java.util.Date)
      */
     public File generateReport(CustomerCreditMemoReportDataHolder reportDataHolder, Date runDate) {
-        String reportFileName = customerCreditMemoReportInfo.getReportFileName();
-        String reportDirectory = customerCreditMemoReportInfo.getReportsDirectory();
-        String reportTemplateClassPath = customerCreditMemoReportInfo.getReportTemplateClassPath();
-        String reportTemplateName = customerCreditMemoReportInfo.getReportTemplateName();
-        ResourceBundle resourceBundle = customerCreditMemoReportInfo.getResourceBundle();
-        String subReportTemplateClassPath = customerCreditMemoReportInfo.getSubReportTemplateClassPath();
-        Map<String, String> subReports = customerCreditMemoReportInfo.getSubReports();
+        String reportFileName;
+        String reportDirectory;
+        String reportTemplateClassPath;
+        String reportTemplateName;
+        ResourceBundle resourceBundle;
+        String subReportTemplateClassPath;
+        Map<String, String> subReports; 
+        
+        if (parameterService.getIndicatorParameter("KFS-AR", "Document", ArConstants.ENABLE_SALES_TAX_IND)) {
+            reportFileName = customerCreditMemoReportInfo.getReportFileName();
+            reportDirectory = customerCreditMemoReportInfo.getReportsDirectory();
+            reportTemplateClassPath = customerCreditMemoReportInfo.getReportTemplateClassPath();
+            reportTemplateName = customerCreditMemoReportInfo.getReportTemplateName();
+            resourceBundle = customerCreditMemoReportInfo.getResourceBundle();
+            subReportTemplateClassPath = customerCreditMemoReportInfo.getSubReportTemplateClassPath();
+            subReports = customerCreditMemoReportInfo.getSubReports();
+        } else { // no sales tax
+            reportFileName = customerCreditMemoReportInfoNoTax.getReportFileName();
+            reportDirectory = customerCreditMemoReportInfoNoTax.getReportsDirectory();
+            reportTemplateClassPath = customerCreditMemoReportInfoNoTax.getReportTemplateClassPath();
+            reportTemplateName = customerCreditMemoReportInfoNoTax.getReportTemplateName();
+            resourceBundle = customerCreditMemoReportInfoNoTax.getResourceBundle();
+            subReportTemplateClassPath = customerCreditMemoReportInfoNoTax.getSubReportTemplateClassPath();
+            subReports = customerCreditMemoReportInfoNoTax.getSubReports();
+            
+        }
+        
 
         Map<String, Object> reportData = reportDataHolder.getReportData();
         reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
@@ -80,4 +104,31 @@ public class CustomerCreditMemoReportServiceImpl implements CustomerCreditMemoRe
     public void setReportGenerationService(ReportGenerationService reportGenerationService) {
         this.reportGenerationService = reportGenerationService;
     }
+
+    /**
+     * Gets the customerCreditMemoReportInfoNoTax attribute. 
+     * @return Returns the customerCreditMemoReportInfoNoTax.
+     */
+    public ReportInfo getCustomerCreditMemoReportInfoNoTax() {
+        return customerCreditMemoReportInfoNoTax;
+    }
+
+    /**
+     * Sets the customerCreditMemoReportInfoNoTax attribute value.
+     * @param customerCreditMemoReportInfoNoTax The customerCreditMemoReportInfoNoTax to set.
+     */
+    public void setCustomerCreditMemoReportInfoNoTax(ReportInfo customerCreditMemoReportInfoNoTax) {
+        this.customerCreditMemoReportInfoNoTax = customerCreditMemoReportInfoNoTax;
+    }
+
+    /**
+     * Sets the parameterService attribute value.
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+    
+    
+    
 }

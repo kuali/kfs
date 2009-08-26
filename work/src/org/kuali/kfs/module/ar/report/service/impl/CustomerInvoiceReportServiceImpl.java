@@ -17,16 +17,20 @@ package org.kuali.kfs.module.ar.report.service.impl;
 
 import java.io.File;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import net.sf.jasperreports.engine.JRParameter;
 
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.report.service.CustomerInvoiceReportService;
 import org.kuali.kfs.module.ar.report.util.CustomerInvoiceReportDataHolder;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.ReportGenerationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -37,20 +41,42 @@ public class CustomerInvoiceReportServiceImpl implements CustomerInvoiceReportSe
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceReportServiceImpl.class);
 
     private ReportGenerationService reportGenerationService;
+    private ParameterService parameterService;
     private ReportInfo customerInvoiceReportInfo;
+    private ReportInfo customerInvoiceReportInfoNoTax;
+
 
     /**
      * @see org.kuali.module.effort.service.EffortCertificationReportService#generateReportForExtractProcess(org.kuali.module.effort.util.ExtractProcessReportDataHolder, java.util.Date)
      */
     public File generateReport(CustomerInvoiceReportDataHolder reportDataHolder, Date runDate) {
-        String reportFileName = customerInvoiceReportInfo.getReportFileName();
-        String reportDirectory = customerInvoiceReportInfo.getReportsDirectory();
-        String reportTemplateClassPath = customerInvoiceReportInfo.getReportTemplateClassPath();
-        String reportTemplateName = customerInvoiceReportInfo.getReportTemplateName();
-        ResourceBundle resourceBundle = customerInvoiceReportInfo.getResourceBundle();
-        String subReportTemplateClassPath = customerInvoiceReportInfo.getSubReportTemplateClassPath();
-        Map<String, String> subReports = customerInvoiceReportInfo.getSubReports();
 
+        String reportFileName;
+        String reportDirectory;
+        String reportTemplateClassPath;
+        String reportTemplateName;
+        ResourceBundle resourceBundle;
+        String subReportTemplateClassPath;
+        Map<String, String> subReports; 
+        
+        if (parameterService.getIndicatorParameter("KFS-AR", "Document", ArConstants.ENABLE_SALES_TAX_IND)) {
+            reportFileName = customerInvoiceReportInfo.getReportFileName();
+            reportDirectory = customerInvoiceReportInfo.getReportsDirectory();
+            reportTemplateClassPath = customerInvoiceReportInfo.getReportTemplateClassPath();
+            reportTemplateName = customerInvoiceReportInfo.getReportTemplateName();
+            resourceBundle = customerInvoiceReportInfo.getResourceBundle();
+            subReportTemplateClassPath = customerInvoiceReportInfo.getSubReportTemplateClassPath();
+            subReports = customerInvoiceReportInfo.getSubReports();
+        } else { // no sales tax
+            reportFileName = customerInvoiceReportInfoNoTax.getReportFileName();
+            reportDirectory = customerInvoiceReportInfoNoTax.getReportsDirectory();
+            reportTemplateClassPath = customerInvoiceReportInfoNoTax.getReportTemplateClassPath();
+            reportTemplateName = customerInvoiceReportInfoNoTax.getReportTemplateName();
+            resourceBundle = customerInvoiceReportInfoNoTax.getResourceBundle();
+            subReportTemplateClassPath = customerInvoiceReportInfoNoTax.getSubReportTemplateClassPath();
+            subReports = customerInvoiceReportInfoNoTax.getSubReports();
+            
+        }
         Map<String, Object> reportData = reportDataHolder.getReportData();
         reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
         reportData.put(ReportGeneration.PARAMETER_NAME_SUBREPORT_DIR, subReportTemplateClassPath);
@@ -79,6 +105,14 @@ public class CustomerInvoiceReportServiceImpl implements CustomerInvoiceReportSe
     public void setReportGenerationService(ReportGenerationService reportGenerationService) {
         this.reportGenerationService = reportGenerationService;
     }
+    
+    /**
+     * Sets the parameterService attribute value.
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
 
     /**
      * Gets the customerInvoiceReportInfo attribute. 
@@ -87,4 +121,22 @@ public class CustomerInvoiceReportServiceImpl implements CustomerInvoiceReportSe
     public ReportInfo getCustomerInvoiceReportInfo() {
         return customerInvoiceReportInfo;
     }
+
+    /**
+     * Gets the customerInvoiceReportInfoNoTax attribute. 
+     * @return Returns the customerInvoiceReportInfoNoTax.
+     */
+    public ReportInfo getCustomerInvoiceReportInfoNoTax() {
+        return customerInvoiceReportInfoNoTax;
+    }
+
+    /**
+     * Sets the customerInvoiceReportInfoNoTax attribute value.
+     * @param customerInvoiceReportInfoNoTax The customerInvoiceReportInfoNoTax to set.
+     */
+    public void setCustomerInvoiceReportInfoNoTax(ReportInfo customerInvoiceReportInfoNoTax) {
+        this.customerInvoiceReportInfoNoTax = customerInvoiceReportInfoNoTax;
+    }
+    
+    
 }

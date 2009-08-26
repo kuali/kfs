@@ -19,7 +19,9 @@
 
 <c:set var="documentAttributes" value="${DataDictionary.CustomerCreditMemoDocument.attributes}" />              
 <c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
-<c:set var="customerCreditMemoDetailAttributes" value="${DataDictionary.CustomerCreditMemoDetail.attributes}" />       
+<c:set var="customerCreditMemoDetailAttributes" value="${DataDictionary.CustomerCreditMemoDetail.attributes}" />   
+<c:set var="salesTaxEnabled" value="${(not empty KualiForm.editingMode['salesTaxEnabled'])}" />
+    
 
 <kul:tab tabTitle="Items" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_CREDIT_MEMO_DETAILS_ERRORS}">
     <div class="tab-container" align=center>		
@@ -42,7 +44,9 @@
 			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemDescription}" hideRequiredAsterisk="true" />
 			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemUnitPrice}" hideRequiredAsterisk="true" />
 			    <kul:htmlAttributeHeaderCell attributeEntry="${customerCreditMemoDetailAttributes.creditMemoItemTotalAmount}" hideRequiredAsterisk="true" />
-			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemTaxAmount}" hideRequiredAsterisk="true" />
+			    <c:if test="${salesTaxEnabled}">
+				    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.invoiceItemTaxAmount}" hideRequiredAsterisk="true" />
+			    </c:if>
 			    <kul:htmlAttributeHeaderCell attributeEntry="${customerCreditMemoDetailAttributes.invoiceLineTotalAmount}" hideRequiredAsterisk="true" />
 			    <kul:htmlAttributeHeaderCell attributeEntry="${customerCreditMemoDetailAttributes.invoiceOpenItemQuantity}" hideRequiredAsterisk="true" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${customerCreditMemoDetailAttributes.invoiceOpenItemAmount}" hideRequiredAsterisk="true" />				

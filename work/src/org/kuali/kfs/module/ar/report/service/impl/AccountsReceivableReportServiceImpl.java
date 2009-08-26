@@ -65,6 +65,7 @@ import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
@@ -148,10 +149,13 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         invoiceMap.put("headerField", (ObjectUtils.isNull(invoice.getInvoiceHeaderText())?"":invoice.getInvoiceHeaderText()));
         invoiceMap.put("billingOrgName", invoice.getBilledByOrganization().getOrganizationName());
         invoiceMap.put("pretaxAmount", invoice.getInvoiceItemPreTaxAmountTotal().toString());
-        invoiceMap.put("taxAmount", invoice.getInvoiceItemTaxAmountTotal().toString());
-        //KualiDecimal taxPercentage = invoice.getStateTaxPercent().add(invoice.getLocalTaxPercent());
-        KualiDecimal taxPercentage = new KualiDecimal(6.85);
-        invoiceMap.put("taxPercentage", "*** "+taxPercentage.toString()+"%");
+        boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter("KFS-AR", "Document", ArConstants.ENABLE_SALES_TAX_IND);
+        if (salesTaxInd) {
+            invoiceMap.put("taxAmount", invoice.getInvoiceItemTaxAmountTotal().toString());
+            //KualiDecimal taxPercentage = invoice.getStateTaxPercent().add(invoice.getLocalTaxPercent());
+            KualiDecimal taxPercentage = new KualiDecimal(6.85);
+            invoiceMap.put("taxPercentage", "*** "+taxPercentage.toString()+"%");
+        }
         invoiceMap.put("invoiceAmountDue", invoice.getSourceTotal().toString());
         invoiceMap.put("ocrLine", "");
         reportDataHolder.setInvoice(invoiceMap);
@@ -284,8 +288,11 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         invoiceMap.put("invoiceAttentionLineText", StringUtils.upperCase(invoice.getInvoiceAttentionLineText()));
         invoiceMap.put("billingOrgName", invoice.getBilledByOrganization().getOrganizationName());
         invoiceMap.put("pretaxAmount", currencyFormatter.format(invoice.getInvoiceItemPreTaxAmountTotal()).toString());
-        invoiceMap.put("taxAmount", currencyFormatter.format(invoice.getInvoiceItemTaxAmountTotal()).toString());
-        invoiceMap.put("taxPercentage", ""); // suppressing this as its useless ... see KULAR-415
+        boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter("KFS-AR", "Document", ArConstants.ENABLE_SALES_TAX_IND);
+        if (salesTaxInd) {
+            invoiceMap.put("taxAmount", currencyFormatter.format(invoice.getInvoiceItemTaxAmountTotal()).toString());
+            invoiceMap.put("taxPercentage", ""); // suppressing this as its useless ... see KULAR-415
+        }
         invoiceMap.put("invoiceAmountDue", currencyFormatter.format(invoice.getSourceTotal()).toString());
         invoiceMap.put("invoiceTermsText", invoice.getInvoiceTermsText());
 

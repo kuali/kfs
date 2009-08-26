@@ -16,17 +16,21 @@
 package org.kuali.kfs.module.ar.document.authorization;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 
 public class CustomerInvoiceDocumentSourceLinesAuthorizer extends FinancialProcessingAccountingLineAuthorizer {
 
@@ -84,6 +88,18 @@ public class CustomerInvoiceDocumentSourceLinesAuthorizer extends FinancialProce
 
     private boolean isNewLine(Integer accountingLineIndex) {
         return (accountingLineIndex == null || accountingLineIndex.intValue() < 0);
+    }
+    
+    @Override
+    public Set<String> getUnviewableBlocks(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, Person currentUser) {
+        Set<String> blocks = super.getUnviewableBlocks(accountingDocument, accountingLine, newLine, currentUser);
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        boolean enableTax = parameterService.getIndicatorParameter("KFS-AR", "Document", ArConstants.ENABLE_SALES_TAX_IND);
+        if (!enableTax) {
+            blocks.add("invoiceItemTaxAmount");
+            blocks.add("taxableIndicator");
+        }
+        return blocks;
     }
     
     /**

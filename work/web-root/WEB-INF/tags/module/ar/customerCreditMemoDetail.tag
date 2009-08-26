@@ -33,6 +33,8 @@
               It would be the number of this row's accounting line within its group."%>
 <c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
 <c:set var="customerCreditMemoDetailAttributes" value="${DataDictionary.CustomerCreditMemoDetail.attributes}" />
+<c:set var="salesTaxEnabled" value="${(not empty KualiForm.editingMode['salesTaxEnabled'])}" />
+
 <tr>
 	<!--  Line Number -->
 	<th class="${cssClass}" style="text-align:right" rowspan="4" >
@@ -85,12 +87,13 @@
 			readOnly="true" />
 			
 	<!--  Tax Amount -->
-	<td class="${cssClass}" style="text-align:right" >
-		<kul:htmlControlAttribute
-			attributeEntry="${customerInvoiceDetailAttributes.invoiceItemTaxAmount}"
-			property="${invPropertyName}.invoiceItemTaxAmount"
-			readOnly="true" />
-			
+	<c:if test="${salesTaxEnabled}">
+		<td class="${cssClass}" style="text-align:right" >
+			<kul:htmlControlAttribute
+				attributeEntry="${customerInvoiceDetailAttributes.invoiceItemTaxAmount}"
+				property="${invPropertyName}.invoiceItemTaxAmount"
+				readOnly="true" />
+	</c:if>
 	<!--  Total Amount -->
 	<td class="${cssClass}" style="text-align:right" >
 		<kul:htmlControlAttribute

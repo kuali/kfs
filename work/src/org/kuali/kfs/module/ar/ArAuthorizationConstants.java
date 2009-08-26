@@ -37,5 +37,8 @@ public class ArAuthorizationConstants extends AuthorizationConstants {
         public static final String DISPLAY_INIT_TAB ="displayInitTab";
         public static final String DISPLAY_PRINT_BUTTON = "displayPrintButton";
     }
+    
+    public static final String SALES_TAX_ENABLED = "salesTaxEnabled"; 
+
 
 }

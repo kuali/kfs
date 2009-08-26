@@ -633,8 +633,14 @@
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
 		<property name="customerCreditMemoReportInfo">
 			<ref bean="customerCreditMemoReportInfo" />
+		</property>
+		<property name="customerCreditMemoReportInfoNoTax">
+			<ref bean="customerCreditMemoReportInfoNoTax" />
 		</property>
 	</bean>
 	
@@ -651,14 +657,35 @@
 				<entry key="creditMemoDetails" value="CreditMemoDetails"/>
 			</map>
 		</property>
+	</bean>	
+	
+	<bean id="customerCreditMemoReportInfoNoTax" class="org.kuali.kfs.sys.report.ReportInfoHolder" >
+		<property name="reportTitle" value="Customer Credit Memo Report" />
+		<property name="reportFileName" value="customer_credit_memo" />
+		<property name="reportsDirectory" value="${reports.directory}/ar/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="reportTemplateName" value="CreditMemoNoTax" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="subReports">
+			<map>
+				<entry key="creditMemoDetailsNoTax" value="CreditMemoDetailsNoTax"/>
+			</map>
+		</property>
 	</bean>		
 	
 	<bean id="CustomerInvoiceReportService" class="org.kuali.kfs.module.ar.report.service.impl.CustomerInvoiceReportServiceImpl">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
 		<property name="customerInvoiceReportInfo">
 			<ref bean="customerInvoiceReportInfo" />
+		</property>
+		<property name="customerInvoiceReportInfoNoTax">
+			<ref bean="customerInvoiceReportInfoNoTax" />
 		</property>
 	</bean>
 	
@@ -673,6 +700,21 @@
 		<property name="subReports">
 			<map>
 				<entry key="invoiceDetails" value="InvoiceDetails"/>
+			</map>
+		</property>
+	</bean>	
+	
+	<bean id="customerInvoiceReportInfoNoTax" class="org.kuali.kfs.sys.report.ReportInfoHolder" >
+		<property name="reportTitle" value="Customer Invoice Report" />
+		<property name="reportFileName" value="customer_invoice" />
+		<property name="reportsDirectory" value="${reports.directory}/ar/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="reportTemplateName" value="InvoiceNoTax" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="subReports">
+			<map>
+				<entry key="invoiceDetailsNoTax" value="InvoiceDetailsNoTax"/>
 			</map>
 		</property>
 	</bean>	

@@ -42,6 +42,11 @@
 	
 	<target name="init-properties" depends="init-property-files">
 		<tstamp><format property="build.version" pattern="MM/dd/yyyy hh:mm aa" /></tstamp>
+	  	<tstamp><format property="current.year.US" pattern="yyyy" locale="en,US" /></tstamp>
+		<property name="acknowledgements.url" value="acknowledgements.jsp" />
+		<property name="license.kuali.email" value="license@kuali.org" />
+		<property name="app.feedback.linkText.override" value="Provide Feedback" />
+		<property name="app.feedback.link.override" value="https://test.kuali.org/jira/secure/CreateIssue.jspa?pid=10091&amp;issuetype=1" />
 		<condition property="context.docbase" value=' docBase="${basedir}${file.separator}work${file.separator}web-root"'><equals arg1="${is.local.build}" arg2="true" /></condition>
 		<property name="context.docbase" value="" />
 		<condition property="datasource.url" value="${mysql.datasource.url}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>

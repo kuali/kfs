@@ -34,9 +34,6 @@ import org.kuali.rice.kns.util.KNSUtils;
 public class KFSApplicationConfigurationServiceImpl extends RiceApplicationConfigurationServiceImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KFSApplicationConfigurationServiceImpl.class);
     
-    private List<ParameterDetailType> components = new ArrayList<ParameterDetailType>();
-    private DataDictionaryService dataDictionaryService;
-
     public List<ParameterDetailType> getNonDatabaseComponents() {
         if (components.isEmpty()) {
             List<ParameterDetailType> baseClassTypes = super.getNonDatabaseComponents();
@@ -71,7 +68,7 @@ public class KFSApplicationConfigurationServiceImpl extends RiceApplicationConfi
 
     protected String getDetailTypeName(Class documentOrStepClass) {
         if (documentOrStepClass.isAnnotationPresent(COMPONENT.class)) {
-            BusinessObjectEntry boe = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(documentOrStepClass.getName());
+            BusinessObjectEntry boe = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(documentOrStepClass.getName());
             if (boe != null) {
                 return boe.getObjectLabel();
             }
@@ -80,10 +77,10 @@ public class KFSApplicationConfigurationServiceImpl extends RiceApplicationConfi
             }
         }
         if (TransactionalDocument.class.isAssignableFrom(documentOrStepClass)) {
-            return dataDictionaryService.getDocumentLabelByClass(documentOrStepClass);
+            return getDataDictionaryService().getDocumentLabelByClass(documentOrStepClass);
         }
         else if (BusinessObject.class.isAssignableFrom(documentOrStepClass) || Step.class.isAssignableFrom(documentOrStepClass)) {
-            BusinessObjectEntry boe = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(documentOrStepClass.getName());
+            BusinessObjectEntry boe = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(documentOrStepClass.getName());
             if (boe != null) {
                 return boe.getObjectLabel();
             }
@@ -92,9 +89,5 @@ public class KFSApplicationConfigurationServiceImpl extends RiceApplicationConfi
             }
         }
         throw new IllegalArgumentException("The getDetailTypeName method of ParameterServiceImpl requires a TransactionalDocument, BusinessObject, or Step class.");
-    }
-
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
     }
 }

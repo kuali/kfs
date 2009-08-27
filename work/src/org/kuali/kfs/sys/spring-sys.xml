@@ -288,8 +288,11 @@
 	-->
 	
     <bean id="riceApplicationConfigurationService" class="org.kuali.kfs.sys.service.impl.KFSApplicationConfigurationServiceImpl">
-      <property name="parameterService" ref="parameterService"/>   
-      <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kfs</value>
+            </list>
+        </property> 
     </bean>
 
 	<bean id="universityDateDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.UniversityDateDaoOjb" />

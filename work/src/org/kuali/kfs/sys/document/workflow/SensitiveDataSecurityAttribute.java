@@ -20,12 +20,9 @@ import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
-import org.kuali.rice.kew.doctype.DocumentTypeSecurity;
 import org.kuali.rice.kew.doctype.SecurityAttribute;
-import org.kuali.rice.kew.doctype.SecuritySession;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowUtility;
-import org.kuali.rice.kew.web.session.Authentication;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.document.Document;
@@ -46,7 +43,7 @@ public class SensitiveDataSecurityAttribute implements SecurityAttribute {
     /**
      * @see org.kuali.rice.kew.doctype.SecurityAttribute#docSearchAuthorized(org.kuali.rice.kew.doctype.DocumentTypeSecurity, org.kuali.rice.kim.bo.Person, java.util.List, java.lang.String, java.lang.Long, java.lang.String, org.kuali.rice.kew.doctype.SecuritySession)
      */
-    public final Boolean docSearchAuthorized(DocumentTypeSecurity security, Person currentUser, List<Authentication> authentications, String docTypeName, Long documentId, String initiatorWorkflowId, SecuritySession session) {
+    public Boolean docSearchAuthorized(Person currentUser, String docTypeName, Long documentId, String initiatorPrincipalId) {
 
         return isVisable(currentUser, docTypeName, documentId);
         
@@ -55,7 +52,7 @@ public class SensitiveDataSecurityAttribute implements SecurityAttribute {
     /**
      * @see org.kuali.rice.kew.doctype.SecurityAttribute#routeLogAuthorized(org.kuali.rice.kew.doctype.DocumentTypeSecurity, org.kuali.rice.kim.bo.Person, java.util.List, java.lang.String, java.lang.Long, java.lang.String, org.kuali.rice.kew.doctype.SecuritySession)
      */
-    public final Boolean routeLogAuthorized(DocumentTypeSecurity security, Person currentUser, List<Authentication> authentications, String docTypeName, Long documentId, String initiatorWorkflowId, SecuritySession session) {
+    public Boolean routeLogAuthorized(Person currentUser, String docTypeName, Long documentId, String initiatorPrincipalId) {
 
         return isVisable(currentUser, docTypeName, documentId);
     }

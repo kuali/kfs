@@ -35,6 +35,7 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kim.service.support.impl.PassThruRoleTypeServiceBase;
 import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceBase implements BudgetConstructionNoAccessMessageSetting {
     private BudgetConstructionProcessorService budgetConstructionProcessorService;
@@ -178,4 +179,8 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
         this.budgetDocumentService = budgetDocumentService;
     }
 
+    public List<KeyLabelPair> getAttributeValidValues(String kimTypeId, String attributeName) {
+        // TODO Auto-generated method stub
+        return new ArrayList<KeyLabelPair>(0);
+    }
 }

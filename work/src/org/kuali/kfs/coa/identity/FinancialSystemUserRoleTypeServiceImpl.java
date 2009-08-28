@@ -119,7 +119,8 @@ public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBa
             //RiceKeyConstants.ERROR_REQUIRED
             errorMap.remove(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
             errorMap.remove(KfsKimAttributes.ORGANIZATION_CODE);
-            errorMap.remove(KfsKimAttributes.NAMESPACE_CODE);
+            if(StringUtils.isEmpty(namespaceCode))
+                errorMap.remove(KfsKimAttributes.NAMESPACE_CODE);
         } //- if chart or org are specified, chart, org, and namespace are all required 
           //- none are required if not 
         else if (StringUtils.isNotEmpty(chartCode) || StringUtils.isNotEmpty(organizationCode)){
@@ -149,18 +150,6 @@ public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBa
         //uniqueAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
         uniqueAttributes.add(KimAttributes.NAMESPACE_CODE);
         return uniqueAttributes;
-    }
-
-    @Override
-    public AttributeSet validateAttributesAgainstExisting(String kimTypeId, AttributeSet newAttributes, AttributeSet oldAttributes){
-        AttributeSet errorMap = new AttributeSet();
-        if(!areAllAttributeValuesEmpty(newAttributes) && !validateUniqueAttributes(kimTypeId, newAttributes, oldAttributes)){
-            KimTypeInfo kimType = getTypeInfoService().getKimType(kimTypeId);
-            KimTypeAttributeInfo attributeInfo = kimType.getAttributeDefinitionByName(KfsKimAttributes.NAMESPACE_CODE);
-            errorMap = getErrorAttributeSet(KfsKimAttributes.NAMESPACE_CODE, RiceKeyConstants.ERROR_DUPLICATE_ENTRY, 
-                    new String[] {getDataDictionaryService().getAttributeLabel(attributeInfo.getComponentName(), KfsKimAttributes.NAMESPACE_CODE)});
-        }
-        return errorMap;
     }
 
     /**

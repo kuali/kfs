@@ -74,4 +74,4 @@
 </table>
 
  <div class="footerbevel">&nbsp;</div>
-  <div id="footer-copyright"> <bean:message key="app.copyright" arg0="${ConfigProperties.current.year.US}" arg1="${ConfigProperties.acknowledgements.url}" /></div>
+  <div id="footer-copyright"> <bean:message key="app.copyright" arg0="${ConfigProperties.current.year}" /></div>

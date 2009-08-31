@@ -13,7 +13,7 @@
     </property>
     <property name="lockingKeys">
       <list>
-        <value>CapitalAssetSystemStateCode</value>
+        <value>capitalAssetSystemStateCode</value>
       </list>
     </property>
     

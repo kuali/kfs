@@ -30,7 +30,7 @@
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/quartz-1.6.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/saaj-1.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/spring-2.0.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/spring-modules-ojb-0.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/spring-modules-ojb-0.8a.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/struts-1.2.9.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/xercesImpl-2.7.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/xstream-1.2.2.jar"/>
@@ -39,8 +39,8 @@
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/commons-lang-2.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="build/external/appserver/jotm_iiop_stubs.jar"/>
 	<classpathentry exported="true" kind="lib" path="build/external/appserver/jotm_jrmp_stubs.jar"/>
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/jotm.jar"/>
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/xapool.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/external/appserver/jotm-2.0.10.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/external/appserver/xapool-1.5.0-patch3.jar"/>
 	<classpathentry exported="true" kind="lib" path="build/log4j-1.2.14.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/commons-logging-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="work/web-root/WEB-INF/lib/jboss-common-core-2.0.4.GA.jar"/>

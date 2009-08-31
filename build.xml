@@ -140,6 +140,14 @@
 		<property name="cas.datasource.driver.class" value="${datasource.driver.class}" />
 
 		<loadfile property="configuration" srcfile="${build.project.directory}/${configuration.file}"><filterchain><expandproperties/></filterchain></loadfile>
+	    <if>
+	        <not>
+	            <equals arg1="" arg2="${institutional.configuration.file}" trim="true" />
+	        </not>
+	        <then>
+	            <loadfile property="institutional.configuration" srcfile="${institutional.configuration.file}"><filterchain><expandproperties/></filterchain></loadfile>
+            </then>
+        </if>
 		<loadfile property="p6spy" srcfile="${build.project.directory}/${p6spy.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="web" srcfile="${build.project.directory}/${web.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="context" srcfile="${build.appserver.directory}/${context.file}"><filterchain><expandproperties/></filterchain></loadfile>
@@ -325,6 +333,12 @@
 
 	<target name="filter-project" depends="filter-project-p6spy,filter-project-help,filter-project-rice,filter-project-spring-ide,filter-project-custom-lib">
 		<echo file="${source.directory}/${configuration.file}" message="${configuration}" />
+	    <if>
+	        <isset property="institutional.configuration" />
+	        <then>
+	            <echo append="true" file="${source.directory}/${configuration.file}" message="${institutional.configuration}" />
+            </then>
+        </if>
 		<echo file="${source.directory}/${p6spy.file}" message="${p6spy}" />
 		<echo file="${webinf.directory}/${web.file}" message="${web}" />
 		<mkdir dir="${metainf.directory}" />

@@ -71,6 +71,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -136,8 +137,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private ShippingPaymentTerms vendorShippingPaymentTerms;
     private PurchaseOrderCostSource paymentRequestCostSource;
     private RecurringPaymentType recurringPaymentType;
-
-    private boolean isCreatedByElectronicInvoice = false;
 
     /**
      * Default constructor.
@@ -618,7 +617,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
        
             // if this doc is final or will be final
             if (nodeNames.length == 0 || getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-                documentTitle = (new StringBuffer("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Amount: ").append(preqAmount).toString();            
+                documentTitle = (new StringBuffer("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Amount: ").append(preqAmount).toString();
             }
             else {
                 PurApAccountingLine theAccount = getFirstAccount();                
@@ -626,7 +625,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 String accountChart = (theAccount != null ? theAccount.getChartOfAccountsCode() : "");
                 String payDate = (new SimpleDateFormat("MM/dd/yyyy")).format(getPaymentRequestPayDate());
                 String indicator = getTitleIndicator();
-
+                
                 // if routing with tax
                 NodeDetails currentNodeDetails = NodeDetailEnum.VENDOR_TAX_REVIEW.getNodeDetailByName(nodeNames[0]);
                 if (NodeDetailEnum.VENDOR_TAX_REVIEW.getName().equals(nodeNames[0])
@@ -1094,6 +1093,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     @Override
     protected boolean isAttachmentRequired() {
+        if (getPaymentRequestElectronicInvoiceIndicator())
+            return false;
         return StringUtils.equalsIgnoreCase("Y", SpringContext.getBean(ParameterService.class).getParameterValue(PaymentRequestDocument.class, PurapParameterConstants.PURAP_PREQ_REQUIRE_ATTACHMENT));
     }
 
@@ -1230,15 +1231,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
         return true;
     }
-    
-    public boolean isCreatedByElectronicInvoice() {
-        return isCreatedByElectronicInvoice;
-    }
-
-    public void setCreatedByElectronicInvoice(boolean isCreatedByElectroniInvoice) {
-        this.isCreatedByElectronicInvoice = isCreatedByElectroniInvoice;
-    }
-
+       
     public Date getTransactionTaxDate() {
         return getInvoiceDate();
     }
@@ -1364,6 +1357,19 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
     public String getPaidIndicatorForResult() {
         return getPaymentPaidTimestamp() != null ? "Yes" : "No";
+    }
+            
+    public Date getAccountsPayableApprovalDateForSearching() {
+        if (this.getAccountsPayableApprovalTimestamp() == null)
+            return null;
+        try {
+            Date date = SpringContext.getBean(DateTimeService.class).convertToSqlDate(this.getAccountsPayableApprovalTimestamp());
+            LOG.debug("getAccountsPayableApprovalDateForSearching() returns " + date);
+            return date;
+        }
+        catch (Exception e) {
+            return new Date(this.getAccountsPayableApprovalTimestamp().getTime());            
+        }
     }
     
     /**

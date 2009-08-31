@@ -1092,15 +1092,14 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             throw new RuntimeException("Purchase Order document (POId=" + poDoc.getPurapDocumentIdentifier() + ") does not exist in the system");
         }
         
-        preqDoc.getDocumentHeader().setDocumentDescription(generatePREQDocumentDescription(poDoc));
-        
+        preqDoc.getDocumentHeader().setDocumentDescription(generatePREQDocumentDescription(poDoc));        
         preqDoc.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);
         preqDoc.setInvoiceDate(orderHolder.getInvoiceDate());
         preqDoc.setInvoiceNumber(orderHolder.getInvoiceNumber());
         preqDoc.setVendorInvoiceAmount(new KualiDecimal(orderHolder.getInvoiceNetAmount()));
         preqDoc.setAccountsPayableProcessorIdentifier("E-Invoice");
         preqDoc.setVendorCustomerNumber(orderHolder.getCustomerNumber());
-        preqDoc.setCreatedByElectronicInvoice(true);
+        preqDoc.setPaymentRequestElectronicInvoiceIndicator(true);
         
         if (orderHolder.getAccountsPayablePurchasingDocumentLinkIdentifier() != null){
             preqDoc.setAccountsPayablePurchasingDocumentLinkIdentifier(orderHolder.getAccountsPayablePurchasingDocumentLinkIdentifier());

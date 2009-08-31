@@ -48,6 +48,7 @@
         <ref bean="PaymentRequestDocument-vendorCountryCode"/>
         <ref bean="PaymentRequestDocument-vendorAttentionName"/>        
         <ref bean="PaymentRequestDocument-accountsPayableApprovalTimestamp"/>
+        <ref bean="PaymentRequestDocument-accountsPayableApprovalDateForSearching"/>
         <ref bean="PaymentRequestDocument-holdIndicator"/>
         <ref bean="PaymentRequestDocument-extractedTimestamp"/>
         <ref bean="PaymentRequestDocument-processingCampusCode"/>
@@ -276,6 +277,16 @@
     <property name="label" value="AP Processed Date"/>
     <property name="shortLabel" value="Date"/>
   </bean>
+
+
+  <bean id="PaymentRequestDocument-accountsPayableApprovalDateForSearching" parent="PaymentRequestDocument-accountsPayableApprovalDateForSearching-parentBean"/>
+
+  <bean id="PaymentRequestDocument-accountsPayableApprovalDateForSearching-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="accountsPayableApprovalDateForSearching"/>
+    <property name="label" value="AP Processed Date"/>
+    <property name="shortLabel" value="Date"/>
+  </bean>
+
   
   <bean id="PaymentRequestDocument-holdIndicator" parent="PaymentRequestDocument-holdIndicator-parentBean">
   	<property name="name" value="holdIndicator"/>
@@ -1393,12 +1404,12 @@
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
-    						<property name="attributeName" value="accountsPayableApprovalTimestamp"/>
+    						<property name="attributeName" value="accountsPayableApprovalDateForSearching"/>
     					</bean>
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>accountsPayableApprovalTimestamp</value>
+    						<value>accountsPayableApprovalDateForSearching</value>
     					</list>
     				</property>
     			</bean>

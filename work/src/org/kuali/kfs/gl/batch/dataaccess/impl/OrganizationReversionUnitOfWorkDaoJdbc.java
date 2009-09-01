@@ -23,6 +23,7 @@ import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
  * truncated tables, which is something you can't do on tables with primary keys.
  */
 public class OrganizationReversionUnitOfWorkDaoJdbc extends PlatformAwareDaoBaseJdbc implements OrganizationReversionUnitOfWorkDao {
+    org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(getClass());
 
     /**
      * Deletes all existing records in gl_org_rvrsn_ctgry_amt_t and gl_org_rvrsn_unit_wrk_t
@@ -30,8 +31,10 @@ public class OrganizationReversionUnitOfWorkDaoJdbc extends PlatformAwareDaoBase
      * @see org.kuali.kfs.gl.batch.dataaccess.OrganizationReversionUnitOfWorkDao#destroyAllUnitOfWorkSummaries()
      */
     public void destroyAllUnitOfWorkSummaries() {
+        LOG.info("Attempting to wipe out all unit of work summaries");
         getSimpleJdbcTemplate().update("delete from GL_ORG_RVRSN_CTGRY_AMT_T");
         getSimpleJdbcTemplate().update("delete from GL_ORG_RVRSN_UNIT_WRK_T");
+        LOG.info("All unit of work summaries should be now removed");
     }
 
 }

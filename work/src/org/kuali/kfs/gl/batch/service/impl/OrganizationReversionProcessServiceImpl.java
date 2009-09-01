@@ -110,6 +110,7 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
         Map<String, OrganizationReversionProcess> organizationReversionProcesses = SpringContext.getBeansOfType(OrganizationReversionProcess.class);
         OrganizationReversionProcess orp = organizationReversionProcesses.get(OrganizationReversionProcessServiceImpl.ORGANIZATION_REVERSION_CURRENT_YEAR_ACCOUNT_PROCESS_BEAN_NAME);
 
+        LOG.info("processing organization reversions for current year accounts");
         orp.organizationReversionProcess(jobParameters, organizationReversionCounts);
         
         writeReports(orp, jobParameters, organizationReversionCounts);

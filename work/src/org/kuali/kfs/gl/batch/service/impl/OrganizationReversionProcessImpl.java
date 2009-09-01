@@ -152,6 +152,7 @@ public class OrganizationReversionProcessImpl implements OrganizationReversionPr
         this.jobParameters = jobParameters;
         this.organizationReversionCounts = organizationReversionCounts;
 
+        LOG.info("Initializing the process");
         initializeProcess();
         
         //create files
@@ -282,6 +283,7 @@ public class OrganizationReversionProcessImpl implements OrganizationReversionPr
     public void initializeProcess() {
 
         // clear out summary tables
+        LOG.info("destroying all unit of work summaries");
         orgReversionUnitOfWorkService.destroyAllUnitOfWorkSummaries();
 
         categories = getOrganizationReversionService().getCategories();

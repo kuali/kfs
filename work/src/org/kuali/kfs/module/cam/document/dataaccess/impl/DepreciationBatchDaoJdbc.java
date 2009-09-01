@@ -207,8 +207,7 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         sql = sql + "WHERE (((( (((( ( A0.AST_DEPR1_BASE_AMT IS NOT NULL  AND  (A0.AST_DEPR1_BASE_AMT <> 0)) AND  (A0.AST_TRNFR_PMT_CD ";
         sql = sql + "IN ('N','') OR  (A0.AST_TRNFR_PMT_CD IS NULL ))) AND  (A1.AST_DEPR_MTHD1_CD IN (" + buildINValues(depreciationMethodList) + "))) ";
         sql = sql + "AND A1.CPTL_AST_DEPR_DT IS NOT NULL ) AND A1.CPTL_AST_DEPR_DT <= ?) AND A1.CPTL_AST_DEPR_DT > ? ) AND  ";
-        sql = sql + "(A1.AST_RETIR_FSCL_YR > '" + fiscalYear + "' OR  (A1.AST_RETIR_FSCL_YR IS NULL ) OR  (A1.AST_RETIR_PRD_CD IS NOT NULL ) ";
-        sql = sql + "OR  ((A1.AST_RETIR_FSCL_YR = '" + fiscalYear + "') AND A1.AST_RETIR_PRD_CD > '" + fiscalMonth + "'))) ";
+        sql = sql + "(A1.AST_RETIR_FSCL_YR IS NULL OR A1.AST_RETIR_FSCL_YR > " + fiscalYear + " OR (A1.AST_RETIR_FSCL_YR = " + fiscalYear + " AND A1.AST_RETIR_PRD_CD > " + fiscalMonth + "))) ";
         sql = sql + "AND A1.AST_INVN_STAT_CD NOT IN (" + buildINValues(notAcceptedAssetStatus) + ")) AND A2.CPTLAST_DEPRLF_LMT > 0) ";
         sql = sql + "AND A3.FIN_OBJ_SUB_TYP_CD NOT IN (" + buildINValues(federallyOwnedObjectSubTypes) + ") AND NOT EXISTS ";
         sql = sql + "(SELECT 1 FROM CM_AST_TRNFR_DOC_T TRFR, FS_DOC_HEADER_T HDR WHERE HDR.FDOC_NBR = TRFR.FDOC_NBR AND ";

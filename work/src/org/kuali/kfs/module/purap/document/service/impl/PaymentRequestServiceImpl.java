@@ -680,6 +680,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             paymentRequest.setPaymentRequestPayDate(calculatePayDate(paymentRequest.getInvoiceDate(), paymentRequest.getVendorPaymentTerms()));
         }
         
+        distributeAccounting(paymentRequest);
+        
         purapService.calculateTax(paymentRequest);
         
         //do proration for full order and trade in

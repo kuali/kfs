@@ -216,9 +216,9 @@ public class CamsConstants extends JSTLConstants {
         public static final String SECTION_ID_THEFT = "Theft";
         public static final String SECTION_TARGET_ASSET_RETIREMENT_INFO = "Retirement Target Information";
         public static final String DOCUMENT_TYPE_CODE = "ARG";
-        public static final String LINE_DESCRIPTION_PLANT_FUND_FOR_FMS = "Plant Fund for FMS";
-        public static final String LINE_DESCRIPTION_ACCUMULATED_DEPRECIATION = "Accumulated Depreciation";
-        public static final String LINE_DESCRIPTION_GAIN_LOSS_DISPOSITION = "Gain/Loss Disposition of Assets";
+        public static final String CAPITALIZATION_LINE_DESCRIPTION = "CAPITALIZATION_LINE_DESCRIPTION";
+        public static final String ACCUMULATED_DEPRECIATION_LINE_DESCRIPTION = "ACCUMULATED_DEPRECIATION_LINE_DESCRIPTION";
+        public static final String OFFSET_AMOUNT_LINE_DESCRIPTION = "OFFSET_AMOUNT_LINE_DESCRIPTION";
         public static final String MERGE_AN_ASSET_DESCRIPTION = "Merge an Asset";
     }
 

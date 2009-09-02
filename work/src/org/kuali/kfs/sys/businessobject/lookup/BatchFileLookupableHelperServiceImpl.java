@@ -32,7 +32,6 @@ import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.sys.batch.BatchFile;
 import org.kuali.kfs.sys.batch.BatchFileUtils;
 import org.kuali.kfs.sys.batch.service.BatchFileAdminAuthorizationService;
@@ -270,7 +269,7 @@ public class BatchFileLookupableHelperServiceImpl extends AbstractLookupableHelp
         Properties parameters = new Properties();
         parameters.put("filePath", BatchFileUtils.pathRelativeToRootDirectory(batchFile.retrieveFile().getAbsolutePath()));
         parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "download");
-        String href = UrlFactory.parameterizeUrl(CamsConstants.StrutsActions.ONE_UP + "batchFileAdmin.do", parameters);
+        String href = UrlFactory.parameterizeUrl("../batchFileAdmin.do", parameters);
         return new AnchorHtmlData(href, "download", "Download");
     }
     
@@ -278,7 +277,7 @@ public class BatchFileLookupableHelperServiceImpl extends AbstractLookupableHelp
         Properties parameters = new Properties();
         parameters.put("filePath", BatchFileUtils.pathRelativeToRootDirectory(batchFile.retrieveFile().getAbsolutePath()));
         parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "delete");
-        String href = UrlFactory.parameterizeUrl(CamsConstants.StrutsActions.ONE_UP + "batchFileAdmin.do", parameters);
+        String href = UrlFactory.parameterizeUrl("../batchFileAdmin.do", parameters);
         return new AnchorHtmlData(href, "delete", "Delete");
     }
 

@@ -49,9 +49,6 @@ import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
-//import org.kuali.kfs.module.cg.businessobject.Agency;
-//import org.kuali.kfs.module.cg.service.AgencyService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -85,7 +82,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         LOCATION_FIELD_MAP.put(LocationField.COUNTRY_CODE, CamsPropertyConstants.Asset.AssetLocation.COUNTRY_CODE);
     }
 
-    //private AgencyService agencyService = SpringContext.getBean(AgencyService.class);
+    // private AgencyService agencyService = SpringContext.getBean(AgencyService.class);
     private AssetService assetService = SpringContext.getBean(AssetService.class);
     private ParameterService parameterService = SpringContext.getBean(ParameterService.class);
     private PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
@@ -253,13 +250,13 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         Account currentOwnerAccount = newAsset.getOrganizationOwnerAccount();
         Account previoudOwnerAccount = oldAsset.getOrganizationOwnerAccount();
-        
+
         // Account is valid?
         if (ObjectUtils.isNull(currentOwnerAccount) && StringUtils.isNotBlank(newAsset.getOrganizationOwnerAccountNumber())) {
             putFieldError(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.ORGANIZATION_OWNER_ACCOUNT_INVALID);
             valid &= false;
         }
-        
+
         // check if values changed, if not return
         if (ObjectUtils.isNotNull(previoudOwnerAccount) && ObjectUtils.isNotNull(currentOwnerAccount) && previoudOwnerAccount.getChartOfAccountsCode().equals(currentOwnerAccount.getChartOfAccountsCode()) && previoudOwnerAccount.getAccountNumber().equals(currentOwnerAccount.getAccountNumber())) {
             return valid;
@@ -394,6 +391,10 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         }
         if (oldAsset == null) {
             oldAsset = (Asset) document.getOldMaintainableObject().getBusinessObject();
+        }
+        // for fabrication
+        if (oldAsset == null) {
+            oldAsset = newAsset;
         }
     }
 
@@ -571,7 +572,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             putFieldError(CamsPropertyConstants.Asset.ACQUISITION_TYPE_CODE, CamsKeyConstants.Asset.ERROR_ACQUISITION_TYPE_CODE_INVALID);
             return false;
         }
-        else if (!StringUtils.equalsIgnoreCase(newAsset.getAcquisitionType().getAcquisitionTypeCode(), oldAsset.getAcquisitionType().getAcquisitionTypeCode())) {
+        else if (!StringUtils.equalsIgnoreCase(newAsset.getAcquisitionTypeCode(), oldAsset.getAcquisitionTypeCode())) {
             newAsset.refreshReferenceObject(CamsPropertyConstants.Asset.REF_ACQUISITION_TYPE);
             if (ObjectUtils.isNotNull(newAsset.getAcquisitionType())) {
                 if (!newAsset.getAcquisitionType().isActive()) {
@@ -595,7 +596,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             putFieldError(CamsPropertyConstants.Asset.CONDITION_CODE, CamsKeyConstants.Asset.ERROR_ASSET_CONDITION_INVALID);
             return false;
         }
-        else if (!StringUtils.equalsIgnoreCase(newAsset.getCondition().getAssetConditionCode(), oldAsset.getCondition().getAssetConditionCode())) {
+        else if (!StringUtils.equalsIgnoreCase(newAsset.getConditionCode(), oldAsset.getConditionCode())) {
             newAsset.refreshReferenceObject(CamsPropertyConstants.Asset.REF_ASSET_CONDITION);
             if (ObjectUtils.isNotNull(newAsset.getCondition())) {
                 if (!newAsset.getCondition().isActive()) {
@@ -619,7 +620,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             putFieldError(CamsPropertyConstants.Asset.PRIMARY_DEPRECIATION_METHOD, CamsKeyConstants.Asset.ERROR_DEPRECATION_METHOD_CODE_INVALID);
             return false;
         }
-        else if (!StringUtils.equalsIgnoreCase(newAsset.getAssetPrimaryDepreciationMethod().getDepreciationMethodCode() + " - " + newAsset.getAssetPrimaryDepreciationMethod().getDepreciationMethodName(), oldAsset.getAssetPrimaryDepreciationMethod().getDepreciationMethodCode() + " - " + oldAsset.getAssetPrimaryDepreciationMethod().getDepreciationMethodName())) {
+        else if (!StringUtils.equalsIgnoreCase(newAsset.getPrimaryDepreciationMethodCode(), oldAsset.getPrimaryDepreciationMethodCode())) {
             newAsset.refreshReferenceObject(CamsPropertyConstants.Asset.REF_ASSET_DEPRECATION_METHOD);
             if (ObjectUtils.isNotNull(newAsset.getAssetPrimaryDepreciationMethod())) {
                 if (!newAsset.getAssetPrimaryDepreciationMethod().isActive()) {
@@ -643,7 +644,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             putFieldError(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS, CamsKeyConstants.Asset.ERROR_ASSET_STATUS_INVALID);
             return false;
         }
-        else if (!StringUtils.equalsIgnoreCase(newAsset.getInventoryStatus().getInventoryStatusCode(), oldAsset.getInventoryStatus().getInventoryStatusCode())) {
+        else if (!StringUtils.equalsIgnoreCase(newAsset.getInventoryStatusCode(), oldAsset.getInventoryStatusCode())) {
             newAsset.refreshReferenceObject(CamsPropertyConstants.Asset.REF_ASSET_STATUS);
             if (ObjectUtils.isNotNull(newAsset.getInventoryStatus())) {
                 if (!newAsset.getInventoryStatus().isActive()) {
@@ -667,7 +668,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             putFieldError(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.Asset.ERROR_TYPE_CODE_INVALID);
             return false;
         }
-        else if (!StringUtils.equalsIgnoreCase(newAsset.getCapitalAssetType().getCapitalAssetTypeCode(), oldAsset.getCapitalAssetType().getCapitalAssetTypeCode())) {
+        else if (!StringUtils.equalsIgnoreCase(newAsset.getCapitalAssetTypeCode(), oldAsset.getCapitalAssetTypeCode())) {
             newAsset.refreshReferenceObject(CamsPropertyConstants.Asset.REF_ASSET_TYPE);
             if (ObjectUtils.isNotNull(newAsset.getCapitalAssetType())) {
                 if (!newAsset.getCapitalAssetType().isActive()) {

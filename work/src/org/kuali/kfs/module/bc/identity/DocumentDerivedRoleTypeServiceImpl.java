@@ -46,45 +46,46 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
     public AttributeSet convertQualificationForMemberRoles(String namespaceCode, String roleName, String memberRoleNamespaceCode, String memberRoleName, AttributeSet qualification) {
         AttributeSet newQualification = new AttributeSet();
 
-        String universityFiscalYear = qualification.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        String chartOfAccountsCode = qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-        String accountNumber = qualification.get(KfsKimAttributes.ACCOUNT_NUMBER);
-        String orgChartOfAccountsCode = qualification.get(BCPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
-        String organizationCode = qualification.get(KfsKimAttributes.ORGANIZATION_CODE);
-        String accountReportExists = qualification.get(BCPropertyConstants.ACCOUNT_REPORTS_EXIST);
-
-        Integer organizationLevelCode = Integer.parseInt(qualification.get(BCPropertyConstants.ORGANIZATION_LEVEL_CODE));
-        if (BCConstants.KimConstants.BC_PROCESSOR_ROLE_NAME.equals(memberRoleName)) {
-            if (BCConstants.KimConstants.DOCUMENT_EDITOR_ROLE_NAME.equals(roleName) && organizationLevelCode.intValue() == 0) {
-                organizationCode = UNMATCHABLE_QUALIFICATION;
-            }
-        }
-        else {
-            if (organizationLevelCode.intValue() != 0) {
-                if (BCConstants.KimConstants.DOCUMENT_EDITOR_ROLE_NAME.equals(roleName) || Boolean.TRUE.toString().equals(accountReportExists)) {
-                    accountNumber = UNMATCHABLE_QUALIFICATION;
+        if(qualification!=null && !qualification.isEmpty()){
+            String universityFiscalYear = qualification.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+            String chartOfAccountsCode = qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+            String accountNumber = qualification.get(KfsKimAttributes.ACCOUNT_NUMBER);
+            String orgChartOfAccountsCode = qualification.get(BCPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE);
+            String organizationCode = qualification.get(KfsKimAttributes.ORGANIZATION_CODE);
+            String accountReportExists = qualification.get(BCPropertyConstants.ACCOUNT_REPORTS_EXIST);
+    
+            Integer organizationLevelCode = qualification.get(BCPropertyConstants.ORGANIZATION_LEVEL_CODE)!=null?Integer.parseInt(qualification.get(BCPropertyConstants.ORGANIZATION_LEVEL_CODE)):null;
+            if (BCConstants.KimConstants.BC_PROCESSOR_ROLE_NAME.equals(memberRoleName)) {
+                if (BCConstants.KimConstants.DOCUMENT_EDITOR_ROLE_NAME.equals(roleName) && (organizationLevelCode!=null && organizationLevelCode.intValue() == 0)) {
+                    organizationCode = UNMATCHABLE_QUALIFICATION;
                 }
             }
+            else {
+                if (organizationLevelCode!=null && organizationLevelCode.intValue() != 0) {
+                    if (BCConstants.KimConstants.DOCUMENT_EDITOR_ROLE_NAME.equals(roleName) || Boolean.TRUE.toString().equals(accountReportExists)) {
+                        accountNumber = UNMATCHABLE_QUALIFICATION;
+                    }
+                }
+            }
+    
+            String descendHierarchy = OrganizationOptionalHierarchyRoleTypeServiceImpl.DESCEND_HIERARCHY_FALSE_VALUE;
+            if (BCConstants.KimConstants.DOCUMENT_VIEWER_ROLE_NAME.equals(roleName)) {
+                descendHierarchy = OrganizationOptionalHierarchyRoleTypeServiceImpl.DESCEND_HIERARCHY_TRUE_VALUE;
+    
+                newQualification.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+                newQualification.put(BCPropertyConstants.ORGANIZATION_LEVEL_CODE, organizationLevelCode!=null?organizationLevelCode.toString():null);
+            }
+    
+            newQualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+            newQualification.put(KfsKimAttributes.ACCOUNT_NUMBER, accountNumber);
+            newQualification.put(BCPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE, orgChartOfAccountsCode);
+            newQualification.put(KfsKimAttributes.ORGANIZATION_CODE, organizationCode);
+            newQualification.put(KfsKimAttributes.DESCEND_HIERARCHY, descendHierarchy);
+            newQualification.put(BCPropertyConstants.ACCOUNT_REPORTS_EXIST, accountReportExists);
+            if (qualification.containsKey(KfsKimAttributes.DOCUMENT_TYPE_NAME)) {
+                newQualification.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME));
+            }
         }
-
-        String descendHierarchy = OrganizationOptionalHierarchyRoleTypeServiceImpl.DESCEND_HIERARCHY_FALSE_VALUE;
-        if (BCConstants.KimConstants.DOCUMENT_VIEWER_ROLE_NAME.equals(roleName)) {
-            descendHierarchy = OrganizationOptionalHierarchyRoleTypeServiceImpl.DESCEND_HIERARCHY_TRUE_VALUE;
-
-            newQualification.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
-            newQualification.put(BCPropertyConstants.ORGANIZATION_LEVEL_CODE, organizationLevelCode.toString());
-        }
-
-        newQualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        newQualification.put(KfsKimAttributes.ACCOUNT_NUMBER, accountNumber);
-        newQualification.put(BCPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE, orgChartOfAccountsCode);
-        newQualification.put(KfsKimAttributes.ORGANIZATION_CODE, organizationCode);
-        newQualification.put(KfsKimAttributes.DESCEND_HIERARCHY, descendHierarchy);
-        newQualification.put(BCPropertyConstants.ACCOUNT_REPORTS_EXIST, accountReportExists);
-        if (qualification.containsKey(KfsKimAttributes.DOCUMENT_TYPE_NAME)) {
-            newQualification.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME));
-        }
-
         return newQualification;
     }
 

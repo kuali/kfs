@@ -53,28 +53,30 @@ public class RelatedDocumentDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
     @Override
     public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
         List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
-        if (SOURCE_DOCUMENT_ROUTER_ROLE_NAME.equals(roleName)) {
-            try {
-                PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) getDocumentService().getByDocumentHeaderId(qualification.get(PurapKimAttributes.DOCUMENT_NUMBER));
-                if (document != null) {
-                    PurchasingAccountsPayableDocument sourceDocument = document.getPurApSourceDocumentIfPossible();
-                    if (sourceDocument != null && StringUtils.isNotBlank(sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId()) ) {
-                        AttributeSet roleQualifier = new AttributeSet(1);
-                        roleQualifier.put(KfsKimAttributes.DOCUMENT_NUMBER, sourceDocument.getDocumentNumber() );
-                        members.add( new RoleMembershipInfo(null,null,sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId(),Role.PRINCIPAL_MEMBER_TYPE,roleQualifier) );
+        if(qualification!=null && !qualification.isEmpty()){
+            if (SOURCE_DOCUMENT_ROUTER_ROLE_NAME.equals(roleName)) {
+                try {
+                    PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) getDocumentService().getByDocumentHeaderId(qualification.get(PurapKimAttributes.DOCUMENT_NUMBER));
+                    if (document != null) {
+                        PurchasingAccountsPayableDocument sourceDocument = document.getPurApSourceDocumentIfPossible();
+                        if (sourceDocument != null && StringUtils.isNotBlank(sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId()) ) {
+                            AttributeSet roleQualifier = new AttributeSet(1);
+                            roleQualifier.put(KfsKimAttributes.DOCUMENT_NUMBER, sourceDocument.getDocumentNumber() );
+                            members.add( new RoleMembershipInfo(null,null,sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId(),Role.PRINCIPAL_MEMBER_TYPE,roleQualifier) );
+                        }
                     }
                 }
+                catch (WorkflowException e) {
+                    throw new RuntimeException("Unable to load document in getPrincipalIdsFromApplicationRole", e);
+                }
             }
-            catch (WorkflowException e) {
-                throw new RuntimeException("Unable to load document in getPrincipalIdsFromApplicationRole", e);
-            }
-        }
-        else if (SENSITIVE_RELATED_DOCUMENT_INITATOR_OR_REVIEWER_ROLE_NAME.equals(roleName)) {
-            for (String documentId : getPurapService().getRelatedDocumentIds(new Integer(qualification.get(PurapKimAttributes.ACCOUNTS_PAYABLE_PURCHASING_DOCUMENT_LINK_IDENTIFIER)))) {
-                AttributeSet tempQualification = new AttributeSet(1);
-                tempQualification.put(PurapKimAttributes.DOCUMENT_NUMBER, documentId);
-                for ( String principalId : getRoleManagementService().getRoleMemberPrincipalIds(KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE, RouteLogDerivedRoleTypeServiceImpl.INITIATOR_OR_REVIEWER_ROLE_NAME, tempQualification) ) {
-                    members.add( new RoleMembershipInfo(null,null,principalId,Role.PRINCIPAL_MEMBER_TYPE,tempQualification) );
+            else if (SENSITIVE_RELATED_DOCUMENT_INITATOR_OR_REVIEWER_ROLE_NAME.equals(roleName)) {
+                for (String documentId : getPurapService().getRelatedDocumentIds(new Integer(qualification.get(PurapKimAttributes.ACCOUNTS_PAYABLE_PURCHASING_DOCUMENT_LINK_IDENTIFIER)))) {
+                    AttributeSet tempQualification = new AttributeSet(1);
+                    tempQualification.put(PurapKimAttributes.DOCUMENT_NUMBER, documentId);
+                    for ( String principalId : getRoleManagementService().getRoleMemberPrincipalIds(KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE, RouteLogDerivedRoleTypeServiceImpl.INITIATOR_OR_REVIEWER_ROLE_NAME, tempQualification) ) {
+                        members.add( new RoleMembershipInfo(null,null,principalId,Role.PRINCIPAL_MEMBER_TYPE,tempQualification) );
+                    }
                 }
             }
         }

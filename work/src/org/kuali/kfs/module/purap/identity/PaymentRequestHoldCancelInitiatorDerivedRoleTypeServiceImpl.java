@@ -41,14 +41,16 @@ public class PaymentRequestHoldCancelInitiatorDerivedRoleTypeServiceImpl extends
     public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
         List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
-        try {
-            AccountsPayableDocumentBase document = (AccountsPayableDocumentBase) getDocumentService().getByDocumentHeaderId(qualification.get(KfsKimAttributes.DOCUMENT_NUMBER));
-            if ((document != null) && (document.getLastActionPerformedByUser() != null)) {
-                members.add( new RoleMembershipInfo(null,null,document.getLastActionPerformedByUser().getPrincipalId(),Role.PRINCIPAL_MEMBER_TYPE,null) );
+        if(qualification!=null && !qualification.isEmpty()){
+            try {
+                AccountsPayableDocumentBase document = (AccountsPayableDocumentBase) getDocumentService().getByDocumentHeaderId(qualification.get(KfsKimAttributes.DOCUMENT_NUMBER));
+                if ((document != null) && (document.getLastActionPerformedByUser() != null)) {
+                    members.add( new RoleMembershipInfo(null,null,document.getLastActionPerformedByUser().getPrincipalId(),Role.PRINCIPAL_MEMBER_TYPE,null) );
+                }
             }
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException("Unable to load document in getPrincipalIdsFromApplicationRole: " + qualification.get(KfsKimAttributes.DOCUMENT_NUMBER), e);
+            catch (WorkflowException e) {
+                throw new RuntimeException("Unable to load document in getPrincipalIdsFromApplicationRole: " + qualification.get(KfsKimAttributes.DOCUMENT_NUMBER), e);
+            }
         }
         return members;
     }

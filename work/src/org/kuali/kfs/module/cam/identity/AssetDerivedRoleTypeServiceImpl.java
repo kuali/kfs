@@ -35,7 +35,6 @@ public class AssetDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBa
     
     {
         requiredAttributes.add(KimAttributes.DOCUMENT_NUMBER);
-//        checkRequiredAttributes = true;
     }
 
     /**
@@ -55,13 +54,14 @@ public class AssetDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBa
     @Override
     public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
-        
-        String documentNumber = qualification.get(KimAttributes.DOCUMENT_NUMBER);
         List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>(1);
-        if ( StringUtils.isNotBlank( documentNumber ) ) {
-            EquipmentLoanOrReturnDocument document = getEquipmentLoanOrReturnDocument(documentNumber);
-            if(document!=null){
-                members.add( new RoleMembershipInfo(null,null,document.getBorrowerUniversalIdentifier(),Role.PRINCIPAL_MEMBER_TYPE,null) );
+        if(qualification!=null && !qualification.isEmpty()){
+            String documentNumber = qualification.get(KimAttributes.DOCUMENT_NUMBER);
+            if ( StringUtils.isNotBlank( documentNumber ) ) {
+                EquipmentLoanOrReturnDocument document = getEquipmentLoanOrReturnDocument(documentNumber);
+                if(document!=null){
+                    members.add( new RoleMembershipInfo(null,null,document.getBorrowerUniversalIdentifier(),Role.PRINCIPAL_MEMBER_TYPE,null) );
+                }
             }
         }
         return members;

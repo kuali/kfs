@@ -47,7 +47,7 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Ki
 
     protected ChartOrgHolder getProcessingChartOrg( AttributeSet qualification ) {
         ChartOrgHolderImpl chartOrg = null;
-        if ( qualification != null ) {
+        if ( qualification != null && !qualification.isEmpty() ) {
             chartOrg = new ChartOrgHolderImpl();
             // if the processing org is specified from the qualifications, use that
             chartOrg.setChartOfAccountsCode( qualification.get(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE) );
@@ -92,7 +92,7 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Ki
 
     public boolean hasBillerRole(ChartOrgHolder userOrg, AttributeSet qualification) {
         ChartOrgHolderImpl billingOrg = new ChartOrgHolderImpl();
-        if ( qualification != null ) {
+        if ( qualification != null && !qualification.isEmpty()) {
             billingOrg.setChartOfAccountsCode( qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE) );
             billingOrg.setOrganizationCode( qualification.get(KfsKimAttributes.ORGANIZATION_CODE) );
         }
@@ -161,7 +161,7 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends Ki
             }
         } else { // billing role
             ChartOrgHolderImpl billingOrg = new ChartOrgHolderImpl();
-            if ( qualification != null ) {
+            if ( qualification != null && !qualification.isEmpty() ) {
                 billingOrg.setChartOfAccountsCode( qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE) );
                 billingOrg.setOrganizationCode( qualification.get(KfsKimAttributes.ORGANIZATION_CODE) );
             }

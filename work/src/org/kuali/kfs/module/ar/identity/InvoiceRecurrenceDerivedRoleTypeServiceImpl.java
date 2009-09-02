@@ -30,7 +30,7 @@ public class InvoiceRecurrenceDerivedRoleTypeServiceImpl extends KimDerivedRoleT
     @Override
     public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
         List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>(1);
-        if ((qualification != null) && StringUtils.isNotBlank(qualification.get(ArPropertyConstants.InvoiceRecurrenceFields.INVOICE_RECURRENCE_INITIATOR_USER_ID))) {
+        if ((qualification != null && !qualification.isEmpty()) && StringUtils.isNotBlank(qualification.get(ArPropertyConstants.InvoiceRecurrenceFields.INVOICE_RECURRENCE_INITIATOR_USER_ID))) {
             members.add(new RoleMembershipInfo(null, null, ArPropertyConstants.InvoiceRecurrenceFields.INVOICE_RECURRENCE_INITIATOR_USER_ID, Role.PRINCIPAL_MEMBER_TYPE, null));
         }
         return members;

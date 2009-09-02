@@ -73,8 +73,8 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -915,6 +915,11 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         if ((vendorFederalWithholdingTaxBeginDate != null && vendorFederalWithholdingTaxBeginDate.before(today)) && (vendorFederalWithholdingTaxEndDate == null || vendorFederalWithholdingTaxEndDate.after(today))) {
             this.disbVchrPayeeTaxControlCode = DisbursementVoucherConstants.TAX_CONTROL_CODE_BEGIN_WITHHOLDING;
         }
+        
+        // if vendor is foreign, default alien payment code to true
+        if (getVendorService().isVendorForeign(vendor.getVendorHeaderGeneratedIdentifier())) {
+            getDvPayeeDetail().setDisbVchrAlienPaymentCode(true);
+        }
     }
 
     /**
@@ -941,7 +946,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(true);
         // I'm assuming that if a tax id type code other than 'TAX' is present, then the employee must be foreign
         for ( String externalIdentifierTypeCode : employee.getExternalIdentifiers().keySet() ) {
-            if (DisbursementVoucherConstants.TAX_ID_TYPE_SSN.equals(externalIdentifierTypeCode)) {
+            if (KimConstants.PersonExternalIdentifierTypes.TAX.equals(externalIdentifierTypeCode)) {
                 this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
             }
         }
@@ -1006,7 +1011,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         DisbursementVoucherPayeeDetail payeeDetail = getDvPayeeDetail();
 
         if (payeeDetail.isVendor()) {
-            payeeDetail.setDisbVchrAlienPaymentCode(getVendorService().isVendorForeign(payeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger()));
             payeeDetail.setDisbVchrPayeeEmployeeCode(getVendorService().isVendorInstitutionEmployee(payeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger()));
             payeeDetail.setDvPayeeSubjectPaymentCode(getVendorService().isSubjectPaymentVendor(payeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger()));
         }

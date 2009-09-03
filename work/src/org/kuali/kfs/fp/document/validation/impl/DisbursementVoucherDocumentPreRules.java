@@ -31,12 +31,15 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
+
+import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  * Checks warnings and prompt conditions for dv document.
@@ -74,8 +77,23 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
      * @param dvDocument submitted disbursement voucher document
      */
     private void checkSpecialHandlingIndicator(DisbursementVoucherDocument dvDocument) {
-        if (StringUtils.isNotBlank(dvDocument.getDvPayeeDetail().getDisbVchrSpecialHandlingPersonName()) && StringUtils.isNotBlank(dvDocument.getDvPayeeDetail().getDisbVchrSpecialHandlingLine1Addr())) {
+        if (StringUtils.isNotBlank(dvDocument.getDvPayeeDetail().getDisbVchrSpecialHandlingPersonName()) && StringUtils.isNotBlank(dvDocument.getDvPayeeDetail().getDisbVchrSpecialHandlingLine1Addr()) && allowTurningOnOfSpecialHandling(dvDocument)) {
             dvDocument.setDisbVchrSpecialHandlingCode(true);
+        }
+    }
+    
+    /**
+     * Allows the automatic turning on of special handling indicator - which will not be allowed at the Campus route level
+     * @param dvDocument the document to allow turning on of special handling for
+     * @return true if special handling can be automatically turned on, false otherwise
+     */
+    protected boolean allowTurningOnOfSpecialHandling(DisbursementVoucherDocument dvDocument) {
+        try {
+            List<String> currentNodes = Arrays.asList(dvDocument.getDocumentHeader().getWorkflowDocument().getNodeNames());
+            return !(currentNodes.contains(DisbursementVoucherConstants.RouteLevelNames.CAMPUS));
+        }
+        catch (WorkflowException we) {
+            throw new RuntimeException("Workflow Exception while attempting to check route levels", we);
         }
     }
 

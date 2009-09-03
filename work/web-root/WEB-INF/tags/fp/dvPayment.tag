@@ -158,15 +158,16 @@
 					</c:otherwise>
 				</c:choose>
          
-                 <c:if test="${fullEntryMode}">        
+				<c:choose>
+                 <c:when test="${fullEntryMode || specialHandlingChangingEntryMode}">        
                    <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbVchrSpecialHandlingCode}" property="document.disbVchrSpecialHandlingCode" onclick="specialHandlingMessage(this);" readOnly="false"/>
                    <kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbVchrSpecialHandlingCode}" noColon="true" /><br>
-                 </c:if>
-                 
-                 <c:if test="${!fullEntryMode}"> 
+                 </c:when>
+                 <c:otherwise>
                    <kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbVchrSpecialHandlingCode}"/>
                    <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbVchrSpecialHandlingCode}" property="document.disbVchrSpecialHandlingCode" readOnly="true"/><br>          
-                 </c:if>
+                 </c:otherwise>
+				</c:choose>
                  
                  <c:set var="w9IndReadOnly" value="${!fullEntryMode}"/>
                  <%-- cannot change w9 indicator if it has previousely been checked --%>

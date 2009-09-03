@@ -39,7 +39,37 @@
    function specialHandlingMessage(specialHandlingIndicator) {
      if (specialHandlingIndicator.checked == true) {
 		alert('<bean:message key="message.dv.specialhandling"/>');
-     } 
+     } else {
+		<c:if test="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && KualiForm.editingMode['specialHandlingChangingEntry']}">
+			clearSpecialHandlingTab();
+		</c:if>
+	 }
+   }
+   
+   function clearSpecialHandlingTab() {
+	var prefix = "document.dvPayeeDetail.";
+	var ctrl;
+	
+	ctrl = kualiElements[prefix+"disbVchrSpecialHandlingPersonName"];
+	ctrl.value = "";
+	
+	ctrl = kualiElements[prefix + "disbVchrSpecialHandlingCityName"]
+	ctrl.value = "";
+	
+	ctrl = kualiElements[prefix + "disbVchrSpecialHandlingLine1Addr"];
+	ctrl.value = "";
+	
+	ctrl = kualiElements[prefix + "disbVchrSpecialHandlingStateCode"];
+	ctrl.value = "";
+	
+	ctrl = kualiElements[prefix + "disbVchrSpecialHandlingLine2Addr"];
+	ctrl.value = "";
+	
+	ctrl = kualiElements[prefix + "disbVchrSpecialHandlingZipCode"];
+	ctrl.value = "";
+	
+	ctrl = kualiElements[prefix + "disbVchrSpecialHandlingCountryCode"];
+	ctrl.value = "";
    }
 		
    function documentationMessage(selectedDocumentationLocation) {

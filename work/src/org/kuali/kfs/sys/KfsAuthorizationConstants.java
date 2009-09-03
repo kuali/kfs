@@ -33,6 +33,7 @@ public class KfsAuthorizationConstants extends JSTLConstants {
         public static final String FULL_ENTRY = "fullEntry";
         public static final String PAYMENT_HANDLING_ENTRY = "paymentHandlingEntry";
         public static final String VOUCHER_DEADLINE_ENTRY = "voucherDeadlineEntry";
+        public static final String SPECIAL_HANDLING_CHANGING_ENTRY = "specialHandlingChangingEntry";
     }
 
     public static class DistributionOfIncomeAndExpenseEditMode extends EditMode {

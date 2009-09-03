@@ -87,6 +87,8 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
+
 /**
  * This is the business object that represents the DisbursementVoucher document in Kuali.
  */
@@ -996,6 +998,57 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         if (dvPreConferenceDetail != null) {
             dvPreConferenceDetail.setDocumentNumber(this.documentNumber);
             dvPreConferenceDetail.setDisbVchrConferenceTotalAmt(dvPreConferenceDetail.getDisbVchrConferenceTotalAmt());
+        }
+        
+        if (shouldClearSpecialHandling()) {
+            clearSpecialHandling();
+        }
+    }
+    
+    /**
+     * Determines if the special handling fields should be cleared, based on whether the special handling has been turned off and whether the current node is CAMPUS
+     * @return true if special handling should be cleared, false otherwise
+     */
+    protected boolean shouldClearSpecialHandling() {
+        if (!isDisbVchrSpecialHandlingCode()) {
+            // are we at the campus route node?
+            try {
+                List<String> currentNodes = Arrays.asList(getDocumentHeader().getWorkflowDocument().getNodeNames());
+                return (currentNodes.contains(DisbursementVoucherConstants.RouteLevelNames.CAMPUS));
+            }
+            catch (WorkflowException we) {
+                throw new RuntimeException("Workflow Exception while attempting to check route levels", we);
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Clears all set special handling fields
+     */
+    protected void clearSpecialHandling() {
+        DisbursementVoucherPayeeDetail payeeDetail = getDvPayeeDetail();
+        
+        if (!StringUtils.isBlank(payeeDetail.getDisbVchrSpecialHandlingPersonName())) {
+            payeeDetail.setDisbVchrSpecialHandlingPersonName(null);
+        }
+        if (!StringUtils.isBlank(payeeDetail.getDisbVchrSpecialHandlingLine1Addr())) {
+            payeeDetail.setDisbVchrSpecialHandlingLine1Addr(null);
+        }
+        if (!StringUtils.isBlank(payeeDetail.getDisbVchrSpecialHandlingLine2Addr())) {
+            payeeDetail.setDisbVchrSpecialHandlingLine2Addr(null);
+        }
+        if (!StringUtils.isBlank(payeeDetail.getDisbVchrSpecialHandlingCityName())) {
+            payeeDetail.setDisbVchrSpecialHandlingCityName(null);
+        }
+        if (!StringUtils.isBlank(payeeDetail.getDisbVchrSpecialHandlingStateCode())) {
+            payeeDetail.setDisbVchrSpecialHandlingStateCode(null);
+        }
+        if (!StringUtils.isBlank(payeeDetail.getDisbVchrSpecialHandlingZipCode())) {
+            payeeDetail.setDisbVchrSpecialHandlingZipCode(null);
+        }
+        if (!StringUtils.isBlank(payeeDetail.getDisbVchrSpecialHandlingCountryCode())) {
+            payeeDetail.setDisbVchrSpecialHandlingCountryCode(null);
         }
     }
 

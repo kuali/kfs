@@ -50,6 +50,7 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
         addTravelEntryMode(document, editModes);
         addPaymentHandlingEntryMode(document, editModes);
         addVoucherDeadlineEntryMode(document, editModes);
+        addSpecialHandlingChagingEntryMode(document, editModes);
 
         return editModes;
     }
@@ -125,6 +126,20 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
             }
         } else {
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TRAVEL_ENTRY); // we're not FO? Then always add it, as KIM permissions will take it out if we shouldn't have it
+        }
+    }
+    
+    /**
+     * If at a proper route node, adds the ability to edit whether special handling is needed on the disbursement voucher
+     * @param document the disbursement voucher document authorization is being sought on
+     * @param editModes the edit modes so far, which can be added to
+     */
+    protected void addSpecialHandlingChagingEntryMode(Document document, Set<String> editModes) {
+        final KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        final List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
+        
+        if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.CAMPUS)) {
+            editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.SPECIAL_HANDLING_CHANGING_ENTRY);
         }
     }
 }

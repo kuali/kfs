@@ -205,7 +205,8 @@ public class CustomerInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOjb imple
     public Collection getAllOpen() {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("openInvoiceIndicator", true);
-        
+        criteria.addEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+
         QueryByCriteria qbc = QueryFactory.newQuery(CustomerInvoiceDocument.class, criteria);
 
         Collection customerinvoicedocuments = getPersistenceBrokerTemplate().getCollectionByQuery(qbc);

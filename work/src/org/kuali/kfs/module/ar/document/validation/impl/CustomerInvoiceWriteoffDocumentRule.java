@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,22 +29,19 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.module.ar.document.validation.ContinueCustomerInvoiceWriteoffDocumentRule;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
-import org.kuali.rice.kns.exception.UnknownDocumentIdException;
 import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRuleBase implements ContinueCustomerInvoiceWriteoffDocumentRule<TransactionalDocument> {
 
@@ -287,11 +283,19 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
         else {
             CustomerInvoiceDocumentService service = SpringContext.getBean(CustomerInvoiceDocumentService.class);
             CustomerInvoiceDocument customerInvoiceDocument = service.getInvoiceByInvoiceDocumentNumber(invDocumentNumber);
-
+            
             if (ObjectUtils.isNull(customerInvoiceDocument)) {
                 success = false;
                 GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_INVALID_INVOICE_DOCUMENT_NUMBER);
             }
+            else {
+                customerInvoiceDocument.refreshReferenceObject("documentHeader");
+            }
+            if (!customerInvoiceDocument.getDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.APPROVED)) {
+                success = false;
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_INVOICE_NOT_FINAL);
+            }
+            
         }
         return success;
     }

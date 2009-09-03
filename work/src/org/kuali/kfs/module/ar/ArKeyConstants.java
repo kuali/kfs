@@ -182,6 +182,8 @@ public class ArKeyConstants {
     public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_CUSTOMER_NOTE_REQUIRED = "error.document.customerInvoiceWriteoff.emptyCustomerNote";
     public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_CUSTOMER_NOTE_INVALID = "error.document.customerInvoiceWriteoff.invalidCustomerNote";
     public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_ONE_WRITEOFF_IN_ROUTE_PER_INVOICE = "error.document.customerInvoiceWriteoff.onlyOneWriteoffInRoutePerInvoice";
+    public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_INVOICE_NOT_FINAL = "error.document.customerInvoiceWriteoff.invoiceNotFinal";
+
     
     // Organization Options errors
     public static class OrganizationOptionsErrors {

@@ -379,7 +379,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
 
             // check if line is nra tax line
             if (taxLineNumbers.contains(line.getSequenceNumber())) {
-                taxAmount.add(line.getAmount().negated());
+                taxAmount = taxAmount.add(line.getAmount().negated());
             }
         }
 

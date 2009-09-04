@@ -83,7 +83,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
     public void prepareBusinessObject(BusinessObject businessObject){
         OrgReviewRole orr = (OrgReviewRole)businessObject;
         //Assuming that this is the condition when the document is loaded on edit or copy
-        //TODO: revisit this
         if((KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL.equals(orr.getMethodToCall()) ||
                 KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL.equals(orr.getMethodToCall())) &&
                 (StringUtils.isNotEmpty(orr.getODelMId()) || StringUtils.isNotEmpty(orr.getORMId()))){
@@ -98,12 +97,9 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                 orr.setDelegationMemberId(delegationMember.getMemberId());
                 orr.setRoleMemberId(delegationMember.getRoleMemberId());
                 orr.setAttributes(orr.getAttributeSetAsQualifierList(typeInfo, delegationMember.getQualifier()));
-                //TODO: figure out how to get these pieces of information
                 orr.setRoleId(delegation.getRoleId());
                 orr.setDelegationTypeCode(delegationMember.getDelegationTypeCode());
                 orr.setRoleDocumentDelegationMember(delegationMember);
-                //orr.setActiveFromDate(delegationMember.getActiveFromDate());
-                //orr.setActiveToDate(delegationMember.getActiveToDate());
                 orr.setDelegate(true);
                 orr.setODelMId("");
             } else if(StringUtils.isNotEmpty(orr.getORMId())){
@@ -115,9 +111,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                     roleMember = roleMembers.get(0);
                 }
                 orr.setRoleMemberId(roleMember.getRoleMemberId());
-                /*orr.setRoleMemberRoleId(roleMember.getMemberId());
-                orr.setRoleMemberRoleName(roleMember.getMemberName());
-                orr.setRoleMemberRoleNamespaceCode(roleMember.getMemberNamespaceCode());*/
 
                 KimRoleInfo roleInfo = getRoleManagementService().getRole(roleMember.getRoleId());
                 KimTypeInfo typeInfo = getTypeInfoService().getKimType(roleInfo.getKimTypeId());
@@ -125,7 +118,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                 orr.setAttributes(attributes);
                 orr.setRoleRspActions(getRoleRspActions(roleMember.getRoleMemberId()));
                 orr.setRoleId(roleMember.getRoleId());
-                //TODO: figure out how to get dates?
                 orr.setActiveFromDate(roleMember.getActiveFromDate());
                 orr.setActiveToDate(roleMember.getActiveToDate());
                 if(orr.isCreateDelegation())
@@ -150,10 +142,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
             
             orr.getChart().setChartOfAccountsCode(orr.getChartOfAccountsCode());
             orr.getOrganization().setOrganizationCode(orr.getOrganizationCode());
-            //orr.setReviewRolesIndicator
-            //orr.setFromAmount()
-            //toAmount
-            //orr.getOverrideCode()()
             if(!orr.isCreateDelegation()){
                 if(orr.getPerson()!=null){
                     orr.setPrincipalMemberPrincipalId(orr.getPerson().getPrincipalId());
@@ -176,7 +164,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                 orr.setActionPolicyCode(orr.getRoleRspActions().get(0).getActionPolicyCode());
                 orr.setForceAction(orr.getRoleRspActions().get(0).isForceAction());
             }
-            //orr.setReviewRolesIndicator(orr.getReviewRolesIndicator());
         }
         super.setBusinessObject(orr);
     }
@@ -194,7 +181,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
 
     @Override
     public void processAfterCopy(MaintenanceDocument document, Map<String,String[]> parameters){
-        //super.processAfterCopy(document, parameters);
         OrgReviewRole orr = (OrgReviewRole)document.getOldMaintainableObject().getBusinessObject();
         if(orr.isDelegate() || orr.isCreateDelegation())
             orr.setDelegationMemberId("");
@@ -345,9 +331,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document){
         super.refresh(refreshCaller, fieldValues, document);
-        /*OrgReviewRole orr = (OrgReviewRole)document.getNewMaintainableObject().getBusinessObject();
-        OrgReviewRoleLookupableHelperServiceImpl orrLHSI = new OrgReviewRoleLookupableHelperServiceImpl();
-        orr.setRoleNamesToConsider(orrLHSI.getRolesToConsider(orr.getFinancialSystemDocumentTypeCode()));*/
     }
     
     /**
@@ -393,9 +376,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                 }
             }
         }
-        //System.out.println("Save Org Review Role here!"+businessObject);
-        //for(PersistableBusinessObject objectToSave: objectsToSave)
-            //getBusinessObjectService().linkAndSave(objectToSave);
     }
     
     protected List<DelegateTypeInfo> getDelegations(OrgReviewRole orr){
@@ -425,11 +405,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         DelegateMemberCompleteInfo delegationMember = null;
         DelegateInfo origDelegationMember = null;
         Map<String, Object> criteria;
-        /*if(!orr.isCopy() && !orr.isCreateDelegation() && StringUtils.isNotEmpty(orr.getDelegationMemberId())){
-            criteria = new HashMap<String, Object>();
-            criteria.put(KimConstants.PrimaryKeyConstants.DELEGATION_MEMBER_ID, orr.getDelegationMemberId());
-            delegationMember = (DelegateMemberCompleteInfo)getBusinessObjectService().findByPrimaryKey(DelegateMemberCompleteInfo.class, criteria);
-        }*/
         if(orr.isEdit() && !orr.isCreateDelegation()){
             origDelegationMember = (DelegateInfo)getRoleManagementService().getDelegationMemberById(orr.getDelegationMemberId());
         }
@@ -456,15 +431,9 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                 delegationMember.setMemberId(memberId);
             }
             delegationMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE);
-            //delegationMember.setDelegationId(delegation.getDelegationId());
             if(orr.isEdit() && !orr.isCreateDelegation()){
                 delegationMember.setDelegationMemberId(orr.getDelegationMemberId());
-                //TODO: This should be taken care of in Role Service
-                //delegationMember.setVersionNumber(origDelegationMember.getVersionNumber());
             }
-            /*if(StringUtils.isEmpty(delegationMember.getDelegationMemberId()))
-                delegationMember.setDelegationMemberId(getDelegationMemberId());*/
-            //objectsToSave.addAll(getRoleRspActions(orr, delegationMember));
             delegationMember.setQualifier(getAttributes(orr, orr.getKimTypeId()));
             delegationMember.setActiveFromDate(orr.getActiveFromDate());
             delegationMember.setActiveToDate(orr.getActiveToDate());
@@ -479,19 +448,9 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                 delegationMember.setMemberId(principal.getPrincipalId());
             }
             delegationMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE);
-            //TODO: This should be taken care of in Role Service
-            //delegationMember.setDelegationId(delegation.getDelegationId());
             if(orr.isEdit() && !orr.isCreateDelegation()){
                 delegationMember.setDelegationMemberId(orr.getDelegationMemberId());
-                //TODO: This should be taken care of in Role Service
-                //delegationMember.setVersionNumber(origDelegationMember.getVersionNumber());
             }
-            //TODO: This should be taken care of in Role Service
-            /*if(StringUtils.isEmpty(delegationMember.getDelegationMemberId()))
-                delegationMember.setDelegationMemberId(getDelegationMemberId());
-            */
-            //objectsToSave.addAll(getRoleRspActions(orr, delegationMember));
-            //TODO: Check if ORR has kim type id populated here
             delegationMember.setQualifier(getAttributes(orr, orr.getKimTypeId()));
             delegationMember.setActiveFromDate(orr.getActiveFromDate());
             delegationMember.setActiveToDate(orr.getActiveToDate());
@@ -517,12 +476,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
             }                
             if(orr.isEdit()){
                 roleMember.setRoleMemberId(orr.getRoleMemberId());
-                //This should be taken care of in the role service impl
-                //roleMember.setVersionNumber(origRoleMember.getVersionNumber());
             }
-            //TODO: This should be taken care of in Role Service
-            /*if(StringUtils.isEmpty(roleMember.getRoleMemberId()))
-                roleMember.setRoleMemberId(getRoleMemberId());*/
             roleMember.setQualifier(getAttributes(orr, roleMember, roleInfo.getKimTypeId()));
             roleMember.setActiveFromDate(orr.getActiveFromDate());
             roleMember.setActiveToDate(orr.getActiveToDate());
@@ -540,13 +494,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
             roleMember.setRoleId(roleInfo.getRoleId());
             if(orr.isEdit()){
                 roleMember.setRoleMemberId(orr.getRoleMemberId());
-//              //TODO: This should be taken care of in Role Service
-                //roleMember.setVersionNumber(origRoleMember.getVersionNumber());
             }
-//          //TODO: This should be taken care of in Role Service
-            /*if(StringUtils.isEmpty(roleMember.getRoleMemberId()))
-                roleMember.setRoleMemberId(getRoleMemberId());
-            */
             List<RoleResponsibilityActionInfo> roleRspActionObjectsToSave = new ArrayList<RoleResponsibilityActionInfo>();
             roleRspActionObjectsToSave.addAll(getRoleRspActions(orr, roleMember));
             roleMember.setQualifier(getAttributes(orr, roleMember, roleInfo.getKimTypeId()));
@@ -565,13 +513,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
             roleMember.setRoleId(roleInfo.getRoleId());
             if(orr.isEdit()){
                 roleMember.setRoleMemberId(orr.getRoleMemberId());
-//              TODO: This should be taken care of in Role Service
-                //roleMember.setVersionNumber(origRoleMember.getVersionNumber());
             }
-//          TODO: This should be taken care of in Role Service
-            /*if(StringUtils.isEmpty(roleMember.getRoleMemberId()))
-                roleMember.setRoleMemberId(getRoleMemberId());
-            */
             List<RoleResponsibilityActionInfo> roleRspActionObjectsToSave = new ArrayList<RoleResponsibilityActionInfo>();
             roleRspActionObjectsToSave.addAll(getRoleRspActions(orr, roleMember));
             roleMember.setQualifier(getAttributes(orr, roleMember, roleInfo.getKimTypeId()));
@@ -645,8 +587,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         //chart code
         String attributeDefnId = getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
         if(StringUtils.isNotEmpty(attributeDefnId) && orr.getFinancialSystemDocumentTypeCode()!=null){
-            //TODO: this should be taken care of in Role Service
-            //attributeData.setAttrDataId(getRoleMemberAttributeDataId());
             attributeData.setKimTypId(kimTypeId);
             attributeData.setAttrVal(orr.getChartOfAccountsCode());
             attributeData.setKimAttrDefnId(attributeDefnId);
@@ -659,8 +599,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         if(StringUtils.isNotEmpty(attributeDefnId) && orr.getFinancialSystemDocumentTypeCode()!=null){
             attributeData = new KfsKimDocumentAttributeData();
             attributeData.setKimTypId(kimTypeId);
-            //TODO: this should be taken care of in Role Service
-            //attributeData.setAttrDataId(getRoleMemberAttributeDataId());
             attributeData.setAttrVal(orr.getOrganizationCode());
             attributeData.setKimAttrDefnId(attributeDefnId);
             attributeData.setKimAttribute(kimType.getAttributeDefinition(attributeDefnId));
@@ -671,8 +609,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         attributeDefnId = getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.DOCUMENT_TYPE_NAME);
         if(StringUtils.isNotEmpty(attributeDefnId) && orr.getFinancialSystemDocumentTypeCode()!=null){
             attributeData = new KfsKimDocumentAttributeData();
-            //TODO: this should be taken care of in Role Service
-            //attributeData.setAttrDataId(getRoleMemberAttributeDataId());
             attributeData.setKimTypId(kimTypeId);
             attributeData.setAttrVal(orr.getFinancialSystemDocumentTypeCode());
             attributeData.setKimAttrDefnId(attributeDefnId);
@@ -684,8 +620,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         attributeDefnId = getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE);
         if(StringUtils.isNotEmpty(attributeDefnId) && orr.getOverrideCode()!=null){
             attributeData = new KfsKimDocumentAttributeData();
-            //TODO: this should be taken care of in Role Service
-            //attributeData.setAttrDataId(getRoleMemberAttributeDataId());
             attributeData.setKimTypId(kimTypeId);
             attributeData.setAttrVal(orr.getOverrideCode());
             attributeData.setKimAttrDefnId(attributeDefnId);
@@ -697,8 +631,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         attributeDefnId = getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.FROM_AMOUNT);
         if(StringUtils.isNotEmpty(attributeDefnId)){
             attributeData = new KfsKimDocumentAttributeData();
-            //TODO: this should be taken care of in Role Service
-            //attributeData.setAttrDataId(getRoleMemberAttributeDataId());
             attributeData.setKimTypId(kimTypeId);
             attributeData.setAttrVal(orr.getFromAmountStr());
             attributeData.setKimAttrDefnId(attributeDefnId);
@@ -710,8 +642,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         attributeDefnId = getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.TO_AMOUNT);
         if(StringUtils.isNotEmpty(attributeDefnId)){
             attributeData = new KfsKimDocumentAttributeData();
-            //TODO: this should be taken care of in Role Service
-            //attributeData.setAttrDataId(getRoleMemberAttributeDataId());
             attributeData.setKimTypId(kimTypeId);
             attributeData.setAttrVal(orr.getToAmountStr());
             attributeData.setKimAttrDefnId(attributeDefnId);
@@ -734,8 +664,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         KfsKimDocumentAttributeData attributeData = new KfsKimDocumentAttributeData();
         String attributeDefnId = getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
         if(StringUtils.isNotEmpty(attributeDefnId) && orr.getFinancialSystemDocumentTypeCode()!=null){
-            //TODO: this should be taken care of in Role Service
-            //attributeData.setAttrDataId(getRoleMemberAttributeDataId());
             attributeData.setKimTypId(kimTypeId);
             attributeData.setAttrVal(orr.getChartOfAccountsCode());
             attributeData.setKimAttrDefnId(attributeDefnId);
@@ -748,8 +676,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         if(StringUtils.isNotEmpty(attributeDefnId) && orr.getFinancialSystemDocumentTypeCode()!=null){
             attributeData = new KfsKimDocumentAttributeData();
             attributeData.setKimTypId(kimTypeId);
-            //TODO: this should be taken care of in Role Service
-            //attributeData.setAttrDataId(getRoleMemberAttributeDataId());
             attributeData.setAttrVal(orr.getOrganizationCode());
             attributeData.setKimAttrDefnId(attributeDefnId);
             attributeData.setKimAttribute(kimType.getAttributeDefinition(attributeDefnId));
@@ -760,8 +686,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         attributeDefnId = getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.DOCUMENT_TYPE_NAME);
         if(StringUtils.isNotEmpty(attributeDefnId) && orr.getFinancialSystemDocumentTypeCode()!=null){
             attributeData = new KfsKimDocumentAttributeData();
-            //TODO: this should be taken care of in Role Service
-            //attributeData.setAttrDataId(getRoleMemberAttributeDataId());
             attributeData.setKimTypId(kimTypeId);
             attributeData.setAttrVal(orr.getFinancialSystemDocumentTypeCode());
             attributeData.setKimAttrDefnId(attributeDefnId);
@@ -773,8 +697,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         attributeDefnId = getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE);
         if(StringUtils.isNotEmpty(attributeDefnId) && orr.getOverrideCode()!=null){
             attributeData = new KfsKimDocumentAttributeData();
-            //TODO: this should be taken care of in Role Service
-            //attributeData.setAttrDataId(getRoleMemberAttributeDataId());
             attributeData.setKimTypId(kimTypeId);
             attributeData.setAttrVal(orr.getOverrideCode());
             attributeData.setKimAttrDefnId(attributeDefnId);
@@ -786,8 +708,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         attributeDefnId = getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.FROM_AMOUNT);
         if(StringUtils.isNotEmpty(attributeDefnId) && orr.getFromAmount()!=null){
             attributeData = new KfsKimDocumentAttributeData();
-            //TODO: this should be taken care of in Role Service
-            //attributeData.setAttrDataId(getRoleMemberAttributeDataId());
             attributeData.setKimTypId(kimTypeId);
             attributeData.setAttrVal(orr.getFromAmountStr());
             attributeData.setKimAttrDefnId(attributeDefnId);
@@ -799,8 +719,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         attributeDefnId = getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.TO_AMOUNT);
         if(StringUtils.isNotEmpty(attributeDefnId) && orr.getToAmount()!=null){
             attributeData = new KfsKimDocumentAttributeData();
-            //TODO: this should be taken care of in Role Service
-            //attributeData.setAttrDataId(getRoleMemberAttributeDataId());
             attributeData.setKimTypId(kimTypeId);
             attributeData.setAttrVal(orr.getToAmountStr());
             attributeData.setKimAttrDefnId(attributeDefnId);
@@ -826,10 +744,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         if(origRoleRspActions!=null && origRoleRspActions.size()>0){
             RoleResponsibilityActionInfo origActionInfo = origRoleRspActions.get(0);
             roleRspAction.setRoleResponsibilityActionId(origActionInfo.getRoleResponsibilityActionId());
-        } else {
-            //TODO: This should be taken care of in Role Service
-            //roleRspAction.setRoleResponsibilityActionId(getRoleRspActionId());
-        }
+        } 
         roleRspAction.setRoleMemberId(roleMember.getRoleMemberId());
         RoleResponsibilityInfo roleResponsibilityInfo = roleResponsibilityInfos.get(0);
         roleRspAction.setRoleResponsibilityId(roleResponsibilityInfo.getRoleResponsibilityId());

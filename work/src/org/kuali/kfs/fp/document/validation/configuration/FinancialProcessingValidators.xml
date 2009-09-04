@@ -318,6 +318,9 @@
 	
 	<bean id="DisbursementVoucher-nonEmployeeTravelValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherNonEmployeeTravelValidation" abstract="true">
 		<property name="parameterService" ref="parameterService" />
+		<property name="disbursementVoucherTaxService" ref="disbursementVoucherTaxService" />
+		<property name="disbursementVoucherTravelService" ref="disbursementVoucherTravelService" />
+		<property name="dictionaryValidationService" ref="dictionaryValidationService" />
 	</bean>
 	
 	<bean id="DisbursementVoucher-nonResidentAlienInformationValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherNonResidentAlienInformationValidation" abstract="true" />
@@ -341,5 +344,10 @@
 	<bean id="DisbursementVoucher-wireTransferValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherWireTransferValidation" abstract="true" />
 
     <bean id="DisbursementVoucher-payeeAddressValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherPayeeAddressValidation" abstract="true" />
+    
+    <bean id="DisbursementVoucher-campusSpecialHandlingValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherCampusSpecialHandlingValidation" abstract="true">
+    	<property name="documentService" ref="documentService" />
+    	<property name="roleManagementService" ref="kimRoleManagementService" />
+    </bean>
 			
 </beans>

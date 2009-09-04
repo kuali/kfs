@@ -24,7 +24,6 @@ import org.kuali.kfs.fp.document.service.DisbursementVoucherTravelService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -40,6 +39,9 @@ public class DisbursementVoucherNonEmployeeTravelValidation extends GenericValid
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherNonEmployeeTravelValidation.class);
 
     private ParameterService parameterService;
+    private DisbursementVoucherTaxService disbursementVoucherTaxService;
+    private DisbursementVoucherTravelService disbursementVoucherTravelService;
+    private DictionaryValidationService dictionaryValidationService;
     private AccountingDocument accountingDocumentForValidation;
     
     /**
@@ -61,7 +63,7 @@ public class DisbursementVoucherNonEmployeeTravelValidation extends GenericValid
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
         errors.addToErrorPath(KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
         
-        SpringContext.getBean(DictionaryValidationService.class).validateBusinessObjectsRecursively(document.getDvNonEmployeeTravel(), 1);
+        getDictionaryValidationService().validateBusinessObjectsRecursively(document.getDvNonEmployeeTravel(), 1);
 
         /* travel from and to state required if country is us */
         if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(nonEmployeeTravel.getDvTravelFromCountryCode()) && StringUtils.isBlank(nonEmployeeTravel.getDisbVchrTravelFromStateCode())) {
@@ -96,30 +98,22 @@ public class DisbursementVoucherNonEmployeeTravelValidation extends GenericValid
 
         /* make sure per diem fields have not changed since the per diem amount calculation */
         if (perDiemSectionComplete) { // Only validate if per diem section is filled in
-            KualiDecimal calculatedPerDiem = SpringContext.getBean(DisbursementVoucherTravelService.class).calculatePerDiemAmount(nonEmployeeTravel.getDvPerdiemStartDttmStamp(), nonEmployeeTravel.getDvPerdiemEndDttmStamp(), nonEmployeeTravel.getDisbVchrPerdiemRate());
+            KualiDecimal calculatedPerDiem = getDisbursementVoucherTravelService().calculatePerDiemAmount(nonEmployeeTravel.getDvPerdiemStartDttmStamp(), nonEmployeeTravel.getDvPerdiemEndDttmStamp(), nonEmployeeTravel.getDisbVchrPerdiemRate());
             if (calculatedPerDiem.compareTo(nonEmployeeTravel.getDisbVchrPerdiemCalculatedAmt()) != 0) {
                 errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KFSKeyConstants.ERROR_DV_PER_DIEM_CALC_CHANGE);
                 isValid = false;
             }
         }
 
-        /* total on non-employee travel must equal Check Total */
-        /* if tax has been take out, need to add back in the tax amount for the check */
-        KualiDecimal paidAmount = document.getDisbVchrCheckTotalAmount();
-        paidAmount = paidAmount.add(SpringContext.getBean(DisbursementVoucherTaxService.class).getNonResidentAlienTaxAmount(document));
-        // Ignore this rule if the DV has been coded for NRA tax, because amounts will not balance after tax coding.
-        boolean nraTaxCoded = StringUtils.isNotBlank(document.getDvNonResidentAlienTax().getIncomeClassCode()) && StringUtils.equalsIgnoreCase("N", document.getDvNonResidentAlienTax().getIncomeClassCode());
-        if (!nraTaxCoded && paidAmount.compareTo(document.getDvNonEmployeeTravel().getTotalTravelAmount()) != 0) {
-            errors.putErrorWithoutFullErrorPath(KFSConstants.DV_CHECK_TRAVEL_TOTAL_ERROR, KFSKeyConstants.ERROR_DV_TRAVEL_CHECK_TOTAL);
-            isValid = false;
-        }
+        // validate the tax amount
+        isValid &= validateTravelAmount(document);
 
         /* make sure mileage fields have not changed since the mileage amount calculation */
         if (personalVehicleSectionComplete) {
             KualiDecimal currentCalcAmt = document.getDvNonEmployeeTravel().getDisbVchrMileageCalculatedAmt();
             KualiDecimal currentActualAmt = document.getDvNonEmployeeTravel().getDisbVchrPersonalCarAmount();
             if (ObjectUtils.isNotNull(currentCalcAmt) && ObjectUtils.isNotNull(currentActualAmt)) {
-                KualiDecimal calculatedMileageAmount = SpringContext.getBean(DisbursementVoucherTravelService.class).calculateMileageAmount(document.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount(), document.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp());
+                KualiDecimal calculatedMileageAmount = getDisbursementVoucherTravelService().calculateMileageAmount(document.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount(), document.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp());
                 if (calculatedMileageAmount.compareTo(document.getDvNonEmployeeTravel().getDisbVchrMileageCalculatedAmt()) != 0) {
                     errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KFSKeyConstants.ERROR_DV_MILEAGE_CALC_CHANGE);
                     isValid = false;
@@ -141,6 +135,45 @@ public class DisbursementVoucherNonEmployeeTravelValidation extends GenericValid
         errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
 
         return isValid;
+    }
+
+    /**
+     * Determines if the given document has an income for tax
+     * @param document document to check
+     * @return true if it does have non-reportable income, false otherwise
+     */
+    protected boolean hasIncomeClassCode(DisbursementVoucherDocument document) {
+        return StringUtils.isNotBlank(document.getDvNonResidentAlienTax().getIncomeClassCode());
+    }
+    
+    /**
+     * Determines if the tax on the document was gross up
+     * @param document the document to check
+     * @return true if the tax was gross up, false otherwise
+     */
+    protected boolean isGrossUp(DisbursementVoucherDocument document) {
+        return document.getDvNonResidentAlienTax().isIncomeTaxGrossUpCode();
+    }
+    
+    /**
+     * Determines if tax should be taken into consideration when checking the total travel amount, and validates that it matches the paid amount
+     * @param document the document to validate the non-employee total travel amount of
+     * @return true if the document validated perfectly, false otherwise
+     */
+    protected boolean validateTravelAmount(DisbursementVoucherDocument document) {
+        /* total on non-employee travel must equal Check Total */
+        KualiDecimal paidAmount = document.getDisbVchrCheckTotalAmount();
+        final boolean incomeClassCoded = hasIncomeClassCode(document);
+        final boolean grossUp = isGrossUp(document);
+        final KualiDecimal travelAmount = document.getDvNonEmployeeTravel().getTotalTravelAmount();
+        if (incomeClassCoded && !grossUp) {  // we're adding tax and not grossing up; we need to add the tax amount to the paid amount
+            paidAmount = paidAmount.add(getDisbursementVoucherTaxService().getNonResidentAlienTaxAmount(document));
+        }
+        if (paidAmount.compareTo(travelAmount) != 0) {
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KFSConstants.DV_CHECK_TRAVEL_TOTAL_ERROR, KFSKeyConstants.ERROR_DV_TRAVEL_CHECK_TOTAL);
+            return false;
+        }
+        return true;
     }
     
     /**
@@ -271,4 +304,53 @@ public class DisbursementVoucherNonEmployeeTravelValidation extends GenericValid
     public AccountingDocument getAccountingDocumentForValidation() {
         return accountingDocumentForValidation;
     }
+
+    /**
+     * Gets the disbursementVoucherTaxService attribute. 
+     * @return Returns the disbursementVoucherTaxService.
+     */
+    public DisbursementVoucherTaxService getDisbursementVoucherTaxService() {
+        return disbursementVoucherTaxService;
+    }
+
+    /**
+     * Sets the disbursementVoucherTaxService attribute value.
+     * @param disbursementVoucherTaxService The disbursementVoucherTaxService to set.
+     */
+    public void setDisbursementVoucherTaxService(DisbursementVoucherTaxService disbursementVoucherTaxService) {
+        this.disbursementVoucherTaxService = disbursementVoucherTaxService;
+    }
+
+    /**
+     * Gets the disbursementVoucherTravelService attribute. 
+     * @return Returns the disbursementVoucherTravelService.
+     */
+    public DisbursementVoucherTravelService getDisbursementVoucherTravelService() {
+        return disbursementVoucherTravelService;
+    }
+
+    /**
+     * Sets the disbursementVoucherTravelService attribute value.
+     * @param disbursementVoucherTravelService The disbursementVoucherTravelService to set.
+     */
+    public void setDisbursementVoucherTravelService(DisbursementVoucherTravelService disbursementVoucherTravelService) {
+        this.disbursementVoucherTravelService = disbursementVoucherTravelService;
+    }
+
+    /**
+     * Gets the dictionaryValidationService attribute. 
+     * @return Returns the dictionaryValidationService.
+     */
+    public DictionaryValidationService getDictionaryValidationService() {
+        return dictionaryValidationService;
+    }
+
+    /**
+     * Sets the dictionaryValidationService attribute value.
+     * @param dictionaryValidationService The dictionaryValidationService to set.
+     */
+    public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {
+        this.dictionaryValidationService = dictionaryValidationService;
+    }
+    
 }

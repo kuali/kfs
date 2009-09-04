@@ -358,8 +358,9 @@ public class KFSKeyConstants {
     public static final String ERROR_DV_RESEARCH_PAYMENT_PAYEE = "error.dv.researchPaymentPayee";
     public static final String ERROR_DV_ACTIVE_EMPLOYEE_PREPAID_TRAVEL = "error.dv.activeEmployeePrepaidTravel";
     public static final String ERROR_DV_REVOLVING_PAYMENT_REASON = "error.dv.revolvingPaymentReason";
-    public static final String ERROR_DV_CHECK_TOTAL_CHANGE = "error.dv.checkTotalChange";
-    
+    public static final String ERROR_DV_CHECK_TOTAL_CHANGE = "error.dv.checkTotalChange";    
+    public static final String ERROR_DV_CAMPUS_TURNED_OFF_SPECIAL_HANDLING_WITHOUT_EXPLANATORY_NOTE = "error.dv.campusTurnedOffSpecialHandlingWithoutExplanatoryNote";
+
     public static final String ERROR_BA_AMOUNT_ZERO = "error.document.ba.amount.zero";
     public static final String ERROR_BA_AMOUNT_NEGATIVE = "error.document.ba.amount.negative";
     
@@ -909,5 +910,5 @@ public class KFSKeyConstants {
     public static final String MESSAGE_BATCH_FILE_ADMIN_DELETE_ERROR = "message.batch.file.admin.delete.error";
     public static final String MESSAGE_BATCH_FILE_ADMIN_DELETE_CANCELLED = "message.batch.file.admin.delete.cancelled";
     
-    public static final String MESSAGE_BATCH_FILE_LOG_EMAIL_BODY = "message.batch.log.email.body";
+    public static final String MESSAGE_BATCH_FILE_LOG_EMAIL_BODY = "message.batch.log.email.body";    
 }

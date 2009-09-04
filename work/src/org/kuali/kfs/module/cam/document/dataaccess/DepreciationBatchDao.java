@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.cam.batch.AssetPaymentInfo;
-import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -85,4 +84,39 @@ public interface DepreciationBatchDao {
      * @return Map
      */
     public Map<Long, KualiDecimal> getPrimaryDepreciationBaseAmountForSV();
+
+    /**
+     * Retrieves asset and asset payment count eligible for depreciation
+     * 
+     * @param fiscalYear
+     * @param fiscalMonth
+     * @param depreciationDate
+     * @return
+     */
+    Object[] getAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, final Calendar depreciationDate);
+
+    /**
+     * This method...
+     * 
+     * @param fiscalYear
+     * @param fiscalMonth
+     * @param depreciationDate
+     * @return
+     */
+    Object[] getFederallyOwnedAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, final Calendar depreciationDate);
+
+    /**
+     * This method...
+     * 
+     * @return
+     */
+    Integer getTransferDocLockedAssetCount();
+
+    /**
+     * This method...
+     * 
+     * @return
+     */
+    Integer getRetireDocLockedAssetCount();
+
 }

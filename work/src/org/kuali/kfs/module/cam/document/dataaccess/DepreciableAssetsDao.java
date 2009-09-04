@@ -19,7 +19,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kfs.module.cam.batch.AssetPaymentInfo;
 import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 
 public interface DepreciableAssetsDao {
@@ -46,12 +45,4 @@ public interface DepreciableAssetsDao {
     public Collection<AssetObjectCode> getAssetObjectCodes(Integer fiscalYear);
 
 
-    /**
-     * This method gets a list of assets eligible for depreciation
-     * 
-     * @param fiscalYear
-     * @param fiscalMonth
-     * @return collection
-     */
-    public Collection<AssetPaymentInfo> getListOfDepreciableAssetPaymentInfo(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate);
 }

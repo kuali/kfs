@@ -31,7 +31,6 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.batch.AssetPaymentInfo;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
@@ -200,30 +199,10 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         }
         String sql = "SELECT A0.CPTLAST_NBR,A0.AST_PMT_SEQ_NBR,A1.CPTL_AST_DEPR_DT,A1.AST_DEPR_MTHD1_CD,A1.CPTLAST_SALVAG_AMT,";
         sql = sql + "A2.CPTLAST_DEPRLF_LMT,A5.ORG_PLNT_COA_CD,A5.ORG_PLNT_ACCT_NBR,A5.CMP_PLNT_COA_CD,A5.CMP_PLNT_ACCT_NBR,A3.FIN_OBJ_TYP_CD, ";
-        sql = sql + "A3.FIN_OBJ_SUB_TYP_CD, A0.AST_DEPR1_BASE_AMT,A0.FIN_OBJECT_CD, A0.AST_ACUM_DEPR1_AMT,A0.SUB_ACCT_NBR,A0.FIN_SUB_OBJ_CD,A0.PROJECT_CD, A0.FIN_COA_CD  FROM CM_AST_PAYMENT_T A0 INNER JOIN CM_CPTLAST_T A1 ON A0.CPTLAST_NBR=A1.CPTLAST_NBR INNER JOIN ";
-        sql = sql + "CM_ASSET_TYPE_T A2 ON A1.CPTLAST_TYP_CD=A2.CPTLAST_TYP_CD INNER JOIN CA_OBJECT_CODE_T A3 ON " + fiscalYear + "=A3.UNIV_FISCAL_YR ";
-        sql = sql + "AND A0.FIN_COA_CD=A3.FIN_COA_CD AND A0.FIN_OBJECT_CD=A3.FIN_OBJECT_CD INNER JOIN CA_ACCOUNT_T A4 ON A0.FIN_COA_CD=A4.FIN_COA_CD ";
-        sql = sql + "AND A0.ACCOUNT_NBR=A4.ACCOUNT_NBR INNER JOIN CA_ORG_T A5 ON A4.FIN_COA_CD=A5.FIN_COA_CD AND A4.ORG_CD=A5.ORG_CD ";
-        sql = sql + "WHERE (((( (((( ( A0.AST_DEPR1_BASE_AMT IS NOT NULL  AND  (A0.AST_DEPR1_BASE_AMT <> 0)) AND  (A0.AST_TRNFR_PMT_CD ";
-        sql = sql + "IN ('N','') OR  (A0.AST_TRNFR_PMT_CD IS NULL ))) AND  (A1.AST_DEPR_MTHD1_CD IN (" + buildINValues(depreciationMethodList) + "))) ";
-        sql = sql + "AND A1.CPTL_AST_DEPR_DT IS NOT NULL ) AND A1.CPTL_AST_DEPR_DT <= ?) AND A1.CPTL_AST_DEPR_DT > ? ) AND  ";
-        sql = sql + "(A1.AST_RETIR_FSCL_YR IS NULL OR A1.AST_RETIR_FSCL_YR > " + fiscalYear + " OR (A1.AST_RETIR_FSCL_YR = " + fiscalYear + " AND A1.AST_RETIR_PRD_CD > " + fiscalMonth + "))) ";
-        sql = sql + "AND A1.AST_INVN_STAT_CD NOT IN (" + buildINValues(notAcceptedAssetStatus) + ")) AND A2.CPTLAST_DEPRLF_LMT > 0) ";
-        sql = sql + "AND A3.FIN_OBJ_SUB_TYP_CD NOT IN (" + buildINValues(federallyOwnedObjectSubTypes) + ") AND NOT EXISTS ";
-        sql = sql + "(SELECT 1 FROM CM_AST_TRNFR_DOC_T TRFR, FS_DOC_HEADER_T HDR WHERE HDR.FDOC_NBR = TRFR.FDOC_NBR AND ";
-        sql = sql + "HDR.FDOC_STATUS_CD = '" + KFSConstants.DocumentStatusCodes.ENROUTE + "' AND TRFR.CPTLAST_NBR = A0.CPTLAST_NBR) ";
-        sql = sql + "AND NOT EXISTS (SELECT 1 FROM CM_AST_RETIRE_DTL_T DTL, FS_DOC_HEADER_T HDR WHERE HDR.FDOC_NBR = DTL.FDOC_NBR ";
-        sql = sql + "AND HDR.FDOC_STATUS_CD = '" + KFSConstants.DocumentStatusCodes.ENROUTE + "' AND DTL.CPTLAST_NBR = A0.CPTLAST_NBR) ";
+        sql = sql + "A3.FIN_OBJ_SUB_TYP_CD, A0.AST_DEPR1_BASE_AMT,A0.FIN_OBJECT_CD, A0.AST_ACUM_DEPR1_AMT,A0.SUB_ACCT_NBR,A0.FIN_SUB_OBJ_CD,A0.PROJECT_CD, A0.FIN_COA_CD";
+        sql = sql + buildCriteria(fiscalYear, fiscalMonth, depreciationMethodList, notAcceptedAssetStatus, federallyOwnedObjectSubTypes, false);
         sql = sql + "ORDER BY A0.CPTLAST_NBR, A0.FS_ORIGIN_CD, A0.ACCOUNT_NBR, A0.SUB_ACCT_NBR, A0.FIN_OBJECT_CD, A0.FIN_SUB_OBJ_CD, A3.FIN_OBJ_TYP_CD, A0.PROJECT_CD";
-        getJdbcTemplate().query(sql, new PreparedStatementSetter() {
-            public void setValues(PreparedStatement pstmt) throws SQLException {
-                // pstmt.setMaxRows(100000);
-                Calendar DateOf1900 = Calendar.getInstance();
-                DateOf1900.set(1900, 0, 1);
-                pstmt.setDate(1, new Date(depreciationDate.getTimeInMillis()));
-                pstmt.setDate(2, new Date(DateOf1900.getTimeInMillis()));
-            }
-        }, new ResultSetExtractor() {
+        getJdbcTemplate().query(sql, preparedStatementSetter(depreciationDate), new ResultSetExtractor() {
             public Object extractData(ResultSet rs) throws SQLException, DataAccessException {
                 int counter = 0;
                 while (rs != null && rs.next()) {
@@ -266,12 +245,97 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         return assetPaymentDetails;
     }
 
+    private PreparedStatementSetter preparedStatementSetter(final Calendar depreciationDate) {
+        return new PreparedStatementSetter() {
+            public void setValues(PreparedStatement pstmt) throws SQLException {
+                Calendar DateOf1900 = Calendar.getInstance();
+                DateOf1900.set(1900, 0, 1);
+                pstmt.setDate(1, new Date(depreciationDate.getTimeInMillis()));
+                pstmt.setDate(2, new Date(DateOf1900.getTimeInMillis()));
+            }
+        };
+    }
+
+    private String buildCriteria(Integer fiscalYear, Integer fiscalMonth, List<String> depreciationMethodList, List<String> notAcceptedAssetStatus, List<String> federallyOwnedObjectSubTypes, boolean includeFederal) {
+        String sql = "  FROM CM_AST_PAYMENT_T A0 INNER JOIN CM_CPTLAST_T A1 ON A0.CPTLAST_NBR=A1.CPTLAST_NBR INNER JOIN ";
+        sql = sql + "CM_ASSET_TYPE_T A2 ON A1.CPTLAST_TYP_CD=A2.CPTLAST_TYP_CD INNER JOIN CA_OBJECT_CODE_T A3 ON " + fiscalYear + "=A3.UNIV_FISCAL_YR ";
+        sql = sql + "AND A0.FIN_COA_CD=A3.FIN_COA_CD AND A0.FIN_OBJECT_CD=A3.FIN_OBJECT_CD INNER JOIN CA_ACCOUNT_T A4 ON A0.FIN_COA_CD=A4.FIN_COA_CD ";
+        sql = sql + "AND A0.ACCOUNT_NBR=A4.ACCOUNT_NBR INNER JOIN CA_ORG_T A5 ON A4.FIN_COA_CD=A5.FIN_COA_CD AND A4.ORG_CD=A5.ORG_CD ";
+        sql = sql + "WHERE A0.AST_DEPR1_BASE_AMT IS NOT NULL  AND  A0.AST_DEPR1_BASE_AMT <> 0 AND  (A0.AST_TRNFR_PMT_CD ";
+        sql = sql + "IN ('N','') OR  A0.AST_TRNFR_PMT_CD IS NULL ) AND  A1.AST_DEPR_MTHD1_CD IN (" + buildINValues(depreciationMethodList) + ") ";
+        sql = sql + "AND A1.CPTL_AST_DEPR_DT IS NOT NULL AND A1.CPTL_AST_DEPR_DT <= ? AND A1.CPTL_AST_DEPR_DT > ? AND  ";
+        sql = sql + "(A1.AST_RETIR_FSCL_YR IS NULL OR A1.AST_RETIR_FSCL_YR > " + fiscalYear + " OR (A1.AST_RETIR_FSCL_YR = " + fiscalYear + " AND A1.AST_RETIR_PRD_CD > " + fiscalMonth + ")) ";
+        sql = sql + "AND A1.AST_INVN_STAT_CD NOT IN (" + buildINValues(notAcceptedAssetStatus) + ")AND A2.CPTLAST_DEPRLF_LMT > 0 ";
+        if (includeFederal) {
+            sql = sql + "AND A3.FIN_OBJ_SUB_TYP_CD IN (" + buildINValues(federallyOwnedObjectSubTypes) + ")";
+        }
+        else {
+            sql = sql + "AND A3.FIN_OBJ_SUB_TYP_CD NOT IN (" + buildINValues(federallyOwnedObjectSubTypes) + ")";
+        }
+        // FIXME Harsha - FDOC_STATUS_CD should equal R - ENROUTE
+        sql = sql + " AND NOT EXISTS (SELECT 1 FROM CM_AST_TRNFR_DOC_T TRFR, FS_DOC_HEADER_T HDR WHERE HDR.FDOC_NBR = TRFR.FDOC_NBR AND ";
+        sql = sql + "HDR.FDOC_STATUS_CD NOT IN ('A','C') AND TRFR.CPTLAST_NBR = A0.CPTLAST_NBR) ";
+        sql = sql + "AND NOT EXISTS (SELECT 1 FROM CM_AST_RETIRE_DTL_T DTL, FS_DOC_HEADER_T HDR WHERE HDR.FDOC_NBR = DTL.FDOC_NBR ";
+        sql = sql + "AND HDR.FDOC_STATUS_CD NOT IN ('A','C') AND DTL.CPTLAST_NBR = A0.CPTLAST_NBR) ";
+        return sql;
+    }
+
     /**
      * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao#getFullyDepreciatedAssetCount()
      */
     public Integer getFullyDepreciatedAssetCount() {
         int count = getJdbcTemplate().queryForInt("SELECT COUNT(1) FROM CM_CPTLAST_T AST, (SELECT CPTLAST_NBR, (SUM(AST_DEPR1_BASE_AMT - AST_ACUM_DEPR1_AMT) - (SELECT 0.0+CPTLAST_SALVAG_AMT FROM CM_CPTLAST_T X WHERE X.CPTLAST_NBR = Y.CPTLAST_NBR)) BAL FROM CM_AST_PAYMENT_T Y WHERE AST_DEPR1_BASE_AMT IS NOT NULL AND AST_DEPR1_BASE_AMT <> 0.0 AND AST_ACUM_DEPR1_AMT IS NOT NULL AND AST_ACUM_DEPR1_AMT <> 0.0 AND (AST_TRNFR_PMT_CD = 'N' OR AST_TRNFR_PMT_CD = '' OR AST_TRNFR_PMT_CD IS NULL) GROUP BY CPTLAST_NBR) PMT WHERE PMT.BAL = 0.0 AND AST.CPTLAST_NBR = PMT.CPTLAST_NBR");
         return count;
+    }
+
+    public Object[] getAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, final Calendar depreciationDate) {
+        final Object[] data = new Object[2];
+        List<String> depreciationMethodList = new ArrayList<String>();
+        List<String> notAcceptedAssetStatus = new ArrayList<String>();
+        depreciationMethodList.add(CamsConstants.Asset.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE);
+        depreciationMethodList.add(CamsConstants.Asset.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
+        List<String> federallyOwnedObjectSubTypes = getFederallyOwnedObjectSubTypes();
+        if (parameterService.parameterExists(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES)) {
+            notAcceptedAssetStatus = parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES);
+        }
+        String sql = "SELECT COUNT(DISTINCT A0.CPTLAST_NBR), COUNT(1) " + buildCriteria(fiscalYear, fiscalMonth, depreciationMethodList, notAcceptedAssetStatus, federallyOwnedObjectSubTypes, false);
+        getJdbcTemplate().query(sql, preparedStatementSetter(depreciationDate), new ResultSetExtractor() {
+
+            public Object extractData(ResultSet rs) throws SQLException, DataAccessException {
+                if (rs != null && rs.next()) {
+                    data[0] = rs.getInt(1);
+                    data[1] = rs.getInt(2);
+                }
+                return data;
+            }
+
+        });
+        return data;
+    }
+
+    public Object[] getFederallyOwnedAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, final Calendar depreciationDate) {
+        final Object[] data = new Object[2];
+        List<String> depreciationMethodList = new ArrayList<String>();
+        List<String> notAcceptedAssetStatus = new ArrayList<String>();
+        depreciationMethodList.add(CamsConstants.Asset.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE);
+        depreciationMethodList.add(CamsConstants.Asset.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
+        List<String> federallyOwnedObjectSubTypes = getFederallyOwnedObjectSubTypes();
+        if (parameterService.parameterExists(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES)) {
+            notAcceptedAssetStatus = parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES);
+        }
+        String sql = "SELECT COUNT(DISTINCT A0.CPTLAST_NBR), COUNT(1) " + buildCriteria(fiscalYear, fiscalMonth, depreciationMethodList, notAcceptedAssetStatus, federallyOwnedObjectSubTypes, true);
+        getJdbcTemplate().query(sql, preparedStatementSetter(depreciationDate), new ResultSetExtractor() {
+
+            public Object extractData(ResultSet rs) throws SQLException, DataAccessException {
+                if (rs != null && rs.next()) {
+                    data[0] = rs.getInt(1);
+                    data[1] = rs.getInt(2);
+                }
+                return data;
+            }
+
+        });
+        return data;
     }
 
     /**
@@ -290,6 +354,20 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
 
         });
         return amountMap;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao#getTransferDocLockedAssetCount()
+     */
+    public Integer getTransferDocLockedAssetCount() {
+        return getJdbcTemplate().queryForInt("select count(1) from cm_ast_trnfr_doc_t t inner join fs_doc_header_t h on t.fdoc_nbr = h.fdoc_nbr where h.fdoc_status_cd not in ('A','C')");
+    }
+
+    /**
+     * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao#getRetireDocLockedAssetCount()
+     */
+    public Integer getRetireDocLockedAssetCount() {
+        return getJdbcTemplate().queryForInt("select count(1) from cm_ast_retire_dtl_t t inner join fs_doc_header_t h on t.fdoc_nbr = h.fdoc_nbr where h.fdoc_status_cd  not in ('A','C')");
     }
 
     /**

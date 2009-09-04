@@ -15,7 +15,6 @@
 package org.kuali.kfs.module.cam.document.dataaccess.impl;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,12 +31,10 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.module.cam.batch.AssetPaymentInfo;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
-import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 import org.kuali.kfs.module.cam.document.AssetTransferDocument;
 import org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao;
 import org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao;
@@ -73,197 +70,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
     private final static String ASSET_TO_ASSET_TYPE_REFERENCE_DESCRIPTOR = "asset.capitalAssetType.";
     private final static String[] REPORT_GROUP = { "*** BEFORE RUNNING DEPRECIATION PROCESS ****", "*** AFTER RUNNING DEPRECIATION PROCESS ****" };
 
-
-    public Collection<AssetPaymentInfo> getListOfDepreciableAssetPaymentInfo(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
-        LOG.debug("getListOfDepreciableAssets() -  started");
-        List<AssetPaymentInfo> assetPaymentKeys = new ArrayList<AssetPaymentInfo>();
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Retreving eligible asset payments.");
-        ReportQueryByCriteria reportByCriteria = new ReportQueryByCriteria(AssetPayment.class, new String[] { "capitalAssetNumber", "paymentSequenceNumber", "asset.depreciationDate", "asset.primaryDepreciationMethodCode", "asset.salvageAmount", "asset.capitalAssetType.depreciableLifeLimit", "account.organization.organizationPlantChartCode", "account.organization.organizationPlantAccountNumber", "account.organization.campusPlantChartCode", "account.organization.campusPlantAccountNumber", "financialObject.financialObjectTypeCode", "financialObject.financialObjectSubTypeCode", "primaryDepreciationBaseAmount", "financialObjectCode", "accumulatedPrimaryDepreciationAmount", "subAccountNumber", "financialSubObjectCode", "projectCode" }, this.getDepreciationCriteria(fiscalYear, fiscalMonth, depreciationDate, false));
-        reportByCriteria.addOrderByAscending(CamsPropertyConstants.AssetPayment.CAPITAL_ASSET_NUMBER);
-        reportByCriteria.addOrderByAscending(CamsPropertyConstants.AssetPayment.ORIGINATION_CODE);
-        reportByCriteria.addOrderByAscending(CamsPropertyConstants.AssetPayment.ACCOUNT_NUMBER);
-        reportByCriteria.addOrderByAscending(CamsPropertyConstants.AssetPayment.SUB_ACCOUNT_NUMBER);
-        reportByCriteria.addOrderByAscending(CamsPropertyConstants.AssetPayment.OBJECT_CODE);
-        reportByCriteria.addOrderByAscending(CamsPropertyConstants.AssetPayment.SUB_OBJECT_CODE);
-        reportByCriteria.addOrderByAscending(CamsPropertyConstants.AssetPayment.OBJECT_TYPE_CODE);
-        reportByCriteria.addOrderByAscending(CamsPropertyConstants.AssetPayment.PROJECT_CODE);
-        Iterator<?> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportByCriteria);
-
-        while (iterator != null && iterator.hasNext()) {
-            Object[] data = (Object[]) iterator.next();
-            AssetPaymentInfo assetPaymentInfo = new AssetPaymentInfo();
-            assetPaymentInfo.setCapitalAssetNumber(Long.valueOf(data[0].toString()));
-            assetPaymentInfo.setPaymentSequenceNumber(Integer.valueOf(data[1].toString()));
-            assetPaymentInfo.setDepreciationDate((Date) data[2]);
-            assetPaymentInfo.setPrimaryDepreciationMethodCode(data[3].toString());
-            assetPaymentInfo.setSalvageAmount((KualiDecimal) data[4]);
-            assetPaymentInfo.setDepreciableLifeLimit(Integer.valueOf(data[5].toString()));
-            assetPaymentInfo.setOrganizationPlantChartCode(data[6].toString());
-            assetPaymentInfo.setOrganizationPlantAccountNumber(data[7].toString());
-            assetPaymentInfo.setCampusPlantChartCode(data[8].toString());
-            assetPaymentInfo.setCampusPlantAccountNumber(data[9].toString());
-            assetPaymentInfo.setFinancialObjectTypeCode(data[10].toString());
-            assetPaymentInfo.setFinancialObjectSubTypeCode(data[11].toString());
-            // payment related info
-            assetPaymentInfo.setPrimaryDepreciationBaseAmount((KualiDecimal) data[12]);
-            assetPaymentInfo.setFinancialObjectCode(data[13].toString());
-            assetPaymentInfo.setAccumulatedPrimaryDepreciationAmount((KualiDecimal) data[14]);
-            assetPaymentInfo.setSubAccountNumber(data[15].toString());
-            assetPaymentInfo.setFinancialSubObjectCode(data[16].toString());
-            assetPaymentInfo.setProjectCode(data[17].toString());
-            assetPaymentKeys.add(assetPaymentInfo);
-        }
-        return assetPaymentKeys;
-    }
-
-    /**
-     * This method returns the number of assets with pending transfers or retirements
-     * 
-     * @return
-     */
-    protected int getNumberOfAssetsBeingRetiredAndTransferred() {
-        LOG.debug("getNumberOfAssetsBeingRetiredAndTransferred() -  Started");
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting the number of assets being retired or transferred.");
-
-        int result = 0;
-
-        List<String> notPendingDocStatuses = new ArrayList<String>();
-        notPendingDocStatuses.add(KFSConstants.DocumentStatusCodes.APPROVED);
-        notPendingDocStatuses.add(KFSConstants.DocumentStatusCodes.CANCELLED);
-        notPendingDocStatuses.add(KFSConstants.DocumentStatusCodes.DISAPPROVED);
-
-        // Criteria arCriteria = new Criteria();
-        Criteria criteria = new Criteria();
-        criteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
-
-        result = getPersistenceBrokerTemplate().getCount(QueryFactory.newQuery(AssetRetirementGlobal.class, criteria));
-
-        result += getPersistenceBrokerTemplate().getCount(QueryFactory.newQuery(AssetTransferDocument.class, criteria));
-
-        return result;
-    }
-
-
-    /**
-     * This method creates the criteria that the program uses in order to retrieve the asset payments eligible for depreciation
-     * 
-     * @param fiscalYear
-     * @param fiscalMonth
-     * @param depreciationDate
-     * @param federallyOwnedCriteria true=> Only include federally owned assets in criteria, false=>Exclude federally owned assets
-     *        from criteria
-     * @return
-     */
-    protected Criteria getDepreciationCriteria(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, boolean federallyOwnedCriteria) {
-        LOG.debug("createDepreciationCriteria() -  started");
-
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Creating criteria for asset payments - Include federally owned? " + federallyOwnedCriteria);
-
-        List<String> assetTransferCode = new ArrayList<String>();
-        List<String> depreciationMethodList = new ArrayList<String>();
-        List<String> notAcceptedAssetStatus = new ArrayList<String>();
-
-        assetTransferCode.add(CamsConstants.AssetPayment.TRANSFER_PAYMENT_CODE_N);
-        assetTransferCode.add("");
-
-        depreciationMethodList.add(CamsConstants.Asset.DEPRECIATION_METHOD_SALVAGE_VALUE_CODE);
-        depreciationMethodList.add(CamsConstants.Asset.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
-
-        List<String> federallyOwnedObjectSubTypes = getFederallyOwnedObjectSubTypes();
-
-        if (parameterService.parameterExists(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES)) {
-            notAcceptedAssetStatus = parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES);
-        }
-
-        Criteria criteria = new Criteria();
-        Criteria criteriaB = new Criteria();
-        Criteria criteriaC = new Criteria();
-
-        // Begin ************
-        criteriaB = new Criteria();
-        criteriaB.addNotNull(CamsPropertyConstants.AssetPayment.PRIMARY_DEPRECIATION_BASE_AMOUNT);
-
-        criteriaC = new Criteria();
-        criteriaC.addNotEqualTo(CamsPropertyConstants.AssetPayment.PRIMARY_DEPRECIATION_BASE_AMOUNT, 0);
-
-        criteriaB.addOrCriteria(criteriaC);
-        criteria.addAndCriteria(criteriaB);
-        // End ***************
-
-        // Begin *******************************************************************
-        criteriaB = new Criteria();
-        criteriaB.addIn(CamsPropertyConstants.AssetPayment.TRANSFER_PAYMENT_CODE, assetTransferCode);
-
-        criteriaC = new Criteria();
-        criteriaC.addIsNull(CamsPropertyConstants.AssetPayment.TRANSFER_PAYMENT_CODE);
-
-        criteriaB.addOrCriteria(criteriaC);
-        criteria.addAndCriteria(criteriaB);
-        // End *********************************************************************
-
-        // Begin **********
-        criteria.addIn(PAYMENT_TO_ASSET_REFERENCE_DESCRIPTOR + CamsPropertyConstants.Asset.PRIMARY_DEPRECIATION_METHOD, depreciationMethodList);
-        // End **********
-
-        Calendar DateOf1900 = Calendar.getInstance();
-        DateOf1900.set(1900, 0, 1);
-
-        criteria.addNotNull(PAYMENT_TO_ASSET_REFERENCE_DESCRIPTOR + CamsPropertyConstants.Asset.ASSET_DEPRECIATION_DATE);
-        criteria.addLessOrEqualThan(PAYMENT_TO_ASSET_REFERENCE_DESCRIPTOR + CamsPropertyConstants.Asset.ASSET_DEPRECIATION_DATE, new java.sql.Date(depreciationDate.getTimeInMillis()));
-        criteria.addGreaterThan(PAYMENT_TO_ASSET_REFERENCE_DESCRIPTOR + CamsPropertyConstants.Asset.ASSET_DEPRECIATION_DATE, new java.sql.Date(DateOf1900.getTimeInMillis()));
-
-        // Begin *******************************************************************
-        criteriaB = new Criteria();
-        criteriaB.addGreaterThan(PAYMENT_TO_ASSET_REFERENCE_DESCRIPTOR + CamsPropertyConstants.Asset.ASSET_RETIREMENT_FISCAL_YEAR, fiscalYear);
-
-        criteriaC = new Criteria();
-        criteriaC.addIsNull(PAYMENT_TO_ASSET_REFERENCE_DESCRIPTOR + CamsPropertyConstants.Asset.ASSET_RETIREMENT_FISCAL_YEAR);
-
-        Criteria criteriaD = new Criteria();
-        criteriaD.addNotNull(PAYMENT_TO_ASSET_REFERENCE_DESCRIPTOR + CamsPropertyConstants.Asset.ASSET_RETIREMENT_FISCAL_MONTH);
-
-        criteriaB.addOrCriteria(criteriaC);
-        criteriaB.addOrCriteria(criteriaD);
-
-        criteriaC = new Criteria();
-        criteriaC.addEqualTo(PAYMENT_TO_ASSET_REFERENCE_DESCRIPTOR + CamsPropertyConstants.Asset.ASSET_RETIREMENT_FISCAL_YEAR, fiscalYear);
-        criteriaC.addGreaterThan(PAYMENT_TO_ASSET_REFERENCE_DESCRIPTOR + CamsPropertyConstants.Asset.ASSET_RETIREMENT_FISCAL_MONTH, fiscalMonth);
-
-        criteriaB.addOrCriteria(criteriaC);
-        criteria.addAndCriteria(criteriaB);
-        // End *********************************************************************
-
-        if (!notAcceptedAssetStatus.isEmpty())
-            criteria.addNotIn(PAYMENT_TO_ASSET_REFERENCE_DESCRIPTOR + CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS, notAcceptedAssetStatus);
-
-        criteria.addGreaterThan(ASSET_TO_ASSET_TYPE_REFERENCE_DESCRIPTOR + CamsPropertyConstants.AssetType.ASSET_DEPRECIATION_LIFE_LIMIT, 0);
-
-        // Excluding federally owned assets.
-        if (!federallyOwnedObjectSubTypes.isEmpty()) {
-            if (federallyOwnedCriteria) {
-                criteria.addIn(PAYMENT_TO_OBJECT_REFERENCE_DESCRIPTOR + KFSPropertyConstants.FINANCIAL_OBJECT_SUB_TYPE_CODE, federallyOwnedObjectSubTypes);
-            }
-            else {
-                criteria.addNotIn(PAYMENT_TO_OBJECT_REFERENCE_DESCRIPTOR + KFSPropertyConstants.FINANCIAL_OBJECT_SUB_TYPE_CODE, federallyOwnedObjectSubTypes);
-            }
-        }
-
-        Criteria retireNotExists = new Criteria();
-        retireNotExists.addEqualTo(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.ENROUTE);
-        retireNotExists.addEqualToField("capitalAssetNumber", Criteria.PARENT_QUERY_PREFIX + "capitalAssetNumber");
-        ReportQueryByCriteria retireNotExistsQuery = QueryFactory.newReportQuery(AssetRetirementGlobalDetail.class, new String[] { CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER }, retireNotExists, false);
-        criteria.addNotExists(retireNotExistsQuery);
-
-        Criteria transferNotExists = new Criteria();
-        transferNotExists.addEqualTo(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.ENROUTE);
-        transferNotExists.addEqualToField("capitalAssetNumber", Criteria.PARENT_QUERY_PREFIX + "capitalAssetNumber");
-        ReportQueryByCriteria transferNotExistsQuery = QueryFactory.newReportQuery(AssetTransferDocument.class, new String[] { CamsPropertyConstants.AssetRetirementGlobalDetail.CAPITAL_ASSET_NUMBER }, transferNotExists, false);
-        criteria.addNotExists(transferNotExistsQuery);
-
-        LOG.debug("createDepreciationCriteria() -  ended");
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished creating criteria for asset payments - Include federally owned? " + federallyOwnedCriteria);
-        return criteria;
-    }
 
     /**
      * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao#generateStatistics(boolean, java.lang.String,
@@ -413,8 +219,8 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         reportLine.add(columns.clone());
 
         if (beforeDepreciationReport) {
-            int federallyOwnedAssetPaymentCount = getFederallyOwnedAssetPaymentCount(fiscalYear, fiscalMonth, depreciationDate);
-            int retiredAndTransferredAssetCount = getNumberOfAssetsBeingRetiredAndTransferred();
+            int federallyOwnedAssetPaymentCount = Integer.valueOf(depreciationBatchDao.getFederallyOwnedAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate)[1].toString());
+            int retiredAndTransferredAssetCount = depreciationBatchDao.getTransferDocLockedAssetCount() + depreciationBatchDao.getRetireDocLockedAssetCount();
 
             columns[0] = "Object code table - record count";
             columns[1] = (convertCountValueToString(this.getAssetObjectCodesCount(fiscalYear)));
@@ -425,13 +231,10 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
             reportLine.add(columns.clone());
 
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting asset payment row count , depreciation base amount, accumulated depreciation amount, and every months depreciation amount.");
-            q = QueryFactory.newReportQuery(AssetPayment.class, this.getDepreciationCriteria(fiscalYear, fiscalMonth, depreciationDate, false));
-            q.setAttributes(new String[] { "count(distinct " + CamsPropertyConstants.AssetPayment.CAPITAL_ASSET_NUMBER + ")", "count(*)" });
-            i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
-            data = (Object[]) i.next();
+            data = depreciationBatchDao.getAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate);
             int eligibleAssetPaymentCount = new Integer(data[1].toString());
 
-            int totalAssetPayments = (eligibleAssetPaymentCount + retiredAndTransferredAssetCount + federallyOwnedAssetPaymentCount);
+            int totalAssetPayments = (eligibleAssetPaymentCount + federallyOwnedAssetPaymentCount);
 
             columns[0] = "Asset payments eligible for depreciation";
             columns[1] = totalAssetPayments + "";
@@ -566,32 +369,6 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         }
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished generating statistics for report - " + (beforeDepreciationReport ? "Before part." : "After part"));
         return reportLine;
-    }
-
-
-    /**
-     * This method the number of federally owned asset payments
-     * 
-     * @param fiscalYear
-     * @param fiscalMonth
-     * @param depreciationDate
-     * @return # of federally owned assets
-     */
-    protected int getFederallyOwnedAssetPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
-        LOG.debug("DepreciableAssetsDaoOjb.getFederallyOwnedAssetPaymentCount() -  started");
-
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting the number of federally owned asset payments.");
-
-        int count = 0;
-
-        List<String> federallyOwnedObjectSubTypes = getFederallyOwnedObjectSubTypes();
-        if (!federallyOwnedObjectSubTypes.isEmpty()) {
-            count = getPersistenceBrokerTemplate().getCount(QueryFactory.newQuery(AssetPayment.class, this.getDepreciationCriteria(fiscalYear, fiscalMonth, depreciationDate, true)));
-        }
-
-        LOG.debug("DepreciableAssetsDaoOjb.getFederallyOwnedAssetPaymentCount() -  ended");
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting the number of federally owned asset payments.");
-        return count;
     }
 
 

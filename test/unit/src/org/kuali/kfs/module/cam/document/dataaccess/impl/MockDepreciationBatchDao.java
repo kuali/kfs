@@ -99,4 +99,20 @@ public class MockDepreciationBatchDao implements DepreciationBatchDao {
     public void setImpl(DepreciationBatchDao impl) {
         this.impl = impl;
     }
+
+    public Object[] getAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
+        return impl.getAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate);
+    }
+
+    public Object[] getFederallyOwnedAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
+        return impl.getFederallyOwnedAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate);
+    }
+
+    public Integer getRetireDocLockedAssetCount() {
+        return impl.getRetireDocLockedAssetCount();
+    }
+
+    public Integer getTransferDocLockedAssetCount() {
+        return impl.getTransferDocLockedAssetCount();
+    }
 }

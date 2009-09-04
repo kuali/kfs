@@ -79,7 +79,7 @@
         <dd:maintField attributeName="groupMemberGroupName"/>
         <dd:maintField attributeName="actionTypeCode" required="true"/>
         <dd:maintField attributeName="priorityNumber"/>
-        <dd:maintField attributeName="actionPolicyCode" required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="actionPolicyCode" p:required="true" p:defaultValue="F" />
         <dd:maintField attributeName="forceAction"/>
         <dd:maintField attributeName="activeFromDate"/>
         <dd:maintField attributeName="activeToDate"/>

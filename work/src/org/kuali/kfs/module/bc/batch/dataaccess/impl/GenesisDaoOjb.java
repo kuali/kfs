@@ -829,23 +829,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         }
     }
 
-    private void saveBCDocumentInWorkflow(BudgetConstructionDocument bcDoc) throws WorkflowException {
-        // first, fetch the DB version of the workflow document saved when Kuali checked for the correct document type 
-        DocumentRouteHeaderValue ourWorkflowDoc = routeHeaderService.getRouteHeader(bcDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-        // next, call the complete method in the document service
-        // WorkflowDocumentService interface has a complete method, but its Kuali counterpart does not
-        // so, we mimic the workflow call here.  complete should be added to Kuali 
-        CompleteAction action = new CompleteAction(ourWorkflowDoc, ourWorkflowDoc.getInitiatorPrincipal(), "created by Genesis");
-        action.recordAction();
-        // there was no need to queue.  we want to mark the document final and save it 
-        ourWorkflowDoc.markDocumentEnroute();
-        ourWorkflowDoc.markDocumentApproved();
-        ourWorkflowDoc.markDocumentProcessed();
-        ourWorkflowDoc.markDocumentFinalized();
-        routeHeaderService.saveRouteHeader(ourWorkflowDoc);
-    }
-
-
     public void setUpCSFHashStructures(Integer BaseYear) {
         // these are the potential document keys in the CSF tracker
         Criteria criteriaId = new Criteria();
@@ -883,15 +866,8 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         kualiDocumentHeader.setExplanation(BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION);
         getPersistenceBrokerTemplate().store(newBCHdr);
         documentService.prepareWorkflowDocument(newBCHdr);
-        // this is more efficient than route and does what we want
-        // it calls a document method, not a service
-        // newBCHdr.getDocumentHeader().getWorkflowDocument().complete("created by Genesis");
-        // October, 2007:  refactoring has made BC document creation unacceptably slow
-        // we are going to attempt to streamline the process by by-passing the workflowDocumentActionWebService
-        // (which is called by complete above) and simply saving our document and its action log message directly
-        // using workflowDocumentService routines
-        saveBCDocumentInWorkflow(newBCHdr);
-        // end October 2007 additions
+        // September 2, 2009: since this document is not routed, calling this method should set it to final
+        documentService.routeDocument(newBCHdr, "created by Genesis", new ArrayList());
     }
 
 

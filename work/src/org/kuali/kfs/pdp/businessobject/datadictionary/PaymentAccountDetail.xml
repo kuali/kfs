@@ -17,6 +17,7 @@
         <ref bean="PaymentAccountDetail-finObjectCode"/> 
         <ref bean="PaymentAccountDetail-finSubObjectCode"/>
         <ref bean="PaymentAccountDetail-orgReferenceId"/>
+        <ref bean="PaymentAccountDetail-projectCode" />
         <ref bean="PaymentAccountDetail-accountNetAmount"/>
         <ref bean="PaymentAccountDetail-account.accountNumber"/>
         <ref bean="PaymentAccountDetail-subAccount.subAccountNumber"/>
@@ -92,6 +93,13 @@
       <bean parent="TextControlDefinition" p:size="32"/>
     </property>
   </bean>
+  
+  <bean id="PaymentAccountDetail-projectCode" parent="PaymentAccountDetail-projectCode-parentBean"/>
+
+  <bean id="PaymentAccountDetail-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
+     <property name="name" value="projectCode"/>
+  </bean>
+  
   <bean id="PaymentAccountDetail-project.code" parent="PaymentAccountDetail-project.code-parentBean"/>
 
   <bean id="PaymentAccountDetail-project.code-parentBean" abstract="true" parent="ProjectCode-code">

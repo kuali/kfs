@@ -611,12 +611,12 @@
                 <property name="numberOfColumns" value="1"/>
                 <property name="inquiryFields">
                   <list>
-                    <bean parent="FieldDefinition" p:attributeName="chartOfAccounts.chartOfAccountsCode"/>
-                    <bean parent="FieldDefinition" p:attributeName="account.accountNumber"/>
-                    <bean parent="FieldDefinition" p:attributeName="subAccount.subAccountNumber"/>                   		    
-                    <bean parent="FieldDefinition" p:attributeName="objectCode.financialObjectCode"/>    
+                    <bean parent="FieldDefinition" p:attributeName="finChartCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="accountNbr"/>
+                    <bean parent="FieldDefinition" p:attributeName="subAccountNbr"/>                   		    
+                    <bean parent="FieldDefinition" p:attributeName="finObjectCode"/>    
               		<bean parent="FieldDefinition" p:attributeName="orgReferenceId"/> 
-              		<bean parent="FieldDefinition" p:attributeName="project.code"/> 
+              		<bean parent="FieldDefinition" p:attributeName="projectCode"/> 
               		<bean parent="FieldDefinition" p:attributeName="accountNetAmount"/>                                                   
                   </list>
                 </property>

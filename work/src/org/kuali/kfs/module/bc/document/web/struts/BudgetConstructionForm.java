@@ -99,7 +99,6 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
         super();
 
         // create objects used to hold data filled later either from this.populate or Action.loadDocument
-        setDocument(new BudgetConstructionDocument());
         this.setNewExpenditureLine(new PendingBudgetConstructionGeneralLedger());
         this.setNewRevenueLine(new PendingBudgetConstructionGeneralLedger());
         this.setAccountOrgHierLevels(new TypedArrayList(BudgetConstructionAccountOrganizationHierarchy.class));
@@ -954,5 +953,13 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      */
     public static String getExpenditureObjectTypeCodesLookup() {
         return expenditureObjectTypeCodesLookup;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#getDefaultDocumentTypeName()
+     */
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "BC";
     }
 }

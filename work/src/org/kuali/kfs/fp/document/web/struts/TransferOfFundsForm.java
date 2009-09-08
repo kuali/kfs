@@ -31,7 +31,6 @@ public class TransferOfFundsForm extends KualiAccountingDocumentFormBase {
      */
     public TransferOfFundsForm() {
         super();
-        setDocument(new TransferOfFundsDocument());
     }
 
     /**

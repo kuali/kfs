@@ -55,7 +55,6 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
      */
     public PaymentRequestForm() {
         super();
-        setDocument(new PaymentRequestDocument());
         this.setNewPurchasingItemLine(setupNewPurchasingItemLine());
     }
     

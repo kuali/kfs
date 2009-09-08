@@ -43,7 +43,6 @@ public class LaborJournalVoucherForm extends JournalVoucherForm {
      */
     public LaborJournalVoucherForm() {
         super();
-        setDocument(new LaborJournalVoucherDocument());
     }
 
     /**

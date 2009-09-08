@@ -36,7 +36,6 @@ public class ElectronicInvoiceRejectForm extends FinancialSystemTransactionalDoc
      */
     public ElectronicInvoiceRejectForm() {
         super();
-        setDocument(new ElectronicInvoiceRejectDocument());
     }
 
     public ElectronicInvoiceRejectDocument getElectronicInvoiceRejectDocument() {

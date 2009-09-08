@@ -33,7 +33,6 @@ public class YearEndDistributionOfIncomeAndExpenseForm extends DistributionOfInc
      */
     public YearEndDistributionOfIncomeAndExpenseForm() {
         super();
-        setDocument(new YearEndDistributionOfIncomeAndExpenseDocument());
     }
     // empty do not change. see above.
 }

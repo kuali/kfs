@@ -32,7 +32,6 @@ public class YearEndBudgetAdjustmentForm extends BudgetAdjustmentForm {
      */
     public YearEndBudgetAdjustmentForm() {
         super();
-        setDocument(new YearEndBudgetAdjustmentDocument());
     }
     // empty do not change. see above.
 }

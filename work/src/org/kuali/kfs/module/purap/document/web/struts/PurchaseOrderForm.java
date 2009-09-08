@@ -100,7 +100,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      */
     public PurchaseOrderForm() {
         super();
-        setDocument(new PurchaseOrderDocument());
 
         setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
         setNewPurchaseOrderVendorQuote(new PurchaseOrderVendorQuote());
@@ -328,19 +327,22 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     @Override
     public void populate(HttpServletRequest request) {
         PurchaseOrderDocument po = (PurchaseOrderDocument) this.getDocument();
-
-        // call this to make sure it's refreshed from the database if need be since the populate setter doesn't do that
-        po.getDocumentBusinessObject();
+        if (po != null) {
+            // call this to make sure it's refreshed from the database if need be since the populate setter doesn't do that
+            po.getDocumentBusinessObject();
+        }
         
         super.populate(request);
         
-        if (ObjectUtils.isNotNull(po.getPurapDocumentIdentifier())) {
-            po.refreshDocumentBusinessObject();
+        if (po != null) {
+            if (ObjectUtils.isNotNull(po.getPurapDocumentIdentifier())) {
+                po.refreshDocumentBusinessObject();
+            }
+    
+            for (org.kuali.rice.kns.bo.Note note : (java.util.List<org.kuali.rice.kns.bo.Note>) po.getDocumentBusinessObject().getBoNotes()) {
+                note.refreshReferenceObject("attachment");
+            }
         }
-
-        for (org.kuali.rice.kns.bo.Note note : (java.util.List<org.kuali.rice.kns.bo.Note>) po.getDocumentBusinessObject().getBoNotes()) {
-            note.refreshReferenceObject("attachment");
-        }        
     }
     
     /**

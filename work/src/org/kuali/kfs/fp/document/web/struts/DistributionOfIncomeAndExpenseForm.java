@@ -32,7 +32,6 @@ public class DistributionOfIncomeAndExpenseForm extends KualiAccountingDocumentF
      */
     public DistributionOfIncomeAndExpenseForm() {
         super();
-        setDocument(new DistributionOfIncomeAndExpenseDocument());
         this.setCapitalAssetInformation(new CapitalAssetInformation());
     }
 

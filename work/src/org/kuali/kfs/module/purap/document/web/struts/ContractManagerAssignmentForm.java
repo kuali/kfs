@@ -32,7 +32,6 @@ public class ContractManagerAssignmentForm extends FinancialSystemTransactionalD
      */
     public ContractManagerAssignmentForm() {
         super();
-        setDocument(new ContractManagerAssignmentDocument());
     }
 
 }

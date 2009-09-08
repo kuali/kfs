@@ -73,7 +73,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     public DisbursementVoucherForm() {
         super();
         setFormatterType("canPrintCoverSheet", SimpleBooleanFormatter.class);
-        setDocument(new DisbursementVoucherDocument());
+//        setDocument(new DisbursementVoucherDocument());
     }
 
     /**

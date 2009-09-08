@@ -65,7 +65,6 @@ public class CashReceiptForm extends KualiAccountingDocumentFormBase implements 
     public CashReceiptForm() {
         super();
         setFormatterType(CAN_PRINT_COVERSHEET_SIG_STR, SimpleBooleanFormatter.class);
-        setDocument(new CashReceiptDocument());
         setNewCheck(getCashReceiptDocument().createNewCheck());
 
         checkEntryModes = new ArrayList();
@@ -81,7 +80,9 @@ public class CashReceiptForm extends KualiAccountingDocumentFormBase implements 
     public void populate(HttpServletRequest request) {
         super.populate(request);
 
-        setCheckEntryMode(getCashReceiptDocument().getCheckEntryMode());
+        if (getCashReceiptDocument() != null) {
+            setCheckEntryMode(getCashReceiptDocument().getCheckEntryMode());
+        }
     }
 
     /**

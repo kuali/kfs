@@ -36,7 +36,6 @@ public class CustomerCreditMemoDocumentForm extends FinancialSystemTransactional
    
     public CustomerCreditMemoDocumentForm() {
         super();
-        setDocument(new CustomerCreditMemoDocument());
     }
     
     /**
@@ -49,12 +48,14 @@ public class CustomerCreditMemoDocumentForm extends FinancialSystemTransactional
         super.populate(request);
         
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)getDocument();
-        String customerInvoiceNumber = customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber();
-        
-        //this will make sure that every action has fully populated invoice
-        if(StringUtils.isNotEmpty(customerInvoiceNumber)){
-            customerCreditMemoDocument.refreshReferenceObject("invoice");
-        }        
+        if (customerCreditMemoDocument != null) {
+            String customerInvoiceNumber = customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber();
+            
+            //this will make sure that every action has fully populated invoice
+            if(StringUtils.isNotEmpty(customerInvoiceNumber)){
+                customerCreditMemoDocument.refreshReferenceObject("invoice");
+            }
+        }
     }
 
     /**

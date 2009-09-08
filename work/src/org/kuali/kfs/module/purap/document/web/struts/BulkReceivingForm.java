@@ -39,7 +39,6 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
 
     public BulkReceivingForm() {
         super();
-        setDocument(new BulkReceivingDocument());
     }
 
     public BulkReceivingDocument getBulkReceivingDocument() {

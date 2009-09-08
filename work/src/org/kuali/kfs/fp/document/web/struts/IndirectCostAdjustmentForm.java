@@ -37,7 +37,6 @@ public class IndirectCostAdjustmentForm extends KualiAccountingDocumentFormBase 
      */
     public IndirectCostAdjustmentForm() {
         super();
-        setDocument(new IndirectCostAdjustmentDocument());
     }
 
     /**

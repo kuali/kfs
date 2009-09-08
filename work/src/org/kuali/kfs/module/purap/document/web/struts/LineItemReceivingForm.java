@@ -50,7 +50,6 @@ public class LineItemReceivingForm extends ReceivingFormBase {
      */
     public LineItemReceivingForm() {
         super();
-        setDocument(new LineItemReceivingDocument());
 
         this.setNewLineItemReceivingItemLine(setupNewLineItemReceivingItemLine());
         newLineItemReceivingItemLine.setItemTypeCode(PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE);

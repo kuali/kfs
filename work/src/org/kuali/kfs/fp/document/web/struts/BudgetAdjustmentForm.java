@@ -42,7 +42,6 @@ public class BudgetAdjustmentForm extends KualiAccountingDocumentFormBase {
      */
     public BudgetAdjustmentForm() {
         super();
-        setDocument(new BudgetAdjustmentDocument());
     }
     
     @Override

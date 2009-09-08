@@ -68,7 +68,6 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
     public EffortCertificationForm() {
         super();
 
-        this.setDocument(new EffortCertificationDocument());
         this.setNewDetailLine(this.createNewDetailLine());
     }
 
@@ -118,8 +117,10 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
     public void populate(HttpServletRequest request) {
         super.populate(request);
 
-        for (EffortCertificationDetail detailLine : this.getDetailLines()) {
-            EffortCertificationDetailLineOverride.populateFromInput(detailLine);
+        if (getDocument() != null) {
+            for (EffortCertificationDetail detailLine : this.getDetailLines()) {
+                EffortCertificationDetailLineOverride.populateFromInput(detailLine);
+            }
         }
     }
 

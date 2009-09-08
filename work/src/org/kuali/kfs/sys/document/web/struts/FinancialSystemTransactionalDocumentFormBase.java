@@ -50,7 +50,7 @@ public class FinancialSystemTransactionalDocumentFormBase extends KualiTransacti
     @Override
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
-        if (getDocument().getDocumentHeader() instanceof FinancialSystemDocumentHeader) {
+        if (getDocument() != null && getDocument().getDocumentHeader() instanceof FinancialSystemDocumentHeader) {
             FinancialSystemDocumentHeader documentHeader = (FinancialSystemDocumentHeader)getDocument().getDocumentHeader();
             if (StringUtils.isNotBlank(documentHeader.getFinancialDocumentInErrorNumber())) {
                 extendDocInfoToThreeColumns();

@@ -28,7 +28,6 @@ public class NonCheckDisbursementForm extends KualiAccountingDocumentFormBase {
      */
     public NonCheckDisbursementForm() {
         super();
-        setDocument(new NonCheckDisbursementDocument());
     }
 
     /**

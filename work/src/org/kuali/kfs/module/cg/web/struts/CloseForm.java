@@ -27,7 +27,6 @@ public class CloseForm extends FinancialSystemTransactionalDocumentFormBase {
 
     public CloseForm() {
         super();
-        setDocument(new ProposalAwardCloseDocument());
         setFormatterType("document.userInitiatedCloseDate", DateFormatter.class);
         setFormatterType("document.closeOnOrBeforeDate", DateFormatter.class);
     }

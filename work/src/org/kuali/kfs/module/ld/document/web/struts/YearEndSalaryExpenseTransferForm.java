@@ -28,6 +28,5 @@ public class YearEndSalaryExpenseTransferForm extends SalaryExpenseTransferForm 
      */
     public YearEndSalaryExpenseTransferForm() {
         super();
-        setDocument(new YearEndSalaryExpenseTransferDocument());
     }
 }

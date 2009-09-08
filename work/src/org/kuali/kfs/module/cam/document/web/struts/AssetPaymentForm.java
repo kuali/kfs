@@ -55,7 +55,6 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
      */
     public AssetPaymentForm() {
         super();
-        setDocument(new AssetPaymentDocument());
     }
 
     /**
@@ -143,9 +142,11 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     public void populate(HttpServletRequest request) {
         super.populate(request);
 
-        // Refreshing reference to the asset table.
-        for (AssetPaymentAssetDetail assetPaymentAssetDetail : this.getAssetPaymentDocument().getAssetPaymentAssetDetail()) {
-            assetPaymentAssetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDocument.ASSET);
+        if (getAssetPaymentDocument() != null) {
+            // Refreshing reference to the asset table.
+            for (AssetPaymentAssetDetail assetPaymentAssetDetail : this.getAssetPaymentDocument().getAssetPaymentAssetDetail()) {
+                assetPaymentAssetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDocument.ASSET);
+            }
         }
     }
 

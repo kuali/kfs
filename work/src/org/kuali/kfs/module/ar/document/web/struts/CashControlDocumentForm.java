@@ -41,8 +41,6 @@ public class CashControlDocumentForm extends FinancialSystemTransactionalDocumen
     public CashControlDocumentForm() {
 
         super();
-        setDocument(new CashControlDocument());
-
     }
 
     /**

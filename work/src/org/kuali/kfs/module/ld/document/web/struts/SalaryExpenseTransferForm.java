@@ -52,7 +52,6 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     public SalaryExpenseTransferForm() {
         super();
 
-        setDocument(new SalaryExpenseTransferDocument());
         setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
         setLookupResultsBOClassName(LedgerBalance.class.getName());
         setFormatterType(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.APPROVAL_OBJECT_CODE_BALANCES, CurrencyFormatter.class);
@@ -74,14 +73,6 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
      */
     public void setFinancialBalanceTypeCode(String balanceTypeCode) {
         this.balanceTypeCode = balanceTypeCode;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
-     */
-    @Override
-    public void populate(HttpServletRequest request) {
-        super.populate(request);
     }
 
     /**

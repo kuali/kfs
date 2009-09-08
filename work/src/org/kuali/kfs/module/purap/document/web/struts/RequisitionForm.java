@@ -46,7 +46,6 @@ public class RequisitionForm extends PurchasingFormBase {
      */
     public RequisitionForm() {
         super();
-        setDocument(new RequisitionDocument());
     }
 
     public RequisitionDocument getRequisitionDocument() {
@@ -59,17 +58,19 @@ public class RequisitionForm extends PurchasingFormBase {
     
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
-        if (ObjectUtils.isNotNull(this.getRequisitionDocument().getPurapDocumentIdentifier())) {
-            getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.purapDocumentIdentifier", ((RequisitionDocument) this.getDocument()).getPurapDocumentIdentifier().toString()));
-        }
-        else {
-            getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.purapDocumentIdentifier", "Not Available"));
-        }
-        if (ObjectUtils.isNotNull(this.getRequisitionDocument().getStatus())) {
-            getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.statusCode", ((RequisitionDocument) this.getDocument()).getStatus().getStatusDescription()));
-        }
-        else {
-            getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.statusCode", "Not Available"));
+        if (getDocument() != null) {
+            if (ObjectUtils.isNotNull(this.getRequisitionDocument().getPurapDocumentIdentifier())) {
+                getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.purapDocumentIdentifier", ((RequisitionDocument) this.getDocument()).getPurapDocumentIdentifier().toString()));
+            }
+            else {
+                getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.purapDocumentIdentifier", "Not Available"));
+            }
+            if (ObjectUtils.isNotNull(this.getRequisitionDocument().getStatus())) {
+                getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.statusCode", ((RequisitionDocument) this.getDocument()).getStatus().getStatusDescription()));
+            }
+            else {
+                getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.statusCode", "Not Available"));
+            }
         }
     }
 

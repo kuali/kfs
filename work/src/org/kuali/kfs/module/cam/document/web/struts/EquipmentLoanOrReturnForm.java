@@ -33,7 +33,6 @@ public class EquipmentLoanOrReturnForm extends FinancialSystemTransactionalDocum
      */
     public EquipmentLoanOrReturnForm() {
         super();
-        setDocument(new EquipmentLoanOrReturnDocument());
     }
 
     /**
@@ -51,6 +50,8 @@ public class EquipmentLoanOrReturnForm extends FinancialSystemTransactionalDocum
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(getEquipmentLoanOrReturnDocument());
+        if (getEquipmentLoanOrReturnDocument() != null) {
+            SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(getEquipmentLoanOrReturnDocument());
+        }
     }
 }

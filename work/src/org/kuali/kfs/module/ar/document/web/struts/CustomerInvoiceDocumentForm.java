@@ -57,7 +57,6 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
      */
     public CustomerInvoiceDocumentForm() {
         super();
-        setDocument(new CustomerInvoiceDocument());
     }
 
     /**
@@ -75,7 +74,9 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        SpringContext.getBean(CustomerInvoiceDocumentService.class).loadCustomerAddressesForCustomerInvoiceDocument(getCustomerInvoiceDocument());
+        if (getCustomerInvoiceDocument() != null) {
+            SpringContext.getBean(CustomerInvoiceDocumentService.class).loadCustomerAddressesForCustomerInvoiceDocument(getCustomerInvoiceDocument());
+        }
     }
 
     /**
@@ -104,8 +105,10 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
     @Override
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
-        getDocInfo().add(new HeaderField("DataDictionary.CustomerInvoiceDocument.attributes.sourceTotal", (String) new CurrencyFormatter().format(getCustomerInvoiceDocument().getSourceTotal())));
-        getDocInfo().add(new HeaderField("DataDictionary.CustomerInvoiceDocument.attributes.openAmount", (String) new CurrencyFormatter().format(getCustomerInvoiceDocument().getOpenAmount())));
+        if (getCustomerInvoiceDocument() != null) {
+            getDocInfo().add(new HeaderField("DataDictionary.CustomerInvoiceDocument.attributes.sourceTotal", (String) new CurrencyFormatter().format(getCustomerInvoiceDocument().getSourceTotal())));
+            getDocInfo().add(new HeaderField("DataDictionary.CustomerInvoiceDocument.attributes.openAmount", (String) new CurrencyFormatter().format(getCustomerInvoiceDocument().getOpenAmount())));
+        }
     }
 
     /**

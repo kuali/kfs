@@ -353,7 +353,7 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
      * is properly persisted with the accounting period set for it.
      */
     protected void populateSelectedVoucherAccountingPeriod() {
-        if (StringUtils.isNotBlank(getSelectedAccountingPeriod())) {
+        if (getFinancialDocument() != null && StringUtils.isNotBlank(getSelectedAccountingPeriod())) {
             AccountingPeriod ap = new AccountingPeriod();
             ap.setUniversityFiscalPeriodCode(getSelectedPostingPeriodCode());
             ap.setUniversityFiscalYear(getSelectedPostingYear());
@@ -378,6 +378,9 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
      * @return boolean True if the processing was successful, false otherwise.
      */
     protected boolean processDebitAndCreditForNewSourceLine() {
+        if (getDocument() == null) {
+            return false;
+        }
         // using debits and credits supplied, populate the new source accounting line's amount and debit/credit code appropriately
         boolean passed = processDebitAndCreditForSourceLine(getNewSourceLine(), newSourceLineDebit, newSourceLineCredit, KFSConstants.NEGATIVE_ONE);
 
@@ -397,16 +400,18 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
 
         // iterate through all of the source accounting lines
         boolean validProcessing = true;
-        for (int i = 0; i < vDoc.getSourceAccountingLines().size(); i++) {
-            // retrieve the proper business objects from the form
-            SourceAccountingLine sourceLine = vDoc.getSourceAccountingLine(i);
-            VoucherAccountingLineHelper voucherLineHelper = getVoucherLineHelper(i);
-
-            // now process the amounts and the line
-            // we want to process all lines, some may be invalid b/c of dual amount values, but this method will handle
-            // only processing the valid ones, that way we are guaranteed that values in the valid lines carry over through the
-            // post and invalid ones do not alter the underlying business object
-            validProcessing &= processDebitAndCreditForSourceLine(sourceLine, voucherLineHelper.getDebit(), voucherLineHelper.getCredit(), i);
+        if (vDoc != null) {
+            for (int i = 0; i < vDoc.getSourceAccountingLines().size(); i++) {
+                // retrieve the proper business objects from the form
+                SourceAccountingLine sourceLine = vDoc.getSourceAccountingLine(i);
+                VoucherAccountingLineHelper voucherLineHelper = getVoucherLineHelper(i);
+    
+                // now process the amounts and the line
+                // we want to process all lines, some may be invalid b/c of dual amount values, but this method will handle
+                // only processing the valid ones, that way we are guaranteed that values in the valid lines carry over through the
+                // post and invalid ones do not alter the underlying business object
+                validProcessing &= processDebitAndCreditForSourceLine(sourceLine, voucherLineHelper.getDebit(), voucherLineHelper.getCredit(), i);
+            }
         }
         return validProcessing;
     }

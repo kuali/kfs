@@ -74,7 +74,6 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     @SuppressWarnings("unchecked")
     public PaymentApplicationDocumentForm() {
         super();
-        setDocument(new PaymentApplicationDocument());
         nonInvoicedAddLine = new NonInvoiced();
         invoices = new ArrayList<CustomerInvoiceDocument>();
         selectedInvoiceApplication = null;
@@ -99,7 +98,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         
         // Set the next non-invoiced line number
         PaymentApplicationDocument paymentApplicationDocument = getPaymentApplicationDocument();
-        if (ObjectUtils.isNotNull(paymentApplicationDocument.getNonInvoicedDistributions())) {
+        if (paymentApplicationDocument != null && ObjectUtils.isNotNull(paymentApplicationDocument.getNonInvoicedDistributions())) {
             for (NonInvoicedDistribution u : paymentApplicationDocument.getNonInvoicedDistributions()) {
                 if (null == getNextNonInvoicedLineNumber()) {
                     setNextNonInvoicedLineNumber(u.getFinancialDocumentLineNumber());
@@ -116,36 +115,39 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         // This step doesn't affect anything persisted to the database. It allows proper calculation
         // of amounts for the display.
         String customerNumber = null;
-        String docId = getDocument().getDocumentNumber();
-        if(ObjectUtils.isNotNull(request.getParameter(KFSConstants.PARAMETER_DOC_ID)) && ObjectUtils.isNull(getDocument().getDocumentNumber())) {
-            // The document hasn't yet been set on the form. Let's look it up manually so that we can get the customer number.
-            docId = request.getParameter(KFSConstants.PARAMETER_DOC_ID).trim();
-            DocumentService documentService = SpringContext.getBean(DocumentService.class);
-            Document d;
-            try {
-                d = documentService.getByDocumentHeaderId(docId);
+        if (getDocument() != null) {
+            String docId = getDocument().getDocumentNumber();
+            if(ObjectUtils.isNotNull(request.getParameter(KFSConstants.PARAMETER_DOC_ID)) && ObjectUtils.isNull(getDocument().getDocumentNumber())) {
+                // The document hasn't yet been set on the form. Let's look it up manually so that we can get the customer number.
+                docId = request.getParameter(KFSConstants.PARAMETER_DOC_ID).trim();
+                DocumentService documentService = SpringContext.getBean(DocumentService.class);
+                Document d;
+                try {
+                    d = documentService.getByDocumentHeaderId(docId);
+                }
+                catch (WorkflowException e) {
+                    throw new RuntimeException("WorkflowException thrown when trying to load docId [" + docId + "]", e);
+                }
+                PaymentApplicationDocument pDocument = (PaymentApplicationDocument) d;
+                AccountsReceivableDocumentHeader arHeader = pDocument.getAccountsReceivableDocumentHeader();
+                if(ObjectUtils.isNotNull(arHeader)) {
+                    customerNumber = arHeader.getCustomerNumber();
+                }
             }
-            catch (WorkflowException e) {
-                throw new RuntimeException("WorkflowException thrown when trying to load docId [" + docId + "]", e);
-            }
-            PaymentApplicationDocument pDocument = (PaymentApplicationDocument) d;
-            AccountsReceivableDocumentHeader arHeader = pDocument.getAccountsReceivableDocumentHeader();
-            if(ObjectUtils.isNotNull(arHeader)) {
-                customerNumber = arHeader.getCustomerNumber();
-            }
-        }
+            
         
-        if(ObjectUtils.isNull(getSelectedInvoiceApplication())) {
-            if(ObjectUtils.isNull(invoices) || invoices.isEmpty()) {
-                if(ObjectUtils.isNotNull(customerNumber)) {
-                    // get open invoices for the current customer
-                    CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-                    Collection<CustomerInvoiceDocument> openInvoicesForCustomer = customerInvoiceDocumentService.getOpenInvoiceDocumentsByCustomerNumber(customerNumber);
-                    setInvoices(new ArrayList<CustomerInvoiceDocument>(openInvoicesForCustomer));
-                    if (invoices != null && !invoices.isEmpty()) {
-                        setSelectedInvoiceDocumentNumber(invoices.get(0).getDocumentNumber());
+            if(ObjectUtils.isNull(getSelectedInvoiceApplication())) {
+                if(ObjectUtils.isNull(invoices) || invoices.isEmpty()) {
+                    if(ObjectUtils.isNotNull(customerNumber)) {
+                        // get open invoices for the current customer
+                        CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+                        Collection<CustomerInvoiceDocument> openInvoicesForCustomer = customerInvoiceDocumentService.getOpenInvoiceDocumentsByCustomerNumber(customerNumber);
+                        setInvoices(new ArrayList<CustomerInvoiceDocument>(openInvoicesForCustomer));
+                        if (invoices != null && !invoices.isEmpty()) {
+                            setSelectedInvoiceDocumentNumber(invoices.get(0).getDocumentNumber());
+                        }
+                        setupInvoiceWrappers(docId);
                     }
-                    setupInvoiceWrappers(docId);
                 }
             }
         }

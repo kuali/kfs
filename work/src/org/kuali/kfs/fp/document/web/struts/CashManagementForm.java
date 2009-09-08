@@ -70,7 +70,6 @@ public class CashManagementForm extends KualiDocumentFormBase {
     public CashManagementForm() {
         super();
 
-        setDocument(new CashManagementDocument());
         depositHelpers = new ArrayList();
 
         setFormatterType("document.cashDrawerStatus", CashDrawerStatusCodeFormatter.class);

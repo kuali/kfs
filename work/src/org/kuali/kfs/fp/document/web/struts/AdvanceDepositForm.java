@@ -41,8 +41,6 @@ public class AdvanceDepositForm extends KualiAccountingDocumentFormBase implemen
     public AdvanceDepositForm() {
         super();
 
-        setDocument(new AdvanceDepositDocument());
-
         AdvanceDepositDetail advanceDepositDetail = new AdvanceDepositDetail();
         advanceDepositDetail.setDefautBankCode();
         setNewAdvanceDeposit(advanceDepositDetail);
@@ -81,13 +79,14 @@ public class AdvanceDepositForm extends KualiAccountingDocumentFormBase implemen
     public void populate(HttpServletRequest request) {
         super.populate(request);
 
-        //
-        // now run through all of the accounting lines and make sure they've been uppercased and populated appropriately
         SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(getNewAdvanceDeposit());
 
-        List<AdvanceDepositDetail> advancedDeposits = getAdvanceDepositDocument().getAdvanceDeposits();
-        for (AdvanceDepositDetail detail : advancedDeposits) {
-            SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(detail);
+        if (getDocument() != null) {
+            // now run through all of the accounting lines and make sure they've been uppercased and populated appropriately
+            List<AdvanceDepositDetail> advancedDeposits = getAdvanceDepositDocument().getAdvanceDeposits();
+            for (AdvanceDepositDetail detail : advancedDeposits) {
+                SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(detail);
+            }
         }
     }
 

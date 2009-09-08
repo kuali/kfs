@@ -118,8 +118,6 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     public CorrectionForm() {
         super();
 
-        setDocument(new GeneralLedgerCorrectionProcessDocument());
-
         // These are for the blank rows that are used to add criteria/changes
         groups = new ArrayList<GroupHolder>();
 
@@ -192,8 +190,10 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
      * 
      */
     public void syncGroups() {
-        int groupCount = getCorrectionDocument().getCorrectionChangeGroup().size();
-        getGroupsItem(groupCount);
+        if (getCorrectionDocument() != null) {
+            int groupCount = getCorrectionDocument().getCorrectionChangeGroup().size();
+            getGroupsItem(groupCount);
+        }
     }
 
     /**
@@ -237,8 +237,6 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         displayEntries = new ArrayList<OriginEntryFull>();
 
         restrictedFunctionalityMode = false;
-
-        setDocument(new GeneralLedgerCorrectionProcessDocument());
 
         // These are for the blank rows that are used to add criteria/changes
         groups = new ArrayList<GroupHolder>();

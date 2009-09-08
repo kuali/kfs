@@ -29,7 +29,6 @@ public class PreEncumbranceForm extends KualiAccountingDocumentFormBase {
      */
     public PreEncumbranceForm() {
         super();
-        setDocument(new PreEncumbranceDocument());
     }
 
     /**

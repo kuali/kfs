@@ -102,7 +102,6 @@ public class ProcurementCardForm extends KualiAccountingDocumentFormBase impleme
      */
     public ProcurementCardForm() {
         super();
-        setDocument(new ProcurementCardDocument());
         this.newTargetLines = new TypedArrayList(ProcurementCardTargetAccountingLine.class);
         this.setCapitalAssetInformation(new CapitalAssetInformation());
     }

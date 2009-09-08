@@ -29,7 +29,6 @@ public class CorrectionReceivingForm extends ReceivingFormBase {
      */
     public CorrectionReceivingForm() {
         super();
-        setDocument(new CorrectionReceivingDocument());
 
         this.setNewCorrectionReceivingItemLine(setupNewCorrectionReceivingItemLine());
         newCorrectionReceivingItemLine.setItemTypeCode("ITEM");

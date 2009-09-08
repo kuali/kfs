@@ -24,6 +24,5 @@ import org.kuali.kfs.fp.document.ServiceBillingDocument;
 public class ServiceBillingForm extends InternalBillingForm implements CapitalAssetEditable{
     public ServiceBillingForm() {
         super();
-        setDocument(new ServiceBillingDocument());
     }
 }

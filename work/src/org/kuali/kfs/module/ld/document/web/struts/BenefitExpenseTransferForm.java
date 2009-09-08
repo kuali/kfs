@@ -37,7 +37,6 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
      */
     public BenefitExpenseTransferForm() {
         super();
-        setDocument(new BenefitExpenseTransferDocument());
     }
 
     /**

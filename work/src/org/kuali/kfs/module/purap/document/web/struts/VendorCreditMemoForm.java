@@ -43,7 +43,6 @@ public class VendorCreditMemoForm extends AccountsPayableFormBase {
      */
     public VendorCreditMemoForm() {
         super();
-        setDocument(new VendorCreditMemoDocument());
     }
 
     @Override

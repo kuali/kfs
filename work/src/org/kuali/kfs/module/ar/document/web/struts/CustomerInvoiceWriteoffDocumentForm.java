@@ -35,7 +35,6 @@ public class CustomerInvoiceWriteoffDocumentForm extends FinancialSystemTransact
     
     public CustomerInvoiceWriteoffDocumentForm() {
         super();
-        setDocument(new CustomerInvoiceWriteoffDocument());
     }
     
     /**
@@ -48,12 +47,14 @@ public class CustomerInvoiceWriteoffDocumentForm extends FinancialSystemTransact
         super.populate(request);
         
         CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument)getDocument();
-        String customerInvoiceNumber = customerInvoiceWriteoffDocument.getFinancialDocumentReferenceInvoiceNumber();
-        
-        //this will make sure that every action has fully populated invoice
-        if(StringUtils.isNotEmpty(customerInvoiceNumber)){
-            customerInvoiceWriteoffDocument.refreshReferenceObject("customerInvoiceDocument");
-        }        
+        if (customerInvoiceWriteoffDocument != null) {
+            String customerInvoiceNumber = customerInvoiceWriteoffDocument.getFinancialDocumentReferenceInvoiceNumber();
+            
+            //this will make sure that every action has fully populated invoice
+            if(StringUtils.isNotEmpty(customerInvoiceNumber)){
+                customerInvoiceWriteoffDocument.refreshReferenceObject("customerInvoiceDocument");
+            }        
+        }
     }
 
     /**

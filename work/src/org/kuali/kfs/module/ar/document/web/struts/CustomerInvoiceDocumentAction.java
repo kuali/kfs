@@ -73,15 +73,19 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) form;
         CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentForm.getCustomerInvoiceDocument();
-        if(StringUtils.isBlank(customerInvoiceDocument.getDocumentNumber())) {
-            String docId = request.getParameter(KFSConstants.PARAMETER_DOC_ID);
-            customerInvoiceDocument.setDocumentNumber(docId);
-            customerInvoiceDocument.refresh();
+        if (customerInvoiceDocument != null) {
+            if(StringUtils.isBlank(customerInvoiceDocument.getDocumentNumber())) {
+                String docId = request.getParameter(KFSConstants.PARAMETER_DOC_ID);
+                customerInvoiceDocument.setDocumentNumber(docId);
+                customerInvoiceDocument.refresh();
+            }
+            customerInvoiceDocument.updateAccountReceivableObjectCodes();
         }
-        customerInvoiceDocument.updateAccountReceivableObjectCodes();
         try {
             // proceed as usual
-            customerInvoiceDocumentForm.getCustomerInvoiceDocument().updateDiscountAndParentLineReferences();
+            if (customerInvoiceDocumentForm.getCustomerInvoiceDocument() != null) {
+                customerInvoiceDocumentForm.getCustomerInvoiceDocument().updateDiscountAndParentLineReferences();
+            }
             ActionForward result = super.execute(mapping, form, request, response);
             return result;
         }

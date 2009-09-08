@@ -28,6 +28,5 @@ public class YearEndBenefitExpenseTransferForm extends BenefitExpenseTransferFor
      */
     public YearEndBenefitExpenseTransferForm() {
         super();
-        setDocument(new YearEndBenefitExpenseTransferDocument());
     }
 }

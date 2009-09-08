@@ -52,8 +52,6 @@ public class LaborCorrectionForm extends CorrectionForm {
         super();
         laborEntryForManualEdit = new LaborOriginEntry();
         laborEntryForManualEdit.setEntryId(0);
-        setDocument(new LaborCorrectionDocument());
-
     }
 
     /**

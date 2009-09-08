@@ -49,7 +49,6 @@ public class JournalVoucherForm extends VoucherForm {
      */
     public JournalVoucherForm() {
         super();
-        setDocument(new JournalVoucherDocument());
         selectedBalanceType = new BalanceType(KFSConstants.BALANCE_TYPE_ACTUAL);
         originalBalanceType = "";
     }
@@ -198,7 +197,9 @@ public class JournalVoucherForm extends VoucherForm {
         }
 
         setSelectedBalanceType(getPopulatedBalanceTypeInstance(selectedBalanceTypeCode));
-        getJournalVoucherDocument().setBalanceTypeCode(selectedBalanceTypeCode);
+        if (getJournalVoucherDocument() != null) {
+            getJournalVoucherDocument().setBalanceTypeCode(selectedBalanceTypeCode);
+        }
     }
 
     /**

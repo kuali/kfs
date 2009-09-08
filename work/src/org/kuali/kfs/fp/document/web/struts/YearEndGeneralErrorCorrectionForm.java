@@ -28,6 +28,5 @@ public class YearEndGeneralErrorCorrectionForm extends GeneralErrorCorrectionFor
      */
     public YearEndGeneralErrorCorrectionForm() {
         super();
-        setDocument(new YearEndGeneralErrorCorrectionDocument());
     }
 }

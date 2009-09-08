@@ -41,13 +41,14 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
      */
     public BarcodeInventoryErrorForm() {
         super();
-        setDocument(new BarcodeInventoryErrorDocument());
     }
 
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(this.getBarcodeInventoryErrorDocument());
+        if (this.getBarcodeInventoryErrorDocument() != null) {
+            SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(this.getBarcodeInventoryErrorDocument());
+        }
     }
 
     /**

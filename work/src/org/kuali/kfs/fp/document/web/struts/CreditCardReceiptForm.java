@@ -40,7 +40,6 @@ public class CreditCardReceiptForm extends KualiAccountingDocumentFormBase imple
      */
     public CreditCardReceiptForm() {
         super();
-        setDocument(new CreditCardReceiptDocument());
         setNewCreditCardReceipt(new CreditCardDetail());
 
         this.setCapitalAssetInformation(new CapitalAssetInformation());
@@ -81,9 +80,11 @@ public class CreditCardReceiptForm extends KualiAccountingDocumentFormBase imple
         // now run through all of the accounting lines and make sure they've been uppercased and populated appropriately
         SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(getNewCreditCardReceipt());
 
-        List<CreditCardDetail> creditCardReceipts = getCreditCardReceiptDocument().getCreditCardReceipts();
-        for (CreditCardDetail detail : creditCardReceipts) {
-            SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(detail);
+        if (getCreditCardReceiptDocument() != null) {
+            List<CreditCardDetail> creditCardReceipts = getCreditCardReceiptDocument().getCreditCardReceipts();
+            for (CreditCardDetail detail : creditCardReceipts) {
+                SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(detail);
+            }
         }
 
     }

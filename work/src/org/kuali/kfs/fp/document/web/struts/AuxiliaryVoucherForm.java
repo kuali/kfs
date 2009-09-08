@@ -50,7 +50,6 @@ public class AuxiliaryVoucherForm extends VoucherForm {
 
     public AuxiliaryVoucherForm() {
         super();
-        setDocument(new AuxiliaryVoucherDocument());
     }
 
     /**
@@ -63,7 +62,9 @@ public class AuxiliaryVoucherForm extends VoucherForm {
     public void populate(HttpServletRequest request) {
         // populate the drop downs
         super.populate(request);
-        populateReversalDateForRendering();
+        if (getAuxiliaryVoucherDocument() != null) {
+            populateReversalDateForRendering();
+        }
     }
 
     /**
@@ -156,17 +157,19 @@ public class AuxiliaryVoucherForm extends VoucherForm {
         ArrayList accountingPeriods = new ArrayList(SpringContext.getBean(AccountingPeriodService.class).getOpenAccountingPeriods());
         // now, validate further, based on the rules from AuxiliaryVoucherDocumentRule
         ArrayList filteredAccountingPeriods = new ArrayList();
-        filteredAccountingPeriods.addAll(CollectionUtils.select(accountingPeriods, new OpenAuxiliaryVoucherPredicate(this.getDocument())));
-        // if our auxiliary voucher doc contains an accounting period already, make sure the collection has it too!
-        if (this.getDocument() instanceof AuxiliaryVoucherDocument) {
-            AuxiliaryVoucherDocument avDoc = (AuxiliaryVoucherDocument) this.getDocument();
-            if (avDoc != null && avDoc.getAccountingPeriod() != null && !filteredAccountingPeriods.contains(avDoc.getAccountingPeriod())) {
-                // this is most likely going to happen because the approver is trying
-                // to approve a document after the grace period of an accounting period
-                // or a fiscal year has switched over when the document was first created;
-                // as such, it's probably a good bet that the doc's accounting period
-                // belongs at the top of the list
-                filteredAccountingPeriods.add(0, avDoc.getAccountingPeriod());
+        if (this.getDocument() != null) {
+            filteredAccountingPeriods.addAll(CollectionUtils.select(accountingPeriods, new OpenAuxiliaryVoucherPredicate(this.getDocument())));
+            // if our auxiliary voucher doc contains an accounting period already, make sure the collection has it too!
+            if (this.getDocument() instanceof AuxiliaryVoucherDocument) {
+                AuxiliaryVoucherDocument avDoc = (AuxiliaryVoucherDocument) this.getDocument();
+                if (avDoc != null && avDoc.getAccountingPeriod() != null && !filteredAccountingPeriods.contains(avDoc.getAccountingPeriod())) {
+                    // this is most likely going to happen because the approver is trying
+                    // to approve a document after the grace period of an accounting period
+                    // or a fiscal year has switched over when the document was first created;
+                    // as such, it's probably a good bet that the doc's accounting period
+                    // belongs at the top of the list
+                    filteredAccountingPeriods.add(0, avDoc.getAccountingPeriod());
+                }
             }
         }
         // set into the form for rendering

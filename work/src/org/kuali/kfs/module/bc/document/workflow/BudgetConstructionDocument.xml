@@ -4,6 +4,9 @@
     <documentType>
       <name>BC</name>
       <parent>BCT</parent>
+      <label>Budget Construction Document</label>
+      <postProcessorName />
+      <routePaths />
     </documentType>
   </documentTypes>
 </data>

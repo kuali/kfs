@@ -229,14 +229,6 @@
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>
-				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="accountingDocumentFieldConversion" />
-							<bean parent="accountingLineFieldConversion" />
-						</list>
-					</property>
-				</bean>
             </list>
   		</property>
 	</bean>

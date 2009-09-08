@@ -1052,10 +1052,19 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         kualiDocumentHeader.setExplanation(BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION);
 
         budgetConstructionDao.saveBudgetConstructionDocument(budgetConstructionDocument);
-        List<String> emptyAdHocList = new ArrayList<String>();
+        documentService.prepareWorkflowDocument(budgetConstructionDocument);
 
-        // call route with document type configured for no route paths or post processor
-        documentService.routeDocument(budgetConstructionDocument, "created by application UI", emptyAdHocList);
+        DocumentRouteHeaderValue ourWorkflowDoc = routeHeaderService.getRouteHeader(budgetConstructionDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+
+        CompleteAction action = new CompleteAction(ourWorkflowDoc, ourWorkflowDoc.getInitiatorPrincipal(), "created by application UI");
+        action.recordAction();
+
+        // there was no need to queue. we want to mark the document final and save it
+        ourWorkflowDoc.markDocumentEnroute();
+        ourWorkflowDoc.markDocumentApproved();
+        ourWorkflowDoc.markDocumentProcessed();
+        ourWorkflowDoc.markDocumentFinalized();
+        routeHeaderService.saveRouteHeader(ourWorkflowDoc);
 
         return budgetConstructionDocument;
     }

@@ -63,6 +63,64 @@ public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements Payme
         }
         return results;
     }
+    
+    /**
+     * @see org.kuali.kfs.pdp.dataaccess.PaymentGroupDao#getDisbursementNumbersByDisbursementType(java.lang.Integer, java.lang.String, java.lang.String)
+     */
+    public List<Integer> getDisbursementNumbersByDisbursementTypeAndBankCode(Integer pid, String disbursementType, String bankCode) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("getDisbursementNumbersByDisbursementType() started");
+        }
+
+        List<Integer> results = new ArrayList<Integer>();
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PROCESS_ID, pid);
+        criteria.addEqualTo(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_DISBURSEMENT_TYPE_CODE, disbursementType);
+        criteria.addEqualTo(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_BANK_CODE, bankCode);
+
+        String[] fields = new String[] { PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_DISBURSEMENT_NBR };
+
+        ReportQueryByCriteria rq = QueryFactory.newReportQuery(PaymentGroup.class, fields, criteria, true);
+        rq.addOrderBy(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_DISBURSEMENT_NBR, true);
+
+        Iterator i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rq);
+        while ( i.hasNext() ) {
+            Object[] data = (Object[])i.next();
+            BigDecimal d = (BigDecimal)data[0];
+            results.add( new Integer(d.intValue()) );
+        }
+        return results;
+    }
+
+    /**
+     * Given a process id and a disbursement type, finds a distinct list of bank codes used by payment groups within that payment process
+     * @param pid payment process to query payment groups of
+     * @param disbursementType the type of disbursements to query
+     * @return a sorted List of bank codes
+     */
+    public List<String> getDistinctBankCodesForProcessAndType(Integer pid, String disbursementType) {
+        List<String> results = new ArrayList<String>();
+        
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PROCESS_ID, pid);
+        criteria.addEqualTo(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_DISBURSEMENT_TYPE_CODE, disbursementType);
+
+        String[] fields = new String[] { PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_BANK_CODE };
+        
+        ReportQueryByCriteria rq = QueryFactory.newReportQuery(PaymentGroup.class, fields, criteria, true);
+        rq.addOrderBy(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_BANK_CODE, true);
+        
+        Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rq);
+        while (iter.hasNext()) {
+            final Object[] row = (Object[])iter.next();
+            final String bankCode = (String)row[0];
+        
+            results.add(bankCode);
+        }
+        
+        return results;
+    }
 
     /**
      * @see org.kuali.kfs.pdp.dataaccess.PaymentGroupDao#getAchPaymentsNeedingAdviceNotification()

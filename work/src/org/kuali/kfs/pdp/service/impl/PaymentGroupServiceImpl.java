@@ -65,6 +65,20 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     }
 
     /**
+     * @see org.kuali.kfs.pdp.service.PaymentGroupService#getDisbursementNumbersByDisbursementTypeAndBankCode(java.lang.Integer, java.lang.String, java.lang.String)
+     */
+    public List<Integer> getDisbursementNumbersByDisbursementTypeAndBankCode(Integer pid, String disbursementType, String bankCode) {
+        return paymentGroupDao.getDisbursementNumbersByDisbursementTypeAndBankCode(pid, disbursementType, bankCode);
+    }
+
+    /**
+     * @see org.kuali.kfs.pdp.service.PaymentGroupService#getDistinctBankCodesForProcessAndType(java.lang.Integer, java.lang.String)
+     */
+    public List<String> getDistinctBankCodesForProcessAndType(Integer pid, String disbursementType) {
+        return paymentGroupDao.getDistinctBankCodesForProcessAndType(pid, disbursementType);
+    }
+
+    /**
      * @see org.kuali.kfs.pdp.service.PaymentGroupService#getByDisbursementTypeStatusCode(java.lang.String, java.lang.String)
      */
     public Iterator getByDisbursementTypeStatusCode(String disbursementType, String paymentStatusCode) {

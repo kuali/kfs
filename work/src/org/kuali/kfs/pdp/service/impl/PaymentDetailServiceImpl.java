@@ -52,6 +52,30 @@ public class PaymentDetailServiceImpl implements PaymentDetailService {
 
         return paymentDetailByDisbursementNumberList.iterator();
     }
+    
+    /**
+     * Returns all PaymentDetail records with the given disbursement number and a group with the given process id, disbursement type, and bank code
+     * @param disbursementNumber the disbursement number of the payment details to find
+     * @param processId the process id of the payment group of payment details to find
+     * @param disbursementType the disbursement type of the payment group of payment details to find
+     * @param bankCode the bank code of the payment group of payment details to find
+     * @return an iterator of PaymentDetail records matching the given criteria
+     */
+    public Iterator<PaymentDetail> getByDisbursementNumber(Integer disbursementNumber, Integer processId, String disbursementType, String bankCode) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("getByDisbursementNumber() started");
+        }
+        
+        Map fieldValues = new HashMap();
+        fieldValues.put(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_NUMBER, disbursementNumber);
+        fieldValues.put(PdpPropertyConstants.PaymentDetail.PAYMENT_GROUP+"."+PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PROCESS_ID, processId);
+        fieldValues.put(PdpPropertyConstants.PaymentDetail.PAYMENT_GROUP+"."+PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_DISBURSEMENT_TYPE_CODE, disbursementType);
+        fieldValues.put(PdpPropertyConstants.PaymentDetail.PAYMENT_GROUP+"."+PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_BANK_CODE, bankCode);
+        List<PaymentDetail> paymentDetailByDisbursementNumberList= (List<PaymentDetail>)this.businessObjectService.findMatching(PaymentDetail.class, fieldValues);
+        DynamicCollectionComparator.sort(paymentDetailByDisbursementNumberList, PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_FINANCIAL_DOCUMENT_TYPE_CODE, PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_CUST_PAYMENT_DOC_NBR);
+
+        return paymentDetailByDisbursementNumberList.iterator();
+    }
 
     /**
      * @see org.kuali.kfs.pdp.service.PaymentDetailService#getUnprocessedCancelledDetails(java.lang.String, java.lang.String)

@@ -31,6 +31,16 @@ public interface PaymentGroupDao {
      * @return
      */
     public List<Integer> getDisbursementNumbersByDisbursementType(Integer pid, String disbursementType);
+    
+    /**
+     * Get all the disbursement numbers for a specific process of a certain type for a certain bank
+     * 
+     * @param pid
+     * @param disbursementType
+     * @param bankCode the bank code to find disbursement numbers for
+     * @return
+     */
+    public abstract List<Integer> getDisbursementNumbersByDisbursementTypeAndBankCode(Integer pid, String disbursementType, String bankCode);
 
     /**
      * Gets list of ach payments in which an advice notification has not been sent
@@ -38,5 +48,13 @@ public interface PaymentGroupDao {
      * @return List<PaymentGroup>
      */
     public List<PaymentGroup> getAchPaymentsNeedingAdviceNotification();
+    
+    /**
+     * Given a process id and a disbursement type, finds a distinct list of bank codes used by payment groups within that payment process
+     * @param pid payment process to query payment groups of
+     * @param disbursementType the type of disbursements to query
+     * @return a sorted List of bank codes
+     */
+    public abstract List<String> getDistinctBankCodesForProcessAndType(Integer pid, String disbursementType);
 
 }

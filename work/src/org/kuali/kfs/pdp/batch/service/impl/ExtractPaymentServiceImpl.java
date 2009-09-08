@@ -213,84 +213,89 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
             os.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
             writeOpenTagAttribute(os, 0, "checks", "processId", processId.toString(), "campusCode", p.getCampusCode());
 
-            List<Integer> disbNbrs = paymentGroupService.getDisbursementNumbersByDisbursementType(processId, PdpConstants.DisbursementTypeCodes.CHECK);
-            for (Iterator iter = disbNbrs.iterator(); iter.hasNext();) {
-                Integer disbursementNbr = (Integer) iter.next();
-
-                boolean first = true;
-                
-                KualiDecimal totalNetAmount = new KualiDecimal(0);
-                
-                Iterator i2 = paymentDetailService.getByDisbursementNumber(disbursementNbr);
-                while (i2.hasNext()) {
-                    PaymentDetail pd = (PaymentDetail) i2.next();
-                    totalNetAmount = totalNetAmount.add(pd.getNetPaymentAmount());
-                }   
-
-                Iterator i = paymentDetailService.getByDisbursementNumber(disbursementNbr);
-                while (i.hasNext()) {
-                    PaymentDetail pd = (PaymentDetail) i.next();
-                    PaymentGroup pg = pd.getPaymentGroup();
-                    if (!testMode) {
-                        pg.setDisbursementDate(new java.sql.Date(processDate.getTime()));
-                        pg.setPaymentStatus(extractedStatus);
-                        this.businessObjectService.save(pg);
+            List<String> bankCodes = paymentGroupService.getDistinctBankCodesForProcessAndType(processId, PdpConstants.DisbursementTypeCodes.CHECK);
+            
+            for (String bankCode: bankCodes) {
+                List<Integer> disbNbrs = paymentGroupService.getDisbursementNumbersByDisbursementTypeAndBankCode(processId, PdpConstants.DisbursementTypeCodes.CHECK, bankCode);
+                for (Iterator<Integer> iter = disbNbrs.iterator(); iter.hasNext();) {
+                    Integer disbursementNbr = iter.next();
+    
+                    boolean first = true;
+                    
+                    KualiDecimal totalNetAmount = new KualiDecimal(0);
+                    
+                    // this seems wasteful, but since the total net amount is needed on the first payment detail...it's needed
+                    Iterator<PaymentDetail> i2 = paymentDetailService.getByDisbursementNumber(disbursementNbr, processId, PdpConstants.DisbursementTypeCodes.CHECK, bankCode);
+                    while (i2.hasNext()) {
+                        PaymentDetail pd = i2.next();
+                        totalNetAmount = totalNetAmount.add(pd.getNetPaymentAmount());
+                    }   
+    
+                    Iterator<PaymentDetail> paymentDetails = paymentDetailService.getByDisbursementNumber(disbursementNbr, processId, PdpConstants.DisbursementTypeCodes.CHECK, bankCode);
+                    while (paymentDetails.hasNext()) {
+                        PaymentDetail pd = paymentDetails.next();
+                        PaymentGroup pg = pd.getPaymentGroup();
+                        if (!testMode) {
+                            pg.setDisbursementDate(new java.sql.Date(processDate.getTime()));
+                            pg.setPaymentStatus(extractedStatus);
+                            this.businessObjectService.save(pg);
+                        }
+    
+                        if (first) {
+                            writeOpenTagAttribute(os, 2, "check", "disbursementNbr", pg.getDisbursementNbr().toString());
+    
+                            // Write check level information
+    
+                            writeBank(os, 4, pg.getBank());
+    
+                            writeTag(os, 4, "disbursementDate", sdf.format(processDate));
+                            writeTag(os, 4, "netAmount", totalNetAmount.toString());
+    
+                            writePayee(os, 4, pg);
+                            writeTag(os, 4, "campusAddressIndicator", pg.getCampusAddress().booleanValue() ? "Y" : "N");
+                            writeTag(os, 4, "attachmentIndicator", pg.getPymtAttachment().booleanValue() ? "Y" : "N");
+                            writeTag(os, 4, "specialHandlingIndicator", pg.getPymtSpecialHandling().booleanValue() ? "Y" : "N");
+                            writeTag(os, 4, "immediatePaymentIndicator", pg.getProcessImmediate().booleanValue() ? "Y" : "N");
+                            writeTag(os, 4, "customerUnivNbr", pg.getCustomerInstitutionNumber());
+                            writeTag(os, 4, "paymentDate", sdf.format(pg.getPaymentDate()));
+    
+                            // Write customer profile information
+                            CustomerProfile cp = pg.getBatch().getCustomerProfile();
+                            writeCustomerProfile(os, 4, cp);
+    
+                            writeOpenTag(os, 4, "payments");
+    
+                        }
+    
+                        writeOpenTag(os, 6, "payment");
+    
+                        writeTag(os, 8, "purchaseOrderNbr", pd.getPurchaseOrderNbr());
+                        writeTag(os, 8, "invoiceNbr", pd.getInvoiceNbr());
+                        writeTag(os, 8, "requisitionNbr", pd.getRequisitionNbr());
+                        writeTag(os, 8, "custPaymentDocNbr", pd.getCustPaymentDocNbr());
+                        writeTag(os, 8, "invoiceDate", sdf.format(pd.getInvoiceDate()));
+    
+                        writeTag(os, 8, "origInvoiceAmount", pd.getOrigInvoiceAmount().toString());
+                        writeTag(os, 8, "netPaymentAmount", pd.getNetPaymentAmount().toString());
+                        writeTag(os, 8, "invTotDiscountAmount", pd.getInvTotDiscountAmount().toString());
+                        writeTag(os, 8, "invTotShipAmount", pd.getInvTotShipAmount().toString());
+                        writeTag(os, 8, "invTotOtherDebitAmount", pd.getInvTotOtherDebitAmount().toString());
+                        writeTag(os, 8, "invTotOtherCreditAmount", pd.getInvTotOtherCreditAmount().toString());
+    
+                        writeOpenTag(os, 8, "notes");
+                        for (Iterator ix = pd.getNotes().iterator(); ix.hasNext();) {
+                            PaymentNoteText note = (PaymentNoteText) ix.next();
+                            writeTag(os, 10, "note", note.getCustomerNoteText());
+                        }
+                        writeCloseTag(os, 8, "notes");
+    
+                        writeCloseTag(os, 6, "payment");
+    
+                        first = false;
                     }
-
-                    if (first) {
-                        writeOpenTagAttribute(os, 2, "check", "disbursementNbr", pg.getDisbursementNbr().toString());
-
-                        // Write check level information
-
-                        writeBank(os, 4, pg.getBank());
-
-                        writeTag(os, 4, "disbursementDate", sdf.format(processDate));
-                        writeTag(os, 4, "netAmount", totalNetAmount.toString());
-
-                        writePayee(os, 4, pg);
-                        writeTag(os, 4, "campusAddressIndicator", pg.getCampusAddress().booleanValue() ? "Y" : "N");
-                        writeTag(os, 4, "attachmentIndicator", pg.getPymtAttachment().booleanValue() ? "Y" : "N");
-                        writeTag(os, 4, "specialHandlingIndicator", pg.getPymtSpecialHandling().booleanValue() ? "Y" : "N");
-                        writeTag(os, 4, "immediatePaymentIndicator", pg.getProcessImmediate().booleanValue() ? "Y" : "N");
-                        writeTag(os, 4, "customerUnivNbr", pg.getCustomerInstitutionNumber());
-                        writeTag(os, 4, "paymentDate", sdf.format(pg.getPaymentDate()));
-
-                        // Write customer profile information
-                        CustomerProfile cp = pg.getBatch().getCustomerProfile();
-                        writeCustomerProfile(os, 4, cp);
-
-                        writeOpenTag(os, 4, "payments");
-
-                    }
-
-                    writeOpenTag(os, 6, "payment");
-
-                    writeTag(os, 8, "purchaseOrderNbr", pd.getPurchaseOrderNbr());
-                    writeTag(os, 8, "invoiceNbr", pd.getInvoiceNbr());
-                    writeTag(os, 8, "requisitionNbr", pd.getRequisitionNbr());
-                    writeTag(os, 8, "custPaymentDocNbr", pd.getCustPaymentDocNbr());
-                    writeTag(os, 8, "invoiceDate", sdf.format(pd.getInvoiceDate()));
-
-                    writeTag(os, 8, "origInvoiceAmount", pd.getOrigInvoiceAmount().toString());
-                    writeTag(os, 8, "netPaymentAmount", pd.getNetPaymentAmount().toString());
-                    writeTag(os, 8, "invTotDiscountAmount", pd.getInvTotDiscountAmount().toString());
-                    writeTag(os, 8, "invTotShipAmount", pd.getInvTotShipAmount().toString());
-                    writeTag(os, 8, "invTotOtherDebitAmount", pd.getInvTotOtherDebitAmount().toString());
-                    writeTag(os, 8, "invTotOtherCreditAmount", pd.getInvTotOtherCreditAmount().toString());
-
-                    writeOpenTag(os, 8, "notes");
-                    for (Iterator ix = pd.getNotes().iterator(); ix.hasNext();) {
-                        PaymentNoteText note = (PaymentNoteText) ix.next();
-                        writeTag(os, 10, "note", note.getCustomerNoteText());
-                    }
-                    writeCloseTag(os, 8, "notes");
-
-                    writeCloseTag(os, 6, "payment");
-
-                    first = false;
+                    writeCloseTag(os, 4, "payments");
+                    writeCloseTag(os, 2, "check");
                 }
-                writeCloseTag(os, 4, "payments");
-                writeCloseTag(os, 2, "check");
             }
             writeCloseTag(os, 0, "checks");
         }

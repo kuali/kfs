@@ -51,6 +51,24 @@ public interface PaymentGroupService {
      */
     public List<Integer> getDisbursementNumbersByDisbursementType(Integer pid,String disbursementType);
     
+    /**
+     * Get all payment groups by Payment Process Id/Disbursement Type for a given bank code
+     * 
+     * @param pid
+     * @param disbursementType
+     * @param bankCode
+     * @return
+     */
+    public abstract List<Integer> getDisbursementNumbersByDisbursementTypeAndBankCode(Integer pid,String disbursementType, String bankCode);
+    
+    /**
+     * Given a process id and a disbursement type, finds a distinct list of bank codes used by payment groups within that payment process
+     * @param pid payment process to query payment groups of
+     * @param disbursementType the type of disbursements to query
+     * @return a sorted List of bank codes
+     */
+    public abstract List<String> getDistinctBankCodesForProcessAndType(Integer pid, String disbursementType);
+    
     public PaymentGroup get(Integer id);
 
     public List getByBatchId(Integer batchId);

@@ -47,4 +47,14 @@ public interface PaymentDetailService {
      * @return
      */
     public Iterator getUnprocessedPaidDetails(String organization, List<String> subUnits);
+    
+    /**
+     * Returns all PaymentDetail records with the given disbursement number and a group with the given process id, disbursement type, and bank code
+     * @param disbursementNumber the disbursement number of the payment details to find
+     * @param processId the process id of the payment group of payment details to find
+     * @param disbursementType the disbursement type of the payment group of payment details to find
+     * @param bankCode the bank code of the payment group of payment details to find
+     * @return an iterator of PaymentDetail records matching the given criteria
+     */
+    public abstract Iterator<PaymentDetail> getByDisbursementNumber(Integer disbursementNumber, Integer processId, String disbursementType, String bankCode);
 }

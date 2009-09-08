@@ -28,7 +28,9 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.bo.types.dto.KimTypeAttributeInfo;
 import org.kuali.rice.kim.bo.types.dto.KimTypeInfo;
 import org.kuali.rice.kim.bo.types.impl.KimAttributeImpl;
+import org.kuali.rice.kim.util.KimCommonUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSUtils;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 
@@ -150,8 +152,8 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         if(StringUtils.isBlank(numberStr2) ) {
             numberStr2 = "0";
         }
-        int number1 = Integer.parseInt(numberStr1);
-        int number2 = Integer.parseInt(numberStr2);
+        int number1 = KNSUtils.getIntegerValue(numberStr1);
+        int number2 = KNSUtils.getIntegerValue(numberStr2);
         return number1 < number2;
     }
 
@@ -162,8 +164,8 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         if(StringUtils.isBlank(numberStr2) ) {
             numberStr2 = "0";
         }
-        int number1 = Integer.parseInt(numberStr1);
-        int number2 = Integer.parseInt(numberStr2);
+        int number1 = KNSUtils.getIntegerValue(numberStr1);
+        int number2 = KNSUtils.getIntegerValue(numberStr2);
         return number1 > number2;
     }
 

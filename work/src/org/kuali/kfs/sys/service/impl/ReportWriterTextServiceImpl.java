@@ -518,6 +518,13 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      * @return the business report helper for the given business object
      */
     public BusinessObjectReportHelper getBusinessObjectReportHelper(BusinessObject businessObject) {
+        if (LOG.isDebugEnabled()) {
+            if (businessObject == null) {
+                LOG.debug("reporting "+filePath+" but can't because null business object sent in");
+            } else if (businessObjectReportHelpers == null) {
+                LOG.debug("Logging "+businessObject+" in report "+filePath+" but businessObjectReportHelpers are null");
+            }
+        }
         BusinessObjectReportHelper businessObjectReportHelper = this.businessObjectReportHelpers.get(businessObject.getClass());
         if (ObjectUtils.isNull(businessObjectReportHelper)) {
             throw new RuntimeException(businessObject.getClass().toString() + " is not handled");

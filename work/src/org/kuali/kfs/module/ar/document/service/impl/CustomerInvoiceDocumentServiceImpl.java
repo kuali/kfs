@@ -248,6 +248,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
         return getCustomerInvoiceDetailsForCustomerInvoiceDocument(customerInvoiceDocument.getDocumentNumber());
     }
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getCustomerInvoiceDetailsForCustomerInvoiceDocumentWithCaching(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
@@ -278,7 +279,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
                 // note that we're now dealing with conditionally applying discounts
                 // depending on whether the doc is saved or approved one level down,
                 // in the CustomerInvoiceDetail.getAmountOpen()
-                // FIXME - added by harsha
                 detail.setCustomerInvoiceDocument(customerInvoiceDocument);
                 total = total.add(detail.getAmountOpen());
             }
@@ -770,7 +770,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      * @return Returns the personService.
      */
     protected PersonService<Person> getPersonService() {
-        if(personService==null)
+        if (personService == null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;
     }

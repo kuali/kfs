@@ -31,6 +31,7 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.batch.AssetPaymentInfo;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
@@ -272,11 +273,10 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         else {
             sql = sql + "AND A3.FIN_OBJ_SUB_TYP_CD NOT IN (" + buildINValues(federallyOwnedObjectSubTypes) + ")";
         }
-        // FIXME Harsha - FDOC_STATUS_CD should equal R - ENROUTE
         sql = sql + " AND NOT EXISTS (SELECT 1 FROM CM_AST_TRNFR_DOC_T TRFR, FS_DOC_HEADER_T HDR WHERE HDR.FDOC_NBR = TRFR.FDOC_NBR AND ";
-        sql = sql + "HDR.FDOC_STATUS_CD NOT IN ('A','C') AND TRFR.CPTLAST_NBR = A0.CPTLAST_NBR) ";
-        sql = sql + "AND NOT EXISTS (SELECT 1 FROM CM_AST_RETIRE_DTL_T DTL, FS_DOC_HEADER_T HDR WHERE HDR.FDOC_NBR = DTL.FDOC_NBR ";
-        sql = sql + "AND HDR.FDOC_STATUS_CD NOT IN ('A','C') AND DTL.CPTLAST_NBR = A0.CPTLAST_NBR) ";
+        sql = sql + " HDR.FDOC_STATUS_CD = '" + KFSConstants.DocumentStatusCodes.ENROUTE + "' AND TRFR.CPTLAST_NBR = A0.CPTLAST_NBR) ";
+        sql = sql + " AND NOT EXISTS (SELECT 1 FROM CM_AST_RETIRE_DTL_T DTL, FS_DOC_HEADER_T HDR WHERE HDR.FDOC_NBR = DTL.FDOC_NBR ";
+        sql = sql + " AND HDR.FDOC_STATUS_CD = '" + KFSConstants.DocumentStatusCodes.ENROUTE + "' AND DTL.CPTLAST_NBR = A0.CPTLAST_NBR) ";
         return sql;
     }
 
@@ -360,14 +360,14 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
      * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao#getTransferDocLockedAssetCount()
      */
     public Integer getTransferDocLockedAssetCount() {
-        return getJdbcTemplate().queryForInt("select count(1) from cm_ast_trnfr_doc_t t inner join fs_doc_header_t h on t.fdoc_nbr = h.fdoc_nbr where h.fdoc_status_cd not in ('A','C')");
+        return getJdbcTemplate().queryForInt("select count(1) from cm_ast_trnfr_doc_t t inner join fs_doc_header_t h on t.fdoc_nbr = h.fdoc_nbr where h.fdoc_status_cd ='" + KFSConstants.DocumentStatusCodes.ENROUTE + "'");
     }
 
     /**
      * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao#getRetireDocLockedAssetCount()
      */
     public Integer getRetireDocLockedAssetCount() {
-        return getJdbcTemplate().queryForInt("select count(1) from cm_ast_retire_dtl_t t inner join fs_doc_header_t h on t.fdoc_nbr = h.fdoc_nbr where h.fdoc_status_cd  not in ('A','C')");
+        return getJdbcTemplate().queryForInt("select count(1) from cm_ast_retire_dtl_t t inner join fs_doc_header_t h on t.fdoc_nbr = h.fdoc_nbr where h.fdoc_status_cd  ='" + KFSConstants.DocumentStatusCodes.ENROUTE + "'");
     }
 
     /**

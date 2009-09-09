@@ -292,6 +292,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
             data = (Object[]) i.next();
 
             amount = (data[0] == null ? new KualiDecimal(0) : (KualiDecimal) data[0]);
+            KualiDecimal deprAmtDebit = amount;
             columns[0] = "Debit - Depreciation Expense object codes: " + depreExpObjCodes.toString();
             columns[1] = (usdFormat.format(amount));
             reportLine.add(columns.clone());
@@ -327,6 +328,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
             i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
             data = (Object[]) i.next();
             amount = (data[0] == null ? new KualiDecimal(0) : (KualiDecimal) data[0]);
+
             columns[0] = "Debit - Accumulated depreciation object codes:" + accumulatedDepreciationObjCodes.toString();
             columns[1] = (usdFormat.format(amount));
             reportLine.add(columns.clone());
@@ -344,11 +346,15 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
             i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
             data = (Object[]) i.next();
             amount = (data[0] == null ? new KualiDecimal(0) : (KualiDecimal) data[0]);
+            KualiDecimal deprAmtCredit = amount;
             columns[0] = "Credit - Depreciation Expense object codes:" + depreExpObjCodes.toString();
             columns[1] = (usdFormat.format(amount));
             reportLine.add(columns.clone());
             credits = credits.add(amount);
 
+            columns[0] = "Current Month";
+            columns[1] = usdFormat.format(deprAmtDebit.subtract(deprAmtCredit));
+            reportLine.add(columns.clone());
 
             columns[0] = "Total Debits";
             columns[1] = usdFormat.format(debits);

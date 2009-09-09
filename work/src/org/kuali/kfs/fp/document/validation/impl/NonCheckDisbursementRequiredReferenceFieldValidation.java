@@ -34,7 +34,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * Validates that an accounting line has a reference number 
  */
 public class NonCheckDisbursementRequiredReferenceFieldValidation extends GenericValidation {
-    private ParameterService parameterService;
+    private DataDictionaryService dataDictionaryService;
     private AccountingLine accountingLineForValidation;
 
     /**
@@ -59,7 +59,7 @@ public class NonCheckDisbursementRequiredReferenceFieldValidation extends Generi
             alclass = document.getTargetAccountingLineClass();
         }
 
-        boe = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(alclass.getName());
+        boe = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(alclass.getName());
        
         if (StringUtils.isEmpty(accountingLineForValidation.getReferenceNumber())) {
             putRequiredPropertyError(boe, REFERENCE_NUMBER);
@@ -81,23 +81,6 @@ public class NonCheckDisbursementRequiredReferenceFieldValidation extends Generi
         GlobalVariables.getMessageMap().putError(propertyName, KFSKeyConstants.ERROR_REQUIRED, label);
 
     }
-    
-    
-    /**
-     * Gets the parameterService attribute. 
-     * @return Returns the parameterService.
-     */
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
-
-    /**
-     * Sets the parameterService attribute value.
-     * @param parameterService The parameterService to set.
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
 
     /**
      * Gets the accountingLineForValidation attribute. 
@@ -113,5 +96,21 @@ public class NonCheckDisbursementRequiredReferenceFieldValidation extends Generi
      */
     public void setAccountingLineForValidation(AccountingLine accountingLineForValidation) {
         this.accountingLineForValidation = accountingLineForValidation;
+    }
+
+    /**
+     * Gets the dataDictionaryService attribute. 
+     * @return Returns the dataDictionaryService.
+     */
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    /**
+     * Sets the dataDictionaryService attribute value.
+     * @param dataDictionaryService The dataDictionaryService to set.
+     */
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }
 }

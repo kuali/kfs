@@ -30,7 +30,13 @@
   	
   	<bean id="IndirectCostAdjustment-saveDocumentValidation" parent="IndirectCostAdjustment-saveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="IndirectCostAdjustment-saveDocumentValidation-parentBean" parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" abstract="true" />
+  	<bean id="IndirectCostAdjustment-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+    	<property name="validations">
+    		<list>
+    			<bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" />
+    		</list>
+    	</property>
+    </bean>
   
   	<bean id="IndirectCostAdjustment-approveDocumentValidation" parent="IndirectCostAdjustment-approveDocumentValidation-parentBean" scope="prototype" />
   

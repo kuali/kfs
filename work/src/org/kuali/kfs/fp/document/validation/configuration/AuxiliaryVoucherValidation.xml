@@ -90,15 +90,33 @@
 	
 	<bean id="AuxiliaryVoucher-saveDocumentValidation" parent="AuxiliaryVoucher-saveDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="AuxiliaryVoucher-saveDocumentValidation-parentBean" parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" abstract="true" />
+	<bean id="AuxiliaryVoucher-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
 	
 	<bean id="AuxiliaryVoucher-approveDocumentValidation" parent="AuxiliaryVoucher-approveDocumentValidation-parentBean" />
 	
-	<bean id="AuxiliaryVoucher-approveDocumentValidation-parentBean" parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" abstract="true" />
+	<bean id="AuxiliaryVoucher-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
 	
 	<bean id="AuxiliaryVoucher-blanketApproveDocumentValidation" parent="AuxiliaryVoucher-blanketApproveDocumentValidation-parentBean" />
 	
-	<bean id="AuxiliaryVoucher-blanketApproveDocumentValidation-parentBean" parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" abstract="true" />
+	<bean id="AuxiliaryVoucher-blanketApproveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
 	
 	<bean id="AuxiliaryVoucher-accountingLineValuesAllowedValidation" class="org.kuali.kfs.sys.document.validation.impl.AccountingLineValuesAllowedValidationHutch" abstract="true">
 		<property name="objectTypeAllowedValidation" ref="AccountingDocument-IsObjectTypeAllowed-DefaultValidation" />

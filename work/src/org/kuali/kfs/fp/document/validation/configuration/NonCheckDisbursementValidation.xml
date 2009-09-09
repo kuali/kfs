@@ -39,7 +39,13 @@
   	
   	<bean id="NonCheckDisbursement-saveDocumentValidation" parent="NonCheckDisbursement-saveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="NonCheckDisbursement-saveDocumentValidation-parentBean" parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" abstract="true" />
+  	<bean id="NonCheckDisbursement-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+    	<property name="validations">
+    		<list>
+    			<bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" />
+    		</list>
+    	</property>
+    </bean>
   
   	<bean id="NonCheckDisbursement-approveDocumentValidation" parent="NonCheckDisbursement-approveDocumentValidation-parentBean" scope="prototype" />
   

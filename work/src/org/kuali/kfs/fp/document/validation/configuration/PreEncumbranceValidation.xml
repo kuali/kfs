@@ -45,7 +45,13 @@
   	
   	<bean id="PreEncumbrance-saveDocumentValidation" parent="PreEncumbrance-saveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="PreEncumbrance-saveDocumentValidation-parentBean" parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" abstract="true" />
+  	<bean id="PreEncumbrance-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+    	<property name="validations">
+    		<list>
+    			<bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" />
+    		</list>
+    	</property>
+    </bean>
   
   	<bean id="PreEncumbrance-approveDocumentValidation" parent="PreEncumbrance-approveDocumentValidation-parentBean" scope="prototype" />
   
@@ -69,13 +75,12 @@
   		<property name="validations">
   			<list>
   				<bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" scope="prototype" />
-  				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+				<bean parent="PreEncumbrance-requiredReferenceFieldValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="accountingLineFieldConversion" />
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
 				</bean>
 			</list>
   		</property>
@@ -95,13 +100,12 @@
   		<property name="validations">
   			<list>
   				<bean parent="AccountingDocument-UpdateAccountingLine-DefaultValidation" scope="prototype" />
-  				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+  				<bean parent="PreEncumbrance-requiredReferenceFieldValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="updatedAccountingLineFieldConversion" />
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
 				</bean>
 			</list>
   		</property>

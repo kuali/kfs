@@ -270,8 +270,20 @@
 	</bean>
     
     <bean id="AdvanceDeposit-approveDocumentValidation" parent="AdvanceDeposit-approveDocumentValidation-parentBean" />   
-    <bean id="AdvanceDeposit-approveDocumentValidation-parentBean" parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" abstract="true" /> 
+    <bean id="AdvanceDeposit-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+    	<property name="validations">
+    		<list>
+    			<bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype"/>
+    		</list>
+    	</property>
+    </bean> 
     
     <bean id="AdvanceDeposit-blanketApproveDocumentValidation" parent="AdvanceDeposit-blanketApproveDocumentValidation-parentBean" /> 
-    <bean id="AdvanceDeposit-blanketApproveDocumentValidation-parentBean" parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" abstract="true" />    
+    <bean id="AdvanceDeposit-blanketApproveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+    	<property name="validations">
+    		<list>
+    			<bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" />
+    		</list>
+    	</property>
+    </bean>    
 </beans>

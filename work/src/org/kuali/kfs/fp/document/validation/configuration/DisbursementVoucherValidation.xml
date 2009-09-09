@@ -145,12 +145,28 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="DisbursementVoucher-campusSpecialHandlingValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="disbursementVoucherDocumentForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>
 	
 	<bean id="DisbursementVoucher-blanketApproveDocumentValidation" parent="DisbursementVoucher-blanketApproveDocumentValidation-parentBean" />	
-	<bean id="DisbursementVoucher-blanketApproveDocumentValidation-parentBean" parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" abstract="true" />
+	<bean id="DisbursementVoucher-blanketApproveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
 	
 	<bean id="DisbursementVoucher-accountingLineValuesAllowedValidation" class="org.kuali.kfs.sys.document.validation.impl.AccountingLineValuesAllowedValidationHutch" abstract="true">
 		<property name="objectTypeAllowedValidation" ref="AccountingDocument-IsObjectTypeAllowed-DefaultValidation" />
@@ -191,7 +207,13 @@
 	</bean>
 	
 	<bean id="DisbursementVoucher-deleteAccountingLineValidation" parent="DisbursementVoucher-deleteAccountingLineValidation-parentBean" />	
-	<bean id="DisbursementVoucher-deleteAccountingLineValidation-parentBean" parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" abstract="true" />
+	<bean id="DisbursementVoucher-deleteAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
 	
 	<bean id="DisbursementVoucher-updateAccountingLineValidation" parent="DisbursementVoucher-updateAccountingLineValidation-parentBean" />
 	<bean id="DisbursementVoucher-updateAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">

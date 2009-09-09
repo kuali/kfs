@@ -52,7 +52,13 @@
 	
 	<bean id="BudgetAdjustment-saveDocumentValidation" parent="BudgetAdjustment-saveDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="BudgetAdjustment-saveDocumentValidation-parentBean" parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" abstract="true" />
+	<bean id="BudgetAdjustment-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
 	
 	<bean id="BudgetAdjustment-approveDocumentValidation" parent="BudgetAdjustment-approveDocumentValidation-parentBean" scope="prototype" />
 	
@@ -72,7 +78,13 @@
 	
 	<bean id="BudgetAdjustment-blanketApproveDocumentValidation" parent="BudgetAdjustment-blanketApproveDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="BudgetAdjustment-blanketApproveDocumentValidation-parentBean" parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" abstract="true" />
+	<bean id="BudgetAdjustment-blanketApproveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
 	
 	<bean id="BudgetAdjustment-addAccountingLine-failFastValidation" abstract="true" parent="CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
 		<property name="validations">
@@ -156,7 +168,13 @@
 	
 	<bean id="BudgetAdjustment-deleteAccountingLineValidation" parent="BudgetAdjustment-deleteAccountingLineValidation-parentBean" scope="prototype" />
 	
-	<bean id="BudgetAdjustment-deleteAccountingLineValidation-parentBean" parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" abstract="true" />
+	<bean id="BudgetAdjustment-deleteAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
 	
 	<bean id="BudgetAdjustment-reviewAccountingLineValidation" parent="BudgetAdjustment-reviewAccountingLineValidation-parentBean" scope="prototype" />
 

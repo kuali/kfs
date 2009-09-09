@@ -44,24 +44,7 @@
   		<property name="validations">
   			<list>
   				<bean parent="AccountingDocument-RouteDocument-DefaultValidation" scope="prototype" />
-  				<bean parent="ServiceBilling-checkItemsValidation" scope="prototype" />
-  				<bean parent="AccountingDocument-debitsAndCreditsBalanceValidation" scope="prototype">
-        			<property name="parameterProperties">
-           				<list>
-             				<bean parent="accountingDocumentFieldConversion" />
-           				</list> 
-                   </property>
-       			</bean>
-
-  				<bean parent="AccountingDocument-optionalOneSidedDocumentAccountingLinesCountValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="accountingDocumentFieldConversion" />
-						</list>
-					</property>
-					<property name="quitOnFail" value="true" />
-				</bean>
-				
+  				<bean parent="ServiceBilling-checkItemsValidation" scope="prototype" />		
 				<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />  
   			</list>
   		</property>
@@ -69,7 +52,13 @@
   	
   	<bean id="ServiceBilling-saveDocumentValidation" parent="ServiceBilling-saveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="ServiceBilling-saveDocumentValidation-parentBean" parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" abstract="true"/>
+  	<bean id="ServiceBilling-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+    	<property name="validations">
+    		<list>
+    			<bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" />
+    		</list>
+    	</property>
+    </bean>
   
   	<bean id="ServiceBilling-approveDocumentValidation" parent="ServiceBilling-approveDocumentValidation-parentBean" scope="prototype" />
   

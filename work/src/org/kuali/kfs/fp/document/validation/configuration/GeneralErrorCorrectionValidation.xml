@@ -48,7 +48,13 @@
   	
   	<bean id="GeneralErrorCorrection-saveDocumentValidation" parent="GeneralErrorCorrection-saveDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="GeneralErrorCorrection-saveDocumentValidation-parentBean" parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" abstract="true" />
+  	<bean id="GeneralErrorCorrection-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+    	<property name="validations">
+    		<list>
+    			<bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" />
+    		</list>
+    	</property>
+    </bean>
   
   	<bean id="GeneralErrorCorrection-approveDocumentValidation" parent="GeneralErrorCorrection-approveDocumentValidation-parentBean" scope="prototype" />
   

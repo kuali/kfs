@@ -70,15 +70,33 @@
 	
 	<bean id="TransferOfFunds-saveDocumentValidation" parent="TransferOfFunds-saveDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="TransferOfFunds-saveDocumentValidation-parentBean" parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" abstract="true" />
+	<bean id="TransferOfFunds-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
 	
 	<bean id="TransferOfFunds-approveDocumentValidation" parent="TransferOfFunds-approveDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="TransferOfFunds-approveDocumentValidation-parentBean" parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" abstract="true" />
+	<bean id="TransferOfFunds-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
 	
 	<bean id="TransferOfFunds-blanketApproveDocumentValidation" parent="TransferOfFunds-blanketApproveDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="TransferOfFunds-blanketApproveDocumentValidation-parentBean" parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" abstract="true" />
+	<bean id="TransferOfFunds-blanketApproveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
 	
 	<bean id="TransferOfFunds-accountingLineValuesAllowedValidation" parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation">
 		<property name="objectCodeAllowedValidation">
@@ -149,7 +167,13 @@
 	
 	<bean id="TransferOfFunds-deleteAccountingLineValidation" parent="TransferOfFunds-deleteAccountingLineValidation-parentBean" scope="prototype" />
 	
-	<bean id="TransferOfFunds-deleteAccountingLineValidation-parentBean" parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" abstract="true" />
+	<bean id="TransferOfFunds-deleteAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
 	
 	<bean id="TransferOfFunds-reviewAccountingLineValidation" parent="TransferOfFunds-reviewAccountingLineValidation-parentBean" scope="prototype" />
 	

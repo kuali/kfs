@@ -88,7 +88,13 @@
 	
 	<bean id="CreditCardReceipt-saveDocumentValidation" parent="CreditCardReceipt-saveDocumentValidation-parentBean" scope="prototype" />
 	
-	<bean id="CreditCardReceipt-saveDocumentValidation-parentBean" parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" abstract="true" />
+	<bean id="CreditCardReceipt-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
 	
 	<bean id="CreditCardReceipt-addAccountingLineValidation" parent="CreditCardReceipt-addAccountingLineValidation-parentBean" scope="prototype" />
 	

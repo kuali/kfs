@@ -204,7 +204,13 @@
 	
 	<bean id="CashReceipt-deleteAccountingLineValidation" parent="CashReceipt-deleteAccountingLineValidation-parentBean" scope="prototype" />
 	
-	<bean id="CashReceipt-deleteAccountingLineValidation-parentBean" parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" abstract="true" />
+	<bean id="CashReceipt-deleteAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
 	
 	<bean id="CashReceipt-updateAccountingLine-failFastValidation" abstract="true" parent="CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
 		<property name="validations">

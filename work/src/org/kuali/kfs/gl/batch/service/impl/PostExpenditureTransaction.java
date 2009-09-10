@@ -277,7 +277,7 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
 
         if (ObjectUtils.isNull(t.getFinancialObject()) || !hasValidObjectCodeReportingHierarchy(t.getFinancialObject())) {
             // I agree with the commenter below...this seems totally lame
-            return GeneralLedgerConstants.ERROR_CODE + ": Warning - excluding transaction from Indirect Cost Recovery because "+t.getFinancialObject().toString()+" has an invalid reports to hierarchy (either has an non-existent object or an inactive object)";
+            return GeneralLedgerConstants.ERROR_CODE + ": Warning - excluding transaction from Indirect Cost Recovery because "+t.getUniversityFiscalYear().toString()+"-"+t.getChartOfAccountsCode()+"-"+t.getFinancialObjectCode()+" has an invalid reports to hierarchy (either has an non-existent object or an inactive object)";
         }
         else if (isIcrTransaction(t, posterReportWriterService)) {
             return postTransaction(t, mode);

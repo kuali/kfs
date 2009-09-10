@@ -179,6 +179,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         if (err != null) {
             errors.add(err);
         }
+        
+        err = validateUniversityFiscalPeriodCode(originEntry, scrubbedEntry, universityRunDate, accountingCycleCachingService);
+        if (err != null) {
+            errors.add(err);
+        }
 
         err = validateBalanceType(originEntry, scrubbedEntry, accountingCycleCachingService);
         if (err != null) {
@@ -264,11 +269,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         referenceErrors = validateReferenceDocumentFields(originEntry, scrubbedEntry, accountingCycleCachingService);
         if (referenceErrors != null) {
             errors.addAll(referenceErrors);
-        }
-
-        err = validateUniversityFiscalPeriodCode(originEntry, scrubbedEntry, universityRunDate, accountingCycleCachingService);
-        if (err != null) {
-            errors.add(err);
         }
 
         err = validateReversalDate(originEntry, scrubbedEntry, accountingCycleCachingService);
@@ -767,12 +767,12 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         // method
         ObjectCode workingEntryFinancialObject = accountingCycleCachingService.getObjectCode(workingEntry.getUniversityFiscalYear(), workingEntry.getChartOfAccountsCode(), workingEntry.getFinancialObjectCode());
         if (workingEntryFinancialObject == null) {
-            String objectCodeString = originEntry.getUniversityFiscalYear() + "-" + originEntry.getChartOfAccountsCode() + "-" + originEntry.getFinancialObjectCode();
+            String objectCodeString = workingEntry.getUniversityFiscalYear() + "-" + workingEntry.getChartOfAccountsCode() + "-" + workingEntry.getFinancialObjectCode();
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_OBJECT_CODE_NOT_FOUND, objectCodeString, Message.TYPE_FATAL);
         }
         
         if (!workingEntryFinancialObject.isActive()) {
-            String objectCodeString = originEntry.getUniversityFiscalYear() + "-" + originEntry.getChartOfAccountsCode() + "-" + originEntry.getFinancialObjectCode();
+            String objectCodeString = workingEntry.getUniversityFiscalYear() + "-" + workingEntry.getChartOfAccountsCode() + "-" + workingEntry.getFinancialObjectCode();
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_OBJECT_CODE_NOT_ACTIVE, objectCodeString, Message.TYPE_FATAL);
         }
 

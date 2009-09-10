@@ -304,7 +304,9 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      */
     public KualiDecimal getInvoiceItemPreTaxAmount() {
         if (ObjectUtils.isNotNull(invoiceItemUnitPrice) && ObjectUtils.isNotNull(invoiceItemQuantity)) {
-            return new KualiDecimal(invoiceItemUnitPrice.multiply(invoiceItemQuantity));
+            BigDecimal bd = invoiceItemUnitPrice.multiply(invoiceItemQuantity);
+            bd.setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR);
+            return new KualiDecimal(bd);
         } else {
             return KualiDecimal.ZERO;
         }

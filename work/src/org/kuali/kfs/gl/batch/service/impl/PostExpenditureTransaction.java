@@ -275,7 +275,7 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
     public String post(Transaction t, int mode, Date postDate, ReportWriterService posterReportWriterService) {
         LOG.debug("post() started");
 
-        if (!hasValidObjectCodeReportingHierarchy(t.getFinancialObject())) {
+        if (ObjectUtils.isNull(t.getFinancialObject()) || !hasValidObjectCodeReportingHierarchy(t.getFinancialObject())) {
             // I agree with the commenter below...this seems totally lame
             return GeneralLedgerConstants.ERROR_CODE + ": Warning - excluding transaction from Indirect Cost Recovery because "+t.getFinancialObject().toString()+" has an invalid reports to hierarchy (either has an non-existent object or an inactive object)";
         }

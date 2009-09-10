@@ -83,10 +83,10 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase baseForm = (PurchasingAccountsPayableFormBase) form;
-        AccountsPayableDocumentBase document = (AccountsPayableDocumentBase) baseForm.getDocument();
         
         ActionForward fwd = super.execute(mapping, form, request, response);
         
+        AccountsPayableDocumentBase document = (AccountsPayableDocumentBase) baseForm.getDocument();
         boolean foundAccountExpiredWarning = false;
         for(int i=0;i<GlobalVariables.getMessageList().size();i++){
             if (StringUtils.equals(GlobalVariables.getMessageList().get(i).getErrorKey(),PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED)){

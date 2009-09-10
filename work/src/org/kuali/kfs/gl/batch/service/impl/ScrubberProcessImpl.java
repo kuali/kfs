@@ -1261,12 +1261,14 @@ public class ScrubberProcessImpl implements ScrubberProcess {
             ObjectCode scrubbedEntryObjectCode = accountingCycleCachingService.getObjectCode(scrubbedEntry.getUniversityFiscalYear(), scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getFinancialObjectCode());
             Account scrubbedEntryAccount = accountingCycleCachingService.getAccount(scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getAccountNumber());
             Chart scrubbedEntryChart = accountingCycleCachingService.getChart(scrubbedEntry.getChartOfAccountsCode());
-            scrubbedEntryAccount.setOrganization(accountingCycleCachingService.getOrganization(scrubbedEntryAccount.getChartOfAccountsCode(), scrubbedEntryAccount.getOrganizationCode()));
+            if (!ObjectUtils.isNull(scrubbedEntryAccount)) {
+                scrubbedEntryAccount.setOrganization(accountingCycleCachingService.getOrganization(scrubbedEntryAccount.getChartOfAccountsCode(), scrubbedEntryAccount.getOrganizationCode()));
+            }
             
-            ParameterEvaluator objectSubTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.PLANT_INDEBTEDNESS_OBJ_SUB_TYPE_CODES, scrubbedEntryObjectCode.getFinancialObjectSubTypeCode());
-            ParameterEvaluator subFundGroupCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.PLANT_INDEBTEDNESS_SUB_FUND_GROUP_CODES, scrubbedEntryAccount.getSubFundGroupCode());
+            ParameterEvaluator objectSubTypeCodes = (!ObjectUtils.isNull(scrubbedEntryObjectCode)) ? parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.PLANT_INDEBTEDNESS_OBJ_SUB_TYPE_CODES, scrubbedEntryObjectCode.getFinancialObjectSubTypeCode()) : null;
+            ParameterEvaluator subFundGroupCodes = (!ObjectUtils.isNull(scrubbedEntryAccount)) ? parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.PLANT_INDEBTEDNESS_SUB_FUND_GROUP_CODES, scrubbedEntryAccount.getSubFundGroupCode()) : null;
 
-            if (scrubbedEntry.getFinancialBalanceTypeCode().equals(scrubbedEntryOption.getActualFinancialBalanceTypeCd()) && subFundGroupCodes.evaluationSucceeds() && objectSubTypeCodes.evaluationSucceeds()) {
+            if (scrubbedEntry.getFinancialBalanceTypeCode().equals(scrubbedEntryOption.getActualFinancialBalanceTypeCd()) && (subFundGroupCodes != null && subFundGroupCodes.evaluationSucceeds()) && (objectSubTypeCodes != null && objectSubTypeCodes.evaluationSucceeds())) {
 
                 plantIndebtednessEntry.setTransactionLedgerEntryDescription(KFSConstants.PLANT_INDEBTEDNESS_ENTRY_DESCRIPTION);
 
@@ -1378,7 +1380,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
             if (!parameterService.getIndicatorParameter(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.LIABILITY_IND)) {
                 return null;
             }
-            OriginEntryFull liabilityEntry = OriginEntryFull.copyFromOriginEntryable(scrubbedEntry);
+
             Chart scrubbedEntryChart = accountingCycleCachingService.getChart(scrubbedEntry.getChartOfAccountsCode());
             SystemOptions scrubbedEntryOption = accountingCycleCachingService.getSystemOptions(scrubbedEntry.getUniversityFiscalYear());
             ObjectCode scrubbedEntryFinancialObject = accountingCycleCachingService.getObjectCode(scrubbedEntry.getUniversityFiscalYear(), scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getFinancialObjectCode());
@@ -1391,6 +1393,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
             ParameterEvaluator subFundGroupCodes = (!ObjectUtils.isNull(scrubbedEntryAccount)) ? parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.LIABILITY_SUB_FUND_GROUP_CODES, scrubbedEntryAccount.getSubFundGroupCode()) : null;
 
             if (scrubbedEntry.getFinancialBalanceTypeCode().equals(scrubbedEntryOption.getActualFinancialBalanceTypeCd()) && scrubbedEntry.getUniversityFiscalYear().intValue() > 1995 && (docTypeCodes != null && docTypeCodes.evaluationSucceeds()) && (fiscalPeriods != null && fiscalPeriods.evaluationSucceeds()) && (objSubTypeCodes != null && objSubTypeCodes.evaluationSucceeds()) && (subFundGroupCodes != null && subFundGroupCodes.evaluationSucceeds()) && (chartCodes != null && chartCodes.evaluationSucceeds())) {
+                OriginEntryFull liabilityEntry = OriginEntryFull.copyFromOriginEntryable(scrubbedEntry);
 
                 liabilityEntry.setFinancialObjectCode(parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.LIABILITY_OBJECT_CODE));
                 liabilityEntry.setFinancialObjectTypeCode(scrubbedEntryOption.getFinObjectTypeLiabilitiesCode());

@@ -68,6 +68,9 @@ public class ThresholdHelper {
     private List<ThresholdSummary> chartCodeAndOrgCodeSummary = new ArrayList();
     private List<ThresholdSummary> chartCodeAndVendorSummary = new ArrayList();
     
+    private ThresholdSummary thresholdSummary;
+    private ReceivingThreshold receivingThreshold;
+
     private boolean allItemsNonQty;
     
     public ThresholdHelper(PurchaseOrderDocument document){
@@ -240,7 +243,7 @@ public class ThresholdHelper {
         }
     }
  
-    public boolean isReceivingDocumentRequired(){
+    public boolean isReceivingDocumentRequired() {
         
         // From spec - 7. If all the line items are non-quantity do not do the threshold check. 
         if (allItemsNonQty){
@@ -253,6 +256,7 @@ public class ThresholdHelper {
                 return true;
             }
         }
+        
         return false;
     }
     
@@ -260,41 +264,42 @@ public class ThresholdHelper {
      * This method is public since it's required in the ThresholdTest class. To know the receiving required doc status for a PO,
      * it's always better to call isReceivingDocumentRequired() instead of this method.
      */
-    public boolean isReceivingDocumentRequired(ThresholdCriteria thresholdEnum){
+    public boolean isReceivingDocumentRequired(ThresholdCriteria thresholdEnum) {
         
         List<ThresholdSummary> summaryList = getThresholdSummaryCollection(thresholdEnum);
         
         if (summaryList != null){
-            for (ThresholdSummary thresholdSummary : summaryList) {
+            for (ThresholdSummary summary : summaryList) {
                 Collection collection = null;
                 
                 if (thresholdEnum == CHART){
-                    collection = thresholdService.findByChart(thresholdSummary.getProperty(ThresholdField.CHART_OF_ACCOUNTS_CODE));
+                    collection = thresholdService.findByChart(summary.getProperty(ThresholdField.CHART_OF_ACCOUNTS_CODE));
                 }else if (thresholdEnum == CHART_AND_FUND){
-                    collection = thresholdService.findByChartAndFund(thresholdSummary.getProperty(ThresholdField.CHART_OF_ACCOUNTS_CODE),
-                                                                     thresholdSummary.getProperty(ThresholdField.ACCOUNT_TYPE_CODE));
+                    collection = thresholdService.findByChartAndFund(summary.getProperty(ThresholdField.CHART_OF_ACCOUNTS_CODE),
+                                                                     summary.getProperty(ThresholdField.ACCOUNT_TYPE_CODE));
                 }else if (thresholdEnum == CHART_AND_SUBFUND){
-                    collection = thresholdService.findByChartAndSubFund(thresholdSummary.getProperty(ThresholdField.CHART_OF_ACCOUNTS_CODE),
-                                                                        thresholdSummary.getProperty(ThresholdField.SUBFUND_GROUP_CODE));
+                    collection = thresholdService.findByChartAndSubFund(summary.getProperty(ThresholdField.CHART_OF_ACCOUNTS_CODE),
+                                                                        summary.getProperty(ThresholdField.SUBFUND_GROUP_CODE));
                 }else if (thresholdEnum == CHART_AND_COMMODITYCODE){
-                    collection = thresholdService.findByChartAndCommodity(thresholdSummary.getProperty(ThresholdField.CHART_OF_ACCOUNTS_CODE),
-                                                                        thresholdSummary.getProperty(ThresholdField.COMMODITY_CODE));
+                    collection = thresholdService.findByChartAndCommodity(summary.getProperty(ThresholdField.CHART_OF_ACCOUNTS_CODE),
+                                                                        summary.getProperty(ThresholdField.COMMODITY_CODE));
                 }else if (thresholdEnum == CHART_AND_OBJECTCODE){
-                    collection = thresholdService.findByChartAndObjectCode(thresholdSummary.getProperty(ThresholdField.CHART_OF_ACCOUNTS_CODE),
-                                                                           thresholdSummary.getProperty(ThresholdField.FINANCIAL_OBJECT_CODE));
+                    collection = thresholdService.findByChartAndObjectCode(summary.getProperty(ThresholdField.CHART_OF_ACCOUNTS_CODE),
+                                                                           summary.getProperty(ThresholdField.FINANCIAL_OBJECT_CODE));
                 }else if (thresholdEnum == CHART_AND_ORGCODE){
-                    collection = thresholdService.findByChartAndOrg(thresholdSummary.getProperty(ThresholdField.CHART_OF_ACCOUNTS_CODE),
-                                                                    thresholdSummary.getProperty(ThresholdField.ORGANIZATION_CODE));
+                    collection = thresholdService.findByChartAndOrg(summary.getProperty(ThresholdField.CHART_OF_ACCOUNTS_CODE),
+                                                                    summary.getProperty(ThresholdField.ORGANIZATION_CODE));
                 }else if (thresholdEnum == CHART_AND_VENDOR){
-                    collection = thresholdService.findByChartAndVendor(thresholdSummary.getProperty(ThresholdField.CHART_OF_ACCOUNTS_CODE),
-                                                                       thresholdSummary.getProperty(ThresholdField.VENDOR_HEADER_GENERATED_ID),
-                                                                       thresholdSummary.getProperty(ThresholdField.VENDOR_DETAIL_ASSIGNED_ID));
+                    collection = thresholdService.findByChartAndVendor(summary.getProperty(ThresholdField.CHART_OF_ACCOUNTS_CODE),
+                                                                       summary.getProperty(ThresholdField.VENDOR_HEADER_GENERATED_ID),
+                                                                       summary.getProperty(ThresholdField.VENDOR_DETAIL_ASSIGNED_ID));
                 }
                 
                 if (collection != null){
                     for (ReceivingThreshold threshold :(List<ReceivingThreshold>) collection){
-                        if (threshold.getThresholdAmount() == null ||
-                            threshold.getThresholdAmount().isLessThan(thresholdSummary.getTotalAmount())){
+                        if (threshold.getThresholdAmount() == null || threshold.getThresholdAmount().isLessThan(summary.getTotalAmount())){
+                            thresholdSummary = summary;
+                            receivingThreshold = threshold;
                             return true;
                         }
                     }
@@ -305,8 +310,16 @@ public class ThresholdHelper {
         return false;
         
     }
+    
+    public ThresholdSummary getThresholdSummary() {
+        return thresholdSummary;
+    }
 
-    private class ThresholdSummary {
+    public ReceivingThreshold getReceivingThreshold() {
+        return receivingThreshold;
+    }    
+
+    public class ThresholdSummary {
         
         private ThresholdCriteria thresholdCriteria;
         private Map<ThresholdField,String> property2Value = new HashMap<ThresholdField,String>(); 
@@ -329,11 +342,15 @@ public class ThresholdHelper {
             return property2Value.get(thresholdEnum);
         }
 
-        ThresholdCriteria getThresholdCriteria() {
+        public ThresholdCriteria getThresholdCriteria() {
             return thresholdCriteria;
         }
 
-        KualiDecimal getTotalAmount() {
+        public String getThresholdCriteriaName() {
+            return thresholdCriteria.getName();
+        }
+
+        public KualiDecimal getTotalAmount() {
             return totalAmount;
         }
 
@@ -470,7 +487,7 @@ public class ThresholdHelper {
             return stringBuilder.toString();
         }
     }
-
+  
 }
 
 final class ThresholdCriteria extends Enum {
@@ -483,3 +500,4 @@ final class ThresholdCriteria extends Enum {
         return getEnumList(ThresholdCriteria.class);
     }
 }
+

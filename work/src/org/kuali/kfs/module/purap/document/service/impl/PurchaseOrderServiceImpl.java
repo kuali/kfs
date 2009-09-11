@@ -55,6 +55,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteStatus;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
+import org.kuali.kfs.module.purap.businessobject.ReceivingThreshold;
 import org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
@@ -71,6 +72,7 @@ import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.util.PurApObjectUtils;
 import org.kuali.kfs.module.purap.util.ThresholdHelper;
+import org.kuali.kfs.module.purap.util.ThresholdHelper.ThresholdSummary;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -988,11 +990,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             poa.setPaymentRequestPositiveApprovalIndicator(true);
             poa.setReceivingDocumentRequiredIndicator(false);
         }
-        else {
-            if (!poa.isReceivingDocumentRequiredIndicator()){
-                ThresholdHelper thresholdHelper = new ThresholdHelper(poa);
-                poa.setReceivingDocumentRequiredIndicator(thresholdHelper.isReceivingDocumentRequired());
-            }
+        // check thresholds to see if receiving is required for purchase order amendment
+        else if (!poa.isReceivingDocumentRequiredIndicator()) {
+            setReceivingRequiredIndicatorForPurchaseOrder(poa);                       
         }
 
         // if unordered items have been added to the PO then send an FYI to all fiscal officers
@@ -1394,7 +1394,23 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     public void setReceivingRequiredIndicatorForPurchaseOrder(PurchaseOrderDocument po) {
         ThresholdHelper thresholdHelper = new ThresholdHelper(po);
-        po.setReceivingDocumentRequiredIndicator(thresholdHelper.isReceivingDocumentRequired());
+        boolean result = thresholdHelper.isReceivingDocumentRequired();
+        if (result) {
+            ThresholdSummary thresholdSummary = thresholdHelper.getThresholdSummary();
+            ReceivingThreshold receivingThreshold = thresholdHelper.getReceivingThreshold();
+            po.setReceivingDocumentRequiredIndicator(true);
+            String notetxt = "Receiving is set to be required because the threshold summary with a total amount of " + thresholdSummary.getTotalAmount();
+            notetxt += " exceeds the receiving threshold of " + receivingThreshold.getThresholdAmount();
+            notetxt += " with respect to the threshold criteria " + thresholdSummary.getThresholdCriteriaName();
+            try { 
+                Note note = documentService.createNoteFromDocument(po, notetxt);
+                documentService.addNoteToDocument(po, note);
+                noteService.save(note);
+            }
+            catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     /**

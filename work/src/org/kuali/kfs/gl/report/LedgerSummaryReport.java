@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.businessobject.LedgerBalanceTypeSummaryTotalLine;
 import org.kuali.kfs.gl.businessobject.LedgerSummaryDetailLine;
 import org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine;
@@ -65,7 +66,7 @@ public class LedgerSummaryReport {
      * @return the proper balance type summarizer
      */
     protected LedgerBalanceTypeSummaryTotalLine getBalanceTypeSummaryTotalLine(OriginEntryInformation entry, Map<String, LedgerBalanceTypeSummaryTotalLine> balanceTypeTotals) {
-        final String balanceTypeCode = entry.getFinancialBalanceTypeCode();
+        final String balanceTypeCode = (StringUtils.isBlank(entry.getFinancialBalanceTypeCode())) ? " " : entry.getFinancialBalanceTypeCode();
         LedgerBalanceTypeSummaryTotalLine balanceTypeTotal = balanceTypeTotals.get(balanceTypeCode);
         if (balanceTypeTotal == null) {
             balanceTypeTotal = new LedgerBalanceTypeSummaryTotalLine(balanceTypeCode);
@@ -124,15 +125,17 @@ public class LedgerSummaryReport {
         
             reportWriterService.writeTableHeader(detailList.get(0));
             String currentBalanceType = detailList.get(0).getFinancialBalanceTypeCode();
-            currentBalanceType = currentBalanceType == null ? " " : currentBalanceType;
+            currentBalanceType = StringUtils.isBlank(currentBalanceType) ? " " : currentBalanceType;
             
             for (LedgerSummaryDetailLine detailLine : detailList) {
-                String detailLineBalanceType = (detailLine.getFinancialBalanceTypeCode() == null) ? " " : detailLine.getFinancialBalanceTypeCode();
+                String detailLineBalanceType = (StringUtils.isBlank(detailLine.getFinancialBalanceTypeCode())) ? " " : detailLine.getFinancialBalanceTypeCode();
                 if (!detailLineBalanceType.equals(currentBalanceType)) {
                     LedgerBalanceTypeSummaryTotalLine subTitleLine = balanceTypeTotals.get(currentBalanceType);
                     
-                    reportWriterService.writeTableRow(subTitleLine);
-                    reportWriterService.writeTableRowSeparationLine(subTitleLine);
+                    if (subTitleLine != null) {
+                        reportWriterService.writeTableRow(subTitleLine);
+                        reportWriterService.writeTableRowSeparationLine(subTitleLine);
+                    }
                     currentBalanceType = detailLineBalanceType;
                 }
 

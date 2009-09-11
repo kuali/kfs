@@ -329,6 +329,9 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      */
     public void writeFormattedMessageLine(String format, Object... args) {
         Object[] escapedArgs = escapeArguments(args);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("writeFormattedMessageLine, format: "+format+"; escaped args = "+StringUtils.join(escapedArgs,", "));
+        }
         String message = String.format(format + newLineCharacter, escapedArgs);
 
         // Log we are writing out of bounds. Would be nice to show message here but not so sure if it's wise to dump that data into

@@ -334,7 +334,9 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
         } 
         else {
             Object[] escapedArgs = escapeArguments(args);
-            LOG.info("writeFormattedMessageLine, format: "+format);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("writeFormattedMessageLine, format: "+format);
+            }
             
             String message = null;
 
@@ -648,7 +650,9 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
         Object[] escapedArgs = new Object[args.length];
         for (int i = 0; i < args.length; i++) {
             Object arg = args[i];
-            if (arg != null && arg instanceof String) {
+            if (arg == null) {
+                args[i] = "";
+            } else if (arg != null && arg instanceof String) {
                 String escapedArg = escapeFormatCharacters((String)arg);
                 escapedArgs[i] = escapedArg;
             }

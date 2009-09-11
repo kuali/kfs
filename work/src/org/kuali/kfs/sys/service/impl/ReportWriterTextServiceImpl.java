@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.IllegalFormatException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -332,22 +333,28 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
         if (LOG.isDebugEnabled()) {
             LOG.debug("writeFormattedMessageLine, format: "+format+"; escaped args = "+StringUtils.join(escapedArgs,", "));
         }
-        String message = String.format(format + newLineCharacter, escapedArgs);
+        
+        String message = null;
+        try {
+            message = String.format(format + newLineCharacter, escapedArgs);
 
-        // Log we are writing out of bounds. Would be nice to show message here but not so sure if it's wise to dump that data into
-        // logs
-        if (message.length() > pageWidth) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("message is out of bounds writing anyway");
+            // Log we are writing out of bounds. Would be nice to show message here but not so sure if it's wise to dump that data into
+            // logs
+            if (message.length() > pageWidth) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("message is out of bounds writing anyway");
+                }
             }
-        }
-
-        printStream.print(message);
-        printStream.flush();
-
-        line++;
-        if (line >= pageLength) {
-            this.pageBreak();
+    
+            printStream.print(message);
+            printStream.flush();
+    
+            line++;
+            if (line >= pageLength) {
+                this.pageBreak();
+            }
+        } catch (IllegalFormatException ife) {
+            LOG.warn("Could not properly format message, format = "+format+"; escaped args = "+StringUtils.join(escapedArgs,", "), ife);
         }
     }
 

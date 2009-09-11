@@ -19,10 +19,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,7 +38,6 @@ import org.kuali.kfs.sys.MemoryMonitor;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.core.config.RiceConfigurer;
-import org.kuali.rice.core.database.XAPoolDataSource;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.resourceloader.RiceResourceLoaderFactory;
 import org.kuali.rice.core.util.RiceConstants;
@@ -368,6 +363,7 @@ public class SpringContext {
                                 }
                                 logStatement.append('\n');
                             }
+                            /*
                             Object ds = getBean("dataSource");
                             if ( ds != null && ds instanceof XAPoolDataSource ) {
                                 logStatement.append( "-----------------------------------------------\n" );
@@ -443,6 +439,7 @@ public class SpringContext {
                                     LOG.warn( "Unable to pull current connection SQL: " + e.getMessage() );
                                 }
                             }
+                            */
                             w.write(logStatement.toString());
                             w.close();
                         } catch ( IOException ex ) {

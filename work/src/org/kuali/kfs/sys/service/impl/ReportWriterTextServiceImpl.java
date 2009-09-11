@@ -333,6 +333,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
         if (LOG.isDebugEnabled()) {
             LOG.debug("writeFormattedMessageLine, format: "+format+"; escaped args = "+StringUtils.join(escapedArgs,", "));
         }
+        LOG.warn("writeFormattedMessageLine, format: "+format+"; escaped args = "+StringUtils.join(escapedArgs,", "));
         
         String message = null;
         try {

@@ -78,7 +78,7 @@ public class LaborGLLedgerEntryPosterTest extends KualiTestBase {
         laborGeneralLedgerEntryService = SpringContext.getBean(LaborGeneralLedgerEntryService.class);
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
 
-        //TODO: Shawn - commented out
+        //TODO:- commented out
         //group1 = originEntryGroupService.createGroup(dateTimeService.getCurrentSqlDate(), LABOR_MAIN_POSTER_VALID, false, false, false);
         today = dateTimeService.getCurrentDate();
 
@@ -89,7 +89,7 @@ public class LaborGLLedgerEntryPosterTest extends KualiTestBase {
     }
 
     public void testPost() throws Exception {
-        //TODO: Shawn - need to change using file
+        //TODO:- need to change using file
 //        int numberOfTestData = Integer.valueOf(properties.getProperty("post.numOfData"));
 //        int expectedMaxSequenceNumber = Integer.valueOf(properties.getProperty("post.expectedMaxSequenceNumber"));
 //        int expectedInsertion = Integer.valueOf(properties.getProperty("post.expectedInsertion"));

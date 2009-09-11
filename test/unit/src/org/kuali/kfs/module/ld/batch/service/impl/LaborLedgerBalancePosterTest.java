@@ -73,7 +73,7 @@ public class LaborLedgerBalancePosterTest extends KualiTestBase {
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-        //TODO: Shawn - commented out
+        //TODO:- commented out
         //group1 = originEntryGroupService.createGroup(dateTimeService.getCurrentSqlDate(), LABOR_MAIN_POSTER_VALID, false, false, false);
         today = dateTimeService.getCurrentDate();
 
@@ -84,7 +84,7 @@ public class LaborLedgerBalancePosterTest extends KualiTestBase {
     }
 
     public void testPost() throws Exception {
-        //TODO: Shawn - need to change using file
+        //TODO:- need to change using file
 //        int numberOfTestData = Integer.valueOf(properties.getProperty("post.numOfData"));
 //        int expectedInsertion = Integer.valueOf(properties.getProperty("post.expectedInsertion"));
 //        int expectedUpdate = Integer.valueOf(properties.getProperty("post.expectedUpdate"));

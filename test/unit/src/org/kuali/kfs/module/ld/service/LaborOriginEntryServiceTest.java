@@ -73,7 +73,7 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
 
         Date today = (SpringContext.getBean(DateTimeService.class)).getCurrentSqlDate();
         
-        //TODO: Shawn - commented out
+        //TODO:- commented out
         //group1 = originEntryGroupService.createGroup(today, LABOR_MAIN_POSTER_VALID, false, false, false);
         //group2 = originEntryGroupService.createGroup(today, LABOR_MAIN_POSTER_VALID, false, false, false);
 
@@ -89,7 +89,7 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
     public void testGetEntriesByGroup() throws Exception {
         int numberOfTestData = Integer.valueOf(properties.getProperty("getEntriesByGroup.numOfData"));
         int expectedNumber = Integer.valueOf(properties.getProperty("getEntriesByGroup.expectedNumOfData"));
-        //TODO: Shawn - do it later
+        //TODO:- do it later
 //
 //        businessObjectService.save(getInputDataList("getEntriesByGroup.testData", numberOfTestData, group1));
 //        List<LaborOriginEntry> entries = convertIteratorAsList(laborOriginEntryService.getEntriesByGroup(group1));
@@ -101,7 +101,7 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
     }
 
     public void testGetEntriesByGroups() throws Exception {
-        //TODO: Shawn - do it later
+        //TODO:- do it later
 //        int numberOfTestData = Integer.valueOf(properties.getProperty("getEntriesByGroups.numOfData"));
 //        int expectedNumber = Integer.valueOf(properties.getProperty("getEntriesByGroups.expectedNumOfData"));
 //
@@ -119,7 +119,7 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
     }
 
     public void testGetConsolidatedEntriesByGroup() throws Exception {
-        //TODO:Shawn - do it later
+        //TODO:- do it later
 //        int numberOfTestData = Integer.valueOf(properties.getProperty("getConsolidatedEntriesByGroup.numOfData"));
 //        int expectedNumber = Integer.valueOf(properties.getProperty("getConsolidatedEntriesByGroup.expectedNumOfData"));
 //        KualiDecimal expectedTotal1 = new KualiDecimal(properties.getProperty("getConsolidatedEntriesByGroup.expectedTotal1"));
@@ -162,7 +162,7 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
         int expectedNumber = Integer.valueOf(properties.getProperty("getPosterOutputSummaryByGroups.expectedNumOfData"));
 
         List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
-        //TODO: Shawn - do it later
+        //TODO:- do it later
 //        Map<String, PosterOutputSummaryEntry> outputSummary = laborOriginEntryService.getPosterOutputSummaryByGroups(groups);
 //        assertTrue(outputSummary.isEmpty());
 //
@@ -183,7 +183,7 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
 
         List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
         
-        //TODO: Shawn - do it later
+        //TODO:- do it later
 //        int count = laborOriginEntryService.getCountOfEntriesInGroups(groups);
 //        assertEquals(0, count);
 //

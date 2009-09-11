@@ -531,10 +531,10 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
             bal.setUniversityFiscalYear(previousFiscalYear);
             balanceService.save(bal);
         }
-        //TODO: Shawn - commented out
+        //TODO:- commented out
         //OriginEntryGroup outputGroup = organizationReversionProcessService.createOrganizationReversionProcessOriginEntryGroup();
         
-        //TODO: Shawn - fix 
+        //TODO:- fix 
         //orgRevProcess.setOutputGroup(outputGroup);
         orgRevProcess.setHoldGeneratedOriginEntries(true);
         orgRevProcess.organizationReversionProcess(jobParameters, organizationReversionCounts);
@@ -543,7 +543,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         assertEquals("Balances Read", new Integer(balancesToTest.size()), new Integer(orgRevProcess.getBalancesRead()));
 
         // make sure this resulted in one Org Rev origin entry group
-        //TODO: Shawn - commented out
+        //TODO:- commented out
 //        Collection groups = originEntryGroupService.getAllOriginEntryGroup();
 //        assertEquals("Origin Entries Group Size", new Integer(1), new Integer(groups.size()));
 //

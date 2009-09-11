@@ -89,7 +89,7 @@ public class LaborPosterServiceTest extends KualiTestBase {
         //businessObjectService.deleteMatching(OriginEntryGroup.class, groupFieldValues);
 
         Date today = (SpringContext.getBean(DateTimeService.class)).getCurrentSqlDate();
-        //TODO: Shawn - commented out
+        //TODO:- commented out
         //groupToPost = originEntryGroupService.createGroup(today, LABOR_SCRUBBER_VALID, true, true, false);
 
         LaborOriginEntry cleanup = new LaborOriginEntry();
@@ -99,12 +99,12 @@ public class LaborPosterServiceTest extends KualiTestBase {
         businessObjectService.deleteMatching(LedgerEntry.class, fieldValues);
         businessObjectService.deleteMatching(LaborGeneralLedgerEntry.class, fieldValues);
         
-        //TODO: Shawn - commented out - problem with "PROJECTCODE" - invalid identifier???? 
+        //TODO:- commented out - problem with "PROJECTCODE" - invalid identifier???? 
         //businessObjectService.deleteMatching(LedgerBalance.class, fieldValues);
     }
 
     public void testPostAsLedgerEntry() throws Exception {
-        //TODO: Shawn - need to change it using file
+        //TODO:- need to change it using file
         //        String testTarget = "postAsLedgerEntry.";
 //        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
 //        int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
@@ -115,7 +115,7 @@ public class LaborPosterServiceTest extends KualiTestBase {
 //        for (LaborOriginEntry entry : inputDataList) {
 //            persistenceService.retrieveNonKeyFields(entry);
 //        }
-//        //TODO: Shawn - need to change it using file
+//        //TODO:- need to change it using file
 //        //laborPosterService.postMainEntries();
 //
 //        Collection ledgerEntries = businessObjectService.findMatching(LedgerEntry.class, fieldValues);

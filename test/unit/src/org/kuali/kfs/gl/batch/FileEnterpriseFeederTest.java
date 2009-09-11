@@ -428,7 +428,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
      * @param groupOfLoadedEntries the entries that were really the output of the enterprise feed process
      */
     protected void assertOriginEntriesLoaded(List<String> expectedEntries, OriginEntryGroup groupOfLoadedEntries) {
-        //TODO: Shawn - do it later
+        //TODO:- do it later
 //        Collection<OriginEntryFull> actualEntries = originEntryDao.testingGetAllEntries();
 //
 //        assertEquals("Expected and actual number of loaded origin entries do not match.", expectedEntries.size(), actualEntries.size());

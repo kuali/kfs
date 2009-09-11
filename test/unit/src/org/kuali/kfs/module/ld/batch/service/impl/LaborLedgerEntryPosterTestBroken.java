@@ -77,7 +77,7 @@ public class LaborLedgerEntryPosterTestBroken extends KualiTestBase {
         originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
         laborLedgerEntryService = SpringContext.getBean(LaborLedgerEntryService.class);
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-        //TODO: Shawn - commented out
+        //TODO:- commented out
         //group1 = originEntryGroupService.createGroup(dateTimeService.getCurrentSqlDate(), LABOR_MAIN_POSTER_VALID, false, false, false);
         today = dateTimeService.getCurrentDate();
 

@@ -329,8 +329,8 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      * @see org.kuali.kfs.sys.service.ReportWriterService#writeFormattedMessageLine(java.lang.String, java.lang.Object[])
      */
     public void writeFormattedMessageLine(String format, Object... args) {
-        if (format == null || (args.length == 0 && !allFormattingEscaped(format))) {
-            LOG.warn("Could not properly format message, format = "+format+"; escaped args = "+StringUtils.join(args,", "));
+        if (format.indexOf("% s") > -1) {
+            LOG.warn("Cannot properly format: "+format);
         } 
         else {
             Object[] escapedArgs = escapeArguments(args);
@@ -339,13 +339,13 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
             }
             
             String message = null;
-
+    
             if (escapedArgs.length > 0) {
                 message = String.format(format + newLineCharacter, escapedArgs);
             } else {
                 message = format+newLineCharacter;
             }
-
+    
             // Log we are writing out of bounds. Would be nice to show message here but not so sure if it's wise to dump that data into
             // logs
             if (message.length() > pageWidth) {
@@ -361,7 +361,6 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
             if (line >= pageLength) {
                 this.pageBreak();
             }
-            
         }
     }
     

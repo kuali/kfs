@@ -27,14 +27,14 @@ public class PreScrubberReport {
             reportWriterService.writeNewLines(2);
             reportWriterService.writeFormattedMessageLine("The following account numbers were not associated with any chart of accounts code:");
             for (String accountNumber : preScrubberReportData.getAccountsWithNoCharts()) {
-                reportWriterService.writeFormattedMessageLine("%,15s", accountNumber);
+                reportWriterService.writeFormattedMessageLine("%15s", accountNumber);
             }
         }
         if (!preScrubberReportData.getAccountsWithMultipleCharts().isEmpty()) {
             reportWriterService.writeNewLines(2);
             reportWriterService.writeFormattedMessageLine("The following account numbers were associated with multiple chart of accounts codes:");
             for (String accountNumber : preScrubberReportData.getAccountsWithMultipleCharts()) {
-                reportWriterService.writeFormattedMessageLine("%,15s", accountNumber);
+                reportWriterService.writeFormattedMessageLine("%15s", accountNumber);
             }
         }
     }

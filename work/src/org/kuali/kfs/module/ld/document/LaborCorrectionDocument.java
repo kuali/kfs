@@ -66,7 +66,7 @@ public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocum
 
             else if (LaborCorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || LaborCorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)) {
 
-                // TODO: Shawn - need to save the output file to originEntry directory when correctionFileDelete is false
+                // TODO:- need to save the output file to originEntry directory when correctionFileDelete is false
                 DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
                 Date today = dateTimeService.getCurrentDate();
                 String outputFileName = "";

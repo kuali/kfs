@@ -129,7 +129,7 @@ public class LaborCorrectionAction extends CorrectionAction {
                         // reapply the any criteria to pare down the list if the match criteria only flag is checked
                         LaborCorrectionDocument document = rForm.getLaborCorrectionDocument();
                         List<CorrectionChangeGroup> groups = document.getCorrectionChangeGroup();
-                        //TODO: Shawn - need to change for LLCP                      
+                        //TODO:- need to change for LLCP                      
                         updateEntriesFromCriteria(rForm, rForm.isRestrictedFunctionalityMode());
                     }
 
@@ -1163,7 +1163,7 @@ public class LaborCorrectionAction extends CorrectionAction {
                 CorrectionLaborGroupEntriesFinder f = new CorrectionLaborGroupEntriesFinder();
                 List values = f.getKeyValues();
                 if (values.size() > 0) {
-                    //TODO: Shawn - need to change using file
+                    //TODO:- need to change using file
                     //OriginEntryGroup g = CorrectionAction.originEntryGroupService.getNewestScrubberErrorGroup();
                     String newestScrubberErrorFileName = CorrectionAction.originEntryGroupService.getNewestScrubberErrorLaborFileName();
                     //if (g != null) {
@@ -1206,8 +1206,8 @@ public class LaborCorrectionAction extends CorrectionAction {
             LaborCorrectionDocument doc = laborCorrectionForm.getLaborCorrectionDocument();
             doc.setCorrectionInputFileName(batchDirectory + File.separator + laborCorrectionForm.getInputGroupId());
 
-            // TODO: Shawn - need to change using file - just size info will be enough
-            // TODO: Shawn - int will be enough? should I change it long??
+            // TODO:- need to change using file - just size info will be enough
+            // TODO:- int will be enough? should I change it long??
             int inputGroupSize = laborOriginEntryService.getGroupCount(laborCorrectionForm.getInputGroupId());
             int recordCountFunctionalityLimit = CorrectionDocumentUtils.getRecordCountFunctionalityLimit();
             laborCorrectionForm.setPersistedOriginEntriesMissing(false);
@@ -1230,7 +1230,7 @@ public class LaborCorrectionAction extends CorrectionAction {
             else {
                 laborCorrectionForm.setRestrictedFunctionalityMode(false);
                 
-                //TODO: Shawn - need to change using file
+                //TODO:- need to change using file
                 loadAllEntries(laborCorrectionForm.getInputGroupId(), laborCorrectionForm);
 
                 if (laborCorrectionForm.getAllEntries().size() > 0) {

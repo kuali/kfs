@@ -38,7 +38,7 @@ public class MarkPostableScrubberValidGroupsAsUnpostableStep extends AbstractSte
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         
-        //TODO: Shawn - need to check
+        //TODO:- need to check
         //originEntryGroupService.markPostableScrubberValidGroupsAsUnpostable();
         return true;
     }

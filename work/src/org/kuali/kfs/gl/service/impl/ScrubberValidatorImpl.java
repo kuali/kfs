@@ -390,7 +390,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                     continuationAccountIndicator = true;
                     //workingEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
                     //workingEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_AUTO_FORWARD) + " " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
-                    // TODO: Shawn - use messageBuilder and KeyConstant - also, length issue!?!??
+                    // TODO:- use messageBuilder and KeyConstant - also, length issue!?!??
                     workingEntry.setTransactionLedgerEntryDescription("AUTO FR " + " " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
                     return MessageBuilder.buildMessage(KFSKeyConstants.MSG_ACCOUNT_CLOSED_TO, originEntry.getChartOfAccountsCode()+originEntry.getAccountNumber(), Message.TYPE_WARNING);
                 }
@@ -414,7 +414,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                         continuationAccountIndicator = true;
                         //workingEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
                         //workingEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_AUTO_FORWARD) + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
-                        // TODO: Shawn - use messageBuilder and KeyConstant - also, length issue!?!??
+                        // TODO:- use messageBuilder and KeyConstant - also, length issue!?!??
                         workingEntry.setTransactionLedgerEntryDescription("AUTO FR " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
                         return MessageBuilder.buildMessage(KFSKeyConstants.MSG_ACCOUNT_CLOSED_TO, originEntry.getChartOfAccountsCode()+originEntry.getAccountNumber(), Message.TYPE_WARNING);
                     }
@@ -591,8 +591,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                 workingEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
                 workingEntry.setUniversityFiscalPeriodCode(universityRunDate.getUniversityFiscalAccountingPeriod());
                 
-                // shawn - to display updated values on report 
-                // TODO: shawn -need to check because below two lines are commented out in validateUniversityFiscalPeriodCode 
+                // TODO:- to display updated values on report 
+                // TODO:- need to check because below two lines are commented out in validateUniversityFiscalPeriodCode 
                 originEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
                 originEntry.setUniversityFiscalPeriodCode(universityRunDate.getUniversityFiscalAccountingPeriod());
 
@@ -776,7 +776,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_OBJECT_CODE_NOT_ACTIVE, objectCodeString, Message.TYPE_FATAL);
         }
 
-        //TODO: Shawn - need to commented back after using file --> ?? 
+        //TODO:- need to commented back after using file --> ?? 
         // changed OriginEntryInformation to OriginEntryFull in  ScrubberProcess line 537 (after getting entry from file) 
         //((OriginEntryFull)workingEntry).setFinancialObject(workingEntryFinancialObject);
         //((OriginEntryFull)originEntry).setFinancialObject(workingEntryFinancialObject);
@@ -916,7 +916,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                 workingEntry.setFinancialBalanceTypeCode(workingEntryOption.getActualFinancialBalanceTypeCd());
             }
             else {
-                //TODO: shawn - need to change to use MessageBuilder
+                //TODO:- need to change to use MessageBuilder
                 return new Message("Unable to set balance type code when year is unknown: " + workingEntry.getUniversityFiscalYear(), Message.TYPE_FATAL);
             }
         }
@@ -995,7 +995,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         boolean typeCodeNullIndicator = !StringUtils.hasText(originEntry.getReferenceFinancialDocumentTypeCode());
         boolean originCodeNullIndicator = !StringUtils.hasText(originEntry.getReferenceFinancialSystemOriginationCode());
 
-        // shawn - do we need this?
+        //TODO:- do we need this?
         boolean editReference = true;
         if (numberNullIndicator) {
             workingEntry.setReferenceFinancialDocumentNumber(null);

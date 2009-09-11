@@ -66,13 +66,13 @@ public class IcrSortStep extends AbstractStep {
             StringBuffer sb1 = new StringBuffer();
             
             sb1.append(string1.substring(0, 51));
-            // Shawn - something wrong
+            // TODO:- something wrong
             //sb1.append(string1.substring(129, 147));
             sb1.append(string1.substring(137, 155));
             
             StringBuffer sb2 = new StringBuffer();
             sb2.append(string1.substring(0, 51));
-            // Shawn - something wrong
+            // TODO:- something wrong
             //sb2.append(string1.substring(129, 147));
             sb2.append(string1.substring(137, 155));
             return sb1.toString().compareTo(sb2.toString());

@@ -84,7 +84,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
             throw new RuntimeException(e);
         }
         
-        //TODO: Shawn - might need to change this part to use file not collection
+        //TODO:- might need to change this part to use file not collection
         Collection<OriginEntryFull> group = new ArrayList();
         Iterator<LaborLedgerPendingEntry> pendingEntries = laborLedgerPendingEntryService.findApprovedPendingLedgerEntries();
         
@@ -93,7 +93,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
             LaborLedgerPendingEntry pendingEntry = pendingEntries.next();
             LaborOriginEntry entry = new LaborOriginEntry(pendingEntry);
             // copy the pending entry to labor origin entry table
-            // TODO: Shawn - do we need it???
+            // TODO:- do we need it???
         //    boolean isSaved = saveAsLaborOriginEntry(pendingEntry, group);
            boolean isSaved = true; 
             

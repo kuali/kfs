@@ -100,7 +100,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
      * @see org.kuali.kfs.gl.service.OriginEntryService#getSummaryByGroupId(Collection)
      */
     
-    //TODO: Shawn - This method used for report. I will delete this method after all reports are done.
+    //TODO:- This method used for report. I will delete this method after all reports are done.
     public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList) {
         LOG.debug("getSummaryByGroupId() started");
 
@@ -242,7 +242,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
      * @see org.kuali.kfs.gl.service.OriginEntryService#getPosterOutputSummaryByGroupId(java.util.Collection)
      */
     
-    //TODO: Shawn - This method used for report. I will delete this method after all reports are done.
+    //TODO:- This method used for report. This method can be deleted after all reports are done.
     public Map<String, PosterOutputSummaryEntry> getPosterOutputSummaryByGroupId(Collection groupIdList) {
         LOG.debug("getPosterOutputSummaryByGroupId() started");
 

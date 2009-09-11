@@ -104,7 +104,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         universityFiscalPeriodCode = pendingEntry.getUniversityFiscalPeriodCode();
         universityFiscalYear = pendingEntry.getUniversityFiscalYear();
         
-        //TODO: shawn - need to check 
+        //TODO:- need to check 
         
         positionNumber = pendingEntry.getPositionNumber();
         transactionPostingDate = pendingEntry.getTransactionPostingDate();
@@ -126,15 +126,15 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         laborLedgerOriginalFinancialSubObjectCode = pendingEntry.getLaborLedgerOriginalFinancialSubObjectCode();
         hrmsCompany = pendingEntry.getHrmsCompany();
         setid = pendingEntry.getSetid();
-        //TODO: shawn - timestamp????
+        //TODO:- timestamp????
         //transactionDateTimeStamp = pendingEntry.getTransactionDateTimeStamp();
         transactionEntryOffsetCode = pendingEntry.getTransactionEntryOffsetCode();
         payrollEndDateFiscalPeriod = pendingEntry.getPayrollEndDateFiscalPeriod();
         
-        //TODO: shawn - don't need it?
+        //TODO:- don't need it?
         //reversalDate = pendingEntry.getReversalDate();
         
-        //TODO: shawn check - no positionData in laborOriginEntry
+        //TODO:- check: no positionData in laborOriginEntry
         //positionData = pendingEntry.getPositionData();
         
     }

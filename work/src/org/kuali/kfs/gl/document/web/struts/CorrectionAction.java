@@ -719,7 +719,6 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         FormFile sourceFile = correctionForm.getSourceFile();
         String glcpDirectory = SpringContext.getBean(CorrectionDocumentService.class).getGlcpDirectoryName();
         String fullFileName = glcpDirectory + File.separator + sourceFile.getFileName();
-        //shawn-test purpose
         
         BufferedReader br = new BufferedReader(new InputStreamReader(sourceFile.getInputStream()));
         //create a file

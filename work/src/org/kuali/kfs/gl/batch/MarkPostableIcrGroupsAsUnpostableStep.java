@@ -38,7 +38,7 @@ public class MarkPostableIcrGroupsAsUnpostableStep extends AbstractStep implemen
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
 
-        //TODO: Shawn - need to check
+        //TODO:- need to check
         //originEntryGroupService.markPostableIcrGroupsAsUnpostable();
         return true;
     }

@@ -91,7 +91,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
                     try {
                         amount = new KualiDecimal(currentLine.substring(109, 126).trim());
 
-                        // TODO: Shawn - ask to jeff (Row count should be all rows?)
+                        // TODO:- Check with FIS (Row count should be all rows?)
                         rowCount++;
                     }
                     catch (NumberFormatException e) {

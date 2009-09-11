@@ -329,14 +329,17 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      * @see org.kuali.kfs.sys.service.ReportWriterService#writeFormattedMessageLine(java.lang.String, java.lang.Object[])
      */
     public void writeFormattedMessageLine(String format, Object... args) {
-        Object[] escapedArgs = escapeArguments(args);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("writeFormattedMessageLine, format: "+format+"; escaped args = "+StringUtils.join(escapedArgs,", "));
-        }
-        LOG.warn("writeFormattedMessageLine, format: "+format+"; escaped args = "+StringUtils.join(escapedArgs,", "));
-        
-        String message = null;
-        try {
+        if (format == null || (args.length == 0 && !allFormattingEscaped(format))) {
+            LOG.warn("Could not properly format message, format = "+format+"; escaped args = "+StringUtils.join(args,", "));
+        } 
+        else {
+            Object[] escapedArgs = escapeArguments(args);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("writeFormattedMessageLine, format: "+format);
+            }
+            
+            String message = null;
+
             message = String.format(format + newLineCharacter, escapedArgs);
 
             // Log we are writing out of bounds. Would be nice to show message here but not so sure if it's wise to dump that data into
@@ -354,9 +357,26 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
             if (line >= pageLength) {
                 this.pageBreak();
             }
-        } catch (IllegalFormatException ife) {
-            LOG.warn("Could not properly format message, format = "+format+"; escaped args = "+StringUtils.join(escapedArgs,", "), ife);
+            
         }
+    }
+    
+    /**
+     * Determines if all formatting on the given String is escaped - ie, that it has no formatting
+     * @param format the format to test
+     * @return true if the String is without formatting, false otherwise
+     */
+    protected boolean allFormattingEscaped(String format) {
+        int currPoint = 0;
+        int currIndex = format.indexOf('%', currPoint);
+        while (currIndex > -1) {
+            char nextChar = format.charAt(currIndex+1);
+            if (nextChar != '%') {
+                return false;
+            }
+            currPoint = currIndex + 2;
+        }
+        return true;
     }
 
     /**

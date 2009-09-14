@@ -72,15 +72,17 @@ public class OrganizationReversionUnitOfWorkServiceImpl implements OrganizationR
      * @see org.kuali.kfs.gl.batch.service.OrganizationReversionUnitOfWorkService#save(org.kuali.kfs.gl.businessobject.OrgReversionUnitOfWork)
      */
     public void save(OrgReversionUnitOfWork orgRevUnitOfWork) {
-        LOG.debug("Saving org reversion summary for " + orgRevUnitOfWork.toString() + "; its category keys are: " + orgRevUnitOfWork.getCategoryAmounts().keySet());
-        businessObjectService.save(orgRevUnitOfWork);
-        CollectionUtils.forAllDo(orgRevUnitOfWork.getCategoryAmounts().entrySet(), new Closure() {
-            public void execute(Object categoryEntryAsObject) {
-                OrgReversionUnitOfWorkCategoryAmount categoryAmount = (OrgReversionUnitOfWorkCategoryAmount) ((Map.Entry) categoryEntryAsObject).getValue();
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Saving org reversion summary for " + orgRevUnitOfWork.toString() + "; its category keys are: " + orgRevUnitOfWork.getCategoryAmounts().keySet());
+        }
+        getBusinessObjectService().save(orgRevUnitOfWork);
+        for (String category: orgRevUnitOfWork.getCategoryAmounts().keySet()) {
+            final OrgReversionUnitOfWorkCategoryAmount categoryAmount = orgRevUnitOfWork.getCategoryAmounts().get(category);
+            if (LOG.isDebugEnabled()) {
                 LOG.debug("Saving category amount for " + categoryAmount.toString());
-                businessObjectService.save(categoryAmount);
             }
-        });
+            getBusinessObjectService().save(categoryAmount);
+        }
     }
 
     /**

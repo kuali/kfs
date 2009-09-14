@@ -376,7 +376,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         correctionForm.setEditableFlag(true);
         correctionForm.setManualEditFlag(false);
 
-        document.addCorrectionChangeGroup(new CorrectionChangeGroup());
+        //document.addCorrectionChangeGroup(new CorrectionChangeGroup());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

@@ -70,7 +70,6 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
     private A21SubAccountService a21SubAccountService;
     private SubObjectCodeService subObjectCodeService;
     private OptionsService optionsService;
-    private PriorYearAccountService priorYearAccountService;
     private SubFundGroupService subFundGroupService;
     private BusinessObjectService businessObjectService;
     private AccountingCycleCachingService accountingCycleCachingService;
@@ -409,7 +408,7 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
             }
             else if (KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE.equals(encumbrance.getBalanceTypeCode())) {
                 // pre-encumbrances are forwarded, but only if they're related to contracts and grants accounts
-                PriorYearAccount priorYearAccount = getPriorYearAccountService().getByPrimaryKey(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber());
+                PriorYearAccount priorYearAccount = retrievePriorYearAccount(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber());
                 // the account on the encumbrance must be valid
                 if (null == priorYearAccount) {
                     LOG.info("No prior year account for chart \"" + encumbrance.getChartOfAccountsCode() + "\" and account \"" + encumbrance.getAccountNumber() + "\"");
@@ -474,7 +473,7 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
      * @throws FatalErrorException thrown if a given A21SubAccount, SubFundGroup, or PriorYearAccount record is not found in the database
      */
     public boolean shouldForwardCostShareForEncumbrance(OriginEntryFull entry, OriginEntryFull offset, Encumbrance encumbrance, String objectTypeCode) throws FatalErrorException {
-        PriorYearAccount priorYearAccount = getPriorYearAccountService().getByPrimaryKey(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber());
+        PriorYearAccount priorYearAccount = retrievePriorYearAccount(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber());
 
         // the sub fund group for the prior year account must exist.
         String subFundGroupCode = null;
@@ -526,6 +525,20 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
             return false;
         }
 
+    }
+    
+    /**
+     * Retrieves a prior year account from the persistence store
+     * @param chartOfAccountsCode the chart of accounts for the prior year account
+     * @param accountNumber the account number for the prior year account
+     * @return the PriorYearAccount
+     */
+    protected PriorYearAccount retrievePriorYearAccount(String chartOfAccountsCode, String accountNumber) {
+        Map pks = new HashMap();
+        pks.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        pks.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+        
+        return (PriorYearAccount)this.getBusinessObjectService().findByPrimaryKey(PriorYearAccount.class, pks);
     }
     
     /**
@@ -666,22 +679,6 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
      */
     public void setOptionsService(OptionsService optionsService) {
         this.optionsService = optionsService;
-    }
-
-    /**
-     * Gets the priorYearAccountService attribute. 
-     * @return Returns the priorYearAccountService.
-     */
-    public PriorYearAccountService getPriorYearAccountService() {
-        return priorYearAccountService;
-    }
-
-    /**
-     * Sets the priorYearAccountService attribute value.
-     * @param priorYearAccountService The priorYearAccountService to set.
-     */
-    public void setPriorYearAccountService(PriorYearAccountService priorYearAccountService) {
-        this.priorYearAccountService = priorYearAccountService;
     }
 
     /**

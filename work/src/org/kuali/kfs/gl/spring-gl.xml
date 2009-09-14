@@ -587,7 +587,6 @@
 		<property name="a21SubAccountService" ref="a21SubAccountService" />
 		<property name="subObjectCodeService" ref="subObjectCodeService" />
 		<property name="optionsService" ref="optionsService" />
-		<property name="priorYearAccountService" ref="priorYearAccountService" />
 		<property name="subFundGroupService" ref="subFundGroupService" />
 		<property name="accountingCycleCachingService" ref="accountingCycleCachingService" />
 		<property name="businessObjectService" ref="businessObjectService" />

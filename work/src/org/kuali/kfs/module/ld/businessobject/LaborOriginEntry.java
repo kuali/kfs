@@ -739,7 +739,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
             } else {
                 sb.append("+");
             } 
-            sb.append(ZERO_TRANSACTION_LEDGER_ENTRY_AMOUNT.substring(1, 20 - a.length()));
+            sb.append(ZERO_TRANSACTION_LEDGER_ENTRY_AMOUNT.substring(1, 21 - a.length()));
             sb.append(a);
         }
 

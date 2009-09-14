@@ -19,7 +19,9 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -52,7 +54,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OriginationCodeService;
-import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -354,7 +355,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      */
     private Message continuationAccountLogic(OriginEntryInformation originEntry, OriginEntryInformation workingEntry, UniversityDate universityRunDate, AccountingCycleCachingService accountingCycleCachingService) {
 
-        List checkedAccountNumbers = new ArrayList();
+        Set<String> checkedAccountNumbers = new HashSet<String>();
 
         Account continuationAccount = null;
         Account originEntryAccount = accountingCycleCachingService.getAccount(originEntry.getChartOfAccountsCode(), originEntry.getAccountNumber());
@@ -391,8 +392,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                     //workingEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
                     //workingEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_AUTO_FORWARD) + " " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
                     // TODO:- use messageBuilder and KeyConstant - also, length issue!?!??
-                    workingEntry.setTransactionLedgerEntryDescription("AUTO FR " + " " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
-                    return MessageBuilder.buildMessage(KFSKeyConstants.MSG_ACCOUNT_CLOSED_TO, originEntry.getChartOfAccountsCode()+originEntry.getAccountNumber(), Message.TYPE_WARNING);
+                    workingEntry.setTransactionLedgerEntryDescription("AUTO FR " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
+                    return MessageBuilder.buildMessage(KFSKeyConstants.MSG_ACCOUNT_CLOSED_TO, chartCode+accountNumber, Message.TYPE_WARNING);
                 }
                 else {
                     // the account does have an expiration date.
@@ -416,7 +417,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                         //workingEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_AUTO_FORWARD) + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
                         // TODO:- use messageBuilder and KeyConstant - also, length issue!?!??
                         workingEntry.setTransactionLedgerEntryDescription("AUTO FR " + originEntry.getChartOfAccountsCode() + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
-                        return MessageBuilder.buildMessage(KFSKeyConstants.MSG_ACCOUNT_CLOSED_TO, originEntry.getChartOfAccountsCode()+originEntry.getAccountNumber(), Message.TYPE_WARNING);
+                        return MessageBuilder.buildMessage(KFSKeyConstants.MSG_ACCOUNT_CLOSED_TO, chartCode+accountNumber, Message.TYPE_WARNING);
                     }
                 }
             }

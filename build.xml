@@ -45,13 +45,13 @@
 	  	<tstamp><format property="current.year" pattern="yyyy" locale="en,US" /></tstamp>
 		<property name="feedback.link.url" value="${feedback.link.url}" />
 		<property name="licensing.contact.email" value="${licensing.contact.email}" />
-		<condition property="context.docbase" value=' docBase="${basedir}${file.separator}work${file.separator}web-root"'><equals arg1="${is.local.build}" arg2="true" /></condition>
+		<condition property="context.docbase" value=' docBase="${basedir}${file.separator}work${file.separator}web-root"'><isset property="is.local.build" /></condition>
 		<property name="context.docbase" value="" />
 		<condition property="datasource.url" value="${mysql.datasource.url}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<property name="datasource.url" value="${oracle.datasource.url}" />
 		<condition property="use.p6spy.local">
 			<and>
-				<equals arg1="${is.local.build}" arg2="true" />
+			    <isset property="is.local.build" />
 				<equals arg1="${use.p6spy}" arg2="true" />
 			</and>
 		</condition>
@@ -62,9 +62,9 @@
 		<property name="p6spy.real.driver.class" value="${oracle.driver.class}" />
 		<condition property="datasource.ojb.sequence.manager" value="${mysql.ojb.sequence.manager}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<property name="datasource.ojb.sequence.manager" value="${oracle.ojb.sequence.manager}" />		
-		<condition property="appenders" value="INFO, LogFile, StdOut"><equals arg1="${is.local.build}" arg2="true" /></condition>
+		<condition property="appenders" value="INFO, LogFile, StdOut"><isset property="is.local.build" /></condition>
 		<property name="appenders" value="INFO, LogFile" />
-		<condition property="use.quartz.jdbc.jobstore" value="false"><equals arg1="${is.local.build}" arg2="true" /></condition>
+		<condition property="use.quartz.jdbc.jobstore" value="false"><isset property="is.local.build" /></condition>
 		<property name="use.quartz.jdbc.jobstore" value="true" />
 		<condition property="rice.create.standalone" value="true">
 			<equals arg1="${rice.standalone}" arg2="true" />
@@ -103,7 +103,7 @@
 		<condition property="rice.server.datasource.password" value="${rice.datasource.password}" else="${datasource.password}"><isset property="rice.create.standalone"/></condition>
 
 		<condition property="rice.dev.mode" value="false"><equals arg1="${rice.standalone}" arg2="true" /></condition>
-		<condition property="rice.dev.mode" value="true"><equals arg1="${is.local.build}" arg2="true" /></condition>
+		<condition property="rice.dev.mode" value="true"><isset property="is.local.build" /></condition>
 		<property name="rice.dev.mode" value="false" />
 		
 		<condition property="kim.mode" value="embedded" else="local"><isset property="rice.create.standalone" /></condition>
@@ -123,12 +123,12 @@
         <property name="rice.workflow.url" value="${rice.kew.url}"/>
         <property name="rice.externalizable.images.url" value="${rice.url}/static/images/"/>
 	    
-		<condition property="rice.message.persistence" value="false"><equals arg1="${is.local.build}" arg2="true" /></condition>
+		<condition property="rice.message.persistence" value="false"><isset property="is.local.build" /></condition>
 		<property name="rice.message.persistence" value="true" />
 		<condition property="rice.use.quartz.database" value="true">
 			<and>
-				<not><equals arg1="${use.quartz.scheduling}" arg2="true" /></not>
-				<not><equals arg1="${is.local.build}" arg2="true" /></not>
+				<equals arg1="${use.quartz.scheduling}" arg2="true" />
+			    <equals arg1="${use.quartz.jdbc.jobstore}" arg2="true" />
 			</and>
 		</condition>
 		<property name="rice.use.quartz.database" value="false" />

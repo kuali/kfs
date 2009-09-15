@@ -94,7 +94,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                 KimTypeInfo typeInfo = getTypeInfoService().getKimType(roleInfo.getKimTypeId());
                 List<KfsKimDocumentAttributeData> attributes = new ArrayList<KfsKimDocumentAttributeData>();
                 KfsKimDocumentAttributeData attribute;
-                orr.setDelegationMemberId(delegationMember.getMemberId());
+                orr.setDelegationMemberId(delegationMember.getDelegationMemberId());
                 orr.setRoleMemberId(delegationMember.getRoleMemberId());
                 orr.setAttributes(orr.getAttributeSetAsQualifierList(typeInfo, delegationMember.getQualifier()));
                 orr.setRoleId(delegation.getRoleId());
@@ -403,10 +403,9 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         List<DelegateMemberCompleteInfo> objectsToSave = new ArrayList<DelegateMemberCompleteInfo>();
         String memberId;
         DelegateMemberCompleteInfo delegationMember = null;
-        DelegateInfo origDelegationMember = null;
         Map<String, Object> criteria;
         if(orr.isEdit() && !orr.isCreateDelegation()){
-            origDelegationMember = (DelegateInfo)getRoleManagementService().getDelegationMemberById(orr.getDelegationMemberId());
+            delegationMember = (DelegateMemberCompleteInfo)getRoleManagementService().getDelegationMemberById(orr.getDelegationMemberId());
         }
         if(StringUtils.isNotEmpty(orr.getRoleMemberRoleNamespaceCode()) && StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
             if(delegationMember==null){
@@ -414,8 +413,8 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                 delegationMember = new DelegateMemberCompleteInfo();
                 delegationMember.setMemberId(memberId);
             }
+            delegationMember.setDelegationTypeCode(orr.getDelegationTypeCode());
             delegationMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE);
-
             delegationMember.setQualifier(getAttributes(orr, orr.getKimTypeId()));
             delegationMember.setActiveFromDate(orr.getActiveFromDate());
             delegationMember.setActiveToDate(orr.getActiveToDate());
@@ -430,6 +429,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                 delegationMember = new DelegateMemberCompleteInfo();
                 delegationMember.setMemberId(memberId);
             }
+            delegationMember.setDelegationTypeCode(orr.getDelegationTypeCode());
             delegationMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE);
             if(orr.isEdit() && !orr.isCreateDelegation()){
                 delegationMember.setDelegationMemberId(orr.getDelegationMemberId());
@@ -447,6 +447,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                 delegationMember = new DelegateMemberCompleteInfo();
                 delegationMember.setMemberId(principal.getPrincipalId());
             }
+            delegationMember.setDelegationTypeCode(orr.getDelegationTypeCode());
             delegationMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE);
             if(orr.isEdit() && !orr.isCreateDelegation()){
                 delegationMember.setDelegationMemberId(orr.getDelegationMemberId());

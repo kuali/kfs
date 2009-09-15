@@ -76,6 +76,9 @@ public class PostSufficientFundBalances implements PostTransaction {
             sufficientFundsObjectCode = t.getFinancialObjectCode();
         }
         else if (KFSConstants.SF_TYPE_LEVEL.equals(t.getAccount().getAccountSufficientFundsCode())) {
+            if (ObjectUtils.isNull(t.getFinancialObject())) {
+                return "E:Could not find sufficient funds object code for " + t.toString();
+            }
             sufficientFundsObjectCode = t.getFinancialObject().getFinancialObjectLevelCode();
         }
         else if (KFSConstants.SF_TYPE_CONSOLIDATION.equals(t.getAccount().getAccountSufficientFundsCode())) {

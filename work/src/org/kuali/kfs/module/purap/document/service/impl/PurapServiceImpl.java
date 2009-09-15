@@ -1292,19 +1292,8 @@ public class PurapServiceImpl implements PurapService {
            fullOrderDiscount.getSourceAccountingLines().clear();
         }
         
-        KualiDecimal tradeIdPrice = KualiDecimal.ZERO;
-        if (tradeIn instanceof PaymentRequestItem){
-            if((((PaymentRequestItem)tradeIn).getPurchaseOrderItemUnitPrice()) != null){
-                tradeIdPrice = new KualiDecimal(((PaymentRequestItem)tradeIn).getPurchaseOrderItemUnitPrice());
-            }
-        }else{
-            if (tradeIn != null){
-                tradeIdPrice = tradeIn.getExtendedPrice();
-            }
-        }
-        
         // If tradeIn is not null or zero get proration list for all non misc items and set (if not empty?)
-        if (tradeIn != null && tradeIdPrice.isNonZero()) {
+        if (tradeIn != null && tradeIn.getExtendedPrice() != null && tradeIn.getExtendedPrice().isNonZero()) {
             
             tradeIn.getSourceAccountingLines().clear();
 

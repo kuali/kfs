@@ -445,4 +445,5 @@ public class GeneralLedgerConstants {
         }
         return SPACE_CHART_OF_ACCOUNTS_CODE;
     }
+    public static final String INCOME_OR_EXPENSE_TRANSFER_CONSOLIDATION_CODE = "TRSF";    
 }

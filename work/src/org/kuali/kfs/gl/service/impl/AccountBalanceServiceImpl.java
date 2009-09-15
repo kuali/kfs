@@ -165,8 +165,15 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
                 }
             }
             else {
-                income.add(bbc);
-                incomeTotal.add(bbc);
+                String transferExpenseCode = bbc.getFinancialObject().getFinancialObjectLevel().getFinancialConsolidationObject().getFinConsolidationObjectCode();
+                if (transferExpenseCode.equals(GeneralLedgerConstants.INCOME_OR_EXPENSE_TRANSFER_CONSOLIDATION_CODE)) {
+                    incomeTransfers.add(bbc);
+                    incomeTotal.add(bbc);                    
+                    }
+                else {
+                    income.add(bbc);
+                    incomeTotal.add(bbc);
+                }
             }
         }
 
@@ -197,8 +204,15 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
                 }
             }
             else {
-                expense.add(bbc);
-                expenseTotal.add(bbc);
+                String transferExpenseCode = bbc.getFinancialObject().getFinancialObjectLevel().getFinancialConsolidationObject().getFinConsolidationObjectCode();
+                if (transferExpenseCode.equals(GeneralLedgerConstants.INCOME_OR_EXPENSE_TRANSFER_CONSOLIDATION_CODE)) {
+                    expenseTransfers.add(bbc);
+                    expenseTotal.add(bbc);                    
+                }
+                else {
+                    expense.add(bbc);
+                    expenseTotal.add(bbc);
+                }
             }
         }
 

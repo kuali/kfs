@@ -3381,3 +3381,605 @@ update krew_doc_typ_t set lbl = 'ACH Cancel & Re-Issue' where doc_typ_nm = 'ACHR
 /
 update krew_doc_typ_t set lbl = 'ACH Cancellation' where doc_typ_nm = 'ACHC' and actv_ind = 1 and cur_ind = 1
 /
+
+-- KFSMI-4632
+insert into krim_perm_t (perm_id, obj_id, ver_nbr, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind)
+values ('386', sys_guid(), 1, '27', 'KFS-PDP', 'Full Unmask Field', 'Authorizes users to view the entire bank routing number on the Payment Detail Inquiry.', 'Y')
+/
+insert into krim_perm_attr_data_t (attr_data_id, obj_id, ver_nbr, perm_id, kim_typ_id, kim_attr_defn_id, attr_val)
+values ('587', sys_guid(), 1, '386', '11', '5', 'PaymentGroup')
+/
+insert into krim_perm_attr_data_t (attr_data_id, obj_id, ver_nbr, perm_id, kim_typ_id, kim_attr_defn_id, attr_val)
+values ('588', sys_guid(), 1, '386', '11', '6', 'achBankRoutingNbr')
+/
+insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind)
+values ('710', sys_guid(), 1, '19', '386', 'Y')
+/
+insert into krim_perm_t (perm_id, obj_id, ver_nbr, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind)
+values ('387', sys_guid(), 1, '27', 'KFS-PDP', 'Full Unmask Field', 'Authorizes users to view the entire bank account number on the Payment Detail Inquiry.', 'Y')
+/
+insert into krim_perm_attr_data_t (attr_data_id, obj_id, ver_nbr, perm_id, kim_typ_id, kim_attr_defn_id, attr_val)
+values ('589', sys_guid(), 1, '387', '11', '5', 'AchAccountNumber')
+/
+insert into krim_perm_attr_data_t (attr_data_id, obj_id, ver_nbr, perm_id, kim_typ_id, kim_attr_defn_id, attr_val)
+values ('590', sys_guid(), 1, '387', '11', '6', 'achBankAccountNbr')
+/
+insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind)
+values ('711', sys_guid(), 1, '19', '387', 'Y')
+/
+
+-- KFSMI-4794
+insert into krns_parm_t (nmspc_cd, parm_dtl_typ_cd, parm_nm, obj_id, ver_nbr, parm_typ_cd, txt, parm_desc_txt, cons_cd, appl_nmspc_cd)
+values ('KFS-CAM','AssetRetirementGlobal','CAPITALIZATION_LINE_DESCRIPTION',sys_guid(),1,'CONFG','Asset retirement cost reversal entry','The description of the ledger entry eliminating capitalized costs of an asset being retired.','A','KFS')
+/
+insert into krns_parm_t (nmspc_cd, parm_dtl_typ_cd, parm_nm, obj_id, ver_nbr, parm_typ_cd, txt, parm_desc_txt, cons_cd, appl_nmspc_cd)
+values ('KFS-CAM','AssetRetirementGlobal','ACCUMULATED_DEPRECIATION_LINE_DESCRIPTION',sys_guid(),1,'CONFG','Asset retirement depreciation reversal','The description of the ledger entry eliminating accumulated depreciation of an asset being retired.','A','KFS')
+/
+insert into krns_parm_t (nmspc_cd, parm_dtl_typ_cd, parm_nm, obj_id, ver_nbr, parm_typ_cd, txt, parm_desc_txt, cons_cd, appl_nmspc_cd)
+values ('KFS-CAM','AssetRetirementGlobal','OFFSET_AMOUNT_LINE_DESCRIPTION',sys_guid(),1,'CONFG','Asset retirement fund balance adjustment','The description of the ledger entry eliminating fund balance of an asset being retired.','A','KFS')
+/
+
+-- KFSMI-4266
+insert into krim_role_mbr_t (role_mbr_id, ver_nbr, obj_id, role_id, mbr_id, mbr_typ_cd)
+values ('1707', 1, sys_guid(), '28', '2615708929', 'P')
+/
+insert into krim_role_mbr_attr_data_t (attr_data_id, obj_id, ver_nbr, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val)
+values ('4042', sys_guid(), 1, '1707', '30', '22', 'IU')
+/
+insert into krim_role_mbr_attr_data_t (attr_data_id, obj_id, ver_nbr, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val)
+values ('4043', sys_guid(), 1, '1707', '30', '24', 'UNIV')
+/
+insert into krim_role_mbr_attr_data_t (attr_data_id, obj_id, ver_nbr, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val)
+values ('4044', sys_guid(), 1, '1707', '30', '13', 'FPYE')
+/
+insert into krim_role_rsp_actn_t (role_rsp_actn_id, obj_id, ver_nbr, actn_typ_cd, actn_plcy_cd, role_mbr_id, role_rsp_id, frc_actn)
+values ('171', sys_guid(), 1, 'F', 'F', '1707', '1122', 'N')
+/
+insert into krim_role_mbr_t (role_mbr_id, ver_nbr, obj_id, role_id, mbr_id, mbr_typ_cd)
+values ('1708', 1, sys_guid(), '28', '2615708929', 'P')
+/
+insert into krim_role_mbr_attr_data_t (attr_data_id, obj_id, ver_nbr, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val)
+values ('4045', sys_guid(), 1, '1708', '30', '22', 'IU')
+/
+insert into krim_role_mbr_attr_data_t (attr_data_id, obj_id, ver_nbr, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val)
+values ('4046', sys_guid(), 1, '1708', '30', '24', 'UNIV')
+/
+insert into krim_role_mbr_attr_data_t (attr_data_id, obj_id, ver_nbr, role_mbr_id, kim_typ_id, kim_attr_defn_id, attr_val)
+values ('4047', sys_guid(), 1, '1708', '30', '13', 'LDYE')
+/
+insert into krim_role_rsp_actn_t (role_rsp_actn_id, obj_id, ver_nbr, actn_typ_cd, actn_plcy_cd, role_mbr_id, role_rsp_id, frc_actn)
+values ('172', sys_guid(), 1, 'F', 'F', '1708', '1123', 'N')
+/
+
+-- KFSMI-4690
+delete from krim_role_perm_t where perm_id = '226'
+/
+delete from krim_perm_attr_data_t where perm_id = '226'
+/
+delete from krim_perm_t where perm_id = '226'
+/
+delete from krim_role_perm_t where perm_id = '227'
+/
+delete from krim_perm_attr_data_t where perm_id = '227'
+/
+delete from krim_perm_t where perm_id = '227'
+/
+delete from krim_role_perm_t where perm_id = '267'
+/
+delete from krim_perm_attr_data_t where perm_id = '267'
+/
+delete from krim_perm_t where perm_id = '267'
+/
+delete from krim_role_perm_t where perm_id = '50'
+/
+delete from krim_perm_attr_data_t where perm_id = '50'
+/
+delete from krim_perm_t where perm_id = '50'
+/
+delete from krew_doc_hdr_t where doc_typ_id in
+(select doc_typ_id from krew_doc_typ_t
+where doc_typ_nm in('KBD', 'KRFD'))
+/
+delete from krew_doc_typ_attr_t where doc_typ_id in
+(select doc_typ_id from krew_doc_typ_t
+where doc_typ_nm in('KBD', 'KRFD'))
+/
+delete from krew_doc_typ_plcy_reln_t where doc_typ_id in
+(select doc_typ_id from krew_doc_typ_t
+where doc_typ_nm in('KBD', 'KRFD'))
+/
+delete from krew_doc_typ_proc_t where doc_typ_id in
+(select doc_typ_id from krew_doc_typ_t
+where doc_typ_nm in('KBD', 'KRFD'))
+/
+delete from KREW_RTE_NODE_CFG_PARM_T where rte_node_id in
+(
+select rte_node_id from krew_rte_node_t where doc_typ_id in
+(select doc_typ_id from krew_doc_typ_t
+where doc_typ_nm in('KBD', 'KRFD'))
+)
+/
+delete from krew_rte_node_t where doc_typ_id in
+(select doc_typ_id from krew_doc_typ_t
+where doc_typ_nm in('KBD', 'KRFD'))
+/
+delete from krew_doc_typ_t where doc_typ_nm='KBD'
+/
+delete from krew_doc_typ_t where doc_typ_nm='KRFD'
+/
+
+-- KFSMI-4811
+insert into krim_perm_t (perm_id, obj_id, ver_nbr, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind)
+values ('390',sys_guid(), 1, '9', 'KFS-SYS', 'Ad Hoc Review Document', 'Authorizes users to take the Approve action on KFS documents Ad Hoc routed to them.', 'Y')
+/
+insert into krim_perm_attr_data_t (attr_data_id, obj_id, ver_nbr, perm_id, kim_typ_id, kim_attr_defn_id, attr_val)
+values ('591', sys_guid(), 1, '390', '5', '13', 'KFS')
+/
+insert into krim_perm_attr_data_t (attr_data_id, obj_id, ver_nbr, perm_id, kim_typ_id, kim_attr_defn_id, attr_val)
+values ('592', sys_guid(), 1, '390', '5', '14', 'A')
+/
+insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind)
+values ('712', sys_guid(), 1, '54', '390', 'Y')
+/
+
+insert into krim_perm_t (perm_id, obj_id, ver_nbr, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind)
+values ('391',sys_guid(), 1, '9', 'KFS-SYS', 'Ad Hoc Review Document', 'Authorizes users to take the FYI action on KFS documents Ad Hoc routed to them.', 'Y')
+/
+insert into krim_perm_attr_data_t (attr_data_id, obj_id, ver_nbr, perm_id, kim_typ_id, kim_attr_defn_id, attr_val)
+values ('593', sys_guid(), 1, '391', '5', '13', 'KFS')
+/
+insert into krim_perm_attr_data_t (attr_data_id, obj_id, ver_nbr, perm_id, kim_typ_id, kim_attr_defn_id, attr_val)
+values ('594', sys_guid(), 1, '391', '5', '14', 'F')
+/
+insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind)
+values ('713', sys_guid(), 1, '54', '391', 'Y')
+/
+insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind)
+values ('714', sys_guid(), 1, '32', '391', 'Y')
+/
+
+insert into krim_perm_t (perm_id, obj_id, ver_nbr, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind)
+values ('392',sys_guid(), 1, '9', 'KFS-SYS', 'Ad Hoc Review Document', 'Authorizes users to take the Acknowledge action on KFS documents Ad Hoc routed to them.', 'Y')
+/
+insert into krim_perm_attr_data_t (attr_data_id, obj_id, ver_nbr, perm_id, kim_typ_id, kim_attr_defn_id, attr_val)
+values ('595', sys_guid(), 1, '392', '5', '13', 'KFS')
+/
+insert into krim_perm_attr_data_t (attr_data_id, obj_id, ver_nbr, perm_id, kim_typ_id, kim_attr_defn_id, attr_val)
+values ('596', sys_guid(), 1, '392', '5', '14', 'K')
+/
+insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind)
+values ('715', sys_guid(), 1, '54', '392', 'Y')
+/
+insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind)
+values ('716', sys_guid(), 1, '32', '392', 'Y')
+/
+
+insert into krim_perm_t (perm_id, obj_id, ver_nbr, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind)
+values ('393',sys_guid(), 1, '9', 'KUALI', 'Ad Hoc Review Document', 'Authorizes users to take any requested action on RICE documents Ad Hoc routed to them.', 'Y')
+/
+insert into krim_perm_attr_data_t (attr_data_id, obj_id, ver_nbr, perm_id, kim_typ_id, kim_attr_defn_id, attr_val)
+values ('597', sys_guid(), 1, '393', '5', '13', 'Rice Document')
+/
+insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind)
+values ('717', sys_guid(), 1, '1', '393', 'Y')
+/
+
+-- KFSMI-4818
+update krns_parm_t set appl_nmspc_cd = 'KFS' where nmspc_cd like 'KFS%'
+/
+update krns_parm_t set appl_nmspc_cd = 'KFS' where nmspc_cd = 'KR-NS' and parm_dtl_typ_cd = 'All' and parm_nm = 'ENABLE_DIRECT_INQUIRIES_IND'
+/
+update krns_parm_t set appl_nmspc_cd = 'KFS' where nmspc_cd = 'KR-NS' and parm_dtl_typ_cd = 'All' and parm_nm = 'ENABLE_FIELD_LEVEL_HELP_IND'
+/
+insert into krns_parm_t (nmspc_cd, parm_dtl_typ_cd, parm_nm, obj_id, ver_nbr, parm_typ_cd, txt, parm_desc_txt, cons_cd, appl_nmspc_cd)
+values ('KR-NS','All','ENABLE_DIRECT_INQUIRIES_IND', sys_guid(), 1, 'CONFG', 'Y', 'Flag for enabling/disabling direct inquiries on screens that are drawn by the nervous system (i.e. lookups and maintenance documents)', 'A', 'KUALI')
+/
+insert into krns_parm_t (nmspc_cd, parm_dtl_typ_cd, parm_nm, obj_id, ver_nbr, parm_typ_cd, txt, parm_desc_txt, cons_cd, appl_nmspc_cd)
+values ('KR-NS','All','ENABLE_FIELD_LEVEL_HELP_IND', sys_guid(), 1, 'CONFG', 'Y', 'Indicates whether field level help links are enabled on lookup pages and documents.', 'A', 'KUALI')
+/
+
+-- KFSMI-4680
+update krim_role_t set desc_txt = 'An optional role created to receive action requests for Budget Adjustment documents at the Organization Route Node. Intended to receive requests for the top level chart and organization (thus receiving all Budget Adjustment documents).' where nmspc_cd = 'KFS-SYS' and role_nm = 'University Administration Budget Manager'
+/
+update krim_role_t set desc_txt = 'An optional role created to receive action requests for Budget Adjustment documents at the Organization route Node. Intended to receive only requests associated with regional campus charts and organizations.' where nmspc_cd = 'KFS-SYS' and role_nm = 'Regional Budget Manager'
+/
+update krim_role_t set desc_txt = 'A role that uses the Employee Status (A,L or P) along with the presence of the KFS-SYS User role to determine that a given Principal represents an employee with KFS access. These users are allowed to be fiscal Officers on Accounts.' where nmspc_cd = 'KFS-SYS' and role_nm = 'Active Employee & Financial System User'
+/
+delete from krim_role_perm_t where perm_id = '208'
+/
+delete from krim_perm_attr_data_t where perm_id = '208'
+/
+delete from krim_perm_t where perm_id = '208'
+/
+delete from krim_role_perm_t where perm_id = '213'
+/
+delete from krim_perm_attr_data_t where perm_id = '213'
+/
+delete from krim_perm_t where perm_id = '213'
+/
+delete from krim_role_perm_t where perm_id = '216'
+/
+delete from krim_perm_attr_data_t where perm_id = '216'
+/
+delete from krim_perm_t where perm_id = '216'
+/
+delete from krim_role_perm_t where perm_id = '218'
+/
+delete from krim_perm_attr_data_t where perm_id = '218'
+/
+delete from krim_perm_t where perm_id = '218'
+/
+delete from krim_role_perm_t where perm_id = '219'
+/
+delete from krim_perm_attr_data_t where perm_id = '219'
+/
+delete from krim_perm_t where perm_id = '219'
+/
+update krim_perm_t set desc_txt = 'Allows users to modify the Source accounting lines on documents answering to the parent document Financial Processing Transactional Document when a document is at the Account Node of routing.' where perm_id = '190'
+/
+update krim_perm_t set desc_txt = 'Allows users to modify the Target accounting lines on documents answering to the parent document Financial Processing Transactional Document when a document is at the Account Node of routing.' where perm_id = '191'
+/
+update krim_perm_t set desc_txt = 'Allows users to modify the object code of Source accounting lines on a Disbursement Voucher document that is at the Campus Node of routing.' where perm_id = '192'
+/
+update krim_perm_t set desc_txt = 'Allows users to modify the amount of Source accounting lines on a Disbursement Voucher document that is at the Tax Node of routing.' where perm_id = '193'
+/
+update krim_perm_t set desc_txt = 'Allows users to modify the amount of Source accounting lines on a Disbursement Voucher document that is at the Travel Node of routing.' where perm_id = '194'
+/
+update krim_perm_t set desc_txt = 'Allows users to modify the amount of Source accounting lines on a Disbursement Voucher document that is at the Payment Method Node of routing.' where perm_id = '195'
+/
+update krim_perm_t set desc_txt = 'Allows users to modify the Target accounting lines on documents answering to the parent document Labor Distribution Transactional Document when a document is at the Account Node of routing.' where perm_id = '196'
+/
+update krim_perm_t set desc_txt = 'Allows users to modify the object code on Target (To side) accounting lines of the Salary Expense Transfer document.' where perm_id = '197'
+/
+update krim_perm_t set desc_txt = 'Allows users to modify the Source accounting lines on documents answering to the parent document Purchasing Transactional Document when a document is at the Account Node of routing.' where perm_id = '198'
+/
+update krim_perm_t set desc_txt = 'Allows users to modify the Source accounting lines on documents answering to the parent document Accounts PayableTransactional Document when a document is at the Account Node of routing.' where perm_id = '199'
+/
+update krim_perm_t set desc_txt = 'Allows users to modify the Source accounting lines on Asset Payment document at the Account Node of routing.' where perm_id = '200'
+/
+update krim_perm_t set desc_txt = 'Allows users to modify the Source accounting lines on documents answering to the parent document Accounts Financial Processing Transactional Document when a document has not yet been submitted for routing.' where perm_id = '238'
+/
+update krim_perm_t set desc_txt = 'Allows users to modify the Target accounting lines on documents answering to the parent document Financial Processing Transactional Document when a document has not yet been submitted for routing.' where perm_id = '239'
+/
+update krim_perm_t set desc_txt = 'Allows users to modify the Source accounting lines on documents answering to the parent document Purchasing Transactional Document when a document has not yet been submitted for routing.' where perm_id = '241'
+/
+update krim_perm_t set desc_txt = 'Allows users to modify the Source accounting lines on documents answering to the parent document Accounts PayableTransactional Document when a document has not yet been submitted for routing.' where perm_id = '242'
+/
+update krim_perm_t set desc_txt = 'Allows users to modify the Source accounting lines on a Procurement Card Document that is at the Account Full Entry Node of routing.' where perm_id = '280'
+/
+update krim_perm_t set desc_txt = 'Allows users to modify the Source accounting lines on a Requisition Document that is at the Initiator Node of routing.' where perm_id = '308'
+/
+update krim_perm_t set desc_txt = 'Allows users to modify the Source accounting lines on a Purchase Order Amendment Document that is at the New Unordered Items Node of routing.' where perm_id = '355'
+/
+update krim_perm_t set desc_txt = 'Allows users to modify the object code of Source accounting lines on a Disbursement Voucher Document that is at the Travel Node of routing.' where perm_id = '358'
+/
+update krim_perm_t set desc_txt = 'Allows users to modify the Invoice Item Description of Source accounting lines on an Invoice document that is at the Recurrence Node of routing.' where perm_id = '371'
+/
+update krim_perm_t set desc_txt = 'Users who can edit the Bank Code field on documents answering to the parent document Financial System Transactional Document.' where perm_id = '220'
+/
+update krim_perm_t set desc_txt = 'Users who can edit the Bank Code field on the Cash Management Document.' where perm_id = '372'
+/
+update krim_perm_t set desc_txt = 'Users who can edit the Bank Code field on the Payment Request Document.' where perm_id = '373'
+/
+update krim_perm_t set desc_txt = 'Users who can edit the Bank Code field on the Disbursement Voucher Document.' where perm_id = '374'
+/
+update krim_perm_t set desc_txt = 'Users who can use a Distribution of Income and Expense document to claim Electronic Payments.' where perm_id = '66'
+/
+update krim_perm_t set desc_txt = 'Edit permission for the Requisition document prior to the document being submitted.' where perm_id = '100'
+/
+update krim_perm_t set desc_txt = 'Edit permission for the Purchase Order document prior to the document being submitted.' where perm_id = '101'
+/
+update krim_perm_t set desc_txt = 'Edit permission for Accounts Payable Transactional documents prior to the document being submitted.' where perm_id = '102'
+/
+update krim_perm_t set desc_txt = 'Edit permission for Receiving Transactional documents prior to the document being submitted.' where perm_id = '103'
+/
+update krim_perm_t set desc_txt = 'Allows users to edit Kuali documents prior to them being submitted for routing.' where perm_id = '180'
+/
+update krim_perm_t set desc_txt = 'The budget construction document does not really use workflow, and all editing is done after the workflow status is final. This permission allows the derived, Budget Construction Document Editor role to allow access to edit the document based on other roles, e.g. Fiscal Officer for account, Organization Reveiwer for org.' where perm_id = '266'
+/
+update krim_perm_t set desc_txt = 'Authorizes users who can edit Credit Memo Documents that are in PROCESSED status.' where perm_id = '367'
+/
+update krim_perm_t set desc_txt = 'Authorizes users who can edit Credit Memo Documents that are in FINAL status.' where perm_id = '368'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to edit Simple Maintenance document at the AdHoc route node.' where perm_id = '382'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to edit Complex Maintenance document at the AdHoc route node.' where perm_id = '383'
+/
+update krim_perm_t set desc_txt = 'Allows access to the Copy button on KFS Financial System Documents.' where perm_id = '156'
+/
+update krim_perm_t set desc_txt = 'Allow users to access KFS lookups.' where perm_id = '130'
+/
+update krim_perm_t set desc_txt = 'Allow users to access the Batch File lookup.' where perm_id = '256'
+/
+update krim_perm_t set desc_txt = 'Allows users to access the CAB AP and GL Transactions screens.' where perm_id = '303'
+/
+update krim_perm_t set desc_txt = 'Allows users to access the Pre-Asset Tagging screens.' where perm_id = '375'
+/
+update krim_perm_t set desc_txt = 'Users who can view the Old Tag Number on the Asset document.' where perm_id = '348'
+/
+update krim_perm_t set desc_txt = 'Users who can view the Replacement Amount field on the Asset document.' where perm_id = '43'
+/
+update krim_perm_t set desc_txt = 'Users who can view the Estimated Selling Price field on the Asset document.' where perm_id = '44'
+/
+update krim_perm_t set desc_txt = 'Users who can view the Condition Code on the Asset document.' where perm_id = '46'
+/
+update krim_perm_t set desc_txt = 'Users who can view the Land County Name on the Asset document.' where perm_id = '47'
+/
+update krim_perm_t set desc_txt = 'Users who can view the Land Acreage Size on the Asset document.' where perm_id = '48'
+/
+update krim_perm_t set desc_txt = 'Users who can view the Land Parcel Number on the Asset document.' where perm_id = '49'
+/
+update krim_perm_t set desc_txt = 'Users who can modify the Owner Chart of Accounts Code field on the Asset document.' where perm_id = '32'
+/
+update krim_perm_t set desc_txt = 'Users who can modify the Owner Account Number field on the Asset document.' where perm_id = '33'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to modify the Tax Type Code on a Vendor Maintenance Document.' where perm_id = '335'
+/
+update krim_perm_t set desc_txt = 'Users who can modify the Capital Asset In Service Date field on the Asset document.' where perm_id = '34'
+/
+update krim_perm_t set desc_txt = 'Users who can modify the Capital Asset Type Code field on the Asset document.' where perm_id = '342'
+/
+update krim_perm_t set desc_txt = 'Users who can modify the Capital Asset Description field on the Asset document.' where perm_id = '343'
+/
+update krim_perm_t set desc_txt = 'Users who can modify the Campus Tag Number field on the Asset document.' where perm_id = '344'
+/
+update krim_perm_t set desc_txt = 'Users who can modify the Agency Number field on the Asset document.' where perm_id = '35'
+/
+update krim_perm_t set desc_txt = 'Users who can modify the Vendor Name field on the Asset document.' where perm_id = '36'
+/
+update krim_perm_t set desc_txt = 'Users who can modify the Old Tag Number field on the Asset document.' where perm_id = '37'
+/
+update krim_perm_t set desc_txt = 'Users who can modify the Government Tag Number field on the Asset document.' where perm_id = '38'
+/
+update krim_perm_t set desc_txt = 'Users who can modify the National Stock Number field on the Asset document.' where perm_id = '39'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to edit the Sub-Account Type Code on the Sub-Account document.' where perm_id = '60'
+/
+update krim_perm_t set desc_txt = 'Users who can edit the Organization Plant Chart Code on the Organization document.' where perm_id = '61'
+/
+update krim_perm_t set desc_txt = 'Users who can edit the Organization Plant Account Number on the Organization document.' where perm_id = '62'
+/
+update krim_perm_t set desc_txt = 'Users who can edit the Campus Plant Chart Code on the Organization document.' where perm_id = '63'
+/
+update krim_perm_t set desc_txt = 'Users who can edit the Campus Plant Account Number on the Organization document.' where perm_id = '64'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to view the password field on the Person document and inquriy.' where perm_id = '183'
+/
+update krim_perm_t set desc_txt = 'Allows users to view the tax id in the Disbursement Voucher.' where perm_id = '187'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to view the entire bank routing number on the ACH Bank document and Inquiry.' where perm_id = '234'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to view the entire bank account number on the Payee ACH document and Inquiry.' where perm_id = '235'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to view the entire Tax Identification Number on the Person Document.' where perm_id = '306'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to view the entire bank account number on the Wire Transfer tab of the Disbursement Voucher document.' where perm_id = '381'
+/
+update krim_perm_t set desc_txt = 'Allows users access to screens in the KFS-AR module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to AR reports' where perm_id = '12'
+/
+update krim_perm_t set desc_txt = 'Allows users access to screens in the KFS that are not documents, lookups, inquiries, or batch uploads.' where perm_id = '135'
+/
+update krim_perm_t set desc_txt = 'Allows users to access the Java Security Management screen. This should be granted to developers.' where perm_id = '141'
+/
+update krim_perm_t set desc_txt = 'Allows users to access the Message Queue screen.' where perm_id = '142'
+/
+update krim_perm_t set desc_txt = 'Allows users to access the Service Registry screen.' where perm_id = '143'
+/
+update krim_perm_t set desc_txt = 'Allows users to access the Thread Pool screen.' where perm_id = '144'
+/
+update krim_perm_t set desc_txt = 'Allows users to access the Quartz Queue screen. This should be granted to developers.' where perm_id = '145'
+/
+update krim_perm_t set desc_txt = 'Allows users to access Balance Inquiry screens. ' where perm_id = '287'
+/
+update krim_perm_t set desc_txt = 'Allows users to see menu of balance inquiries after hitting "balance inquiry" button on an accounting line in an accounting document.' where perm_id = '301'
+/
+update krim_perm_t set desc_txt = 'Allows access to the Cash Management Document screen that a user sees when they try to initiate and a document is already open for their campus. The screen provides them a link to the existing document for their campus.' where perm_id = '329'
+/
+update krim_perm_t set desc_txt = 'Allows access to the Cash Management Document screen from which a user can create new deposits.' where perm_id = '330'
+/
+update krim_perm_t set desc_txt = 'Allows access to the Cash Management Document screen from which a user can correct amounts on a closed cash drawer.' where perm_id = '331'
+/
+update krim_perm_t set desc_txt = 'Users who can access the Effort Detail Tab on the Effort Certification Document.' where perm_id = '206'
+/
+update krim_perm_t set desc_txt = 'Users who can complete the Nonresident Alien Tax Tab on the Disbursement Voucher document.' where perm_id = '209'
+/
+update krim_perm_t set desc_txt = 'Users who can modify the Foreign Draft tab and disbursement amount on Disbursement Voucher documents.' where perm_id = '210'
+/
+update krim_perm_t set desc_txt = 'Users who can modify Wire Transfer tab and disbursement amount on Disbursement Voucher documents.' where perm_id = '211'
+/
+update krim_perm_t set desc_txt = 'Users who can modify Non-Employee Travel Expense tab, disbursement amount on Disbursement Voucher documents.' where perm_id = '212'
+/
+update krim_perm_t set desc_txt = 'Users who can edit specific data on a Payment Request or Credit Memo before the document is extracted to PDP.' where perm_id = '217'
+/
+update krim_perm_t set desc_txt = 'Users who can print a Purchase Order document.' where perm_id = '272'
+/
+update krim_perm_t set desc_txt = 'Users who can preview a Purchase Order document before printing it.' where perm_id = '273'
+/
+update krim_perm_t set desc_txt = 'Users who can assign sensitive data to a Purchase Order document which locks down who is allowed to view the PO and its related documents.' where perm_id = '274'
+/
+update krim_perm_t set desc_txt = 'Users who can resend Purchase Order cxml to the B2B integrator.' where perm_id = '275'
+/
+update krim_perm_t set desc_txt = 'Users authorized to take the Request Cancel action on Payment Request documents.' where perm_id = '276'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to remove Holds or Cancels on Payment Request documents.' where perm_id = '277'
+/
+update krim_perm_t set desc_txt = 'Users who can cancel Payment Request or Credit Memo documents at a manager level.' where perm_id = '282'
+/
+update krim_perm_t set desc_txt = 'Users who can cancel Payment Request or Credit Memo documents at a processor level.' where perm_id = '283'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to put Payment Request documents on Hold.' where perm_id = '286'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to put Credit Memo documents on Hold.' where perm_id = '293'
+/
+update krim_perm_t set desc_txt = 'Authorizes user to access the Collector XML Upload page.' where perm_id = '76'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to open Purchasing Accounts Payable Transactional documents.' where perm_id = '269'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to open the Contract Manager Assignment Document.' where perm_id = '284'
+/
+update krim_perm_t set desc_txt = 'Users allowed to create new and maintain existing records using the Organization Options document.' where perm_id = '248'
+/
+update krim_perm_t set desc_txt = 'Users allowed to maintain existing (but not create new) records using the Organization Options document.' where perm_id = '249'
+/
+update krim_perm_t set desc_txt = 'Users allowed to create new and maintain existing records using the Organization Accounting Default document.' where perm_id = '369'
+/
+update krim_perm_t set desc_txt = 'Users allowed to maintain existing (but not create new) records using the Organization Accounting Default document.' where perm_id = '370'
+/
+update krim_perm_t set desc_txt = 'Users allowed to create new and maintain existing records using the Pre-Asset Tagging document.' where perm_id = '376'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to see and edit the Contracts Tab on the Vendor Maintenance Document.' where perm_id = '139'
+/
+update krim_perm_t set desc_txt = 'Users who can add notes and attachments to the Payment Request document when it is at the Invoice Attachment route node.' where perm_id = '258'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to add notes and attachments with a type of "Contracts" to the Purchase Order document. ' where perm_id = '313'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to add notes and attachments with a type of "Contract" on Purchase Order documents and documents answering to that document type.' where perm_id = '315'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to add notes and attachments with a type of "Quotes" on Purchase Order documents and documents answering to that document type.' where perm_id = '317'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to add notes and attachments with a type of "RFPs" on Purchase Order documents and documents answering to that document type.' where perm_id = '319'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to add notes and attachments with a type of "RFP" on Purchase Order documents and documents answering to that document type.' where perm_id = '321'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to add notes or attachments with a type of "Other-Restricted" on Purchase Order documents and documents answering to that document type.' where perm_id = '323'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to add notes or attachments with a type of "Credit Memo Image" on Credit Memo documents.' where perm_id = '325'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to view attachments with a type of "Invoice Image" on Payment Request documents.' where perm_id = '260'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to view attachments with a type of "Contract" on Purchase Order documents and documents answering to that document type.' where perm_id = '314'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to view attachments with a type of "Contract Amendments" on Purchase Order documents and documents answering to that document type.' where perm_id = '316'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to view attachments with a type of "Quotes" on Purchase Order documents and documents answering to that document type.' where perm_id = '318'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to view attachments with a type of "RFPs" on Purchase Order documents and documents answering to that document type.' where perm_id = '320'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to view attachments with a type of "RFP" on Purchase Order documents and documents answering to that document type.' where perm_id = '322'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to view attachments with a type of "Other-Restricted" on Purchase Order documents and documents answering to that document type.' where perm_id = '324'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to view attachments with a type of "Invoice Image" on Credit Memo documents.' where perm_id = '384'
+/
+update krim_perm_t set desc_txt = 'Users authorized to send FYI Ad-Hoc action requests.' where perm_id = '332'
+/
+update krim_perm_t set desc_txt = 'Users authorized to send Acknowledge Ad-Hoc action requests.' where perm_id = '333'
+/
+update krim_perm_t set desc_txt = 'Users authorized to send Approve Ad-Hoc action requests.' where perm_id = '334'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to view batch files using the Batch File lookup screen.' where perm_id = '362'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to take the Approve action on KFS documents routed to them.' where perm_id = '170'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to take the FYI action on KFS documents routed to them.' where perm_id = '172'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of Financial System Documents.' where perm_id = '115'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of Financial System Simple Maintenance documents.' where perm_id = '116'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Asset Payments Document.' where perm_id = '16'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Barcode Inventory Error Document.' where perm_id = '17'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Capital Asset Management Transactional Documents.' where perm_id = '18'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Capital Asset Complex Maintenance Documents.' where perm_id = '19'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Salary Expense Transfer Document.' where perm_id = '202'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Customer Document.' where perm_id = '245'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Invoice Document.' where perm_id = '246'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Budget Construction Document.' where perm_id = '247'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Accounts Receivable Complex Maintenance Documents.' where perm_id = '3'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of Customer Invoice Item Code Documents.' where perm_id = '349'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Cash Receipt Document.' where perm_id = '350'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Credit Memo Document.' where perm_id = '356'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of Invoice Recurrence Documents.' where perm_id = '360'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Cash Drawer Document.' where perm_id = '361'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the KIM Group document.' where perm_id = '379'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Organization Reversion Global Document.' where perm_id = '380'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of Application Documents.' where perm_id = '5'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the CFDA Close Document.' where perm_id = '51'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Global Object Code Document.' where perm_id = '55'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Cash Control Document.' where perm_id = '6'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Cash Management Document.' where perm_id = '69'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Service Billing Document.' where perm_id = '70'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Journal Voucher Document.' where perm_id = '71'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Labor Journal Voucher Document.' where perm_id = '78'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Requisition Document.' where perm_id = '92'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of Purchasing Transactional Documents.' where perm_id = '93'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Purchase Order Document.' where perm_id = '94'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Purchase Order Close Document.' where perm_id = '95'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Purchase Order Retransmit Document.' where perm_id = '96'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of the Payment Request Document.' where perm_id = '97'
+/
+update krim_perm_t set desc_txt = 'Authorizes the initiation of Receiving Transactional Documents.' where perm_id = '98'
+/
+update krim_perm_t set desc_txt = 'Allows users to open KFS documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).' where perm_id = '113'
+/
+update krim_perm_t set desc_txt = 'Allows users to open Purchase Order Documents (and their children document types) via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).' where perm_id = '203'
+/
+update krim_perm_t set desc_txt = 'Allows access to the Blanket Approval button on KFS Financial System Documents.' where perm_id = '114'
+/
+update krim_perm_t set desc_txt = 'Allows access to the Blanket Approval button on the Application Document.' where perm_id = '357'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to take Approve, Acknowledge or FYI action on KUALI documents Ad Hoc routed to them.' where perm_id = '146'
+/
+update krim_perm_t set desc_txt = 'Users allowed to merge assets on the Asset Retirement document.' where perm_id = '21'
+/
+update krim_perm_t set desc_txt = 'Allows users to access the Import/Export Payrate screen in Budget Construction. By default granted to processors for the top level organization in the org hierarchy.' where perm_id = '228'
+/
+update krim_perm_t set desc_txt = 'Allows users to access the Unlock screen in Budget Construction. By default granted to processors for the top level organization in the org hierarchy.' where perm_id = '229'
+/
+update krim_perm_t set desc_txt = 'Users allowed to retire more than one asset on an Asset Retirement document.' where perm_id = '24'
+/
+update krim_perm_t set desc_txt = 'Authorizes users who can use the Acquisition Type of "New" on the Asset document.' where perm_id = '28'
+/
+update krim_perm_t set desc_txt = 'Some Rice client applications use pessimistic locking, i.e. if one user is editing a document, a lock is established to prevent other users from editing at the same time. This permission gives users the ability to administer those locks (when a user establishes a lock and leaves without submitting the document and another user needs to edit) via the pessimistic locking administration screen.' where perm_id = '289'
+/
+update krim_perm_t set desc_txt = 'Allows users to access Organizaton Salary Setting within Budget Construction.' where perm_id = '295'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to edit Appointment Funding Lines within Budget Construction Salary Setting.' where perm_id = '296'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to view Appointment Funding Lines within Budget Construction Salary Setting.' where perm_id = '297'
+/
+update krim_perm_t set desc_txt = 'Allows power users to bypass the security associated with certain document types to limit the result set.' where perm_id = '299'
+/
+update krim_perm_t set desc_txt = 'Identifies users that can be Account Supervisors.' where perm_id = '351'
+/
+update krim_perm_t set desc_txt = 'Identifies users that can be Account Fiscal Officers.' where perm_id = '352'
+/
+update krim_perm_t set desc_txt = 'Identifies users that can be Account Fiscal Officer Delegates.' where perm_id = '353'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to edit assets tagged in a prior fiscal year.' where perm_id = '377'
+/
+update krim_perm_t set desc_txt = 'Identifies users that can be Account Managers' where perm_id = '59'
+/
+
+-- KFSMI-4884
+update krns_parm_t set txt = 'IE=LD' where nmspc_cd = 'KFS-GL' and parm_dtl_typ_cd = 'EncumbranceForwardStep' and parm_nm = 'FORWARD_ENCUMBRANCE_BALANCE_TYPE_AND_ORIGIN_CODE'
+/

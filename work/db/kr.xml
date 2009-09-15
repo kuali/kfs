@@ -115,5 +115,12 @@
       <label>CapitalAssetSystemState</label>
       <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcapitalassetsystemstatemaintenancedocument.htm</helpDefinitionURL>
     </documentType>
+    <documentType>
+      <name>BC</name>
+      <parent>BCT</parent>
+      <label>Budget Construction Document</label>
+      <postProcessorName />
+      <routePaths />
+    </documentType>
   </documentTypes>
 </data>

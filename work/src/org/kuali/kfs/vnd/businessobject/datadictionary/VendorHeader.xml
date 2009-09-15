@@ -121,7 +121,7 @@
     <property name="shortLabel" value="Tax Type" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" p:exactLength="4"/>
+      <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.TaxPayerTypeWithNoneValuesFinder" p:includeKeyInLabel="false"/>

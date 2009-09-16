@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
@@ -24,11 +23,9 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.util.KimConstants;
+import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -41,7 +38,7 @@ import edu.emory.mathcs.backport.java.util.Arrays;
 public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericValidation {
     private DisbursementVoucherDocument disbursementVoucherDocumentForValidation;
     private DocumentService documentService;
-    private RoleManagementService roleManagementService;
+    private WorkflowInfo workflowInfo;
     
     public static final String DOCUMENT_EDITOR_ROLE_NAME = "Document Editor";
 
@@ -54,7 +51,7 @@ public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericV
         
         if (isAtCampusNode()) {
             final DisbursementVoucherDocument persistedDocument = getPersistedDisbursementVoucherDocument();
-            if (turnedSpecialHandlingOff(persistedDocument) && !currentApproverAddedNote()) {
+            if (turnedSpecialHandlingOff(persistedDocument) && !noteAddedAtDisbursementLevel()) {
                 result = false;
                 GlobalVariables.getMessageMap().putError(AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX+"disbVchrSpecialHandlingCode", KFSKeyConstants.ERROR_DV_CAMPUS_TURNED_OFF_SPECIAL_HANDLING_WITHOUT_EXPLANATORY_NOTE, new String[] {});
             }
@@ -105,12 +102,12 @@ public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericV
      * @param persistedDocument the persisted version of the document
      * @return true if an extra note was added, false otherwise
      */
-    protected boolean currentApproverAddedNote() {
+    protected boolean noteAddedAtDisbursementLevel() {
        boolean foundNoteByCurrentApprover = false;
        int count = 0;
        final int noteCount = getDisbursementVoucherDocumentForValidation().getDocumentHeader().getBoNotes().size();
        while (!foundNoteByCurrentApprover && count < noteCount) {
-           foundNoteByCurrentApprover |= noteAddedByCurrentApprover(getDisbursementVoucherDocumentForValidation().getDocumentHeader().getBoNote(count));
+           foundNoteByCurrentApprover |= noteAddedByApproverForCurrentNode(getDisbursementVoucherDocumentForValidation().getDocumentHeader().getBoNote(count));
            count += 1;
        }
        return foundNoteByCurrentApprover;
@@ -121,28 +118,18 @@ public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericV
      * @param note the note to see added
      * @return true if the note was added by the current approver, false otherwise
      */
-    protected boolean noteAddedByCurrentApprover(Note note) {
-        final boolean noteAddedByCurrentApprover = getRoleManagementService().principalHasRole(note.getAuthorUniversalIdentifier(), getRoleIdsToCheck(), getRoleMembershipQualifications());
-        return noteAddedByCurrentApprover;
-    }
-
-    /**
-     * @return the List of role ids to check to see if any note author is a member of
-     */
-    protected List<String> getRoleIdsToCheck() {
-        List<String> roleIds = new ArrayList<String>();
-        roleIds.add(getRoleManagementService().getRoleIdByName(KimConstants.KIM_GROUP_WORKFLOW_NAMESPACE_CODE, DisbursementVoucherCampusSpecialHandlingValidation.DOCUMENT_EDITOR_ROLE_NAME));
-        return roleIds;
-    }
-    
-    /**
-     * @return the qualifications for the principal in the given role
-     */
-    protected AttributeSet getRoleMembershipQualifications() {
-        AttributeSet qualifications = new AttributeSet();
-        qualifications.put(KfsKimAttributes.DOCUMENT_NUMBER, getDisbursementVoucherDocumentForValidation().getDocumentNumber());
-        qualifications.put(KfsKimAttributes.ROUTE_NODE_NAME, getDisbursementVoucherDocumentForValidation().getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames());
-        return qualifications;
+    protected boolean noteAddedByApproverForCurrentNode(Note note) {
+        ActionRequestDTO[] actionRequests = null;
+        try {
+            actionRequests = getWorkflowInfo().getActionRequests(new Long(getDisbursementVoucherDocumentForValidation().getDocumentNumber()), DisbursementVoucherConstants.RouteLevelNames.CAMPUS, note.getAuthorUniversalIdentifier());
+        }
+        catch (NumberFormatException nfe) {
+            throw new RuntimeException("Could not convert Disbursement Voucher document number "+getDisbursementVoucherDocumentForValidation().getDocumentNumber()+" to long", nfe);
+        }
+        catch (WorkflowException we) {
+            throw new RuntimeException("D'oh!  Workflow Exception!", we);
+        }
+        return actionRequests != null && actionRequests.length > 0;
     }
     
     /**
@@ -171,19 +158,22 @@ public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericV
     }
 
     /**
-     * Gets the roleManagementService attribute. 
-     * @return Returns the roleManagementService.
+     * Gets the workflowInfo attribute. 
+     * @return Returns the workflowInfo.
      */
-    public RoleManagementService getRoleManagementService() {
-        return roleManagementService;
+    public WorkflowInfo getWorkflowInfo() {
+        if (workflowInfo == null) {
+            workflowInfo = new WorkflowInfo();
+        }
+        return workflowInfo;
     }
 
     /**
-     * Sets the roleManagementService attribute value.
-     * @param roleManagementService The roleManagementService to set.
+     * Sets the workflowInfo attribute value.
+     * @param workflowInfo The workflowInfo to set.
      */
-    public void setRoleManagementService(RoleManagementService roleManagementService) {
-        this.roleManagementService = roleManagementService;
+    public void setWorkflowInfo(WorkflowInfo workflowInfo) {
+        this.workflowInfo = workflowInfo;
     }
 
     /**

@@ -351,7 +351,6 @@
     
     <bean id="DisbursementVoucher-campusSpecialHandlingValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherCampusSpecialHandlingValidation" abstract="true">
     	<property name="documentService" ref="documentService" />
-    	<property name="roleManagementService" ref="kimRoleManagementService" />
     </bean>
 			
 </beans>

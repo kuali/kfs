@@ -41,7 +41,9 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
+import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
@@ -55,9 +57,24 @@ public class ElectronicInvoiceTestAction extends KualiAction {
     private static final String AREA_C0DE = "areaCode";
     private static final String PHONE_NUMBER = "phoneNumber";
 
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
+     * 
+     * Only allow users to test eInvoicing in the test environment
+     */
+    @Override
+    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+        if (SpringContext.getBean(KualiConfigurationService.class).isProductionEnvironment()) {
+            //this process is not available for production
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), methodToCall, this.getClass().getSimpleName());
+        }
+    }
+
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        
+        checkAuthorization(form, "");
         
         //get parameters - are we doing upload xml or create based on PO?
         String action = request.getParameter("action");

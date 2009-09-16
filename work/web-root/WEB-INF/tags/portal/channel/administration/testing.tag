@@ -17,10 +17,13 @@
 
 <channel:portalChannelTop channelTitle="Testing" />
 <div class="body">
-	<strong>Electronic Invoice</strong><br/>
-    <ul class="chan">
-		<li><portal:portalLink displayTitle="true" title="Generate/Upload eInvoice Files" url="purapElectronicInvoiceTest.do" /></li>				
-	</ul>
+    <c:if test="${!KualiConfigurationService.isProductionEnvironment}">
+        <!-- THIS FUNCTIONALITY SHOULD ONLY BE AVAILABLE IN TEST ENVIRONMENTS -->
+		<strong>Electronic Invoice</strong><br/>
+	    <ul class="chan">
+			<li><portal:portalLink displayTitle="true" title="Generate/Upload eInvoice Files" url="purapElectronicInvoiceTest.do" /></li>				
+		</ul>
+    </c:if>
 </div>
 <channel:portalChannelBottom />
                 

@@ -63,18 +63,20 @@ public class SensitiveDataSecurityAttribute implements SecurityAttribute {
         if (docEntry instanceof FinancialSystemTransactionalDocumentEntry) {
             if (((FinancialSystemTransactionalDocumentEntry)docEntry).isPotentiallySensitive()) {
                 String[] sensitiveDataCodeArray = workflowUtils.getSearchableAttributeStringValuesByKey(documentId, "sensitive");
-                List<String> sensitiveDataCode = Arrays.asList(sensitiveDataCodeArray);
-                if ( sensitiveDataCode != null && sensitiveDataCode.contains("Y")) {
-
-                    DocumentAuthorizer docAuthorizer = docHelperService.getDocumentAuthorizer(docTypeName);
-                    Document doc = null;
-                    try {
-                        doc = docService.getByDocumentHeaderIdSessionless(documentId.toString());
-                    } catch(WorkflowException we) {
-                        throw new RuntimeException(we);
+                if (sensitiveDataCodeArray != null && sensitiveDataCodeArray.length > 0) {
+                    List<String> sensitiveDataCode = Arrays.asList(sensitiveDataCodeArray);
+                    if ( sensitiveDataCode != null && sensitiveDataCode.contains("Y")) {
+    
+                        DocumentAuthorizer docAuthorizer = docHelperService.getDocumentAuthorizer(docTypeName);
+                        Document doc = null;
+                        try {
+                            doc = docService.getByDocumentHeaderIdSessionless(documentId.toString());
+                        } catch(WorkflowException we) {
+                            throw new RuntimeException(we);
+                        }
+                        return docAuthorizer.canOpen(doc, currentUser);
                     }
-                    return docAuthorizer.canOpen(doc, currentUser);
-                } 
+                }
             }
         }
         return true;

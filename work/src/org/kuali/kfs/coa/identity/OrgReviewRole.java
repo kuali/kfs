@@ -72,7 +72,11 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     public static final String FROM_AMOUNT_FIELD_NAME = "fromAmount";
     public static final String TO_AMOUNT_FIELD_NAME = "toAmount";
     public static final String OVERRIDE_CODE_FIELD_NAME = "overrideCode";
-
+    public static final String ACTION_TYPE_CODE_FIELD_NAME = "actionTypeCode";
+    public static final String PRIORITY_CODE_FIELD_NAME = "priorityNumber";
+    public static final String ACTION_POLICY_CODE_FIELD_NAME = "actionPolicyCode";
+    public static final String FORCE_ACTION_FIELD_NAME = "forceAction";
+    
     public static final String ORIGINAL_DELEGATION_MEMBER_ID_TO_MODIFY = "ODelMId";
     public static final String ORIGINAL_ROLE_MEMBER_ID_TO_MODIFY = "ORMId";
     

@@ -25,6 +25,7 @@ import org.kuali.kfs.coa.identity.KfsKimDocumentAttributeData;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.Role;
@@ -55,8 +56,11 @@ import org.kuali.rice.kns.datadictionary.KimNonDataDictionaryAttributeDefinition
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.exception.KualiException;
+import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
@@ -96,6 +100,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                 KfsKimDocumentAttributeData attribute;
                 orr.setDelegationMemberId(delegationMember.getDelegationMemberId());
                 orr.setRoleMemberId(delegationMember.getRoleMemberId());
+                orr.setRoleRspActions(getRoleRspActions(delegationMember.getRoleMemberId()));
                 orr.setAttributes(orr.getAttributeSetAsQualifierList(typeInfo, delegationMember.getQualifier()));
                 orr.setRoleId(delegation.getRoleId());
                 orr.setDelegationTypeCode(delegationMember.getDelegationTypeCode());
@@ -194,9 +199,39 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
      * @see org.kuali.rice.kns.maintenance.Maintainable#prepareForSave()
      */
     public void prepareForSave() {
-        super.prepareForSave();
+        super.prepareForSave();        
+        validateRoleMembersToSave((OrgReviewRole)getBusinessObject());
     }
 
+    private void validateRoleMembersToSave(OrgReviewRole orr){
+        boolean valid = true;
+        String memberId;
+        String errorPath = "document.newMaintainableObject.";
+        if(StringUtils.isNotEmpty(orr.getPrincipalMemberPrincipalName())){
+            KimPrincipal principal = getIdentityManagementService().getPrincipalByPrincipalName(orr.getPrincipalMemberPrincipalName());
+            if(principal == null || StringUtils.isEmpty(principal.getPrincipalId())){
+                GlobalVariables.getMessageMap().putError(errorPath+OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME, KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Principal");
+                valid = false;
+            }
+        }
+        if(StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
+            memberId = getRoleManagementService().getRoleIdByName(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());
+            if(memberId == null){
+                GlobalVariables.getMessageMap().putError(errorPath+OrgReviewRole.ROLE_NAME_FIELD_NAME, KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Role");
+                valid = false;
+            }
+        }
+        if(StringUtils.isNotEmpty(orr.getGroupMemberGroupName())){
+            GroupInfo groupInfo = getGroupService().getGroupInfoByName(orr.getGroupMemberGroupNamespaceCode(), orr.getGroupMemberGroupName());
+            if(groupInfo == null || StringUtils.isEmpty(groupInfo.getGroupId())){
+                GlobalVariables.getMessageMap().putError(errorPath+OrgReviewRole.GROUP_NAME_FIELD_NAME, KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Group");
+                valid = false;
+            }
+        }
+        if(!valid)
+            throw new ValidationException("Invalid Role Member Data");
+    }
+    
     private Boolean hasOrganizationHierarchy = null;
     private Boolean hasAccountingOrganizationHierarchy = null;
     private String closestOrgReviewRoleParentDocumentTypeName = null;
@@ -290,7 +325,11 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                 OrgReviewRole.ROLE_NAME_FIELD_NAME.equals(field.getPropertyName()) ||
                 OrgReviewRole.ROLE_NAME_FIELD_NAMESPACE_CODE.equals(field.getPropertyName()) ||
                 OrgReviewRole.GROUP_NAME_FIELD_NAME.equals(field.getPropertyName()) ||
-                OrgReviewRole.GROUP_NAME_FIELD_NAMESPACE_CODE.equals(field.getPropertyName())){
+                OrgReviewRole.GROUP_NAME_FIELD_NAMESPACE_CODE.equals(field.getPropertyName()) ||
+                OrgReviewRole.ACTION_POLICY_CODE_FIELD_NAME.equals(field.getPropertyName()) || 
+                OrgReviewRole.ACTION_TYPE_CODE_FIELD_NAME.equals(field.getPropertyName()) || 
+                OrgReviewRole.PRIORITY_CODE_FIELD_NAME.equals(field.getPropertyName()) || 
+                OrgReviewRole.FORCE_ACTION_FIELD_NAME.equals(field.getPropertyName())){
             field.setReadOnly(true);
         }
     }
@@ -307,7 +346,11 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         if(OrgReviewRole.CHART_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
                 OrgReviewRole.ORG_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
                 OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME.equals(field.getPropertyName()) || 
-                OrgReviewRole.REVIEW_ROLES_INDICATOR_FIELD_NAME.equals(field.getPropertyName())){
+                OrgReviewRole.REVIEW_ROLES_INDICATOR_FIELD_NAME.equals(field.getPropertyName()) ||
+                OrgReviewRole.ACTION_POLICY_CODE_FIELD_NAME.equals(field.getPropertyName()) || 
+                OrgReviewRole.ACTION_TYPE_CODE_FIELD_NAME.equals(field.getPropertyName()) || 
+                OrgReviewRole.PRIORITY_CODE_FIELD_NAME.equals(field.getPropertyName()) || 
+                OrgReviewRole.FORCE_ACTION_FIELD_NAME.equals(field.getPropertyName())){
             field.setReadOnly(true);    
         }
     }
@@ -431,9 +474,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
             }
             delegationMember.setDelegationTypeCode(orr.getDelegationTypeCode());
             delegationMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE);
-            if(orr.isEdit() && !orr.isCreateDelegation()){
-                delegationMember.setDelegationMemberId(orr.getDelegationMemberId());
-            }
             delegationMember.setQualifier(getAttributes(orr, orr.getKimTypeId()));
             delegationMember.setActiveFromDate(orr.getActiveFromDate());
             delegationMember.setActiveToDate(orr.getActiveToDate());
@@ -449,9 +489,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
             }
             delegationMember.setDelegationTypeCode(orr.getDelegationTypeCode());
             delegationMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE);
-            if(orr.isEdit() && !orr.isCreateDelegation()){
-                delegationMember.setDelegationMemberId(orr.getDelegationMemberId());
-            }
             delegationMember.setQualifier(getAttributes(orr, orr.getKimTypeId()));
             delegationMember.setActiveFromDate(orr.getActiveFromDate());
             delegationMember.setActiveToDate(orr.getActiveToDate());

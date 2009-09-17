@@ -200,38 +200,8 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
      */
     public void prepareForSave() {
         super.prepareForSave();        
-        validateRoleMembersToSave((OrgReviewRole)getBusinessObject());
     }
 
-    private void validateRoleMembersToSave(OrgReviewRole orr){
-        boolean valid = true;
-        String memberId;
-        String errorPath = "document.newMaintainableObject.";
-        if(StringUtils.isNotEmpty(orr.getPrincipalMemberPrincipalName())){
-            KimPrincipal principal = getIdentityManagementService().getPrincipalByPrincipalName(orr.getPrincipalMemberPrincipalName());
-            if(principal == null || StringUtils.isEmpty(principal.getPrincipalId())){
-                GlobalVariables.getMessageMap().putError(errorPath+OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME, KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Principal");
-                valid = false;
-            }
-        }
-        if(StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
-            memberId = getRoleManagementService().getRoleIdByName(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());
-            if(memberId == null){
-                GlobalVariables.getMessageMap().putError(errorPath+OrgReviewRole.ROLE_NAME_FIELD_NAME, KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Role");
-                valid = false;
-            }
-        }
-        if(StringUtils.isNotEmpty(orr.getGroupMemberGroupName())){
-            GroupInfo groupInfo = getGroupService().getGroupInfoByName(orr.getGroupMemberGroupNamespaceCode(), orr.getGroupMemberGroupName());
-            if(groupInfo == null || StringUtils.isEmpty(groupInfo.getGroupId())){
-                GlobalVariables.getMessageMap().putError(errorPath+OrgReviewRole.GROUP_NAME_FIELD_NAME, KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Group");
-                valid = false;
-            }
-        }
-        if(!valid)
-            throw new ValidationException("Invalid Role Member Data");
-    }
-    
     private Boolean hasOrganizationHierarchy = null;
     private Boolean hasAccountingOrganizationHierarchy = null;
     private String closestOrgReviewRoleParentDocumentTypeName = null;

@@ -120,6 +120,7 @@
     <property name="maxLength" value="255"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Document Type"/>
+    <property name="required" value="true"/>
     <property name="shortLabel" value="Document Type"/>
     <property name="control">
     	<bean parent="LookupReadonlyControlDefinition" p:size="20"/>

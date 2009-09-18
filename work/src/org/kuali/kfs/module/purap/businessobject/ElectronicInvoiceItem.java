@@ -81,7 +81,6 @@ public class ElectronicInvoiceItem {
     return null;
   }
   
-  // TODO NEXT RELEASE: E-Invoicing - Shipping Description Text, where to get it?
   public String getInvoiceLineShippingDescription() {
     return "";
   }

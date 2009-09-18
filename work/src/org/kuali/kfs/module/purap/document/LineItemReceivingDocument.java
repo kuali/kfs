@@ -194,9 +194,6 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
         }
     }
 
-    /**
-     * FIXME: Have to move this method to the base class to make it available for the correction doc also - vpc
-     */
     private void populateDocumentDescription(PurchaseOrderDocument poDocument) {
         String description = "PO: " + poDocument.getPurapDocumentIdentifier() + " Vendor: " + poDocument.getVendorName();
         int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KNSPropertyConstants.DOCUMENT_DESCRIPTION).intValue();

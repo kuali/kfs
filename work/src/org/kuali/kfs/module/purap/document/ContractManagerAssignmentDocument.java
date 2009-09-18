@@ -113,7 +113,6 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
 
         if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             boolean isSuccess = true;
-            //TODO: we don't seem to be doing anything with these "failedReqs"
             StringBuffer failedReqs = new StringBuffer();
             SpringContext.getBean(PurchaseOrderService.class).processACMReq(this);
 

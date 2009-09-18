@@ -1250,9 +1250,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             
             hasKualiPaymentTermsDiscountItem = hasKualiPaymentTermsDiscountItem || (StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE,preqItem.getItemTypeCode()));
             
-            /**
-             * TODO: Relook into this code
-             */
             if (isItemValidForUpdation(preqItem.getItemTypeCode(),ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DISCOUNT,orderHolder)){
                 
                 alreadyProcessedInvoiceDiscount = true;
@@ -1273,9 +1270,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                         preqItem.setExtendedPrice(discountValueToUse);
                       }
                 }else {
-                    /**
-                     * FIXME : I dont think this block will gets executed
-                     */  
                     // item is not payment terms discount item... just add value
                     // if discount item exists on PREQ and discount dollar amount exists... use greater amount
                     if (LOG.isInfoEnabled()){
@@ -1295,9 +1289,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
          *   FYI - FILE DISCOUNT AMOUNT CURRENTLY HARD CODED TO GO INTO PAYMENT TERMS DISCOUNT ITEM ONLY... ALL OTHERS WILL FAIL
          */
         
-        /**
-         * TODO: Relook into this code
-         */
         if (!alreadyProcessedInvoiceDiscount) {
             String itemTypeRequired = PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE;
             // if we already have a PMT TERMS DISC item but the e-invoice discount wasn't processed... error out

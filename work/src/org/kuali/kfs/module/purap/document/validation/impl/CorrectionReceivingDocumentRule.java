@@ -49,12 +49,6 @@ public class CorrectionReceivingDocumentRule extends DocumentRuleBase {
     }
 
 
-    /**
-     * TODO: move this up
-     * This method...
-     * @param receivingDocument
-     * @return
-     */
     private boolean isAtLeastOneItemEntered(ReceivingDocument receivingDocument){
         for (ReceivingItem item : (List<ReceivingItem>) receivingDocument.getItems()) {
             if (((PurapEnterableItem)item).isConsideredEntered()) {

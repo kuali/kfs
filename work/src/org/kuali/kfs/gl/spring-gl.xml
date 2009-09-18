@@ -54,6 +54,7 @@
 				<value>posterJob</value>
 				<value>posterBalancingJob</value>
 				<value>sufficientFundsAccountUpdateJob</value>
+				<value>clearPendingEntriesJob</value>
 				<value>encumbranceForwardJob</value>
 				<value>balanceForwardJob</value>
 				<value>nominalActivityClosingJob</value>

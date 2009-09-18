@@ -3984,7 +3984,11 @@ update krim_perm_t set desc_txt = 'Identifies users that can be Account Managers
 update krns_parm_t set txt = 'IE=LD' where nmspc_cd = 'KFS-GL' and parm_dtl_typ_cd = 'EncumbranceForwardStep' and parm_nm = 'FORWARD_ENCUMBRANCE_BALANCE_TYPE_AND_ORIGIN_CODE'
 /
 
--- KFsMI-4903
+-- KFSMI-4903
 insert into krns_parm_t (nmspc_cd, parm_dtl_typ_cd, parm_nm, obj_id, ver_nbr, parm_typ_cd, txt, parm_desc_txt, cons_cd, appl_nmspc_cd)
 	values ('KFS-PURAP','Document','ENABLE_B2B_BY_VENDOR_DUNS_NUMBER_IND',sys_guid(),1,'CONFG','N','If set to N, the B2B integrator should use vendor ID to indicate the vendor. If set to Y, the B2B integrator should use the vendor DUNS number to indicate the vendor.','A','KFS')
+/
+
+-- KFSMI-4847
+update krns_parm_t set txt = 'BD;BF;BI;BR;BX;IF;LE;LF;LI;LR' where nmspc_cd = 'KFS-CAM' and parm_dtl_typ_cd = 'Batch' and parm_nm = 'DEPRECIATION_CAMPUS_PLANT_FUND_OBJECT_SUB_TYPE' and appl_nmspc_cd = 'KFS'
 /

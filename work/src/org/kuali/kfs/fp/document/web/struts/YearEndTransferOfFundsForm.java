@@ -28,5 +28,10 @@ public class YearEndTransferOfFundsForm extends TransferOfFundsForm {
     public YearEndTransferOfFundsForm() {
         super();
     }
+    
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "YETF";
+    }
     // empty do not change. see above.
 }

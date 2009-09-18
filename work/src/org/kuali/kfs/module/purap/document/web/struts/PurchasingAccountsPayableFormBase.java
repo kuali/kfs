@@ -96,13 +96,10 @@ public class PurchasingAccountsPayableFormBase extends KualiAccountingDocumentFo
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        
         PurchasingAccountsPayableDocument purapDoc = (PurchasingAccountsPayableDocument)this.getDocument();
 
-        if (purapDoc != null) {
-            //fix document item/account references if necessary
-            purapDoc.fixItemReferences();
-        }
+        //fix document item/account references if necessary
+        purapDoc.fixItemReferences();
     }
 
     public List<SummaryAccount> getSummaryAccounts() {

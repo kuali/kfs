@@ -41,8 +41,14 @@ public class CashControlDocumentForm extends FinancialSystemTransactionalDocumen
     public CashControlDocumentForm() {
 
         super();
+
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "CTRL";
+    }
+    
     /**
      * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */

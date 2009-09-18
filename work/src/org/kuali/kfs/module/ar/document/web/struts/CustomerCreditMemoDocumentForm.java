@@ -38,6 +38,11 @@ public class CustomerCreditMemoDocumentForm extends FinancialSystemTransactional
         super();
     }
     
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "CRM";
+    }
+    
     /**
      * Setup workflow doc in the document.
      */
@@ -48,14 +53,12 @@ public class CustomerCreditMemoDocumentForm extends FinancialSystemTransactional
         super.populate(request);
         
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)getDocument();
-        if (customerCreditMemoDocument != null) {
-            String customerInvoiceNumber = customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber();
-            
-            //this will make sure that every action has fully populated invoice
-            if(StringUtils.isNotEmpty(customerInvoiceNumber)){
-                customerCreditMemoDocument.refreshReferenceObject("invoice");
-            }
-        }
+        String customerInvoiceNumber = customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber();
+        
+        //this will make sure that every action has fully populated invoice
+        if(StringUtils.isNotEmpty(customerInvoiceNumber)){
+            customerCreditMemoDocument.refreshReferenceObject("invoice");
+        }        
     }
 
     /**

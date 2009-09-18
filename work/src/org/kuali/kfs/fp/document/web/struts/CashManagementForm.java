@@ -82,6 +82,11 @@ public class CashManagementForm extends KualiDocumentFormBase {
         setFormatterType("document.currentTransaction.transactionStarted", TimestampAMPMFormatter.class);
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "CMD";
+    }
+    
     /**
      * @return cashManagementDocument
      */

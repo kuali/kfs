@@ -39,6 +39,11 @@ public class IndirectCostAdjustmentForm extends KualiAccountingDocumentFormBase 
         super();
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "ICA";
+    }
+    
     /**
      * @return Returns the Indirect Cost Adjustment Document
      */

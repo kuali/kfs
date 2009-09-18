@@ -73,9 +73,13 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     public DisbursementVoucherForm() {
         super();
         setFormatterType("canPrintCoverSheet", SimpleBooleanFormatter.class);
-//        setDocument(new DisbursementVoucherDocument());
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "DV";
+    }
+    
     /**
      * @return Returns the newNonEmployeeExpenseLine.
      */

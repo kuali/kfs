@@ -52,8 +52,14 @@ public class LaborCorrectionForm extends CorrectionForm {
         super();
         laborEntryForManualEdit = new LaborOriginEntry();
         laborEntryForManualEdit.setEntryId(0);
+
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "LLCP";
+    }
+    
     /**
      * @see org.kuali.kfs.gl.document.web.struts.CorrectionForm#clearForm()
      */

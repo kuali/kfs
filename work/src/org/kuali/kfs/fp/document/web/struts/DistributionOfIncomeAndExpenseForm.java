@@ -35,6 +35,11 @@ public class DistributionOfIncomeAndExpenseForm extends KualiAccountingDocumentF
         this.setCapitalAssetInformation(new CapitalAssetInformation());
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "DI";
+    }
+    
     /**
      * @return Returns the DistributionOfIncomeAndExpenseDocument.
      */

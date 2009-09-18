@@ -37,8 +37,14 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
      */
     public BenefitExpenseTransferForm() {
         super();
+        setDocument(new BenefitExpenseTransferDocument());
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "BT";
+    }
+    
     /**
      * Gets the BenefitExpenseTransferDocument attribute.
      * 

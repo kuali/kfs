@@ -44,11 +44,14 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
     }
 
     @Override
+    protected String getDefaultDocumentTypeName() {
+        return "BCIE";
+    }
+    
+    @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        if (this.getBarcodeInventoryErrorDocument() != null) {
-            SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(this.getBarcodeInventoryErrorDocument());
-        }
+        SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(this.getBarcodeInventoryErrorDocument());
     }
 
     /**

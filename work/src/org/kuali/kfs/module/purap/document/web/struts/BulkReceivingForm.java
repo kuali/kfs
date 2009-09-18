@@ -41,6 +41,11 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
         super();
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "RCVB";
+    }
+    
     public BulkReceivingDocument getBulkReceivingDocument() {
         return (BulkReceivingDocument) getDocument();
     }

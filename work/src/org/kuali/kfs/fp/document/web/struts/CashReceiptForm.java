@@ -75,14 +75,17 @@ public class CashReceiptForm extends KualiAccountingDocumentFormBase implements 
         
         this.setCapitalAssetInformation(new CapitalAssetInformation());
     }
+
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "CR";
+    }
     
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
 
-        if (getCashReceiptDocument() != null) {
-            setCheckEntryMode(getCashReceiptDocument().getCheckEntryMode());
-        }
+        setCheckEntryMode(getCashReceiptDocument().getCheckEntryMode());
     }
 
     /**

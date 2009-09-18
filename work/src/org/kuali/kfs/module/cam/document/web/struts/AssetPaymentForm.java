@@ -57,6 +57,11 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
         super();
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "MPAY";
+    }
+    
     /**
      * This method gets the asset payment document
      * 
@@ -142,11 +147,9 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
     public void populate(HttpServletRequest request) {
         super.populate(request);
 
-        if (getAssetPaymentDocument() != null) {
-            // Refreshing reference to the asset table.
-            for (AssetPaymentAssetDetail assetPaymentAssetDetail : this.getAssetPaymentDocument().getAssetPaymentAssetDetail()) {
-                assetPaymentAssetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDocument.ASSET);
-            }
+        // Refreshing reference to the asset table.
+        for (AssetPaymentAssetDetail assetPaymentAssetDetail : this.getAssetPaymentDocument().getAssetPaymentAssetDetail()) {
+            assetPaymentAssetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDocument.ASSET);
         }
     }
 

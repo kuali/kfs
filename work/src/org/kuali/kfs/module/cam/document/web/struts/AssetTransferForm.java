@@ -31,6 +31,11 @@ public class AssetTransferForm extends FinancialSystemTransactionalDocumentFormB
         super();
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "AT";
+    }
+    
     public AssetTransferDocument getAssetTransferDocument() {
         return (AssetTransferDocument) getDocument();
     }
@@ -38,18 +43,14 @@ public class AssetTransferForm extends FinancialSystemTransactionalDocumentFormB
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        if (getAssetTransferDocument() != null) {
-            DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-            SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(getAssetTransferDocument());
-        }
+        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+        SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(getAssetTransferDocument());
     }
 
     @Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
-        if (getAssetTransferDocument() != null) {
-            getAssetTransferDocument().setInterdepartmentalSalesIndicator(false);
-        }
+        getAssetTransferDocument().setInterdepartmentalSalesIndicator(false);
     }
 
     public boolean isLoanNoteAdded() {

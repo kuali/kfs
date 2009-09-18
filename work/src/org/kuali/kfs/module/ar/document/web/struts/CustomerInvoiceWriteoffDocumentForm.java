@@ -36,6 +36,11 @@ public class CustomerInvoiceWriteoffDocumentForm extends FinancialSystemTransact
     public CustomerInvoiceWriteoffDocumentForm() {
         super();
     }
+
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "INVW";
+    }
     
     /**
      * Setup workflow doc in the document.
@@ -47,14 +52,12 @@ public class CustomerInvoiceWriteoffDocumentForm extends FinancialSystemTransact
         super.populate(request);
         
         CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument)getDocument();
-        if (customerInvoiceWriteoffDocument != null) {
-            String customerInvoiceNumber = customerInvoiceWriteoffDocument.getFinancialDocumentReferenceInvoiceNumber();
-            
-            //this will make sure that every action has fully populated invoice
-            if(StringUtils.isNotEmpty(customerInvoiceNumber)){
-                customerInvoiceWriteoffDocument.refreshReferenceObject("customerInvoiceDocument");
-            }        
-        }
+        String customerInvoiceNumber = customerInvoiceWriteoffDocument.getFinancialDocumentReferenceInvoiceNumber();
+        
+        //this will make sure that every action has fully populated invoice
+        if(StringUtils.isNotEmpty(customerInvoiceNumber)){
+            customerInvoiceWriteoffDocument.refreshReferenceObject("customerInvoiceDocument");
+        }        
     }
 
     /**

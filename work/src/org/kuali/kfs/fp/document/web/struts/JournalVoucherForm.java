@@ -53,6 +53,11 @@ public class JournalVoucherForm extends VoucherForm {
         originalBalanceType = "";
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "JV";
+    }
+    
     /**
      * Overrides the parent to call super.populate and then to call the two methods that are specific to loading the two select
      * lists on the page. In addition, this also makes sure that the credit and debit amounts are filled in for situations where
@@ -197,9 +202,7 @@ public class JournalVoucherForm extends VoucherForm {
         }
 
         setSelectedBalanceType(getPopulatedBalanceTypeInstance(selectedBalanceTypeCode));
-        if (getJournalVoucherDocument() != null) {
-            getJournalVoucherDocument().setBalanceTypeCode(selectedBalanceTypeCode);
-        }
+        getJournalVoucherDocument().setBalanceTypeCode(selectedBalanceTypeCode);
     }
 
     /**

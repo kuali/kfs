@@ -57,6 +57,11 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
         super();
         this.setNewPurchasingItemLine(setupNewPurchasingItemLine());
     }
+
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "PREQ";
+    }
     
     public boolean isCalculatedTax() {
         return calculatedTax;

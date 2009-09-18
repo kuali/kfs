@@ -25,4 +25,9 @@ public class ServiceBillingForm extends InternalBillingForm implements CapitalAs
     public ServiceBillingForm() {
         super();
     }
+    
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "SB";
+    }
 }

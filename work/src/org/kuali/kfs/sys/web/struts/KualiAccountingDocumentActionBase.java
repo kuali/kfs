@@ -102,10 +102,9 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
             processAccountingLines(financialDocument, transForm, KFSConstants.TARGET);
         }
 
-        if (transForm.getDocument() != null) {
-            // This is after a potential handleUpdate(), to display automatically cleared overrides following a route or save.
-            processAccountingLineOverrides(transForm);
-        }
+        // This is after a potential handleUpdate(), to display automatically cleared overrides following a route or save.
+        processAccountingLineOverrides(transForm);
+
         // proceed as usual
         ActionForward result = super.execute(mapping, form, request, response);
         t0.log();

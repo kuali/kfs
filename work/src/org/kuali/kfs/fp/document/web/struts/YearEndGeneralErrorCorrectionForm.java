@@ -29,4 +29,9 @@ public class YearEndGeneralErrorCorrectionForm extends GeneralErrorCorrectionFor
     public YearEndGeneralErrorCorrectionForm() {
         super();
     }
+    
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "YEGE";
+    }
 }

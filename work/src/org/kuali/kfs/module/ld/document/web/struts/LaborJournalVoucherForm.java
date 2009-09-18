@@ -45,6 +45,11 @@ public class LaborJournalVoucherForm extends JournalVoucherForm {
         super();
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "LLJV";
+    }
+
     /**
      * Populates source a accounting line encumbrance code (D, R or null) for a given source accounting line 
      * 

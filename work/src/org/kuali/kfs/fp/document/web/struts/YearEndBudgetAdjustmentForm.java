@@ -33,5 +33,10 @@ public class YearEndBudgetAdjustmentForm extends BudgetAdjustmentForm {
     public YearEndBudgetAdjustmentForm() {
         super();
     }
+    
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "YEBA";
+    }
     // empty do not change. see above.
 }

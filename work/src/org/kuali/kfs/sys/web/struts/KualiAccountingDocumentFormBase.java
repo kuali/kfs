@@ -85,15 +85,12 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        
-        if (getDocument() != null) {
-            final String methodToCall = this.getMethodToCall();
-            final Map parameterMap = request.getParameterMap();
-    
-            populateAccountingLinesForResponse(methodToCall, parameterMap);
-    
-            setDocTypeName(discoverDocumentTypeName());
-        }
+        final String methodToCall = this.getMethodToCall();
+        final Map parameterMap = request.getParameterMap();
+
+        populateAccountingLinesForResponse(methodToCall, parameterMap);
+
+        setDocTypeName(discoverDocumentTypeName());
     }
     
     /**

@@ -34,4 +34,8 @@ public class ContractManagerAssignmentForm extends FinancialSystemTransactionalD
         super();
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "ACM";
+    }
 }

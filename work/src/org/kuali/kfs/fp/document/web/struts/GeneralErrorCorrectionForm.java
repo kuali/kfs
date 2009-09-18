@@ -36,6 +36,11 @@ public class GeneralErrorCorrectionForm extends KualiAccountingDocumentFormBase 
         this.setCapitalAssetInformation(new CapitalAssetInformation());
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "GEC";
+    }
+    
     /**
      * @return Returns the generalErrorCorrectionDocument.
      */

@@ -38,6 +38,11 @@ public class ElectronicInvoiceRejectForm extends FinancialSystemTransactionalDoc
         super();
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "EIRT";
+    }
+    
     public ElectronicInvoiceRejectDocument getElectronicInvoiceRejectDocument() {
         return (ElectronicInvoiceRejectDocument) getDocument();
     }

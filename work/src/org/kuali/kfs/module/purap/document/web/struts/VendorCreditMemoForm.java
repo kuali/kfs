@@ -46,6 +46,11 @@ public class VendorCreditMemoForm extends AccountsPayableFormBase {
     }
 
     @Override
+    protected String getDefaultDocumentTypeName() {
+        return "CM";
+    }
+    
+    @Override
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         if (ObjectUtils.isNotNull(((VendorCreditMemoDocument) getDocument()).getPurapDocumentIdentifier())) {

@@ -30,6 +30,11 @@ public class NonCheckDisbursementForm extends KualiAccountingDocumentFormBase {
         super();
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "ND";
+    }
+    
     /**
      * @return Returns the NonCheckDisbursementDocument
      */

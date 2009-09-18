@@ -34,5 +34,10 @@ public class YearEndDistributionOfIncomeAndExpenseForm extends DistributionOfInc
     public YearEndDistributionOfIncomeAndExpenseForm() {
         super();
     }
+    
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "YEDI";
+    }
     // empty do not change. see above.
 }

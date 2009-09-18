@@ -108,6 +108,11 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
         LOG.debug("creating BudgetConstructionForm");
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "BC";
+    }
+    
     /**
      * calls super.populate, then populates revenue and expenditure lines
      * 
@@ -953,13 +958,5 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      */
     public static String getExpenditureObjectTypeCodesLookup() {
         return expenditureObjectTypeCodesLookup;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#getDefaultDocumentTypeName()
-     */
-    @Override
-    protected String getDefaultDocumentTypeName() {
-        return "BC";
     }
 }

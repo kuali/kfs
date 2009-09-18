@@ -55,6 +55,11 @@ public class LineItemReceivingForm extends ReceivingFormBase {
         newLineItemReceivingItemLine.setItemTypeCode(PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE);
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "RCVL";
+    }
+    
     public LineItemReceivingDocument getLineItemReceivingDocument() {
         return (LineItemReceivingDocument) getDocument();
     }

@@ -29,4 +29,9 @@ public class YearEndSalaryExpenseTransferForm extends SalaryExpenseTransferForm 
     public YearEndSalaryExpenseTransferForm() {
         super();
     }
+    
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "YEGE";
+    }
 }

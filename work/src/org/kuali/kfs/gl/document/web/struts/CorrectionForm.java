@@ -127,6 +127,11 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         setDocType();
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "GLCP";
+    }
+    
     /**
      * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
@@ -190,10 +195,8 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
      * 
      */
     public void syncGroups() {
-        if (getCorrectionDocument() != null) {
-            int groupCount = getCorrectionDocument().getCorrectionChangeGroup().size();
-            getGroupsItem(groupCount);
-        }
+        int groupCount = getCorrectionDocument().getCorrectionChangeGroup().size();
+        getGroupsItem(groupCount);
     }
 
     /**
@@ -238,6 +241,9 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
 
         restrictedFunctionalityMode = false;
 
+        setDocument(null);
+        instantiateDocument();
+        
         // These are for the blank rows that are used to add criteria/changes
         groups = new ArrayList<GroupHolder>();
 

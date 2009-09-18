@@ -31,6 +31,11 @@ public class PreEncumbranceForm extends KualiAccountingDocumentFormBase {
         super();
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "PE";
+    }
+    
     /**
      * @return Returns the preEncumbranceDocument.
      */

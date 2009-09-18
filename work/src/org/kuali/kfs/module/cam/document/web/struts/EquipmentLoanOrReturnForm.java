@@ -35,6 +35,11 @@ public class EquipmentLoanOrReturnForm extends FinancialSystemTransactionalDocum
         super();
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "ELR";
+    }
+    
     /**
      * This method gets the equipmentLoanOrReturn document
      * 
@@ -50,8 +55,6 @@ public class EquipmentLoanOrReturnForm extends FinancialSystemTransactionalDocum
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        if (getEquipmentLoanOrReturnDocument() != null) {
-            SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(getEquipmentLoanOrReturnDocument());
-        }
+        SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(getEquipmentLoanOrReturnDocument());
     }
 }

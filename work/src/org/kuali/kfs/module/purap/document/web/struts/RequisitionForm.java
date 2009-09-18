@@ -48,6 +48,11 @@ public class RequisitionForm extends PurchasingFormBase {
         super();
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "REQS";
+    }
+    
     public RequisitionDocument getRequisitionDocument() {
         return (RequisitionDocument) getDocument();
     }
@@ -58,19 +63,17 @@ public class RequisitionForm extends PurchasingFormBase {
     
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
-        if (getDocument() != null) {
-            if (ObjectUtils.isNotNull(this.getRequisitionDocument().getPurapDocumentIdentifier())) {
-                getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.purapDocumentIdentifier", ((RequisitionDocument) this.getDocument()).getPurapDocumentIdentifier().toString()));
-            }
-            else {
-                getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.purapDocumentIdentifier", "Not Available"));
-            }
-            if (ObjectUtils.isNotNull(this.getRequisitionDocument().getStatus())) {
-                getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.statusCode", ((RequisitionDocument) this.getDocument()).getStatus().getStatusDescription()));
-            }
-            else {
-                getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.statusCode", "Not Available"));
-            }
+        if (ObjectUtils.isNotNull(this.getRequisitionDocument().getPurapDocumentIdentifier())) {
+            getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.purapDocumentIdentifier", ((RequisitionDocument) this.getDocument()).getPurapDocumentIdentifier().toString()));
+        }
+        else {
+            getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.purapDocumentIdentifier", "Not Available"));
+        }
+        if (ObjectUtils.isNotNull(this.getRequisitionDocument().getStatus())) {
+            getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.statusCode", ((RequisitionDocument) this.getDocument()).getStatus().getStatusDescription()));
+        }
+        else {
+            getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.statusCode", "Not Available"));
         }
     }
 

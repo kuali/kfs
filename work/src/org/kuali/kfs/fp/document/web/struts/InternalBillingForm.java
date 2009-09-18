@@ -32,11 +32,15 @@ public class InternalBillingForm extends KualiAccountingDocumentFormBase impleme
 
     public InternalBillingForm() {
         super();
-//        setDocument(new InternalBillingDocument());
         this.newItem = new InternalBillingItem();
         this.setCapitalAssetInformation(new CapitalAssetInformation());
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "IB";
+    }
+    
     /**
      * @return Returns the internalBillingDocument.
      */

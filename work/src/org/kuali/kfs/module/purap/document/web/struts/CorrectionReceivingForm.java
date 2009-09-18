@@ -34,6 +34,11 @@ public class CorrectionReceivingForm extends ReceivingFormBase {
         newCorrectionReceivingItemLine.setItemTypeCode("ITEM");
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "RCVC";
+    }
+    
     public CorrectionReceivingDocument getCorrectionReceivingDocument() {
         return (CorrectionReceivingDocument) getDocument();
     }

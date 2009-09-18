@@ -31,6 +31,11 @@ public class CloseForm extends FinancialSystemTransactionalDocumentFormBase {
         setFormatterType("document.closeOnOrBeforeDate", DateFormatter.class);
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "CLOS";
+    }
+    
     public ProposalAwardCloseDocument getMostRecentClose() {
         return SpringContext.getBean(CloseService.class).getMostRecentClose();
     }

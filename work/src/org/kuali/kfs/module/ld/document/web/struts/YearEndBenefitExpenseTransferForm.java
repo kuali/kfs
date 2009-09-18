@@ -29,4 +29,9 @@ public class YearEndBenefitExpenseTransferForm extends BenefitExpenseTransferFor
     public YearEndBenefitExpenseTransferForm() {
         super();
     }
+    
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "YEBT";
+    }
 }

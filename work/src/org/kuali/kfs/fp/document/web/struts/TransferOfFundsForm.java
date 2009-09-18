@@ -33,6 +33,11 @@ public class TransferOfFundsForm extends KualiAccountingDocumentFormBase {
         super();
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "TF";
+    }
+    
     /**
      * @return Returns the serviceBillingDocument.
      */

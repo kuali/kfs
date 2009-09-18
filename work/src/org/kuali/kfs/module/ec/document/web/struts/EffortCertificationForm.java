@@ -71,6 +71,11 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
         this.setNewDetailLine(this.createNewDetailLine());
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "ECD";
+    }
+    
     /**
      * initialize a new detail line
      * 
@@ -117,10 +122,8 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
     public void populate(HttpServletRequest request) {
         super.populate(request);
 
-        if (getDocument() != null) {
-            for (EffortCertificationDetail detailLine : this.getDetailLines()) {
-                EffortCertificationDetailLineOverride.populateFromInput(detailLine);
-            }
+        for (EffortCertificationDetail detailLine : this.getDetailLines()) {
+            EffortCertificationDetailLineOverride.populateFromInput(detailLine);
         }
     }
 

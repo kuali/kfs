@@ -106,6 +106,11 @@ public class ProcurementCardForm extends KualiAccountingDocumentFormBase impleme
         this.setCapitalAssetInformation(new CapitalAssetInformation());
     }
 
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "PCDO";
+    }
+    
     /**
      * @return The retreived APC string used for the dispute url.
      */

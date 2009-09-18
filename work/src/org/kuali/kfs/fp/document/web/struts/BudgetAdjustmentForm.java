@@ -43,6 +43,11 @@ public class BudgetAdjustmentForm extends KualiAccountingDocumentFormBase {
     public BudgetAdjustmentForm() {
         super();
     }
+
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "BA";
+    }
     
     @Override
     protected void repopulateOverrides(AccountingLine line, String accountingLinePropertyName, Map parameterMap) {

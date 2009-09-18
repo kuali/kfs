@@ -39,6 +39,7 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMatchingService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.TaxService;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.businessobject.PurchaseOrderCostSource;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
@@ -185,8 +186,18 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
 
         ElectronicInvoiceDetailRequestSummary summary = orderHolder.getElectronicInvoice().getInvoiceDetailRequestSummary();
 
-        if (orderHolder.isTaxInLine()) {
-            validateSummaryAmount(orderHolder, summary.getInvoiceTaxAmount(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_TAX, PurapConstants.ElectronicInvoice.TAX_SUMMARY_AMT_MISMATCH);
+        boolean enableSalesTaxInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);
+        BigDecimal summaryTaxAmount = summary.getInvoiceTaxAmount();
+        if (!enableSalesTaxInd) {
+            // if sales tax is disabled, total tax amount shall be zero 
+            if (summaryTaxAmount.compareTo(new BigDecimal(0)) != 0) {
+                String extraDescription = "Summary Tax Amount:" + summaryTaxAmount;
+                ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.TAX_SUMMARY_AMT_EXISTS, extraDescription, orderHolder.getFileName());
+                orderHolder.addInvoiceHeaderRejectReason(rejectReason);      
+            }
+        }
+        else if (orderHolder.isTaxInLine()) {
+            validateSummaryAmount(orderHolder, summaryTaxAmount, ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_TAX, PurapConstants.ElectronicInvoice.TAX_SUMMARY_AMT_MISMATCH);
         }
 
         if (orderHolder.isShippingInLine()) {
@@ -543,6 +554,21 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         PurchaseOrderItem poItem = itemHolder.getPurchaseOrderItem();
         KualiDecimal invoiceSalesTaxAmount = new KualiDecimal(itemHolder.getTaxAmount());
         
+        boolean enableSalesTaxInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);
+        if (LOG.isInfoEnabled()){
+            LOG.info("Sales Tax Enable Indicator - " + enableSalesTaxInd);
+            LOG.info("Invoice item tax amount - " + invoiceSalesTaxAmount);
+        }
+        if (!enableSalesTaxInd) {
+            // if sales tax is disabled, item tax amount shall be zero 
+            if (invoiceSalesTaxAmount.compareTo(new BigDecimal(0)) != 0) {
+                String extraDescription = "Item Tax Amount:" + invoiceSalesTaxAmount;
+                ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.TAX_SUMMARY_AMT_EXISTS, extraDescription, orderHolder.getFileName());
+                orderHolder.addInvoiceHeaderRejectReason(rejectReason);      
+            }
+            return;
+        }
+
         // For reject doc, trans date should be the einvoice processed date.
         java.sql.Date transTaxDate = itemHolder.getInvoiceOrderHolder().getInvoiceProcessedDate();
         String deliveryPostalCode = poItem.getPurchaseOrder().getDeliveryPostalCode();
@@ -557,7 +583,6 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
             LOG.info("Trans date (from invoice/rejectdoc) - " + transTaxDate);
             LOG.info("Delivery Postal Code - " + deliveryPostalCode);
             LOG.info("Extended price - " + extendedPrice);
-            LOG.info("Invoice item tax amount - " + invoiceSalesTaxAmount);
             LOG.info("Sales Tax amount (from sales tax service) - " + salesTaxAmountCalculated);
         }
         

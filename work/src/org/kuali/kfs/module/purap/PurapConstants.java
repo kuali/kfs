@@ -898,7 +898,6 @@ public class PurapConstants extends JSTLConstants {
         public final static String INVOICE_ORDERS_NOT_FOUND = "NOIV";
         public final static String DUNS_NOT_FOUND = "NODU";
         public final static String ITEM_MAPPING_NOT_AVAILABLE = "IMNA";
-        public final static String TAX_SUMMARY_AMT_MISMATCH = "TSAM";
         public final static String DISCOUNT_SUMMARY_AMT_MISMATCH = "DSAM";
         public final static String SPL_HANDLING_SUMMARY_AMT_MISMATCH = "SSAM";
         public final static String SHIPPING_SUMMARY_AMT_MISMATCH = "SHSA";
@@ -924,6 +923,8 @@ public class PurapConstants extends JSTLConstants {
         public final static String INVOICE_AMT_LESSER_THAN_LOWER_VARIANCE = "ALLV";
         public final static String SALES_TAX_AMT_LESSER_THAN_LOWER_VARIANCE = "STLV";
         public final static String SALES_TAX_AMT_GREATER_THAN_UPPER_VARIANCE = "STUV";
+        public final static String TAX_SUMMARY_AMT_EXISTS = "STNV";
+        public final static String TAX_SUMMARY_AMT_MISMATCH = "TSAM";
         public final static String INVOICE_ORDER_DUPLICATE = "EIDU";
 
         public final static String PREQ_WORKLOW_EXCEPTION = "PRWE";

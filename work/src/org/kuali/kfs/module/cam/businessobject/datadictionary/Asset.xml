@@ -381,7 +381,7 @@
     <property name="shortLabel" value="Case Number"/>
     <property name="maxLength" value="14"/>
     <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="16"/>

@@ -3992,3 +3992,9 @@ insert into krns_parm_t (nmspc_cd, parm_dtl_typ_cd, parm_nm, obj_id, ver_nbr, pa
 -- KFSMI-4847
 update krns_parm_t set txt = 'BD;BF;BI;BR;BX;IF;LE;LF;LI;LR' where nmspc_cd = 'KFS-CAM' and parm_dtl_typ_cd = 'Batch' and parm_nm = 'DEPRECIATION_CAMPUS_PLANT_FUND_OBJECT_SUB_TYPE' and appl_nmspc_cd = 'KFS'
 /
+
+-- KFSMI-4859: please read the issue before running this
+insert into krim_role_perm_t
+	(role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind)
+	values ('718', sys_guid(), 1, '61', '54', 'Y')
+/

@@ -24,8 +24,6 @@
         <ref bean="VendorDetail-vendorFirstName"/>
         <ref bean="VendorDetail-vendorRemitName"/>
         <ref bean="VendorDetail-vendorRestrictedReasonText"/>
-        <ref bean="VendorDetail-vendorSoldToNumber"/>
-        <ref bean="VendorDetail-vendorSoldToName"/>
         <ref bean="VendorDetail-vendorUrlAddress"/>
         <ref bean="VendorDetail-vendorRestrictedPersonIdentifier"/>
         <ref bean="VendorDetail-vendorRestrictedPerson.principalName"/>
@@ -35,6 +33,8 @@
         <ref bean="VendorDetail-vendorShippingPaymentTermsCode"/>
         <ref bean="VendorDetail-vendorShippingTitleCode"/>
         <ref bean="VendorDetail-vendorInactiveReasonCode"/>
+        <ref bean="VendorDetail-vendorSoldToNumber"/>
+        <ref bean="VendorDetail-vendorSoldToName"/>
         <ref bean="VendorDetail-vendorSoldToGeneratedIdentifier"/>
         <ref bean="VendorDetail-vendorSoldToAssignedIdentifier"/>
         <ref bean="VendorDetail-vendorMinimumOrderAmount"/>
@@ -240,35 +240,6 @@
       <bean parent="TextareaControlDefinition" p:rows="3" p:cols="60"/>
     </property>
   </bean>
-  <bean id="VendorDetail-vendorSoldToNumber" parent="VendorDetail-vendorSoldToNumber-parentBean"/>
-
-  <bean id="VendorDetail-vendorSoldToNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorSoldToNumber"/>
-    <property name="label" value="Sold To Vendor Number"/>
-    <property name="shortLabel" value="Sold To Vendor Num."/>
-    <property name="maxLength" value="20"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="22"/>
-    </property>
-  </bean>
-  <bean id="VendorDetail-vendorSoldToName" parent="VendorDetail-vendorSoldToName-parentBean"/>
-
-  <bean id="VendorDetail-vendorSoldToName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorSoldToName"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Sold To Name"/>
-    <property name="shortLabel" value="Sold To Name"/>
-    <property name="maxLength" value="100"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="45"/>
-    </property>
-  </bean>
   <bean id="VendorDetail-vendorUrlAddress" parent="VendorDetail-vendorUrlAddress-parentBean"/>
 
   <bean id="VendorDetail-vendorUrlAddress-parentBean" abstract="true" parent="VendorGenericAttributes-genericUrlAddress">
@@ -351,6 +322,21 @@
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.InactiveReasonValuesFinder" p:includeKeyInLabel="false"/>
     </property>
+  </bean>
+  <bean id="VendorDetail-vendorSoldToNumber" parent="VendorDetail-vendorSoldToNumber-parentBean"/>
+
+  <bean id="VendorDetail-vendorSoldToNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
+    <property name="name" value="vendorSoldToNumber"/>
+    <property name="label" value="Sold To Vendor Number"/>
+    <property name="shortLabel" value="Sold To Vendor #"/>
+  </bean>
+  <bean id="VendorDetail-vendorSoldToName" parent="VendorDetail-vendorSoldToName-parentBean"/>
+
+  <bean id="VendorDetail-vendorSoldToName-parentBean" abstract="true" parent="VendorDetail-vendorName">
+    <property name="name" value="vendorSoldToName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Sold To Vendor Name"/>
+    <property name="shortLabel" value="Sold To Vendor"/>
   </bean>
   <bean id="VendorDetail-vendorSoldToGeneratedIdentifier" parent="VendorDetail-vendorSoldToGeneratedIdentifier-parentBean"/>
 
@@ -595,8 +581,8 @@
               <bean parent="InquirySubSectionHeaderDefinition" p:attributeName="Detail Information"/>
               <bean parent="FieldDefinition" p:attributeName="vendorPaymentTermsCode"/>
               <bean parent="FieldDefinition" p:attributeName="vendorSoldToNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorPrepaymentIndicator"/>
               <bean parent="FieldDefinition" p:attributeName="vendorSoldToName"/>
+              <bean parent="FieldDefinition" p:attributeName="vendorPrepaymentIndicator"/>
               <bean parent="FieldDefinition" p:attributeName="vendorCreditCardIndicator"/>
               <bean parent="FieldDefinition" p:attributeName="taxableIndicator"/>      
               <bean parent="FieldDefinition" p:attributeName="vendorRestrictedIndicator"/>

@@ -49,6 +49,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDefaultAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.businessobject.VendorType;
+import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
 import org.kuali.kfs.vnd.service.TaxNumberService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -248,6 +249,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         }
 
         valid &= validateVendorNames(vendorDetail);
+        valid &= validateVendorSoldToNumber(vendorDetail);
         valid &= validateMinimumOrderAmount(vendorDetail);
         valid &= validateOwnershipCategory(vendorDetail);
         valid &= validateVendorWithholdingTaxDates(vendorDetail);
@@ -429,6 +431,28 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         }
         return valid;
     }
+
+    /**
+     * Validates the vendorSoldToNumber field to ensure that it's a valid existing vendor number;
+     * and if so set vendorSoldToName accordingly.
+     * 
+     * @param document - the maintenanceDocument being evaluated
+     * @return boolean true if the vendorDetail in the document contains valid vendorSoldToNumber.
+     */
+    protected boolean validateVendorSoldToNumber(VendorDetail vendorDetail) {
+        String vendorSoldToNumber = vendorDetail.getVendorSoldToNumber();
+        boolean valid = true;
+        if (StringUtils.isNotEmpty(vendorSoldToNumber)) {
+            VendorDetail vendorSoldTo = SpringContext.getBean(VendorService.class).getVendorDetail(vendorSoldToNumber);
+            if (vendorSoldTo != null) {
+                vendorDetail.setVendorSoldToName(vendorSoldTo.getVendorName());
+            }
+            else {
+                valid &= false;
+            }
+        }
+        return valid;
+    }    
 
     /**
      * Validates the ownership type codes that aren't allowed for the tax type of the vendor. The rules are : 1. If tax type is

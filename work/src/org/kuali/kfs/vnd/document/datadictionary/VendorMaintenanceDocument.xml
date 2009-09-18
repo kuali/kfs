@@ -86,7 +86,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="vendorConfirmationIndicator"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorSoldToGeneratedIdentifier"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorSoldToAssignedIdentifier"/>
-        <bean parent="MaintainableFieldDefinition" p:name="vendorSoldToNumber" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorSoldToNumber" p:unconditionallyReadOnly="true" p:overrideLookupClass="org.kuali.kfs.vnd.businessobject.VendorDetail" p:overrideFieldConversions="vendorNumber:vendorSoldToNumber,vendorName:vendorSoldToName"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorSoldToName" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorRestrictedIndicator"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorRestrictedDate" p:unconditionallyReadOnly="true"/>

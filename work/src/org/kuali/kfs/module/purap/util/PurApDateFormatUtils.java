@@ -19,6 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.ParameterService;
 
 public class PurApDateFormatUtils {
 
@@ -33,30 +35,7 @@ public class PurApDateFormatUtils {
     }
     
     public static final String getFormattingString(String formatName) {
-        //TODO these will be moved to parameters shortly, its done this way now to centralize 
-        //     all the formats in one place within PURAP.
-        //KualiConfigurationService configService = SpringContext.getBean(KualiConfigurationService.class);
-        //return configService.getParameterValue("KFS-PURAP", "All", formatName);
-        
-        if (PurapConstants.NamedDateFormats.CXML_DATE_FORMAT.equalsIgnoreCase(formatName)) {
-            return "0000-00-00";
-        }
-        if (PurapConstants.NamedDateFormats.CXML_SIMPLE_DATE_FORMAT.equalsIgnoreCase(formatName)) {
-            return "yyyy-MM-dd";
-        }
-        if (PurapConstants.NamedDateFormats.CXML_SIMPLE_TIME_FORMAT.equalsIgnoreCase(formatName)) {
-            return "HH:mm:ss.sss";
-        }
-        if (PurapConstants.NamedDateFormats.KUALI_DATE_FORMAT.equalsIgnoreCase(formatName)) {
-            return "00/00/0000";
-        }
-        if (PurapConstants.NamedDateFormats.KUALI_SIMPLE_DATE_FORMAT.equalsIgnoreCase(formatName)) {
-            return "MM/dd/yyyy";
-        }
-        if (PurapConstants.NamedDateFormats.KUALI_SIMPLE_DATE_FORMAT_2.equalsIgnoreCase(formatName)) {
-            return "MM-dd-yyyy";
-        }
-        throw new UnsupportedOperationException("The formatName passed in [" + formatName + "] is not one of the recognized formats.");
+        return SpringContext.getBean(ParameterService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "All", formatName);
     }
     
 }

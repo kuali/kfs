@@ -277,7 +277,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         else {
             // else add outstanding quantity * unit price
             BigDecimal qty = new BigDecimal(this.getOutstandingQuantity().toString());
-            outstandingAmount = outstandingAmount.add(new KualiDecimal(this.getItemUnitPrice().multiply(qty)));
+            outstandingAmount = outstandingAmount.add(new KualiDecimal(this.getItemUnitPrice().multiply(qty).setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR)));
             
             KualiDecimal itemTaxAmount = this.getItemTaxAmount() == null ? ZERO : this.getItemTaxAmount();
             KualiDecimal outstandingTaxAmount = new KualiDecimal(qty).divide(this.getItemQuantity()).multiply(itemTaxAmount);

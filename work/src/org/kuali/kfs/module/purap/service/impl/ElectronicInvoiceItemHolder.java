@@ -118,7 +118,7 @@ public class ElectronicInvoiceItemHolder {
     
     public KualiDecimal getSubTotalAmount(){
         if (isRejectItemHolder()){
-            return new KualiDecimal(rejectItem.getInvoiceItemSubTotalAmount());
+            return new KualiDecimal(rejectItem.getInvoiceItemSubTotalAmount().setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR));
         }else{
             return new KualiDecimal(invoiceItem.getInvoiceLineSubTotalAmountBigDecimal());
         }

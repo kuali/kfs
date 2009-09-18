@@ -345,7 +345,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         KualiDecimal returnValue = new KualiDecimal(zero);
         try {
             for (ElectronicInvoiceRejectItem eiri : this.invoiceRejectItems) {
-                KualiDecimal toAddAmount = new KualiDecimal(eiri.getInvoiceItemSubTotalAmount());
+                KualiDecimal toAddAmount = new KualiDecimal(eiri.getInvoiceItemSubTotalAmount().setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR));
                 LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
                 returnValue = returnValue.add(toAddAmount);
             }

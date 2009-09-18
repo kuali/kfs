@@ -137,7 +137,7 @@ public enum PurapAccountingServiceFixture {
             PurApAccountingLine purApAcctLine = purApAcctLineFixture.createPurApAccountingLine(accountClass, accountingLineFixture[i]);
             BigDecimal pct = purApAcctLine.getAccountLinePercent();
             pct = pct.divide(new BigDecimal(100));
-            purApAcctLine.setAmount(totalAmount.multiply(new KualiDecimal(pct)));
+            purApAcctLine.setAmount(totalAmount.multiply(new KualiDecimal(pct.setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR))));
             purApAccountingLineList.add(purApAcctLine);
             sourceAccountingLineList.add(purApAcctLine.generateSourceAccountingLine());
         }

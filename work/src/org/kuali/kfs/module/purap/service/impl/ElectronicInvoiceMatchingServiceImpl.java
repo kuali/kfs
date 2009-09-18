@@ -486,7 +486,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
             return;
         }else{
             //we have encumbered dollars left on PO
-            if ((itemHolder.getInvoiceItemSubTotalAmount().compareTo(poItem.getItemOutstandingEncumberedAmount().bigDecimalValue())) > 0) {
+            if (((itemHolder.getInvoiceItemSubTotalAmount().setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR)).compareTo(poItem.getItemOutstandingEncumberedAmount().bigDecimalValue())) > 0) {
                 String extraDescription = "Invoice Item Line Number:" + itemHolder.getInvoiceItemLineNumber();
                 ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.PO_ITEM_AMT_LESSTHAN_INVOICE_ITEM_AMT,extraDescription,orderHolder.getFileName());
                 orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_LINE_NUMBER,PurapKeyConstants.ERROR_REJECT_POITEM_LESS_OUTSTANDING_EMCUMBERED_AMOUNT);
@@ -572,7 +572,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         // For reject doc, trans date should be the einvoice processed date.
         java.sql.Date transTaxDate = itemHolder.getInvoiceOrderHolder().getInvoiceProcessedDate();
         String deliveryPostalCode = poItem.getPurchaseOrder().getDeliveryPostalCode();
-        KualiDecimal extendedPrice = new KualiDecimal(getExtendedPrice(itemHolder));
+        KualiDecimal extendedPrice = new KualiDecimal(getExtendedPrice(itemHolder).setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR));
         
         KualiDecimal salesTaxAmountCalculated = taxService.getTotalSalesTaxAmount(transTaxDate, deliveryPostalCode, extendedPrice);
         KualiDecimal actualVariance = invoiceSalesTaxAmount.subtract(salesTaxAmountCalculated);

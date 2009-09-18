@@ -213,7 +213,8 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
             int mileageLimitAmount = rate.getMileageLimitAmount().intValue();
             if (mileageRemaining > mileageLimitAmount) {
                 BigDecimal numMiles = new BigDecimal(mileageRemaining - mileageLimitAmount);
-                mileageAmount = mileageAmount.add(new KualiDecimal(numMiles.multiply(rate.getMileageRate())));
+                BigDecimal rateForMiles = numMiles.multiply(rate.getMileageRate()).setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR);
+                mileageAmount = mileageAmount.add(new KualiDecimal(rateForMiles));
                 mileageRemaining = mileageLimitAmount;
             }
 

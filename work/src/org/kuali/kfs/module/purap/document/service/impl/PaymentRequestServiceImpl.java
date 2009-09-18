@@ -748,7 +748,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                     discountTaxAmount = BigDecimal.ZERO;
                 }
             
-                discountItem.setItemTaxAmount(new KualiDecimal(discountTaxAmount));
+                discountItem.setItemTaxAmount(new KualiDecimal(discountTaxAmount.setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR)));
             }
             
             //set document

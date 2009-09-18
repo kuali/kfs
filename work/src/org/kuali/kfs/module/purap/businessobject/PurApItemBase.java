@@ -279,7 +279,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
             else if (ObjectUtils.isNotNull(this.getItemQuantity())) {
                 BigDecimal calcExtendedPrice = this.itemUnitPrice.multiply(this.itemQuantity.bigDecimalValue());
                 // ITEM TYPE (qty driven): return (unitPrice x qty)
-                extendedPrice = new KualiDecimal(calcExtendedPrice);
+                extendedPrice = new KualiDecimal(calcExtendedPrice.setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR));
             }
         }
         return extendedPrice;

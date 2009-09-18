@@ -269,7 +269,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
         BigDecimal amount = taxableAmount.bigDecimalValue();
         BigDecimal tax = taxPercent.bigDecimalValue();
         BigDecimal taxDecimal = tax.divide(new BigDecimal(100), 5, BigDecimal.ROUND_HALF_UP);
-        KualiDecimal taxAmount = new KualiDecimal(amount.multiply(taxDecimal));
+        KualiDecimal taxAmount = new KualiDecimal(amount.multiply(taxDecimal).setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR));
         taxLine.setAmount(taxAmount.negated());
 
         return taxLine;

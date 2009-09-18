@@ -724,7 +724,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             for (T account : sourceAccountingLines) {
                 if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
                     BigDecimal pct = new BigDecimal(account.getAccountLinePercent().toString()).divide(new BigDecimal(100));
-                    account.setAmount(new KualiDecimal(pct.multiply(new BigDecimal(totalAmount.toString()))));
+                    account.setAmount(new KualiDecimal(pct.multiply(new BigDecimal(totalAmount.toString())).setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR)));
                 }
                 else {
                     account.setAmount(KualiDecimal.ZERO);
@@ -799,7 +799,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                     tmpPercent = accountAmount.bigDecimalValue().divide(extendedPrice.bigDecimalValue(), PurapConstants.CREDITMEMO_PRORATION_SCALE.intValue(), KualiDecimal.ROUND_BEHAVIOR);
                     // test that the above amount is correct, if so just check that the total of all these matches the item total
 
-                    KualiDecimal calcAmount = new KualiDecimal(tmpPercent.multiply(extendedPrice.bigDecimalValue()));
+                    BigDecimal calcAmountBd = tmpPercent.multiply(extendedPrice.bigDecimalValue());
+                    calcAmountBd = calcAmountBd.setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR);
+                    KualiDecimal calcAmount = new KualiDecimal(calcAmountBd);
                     if (calcAmount.compareTo(accountAmount) != 0) {
                         // rounding error
                         LOG.debug("convertMoneyToPercent() Rounding error on " + account);

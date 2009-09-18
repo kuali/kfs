@@ -772,6 +772,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         }
         return accounts;
     }
+
     /** 
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#convertMoneyToPercent(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
@@ -787,18 +788,26 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             String identifier = item.getItemIdentifierString();
 
             if (item.getTotalAmount()!=null && item.getTotalAmount().isNonZero()) {
-
+                int numOfAccounts = item.getSourceAccountingLines().size();
+                BigDecimal percentTotal = BigDecimal.ZERO;
                 KualiDecimal accountTotal = KualiDecimal.ZERO;
                 int accountIdentifier = 0;
+
                 for (Iterator<PurApAccountingLine> iterator = item.getSourceAccountingLines().iterator(); iterator.hasNext();) {
                     accountIdentifier++;
                     PaymentRequestAccount account = (PaymentRequestAccount) iterator.next();
+                    
                     KualiDecimal accountAmount = account.getAmount();
                     BigDecimal tmpPercent = BigDecimal.ZERO;
                     KualiDecimal extendedPrice = item.getTotalAmount();
                     tmpPercent = accountAmount.bigDecimalValue().divide(extendedPrice.bigDecimalValue(), PurapConstants.CREDITMEMO_PRORATION_SCALE.intValue(), KualiDecimal.ROUND_BEHAVIOR);
-                    // test that the above amount is correct, if so just check that the total of all these matches the item total
 
+                    if (accountIdentifier == numOfAccounts) {
+                        // if on last account, calculate the percent by subtracting current percent total from 1
+                        tmpPercent = BigDecimal.ONE.subtract(percentTotal);
+                    }
+                    
+                    // test that the above amount is correct, if so just check that the total of all these matches the item total
                     BigDecimal calcAmountBd = tmpPercent.multiply(extendedPrice.bigDecimalValue());
                     calcAmountBd = calcAmountBd.setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR);
                     KualiDecimal calcAmount = new KualiDecimal(calcAmountBd);
@@ -817,7 +826,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 
                     // check total based on adjusted amount
                     accountTotal = accountTotal.add(calcAmount);
-
+                    percentTotal = percentTotal.add(tmpPercent);
                 }
             }
         }
@@ -914,54 +923,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         
         useTaxAccounts=new ArrayList<UseTaxContainer>(useTaxItemMap.values());
         return useTaxAccounts;
-//        List<PurApItem> taxableItems = new ArrayList<PurApItem>();
-//        List<SourceAccountingLine> sourceAccounts = new ArrayList<SourceAccountingLine>();
-//        Set<PurApItemUseTax> useTaxSet = new HashSet<PurApItemUseTax>(10);
-//        if(!document.isUseTaxIndicator()) {
-//            //not use, return
-//            return useTaxAccounts;
-//        }
-//        for (PurApItem purApItem : document.getItems()) {
-//            if(!purApItem.getUseTaxItems().isEmpty()) {
-//                taxableItems.add(purApItem);
-//            }
-//        }
-//        if(taxableItems.isEmpty()) {
-//            //no taxable items? return I guess
-//            return useTaxAccounts;
-//        }
-//        sourceAccounts = generateSummaryWithNoZeroTotals(taxableItems);
-//        boolean firstItem = true;
-//        //FIXME: don't seem to be gaining much from the set here
-//        for (PurApItem item : taxableItems) {
-//            for (PurApItemUseTax useTaxItem : item.getUseTaxItems()) {
-//                PurApItemUseTax foundUseTaxItem = null;
-//                if(useTaxSet.contains(useTaxItem)) {
-//                    for (PurApItemUseTax purApItemUseTax : useTaxSet) {
-//                        if(useTaxItem.equals(purApItemUseTax)) {
-//                            foundUseTaxItem = purApItemUseTax;
-//                            break;
-//                        }
-//                    }
-//                    if(foundUseTaxItem!=null) {
-//                        foundUseTaxItem.setTaxAmount(foundUseTaxItem.getTaxAmount().add(useTaxItem.getTaxAmount()));
-//                    } else {
-//                        LOG.error("PurApAccountingService.generateUseTaxAmount(): broken assumption, guessing .equals != .hashcode on useTaxItem"); 
-//                    }
-//                } else {
-//                    if(firstItem){
-//                        useTaxSet.add(useTaxItem);
-//                    } else {
-//                        LOG.error("PurApAccountingService.generateUseTaxAmount(): broken assumption, use tax items not the same on all items");
-//                        //TODO: should this be runtime exception?
-//                    }
-//                }
-//            }
-//            firstItem=false;
-//        }
-//        //TODO: refactor above to get all (nonzero?) items associated with a specific useTaxItem
-//        //consider using MultiValueMap
-//        MultiValueMap useTaxItemMap = new MultiValueMap();
     }
     
     /**

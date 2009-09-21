@@ -141,7 +141,10 @@ public class LedgerSummaryReport {
 
                 reportWriterService.writeTableRow(detailLine);
             }
-            reportWriterService.writeTableRow(balanceTypeTotals.get(detailList.get(detailList.size()-1).getFinancialBalanceTypeCode()));
+            final LedgerBalanceTypeSummaryTotalLine lastLine = balanceTypeTotals.get(detailList.get(detailList.size()-1).getFinancialBalanceTypeCode());
+            if (lastLine != null) {
+                reportWriterService.writeTableRow(lastLine);
+            }
             
             reportWriterService.writeTableRowSeparationLine(ledgerTotalLine);
             reportWriterService.writeTableRow(ledgerTotalLine);

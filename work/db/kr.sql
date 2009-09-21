@@ -4002,3 +4002,17 @@ insert into krim_role_perm_t
 -- KFSMI-4936: fix parameter detail type on parameter
 update krns_parm_t set parm_dtl_typ_cd = 'SufficientFundsAccountUpdateStep' where nmspc_cd = 'KFS-GL' and parm_dtl_typ_cd = 'SufficientFundsRebuilderStep' and parm_nm = 'FISCAL_YEAR' and appl_nmspc_cd = 'KFS'
 /
+
+-- KFSMI-4899: still more RA data to stamp out!
+delete from krim_role_mbr_attr_data_t where role_mbr_id in ('1283','1284')
+/
+delete from krim_role_mbr_t where role_mbr_id in ('1283','1284')
+/
+delete from krim_role_rsp_actn_t where role_rsp_id in (select role_rsp_id from krim_role_rsp_t where rsp_id in ('96','25'))
+/
+delete from krim_role_rsp_t where rsp_id in ('96','25')
+/
+delete from krim_rsp_attr_data_t where rsp_id in ('96','25')
+/
+delete from krim_rsp_t where rsp_id in ('96','25')
+/

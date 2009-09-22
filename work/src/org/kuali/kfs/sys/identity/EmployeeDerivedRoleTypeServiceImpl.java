@@ -52,7 +52,7 @@ public class EmployeeDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServic
     @Override
     public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
         List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
-        if (StringUtils.isNotBlank(qualification.get(KIMPropertyConstants.Person.PRINCIPAL_ID)) && hasApplicationRole(qualification.get(KIMPropertyConstants.Person.PRINCIPAL_ID), null, namespaceCode, roleName, qualification)) {
+        if (qualification!=null && StringUtils.isNotBlank(qualification.get(KIMPropertyConstants.Person.PRINCIPAL_ID)) && hasApplicationRole(qualification.get(KIMPropertyConstants.Person.PRINCIPAL_ID), null, namespaceCode, roleName, qualification)) {
             members.add(new RoleMembershipInfo(null, null, qualification.get(KIMPropertyConstants.Person.PRINCIPAL_ID), Role.PRINCIPAL_MEMBER_TYPE, null));
         }
         return members;

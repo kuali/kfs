@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.vnd.document.validation.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase;
 import org.kuali.kfs.sys.KFSConstants;
@@ -26,8 +23,6 @@ import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorKeyConstants;
 import org.kuali.kfs.vnd.VendorUtils;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.kfs.vnd.businessobject.VendorHeader;
-import org.kuali.kfs.vnd.businessobject.VendorTaxChange;
 import org.kuali.kfs.vnd.businessobject.VendorType;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.document.Document;
@@ -75,7 +70,6 @@ public class VendorPreRules extends MaintenancePreRulesBase {
         setupConvenienceObjects(document);
         setVendorNamesAndIndicator(document);
         setVendorRestriction(document);
-        setVendorTaxChange(document);
         if (StringUtils.isBlank(question) || (question.equals(VendorConstants.CHANGE_TO_PARENT_QUESTION_ID))) {
             detectAndConfirmChangeToParent(document);
         }
@@ -138,40 +132,6 @@ public class VendorPreRules extends MaintenancePreRulesBase {
             newVendorDetail.setVendorRestrictedPersonIdentifier(null);
         }
 
-    }
-
-    /**
-     * Creates the VendorTaxChange if there are any changes related to either the tax number or the tax type code, set the tax
-     * change to the list of changes and set the list to the new vendor detail
-     * 
-     * @param document - the maintenanceDocument being evaluated
-     */
-    private void setVendorTaxChange(MaintenanceDocument document) {
-        VendorDetail oldVendorDetail = (VendorDetail) document.getOldMaintainableObject().getBusinessObject();
-        VendorHeader newVendorHeader = newVendorDetail.getVendorHeader();
-        // If this is a pre-existing parent vendor, and if the Tax Number or the Tax Type Code will change,
-        // log the change in the Tax Change table.
-        if (newVendorDetail.isVendorParentIndicator()) {
-            VendorHeader oldVendorHeader = oldVendorDetail.getVendorHeader();
-
-            if (ObjectUtils.isNotNull(oldVendorHeader)) { // Does not apply if this is a new parent vendor.
-                String oldVendorTaxNumber = oldVendorHeader.getVendorTaxNumber();
-                String oldVendorTaxTypeCode = oldVendorHeader.getVendorTaxTypeCode();
-
-                String vendorTaxNumber = newVendorHeader.getVendorTaxNumber();
-                String vendorTaxTypeCode = newVendorHeader.getVendorTaxTypeCode();
-
-                if ((!StringUtils.equals(vendorTaxNumber, oldVendorTaxNumber)) || (!StringUtils.equals(vendorTaxTypeCode, oldVendorTaxTypeCode))) {
-                    VendorTaxChange taxChange = new VendorTaxChange(newVendorDetail.getVendorHeaderGeneratedIdentifier(), SpringContext.getBean(DateTimeService.class).getCurrentTimestamp(), oldVendorTaxNumber, oldVendorTaxTypeCode, getPersonId());
-                    List<VendorTaxChange> changes = newVendorHeader.getVendorTaxChanges();
-                    if (ObjectUtils.isNull(changes)) {
-                        changes = new ArrayList();
-                    }
-                    changes.add(taxChange);
-                    newVendorHeader.setVendorTaxChanges(changes);
-                }
-            }
-        }
     }
 
     /**

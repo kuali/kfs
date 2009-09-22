@@ -30,6 +30,7 @@ import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.VendorUtils;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
+import org.kuali.kfs.vnd.businessobject.VendorTaxChange;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -38,8 +39,10 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -139,7 +142,29 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
                     SpringContext.getBean(BusinessObjectService.class).save(previousParent);
                 }
             }
-        }
+
+            // If this is a pre-existing parent vendor, and if the Tax Number or the Tax Type Code will change, log the change in the
+            // Tax Change table.
+            if (vendorDetail.isVendorParentIndicator()) {
+                VendorDetail oldVendorDetail = SpringContext.getBean(VendorService.class).getVendorDetail(vendorDetail.getVendorHeaderGeneratedIdentifier(), vendorDetail.getVendorDetailAssignedIdentifier());
+                VendorHeader oldVendorHeader = oldVendorDetail.getVendorHeader();
+                VendorHeader newVendorHeader = vendorDetail.getVendorHeader();
+
+                if (ObjectUtils.isNotNull(oldVendorHeader)) { // Does not apply if this is a new parent vendor.
+                    String oldVendorTaxNumber = oldVendorHeader.getVendorTaxNumber();
+                    String oldVendorTaxTypeCode = oldVendorHeader.getVendorTaxTypeCode();
+
+                    String vendorTaxNumber = newVendorHeader.getVendorTaxNumber();
+                    String vendorTaxTypeCode = newVendorHeader.getVendorTaxTypeCode();
+
+                    if ((!StringUtils.equals(vendorTaxNumber, oldVendorTaxNumber)) || (!StringUtils.equals(vendorTaxTypeCode, oldVendorTaxTypeCode))) {
+                        VendorTaxChange taxChange = new VendorTaxChange(vendorDetail.getVendorHeaderGeneratedIdentifier(), SpringContext.getBean(DateTimeService.class).getCurrentTimestamp(), oldVendorTaxNumber, oldVendorTaxTypeCode, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+                        SpringContext.getBean(BusinessObjectService.class).save(taxChange);
+                    }
+                }
+            }
+
+        }//endif stateIsProcessed()
     }
     
     /**

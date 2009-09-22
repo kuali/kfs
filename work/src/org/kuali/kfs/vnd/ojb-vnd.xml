@@ -68,7 +68,7 @@
     <collection-descriptor name="vendorSupplierDiversities" proxy="true" element-class-ref="org.kuali.kfs.vnd.businessobject.VendorSupplierDiversity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
         <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
     </collection-descriptor>
-    <collection-descriptor name="vendorTaxChanges" element-class-ref="org.kuali.kfs.vnd.businessobject.VendorTaxChange" auto-retrieve="false" auto-update="object" auto-delete="none" proxy="true">
+    <collection-descriptor name="vendorTaxChanges" element-class-ref="org.kuali.kfs.vnd.businessobject.VendorTaxChange" auto-retrieve="false" auto-update="none" auto-delete="none" proxy="true">
         <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
     </collection-descriptor>
 </class-descriptor>

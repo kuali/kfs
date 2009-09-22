@@ -37,7 +37,7 @@ import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.dto.DocumentTypeDTO;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -46,6 +46,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class TransactionFieldValidator {
     private static LaborAccountingCycleCachingService accountingCycleCachingService;
+    private static KualiConfigurationService kualiConfigurationService;
     
     /**
      * Checks if the given transaction contains valid university fiscal year
@@ -295,8 +296,10 @@ public class TransactionFieldValidator {
     public static Message checkTransactionDebitCreditCode(LaborTransaction transaction) {
         String[] validDebitCreditCode = { KFSConstants.GL_BUDGET_CODE, KFSConstants.GL_CREDIT_CODE, KFSConstants.GL_DEBIT_CODE };
         String debitCreditCode = transaction.getTransactionDebitCreditCode();
-        if (!ArrayUtils.contains(validDebitCreditCode, debitCreditCode)) {
+        if (debitCreditCode == null || !ArrayUtils.contains(validDebitCreditCode, debitCreditCode)) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_DEDIT_CREDIT_CODE_NOT_BE_NULL, Message.TYPE_FATAL);
+        } else if (transaction.getBalanceType().isFinancialOffsetGenerationIndicator() && !KFSConstants.GL_DEBIT_CODE.equals(transaction.getTransactionDebitCreditCode()) && !KFSConstants.GL_CREDIT_CODE.equals(transaction.getTransactionDebitCreditCode())) {
+            return new Message(getKualiConfigurationService().getPropertyString(KFSKeyConstants.MSG_DEDIT_CREDIT_CODE_MUST_BE) + " '" + KFSConstants.GL_DEBIT_CODE + " or " + KFSConstants.GL_CREDIT_CODE + getKualiConfigurationService().getPropertyString(KFSKeyConstants.MSG_FOR_BALANCE_TYPE), Message.TYPE_FATAL);
         }
         return null;
     }
@@ -390,10 +393,30 @@ public class TransactionFieldValidator {
         return null;
     }
     
+    /**
+     * When in Rome... This method checks if the encumbrance update code is valid
+     * @param transaction the transaction to check
+     * @return a Message if the encumbrance update code is not valid, or null if all is well
+     */
+    public static Message checkEncumbranceUpdateCode(LaborTransaction transaction) {
+        // The encumbrance update code can only be space, N, R or D. Nothing else
+        if ((StringUtils.isNotBlank(transaction.getTransactionEncumbranceUpdateCode())) && (!" ".equals(transaction.getTransactionEncumbranceUpdateCode())) && (!KFSConstants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(transaction.getTransactionEncumbranceUpdateCode())) && (!KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(transaction.getTransactionEncumbranceUpdateCode())) && (!KFSConstants.ENCUMB_UPDT_DOCUMENT_CD.equals(transaction.getTransactionEncumbranceUpdateCode()))) {
+            return new Message("Invalid Encumbrance Update Code (" + transaction.getTransactionEncumbranceUpdateCode() + ")", Message.TYPE_FATAL);
+        }
+        return null;
+    }
+    
     static LaborAccountingCycleCachingService getAccountingCycleCachingService() {
         if (accountingCycleCachingService == null) {
             accountingCycleCachingService = SpringContext.getBean(LaborAccountingCycleCachingService.class);
         }
         return accountingCycleCachingService;        
+    }
+    
+    static KualiConfigurationService getKualiConfigurationService() {
+        if (kualiConfigurationService == null) {
+            kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+        }
+        return kualiConfigurationService;        
     }
 }

@@ -268,7 +268,7 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
             setFinancialDocumentReversalDate(null);
         }
         
-        setTransactionEncumbranceUpdateCode(getValue(line, 186, 187));
+        setTransactionEncumbranceUpdateCode(line.substring(186, 187));
 
     
     return returnList;

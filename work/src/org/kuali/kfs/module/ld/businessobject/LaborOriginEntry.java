@@ -689,7 +689,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
      * Get lines from string
      */
     public String getLine() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         if (universityFiscalYear == null) {
             sb.append("    ");
         }
@@ -898,7 +898,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
             setFinancialDocumentReversalDate(null);
         }
         
-        setTransactionEncumbranceUpdateCode(getValue(line, 194, 195));
+        setTransactionEncumbranceUpdateCode(line.substring(194, 195));
 
         if (!line.substring(195, 205).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {

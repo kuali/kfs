@@ -686,6 +686,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
 
                     boolean saveErrorTransaction = false;
                     boolean saveValidTransaction = false;
+                    boolean fatalErrorOccurred = false;
 
                     // Build a scrubbed entry
                     OriginEntryFull scrubbedEntry = new OriginEntryFull();
@@ -841,6 +842,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                     else {
                         // Error transaction
                         saveErrorTransaction = true;
+                        fatalErrorOccurred = true;
                     }
                     handleTransactionErrors(OriginEntryFull.copyFromOriginEntryable(unscrubbedEntry), transactionErrors);
                     if (!collectorMode) {
@@ -860,7 +862,11 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                         errorEntry.setTransactionScrubberOffsetGenerationIndicator(false);
                         createOutputEntry(GLEN_RECORD, OUTPUT_ERR_FILE_ps);
                         scrubberReport.incrementErrorRecordWritten();
-                        unitOfWork.errorsFound = true;
+                        if (!fatalErrorOccurred) {
+                            // if a fatal error occurred, the creation of a new unit of work was by-passed;
+                            // therefore, it shouldn't ruin the previous unit of work
+                            unitOfWork.errorsFound = true;
+                        }
                     }
                 }
             }
@@ -2074,6 +2080,12 @@ public class ScrubberProcessImpl implements ScrubberProcess {
             }
         }
         else {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Errors on transaction: "+errorTransaction);
+                for (Message message: messages) {
+                    LOG.debug(message);
+                }
+            }
             scrubberReportWriterService.writeError(errorTransaction, messages);
         }
     }

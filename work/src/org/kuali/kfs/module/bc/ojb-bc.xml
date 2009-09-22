@@ -1851,34 +1851,6 @@
 	</collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.bc.businessobject.CalculatedSalaryFoundationAction" table="LD_CSF_ACTION_T">
-	<field-descriptor name="action" column="ACTION" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="actionReason" column="ACTION_REASON" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="csfFundingStatusCode" column="POS_CSF_FNDSTAT_CD" jdbc-type="VARCHAR"/>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.kfs.module.bc.businessobject.CalculatedSalaryFoundationCompany" table="LD_CSF_COMPANY_T">
-	<field-descriptor name="hrmsCompany" column="COMPANY" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.kfs.module.bc.businessobject.CalculatedSalaryFoundationEarnCode" table="LD_CSF_ERNCD_T">
-	<field-descriptor name="payGroup" column="PAYGROUP" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE" primarykey="true" index="true"/>
-	<field-descriptor name="hrmsCompany" column="COMPANY" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="earnCodeRegularEarnings" column="ERNCD_REG_EARNS" jdbc-type="VARCHAR"/>
-	<field-descriptor name="description" column="DESCR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="csfEligibleFlag" column="CSF_ELIGIBLE_FLAG" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="company" class-ref="org.kuali.kfs.module.bc.businessobject.CalculatedSalaryFoundationCompany" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="hrmsCompany" />
-    </reference-descriptor>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockSummary" table="FOO">
 	<field-descriptor name="lockType" column="FOO" jdbc-type="VARCHAR" primarykey="true"/>
 	<field-descriptor name="lockUserId" column="FOO" jdbc-type="DATE" primarykey="true"/>

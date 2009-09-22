@@ -54,30 +54,6 @@
 	</reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.ar.businessobject.AgeTrialBalance" table="AR_AGE_TRIAL_BAL_T">
-	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="customerName" column="CUST_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="currentInvoiceAmount" column="CURRENT_INV_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="over30InvoiceAmount" column="OVER30_INV_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="over60InvoiceAmount" column="OVER60_INV_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="over90InvoiceAmount" column="OVER90_INV_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-
-	<reference-descriptor name="customer" class-ref="org.kuali.kfs.module.ar.businessobject.Customer" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-		<foreignkey field-ref="customerNumber" />
-	</reference-descriptor>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.kfs.module.ar.businessobject.CollectionStatus" table="AR_CLCTN_STATUS_T">
-	<field-descriptor name="customerCollectionStatusCode" column="CUST_CLCTN_STAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="customerCollectionStatusName" column="CUST_CLCTN_STAT_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" table="AR_DOC_HDR_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>

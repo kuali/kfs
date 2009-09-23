@@ -15,14 +15,22 @@
  */
 package org.kuali.kfs.sys.batch;
 
+import java.util.Calendar;
+
+import org.apache.commons.io.filefilter.AgeFileFilter;
+import org.apache.commons.io.filefilter.AndFileFilter;
+import org.apache.commons.io.filefilter.IOFileFilter;
+import org.kuali.kfs.sys.batch.service.FilePurgeService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
+
 /**
- * This class...
+ * A customized age for a file prefix.
  */
 public class FilePurgeCustomAge {
 
-    String directory;
-    String parameterPrefix;
-    String fileNameStart;
+    private String directory;
+    private String parameterPrefix;
     
     /**
      * Gets the directory attribute. 
@@ -52,19 +60,28 @@ public class FilePurgeCustomAge {
     public void setParameterPrefix(String parameterPrefix) {
         this.parameterPrefix = parameterPrefix;
     }
+    
     /**
-     * Gets the fileNameStart attribute. 
-     * @return Returns the fileNameStart.
+     * @return an IOFileFilter which represents the files that should be culled by this FilePurgeCustomAge
      */
-    public String getFileNameStart() {
-        return fileNameStart;
+    public IOFileFilter getFileFilter() {
+        AndFileFilter andFileFilter = new AndFileFilter();
+        AgeFileFilter maxAgeFilter = buildAgeFileFilter();
+        DirectoryNameFileFilter directoryNameFilter = new DirectoryNameFileFilter(this);
+        andFileFilter.addFileFilter(maxAgeFilter);
+        andFileFilter.addFileFilter(directoryNameFilter);
+        return andFileFilter;
     }
+    
     /**
-     * Sets the fileNameStart attribute value.
-     * @param fileNameStart The fileNameStart to set.
+     * Builds a proper AgeFileFilter to purge files older than for this CustomAgeFileFilter
+     * @return a properly constructed AgeFileFilter
      */
-    public void setFileNameStart(String fileNameStart) {
-        this.fileNameStart = fileNameStart;
+    protected AgeFileFilter buildAgeFileFilter() {
+        final int daysTilPurgation = SpringContext.getBean(FilePurgeService.class).getDaysBeforePurgeForCustomAge(this);
+        Calendar purgeFilesBeforeDate = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
+        purgeFilesBeforeDate.add(Calendar.DATE, -1*daysTilPurgation);
+        return new AgeFileFilter(purgeFilesBeforeDate.getTimeInMillis(), false);
     }
     
 }

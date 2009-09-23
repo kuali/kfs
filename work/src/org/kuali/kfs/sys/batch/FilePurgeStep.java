@@ -15,16 +15,11 @@
  */
 package org.kuali.kfs.sys.batch;
 
-import java.io.File;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.kfs.sys.batch.service.FilePurgeService;
 
 /**
  * 
@@ -34,79 +29,19 @@ public class FilePurgeStep extends AbstractStep {
     
     private List<String> directories;
     private List<FilePurgeCustomAge> customAge;
-    private Integer fileAge;
-    
-    private HashMap<String, Integer> removables = new HashMap<String, Integer>();
+    private FilePurgeService filePurgeService;
     
     /**
-     * Deletes all files in the temp directory that are over 1 day old
+     * Deletes all files in the temporary directory that are over 1 day old
      * 
      * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        Calendar calendar = getDateTimeService().getCurrentCalendar();
-       // calendar.add(Calendar.DATE, -fileAge);
-        //System.out.println(calendar.getTime());
-        
-        for (Iterator itr = customAge.iterator(); itr.hasNext();) {
-            FilePurgeCustomAge fpce = (FilePurgeCustomAge)itr.next();
-            for (String path : directories) {
-                walkDirectory(path, fpce);
-            }
-
+        for (String directory : directories) {
+            getFilePurgeService().purgeFiles(directory, customAge);
         }
-        
-        System.out.println(removables.size());
-
-        removeFiles(removables);
         
         return true;
-    }
-    
-    private void removeFiles(HashMap<String, Integer> removables) {
-        DateTimeService dateTimeService = getDateTimeService();
-        Calendar calendar = dateTimeService.getCurrentCalendar();
-        calendar.add(Calendar.DATE, -1);
-        Set keys = removables.keySet();
-        for (Iterator itr = keys.iterator(); itr.hasNext();) {
-            String path = (String)itr.next();
-            File f = new File(path);
-            Integer expirationAge = removables.get(path);
-            calendar.add(Calendar.DATE, -expirationAge);
-            if(f.lastModified() < calendar.getTimeInMillis()) {
-                f.delete();
-            }
-            calendar = dateTimeService.getCurrentCalendar();
-        }
-    }
-    
-    private void walkDirectory(String path, FilePurgeCustomAge customFileAge) {
-        File directory = new File(path);
-//        if (directory.isDirectory()){
-//            if (directory.getPath().equals(customFileAge.getDirectory())) {
-//                String maxAgeInDays = getParameterService().getParameterValue(getClass(), customFileAge.parameterPrefix+KFSConstants.SystemGroupParameterNames.FILE_PURGE_AGE_SUFFIX);
-//                removables.put(customFileAge.getDirectory(), Integer.valueOf(maxAgeInDays));
-//            } else {
-//                String maxAgeInDays = getParameterService().getParameterValue(getClass(), KFSConstants.SystemGroupParameterNames.DEFAULT_FILE_PURGE_AGE);
-//                removables.put(customFileAge.getDirectory(), Integer.valueOf(maxAgeInDays));
-//            }
-//        }
-        File[] children = directory.listFiles();
-        for (File f : children) {
-            if (f.isDirectory()) {
-                walkDirectory(f.getPath(), customFileAge);
-            } else {
-                if (f.getPath().startsWith(customFileAge.getDirectory()+ File.separator+customFileAge.getFileNameStart())) {
-                    String maxAgeInDays = getParameterService().getParameterValue(getClass(), customFileAge.parameterPrefix+KFSConstants.SystemGroupParameterNames.FILE_PURGE_AGE_SUFFIX);
-                    removables.put(f.getPath(), Integer.valueOf(maxAgeInDays));
-                } else {
-                    String maxAgeInDays = getParameterService().getParameterValue(getClass(), KFSConstants.SystemGroupParameterNames.DEFAULT_FILE_PURGE_AGE);
-                    removables.put(f.getPath(), Integer.valueOf(maxAgeInDays));
-                }
-            }
-                
-        }
-
     }
 
     /**
@@ -142,19 +77,18 @@ public class FilePurgeStep extends AbstractStep {
     }
 
     /**
-     * Gets the fileAge attribute. 
-     * @return Returns the fileAge.
+     * Gets the filePurgeService attribute. 
+     * @return Returns the filePurgeService.
      */
-    public Integer getFileAge() {
-        return fileAge;
+    public FilePurgeService getFilePurgeService() {
+        return filePurgeService;
     }
 
     /**
-     * Sets the fileAge attribute value.
-     * @param fileAge The fileAge to set.
+     * Sets the filePurgeService attribute value.
+     * @param filePurgeService The filePurgeService to set.
      */
-    public void setFileAge(Integer fileAge) {
-        this.fileAge = fileAge;
+    public void setFilePurgeService(FilePurgeService filePurgeService) {
+        this.filePurgeService = filePurgeService;
     }
-    
 }

@@ -268,14 +268,13 @@
 				<value>${temp.directory}</value>
 			</list>
 		</property>
-		
+		<property name="filePurgeService" ref="filePurgeService" />
 	</bean>
 	
 	
 	<!-- end core batch jobs -->
 	
 	<bean id="FilePurgeCustomAge" class="org.kuali.kfs.sys.batch.FilePurgeCustomAge" />
-	
 	
 	<bean id="financialSystemUserService" class="org.kuali.kfs.sys.service.impl.FinancialSystemUserServiceImpl" />
 	
@@ -749,5 +748,9 @@
         </property>
 	</bean>
 	
-	<bean id="systemLedgerReferenceValuePreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.sys.batch.dataaccess.impl.LedgerReferenceValuePreparedStatementCachingDaoJdbc" /> 
+	<bean id="systemLedgerReferenceValuePreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.sys.batch.dataaccess.impl.LedgerReferenceValuePreparedStatementCachingDaoJdbc" />
+	
+	<bean id="filePurgeService" class="org.kuali.kfs.sys.service.impl.FilePurgeService">
+		<property name="parameterService" ref="parameterService" />
+	</bean> 
 </beans>

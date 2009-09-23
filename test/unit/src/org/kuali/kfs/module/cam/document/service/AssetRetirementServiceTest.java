@@ -70,13 +70,13 @@ public class AssetRetirementServiceTest extends KualiTestBase {
             Asset asset = detail.getAsset();
             // assert gl postable for first payment
             AssetPayment payment1 = asset.getAssetPayments().get(0);
-            assertGLPostable(postables.get(i++), asset.getOrganizationOwnerChartOfAccountsCode(), payment1.getAccountChargeAmount(), "9520004", "Plant Fund for FMS", "8610");
-            assertGLPostable(postables.get(i++), asset.getOrganizationOwnerChartOfAccountsCode(), payment1.getAccumulatedPrimaryDepreciationAmount(), "9520004", "Accumulated Depreciation", "8910");
-            assertGLPostable(postables.get(i++), asset.getOrganizationOwnerChartOfAccountsCode(), payment1.getAccountChargeAmount().subtract(payment1.getAccumulatedPrimaryDepreciationAmount()), "9520004", "Gain/Loss Disposition of Assets", "4998");
+            assertGLPostable(postables.get(i++), asset.getOrganizationOwnerChartOfAccountsCode(), payment1.getAccountChargeAmount(), "9520004", "Asset retirement cost reversal entry", "8610");
+            assertGLPostable(postables.get(i++), asset.getOrganizationOwnerChartOfAccountsCode(), payment1.getAccumulatedPrimaryDepreciationAmount(), "9520004", "Asset retirement depreciation reversal", "8910");
+            assertGLPostable(postables.get(i++), asset.getOrganizationOwnerChartOfAccountsCode(), payment1.getAccountChargeAmount().subtract(payment1.getAccumulatedPrimaryDepreciationAmount()), "9520004", "Asset retirement fund balance adjustment", "4998");
 
             AssetPayment payment2 = asset.getAssetPayments().get(1);
-            assertGLPostable(postables.get(i++), asset.getOrganizationOwnerChartOfAccountsCode(), payment2.getAccountChargeAmount(), "9520004", "Plant Fund for FMS", "8610");
-            assertGLPostable(postables.get(i++), asset.getOrganizationOwnerChartOfAccountsCode(), payment2.getAccumulatedPrimaryDepreciationAmount(), "9520004", "Accumulated Depreciation", "8910");
+            assertGLPostable(postables.get(i++), asset.getOrganizationOwnerChartOfAccountsCode(), payment2.getAccountChargeAmount(), "9520004", "Asset retirement cost reversal entry", "8610");
+            assertGLPostable(postables.get(i++), asset.getOrganizationOwnerChartOfAccountsCode(), payment2.getAccumulatedPrimaryDepreciationAmount(), "9520004", "Asset retirement depreciation reversal", "8910");
         }
     }
 

@@ -692,6 +692,15 @@
 	  </property>
 	</bean>
 
+    <bean id="accountsPayableDocumentDerivedRoleTypeService" class="org.kuali.kfs.module.purap.identity.AccountsPayableDocumentDerivedRoleTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+      <property name="serviceDefinition">
+        <bean parent="kfsService"
+          p:service-ref="accountsPayableDocumentDerivedRoleTypeService"
+          p:localServiceName="accountsPayableDocumentDerivedRoleTypeService" />
+      </property>
+    </bean>
+
     <bean id="paymentRequestHoldCancelInitiatorDerivedRoleTypeService" class="org.kuali.kfs.module.purap.identity.PaymentRequestHoldCancelInitiatorDerivedRoleTypeServiceImpl"/>
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 	  <property name="serviceDefinition">

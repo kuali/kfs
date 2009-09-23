@@ -35,13 +35,9 @@ import org.kuali.kfs.sys.Message;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class reads origin entries in a flat file format, reconciles them, and loads them into the origin entry table. Note: this
- * class is marked as transactional. Using this class from a class not annotated as {@link Transactional} allows the implementation
- * of a transaction per file. That is, every time the feedOnFile method is called, a new transaction is created, and is committed or
- * rolled back depending on whether the upload was successful. Note: the feeding algorithm of this service will read the data file
- * twice to minimize memory usage.
+ * This class reads origin entries in a flat file format, reconciles them, and loads them into the origin entry table. 
+ * Note: the feeding algorithm of this service will read the data file twice to minimize memory usage.
  */
-@Transactional
 public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeederHelperService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FileEnterpriseFeederHelperServiceImpl.class);
 

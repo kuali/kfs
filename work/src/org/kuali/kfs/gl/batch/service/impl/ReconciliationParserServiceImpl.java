@@ -121,6 +121,7 @@ public class ReconciliationParserServiceImpl implements ReconciliationParserServ
                         throw new RuntimeException();
                     }
                     String parsedRowCountStr = StringUtils.removeEnd(strTok.nextToken(), ";");
+                    parsedRowCountStr = StringUtils.removeEnd(parsedRowCountStr, ".00");
                     int parsedRowCount = Integer.parseInt(parsedRowCountStr);
 
                     reconciliationBlock = new ReconciliationBlock();

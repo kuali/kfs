@@ -31,11 +31,13 @@ public class PreEncumbranceRequiredReferenceFieldValidation extends GenericValid
 
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
-        final BusinessObjectEntry boe = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(getAccountingLineForValidation().getClass().getName());
-        
-        if (StringUtils.isEmpty(getAccountingLineForValidation().getReferenceNumber())) {
-            putRequiredPropertyError(boe, KFSPropertyConstants.REFERENCE_NUMBER);
-            valid = false;
+        if (this.getAccountingLineForValidation().isTargetAccountingLine()) {
+            final BusinessObjectEntry boe = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(getAccountingLineForValidation().getClass().getName());
+            
+            if (StringUtils.isEmpty(getAccountingLineForValidation().getReferenceNumber())) {
+                putRequiredPropertyError(boe, KFSPropertyConstants.REFERENCE_NUMBER);
+                valid = false;
+            }
         }
         return valid;
     }

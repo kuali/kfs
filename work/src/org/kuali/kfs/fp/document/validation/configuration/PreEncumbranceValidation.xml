@@ -117,14 +117,6 @@
   		<property name="validations">
   			<list>
   				<bean parent="AccountingDocument-ReviewAccountingLine-DefaultValidation" scope="prototype" />
-  				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="accountingLineFieldConversion" />
-						</list>
-					</property>
-					<property name="quitOnFail" value="true" />
-				</bean>
 			</list>
   		</property>
 	</bean>

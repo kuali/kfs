@@ -750,7 +750,7 @@
 	
 	<bean id="systemLedgerReferenceValuePreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.sys.batch.dataaccess.impl.LedgerReferenceValuePreparedStatementCachingDaoJdbc" />
 	
-	<bean id="filePurgeService" class="org.kuali.kfs.sys.service.impl.FilePurgeService">
+	<bean id="filePurgeService" class="org.kuali.kfs.sys.batch.service.impl.FilePurgeServiceImpl">
 		<property name="parameterService" ref="parameterService" />
 	</bean> 
 </beans>

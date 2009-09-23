@@ -13,16 +13,34 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
+<%@ include file="/jsp/sys/kfsTldHeader.jsp"%><%--
 
-<%@ attribute name="url" required="true" %>
+ --%><%@ attribute name="url" required="true" %>
 <%@ attribute name="title" required="true" %>
 <%@ attribute name="displayTitle" required="false" %>
 <%@ attribute name="prefix" required="false" %>
 
-<c:if test="${displayTitle}" >
-  <a class="portal_link" href="${prefix}portal.do?channelTitle=${title}&channelUrl=${url}"  title="${title}">${title}</a>
+<c:set var="backdoorPortalUrlAddition" value="" />
+<c:set var="backdoorMainUrlAddition" value="" />
+<c:if test="${UserSession.backdoorInUse}">
+	<%-- Can't add this.  If on the main (portal) request, it assumes this was a
+	 backdoor login request and appends an additional parameter which causes some forms to blow 
+	<c:set var="backdoorPortalUrlAddition" value="&backdoorId=${UserSession.principalName}" />
+	 --%>
+	<c:choose>
+		<c:when test="${fn:contains(url,'?')}">
+			<c:set var="backdoorMainUrlAddition" value="&backdoorId=${UserSession.principalName}" />
+		</c:when>
+		<c:otherwise>
+			<c:set var="backdoorMainUrlAddition" value="?backdoorId=${UserSession.principalName}" />
+		</c:otherwise>
+	</c:choose>
 </c:if>
-<c:if test="${! displayTitle}" >
-  <a class="portal_link" href="${prefix}portal.do?channelTitle=${title}&channelUrl=${url}" title="${title}"><jsp:doBody/></a>
-</c:if>
+<c:choose>
+	<c:when test="${displayTitle}" >
+		<a class="portal_link" href="${prefix}portal.do?channelTitle=${title}${backdoorPortalUrlAddition}&channelUrl=${url}${backdoorMainUrlAddition}"  title="${title}">${title}</a>
+	</c:when>	
+	<c:otherwise>
+		<a class="portal_link" href="${prefix}portal.do?channelTitle=${title}${backdoorPortalUrlAddition}&channelUrl=${url}${backdoorMainUrlAddition}" title="${title}"><jsp:doBody/></a>
+	</c:otherwise>
+</c:choose>

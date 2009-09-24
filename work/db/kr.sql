@@ -4016,3 +4016,59 @@ delete from krim_rsp_attr_data_t where rsp_id in ('96','25')
 /
 delete from krim_rsp_t where rsp_id in ('96','25')
 /
+
+-- KFSMI-4948: RA data is like sand after a trip to the beach
+delete from krim_role_mbr_attr_data_t where kim_typ_id in (select kim_typ_id from krim_typ_t where srvc_nm in ('researchTransactionalDocumentDerivedRoleTypeService', 'researchQuestionTypeRoleTypeService', 'researchTransactionalDocumentPermissionDerivedRoleTypeServiceImpl'))
+/
+delete from krim_typ_attr_t where kim_typ_id in (select kim_typ_id from krim_typ_t where srvc_nm in ('researchTransactionalDocumentDerivedRoleTypeService', 'researchQuestionTypeRoleTypeService', 'researchTransactionalDocumentPermissionDerivedRoleTypeServiceImpl'))
+/
+delete from krim_typ_t where srvc_nm in ('researchTransactionalDocumentDerivedRoleTypeService', 'researchQuestionTypeRoleTypeService', 'researchTransactionalDocumentPermissionDerivedRoleTypeServiceImpl')
+/
+
+-- KFSMI-4953: fix more permission descriptions
+update krim_perm_t set desc_txt = 'Allows users to open documents answering to Accounts Payable Transactional Documents (and their children document types) via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).' where perm_id = '204'
+/
+update krim_perm_t set desc_txt = 'Authorizes users to view attachments with a type of "Credit Memo Image" on Credit Memo documents.' where perm_id = '326'
+/
+update krim_perm_t set desc_txt = 'Allows users to open RICE Documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).' where perm_id = '147'
+/
+update krim_perm_t set desc_txt = 'Allows users to open Procurement Card Documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).' where perm_id = '68'
+/
+
+-- KFSMI-3331: add parameter so that temporary files are deleted more quickly
+insert into krns_parm_t ( nmspc_cd, parm_dtl_typ_cd, parm_nm, obj_id, ver_nbr, parm_typ_cd, txt, parm_desc_txt, cons_cd, appl_nmspc_cd )
+	values ( 'KFS-SYS', 'FilePurgeStep', 'TEMPORARY_FILES_NUMBER_OF_DAYS_OLD', SYS_GUID(), 1, 'CONFG', '1', 'The FilePurgeStep will traverse the temporary files directory, deleting files with a last modified date more that this number of days prior to today.', 'A', 'KFS' )
+/
+
+-- KFSMI-4440: new role type, new role, and update of role permissions for PREQ view/attach note for Invoice Image, CM view/attach note for Credit Memo Image, and all CM view/attach note for Invoice Image 
+insert into krim_typ_t (kim_typ_id, obj_id, ver_nbr, nm, srvc_nm, actv_ind, nmspc_cd)
+	values ('69', sys_guid(), 1, 'Derived Role: Accounts Payable Document Reviewer', 'accountsPayableDocumentDerivedRoleTypeService', 'Y', 'KFS-PURAP')
+/
+insert into krim_role_t (role_id, obj_id, ver_nbr, role_nm, nmspc_cd, desc_txt, kim_typ_id, actv_ind, last_updt_dt)
+	values ('98', sys_guid(), 1,'Accounts Payable Document Reviewer','KFS-PURAP','Users who receive workflow action requests for Accounts Payable transactional documents.','69', 'Y', SYSDATE)
+/
+delete from krim_role_perm_t where perm_id = '260' and role_id = '68'
+/
+delete from krim_role_perm_t where perm_id = '260' and role_id = '28'
+/
+delete from krim_role_perm_t where perm_id = '260' and role_id = '41'
+/
+insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind)
+	values ('719', sys_guid(), 1, '98', '260', 'Y')
+/
+delete from krim_role_perm_t where perm_id = '384'
+/
+delete from krim_perm_attr_data_t where perm_id = '384'
+/
+delete from krim_perm_t where perm_id = '384'
+/
+insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind)
+	values ('721', sys_guid(), 1, '98', '326', 'Y')
+/
+delete from krim_role_perm_t where perm_id = '326' and role_id = '61'
+/
+
+-- KFSMI-4293: permission for Disbursement Method Reviewers to edit travel tab
+insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, actv_ind)
+	values ('722', sys_guid(), 1, '70', '212', 'Y')
+/

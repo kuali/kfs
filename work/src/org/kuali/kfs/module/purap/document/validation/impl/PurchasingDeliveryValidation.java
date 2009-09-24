@@ -15,15 +15,12 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.service.PostalCodeValidationService;
@@ -31,7 +28,6 @@ import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurchasingDeliveryValidation extends GenericValidation {
 
@@ -42,17 +38,6 @@ public class PurchasingDeliveryValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         PurchasingDocument purDocument = (PurchasingDocument)event.getDocument();
-        
-        GlobalVariables.getMessageMap().addToErrorPath(PurapConstants.DELIVERY_TAB_ERRORS);
-        if (ObjectUtils.isNotNull(purDocument.getDeliveryRequiredDate())) {
-            Date today = dateTimeService.getCurrentSqlDateMidnight();
-            Date deliveryRequiredDate = purDocument.getDeliveryRequiredDate();
-
-            if (today.after(deliveryRequiredDate)) {
-                valid = false;
-                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.DELIVERY_REQUIRED_DATE, PurapKeyConstants.ERROR_DELIVERY_REQUIRED_DATE_IN_THE_PAST);
-            }
-        }
         
         postalCodeValidationService.validateAddress(purDocument.getDeliveryCountryCode(), purDocument.getDeliveryStateCode(), purDocument.getDeliveryPostalCode(), PurapPropertyConstants.DELIVERY_STATE_CODE, PurapPropertyConstants.DELIVERY_POSTAL_CODE);
         

@@ -55,7 +55,6 @@ public class PurapKeyConstants {
     public static final String ERROR_NO_ITEMS = "error.requisition.no.items";
     public static final String ERROR_DISTRIBUTE_ACCOUNTS_NOT_100_PERCENT = "error.distribute.accounts.not.100.percent";
     public static final String ERROR_REQUISITION_ACCOUNT_CLOSED = "error.document.requisition.accountClosed";
-    public static final String ERROR_DELIVERY_REQUIRED_DATE_IN_THE_PAST = "error.delivery.required.date.in.the.past";
     public static final String ERROR_AUTHORIZATION_ACM_INITIATION = "error.authorization.contractManagerAssignmentInitiation";
     public static final String REQ_QUESTION_FIX_CAPITAL_ASSET_WARNINGS = "requisition.question.fix.capitalAsset.warnings";
     public static final String PUR_COMMODITY_CODES_CLEARED = "message.document.pur.commodityCodesCleared";

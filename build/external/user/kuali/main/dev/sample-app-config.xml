@@ -2,6 +2,7 @@
 	<!-- App specific parameters -->
 	<param name="app.code">kr</param>
 	<param name="app.context.name">${app.code}-${environment}</param>
+	<param name="rice.struts.message.resources">KR-ApplicationResources,org.kuali.rice.kew.ApplicationResources,org.kuali.rice.ksb.messaging.ApplicationResources,KIM-ApplicationResources</param>
 	<param name="production.environment.code">PRD</param>
 	<param name="externalizable.help.url">/${app.context.name}/kr/static/help/</param>
 	<param name="externalizable.images.url">/${app.context.name}/kr/static/images/</param>

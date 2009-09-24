@@ -95,7 +95,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="KfsKimAttributes-customerProfileId-parentBean" abstract="true" parent="CustomerProfile-id"
   	p:name="customerProfileId" 
 	p:label="Customer Profile Id"
-    p:shortLabel="Id" />
+    p:shortLabel="Id" 
+    p:required = "false" />
 
 
   <bean id="KfsKimAttributes-vendorTypeCode" parent="VendorType-vendorTypeCode">

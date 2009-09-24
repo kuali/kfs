@@ -86,25 +86,27 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         if(orr==null) return;
         boolean valid = true;
         String memberId;
-        String errorPath = "document.newMaintainableObject.";
         if(StringUtils.isNotEmpty(orr.getPrincipalMemberPrincipalName())){
             KimPrincipal principal = getIdentityManagementService().getPrincipalByPrincipalName(orr.getPrincipalMemberPrincipalName());
             if(principal == null || StringUtils.isEmpty(principal.getPrincipalId())){
-                GlobalVariables.getMessageMap().putError(errorPath+OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME, KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Principal");
+                GlobalVariables.getMessageMap().putError(MAINTAINABLE_ERROR_PATH+"."+OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME, 
+                        KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL);
                 valid = false;
             }
         }
         if(StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
             memberId = getRoleService().getRoleIdByName(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());
             if(memberId == null){
-                GlobalVariables.getMessageMap().putError(errorPath+OrgReviewRole.ROLE_NAME_FIELD_NAME, KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Role");
+                GlobalVariables.getMessageMap().putError(MAINTAINABLE_ERROR_PATH+"."+OrgReviewRole.ROLE_NAME_FIELD_NAME, 
+                        KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, KimConstants.KimUIConstants.MEMBER_TYPE_ROLE);
                 valid = false;
             }
         }
         if(StringUtils.isNotEmpty(orr.getGroupMemberGroupName())){
             GroupInfo groupInfo = getGroupService().getGroupInfoByName(orr.getGroupMemberGroupNamespaceCode(), orr.getGroupMemberGroupName());
             if(groupInfo == null || StringUtils.isEmpty(groupInfo.getGroupId())){
-                GlobalVariables.getMessageMap().putError(errorPath+OrgReviewRole.GROUP_NAME_FIELD_NAME, KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Group");
+                GlobalVariables.getMessageMap().putError(MAINTAINABLE_ERROR_PATH+"."+OrgReviewRole.GROUP_NAME_FIELD_NAME, 
+                        KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, KimConstants.KimUIConstants.MEMBER_TYPE_GROUP);
                 valid = false;
             }
         }

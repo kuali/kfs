@@ -43,12 +43,14 @@
           <%-- first try to check if they are focusing in --%>
           <c:when test='${!empty channelTitle && !empty channelUrl}'>
             <td class="content" valign="top" colspan="2">
-              <c:if test="${!empty param.backdoorId}">
+              <c:choose>
+              <c:when test="${!empty param.backdoorId && !fn:contains( channelUrl, 'backdoorId' )}">              	
                   <portal:iframePortletContainer channelTitle="${channelTitle}" channelUrl="${channelUrl}?backdoorId=${param.backdoorId}&methodToCall.login.x=1" />
-              </c:if>
-              <c:if test="${empty param.backdoorId}">
+              </c:when>
+              <c:otherwise>
                   <portal:iframePortletContainer channelTitle="${channelTitle}" channelUrl="${channelUrl}" />
-              </c:if>
+              </c:otherwise>
+              </c:choose>
             </td>
           </c:when>
           <%-- then default to tab based actions if they are not focusing in --%>

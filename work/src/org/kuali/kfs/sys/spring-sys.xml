@@ -268,6 +268,14 @@
 				<value>${temp.directory}</value>
 			</list>
 		</property>
+		<property name="customAges">
+			<list>
+				<bean parent="FilePurgeCustomAge">
+					<property name="parameterPrefix" value="TEMPORARY_FILES" />
+					<property name="directory" value="${temp.directory}" />
+				</bean>
+			</list>
+		</property>
 		<property name="filePurgeService" ref="filePurgeService" />
 	</bean>
 	

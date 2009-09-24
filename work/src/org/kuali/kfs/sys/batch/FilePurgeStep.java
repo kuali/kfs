@@ -28,7 +28,7 @@ import org.kuali.kfs.sys.batch.service.FilePurgeService;
 public class FilePurgeStep extends AbstractStep {
     
     private List<String> directories;
-    private List<FilePurgeCustomAge> customAge;
+    private List<FilePurgeCustomAge> customAges;
     private FilePurgeService filePurgeService;
     
     /**
@@ -38,7 +38,7 @@ public class FilePurgeStep extends AbstractStep {
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         for (String directory : directories) {
-            getFilePurgeService().purgeFiles(directory, customAge);
+            getFilePurgeService().purgeFiles(directory, customAges);
         }
         
         return true;
@@ -61,19 +61,19 @@ public class FilePurgeStep extends AbstractStep {
     }
 
     /**
-     * Gets the customAge attribute. 
-     * @return Returns the customAge.
+     * Gets the customAges attribute. 
+     * @return Returns the customAges.
      */
-    public List getCustomAge() {
-        return customAge;
+    public List getCustomAges() {
+        return customAges;
     }
 
     /**
-     * Sets the customAge attribute value.
-     * @param customAge The customAge to set.
+     * Sets the customAges attribute value.
+     * @param customAges The customAges to set.
      */
-    public void setCustomAge(List customAge) {
-        this.customAge = customAge;
+    public void setCustomAges(List customAge) {
+        this.customAges = customAge;
     }
 
     /**

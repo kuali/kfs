@@ -58,11 +58,13 @@ public class FilePurgeServiceImpl implements FilePurgeService {
      */
     protected void purgeCustomAgeFiles(String directory, List<FilePurgeCustomAge> customAges) {
         // purge custom age directories
-        FilePurgeDirectoryWalker directoryWalker = getCustomAgesDirectoryWalker(customAges);
-        List<File> filesToPurge = directoryWalker.getFilesToPurge(directory);
-        for (File fileToPurge : filesToPurge) {
-            LOG.warn("Purging file "+fileToPurge.getPath());
-            //fileToPurge.delete();
+        if (customAges != null && customAges.size() > 0) {
+            FilePurgeDirectoryWalker directoryWalker = getCustomAgesDirectoryWalker(customAges);
+            List<File> filesToPurge = directoryWalker.getFilesToPurge(directory);
+            for (File fileToPurge : filesToPurge) {
+                LOG.info("Purging file "+fileToPurge.getPath());
+                fileToPurge.delete();
+            }
         }
     }
     
@@ -76,8 +78,8 @@ public class FilePurgeServiceImpl implements FilePurgeService {
         FilePurgeDirectoryWalker directoryWalker = getDefaultDirectoryWalker(customAges);
         List<File> filesToPurge = directoryWalker.getFilesToPurge(directory);
         for (File fileToPurge : filesToPurge) {
-            LOG.warn("Purging file "+fileToPurge.getPath());
-            //fileToPurge.delete();
+            LOG.info("Purging file "+fileToPurge.getPath());
+            fileToPurge.delete();
         }
     }
     
@@ -100,10 +102,15 @@ public class FilePurgeServiceImpl implements FilePurgeService {
      * @return a new FilePurgeDirectoryWalker
      */
     protected FilePurgeDirectoryWalker getDefaultDirectoryWalker(List<FilePurgeCustomAge> customAges) {
-        AndFileFilter andFileFilter = new AndFileFilter();
-        andFileFilter.addFileFilter(buildDefaultAgeFileFilter());
-        andFileFilter.addFileFilter(buildAnyDirectoryButCustomAgeDirectoryFileFilter(customAges));
-        return new FilePurgeDirectoryWalker(andFileFilter);
+        IOFileFilter ageFileFilter = buildDefaultAgeFileFilter();
+        if (customAges != null && customAges.size() > 0) {
+            AndFileFilter andFileFilter = new AndFileFilter();
+            andFileFilter.addFileFilter(ageFileFilter);
+            andFileFilter.addFileFilter(buildAnyDirectoryButCustomAgeDirectoryFileFilter(customAges));
+            return new FilePurgeDirectoryWalker(andFileFilter);
+        } else {
+            return new FilePurgeDirectoryWalker(ageFileFilter);
+        }
     }
     
     /**
@@ -166,7 +173,7 @@ public class FilePurgeServiceImpl implements FilePurgeService {
         final int daysTilPurgation = this.getStandardDaysBeforePurge();
         Calendar purgeFilesBeforeDate = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
         purgeFilesBeforeDate.add(Calendar.DATE, -1*daysTilPurgation);
-        return new AgeFileFilter(purgeFilesBeforeDate.getTimeInMillis(), false);
+        return new AgeFileFilter(purgeFilesBeforeDate.getTimeInMillis(), true);
     }
 
     /**

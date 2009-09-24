@@ -81,7 +81,7 @@ public class FilePurgeCustomAge {
         final int daysTilPurgation = SpringContext.getBean(FilePurgeService.class).getDaysBeforePurgeForCustomAge(this);
         Calendar purgeFilesBeforeDate = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
         purgeFilesBeforeDate.add(Calendar.DATE, -1*daysTilPurgation);
-        return new AgeFileFilter(purgeFilesBeforeDate.getTimeInMillis(), false);
+        return new AgeFileFilter(purgeFilesBeforeDate.getTimeInMillis(), true);
     }
     
 }

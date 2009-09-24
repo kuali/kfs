@@ -105,17 +105,38 @@ public class KualiAccountMaintainableImpl extends FinancialSystemMaintainable {
         }
         return false;
     }
-    
+
     /**
-     * Determines who should be FYI'd as the account supervisor for the routing of the account maintenance document.  If there is an existing account,
-     * it uses the account supervisor from that; otherwise, it uses the account supervisor from the business object of this maintainable
+     * Determines who should be FYI'd as the account supervisor for the routing of the account maintenance document. If there is an
+     * existing account, it uses the account supervisor from that; otherwise, it uses the account supervisor from the business
+     * object of this maintainable
+     * 
      * @return an appropriate account supervisor to FYI during account maintenance document routing
      */
     public String getRoutingAccountsSupervisorySystemsIdentifier() {
         final Account existingAccountFromDB = retrieveExistingAccountFromDB();
         if (ObjectUtils.isNull(existingAccountFromDB)) {
-            return ((Account)getBusinessObject()).getAccountsSupervisorySystemsIdentifier();
+            return ((Account) getBusinessObject()).getAccountsSupervisorySystemsIdentifier();
         }
         return existingAccountFromDB.getAccountsSupervisorySystemsIdentifier();
+    }
+
+    /**
+     * Had to override this method because account guideline data was lost when copied and then a lookup is performed
+     * 
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
+     *      org.kuali.rice.kns.document.MaintenanceDocument)
+     */
+    @Override
+    public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
+        super.refresh(refreshCaller, fieldValues, document);
+        Account newAcct = (Account) document.getNewMaintainableObject().getBusinessObject();
+        Account oldAcct = (Account) document.getOldMaintainableObject().getBusinessObject();
+        if (KNSConstants.MAINTENANCE_COPY_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
+            if (ObjectUtils.isNull(newAcct.getAccountGuideline())) {
+                newAcct.setAccountGuideline(oldAcct.getAccountGuideline());
+            }
+        }
+
     }
 }

@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kfs.module.cam.batch.AssetPaymentInfo;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -91,9 +92,10 @@ public interface DepreciationBatchDao {
      * @param fiscalYear
      * @param fiscalMonth
      * @param depreciationDate
+     * @param inincludePending
      * @return
      */
-    Object[] getAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, final Calendar depreciationDate);
+    Object[] getAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, final Calendar depreciationDate, boolean includePending);
 
     /**
      * This method...
@@ -106,17 +108,24 @@ public interface DepreciationBatchDao {
     Object[] getFederallyOwnedAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, final Calendar depreciationDate);
 
     /**
-     * This method...
+     * Transfer document locked count
      * 
      * @return
      */
     Integer getTransferDocLockedAssetCount();
 
     /**
-     * This method...
+     * Retirement document locked count
      * 
      * @return
      */
     Integer getRetireDocLockedAssetCount();
+
+    /**
+     * Returns the list of locked asset by pending transfer and retirement documents
+     * 
+     * @return
+     */
+    public Set<Long> getLockedAssets();
 
 }

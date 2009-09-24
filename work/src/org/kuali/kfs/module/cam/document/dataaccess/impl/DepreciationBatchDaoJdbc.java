@@ -24,8 +24,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.batch.AssetPaymentInfo;
@@ -201,7 +203,7 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         String sql = "SELECT A0.CPTLAST_NBR,A0.AST_PMT_SEQ_NBR,A1.CPTL_AST_DEPR_DT,A1.AST_DEPR_MTHD1_CD,A1.CPTLAST_SALVAG_AMT,";
         sql = sql + "A2.CPTLAST_DEPRLF_LMT,A5.ORG_PLNT_COA_CD,A5.ORG_PLNT_ACCT_NBR,A5.CMP_PLNT_COA_CD,A5.CMP_PLNT_ACCT_NBR,A3.FIN_OBJ_TYP_CD, ";
         sql = sql + "A3.FIN_OBJ_SUB_TYP_CD, A0.AST_DEPR1_BASE_AMT,A0.FIN_OBJECT_CD, A0.AST_ACUM_DEPR1_AMT,A0.SUB_ACCT_NBR,A0.FIN_SUB_OBJ_CD,A0.PROJECT_CD, A0.FIN_COA_CD";
-        sql = sql + buildCriteria(fiscalYear, fiscalMonth, depreciationMethodList, notAcceptedAssetStatus, federallyOwnedObjectSubTypes, false);
+        sql = sql + buildCriteria(fiscalYear, fiscalMonth, depreciationMethodList, notAcceptedAssetStatus, federallyOwnedObjectSubTypes, false, false);
         sql = sql + "ORDER BY A0.CPTLAST_NBR, A0.FS_ORIGIN_CD, A0.ACCOUNT_NBR, A0.SUB_ACCT_NBR, A0.FIN_OBJECT_CD, A0.FIN_SUB_OBJ_CD, A3.FIN_OBJ_TYP_CD, A0.PROJECT_CD";
         getJdbcTemplate().query(sql, preparedStatementSetter(depreciationDate), new ResultSetExtractor() {
             public Object extractData(ResultSet rs) throws SQLException, DataAccessException {
@@ -258,7 +260,7 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         };
     }
 
-    private String buildCriteria(Integer fiscalYear, Integer fiscalMonth, List<String> depreciationMethodList, List<String> notAcceptedAssetStatus, List<String> federallyOwnedObjectSubTypes, boolean includeFederal) {
+    private String buildCriteria(Integer fiscalYear, Integer fiscalMonth, List<String> depreciationMethodList, List<String> notAcceptedAssetStatus, List<String> federallyOwnedObjectSubTypes, boolean includeFederal, boolean includePending) {
         String sql = "  FROM CM_AST_PAYMENT_T A0 INNER JOIN CM_CPTLAST_T A1 ON A0.CPTLAST_NBR=A1.CPTLAST_NBR INNER JOIN ";
         sql = sql + "CM_ASSET_TYPE_T A2 ON A1.CPTLAST_TYP_CD=A2.CPTLAST_TYP_CD INNER JOIN CA_OBJECT_CODE_T A3 ON " + fiscalYear + "=A3.UNIV_FISCAL_YR ";
         sql = sql + "AND A0.FIN_COA_CD=A3.FIN_COA_CD AND A0.FIN_OBJECT_CD=A3.FIN_OBJECT_CD INNER JOIN CA_ACCOUNT_T A4 ON A0.FIN_COA_CD=A4.FIN_COA_CD ";
@@ -274,10 +276,12 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         else {
             sql = sql + "AND A3.FIN_OBJ_SUB_TYP_CD NOT IN (" + buildINValues(federallyOwnedObjectSubTypes) + ")";
         }
-        sql = sql + " AND NOT EXISTS (SELECT 1 FROM CM_AST_TRNFR_DOC_T TRFR, FS_DOC_HEADER_T HDR WHERE HDR.FDOC_NBR = TRFR.FDOC_NBR AND ";
-        sql = sql + " HDR.FDOC_STATUS_CD = '" + KFSConstants.DocumentStatusCodes.ENROUTE + "' AND TRFR.CPTLAST_NBR = A0.CPTLAST_NBR) ";
-        sql = sql + " AND NOT EXISTS (SELECT 1 FROM CM_AST_RETIRE_DTL_T DTL, FS_DOC_HEADER_T HDR WHERE HDR.FDOC_NBR = DTL.FDOC_NBR ";
-        sql = sql + " AND HDR.FDOC_STATUS_CD = '" + KFSConstants.DocumentStatusCodes.ENROUTE + "' AND DTL.CPTLAST_NBR = A0.CPTLAST_NBR) ";
+        if (!includePending) {
+            sql = sql + " AND NOT EXISTS (SELECT 1 FROM CM_AST_TRNFR_DOC_T TRFR, FS_DOC_HEADER_T HDR WHERE HDR.FDOC_NBR = TRFR.FDOC_NBR AND ";
+            sql = sql + " HDR.FDOC_STATUS_CD = '" + KFSConstants.DocumentStatusCodes.ENROUTE + "' AND TRFR.CPTLAST_NBR = A0.CPTLAST_NBR) ";
+            sql = sql + " AND NOT EXISTS (SELECT 1 FROM CM_AST_RETIRE_DTL_T DTL, FS_DOC_HEADER_T HDR WHERE HDR.FDOC_NBR = DTL.FDOC_NBR ";
+            sql = sql + " AND HDR.FDOC_STATUS_CD = '" + KFSConstants.DocumentStatusCodes.ENROUTE + "' AND DTL.CPTLAST_NBR = A0.CPTLAST_NBR) ";
+        }
         return sql;
     }
 
@@ -289,7 +293,7 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         return count;
     }
 
-    public Object[] getAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, final Calendar depreciationDate) {
+    public Object[] getAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, final Calendar depreciationDate, boolean includePending) {
         final Object[] data = new Object[2];
         List<String> depreciationMethodList = new ArrayList<String>();
         List<String> notAcceptedAssetStatus = new ArrayList<String>();
@@ -299,7 +303,7 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         if (parameterService.parameterExists(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES)) {
             notAcceptedAssetStatus = parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES);
         }
-        String sql = "SELECT COUNT(DISTINCT A0.CPTLAST_NBR), COUNT(1) " + buildCriteria(fiscalYear, fiscalMonth, depreciationMethodList, notAcceptedAssetStatus, federallyOwnedObjectSubTypes, false);
+        String sql = "SELECT COUNT(DISTINCT A0.CPTLAST_NBR), COUNT(1) " + buildCriteria(fiscalYear, fiscalMonth, depreciationMethodList, notAcceptedAssetStatus, federallyOwnedObjectSubTypes, false, includePending);
         getJdbcTemplate().query(sql, preparedStatementSetter(depreciationDate), new ResultSetExtractor() {
 
             public Object extractData(ResultSet rs) throws SQLException, DataAccessException {
@@ -324,7 +328,7 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         if (parameterService.parameterExists(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES)) {
             notAcceptedAssetStatus = parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES);
         }
-        String sql = "SELECT COUNT(DISTINCT A0.CPTLAST_NBR), COUNT(1) " + buildCriteria(fiscalYear, fiscalMonth, depreciationMethodList, notAcceptedAssetStatus, federallyOwnedObjectSubTypes, true);
+        String sql = "SELECT COUNT(DISTINCT A0.CPTLAST_NBR), COUNT(1) " + buildCriteria(fiscalYear, fiscalMonth, depreciationMethodList, notAcceptedAssetStatus, federallyOwnedObjectSubTypes, true, true);
         getJdbcTemplate().query(sql, preparedStatementSetter(depreciationDate), new ResultSetExtractor() {
 
             public Object extractData(ResultSet rs) throws SQLException, DataAccessException {
@@ -369,6 +373,20 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
      */
     public Integer getRetireDocLockedAssetCount() {
         return getJdbcTemplate().queryForInt("select count(1) from cm_ast_retire_dtl_t t inner join fs_doc_header_t h on t.fdoc_nbr = h.fdoc_nbr where h.fdoc_status_cd  ='" + KFSConstants.DocumentStatusCodes.ENROUTE + "'");
+    }
+
+    /**
+     * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao#getLockedAssets()
+     */
+    public Set<Long> getLockedAssets() {
+        final Set<Long> assets = new HashSet<Long>();
+        getJdbcTemplate().query("select t.cptlast_nbr from cm_ast_retire_dtl_t t inner join fs_doc_header_t h on t.fdoc_nbr = h.fdoc_nbr where h.fdoc_status_cd = '" + KFSConstants.DocumentStatusCodes.ENROUTE + "' union select t.cptlast_nbr from cm_ast_trnfr_doc_t t inner join fs_doc_header_t h on t.fdoc_nbr = h.fdoc_nbr where h.fdoc_status_cd = '" + KFSConstants.DocumentStatusCodes.ENROUTE + "'", new ResultSetExtractor() {
+            public Object extractData(ResultSet rs) throws SQLException, DataAccessException {
+                assets.add(rs.getLong(1));
+                return assets;
+            }
+        });
+        return assets;
     }
 
     /**

@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kfs.module.cam.batch.AssetPaymentInfo;
 import org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao;
@@ -100,8 +101,8 @@ public class MockDepreciationBatchDao implements DepreciationBatchDao {
         this.impl = impl;
     }
 
-    public Object[] getAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
-        return impl.getAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate);
+    public Object[] getAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, boolean includePending) {
+        return impl.getAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate, includePending);
     }
 
     public Object[] getFederallyOwnedAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
@@ -114,5 +115,9 @@ public class MockDepreciationBatchDao implements DepreciationBatchDao {
 
     public Integer getTransferDocLockedAssetCount() {
         return impl.getTransferDocLockedAssetCount();
+    }
+
+    public Set<Long> getLockedAssets() {
+        return impl.getLockedAssets();
     }
 }

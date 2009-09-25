@@ -71,7 +71,7 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         if (fiscalMonth == 1) {
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Starting resetPeriodValuesWhenFirstFiscalPeriod");
             // update previous year depreciation amount with sum of all periodic values for all asset payments
-            getJdbcTemplate().update("UPDATE CM_AST_PAYMENT_T SET AST_PRVYRDEPR1_AMT = (AST_PRD1_DEPR1_AMT + AST_PRD2_DEPR1_AMT + AST_PRD3_DEPR1_AMT + AST_PRD4_DEPR1_AMT + AST_PRD5_DEPR1_AMT + AST_PRD6_DEPR1_AMT + AST_PRD7_DEPR1_AMT + AST_PRD8_DEPR1_AMT + AST_PRD9_DEPR1_AMT + AST_PRD10DEPR1_AMT + AST_PRD11DEPR1_AMT + AST_PRD12DEPR1_AMT)");
+            getJdbcTemplate().update("UPDATE CM_AST_PAYMENT_T SET AST_PRVYRDEPR1_AMT = (COALESCE(AST_PRD1_DEPR1_AMT, 0) + COALESCE(AST_PRD2_DEPR1_AMT, 0) + COALESCE(AST_PRD3_DEPR1_AMT, 0) + COALESCE(AST_PRD4_DEPR1_AMT, 0) + COALESCE(AST_PRD5_DEPR1_AMT, 0) + COALESCE(AST_PRD6_DEPR1_AMT, 0) + COALESCE(AST_PRD7_DEPR1_AMT, 0) + COALESCE(AST_PRD8_DEPR1_AMT, 0) + COALESCE(AST_PRD9_DEPR1_AMT, 0) + COALESCE(AST_PRD10DEPR1_AMT, 0) + COALESCE(AST_PRD11DEPR1_AMT, 0) + COALESCE(AST_PRD12DEPR1_AMT, 0))");
             // reset periodic columns with zero dollar
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Fiscal month = 1. Therefore, initializing each month with zeros.");
             getJdbcTemplate().update("UPDATE CM_AST_PAYMENT_T SET AST_PRD1_DEPR1_AMT =0.0,  AST_PRD2_DEPR1_AMT =0.0,  AST_PRD3_DEPR1_AMT =0.0,  AST_PRD4_DEPR1_AMT =0.0,  AST_PRD5_DEPR1_AMT =0.0,  AST_PRD6_DEPR1_AMT =0.0,  AST_PRD7_DEPR1_AMT =0.0,  AST_PRD8_DEPR1_AMT =0.0,  AST_PRD9_DEPR1_AMT =0.0,  AST_PRD10DEPR1_AMT =0.0,  AST_PRD11DEPR1_AMT =0.0,  AST_PRD12DEPR1_AMT=0.0");

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.BalanceType;
+import org.kuali.kfs.coa.businessobject.PriorYearAccount;
 import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
 import org.kuali.kfs.coa.service.SubFundGroupService;
@@ -506,7 +507,11 @@ public class BalanceForwardRuleHelper {
      * @param unclosedPriorYearAccountGroup the group to put balance forwarding origin entries with open accounts into
      */
     private void saveForwardingEntry(Balance balance, OriginEntryFull entry, PrintStream closedPs, PrintStream unclosedPs) {
-        if (ObjectUtils.isNotNull(balance.getPriorYearAccount()) && !balance.getPriorYearAccount().isActive()) {         
+        final PriorYearAccount account = priorYearAccountService.getByPrimaryKey(balance.getChartOfAccountsCode(), balance.getAccountNumber());
+        if (ObjectUtils.isNotNull(account) && !account.isClosed()) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Prior Year Account "+account.getChartOfAccountsCode()+"-"+account.getAccountNumber()+" is not closed");
+            }
             originEntryService.createEntry(entry, unclosedPs);
             state.incrementSequenceWriteCount();
             openAccountForwardBalanceLedgerReport.summarizeEntry(entry);
@@ -516,6 +521,13 @@ public class BalanceForwardRuleHelper {
             }
         }
         else {
+            if (LOG.isDebugEnabled()) {
+                if (ObjectUtils.isNull(account)) {
+                    LOG.debug("Prior Year Account for "+balance.getChartOfAccountsCode()+"-"+balance.getAccountNumber()+" cannot be found");
+                } else {
+                    LOG.debug("Prior Year Account "+account.getChartOfAccountsCode()+"-"+account.getAccountNumber()+" is closed");
+                }
+            }
             originEntryService.createEntry(entry, closedPs);
             state.incrementSequenceClosedCount();
             closedAccountForwardBalanceLedgerReport.summarizeEntry(entry);

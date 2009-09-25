@@ -183,6 +183,7 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
             entry.setTransactionLedgerEntryAmount(delta.negated());
         }
         entry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_DOCUMENT_CD);
+        entry.setProjectCode(KFSConstants.getDashProjectCode());
         entry.setTransactionDate(transactionDate);
 
         pair.setEntry(entry);

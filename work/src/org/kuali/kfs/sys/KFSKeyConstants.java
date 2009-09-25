@@ -114,6 +114,8 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_INVALID_ACCT_OBJ_CD = "error.document.accountingLine.invalidAccountAndObjectCode";
     public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_SALES_TAX_INVALID_ACCOUNT = "error.document.accountingLine.salesTax.invalidAccountChart";
     public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_NON_ACTIVE_CURRENT_ACCOUNTING_DOCUMENT_TYPE = "error.document.accountingLine.nonActiveCurrentAccountingDocumentType";
+    
+    public static final String ERROR_DOCUMENT_PRE_ENCUMBRANCE_SINGLE_SECTION_NO_ACCOUNTING_LINES="error.document.singleSectionNoAccountingLines";
 
     // General Maintenance Document Error Messages
     public static final String ERROR_DOCUMENT_AUTHORIZATION_RESTRICTED_FIELD_CHANGED = "error.document.maintenance.authorization.restrictedFieldChanged";

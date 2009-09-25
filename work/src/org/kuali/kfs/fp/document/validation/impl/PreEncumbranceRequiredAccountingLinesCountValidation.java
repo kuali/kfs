@@ -18,6 +18,7 @@ package org.kuali.kfs.fp.document.validation.impl;
 import java.util.List;
 
 import org.kuali.kfs.fp.document.PreEncumbranceDocument;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -37,7 +38,7 @@ public class PreEncumbranceRequiredAccountingLinesCountValidation extends Generi
         List sourceAccountingLineList = this.accountingDocumentForValidation.getSourceAccountingLines();
         List targetAccountingLineList = this.accountingDocumentForValidation.getTargetAccountingLines();
         if (sourceAccountingLineList.size() == 0 && targetAccountingLineList.size() == 0 ) {
-            GlobalVariables.getMessageMap().putError("sourceAccountingLines", "error.document.singleSectionNoAccountingLines", new String[] { null });
+            GlobalVariables.getMessageMap().putError("sourceAccountingLines", KFSKeyConstants.ERROR_DOCUMENT_PRE_ENCUMBRANCE_SINGLE_SECTION_NO_ACCOUNTING_LINES, new String[] { null });
             return false;
         }
         

@@ -66,22 +66,11 @@ public class FilePurgeCustomAge {
      */
     public IOFileFilter getFileFilter() {
         AndFileFilter andFileFilter = new AndFileFilter();
-        AgeFileFilter maxAgeFilter = buildAgeFileFilter();
+        MaxAgePurgeFileFilter maxAgeFilter = new MaxAgePurgeFileFilter(this);
         DirectoryNameFileFilter directoryNameFilter = new DirectoryNameFileFilter(this);
         andFileFilter.addFileFilter(maxAgeFilter);
         andFileFilter.addFileFilter(directoryNameFilter);
         return andFileFilter;
-    }
-    
-    /**
-     * Builds a proper AgeFileFilter to purge files older than for this CustomAgeFileFilter
-     * @return a properly constructed AgeFileFilter
-     */
-    protected AgeFileFilter buildAgeFileFilter() {
-        final int daysTilPurgation = SpringContext.getBean(FilePurgeService.class).getDaysBeforePurgeForCustomAge(this);
-        Calendar purgeFilesBeforeDate = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
-        purgeFilesBeforeDate.add(Calendar.DATE, -1*daysTilPurgation);
-        return new AgeFileFilter(purgeFilesBeforeDate.getTimeInMillis(), true);
     }
     
 }

@@ -16,20 +16,17 @@
 package org.kuali.kfs.sys.batch.service.impl;
 
 import java.io.File;
-import java.util.Calendar;
 import java.util.List;
 
-import org.apache.commons.io.filefilter.AgeFileFilter;
 import org.apache.commons.io.filefilter.AndFileFilter;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.OrFileFilter;
 import org.kuali.kfs.sys.batch.FilePurgeCustomAge;
 import org.kuali.kfs.sys.batch.FilePurgeDirectoryWalker;
 import org.kuali.kfs.sys.batch.FilePurgeStep;
+import org.kuali.kfs.sys.batch.MaxAgePurgeFileFilter;
 import org.kuali.kfs.sys.batch.NotAmongDirectoriesFileFilter;
 import org.kuali.kfs.sys.batch.service.FilePurgeService;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 
 /**
@@ -167,13 +164,10 @@ public class FilePurgeServiceImpl implements FilePurgeService {
 
     /**
      * Builds an age file filter for the default removal run
-     * @return a properly constructed AgeFileFilter
+     * @return a properly constructed IOFileFilter
      */
-    protected AgeFileFilter buildDefaultAgeFileFilter() {
-        final int daysTilPurgation = this.getStandardDaysBeforePurge();
-        Calendar purgeFilesBeforeDate = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
-        purgeFilesBeforeDate.add(Calendar.DATE, -1*daysTilPurgation);
-        return new AgeFileFilter(purgeFilesBeforeDate.getTimeInMillis(), true);
+    protected IOFileFilter buildDefaultAgeFileFilter() {
+        return new MaxAgePurgeFileFilter();
     }
 
     /**

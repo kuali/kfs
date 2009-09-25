@@ -150,6 +150,12 @@
         </if>
 		<loadfile property="p6spy" srcfile="${build.project.directory}/${p6spy.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="web" srcfile="${build.project.directory}/${web.file}"><filterchain><expandproperties/></filterchain></loadfile>
+
+		<loadfile property="ojb-prop"    srcfile="${build.project.directory}/${ojb.properties.file}"><filterchain><expandproperties/></filterchain></loadfile>
+		<loadfile property="ojb-logging" srcfile="${build.project.directory}/${ojb.logging.file}"><filterchain><expandproperties/></filterchain></loadfile>
+		<loadfile property="ojb-repo"    srcfile="${build.project.directory}/${ojb.repository.file}"><filterchain><expandproperties/></filterchain></loadfile>
+		<loadfile property="jta-prop"    srcfile="${build.project.directory}/${jta.properties.file}"><filterchain><expandproperties/></filterchain></loadfile>			
+		
 		<loadfile property="context" srcfile="${build.appserver.directory}/${context.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="log4j" srcfile="${user.home}/${log4j.file}" failonerror="false"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="log4j" srcfile="${build.external.directory}/${log4j.file}"><filterchain><expandproperties/></filterchain></loadfile>
@@ -214,6 +220,10 @@
 			<fileset dir="${basedir}">
 				<include name="${source.directory}/${configuration.file}" />
 				<include name="${source.directory}/${p6spy.file}" />
+				<include name="${source.directory}/${ojb.properties.file}" />
+				<include name="${source.directory}/${ojb.logging.file}" />
+				<include name="${source.directory}/${ojb.repository.file}" />
+				<include name="${source.directory}/${jta.properties.file}" />
 				<include name="${webinf.directory}/${web.file}" />
 				<include name="${lib.directory}/${log4j.library.file}" />
 				<include name="${lib.directory}/${institutional.customization.file.prefix}*.jar" />
@@ -333,6 +343,11 @@
 
 	<target name="filter-project" depends="filter-project-p6spy,filter-project-help,filter-project-rice,filter-project-spring-ide,filter-project-custom-lib">
 		<echo file="${source.directory}/${configuration.file}" message="${configuration}" />
+		
+		<echo file="${source.directory}/${ojb.properties.file}" message="${ojb-prop}" />
+		<echo file="${source.directory}/${ojb.logging.file}" message="${ojb-logging}" />
+		<echo file="${source.directory}/${ojb.repository.file}" message="${ojb-repo}" />
+		<echo file="${source.directory}/${jta.properties.file}" message="${jta-prop}" />
 	    <if>
 	        <isset property="institutional.configuration" />
 	        <then>

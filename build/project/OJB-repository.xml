@@ -18,7 +18,7 @@
 	<jdbc-connection-descriptor 
 		jcd-alias="dataSource"
 		default-connection="false" 
-		platform="Oracle9i" 
+		platform="${datasource.ojb.platform}" 
 		jdbc-level="3.0"
 		useAutoCommit="0">
         <attribute attribute-name="jdbc.defaultRowPrefetch" attribute-value="100" />

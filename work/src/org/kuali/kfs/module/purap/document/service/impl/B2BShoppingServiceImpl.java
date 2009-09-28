@@ -46,6 +46,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
@@ -254,8 +255,17 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         ArrayList vendors = new ArrayList();
         for (Iterator iter = vendorNumbers.iterator(); iter.hasNext();) {
             String vendorNumber = (String) iter.next();
-            VendorDetail vd = vendorService.getVendorDetail(vendorNumber);
-            
+            VendorDetail vd = null;
+            boolean enableB2bByDunsNumber = parameterService.getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_B2B_BY_VENDOR_DUNS_NUMBER_IND);
+            if (enableB2bByDunsNumber) {
+                //retrieve vendor by duns number
+                vd = vendorService.getVendorByDunsNumber(vendorNumber);
+            }
+            else {
+                //retrieve vendor by vendor id
+                vd = vendorService.getVendorDetail(vendorNumber);
+            }
+           
             if (ObjectUtils.isNotNull(vd)) {
                 vendors.add(vd);
             }

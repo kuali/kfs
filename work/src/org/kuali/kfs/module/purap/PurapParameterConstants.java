@@ -23,6 +23,7 @@ import org.kuali.kfs.sys.ParameterKeyConstants;
 public class PurapParameterConstants implements ParameterKeyConstants {
 
     public static final String B2B_ALLOW_COPY_DAYS = "B2B_ALLOW_COPY_DAYS";
+    public static final String ENABLE_B2B_BY_VENDOR_DUNS_NUMBER_IND = "ENABLE_B2B_BY_VENDOR_DUNS_NUMBER_IND";
     public static final String DEFAULT_FUNDING_SOURCE = "DEFAULT_FUNDING_SOURCE";
     public static final String AUTOMATIC_PURCHASE_ORDER_DEFAULT_LIMIT_AMOUNT = "AUTOMATIC_PURCHASE_ORDER_DEFAULT_LIMIT_AMOUNT";
     public static final String LINE_ITEM_IMPORT = "LINE_ITEM_IMPORT";

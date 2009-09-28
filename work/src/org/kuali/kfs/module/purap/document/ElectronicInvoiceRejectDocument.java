@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -33,6 +34,7 @@ import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.document.SessionDocument;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -1925,6 +1927,20 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
             this.setAccountsPayableApprovalTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
            } 
 
+    }
+
+    /**
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#getBoNotes()
+     */
+    @Override
+    public List getBoNotes() {
+        List notes = super.getBoNotes();
+        for (Iterator iterator = notes.iterator(); iterator.hasNext();) {
+            Note note = (Note) iterator.next();
+            note.refresh();
+        }
+        
+        return super.getBoNotes();
     }
 
 }

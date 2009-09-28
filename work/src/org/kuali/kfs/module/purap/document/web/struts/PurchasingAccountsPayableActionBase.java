@@ -51,12 +51,14 @@ import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Struts Action for Purchasing and Accounts Payable documents
@@ -438,6 +440,25 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         }
         kualiForm.setTabStates(newTabStates);
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Override to verify the document has been saved before the note is inserted. This will assure the correct parent object id is
+     * associated with the note.
+     * 
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#insertBONote(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward insertBONote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) ((PurchasingAccountsPayableFormBase) form).getDocument();
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+
+        if (workflowDocument.stateIsInitiated()) {
+            SpringContext.getBean(DocumentService.class).saveDocument(document);
+        }
+
+        return super.insertBONote(mapping, form, request, response);
     }
 
 }

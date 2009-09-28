@@ -27,6 +27,7 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.SubObjectTrickleDownInactivationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemGlobalMaintainable;
 import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -41,7 +42,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * fiscal year from the {@link ObjectCodeGlobalDetail} prepareGlobalsForSave - sets the object code on each detail object in the
  * collection generateMaintenanceLocks - generates the appropriate maintenance locks for the {@link ObjectCode}
  */
-public class ObjectCodeGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
+public class ObjectCodeGlobalMaintainableImpl extends FinancialSystemGlobalMaintainable {
     private static String CHANGE_DETAIL_COLLECTION = "objectCodeGlobalDetails";
 
     //@Override

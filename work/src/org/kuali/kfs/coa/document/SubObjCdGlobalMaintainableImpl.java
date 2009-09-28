@@ -23,6 +23,7 @@ import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjectCodeGlobal;
 import org.kuali.kfs.coa.businessobject.SubObjectCodeGlobalDetail;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.document.FinancialSystemGlobalMaintainable;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
@@ -31,7 +32,7 @@ import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
  * This class provides some specific functionality for the {@link SubObjCdGlobal} maintenance document generateMaintenanceLocks -
  * generates maintenance locks on {@link SubObjCd}
  */
-public class SubObjCdGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
+public class SubObjCdGlobalMaintainableImpl extends FinancialSystemGlobalMaintainable {
 
     /**
      * This generates maintenance locks on {@link SubObjCd}

@@ -129,26 +129,26 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
     }
 
     /**
-     * 
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#cancel(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#cancel(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         CashControlDocumentForm cashControlDocForm = (CashControlDocumentForm) form;
         CashControlDocument cashControlDocument = cashControlDocForm.getCashControlDocument();
 
         // If the cancel works, proceed to canceling the cash control doc
-        if(cancelLinkedPaymentApplicationDocuments(cashControlDocument)) {
+        if (cancelLinkedPaymentApplicationDocuments(cashControlDocument)) {
             return super.cancel(mapping, form, request, response);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
-     * 
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#disapprove(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#disapprove(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward disapprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -158,38 +158,42 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
 
         success = cancelLinkedPaymentApplicationDocuments(cashControlDocument);
 
-        if(!success) {
+        if (!success) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        
+
         return super.disapprove(mapping, form, request, response);
     }
 
     /**
      * This method cancels all linked Payment Application documents that are not already in approved status.
+     * 
      * @param cashControlDocument
      * @throws WorkflowException
      */
     private boolean cancelLinkedPaymentApplicationDocuments(CashControlDocument cashControlDocument) throws WorkflowException {
         boolean success = true;
         List<CashControlDetail> details = cashControlDocument.getCashControlDetails();
-        
-        for(CashControlDetail cashControlDetail : details) {
+
+        for (CashControlDetail cashControlDetail : details) {
             DocumentService documentService = SpringContext.getBean(DocumentService.class);
-    
+
             PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(cashControlDetail.getReferenceFinancialDocumentNumber());
-            if(KFSConstants.DocumentStatusCodes.CANCELLED.equals(applicationDocument.getDocumentHeader().getFinancialDocumentStatusCode())) {
+            if (KFSConstants.DocumentStatusCodes.CANCELLED.equals(applicationDocument.getDocumentHeader().getFinancialDocumentStatusCode())) {
                 // Ignore this case, as it should not impact the ability to cancel a cash control doc.
-            } else if (!KFSConstants.DocumentStatusCodes.APPROVED.equals(applicationDocument.getDocumentHeader().getFinancialDocumentStatusCode())) {
+            }
+            else if (!KFSConstants.DocumentStatusCodes.APPROVED.equals(applicationDocument.getDocumentHeader().getFinancialDocumentStatusCode())) {
                 documentService.cancelDocument(applicationDocument, ArKeyConstants.DOCUMENT_DELETED_FROM_CASH_CTRL_DOC);
-            } else {
+            }
+            else {
                 GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDetailFields.CASH_CONTROL_DETAILS_TAB, ArKeyConstants.ERROR_CANT_CANCEL_CASH_CONTROL_DOC_WITH_ASSOCIATED_APPROVED_PAYMENT_APPLICATION);
-                success = false;;
+                success = false;
+                ;
             }
         }
         return success;
     }
-        
+
     /**
      * This method adds a new cash control detail
      * 
@@ -208,21 +212,21 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
 
         CashControlDetail newCashControlDetail = cashControlDocForm.getNewCashControlDetail();
         newCashControlDetail.setDocumentNumber(cashControlDocument.getDocumentNumber());
-        
+
         String customerNumber = newCashControlDetail.getCustomerNumber();
-        if(StringUtils.isNotEmpty(customerNumber)) {
-            //  force customer numbers to upper case, since its a primary key
+        if (StringUtils.isNotEmpty(customerNumber)) {
+            // force customer numbers to upper case, since its a primary key
             customerNumber = customerNumber.toUpperCase();
         }
         newCashControlDetail.setCustomerNumber(customerNumber);
-        
-        //  save the document, which will run business rules and make sure the doc is ready for lines
+
+        // save the document, which will run business rules and make sure the doc is ready for lines
         KualiRuleService ruleService = SpringContext.getBean(KualiRuleService.class);
         boolean rulePassed = true;
-        
+
         // apply save rules for the doc
         rulePassed &= ruleService.applyRules(new SaveDocumentEvent(KFSConstants.DOCUMENT_HEADER_ERRORS, cashControlDocument));
-        
+
         // apply rules for the new cash control detail
         rulePassed &= ruleService.applyRules(new AddCashControlDetailEvent(ArConstants.NEW_CASH_CONTROL_DETAIL_ERROR_PATH_PREFIX, cashControlDocument, newCashControlDetail));
 
@@ -239,9 +243,9 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
 
         }
 
-        //  recalc totals, including the docHeader total
+        // recalc totals, including the docHeader total
         cashControlDocument.recalculateTotals();
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
     }
@@ -265,19 +269,19 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
 
         PaymentApplicationDocument payAppDoc = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(cashControlDetail.getReferenceFinancialDocumentNumber());
-        
-        //  this if statement is to catch the situation where a person deletes the line, but doesnt save 
-        // and then reloads.  This will bring the deleted line back on the screen.  If they then click 
-        // the delete line, and this test isnt here, it will try to cancel the already cancelled 
+
+        // this if statement is to catch the situation where a person deletes the line, but doesnt save
+        // and then reloads. This will bring the deleted line back on the screen. If they then click
+        // the delete line, and this test isnt here, it will try to cancel the already cancelled
         // document, which will throw a workflow error and barf.
         if (!payAppDoc.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
             documentService.cancelDocument(payAppDoc, ArKeyConstants.DOCUMENT_DELETED_FROM_CASH_CTRL_DOC);
         }
         cashControlDocument.deleteCashControlDetail(indexOfLineToDelete);
-        
-        //  recalc totals, including the docHeader total
+
+        // recalc totals, including the docHeader total
         cashControlDocument.recalculateTotals();
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -308,37 +312,36 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         // generate the GLPEs
         GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
         boolean success = glpeService.generateGeneralLedgerPendingEntries(cashControlDocument);
-        
-        //  initialize the sequenceHelper with the existing number of GLPEs already generated
+
+        // initialize the sequenceHelper with the existing number of GLPEs already generated
         int maxSequence = cashControlDocument.getGeneralLedgerPendingEntries().size();
-        GeneralLedgerPendingEntrySequenceHelper sequenceHelper = 
-            new GeneralLedgerPendingEntrySequenceHelper(maxSequence + 1);
-        
-        //  if its a check payment medium, generate bank entries
-        if(cashControlDocument.getCustomerPaymentMedium().getCustomerPaymentMediumCode().equalsIgnoreCase(ArConstants.PaymentMediumCode.CHECK)) {
-            
+        GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(maxSequence + 1);
+
+        // if its a check payment medium, generate bank entries
+        if (cashControlDocument.getCustomerPaymentMedium().getCustomerPaymentMediumCode().equalsIgnoreCase(ArConstants.PaymentMediumCode.CHECK)) {
+
             // get associated bank
-            Bank bank = (Bank)SpringContext.getBean(BankService.class).getByPrimaryId(cashControlDocument.getBankCode());
+            Bank bank = (Bank) SpringContext.getBean(BankService.class).getByPrimaryId(cashControlDocument.getBankCode());
             GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
-            
-            // add additional GLPE's based on bank code
-            if(!glpeService.populateBankOffsetGeneralLedgerPendingEntry(bank, cashControlDocument.getCashControlTotalAmount(), cashControlDocument, cashControlDocument.getPostingYear(), sequenceHelper, bankOffsetEntry, KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS)) {
-                success = false;
+
+            // FIXME - Harsha test this one out
+            if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
+                // add additional GLPE's based on bank code
+                if (glpeService.populateBankOffsetGeneralLedgerPendingEntry(bank, cashControlDocument.getCashControlTotalAmount(), cashControlDocument, cashControlDocument.getPostingYear(), sequenceHelper, bankOffsetEntry, KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS)) {
+                    AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
+                    bankOffsetEntry.setTransactionLedgerEntryDescription(accountingDocumentRuleUtil.formatProperty(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET));
+                    cashControlDocument.addPendingEntry(bankOffsetEntry);
+                    sequenceHelper.increment();
+                    GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(bankOffsetEntry);
+                    success &= glpeService.populateOffsetGeneralLedgerPendingEntry(cashControlDocument.getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
+                    cashControlDocument.addPendingEntry(offsetEntry);
+                    sequenceHelper.increment();
+                }
+                else {
+                    success = false;
+                }
             }
-
-            //TODO do we really want to add this entry even if it failed above?
-            AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
-            bankOffsetEntry.setTransactionLedgerEntryDescription(accountingDocumentRuleUtil.formatProperty(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET)); 
-            cashControlDocument.addPendingEntry(bankOffsetEntry);
-            sequenceHelper.increment();
-
-            GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(bankOffsetEntry);
-            success &= glpeService.populateOffsetGeneralLedgerPendingEntry(cashControlDocument.getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
-            //TODO do we really want to add this entry even if it failed above?
-            cashControlDocument.addPendingEntry(offsetEntry);
-            sequenceHelper.increment();
         }
-        
         if (!success) {
             GlobalVariables.getMessageMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArKeyConstants.ERROR_GLPES_NOT_CREATED);
         }
@@ -349,10 +352,10 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
         cashControlDocumentService.saveGLPEs(cashControlDocument);
 
-        //  approve the document when the GLPEs are generated
-        //DocumentService docService = SpringContext.getBean(DocumentService.class);
-        //docService.approveDocument(cashControlDocument, "Automatically approved document with GLPE generation.", null);
-        
+        // approve the document when the GLPEs are generated
+        // DocumentService docService = SpringContext.getBean(DocumentService.class);
+        // docService.approveDocument(cashControlDocument, "Automatically approved document with GLPE generation.", null);
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
     }
@@ -372,4 +375,3 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
     }
 
 }
-

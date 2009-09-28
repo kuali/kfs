@@ -56,13 +56,10 @@ import org.kuali.kfs.module.bc.document.web.struts.MonthlyBudgetForm;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.rice.kew.actions.CompleteAction;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.dao.DocumentDao;
@@ -1052,19 +1049,10 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         kualiDocumentHeader.setExplanation(BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION);
 
         budgetConstructionDao.saveBudgetConstructionDocument(budgetConstructionDocument);
-        documentService.prepareWorkflowDocument(budgetConstructionDocument);
+        List<String> emptyAdHocList = new ArrayList<String>();
 
-        DocumentRouteHeaderValue ourWorkflowDoc = routeHeaderService.getRouteHeader(budgetConstructionDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-
-        CompleteAction action = new CompleteAction(ourWorkflowDoc, ourWorkflowDoc.getInitiatorPrincipal(), "created by application UI");
-        action.recordAction();
-
-        // there was no need to queue. we want to mark the document final and save it
-        ourWorkflowDoc.markDocumentEnroute();
-        ourWorkflowDoc.markDocumentApproved();
-        ourWorkflowDoc.markDocumentProcessed();
-        ourWorkflowDoc.markDocumentFinalized();
-        routeHeaderService.saveRouteHeader(ourWorkflowDoc);
+        // call route with document type configured for no route paths or post processor
+        documentService.routeDocument(budgetConstructionDocument, "created by application UI", emptyAdHocList);
 
         return budgetConstructionDocument;
     }

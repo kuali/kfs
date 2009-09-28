@@ -23,8 +23,12 @@ import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 import org.kuali.kfs.module.purap.identity.PurapKimAttributes;
 import org.kuali.kfs.module.purap.service.SensitiveDataService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.rice.kns.util.KNSConstants;
 
 public class ElectronicInvoiceRejectDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
 
@@ -46,4 +50,13 @@ public class ElectronicInvoiceRejectDocumentAuthorizer extends TransactionalDocu
             }
         }
     }
+    
+    @Override
+    public boolean canEditDocumentOverview(Document document, Person user) {
+        return isAuthorizedByTemplate(document,
+                KNSConstants.KNS_NAMESPACE,
+                KimConstants.PermissionTemplateNames.EDIT_DOCUMENT,
+                user.getPrincipalId());
+    }
+
 }

@@ -33,5 +33,11 @@ public class PurchasingAccountsPayableDocumentPresentationController extends Fin
         }
         return super.canEdit(document);
     }
+
+    @Override
+    protected boolean canEditDocumentOverview(Document document) {
+        // Change logic to allow editing document overview based on if user can edit the document
+        return canEdit(document);
+    }
     
 }

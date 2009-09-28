@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.report.PosterOutputSummaryReport;
@@ -75,8 +76,10 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
     private ParameterService parameterService;
     private String batchFileDirectoryName;
 
-    private ReportWriterService laborOutputSummaryReportWriterService;
-    private ReportWriterService laborStatisticsReportWriterService;
+    private ReportWriterService laborBalanceForwardReportWriterService;
+    
+    protected static String PROCESSED_BALANCE_TYPES_LABEL = "PROCESSED BALANCE TYPES";
+    protected static String PROCESSED_OBJECT_TYPES_LABEL = "PROCESSED OBJECT TYPES";
 
     /**
      * @see org.kuali.kfs.module.ld.batch.service.LaborYearEndBalanceForwardService#forwardBalance()
@@ -139,7 +142,8 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
         }
 
         this.fillStatisticsReportWriter(reportSummary);
-        posterOutputSummaryReport.writeReport(laborOutputSummaryReportWriterService);
+        fillParametersReportWriter(runDate, fiscalYear, fundGroupCodes, subFundGroupCodes, getOriginationCode() , processableBalanceTypeCodes, processableObjectTypeCodes, getDocumentTypeCode());
+        posterOutputSummaryReport.writeReport(laborBalanceForwardReportWriterService);
 
         balanceForwardsPs.close();
         this.createDoneFile(balanceForwardsFileName);
@@ -200,7 +204,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
             else if (errors != null && !errors.isEmpty()) {
                 ObjectUtil.buildObject(laborOriginEntry, balance);
 
-                laborStatisticsReportWriterService.writeError(laborOriginEntry, errors);
+                laborBalanceForwardReportWriterService.writeError(laborOriginEntry, errors);
                 this.updateReportSummary(reportSummary, LEDGER_BALANCE, KFSConstants.OperationType.REPORT_ERROR);
             }
         }
@@ -324,10 +328,33 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
 
     // fill the gl entry report writer with the collected data
     protected void fillStatisticsReportWriter(Map<String, Integer> glEntryReportSummary) {
-        laborStatisticsReportWriterService.writeStatisticLine("NUMBER OF RECORDS READ              %,9d", glEntryReportSummary.get(LEDGER_BALANCE + "," + KFSConstants.OperationType.READ));
-        laborStatisticsReportWriterService.writeStatisticLine("NUMBER OF RECORDS SELECTED          %,9d", glEntryReportSummary.get(LEDGER_BALANCE + "," + KFSConstants.OperationType.SELECT));
-        laborStatisticsReportWriterService.writeStatisticLine("NUMBER OF RECORDS IN ERROR          %,9d", glEntryReportSummary.get(LEDGER_BALANCE + "," + KFSConstants.OperationType.REPORT_ERROR));
-        laborStatisticsReportWriterService.writeStatisticLine("NUMBER OF RECORDS INSERTED          %,9d", glEntryReportSummary.get(ORIGN_ENTRY + "," + KFSConstants.OperationType.INSERT));
+        laborBalanceForwardReportWriterService.writeStatisticLine("NUMBER OF RECORDS READ              %,9d", glEntryReportSummary.get(LEDGER_BALANCE + "," + KFSConstants.OperationType.READ));
+        laborBalanceForwardReportWriterService.writeStatisticLine("NUMBER OF RECORDS SELECTED          %,9d", glEntryReportSummary.get(LEDGER_BALANCE + "," + KFSConstants.OperationType.SELECT));
+        laborBalanceForwardReportWriterService.writeStatisticLine("NUMBER OF RECORDS IN ERROR          %,9d", glEntryReportSummary.get(LEDGER_BALANCE + "," + KFSConstants.OperationType.REPORT_ERROR));
+        laborBalanceForwardReportWriterService.writeStatisticLine("NUMBER OF RECORDS INSERTED          %,9d", glEntryReportSummary.get(ORIGN_ENTRY + "," + KFSConstants.OperationType.INSERT));
+    }
+    
+    /**
+     * Report out which significant parameters were used in this report.
+     * @param runDate the date when this job was run
+     * @param closingYear the fiscal year closed by this job
+     * @param processedFundGroups the fund groups processed by this job
+     * @param processedSubFundGroups the sub-fund groups processed by this job
+     * @param originationCode the origination code of the posted entries
+     * @param processedBalanceTypeCodes the balance type codes processed by this job
+     * @param processedObjectTypeCodes the object type codes processed by this job
+     * @param documentTypeCode the document type code of posted entries
+     */
+    protected void fillParametersReportWriter(Date runDate, Integer closingYear, List<String> processedFundGroups, List<String> processedSubFundGroups, String originationCode, List<String> processedBalanceTypeCodes, List<String> processedObjectTypeCodes, String documentTypeCode) {
+        laborBalanceForwardReportWriterService.writeParameterLine("%32s %10s", GeneralLedgerConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM, runDate.toString());
+        laborBalanceForwardReportWriterService.writeParameterLine("%32s %10s", LaborConstants.YearEnd.OLD_FISCAL_YEAR, closingYear);
+        laborBalanceForwardReportWriterService.writeParameterLine("%32s %10s", LaborConstants.YearEnd.FUND_GROUP_PROCESSED, StringUtils.join(processedFundGroups, ", "));
+        laborBalanceForwardReportWriterService.writeParameterLine("%32s %10s", LaborConstants.YearEnd.SUB_FUND_GROUP_PROCESSED, StringUtils.join(processedSubFundGroups, ", "));
+        laborBalanceForwardReportWriterService.writeParameterLine("%32s %10s", LaborConstants.YearEnd.ORIGINATION_CODE, originationCode);
+        laborBalanceForwardReportWriterService.writeParameterLine("%32s %10s", LaborYearEndBalanceForwardServiceImpl.PROCESSED_BALANCE_TYPES_LABEL, StringUtils.join(processedBalanceTypeCodes, ", " ));
+        laborBalanceForwardReportWriterService.writeParameterLine("%32s %10s", LaborYearEndBalanceForwardServiceImpl.PROCESSED_OBJECT_TYPES_LABEL, StringUtils.join(processedObjectTypeCodes, ", " ));
+        laborBalanceForwardReportWriterService.writeParameterLine("%32s %10s", GeneralLedgerConstants.ANNUAL_CLOSING_DOCUMENT_TYPE, documentTypeCode);
+        laborBalanceForwardReportWriterService.pageBreak();
     }
 
     // update the entry in the given report summary
@@ -429,16 +456,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * 
      * @param laborOutputSummaryReportWriterService The laborOutputSummaryReportWriterService to set.
      */
-    public void setLaborOutputSummaryReportWriterService(ReportWriterService laborOutputSummaryReportWriterService) {
-        this.laborOutputSummaryReportWriterService = laborOutputSummaryReportWriterService;
-    }
-
-    /**
-     * Sets the laborStatisticsReportWriterService attribute value.
-     * 
-     * @param laborStatisticsReportWriterService The laborStatisticsReportWriterService to set.
-     */
-    public void setLaborStatisticsReportWriterService(ReportWriterService laborStatisticsReportWriterService) {
-        this.laborStatisticsReportWriterService = laborStatisticsReportWriterService;
+    public void setLaborBalanceForwardReportWriterService(ReportWriterService laborBalanceForwardReportWriterService) {
+        this.laborBalanceForwardReportWriterService = laborBalanceForwardReportWriterService;
     }
 }

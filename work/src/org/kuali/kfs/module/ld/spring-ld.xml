@@ -590,11 +590,8 @@
             <ref bean="parameterService" />
         </property>
 
-        <property name="laborOutputSummaryReportWriterService">
-            <ref bean="laborOutputSummaryReportWriterService" />
-        </property>
-        <property name="laborStatisticsReportWriterService">
-            <ref bean="laborStatisticsReportWriterService" />
+        <property name="laborBalanceForwardReportWriterService">
+            <ref bean="laborBalanceForwardReportWriterService" />
         </property>
                 
         <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
@@ -717,28 +714,30 @@
 		</property>
         <property name="wrappingBatchServices">
             <list>
-                <ref bean="laborOutputSummaryReportWriterService" />
-                <ref bean="laborStatisticsReportWriterService" />
+                <ref bean="laborBalanceForwardReportWriterService" />
                 <ref bean="accountingCycleCachingService" />
             </list>
         </property>        
 	</bean>
     
-    <bean id="laborStatisticsReportWriterService" parent="reportWriterService">
-        <property name="filePath" value="${reports.directory}/ld"/>
-        <property name="fileNamePrefix" value="labor_year_end_main_"/>
-        <property name="title" value="Labor Year End Ledger Report"/>
+    <bean id="laborBalanceForwardReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/ld"/>
+		<property name="fileNamePrefix" value="labor_year_end_balance_forward_"/>
+        <property name="title" value="Balance Forward Report" />
         <property name="classToBusinessObjectReportHelperBeanNames">
-            <map>
-                <entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="laborTransactionReportHelper"/>
-            </map>
+        	<map>
+        		<entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="laborTransactionReportHelper"/>
+        		<entry key="org.kuali.kfs.gl.businessobject.PosterOutputSummaryEntry" value="posterOutputSummaryEntryReportHelper"/>
+        		<entry key="org.kuali.kfs.gl.businessobject.PosterOutputSummaryBalanceTypeFiscalYearAndPeriodTotal" value="posterOutputSummaryBalanceTypeFiscalYearAndPeriodTotalReportHelper"/>
+        		<entry key="org.kuali.kfs.gl.businessobject.PosterOutputSummaryBalanceTypeFiscalYearTotal" value="posterOutputSummaryBalanceTypeFiscalYearTotalReportHelper"/>
+        		<entry key="org.kuali.kfs.gl.businessobject.PosterOutputSummaryBalanceTypeTotal" value="posterOutputSummaryBalanceTypeTotal"/>
+        		<entry key="org.kuali.kfs.gl.businessobject.PosterOutputSummaryTotal" value="posterOutputSummaryTotal"/>
+        	</map>
         </property>
-    </bean> 
+    </bean>
     
-    <bean id="laborOutputSummaryReportWriterService" parent="reportWriterService">
+    <bean id="laborOutputSummaryReportWriterService" parent="reportWriterService" abstract="true">
         <property name="filePath" value="${reports.directory}/ld"/>
-        <property name="fileNamePrefix" value="labor_year_end_output_"/>
-        <property name="title" value="Labor Year End Output Summary"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
         		<entry key="org.kuali.kfs.gl.businessobject.PosterOutputSummaryEntry" value="posterOutputSummaryEntryReportHelper"/>

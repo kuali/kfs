@@ -49,9 +49,9 @@ public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericV
     public boolean validate(AttributedDocumentEvent event) {
         boolean result = true;
         
-        if (isAtCampusNode()) {
+        if (isAtNodeToCheck()) {
             final DisbursementVoucherDocument persistedDocument = getPersistedDisbursementVoucherDocument();
-            if (turnedSpecialHandlingOff(persistedDocument) && !noteAddedAtDisbursementLevel()) {
+            if (isSpecialHandlingChanged(persistedDocument) && !isNoteAdded()) {
                 result = false;
                 GlobalVariables.getMessageMap().putError(AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX+"disbVchrSpecialHandlingCode", KFSKeyConstants.ERROR_DV_CAMPUS_TURNED_OFF_SPECIAL_HANDLING_WITHOUT_EXPLANATORY_NOTE, new String[] {});
             }
@@ -64,10 +64,10 @@ public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericV
      * Determines if the DisbursementVoucherDocumentForValidation is at the Campus route node 
      * @return true if the document is at the campus route node, false otherwise
      */
-    protected boolean isAtCampusNode() {
+    protected boolean isAtNodeToCheck() {
         try {
             List<String> currentNodes = Arrays.asList(getDisbursementVoucherDocumentForValidation().getDocumentHeader().getWorkflowDocument().getNodeNames());
-            return (currentNodes.contains(DisbursementVoucherConstants.RouteLevelNames.CAMPUS));
+            return (!currentNodes.contains(DisbursementVoucherConstants.RouteLevelNames.PURCHASING));
         }
         catch (WorkflowException we) {
             throw new RuntimeException("Workflow Exception while attempting to check route levels", we);
@@ -93,8 +93,8 @@ public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericV
      * @param persistedDocument the persisted version of the document
      * @return true if special handling was turned off, false otherwise
      */
-    protected boolean turnedSpecialHandlingOff(DisbursementVoucherDocument persistedDocument) {
-        return persistedDocument.isDisbVchrSpecialHandlingCode() && !getDisbursementVoucherDocumentForValidation().isDisbVchrSpecialHandlingCode();
+    protected boolean isSpecialHandlingChanged(DisbursementVoucherDocument persistedDocument) {
+        return persistedDocument.isDisbVchrSpecialHandlingCode() != getDisbursementVoucherDocumentForValidation().isDisbVchrSpecialHandlingCode();
     }
     
     /**
@@ -102,7 +102,7 @@ public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericV
      * @param persistedDocument the persisted version of the document
      * @return true if an extra note was added, false otherwise
      */
-    protected boolean noteAddedAtDisbursementLevel() {
+    protected boolean isNoteAdded() {
        boolean foundNoteByCurrentApprover = false;
        int count = 0;
        final int noteCount = getDisbursementVoucherDocumentForValidation().getDocumentHeader().getBoNotes().size();
@@ -121,7 +121,7 @@ public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericV
     protected boolean noteAddedByApproverForCurrentNode(Note note) {
         ActionRequestDTO[] actionRequests = null;
         try {
-            actionRequests = getWorkflowInfo().getActionRequests(new Long(getDisbursementVoucherDocumentForValidation().getDocumentNumber()), DisbursementVoucherConstants.RouteLevelNames.CAMPUS, note.getAuthorUniversalIdentifier());
+            actionRequests = getWorkflowInfo().getActionRequests(new Long(getDisbursementVoucherDocumentForValidation().getDocumentNumber()), getDisbursementVoucherDocumentForValidation().getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames(), note.getAuthorUniversalIdentifier());
         }
         catch (NumberFormatException nfe) {
             throw new RuntimeException("Could not convert Disbursement Voucher document number "+getDisbursementVoucherDocumentForValidation().getDocumentNumber()+" to long", nfe);

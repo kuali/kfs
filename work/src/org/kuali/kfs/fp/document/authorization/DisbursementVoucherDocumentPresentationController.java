@@ -140,7 +140,7 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
         final KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         final List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
         
-        if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.CAMPUS)) {
+        if (!currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.PURCHASING)) {
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.SPECIAL_HANDLING_CHANGING_ENTRY);
         }
     }

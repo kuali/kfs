@@ -324,7 +324,6 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
             Bank bank = (Bank) SpringContext.getBean(BankService.class).getByPrimaryId(cashControlDocument.getBankCode());
             GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
 
-            // FIXME - Harsha test this one out
             if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
                 // add additional GLPE's based on bank code
                 if (glpeService.populateBankOffsetGeneralLedgerPendingEntry(bank, cashControlDocument.getCashControlTotalAmount(), cashControlDocument, cashControlDocument.getPostingYear(), sequenceHelper, bankOffsetEntry, KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS)) {

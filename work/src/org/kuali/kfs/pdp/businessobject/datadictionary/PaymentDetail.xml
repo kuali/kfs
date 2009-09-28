@@ -716,6 +716,7 @@
   <bean id="PaymentDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Search for Payment"/>
     <property name="lookupableID" value="paymentDetailLookupable"/>
+    <property name="numOfColumns" value="2"/>
     
     <property name="defaultSort">
       <bean parent="SortDefinition">

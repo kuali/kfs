@@ -65,6 +65,7 @@
 		<ref bean="AssetPayment-account.organization.chartOfAccountsCode"/>
 		<ref bean="AssetPayment-account.organization.campusPlantAccountNumber"/>
 		<ref bean="AssetPayment-account.organization.campusPlantChartCode"/>
+		<ref bean="AssetPayment-financialObject.financialObjectSubTypeCode"/>		
       </list>
     </property>
 	<property name="relationships">
@@ -170,7 +171,7 @@
   <bean id="AssetPayment-account.organization.organizationPlantAccountNumber" parent="AssetPayment-account.organization.organizationPlantAccountNumber-parentBean"/>
   <bean id="AssetPayment-account.organization.organizationPlantAccountNumber-parentBean" abstract="true" parent="Organization-organizationPlantAccountNumber">
     <property name="name" value="account.organization.organizationPlantAccountNumber"/>
-    <property name="shortLabel" value="Org. Plant Accnt#"/>
+    <property name="shortLabel" value="Org. Plant Acct#"/>
   </bean>
 
   <bean id="AssetPayment-account.organization.organizationPlantChartCode" parent="AssetPayment-account.organization.organizationPlantChartCode-parentBean"/>
@@ -178,9 +179,11 @@
     <property name="name" value="account.organization.organizationPlantChartCode"/>
     <property name="label" value="Plant Chart Code"/>
 	<property name="shortLabel" value="Org. Plant Chart Code"/>    
+    <!-- 
     <property name="control">
       <bean parent="HiddenControlDefinition"/>
     </property>
+     -->
   </bean>
 
 
@@ -194,7 +197,7 @@
   <bean id="AssetPayment-account.organization.campusPlantAccountNumber" parent="AssetPayment-account.organization.campusPlantAccountNumber-parentBean"/>
   <bean id="AssetPayment-account.organization.campusPlantAccountNumber-parentBean" abstract="true" parent="Organization-campusPlantAccountNumber">
     <property name="name" value="account.organization.campusPlantAccountNumber"/>
-    <property name="shortLabel" value="Campus Plant Accnt #"/>
+    <property name="shortLabel" value="Campus Plant Acct #"/>
   </bean>
 
   <bean id="AssetPayment-account.organization.campusPlantChartCode" parent="AssetPayment-account.organization.campusPlantChartCode-parentBean"/>
@@ -491,7 +494,11 @@
     <property name="shortLabel" value="yearToDate"/>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
-
+  <bean id="AssetPayment-financialObject.financialObjectSubTypeCode" parent="AssetPayment-financialObject.financialObjectSubTypeCode-parentBean"/>
+  <bean id="AssetPayment-financialObject.financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectSubTypeCode">
+    <property name="name" value="financialObject.financialObjectSubTypeCode"/>
+    <property name="shortLabel" value="Object Sub-Type Code"/>    
+  </bean>
 <!-- Business Object Inquiry Definition -->
 
   <bean id="AssetPayment-inquiryDefinition" parent="AssetPayment-inquiryDefinition-parentBean"/>
@@ -547,6 +554,7 @@
   <bean id="AssetPayment-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Asset Payment Lookup"/>
     <property name="lookupableID" value="assetPaymentLookupable"/>
+    <property name="numOfColumns" value="2"/>
     
     <property name="defaultSort">
       <bean parent="SortDefinition">
@@ -554,37 +562,37 @@
     </property>
     <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber" p:noLookup="true"/>
         <bean parent="FieldDefinition" p:attributeName="asset.campusTagNumber" p:noLookup="true"/>
-        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-        <bean parent="FieldDefinition" p:attributeName="account.organizationCode"/>    
-         <bean parent="FieldDefinition" p:attributeName="account.chartOfAccountsCode"/>
-        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>                    
-        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
-        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber" p:noLookup="true"/>
         <bean parent="FieldDefinition" p:attributeName="purchaseOrderNumber"/>
         <bean parent="FieldDefinition" p:attributeName="requisitionNumber"/>
         <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="organizationReferenceId"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="account.organizationCode"/>    
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>                    
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
         <bean parent="FieldDefinition" p:attributeName="projectCode"/>
-        <bean parent="FieldDefinition" p:attributeName="account.subFundGroupCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationReferenceId"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentPostingYear"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentPostingPeriodCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentPostingDate"/>
+        <bean parent="FieldDefinition" p:attributeName="asset.capitalAssetInServiceDate" p:noLookup="true"/>
         <bean parent="FieldDefinition" p:attributeName="accountChargeAmount"/>
         <bean parent="FieldDefinition" p:attributeName="asset.totalCostAmount" p:noLookup="true"/>
-        <bean parent="FieldDefinition" p:attributeName="asset.capitalAssetInServiceDate" p:noLookup="true"/>
-        <bean parent="FieldDefinition" p:attributeName="financialDocumentPostingDate"/>
-        <bean parent="FieldDefinition" p:attributeName="financialDocumentPostingPeriodCode"/>
-        <bean parent="FieldDefinition" p:attributeName="financialDocumentPostingYear"/>
-        <bean parent="FieldDefinition" p:attributeName="asset.capitalAssetDescription" p:noLookup="true"/>              
         <bean parent="FieldDefinition" p:attributeName="asset.campusCode"/>
         <bean parent="FieldDefinition" p:attributeName="asset.buildingCode"/>
         <bean parent="FieldDefinition" p:attributeName="asset.inventoryStatusCode"/>
         <bean parent="FieldDefinition" p:attributeName="asset.capitalAssetTypeCode"/>
-        <bean parent="FieldDefinition" p:attributeName="account.organization.organizationPlantAccountNumber"/>
         <bean parent="FieldDefinition" p:attributeName="account.organization.organizationPlantChartCode"/>
-        <bean parent="FieldDefinition" p:attributeName="account.organization.chartOfAccountsCode"/>
-        <bean parent="FieldDefinition" p:attributeName="account.organization.campusPlantAccountNumber"/>  
+        <bean parent="FieldDefinition" p:attributeName="account.organization.organizationPlantAccountNumber"/>
         <bean parent="FieldDefinition" p:attributeName="account.organization.campusPlantChartCode"/> 
+        <bean parent="FieldDefinition" p:attributeName="account.organization.campusPlantAccountNumber"/>  
+        <bean parent="FieldDefinition" p:attributeName="account.subFundGroupCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObject.financialObjectSubTypeCode"/>        
+        <bean parent="FieldDefinition" p:attributeName="asset.capitalAssetDescription" p:noLookup="true"/>              
       </list>
     </property>
 

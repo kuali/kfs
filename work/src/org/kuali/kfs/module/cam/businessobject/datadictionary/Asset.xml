@@ -1879,6 +1879,7 @@
   <bean id="Asset-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Asset Lookup"/>
     <property name="lookupableID" value="assetLookupable"/>
+    <property name="numOfColumns" value="2"/>
     
     <property name="defaultSort">
       <bean parent="SortDefinition">
@@ -1886,31 +1887,31 @@
     </property>
     <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber" p:noLookup="true"/>
         <bean parent="FieldDefinition" p:attributeName="campusTagNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber" p:noLookup="true"/>
         <bean parent="FieldDefinition" p:attributeName="organizationOwnerChartOfAccountsCode"/>
-        <bean parent="FieldDefinition" p:attributeName="organizationOwnerAccountNumber"/>
         <bean parent="FieldDefinition" p:attributeName="organizationOwnerAccount.organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationOwnerAccountNumber"/>
         <bean parent="FieldDefinition" p:attributeName="agencyNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="inventoryStatusCode"/>
-        <bean parent="FieldDefinition" p:attributeName="conditionCode" p:noLookup="true"/>
-        <bean parent="FieldDefinition" p:attributeName="capitalAssetTypeCode"/>
-        <bean parent="FieldDefinition" p:attributeName="capitalAssetDescription"/>      
-        <bean parent="FieldDefinition" p:attributeName="assetRepresentative.principalName"/>      
-        <bean parent="FieldDefinition" p:attributeName="organizationInventoryName"/>
         <bean parent="FieldDefinition" p:attributeName="campusCode"/>
         <bean parent="FieldDefinition" p:attributeName="buildingCode"/>
         <bean parent="FieldDefinition" p:attributeName="buildingRoomNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="inventoryStatusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="conditionCode" p:noLookup="true"/>
         <bean parent="FieldDefinition" p:attributeName="vendorName"/>
         <bean parent="FieldDefinition" p:attributeName="manufacturerName"/>
         <bean parent="FieldDefinition" p:attributeName="manufacturerModelNumber"/>
         <bean parent="FieldDefinition" p:attributeName="serialNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="nationalStockNumber"/>
         <bean parent="FieldDefinition" p:attributeName="createDate"/>
+        <bean parent="FieldDefinition" p:attributeName="assetRepresentative.principalName"/>      
+        <bean parent="FieldDefinition" p:attributeName="organizationInventoryName"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetDescription"/>      
+        <bean parent="FieldDefinition" p:attributeName="assetOrganization.organizationText" p:noLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="nationalStockNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="governmentTagNumber"/>
         <bean parent="FieldDefinition" p:attributeName="oldTagNumber"/>
         <bean parent="FieldDefinition" p:attributeName="assetOrganization.organizationTagNumber" p:noLookup="true"/>
-        <bean parent="FieldDefinition" p:attributeName="assetOrganization.organizationText" p:noLookup="true"/>
-        <bean parent="FieldDefinition" p:attributeName="governmentTagNumber"/>
         <bean parent="FieldDefinition" p:attributeName="totalCostAmount"/>
         <bean parent="FieldDefinition" p:attributeName="assetPayments.paymentSequenceNumber"/>
         <bean parent="FieldDefinition" p:attributeName="assetPayments.purchaseOrderNumber"/>

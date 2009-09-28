@@ -111,7 +111,6 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
     @Override
     protected String getDefaultDocumentTypeName() {
         return BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME;
-//        return "BC";
     }
     
     /**

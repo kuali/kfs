@@ -453,6 +453,8 @@
 
   <bean id="PaymentDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
     <property name="name" value="financialDocumentTypeCode"/>
+    <property name="label" value="Source Document Type"/>
+    <property name="shortLabel" value="Source Document Type"/>
   </bean>
   <bean id="PaymentDetail-notesText" parent="PaymentDetail-notesText-parentBean"/>
    
@@ -731,30 +733,30 @@
     <property name="lookupFields">
       <list>
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeName"/>
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeIdTypeCd"/>
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeId"/>
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.disbursementTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.disbursementNbr"/>
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.disbursementDate"/>              
-              <bean parent="FieldDefinition" p:attributeName="netPaymentAmount"/> 
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.batch.customerProfile.chartCode"/>     
+              <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeIdTypeCd"/>
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.batch.customerProfile.unitCode" p:noLookup="true"/>                                                                                           
+              <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeId"/>
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.batch.customerProfile.subUnitCode" p:noLookup="true"/>
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.processImmediate"/>
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.pymtSpecialHandling"/>
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.pymtAttachment"/>
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.paymentDate"/>                                                                                 
+              <bean parent="FieldDefinition" p:attributeName="paymentGroup.disbursementTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode"/> 
+              <bean parent="FieldDefinition" p:attributeName="paymentGroup.disbursementNbr"/>
               <bean parent="FieldDefinition" p:attributeName="custPaymentDocNbr"/>
+              <bean parent="FieldDefinition" p:attributeName="paymentGroup.disbursementDate"/>              
+              <bean parent="FieldDefinition" p:attributeName="paymentGroup.paymentDate"/>                                                                                 
+              <bean parent="FieldDefinition" p:attributeName="purchaseOrderNbr"/>
               <bean parent="FieldDefinition" p:attributeName="invoiceNbr"/>                    
               <bean parent="FieldDefinition" p:attributeName="requisitionNbr"/>
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.customerInstitutionNumber"/>                                   
-              <bean parent="FieldDefinition" p:attributeName="purchaseOrderNbr"/>
+              <bean parent="FieldDefinition" p:attributeName="netPaymentAmount"/> 
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.processId"/>
+              <bean parent="FieldDefinition" p:attributeName="paymentGroup.processImmediate"/>
               <bean parent="FieldDefinition" p:attributeName="id"/> 
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.paymentStatusCode"/>  
+              <bean parent="FieldDefinition" p:attributeName="paymentGroup.pymtSpecialHandling"/>
               <bean parent="FieldDefinition" p:attributeName="paymentGroup.batchId"/>
+              <bean parent="FieldDefinition" p:attributeName="paymentGroup.pymtAttachment"/>
               <bean parent="FieldDefinition" p:attributeName="paymentGroupId"/> 
-              <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode"/> 
+              <bean parent="FieldDefinition" p:attributeName="paymentGroup.paymentStatusCode"/>  
                                        
       </list>
     </property>

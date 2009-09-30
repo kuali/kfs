@@ -60,12 +60,8 @@
     <property name="ksbConfigurer">
       <bean class="org.kuali.rice.ksb.messaging.config.KSBConfigurer"
           p:serviceServletUrl="${workflow.url}/remote"
-              p:runMode="${ksb.mode}"
               p:webModuleConfigurationFiles="${rice.ksb.struts.config.files}"
 			 />
-        <!-- 
-        <property name="exceptionMessagingScheduler" ref="scheduler" />
-         -->
     </property>
     <property name="kewConfigurer">
       <bean class="org.kuali.rice.kew.config.KEWConfigurer"

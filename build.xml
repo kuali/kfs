@@ -17,13 +17,18 @@
 <project name="kfs" default="dist-local" basedir=".">
 	<!-- run the help target to view usage instructions for public targets -->
 	
-	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local,dist-local-cas" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
+	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local,dist-local-cas,dist-local-rice" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
 		<copy file="${metainf.directory}/${context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
 	</target>
 
 	<target name="dist-local-cas" if="deploy.local.cas.server" depends="filter-project">
 		<echo file="${metainf.directory}/${cas.context.file}" message="${cas.context}" />
 		<copy file="${metainf.directory}/${cas.context.file}" tofile="${appserver.localhost.dir}/${cas.context.name}.xml" overwrite="true" />
+	</target>
+	
+	<target name="dist-local-rice" if="deploy.local.rice.server" depends="init-properties">
+        <copy file="${build.appserver.directory}/${rice.name}-web-${rice.version}${rice.output.war.suffix}" tofile="${appserver.deploy.dir}/${rice.application}-${build.environment}.war"/>
+        <echo file="${rice.config.property.file}" message="${rice.config}"  />
 	</target>
 
 	<target name="test-local" depends="dist-local,make-tests,test" description="Run all unit tests and format results"/>
@@ -66,9 +71,6 @@
 		<property name="appenders" value="INFO, LogFile" />
 		<condition property="use.quartz.jdbc.jobstore" value="false"><isset property="is.local.build" /></condition>
 		<property name="use.quartz.jdbc.jobstore" value="true" />
-		<condition property="rice.create.standalone" value="true">
-			<equals arg1="${rice.standalone}" arg2="true" />
-		</condition>
 		<condition property="b2b.environment" value="${b2b.production.environment}">
 			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
 		</condition>
@@ -94,35 +96,27 @@
 		</condition>
 		<property name="b2b.punch.out.url" value="${b2b.test.punch.out.url}" />
 
-        <property name="rice.datasource.url" value="${datasource.url}" /> 
-		<condition property="rice.server.datasource.platform" value="${mysql.server.datasource.platform}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
-		<property name="rice.server.datasource.platform" value="${oracle.server.datasource.platform}" />
-		<condition property="rice.server.datasource.url" value="${rice.datasource.url}" else="${datasource.url}"><isset property="rice.create.standalone"/></condition>
 		<property name="rice.server.datasource.driver.class" value="${datasource.driver.class}" />
-		<condition property="rice.server.datasource.username" value="${rice.datasource.username}" else="${datasource.username}"><isset property="rice.create.standalone"/></condition>
-		<condition property="rice.server.datasource.password" value="${rice.datasource.password}" else="${datasource.password}"><isset property="rice.create.standalone"/></condition>
-
+		<property name="rice.server.datasource.url" value="${datasource.url}" />
+		<condition property="rice.server.datasource.platform" value="${mysql.server.datasource.platform}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+		<property name="rice.server.datasource.platform" value="org.kuali.rice.core.database.platform.OraclePlatform" />
 		<condition property="rice.dev.mode" value="false"><equals arg1="${rice.standalone}" arg2="true" /></condition>
 		<condition property="rice.dev.mode" value="true"><isset property="is.local.build" /></condition>
-		<property name="rice.dev.mode" value="false" />
-		
-		<condition property="kim.mode" value="embedded" else="local"><isset property="rice.create.standalone" /></condition>
-		<condition property="kew.mode" value="embedded" else="local"><isset property="rice.create.standalone" /></condition>
-		<condition property="ksb.mode" value="embedded" else="local"><isset property="rice.create.standalone" /></condition>
-	    <!-- set the rice server URL to the same as KFS or it's own context, depending on the rice.standalone property -->
-	    <property name="rice.appserver.url" value="${appserver.url}"/>
-		<condition property="rice.server.url" value="${rice.appserver.url}/kr-${build.environment}">
+		<property name="rice.dev.mode" value="false" />		
+		<!-- <rice module>.mode... 
+		    # local - used in development - embedding everything, including web content
+		    # embedded - using standalone rice server but running KEW / KIM services locally
+			# remote - accessing KIM core services over the KSB - not currently supported by KFS for KEW - KSB is always local  -->
+		<condition property="kim.mode" value="embedded" else="local"><isset property="rice.standalone" /></condition>
+		<condition property="kew.mode" value="embedded" else="local"><isset property="rice.standalone" /></condition>
+		<condition property="rice.url" value="${appserver.url}/${rice.application}-${build.environment}">
 		    <equals arg1="${rice.standalone}" arg2="true" />
 		</condition>
-        <property name="rice.server.url" value="${application.url}"/>
-	    
-        <property name="rice.url" value="${rice.server.url}/${rice.application}"/>
-        <property name="rice.kr.url" value="${rice.url}"/>
-        <property name="rice.kim.url" value="${rice.server.url}/${kim.application}"/>
-        <property name="rice.kew.url" value="${rice.server.url}/${workflow.application}"/>
-        <property name="rice.workflow.url" value="${rice.kew.url}"/>
-        <property name="rice.externalizable.images.url" value="${rice.url}/static/images/"/>
-	    
+        <property name="rice.url" value="${application.url}"/>
+        <property name="rice.kr.url" value="${rice.url}/${rice.application}"/>
+        <property name="rice.kim.url" value="${rice.url}/${kim.application}"/>
+        <property name="rice.kew.url" value="${rice.url}/${workflow.application}"/>
+        <property name="rice.externalizable.images.url" value="${rice.kr.url}/static/images/"/>
 		<condition property="rice.message.persistence" value="false"><isset property="is.local.build" /></condition>
 		<property name="rice.message.persistence" value="true" />
 		<condition property="rice.use.quartz.database" value="true">
@@ -162,8 +156,7 @@
 		<loadfile property="security" srcfile="${build.external.directory}/${security.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		
 		<loadfile property="cas.context" srcfile="${build.appserver.directory}/${cas.context.file}"><filterchain><expandproperties/></filterchain></loadfile>
-		<loadfile property="standalone-workflow" srcfile="${build.appserver.directory}/standalone-workflow.xml"><filterchain><expandproperties/></filterchain></loadfile>
-		<loadfile property="standalone-rice" srcfile="${build.appserver.directory}/standalone-rice-config.xml"><filterchain><expandproperties/></filterchain></loadfile>
+		<loadfile property="rice.config" srcfile="${build.appserver.directory}/standalone-rice-config.xml"><filterchain><expandproperties/></filterchain></loadfile>
 	</target>
 
 	<target name="init-make-references" depends="init-properties">
@@ -266,6 +259,9 @@
 				<present targetdir="${build.appserver.directory}" />
 			</fileset>
 		</delete>
+	    <delete file="${appserver.deploy.dir}/${rice.application}-${build.environment}.war" failonerror="false" verbose="true" />
+	    <delete dir="${appserver.deploy.dir}/${rice.application}-${build.environment}" failonerror="false"/>
+	    <delete file="${rice.config.property.file}" failonerror="false" verbose="true" />
 		<delete failonerror="false">
 			<fileset dir="${appserver.localhost.dir}" includes="${ant.project.name}-*.xml,${cas.context.name}.xml" />
 		</delete>
@@ -283,30 +279,10 @@
 		<unzip dest="${help.directory}" src="${build.project.directory}/help.zip" />
 	</target>
 
-	<target name="filter-project-rice" unless="dont.filter.project.rice" depends="init-properties, filter-project-rice-unzip-web, filter-project-rice-publish-war">
+	<target name="filter-project-rice" unless="dont.filter.project.rice" depends="init-properties">
+		<unzip dest="${webroot.directory}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" />
 		<unzip dest="${distribution.licenses.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.licenses.suffix}" />
 	</target>
-	
-	<target name="filter-project-rice-unzip-web">
-		<echo message="Unzipping Rice web files to: ${webroot.directory}" />
-		<unzip dest="${webroot.directory}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" />
-	</target>	
-		
-	<target name="filter-project-rice-publish-war">
-	    <!-- clean out any previous rice server files -->
-        <delete file="${appserver.deploy.dir}/${rice.application}-${build.environment}.war" failonerror="false" verbose="true" />
-        <delete dir="${appserver.deploy.dir}/${rice.application}-${build.environment}" failonerror="false"/>
-        <delete file="${rice.config.property.file}" failonerror="false" verbose="true" />
-	    <if>
-	        <isset property="rice.create.standalone" />
-	        <then>
-	            <echo message="Copying ${build.project.directory}/${rice.name}-web-${rice.version}${rice.output.war.suffix} to: ${appserver.deploy.dir}/${rice.application}-${build.environment}.war" />
-	            <copy file="${build.project.directory}/${rice.name}-web-${rice.version}${rice.output.war.suffix}" tofile="${appserver.deploy.dir}/${rice.application}-${build.environment}.war"/>
-	            <echo>yo: ${rice.config.property.file}</echo>
-	            <echo file="${rice.config.property.file}" message="${standalone-rice}"  />
-	        </then>
-	    </if>
-	</target>		
 	
   	<target name="filter-project-spring-ide" unless="dont.filter.project.spring.ide" depends="init-properties">
 		<delete dir="${rice.datadictionary.directory}" failonerror="false" quiet="true"/>

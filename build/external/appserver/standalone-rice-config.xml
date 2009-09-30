@@ -17,9 +17,9 @@
 
 	<!-- Please fill in a value for this parameter! -->
 	<param name="app.context.name">kr-${build.environment}</param>
-	<param name="application.url">${rice.server.url}</param>
+	<param name="application.url">${rice.url}</param>
 
-	<param name="workflow.url">${rice.server.url}/kew</param>
+	<param name="workflow.url">${rice.url}/kew</param>
 
 	<param name="plugin.dir">/usr/local/rice/plugins</param>
 
@@ -47,12 +47,12 @@
 	<!-- CAS Login Filter - use if you don't want to go through CAS -->
 	<param name="filter.login.class">org.jasig.cas.client.authentication.AuthenticationFilter</param>
     <param name="filter.login.casServerLoginUrl">${cas.url}/login</param>
-    <param name="filter.login.serverName">${rice.appserver.url}</param>
+    <param name="filter.login.serverName">${appserver.url}</param>
     <param name="filtermapping.login.1">/*</param>
        
     <param name="filter.validation.class">org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter</param>
     <param name="filter.validation.casServerUrlPrefix">${cas.url}</param>
-    <param name="filter.validation.serverName">${rice.appserver.url}</param>
+    <param name="filter.validation.serverName">${appserver.url}</param>
     <param name="filtermapping.validation.2">/*</param>
         
     <param name="filter.caswrapper.class">org.jasig.cas.client.util.HttpServletRequestWrapperFilter</param>

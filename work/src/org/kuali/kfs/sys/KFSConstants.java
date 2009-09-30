@@ -69,8 +69,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String REPORTS_DIRECTORY_KEY = "reports.directory";
     public static final String WORKFLOW_URL_KEY = "workflow.url";
     public static final String PROD_ENVIRONMENT_CODE_KEY = "production.environment.code";
-    public static final String MAINTAIN_USERS_LOCALLY_KEY = "maintain.users.locally";
-    public static final String MAINTAIN_KFS_USERS_LOCALLY_KEY = "maintain.kfs.users.locally";
     public static final String USE_STANDALONE_WORKFLOW = "rice.use.standalone.workflow";
     public static final String BATCH_FILE_LOOKUP_ROOT_DIRECTORIES = "batch.file.lookup.root.directories";
 

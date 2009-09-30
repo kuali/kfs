@@ -221,6 +221,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
             return currentBatch;
         }
         CollectorBatch headerlessBatch = new CollectorBatch();
+        headerlessBatch.setHeaderlessBatch(true);
         headerlessBatch.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.MISSING_HEADER_RECORD, Integer.toString(lineNumber));
         batchList.add(headerlessBatch);
         return headerlessBatch;
@@ -253,7 +254,13 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
         CollectorBatch newBatch = new CollectorBatch();
         newBatch.setChartOfAccountsCode(StringUtils.trimTrailingWhitespace(headerLine.substring(4, 6)));
         newBatch.setOrganizationCode(StringUtils.trimTrailingWhitespace(headerLine.substring(6, 10)));
-        newBatch.setTransmissionDate(parseSqlDate(headerLine.substring(15, 25)));
+        try {
+            newBatch.setTransmissionDate(parseSqlDate(headerLine.substring(15, 25)));
+        }
+        catch (ParseException e) {
+            newBatch.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.HEADER_BAD_TRANSMISSION_DATE_FORMAT, headerLine.substring(15, 25));
+            newBatch.setTransmissionDate(null);
+        }
         //TODO not sure if this is the best thing to do, as there is no equivalent to this in fis_id_billing.pl (it just uses first 28 characters for dupe check, so I guess if blank it should be OK to set it to 0 here)
         if (Character.isDigit(headerLine.charAt(27))) {
             newBatch.setBatchSequenceNumber(new Integer(headerLine.substring(27, 28)));

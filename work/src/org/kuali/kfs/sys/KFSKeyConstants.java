@@ -760,6 +760,13 @@ public class KFSKeyConstants {
         public static final String EMAIL_SEND_ERROR = "error.collector.emailSendError";
         public static final String MISSING_HEADER_RECORD = "error.collector.header.record.missing";
         public static final String MISSING_TRAILER_RECORD = "error.collector.trailer.record.missing";
+        public static final String HEADER_CHART_CODE_REQUIRED = "error.collector.header.chart.code.required";
+        public static final String HEADER_ORGANIZATION_CODE_REQUIRED = "error.collector.header.organization.code.required";
+        public static final String HEADER_CAMPUS_CODE_REQUIRED = "error.collector.header.campus.code.required";
+        public static final String HEADER_PHONE_NUMBER_REQUIRED = "error.collector.header.phone.number.required";
+        public static final String HEADER_MAILING_ADDRESS_REQUIRED = "error.collector.header.mailing.address.required";
+        public static final String HEADER_DEPARTMENT_NAME_REQUIRED = "error.collector.header.department.name.required";
+        public static final String HEADER_BAD_TRANSMISSION_DATE_FORMAT = "error.collector.header.bad.transmission.date.format";
     }
 
     public static final class OrganizationReversionProcess {

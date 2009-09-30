@@ -340,10 +340,10 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @return boolean - true if validation was successful, false it not
      */
     protected boolean performValidation(CollectorBatch batch, MessageMap MessageMap) {
-        boolean valid = true;
+        boolean valid = performCollectorHeaderValidation(batch, MessageMap);
 
         boolean performDuplicateHeaderCheck = parameterService.getIndicatorParameter(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_PERFORM_DUPLICATE_HEADER_CHECK);
-        if (performDuplicateHeaderCheck) {
+        if (valid && performDuplicateHeaderCheck) {
             valid = duplicateHeaderCheck(batch, MessageMap);
         }
         if (valid) {
@@ -358,6 +358,39 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             valid = checkDetailKeys(batch, MessageMap);
         }
 
+        return valid;
+    }
+
+    protected boolean performCollectorHeaderValidation(CollectorBatch batch, MessageMap messageMap) {
+        if (batch.isHeaderlessBatch()) {
+            // if it's a headerless batch, don't validate the header, but it's still an error
+            return false;
+        }
+        boolean valid = true;
+        if (StringUtils.isBlank(batch.getChartOfAccountsCode())) {
+            valid = false;
+            messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.HEADER_CHART_CODE_REQUIRED);
+        }
+        if (StringUtils.isBlank(batch.getOrganizationCode())) {
+            valid = false;
+            messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.HEADER_ORGANIZATION_CODE_REQUIRED);
+        }
+        if (StringUtils.isBlank(batch.getCampusCode())) {
+            valid = false;
+            messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.HEADER_CAMPUS_CODE_REQUIRED);
+        }
+        if (StringUtils.isBlank(batch.getPhoneNumber())) {
+            valid = false;
+            messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.HEADER_PHONE_NUMBER_REQUIRED);
+        }
+        if (StringUtils.isBlank(batch.getMailingAddress())) {
+            valid = false;
+            messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.HEADER_MAILING_ADDRESS_REQUIRED);
+        }
+        if (StringUtils.isBlank(batch.getDepartmentName())) {
+            valid = false;
+            messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.HEADER_DEPARTMENT_NAME_REQUIRED);
+        }
         return valid;
     }
 

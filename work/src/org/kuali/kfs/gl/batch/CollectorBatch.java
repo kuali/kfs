@@ -74,6 +74,9 @@ public class CollectorBatch implements Serializable {
 
     private MessageMap messageMap;
     private OriginEntryTotals originEntryTotals;
+    
+    private boolean headerlessBatch;
+    
     /**
      * Constructs a CollectorBatch
      */
@@ -83,6 +86,7 @@ public class CollectorBatch implements Serializable {
         messageMap = new MessageMap();
         originEntryTotals = null;
         totalRecords = 0;
+        headerlessBatch = false;
     }
 
     /**
@@ -539,5 +543,13 @@ public class CollectorBatch implements Serializable {
 
     public void setOriginEntryTotals(OriginEntryTotals originEntryTotals) {
         this.originEntryTotals = originEntryTotals;
+    }
+
+    public boolean isHeaderlessBatch() {
+        return headerlessBatch;
+    }
+
+    public void setHeaderlessBatch(boolean headerlessBatch) {
+        this.headerlessBatch = headerlessBatch;
     }
 }

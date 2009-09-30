@@ -95,6 +95,9 @@
 			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
 		</condition>
 		<property name="b2b.punch.out.url" value="${b2b.test.punch.out.url}" />
+		
+		<echo message="${appserver.url}" />
+		<echo message="${rice.url}" />
 
 		<property name="rice.server.datasource.driver.class" value="${datasource.driver.class}" />
 		<property name="rice.server.datasource.url" value="${datasource.url}" />

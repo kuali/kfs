@@ -147,19 +147,21 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
             // Tax Change table.
             if (vendorDetail.isVendorParentIndicator()) {
                 VendorDetail oldVendorDetail = SpringContext.getBean(VendorService.class).getVendorDetail(vendorDetail.getVendorHeaderGeneratedIdentifier(), vendorDetail.getVendorDetailAssignedIdentifier());
-                VendorHeader oldVendorHeader = oldVendorDetail.getVendorHeader();
-                VendorHeader newVendorHeader = vendorDetail.getVendorHeader();
+                if (ObjectUtils.isNotNull(oldVendorDetail)) {
+                    VendorHeader oldVendorHeader = oldVendorDetail.getVendorHeader();
+                    VendorHeader newVendorHeader = vendorDetail.getVendorHeader();
 
-                if (ObjectUtils.isNotNull(oldVendorHeader)) { // Does not apply if this is a new parent vendor.
-                    String oldVendorTaxNumber = oldVendorHeader.getVendorTaxNumber();
-                    String oldVendorTaxTypeCode = oldVendorHeader.getVendorTaxTypeCode();
+                    if (ObjectUtils.isNotNull(oldVendorHeader)) { // Does not apply if this is a new parent vendor.
+                        String oldVendorTaxNumber = oldVendorHeader.getVendorTaxNumber();
+                        String oldVendorTaxTypeCode = oldVendorHeader.getVendorTaxTypeCode();
 
-                    String vendorTaxNumber = newVendorHeader.getVendorTaxNumber();
-                    String vendorTaxTypeCode = newVendorHeader.getVendorTaxTypeCode();
+                        String vendorTaxNumber = newVendorHeader.getVendorTaxNumber();
+                        String vendorTaxTypeCode = newVendorHeader.getVendorTaxTypeCode();
 
-                    if ((!StringUtils.equals(vendorTaxNumber, oldVendorTaxNumber)) || (!StringUtils.equals(vendorTaxTypeCode, oldVendorTaxTypeCode))) {
-                        VendorTaxChange taxChange = new VendorTaxChange(vendorDetail.getVendorHeaderGeneratedIdentifier(), SpringContext.getBean(DateTimeService.class).getCurrentTimestamp(), oldVendorTaxNumber, oldVendorTaxTypeCode, GlobalVariables.getUserSession().getPerson().getPrincipalId());
-                        SpringContext.getBean(BusinessObjectService.class).save(taxChange);
+                        if ((!StringUtils.equals(vendorTaxNumber, oldVendorTaxNumber)) || (!StringUtils.equals(vendorTaxTypeCode, oldVendorTaxTypeCode))) {
+                            VendorTaxChange taxChange = new VendorTaxChange(vendorDetail.getVendorHeaderGeneratedIdentifier(), SpringContext.getBean(DateTimeService.class).getCurrentTimestamp(), oldVendorTaxNumber, oldVendorTaxTypeCode, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+                            SpringContext.getBean(BusinessObjectService.class).save(taxChange);
+                        }
                     }
                 }
             }

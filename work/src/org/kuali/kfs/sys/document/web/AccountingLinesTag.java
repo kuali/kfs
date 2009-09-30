@@ -37,7 +37,7 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 public class AccountingLinesTag extends BodyTagSupport {
     private AccountingDocument document;
     private KualiAccountingDocumentFormBase form;
-    private List<DefaultAccountingLineGroupImpl> groupsToRender;
+    private List<AccountingLineGroup> groupsToRender;
 
     /**
      * Finds the KualiForm wherever it may be hiding
@@ -65,9 +65,9 @@ public class AccountingLinesTag extends BodyTagSupport {
      * Adds a group to render for this go-round
      * @param group the group to render
      */
-    public void addGroupToRender(DefaultAccountingLineGroupImpl group) {
+    public void addGroupToRender(AccountingLineGroup group) {
         if (groupsToRender == null) {
-            groupsToRender = new ArrayList<DefaultAccountingLineGroupImpl>();
+            groupsToRender = new ArrayList<AccountingLineGroup>();
         }
         groupsToRender.add(group);
     }

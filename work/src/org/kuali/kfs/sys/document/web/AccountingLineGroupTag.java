@@ -51,7 +51,7 @@ public class AccountingLineGroupTag extends TagSupport {
     private String attributeGroupName;
     private JspFragment importLineOverride;
     private AccountingLineGroupDefinition groupDefinition;
-    private DefaultAccountingLineGroupImpl group;
+    private AccountingLineGroup group;
     private KualiAccountingDocumentFormBase form;
     private AccountingDocument document;
     private Set<String> editModes;

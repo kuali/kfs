@@ -722,7 +722,6 @@ public class KFSKeyConstants {
         public static final String ERROR_DOCUMENT_ICR_RATE_NOT_FOUND = "error.document.IndirectCostRecovery.rateNotFound";
         public static final String ERROR_DOCUMENT_ICR_RATE_PERCENT_INVALID_FORMAT_SCALE = "error.document.IndirectCostRecovery.ratePercentsInvalidFormatScale";
         public static final String ERROR_DOCUMENT_ICR_RATE_PERCENT_INVALID_FORMAT_ZERO = "error.document.IndirectCostRecovery.ratePercentsInvalidFormatZero";
-        public static final String ERROR_DOCUMENT_ICR_CHART_NOT_UNIVERSITY_CHART = "error.document.IndirectCostRecovery.chartMustBeUniversityChart";
         public static final String ERROR_DOCUMENT_ICR_EXSISTENCE_CHART_CODE = "error.document.IndirectCostRecovery.existence.chartCode";
         public static final String ERROR_DOCUMENT_ICR_EXSISTENCE_OBJECT_CODE = "error.document.IndirectCostRecovery.existence.objectCode";
         public static final String ERROR_DOCUMENT_ICR_EXSISTENCE_OBJECT_CODE_DELETE = "error.document.IndirectCostRecovery.existence.objectCode.delete";

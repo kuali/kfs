@@ -64,12 +64,7 @@ public class IndirectCostRecoveryTypeMaintainableImpl extends FinancialSystemMai
                 templatedBo.setNewCollectionRecord(true);
                 prepareBusinessObjectForAdditionFromMultipleValueLookup(collectionName, templatedBo);
                 if(!hasBusinessObjectExisted(templatedBo, existingIdentifierList, duplicateIdentifierFieldsFromDataDictionary)) {
-                    if(templatedBo.getChartOfAccountsCode().equals(SpringContext.getBean(ChartService.class).getUniversityChart().getChartOfAccountsCode())) {
-                        maintCollection.add(templatedBo);
-                    } else {
-                        GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_CHART_NOT_UNIVERSITY_CHART, templatedBo.getChartOfAccountsCode(), SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), SpringContext.getBean(ChartService.class).getUniversityChart().getChartOfAccountsCode());
-                        isValid = false;
-                    }
+                    maintCollection.add(templatedBo);
                 }
                 collectionItemNumber++;
                 templatedBo.setActive(true); // TODO remove after active indicator work is complete

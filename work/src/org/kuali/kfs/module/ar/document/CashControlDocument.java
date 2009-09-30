@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.ElectronicPaymentClaiming;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
+import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
@@ -44,7 +45,7 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CashControlDocument extends GeneralLedgerPostingDocumentBase implements AmountTotaling, GeneralLedgerPendingEntrySource, ElectronicPaymentClaiming {
+public class CashControlDocument extends GeneralLedgerPostingDocumentBase implements AmountTotaling, GeneralLedgerPendingEntrySource, ElectronicPaymentClaiming, GeneralLedgerPostingDocument {
     private static final String NODE_ASSOCIATED_WITH_ELECTRONIC_PAYMENT = "AssociatedWithElectronicPayment";
     private static Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocument.class);
 
@@ -427,6 +428,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
         if (this.getCustomerPaymentMediumCode().equalsIgnoreCase(ArConstants.PaymentMediumCode.CHECK)) {
             success &= cashControlDocumentService.createCashReceiptGLPEs(this, sequenceHelper);
+            success &= cashControlDocumentService.createBankOffsetGLPEs(this, sequenceHelper);
         }
         else if (this.getCustomerPaymentMediumCode().equalsIgnoreCase(ArConstants.PaymentMediumCode.WIRE_TRANSFER)) {
             success &= cashControlDocumentService.createDistributionOfIncomeAndExpenseGLPEs(this, sequenceHelper);

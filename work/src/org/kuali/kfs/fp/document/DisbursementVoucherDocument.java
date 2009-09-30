@@ -1417,6 +1417,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * If bank specification is enabled generates bank offsetting entries for the document amount
      * 
      * @param sequenceHelper helper class to keep track of GLPE sequence
+     * @param paymentMethodCode the payment method of this DV
      */
     public boolean generateDocumentBankOffsetEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
@@ -1436,11 +1437,13 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         if (success) {
             AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
             bankOffsetEntry.setTransactionLedgerEntryDescription(accountingDocumentRuleUtil.formatProperty(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET));
+            bankOffsetEntry.setFinancialDocumentTypeCode(DisbursementVoucherConstants.DOCUMENT_TYPE_WTFD);
             addPendingEntry(bankOffsetEntry);
             sequenceHelper.increment();
 
             GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(bankOffsetEntry);
             success &= glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
+            bankOffsetEntry.setFinancialDocumentTypeCode(DisbursementVoucherConstants.DOCUMENT_TYPE_WTFD);
             addPendingEntry(offsetEntry);
             sequenceHelper.increment();
         }

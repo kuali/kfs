@@ -84,5 +84,13 @@ public interface CashControlDocumentService {
      * @return the lockbox number
      */
     public String getLockboxNumber(CashControlDocument cashControlDocument); 
+    
+    /**
+     * Creates bank offset GLPEs for the cash control document
+     * @param cashControlDocument the document to create cash control GLPEs for
+     * @param sequenceHelper the sequence helper which will sequence the new GLPEs
+     * @return true if the new bank offset GLPEs were created successfully, false otherwise
+     */
+    public abstract boolean createBankOffsetGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 
 }

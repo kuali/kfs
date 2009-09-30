@@ -32,13 +32,17 @@ import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeader
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -187,6 +191,37 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // create and add the offset entry
         success &= createAndAddTheOffsetEntry(cashControlDocument, explicitEntry, accountingLine, sequenceHelper);
 
+        return success;
+    }
+    
+    /**
+     * Creates bank offset GLPEs for the cash control document
+     * @param cashControlDocument the document to create cash control GLPEs for
+     * @param sequenceHelper the sequence helper which will sequence the new GLPEs
+     * @return true if the new bank offset GLPEs were created successfully, false otherwise
+     */
+    public boolean createBankOffsetGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        boolean success = true;
+        if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
+            // get associated bank
+            Bank bank = (Bank) SpringContext.getBean(BankService.class).getByPrimaryId(cashControlDocument.getBankCode());
+            GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
+            final KualiDecimal totalAmount = glpeService.getOffsetToCashAmount(cashControlDocument).negated();
+            // add additional GLPE's based on bank code
+            if (glpeService.populateBankOffsetGeneralLedgerPendingEntry(bank, totalAmount, cashControlDocument, cashControlDocument.getPostingYear(), sequenceHelper, bankOffsetEntry, KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS)) {
+                AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
+                bankOffsetEntry.setTransactionLedgerEntryDescription(accountingDocumentRuleUtil.formatProperty(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET));
+                cashControlDocument.addPendingEntry(bankOffsetEntry);
+                sequenceHelper.increment();
+                GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(bankOffsetEntry);
+                success &= glpeService.populateOffsetGeneralLedgerPendingEntry(cashControlDocument.getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
+                cashControlDocument.addPendingEntry(offsetEntry);
+                sequenceHelper.increment();
+            }
+            else {
+                success = false;
+            }
+        }
         return success;
     }
 

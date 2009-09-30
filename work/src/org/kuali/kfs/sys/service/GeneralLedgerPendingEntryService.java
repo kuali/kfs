@@ -285,10 +285,10 @@ public interface GeneralLedgerPendingEntryService {
 
     /**
      * Adds up the amounts of all cash to offset GeneralLedgerPendingEntry records on the given AccountingDocument
-     * @param accountingDocument the accounting document total the offset to cash amount for
+     * @param glPostingDocument the accounting document total the offset to cash amount for
      * @return the offset to cash amount, where debited values have been subtracted and credited values have been added
      */
-    public abstract KualiDecimal getOffsetToCashAmount(AccountingDocument accountingDocument);
+    public abstract KualiDecimal getOffsetToCashAmount(GeneralLedgerPostingDocument glPostingDocument);
     
     /**
      * Determines if the given GeneralLedgerPendingEntry represents offsets to cash

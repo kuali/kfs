@@ -313,34 +313,6 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
         boolean success = glpeService.generateGeneralLedgerPendingEntries(cashControlDocument);
 
-        // initialize the sequenceHelper with the existing number of GLPEs already generated
-        int maxSequence = cashControlDocument.getGeneralLedgerPendingEntries().size();
-        GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(maxSequence + 1);
-
-        // if its a check payment medium, generate bank entries
-        if (cashControlDocument.getCustomerPaymentMedium().getCustomerPaymentMediumCode().equalsIgnoreCase(ArConstants.PaymentMediumCode.CHECK)) {
-
-            // get associated bank
-            Bank bank = (Bank) SpringContext.getBean(BankService.class).getByPrimaryId(cashControlDocument.getBankCode());
-            GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
-
-            if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
-                // add additional GLPE's based on bank code
-                if (glpeService.populateBankOffsetGeneralLedgerPendingEntry(bank, cashControlDocument.getCashControlTotalAmount(), cashControlDocument, cashControlDocument.getPostingYear(), sequenceHelper, bankOffsetEntry, KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS)) {
-                    AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
-                    bankOffsetEntry.setTransactionLedgerEntryDescription(accountingDocumentRuleUtil.formatProperty(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET));
-                    cashControlDocument.addPendingEntry(bankOffsetEntry);
-                    sequenceHelper.increment();
-                    GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(bankOffsetEntry);
-                    success &= glpeService.populateOffsetGeneralLedgerPendingEntry(cashControlDocument.getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
-                    cashControlDocument.addPendingEntry(offsetEntry);
-                    sequenceHelper.increment();
-                }
-                else {
-                    success = false;
-                }
-            }
-        }
         if (!success) {
             GlobalVariables.getMessageMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArKeyConstants.ERROR_GLPES_NOT_CREATED);
         }

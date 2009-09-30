@@ -810,12 +810,12 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     
     /**
      * Adds up the amounts of all cash to offset GeneralLedgerPendingEntry records on the given AccountingDocument
-     * @param accountingDocument the accounting document total the offset to cash amount for
+     * @param glPostingDocument the accounting document total the offset to cash amount for
      * @return the offset to cash amount, where debited values have been subtracted and credited values have been added
      */
-    public KualiDecimal getOffsetToCashAmount(AccountingDocument accountingDocument) {
+    public KualiDecimal getOffsetToCashAmount(GeneralLedgerPostingDocument glPostingDocument) {
         KualiDecimal total = KualiDecimal.ZERO;
-        for (GeneralLedgerPendingEntry glpe : accountingDocument.getGeneralLedgerPendingEntries()) {
+        for (GeneralLedgerPendingEntry glpe : glPostingDocument.getGeneralLedgerPendingEntries()) {
             if (isOffsetToCash(glpe)) {
                 if (glpe.getTransactionDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE)) {
                     total = total.subtract(glpe.getTransactionLedgerEntryAmount());

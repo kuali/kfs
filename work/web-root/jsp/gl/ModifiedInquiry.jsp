@@ -53,10 +53,10 @@
 						scope="request" />
 					<c:set var="IsLookupDisplay" value="true" scope="request" />
 
-					<kul:rowDisplay rows="${KualiForm.lookupable.rows}"/>
+					<kul:rowDisplay rows="${KualiForm.lookupable.rows}" numberOfColumns="${KualiForm.numColumns}" />
 
 					<tr align=center>
-						<td height="30" colspan=2 class="infoline"><html:image
+						<td height="30" colspan="${KualiForm.numColumns*2}" class="infoline"><html:image
 							property="methodToCall.search" value="search"
 							src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_search.gif" styleClass="tinybutton"
 							alt="search" title="search" border="0" /> <html:image

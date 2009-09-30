@@ -37,10 +37,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.Lookupable;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
@@ -99,7 +102,7 @@ public class BalanceInquiryAction extends KualiAction {
 
     /**
      * Search - sets the values of the data entered on the form on the jsp into a map and then searches for the results.
-     *
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -198,7 +201,8 @@ public class BalanceInquiryAction extends KualiAction {
     /**
      * Refresh - is called when one quickFinder returns to the previous one. Sets all the values and performs the new search.
      * 
-     * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -331,4 +335,13 @@ public class BalanceInquiryAction extends KualiAction {
         kualiConfigurationService = kcs;
     }
 
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BusinessObjectEntry boe = KNSServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(((LookupForm) form).getBusinessObjectClassName());
+        int numCols = boe.getLookupDefinition().getNumOfColumns();
+        if (numCols <= 0)
+            numCols = KNSConstants.DEFAULT_NUM_OF_COLUMNS; // by default, always show one column.
+        ((LookupForm) form).setNumColumns(numCols);
+        return super.execute(mapping, form, request, response);
+    }
 }

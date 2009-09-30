@@ -17,8 +17,6 @@ package org.kuali.kfs.fp.document;
 
 import static org.kuali.kfs.sys.KFSConstants.EMPTY_STRING;
 
-import java.util.Iterator;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.NonCheckDisbursementDocumentAccountingLineParser;
 import org.kuali.kfs.sys.KFSConstants;
@@ -41,6 +39,7 @@ import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This is the business object that represents the NonCheckDisbursementDocument in Kuali. The "Non-Check Disbursement" document is
@@ -183,8 +182,9 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
 
         GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
 
+        final KualiDecimal bankOffsetAmount = glpeService.getOffsetToCashAmount(this).negated();
         GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
-        success &= glpeService.populateBankOffsetGeneralLedgerPendingEntry(getBank(), this.getSourceTotal(), this, getPostingYear(), sequenceHelper, bankOffsetEntry, KNSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_BANK_CODE);
+        success &= glpeService.populateBankOffsetGeneralLedgerPendingEntry(getBank(), bankOffsetAmount, this, getPostingYear(), sequenceHelper, bankOffsetEntry, KNSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_BANK_CODE);
 
         if (success) {
             AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);

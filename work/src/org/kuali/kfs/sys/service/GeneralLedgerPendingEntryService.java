@@ -28,6 +28,7 @@ import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -282,4 +283,17 @@ public interface GeneralLedgerPendingEntryService {
      */
     public boolean populateBankOffsetGeneralLedgerPendingEntry(Bank bank, KualiDecimal depositAmount, GeneralLedgerPostingDocument financialDocument, Integer universityFiscalYear, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry bankOffsetEntry, String errorPropertyName);
 
+    /**
+     * Adds up the amounts of all cash to offset GeneralLedgerPendingEntry records on the given AccountingDocument
+     * @param accountingDocument the accounting document total the offset to cash amount for
+     * @return the offset to cash amount, where debited values have been subtracted and credited values have been added
+     */
+    public abstract KualiDecimal getOffsetToCashAmount(AccountingDocument accountingDocument);
+    
+    /**
+     * Determines if the given GeneralLedgerPendingEntry represents offsets to cash
+     * @param generalLedgerPendingEntry the GeneralLedgerPendingEntry to check
+     * @return true if the GeneralLedgerPendingEntry represents an offset to cash; false otherwise
+     */
+    public abstract boolean isOffsetToCash(GeneralLedgerPendingEntry generalLedgerPendingEntry);
 }

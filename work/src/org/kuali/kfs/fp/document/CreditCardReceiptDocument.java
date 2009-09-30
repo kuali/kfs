@@ -249,7 +249,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
         GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
         
         if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
-            KualiDecimal depositTotal = calculateCreditCardReceiptTotal();
+            final KualiDecimal bankOffsetAmount = glpeService.getOffsetToCashAmount(this).negated();
             GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
             
             Bank offsetBank = getOffsetBank();
@@ -258,7 +258,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
                 GlobalVariables.getMessageMap().putError("newCreditCardReceipt.financialDocumentCreditCardTypeCode", KFSKeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_BANK_MUST_EXIST_WHEN_BANK_ENHANCEMENT_ENABLED, new String[] { KFSParameterKeyConstants.ENABLE_BANK_SPECIFICATION_IND, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE });
             }
             else {
-                success &= glpeService.populateBankOffsetGeneralLedgerPendingEntry(offsetBank, depositTotal, this, getPostingYear(), sequenceHelper, bankOffsetEntry, KFSConstants.CREDIT_CARD_RECEIPTS_LINE_ERRORS);
+                success &= glpeService.populateBankOffsetGeneralLedgerPendingEntry(offsetBank, bankOffsetAmount, this, getPostingYear(), sequenceHelper, bankOffsetEntry, KFSConstants.CREDIT_CARD_RECEIPTS_LINE_ERRORS);
                
                 // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it 
                 if (success) {

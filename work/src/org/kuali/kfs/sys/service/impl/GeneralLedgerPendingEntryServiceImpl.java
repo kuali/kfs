@@ -54,6 +54,7 @@ import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.GeneralLedgerPendingEntryDao;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants;
@@ -790,6 +791,40 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
             LOG.debug("getEntryValue(String, String) - end");
             return backupValue;
         }
+    }
+    
+    /**
+     * Determines if the given GeneralLedgerPendingEntry represents offsets to cash
+     * @param generalLedgerPendingEntry the GeneralLedgerPendingEntry to check
+     * @return true if the GeneralLedgerPendingEntry represents an offset to cash; false otherwise
+     */
+    public boolean isOffsetToCash(GeneralLedgerPendingEntry generalLedgerPendingEntry) {
+        if (generalLedgerPendingEntry.isTransactionEntryOffsetIndicator()) {
+            final Chart entryChart = chartService.getByPrimaryId(generalLedgerPendingEntry.getChartOfAccountsCode());
+            if (!ObjectUtils.isNull(entryChart)) {
+                return (entryChart.getFinancialCashObjectCode().equals(generalLedgerPendingEntry.getFinancialObjectCode()));
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Adds up the amounts of all cash to offset GeneralLedgerPendingEntry records on the given AccountingDocument
+     * @param accountingDocument the accounting document total the offset to cash amount for
+     * @return the offset to cash amount, where debited values have been subtracted and credited values have been added
+     */
+    public KualiDecimal getOffsetToCashAmount(AccountingDocument accountingDocument) {
+        KualiDecimal total = KualiDecimal.ZERO;
+        for (GeneralLedgerPendingEntry glpe : accountingDocument.getGeneralLedgerPendingEntries()) {
+            if (isOffsetToCash(glpe)) {
+                if (glpe.getTransactionDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE)) {
+                    total = total.subtract(glpe.getTransactionLedgerEntryAmount());
+                } else if (glpe.getTransactionDebitCreditCode().equals(KFSConstants.GL_CREDIT_CODE)) {
+                    total = total.add(glpe.getTransactionLedgerEntryAmount());
+                }
+            }
+        }
+        return total;
     }
 
     public void setBalanceTypeService(BalanceTypeService balanceTypeService) {

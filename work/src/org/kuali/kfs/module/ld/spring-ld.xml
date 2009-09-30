@@ -230,7 +230,9 @@
 	<bean id="laborLedgerPendingEntryDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborLedgerPendingEntryDaoOjb" />
 	
 	<bean id="laborObjectDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborObjectDaoOjb" />
-	
+
+	<bean id="laborClearGeneralLedgerEntryDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborClearGeneralLedgerEntryDaoJdbc" />
+		
     <!-- Section 3: Spring Bean for Batch processes -->
     
     <bean id="laborNightlyOutService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborNightlyOutServiceImpl">
@@ -252,6 +254,7 @@
         
         <property name="laborGLEntryReportWriterService" ref="laborGLEntryReportWriterService" />
         <property name="laborPendingEntryLedgerReportWriterService" ref="laborPendingEntryLedgerReportWriterService" />
+        <property name="laborClearGeneralLedgerEntryDao" ref="laborClearGeneralLedgerEntryDao" />
     </bean>
     
     <bean id="laborGLEntryReportWriterService" parent="reportWriterService">

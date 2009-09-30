@@ -33,6 +33,7 @@ import org.kuali.kfs.module.ld.batch.service.LaborNightlyOutService;
 import org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
+import org.kuali.kfs.module.ld.dataaccess.LaborClearGeneralLedgerEntryDao;
 import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.ObjectUtil;
@@ -56,6 +57,8 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
     private DateTimeService dateTimeService;
     private String batchFileDirectoryName;
     private String batchGlFileDirectoryName;
+    
+    private LaborClearGeneralLedgerEntryDao laborClearGeneralLedgerEntryDao;
     
     private ReportWriterService laborPendingEntryLedgerReportWriterService;
     private ReportWriterService laborGLEntryReportWriterService;
@@ -137,10 +140,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
      * @see org.kuali.kfs.module.ld.batch.service.LaborNightlyOutService#deleteCopiedLaborGenerealLedgerEntries()
      */
     public void deleteCopiedLaborGenerealLedgerEntries() {
-        Collection<LaborGeneralLedgerEntry> generalLedgerEntries = businessObjectService.findAll(LaborGeneralLedgerEntry.class);
-        for (LaborGeneralLedgerEntry entry : generalLedgerEntries) {
-            businessObjectService.delete(entry);
-        }
+        laborClearGeneralLedgerEntryDao.deleteCopiedLaborGenerealLedgerEntries();
     }
 
     /**
@@ -315,4 +315,24 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
     public void setLaborGLEntryReportWriterService(ReportWriterService laborGLEntryReportWriterService) {
         this.laborGLEntryReportWriterService = laborGLEntryReportWriterService;
     }
+
+    /**
+     * Gets the laborClearGeneralLedgerEntryDao attribute.
+     * 
+     * @return Returns the laborClearGeneralLedgerEntryDao.
+     */
+    protected LaborClearGeneralLedgerEntryDao getLaborClearGeneralLedgerEntryDao() {
+        return laborClearGeneralLedgerEntryDao;
+    }
+
+    /**
+     * Sets the laborClearGeneralLedgerEntryDao attribute value.
+     * 
+     * @param laborClearGeneralLedgerEntryDao The laborClearGeneralLedgerEntryDao to set.
+     */
+    public void setLaborClearGeneralLedgerEntryDao(LaborClearGeneralLedgerEntryDao laborClearGeneralLedgerEntryDao) {
+        this.laborClearGeneralLedgerEntryDao = laborClearGeneralLedgerEntryDao;
+    }
+    
+    
 }

@@ -79,26 +79,18 @@ public class IndirectCostRecoveryTypeRule extends MaintenanceDocumentRuleBase {
     public boolean itemIsValid(IndirectCostRecoveryExclusionType item) {
         boolean isValid = true;
         if(ObjectUtils.isNotNull(chartService.getUniversityChart().getChartOfAccountsCode())) {
-            item.refreshReferenceObject(KFSPropertyConstants.CHART);
             if(StringUtils.isBlank(item.getChartOfAccountsCode())) {
                 GlobalVariables.getMessageMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_EXSISTENCE_CHART_CODE, item.getChartOfAccountsCode());
                 isValid = false;
-            } else {
-                if(item.getChartOfAccountsCode().equals(chartService.getUniversityChart().getChartOfAccountsCode())) {
-                    if (item.isActive()) {
-                        item.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE_CURRENT);
-                        if(ObjectUtils.isNull(item.getObjectCodeCurrent())) {
-                            if(item.isNewCollectionRecord()) {
-                                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_EXSISTENCE_OBJECT_CODE_DELETE, item.getChartOfAccountsCode(), item.getFinancialObjectCode()); 
-                            } else {
-                                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_EXSISTENCE_OBJECT_CODE, item.getChartOfAccountsCode(), item.getFinancialObjectCode()); 
-                            }
-                            isValid = false;
-                        }
+            } else if (item.isActive()) {
+                item.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE_CURRENT);
+                if(ObjectUtils.isNull(item.getObjectCodeCurrent())) {
+                    if(item.isNewCollectionRecord()) {
+                        GlobalVariables.getMessageMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_EXSISTENCE_OBJECT_CODE_DELETE, item.getChartOfAccountsCode(), item.getFinancialObjectCode()); 
+                    } else {
+                        GlobalVariables.getMessageMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_EXSISTENCE_OBJECT_CODE, item.getChartOfAccountsCode(), item.getFinancialObjectCode()); 
                     }
-                } else {
-                    GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_CHART_NOT_UNIVERSITY_CHART, item.getChartOfAccountsCode(), ddService.getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), chartService.getUniversityChart().getChartOfAccountsCode());
-                    isValid = false;                    
+                    isValid = false;
                 }                
             }
             

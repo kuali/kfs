@@ -85,7 +85,7 @@ public class FormatServiceImpl implements FormatService {
     private PaymentGroupService paymentGroupService;
     private DateTimeService dateTimeService;
     private ExtractPaymentService extractPaymentService;
-    private PersonService personService;
+    private PersonService<Person> personService;
 
     /**
      * Constructs a FormatServiceImpl.java.
@@ -380,7 +380,7 @@ public class FormatServiceImpl implements FormatService {
             paymentGroupHistory.setBank(originalBank);
             paymentGroupHistory.setOrigPaymentStatus(paymentGroup.getPaymentStatus());
             
-            Person changeUser = personService.getPerson(KFSConstants.SYSTEM_USER);
+            Person changeUser = getPersonService().getPerson(KFSConstants.SYSTEM_USER);
             paymentGroupHistory.setChangeUser(changeUser);
             paymentGroupHistory.setPaymentGroup(paymentGroup);
             paymentGroupHistory.setChangeTime(new Timestamp(new Date().getTime()));
@@ -742,6 +742,16 @@ public class FormatServiceImpl implements FormatService {
      */
     public void setExtractPaymentService(ExtractPaymentService extractPaymentService) {
         this.extractPaymentService = extractPaymentService;
+    }
+    
+    /**
+     * @return Returns the personService.
+     */
+    protected PersonService<Person> getPersonService() {
+        if(personService==null) {
+            personService = SpringContext.getBean(PersonService.class);
+        }
+        return personService;
     }
 
     /**

@@ -337,6 +337,7 @@ public class BalanceInquiryAction extends KualiAction {
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        request.setAttribute(KNSConstants.PARAM_MAINTENANCE_VIEW_MODE, KNSConstants.PARAM_MAINTENANCE_VIEW_MODE_LOOKUP);
         BusinessObjectEntry boe = KNSServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(((LookupForm) form).getBusinessObjectClassName());
         int numCols = boe.getLookupDefinition().getNumOfColumns();
         if (numCols <= 0)

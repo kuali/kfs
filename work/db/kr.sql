@@ -4076,3 +4076,7 @@ insert into krim_role_perm_t (role_perm_id, obj_id, ver_nbr, role_id, perm_id, a
 -- KFSMI-4981: clean up dangling role mbr attr data
 delete from krim_role_mbr_attr_data_t where role_mbr_id not in (select role_mbr_id from krim_role_mbr_t)
 /
+
+-- KFSMI-4699: clean up non current doc types
+delete from krew_doc_typ_t where cur_ind = 0 and doc_typ_nm not in ('KualiDocument','RoutingRuleDocument','IdentityManagementPersonDocument', 'IdentityManagementRoleDocument', 'IdentityManagementGroupDocument')
+/

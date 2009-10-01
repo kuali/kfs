@@ -353,7 +353,6 @@
 		<mkdir dir="${settings.directory}" />
 		<echo file="${log4j.settings.file}" message="${log4j}" />
 		<mkdir dir="${security.directory}" />
-		<echo message="${security.property.file}" />
 		<echo file="${security.property.file}" message="${security}"  />
 		<mkdir dir="${logs.directory}" />
 		<copy file="${build.external.directory}/${keystore.filename}" tofile="${keystore.file}"/>

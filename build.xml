@@ -356,7 +356,6 @@
 		<echo message="${security.property.file}" />
 		<echo file="${security.property.file}" message="${security}"  />
 		<mkdir dir="${logs.directory}" />
-		<echo file="${logs.directory}/${ant.project.name}.log" message="" />
 		<copy file="${build.external.directory}/${keystore.filename}" tofile="${keystore.file}"/>
 		<copy todir="${external.work.directory}">
 			<fileset dir="${build.work.directory}" />
@@ -441,8 +440,9 @@
 	<target name="dist-external" depends="init-properties">
 		<echo file="${log4j.file}" message="${log4j}" />
 		<echo file="${security.file}" message="${security}"  />
+		<copy file="${build.external.directory}/${keystore.filename}" tofile="${keystore.filename}"/>
 		<zip destfile="${deploy.working.directory}/settings.zip" basedir="${basedir}" includes="${log4j.file}" />
-		<zip destfile="${deploy.working.directory}/security.zip" basedir="${basedir}" includes="${security.file}" />
+		<zip destfile="${deploy.working.directory}/security.zip" basedir="${basedir}" includes="${security.file},${keystore.filename}" />
 		<zip destfile="${deploy.working.directory}/skel.zip" basedir="${build.work.directory}" />
 	</target>
 	

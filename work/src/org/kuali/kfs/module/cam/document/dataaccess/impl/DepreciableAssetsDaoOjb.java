@@ -65,10 +65,10 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
     private String errorMsg = new String();
 
-    private final static String PAYMENT_TO_ASSET_REFERENCE_DESCRIPTOR = "asset.";
-    private final static String PAYMENT_TO_OBJECT_REFERENCE_DESCRIPTOR = "financialObject.";
-    private final static String ASSET_TO_ASSET_TYPE_REFERENCE_DESCRIPTOR = "asset.capitalAssetType.";
-    private final static String[] REPORT_GROUP = { "*** BEFORE RUNNING DEPRECIATION PROCESS ****", "*** AFTER RUNNING DEPRECIATION PROCESS ****" };
+    protected final static String PAYMENT_TO_ASSET_REFERENCE_DESCRIPTOR = "asset.";
+    protected final static String PAYMENT_TO_OBJECT_REFERENCE_DESCRIPTOR = "financialObject.";
+    protected final static String ASSET_TO_ASSET_TYPE_REFERENCE_DESCRIPTOR = "asset.capitalAssetType.";
+    protected final static String[] REPORT_GROUP = { "*** BEFORE RUNNING DEPRECIATION PROCESS ****", "*** AFTER RUNNING DEPRECIATION PROCESS ****" };
 
 
     /**

@@ -79,7 +79,7 @@ public class RetirementInfoServiceImpl implements RetirementInfoService {
      * @param assetRetirementDoc Asset Retirement Document
      * @return "true" if approved
      */
-    private boolean isDocumentApproved(AssetRetirementGlobal assetRetirementDoc) {
+    protected boolean isDocumentApproved(AssetRetirementGlobal assetRetirementDoc) {
         assetRetirementDoc.refreshReferenceObject(CamsConstants.AssetRetirementGlobal.DOCUMENT_HEADER);
         if (assetRetirementDoc.getDocumentHeader() != null && KFSConstants.DocumentStatusCodes.APPROVED.equals(assetRetirementDoc.getDocumentHeader().getFinancialDocumentStatusCode())) {
             return true;

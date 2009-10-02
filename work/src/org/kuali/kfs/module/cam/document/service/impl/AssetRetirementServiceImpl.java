@@ -55,7 +55,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 
 public class AssetRetirementServiceImpl implements AssetRetirementService {
 
-    private enum AmountCategory {
+    protected enum AmountCategory {
         
         CAPITALIZATION {
             void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode) {
@@ -309,7 +309,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
      * @param assetPayment
      * @return
      */
-    private List<GeneralLedgerPendingEntrySourceDetail> generateGlPostablesForOnePayment(String documentNumber, CamsGeneralLedgerPendingEntrySourceBase assetRetirementGlPoster, Asset asset, AssetPayment assetPayment) {
+    protected List<GeneralLedgerPendingEntrySourceDetail> generateGlPostablesForOnePayment(String documentNumber, CamsGeneralLedgerPendingEntrySourceBase assetRetirementGlPoster, Asset asset, AssetPayment assetPayment) {
         List<GeneralLedgerPendingEntrySourceDetail> postables = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
         Account plantAccount = getPlantFundAccount(asset, assetPayment);
 
@@ -339,7 +339,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
      * @param plantAccount
      * @return
      */
-    private void createNewPostable(AmountCategory category, Asset asset, AssetPayment assetPayment, String documentNumber, Account plantAccount, List<GeneralLedgerPendingEntrySourceDetail> postables) {
+    protected void createNewPostable(AmountCategory category, Asset asset, AssetPayment assetPayment, String documentNumber, Account plantAccount, List<GeneralLedgerPendingEntrySourceDetail> postables) {
         boolean success = true;
         AssetGlpeSourceDetail postable = new AssetGlpeSourceDetail();
 
@@ -362,7 +362,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
         postables.add(postable);
     }
 
-    private AssetObjectCode getAssetObjectCode(Asset asset, AssetPayment assetPayment) {
+    protected AssetObjectCode getAssetObjectCode(Asset asset, AssetPayment assetPayment) {
         AssetObjectCode assetObjectCode = assetObjectCodeService.findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
         return assetObjectCode;
     }
@@ -395,7 +395,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
      * @param payment
      * @return
      */
-    private Account getPlantFundAccount(Asset asset, AssetPayment payment) {
+    protected Account getPlantFundAccount(Asset asset, AssetPayment payment) {
         Account plantFundAccount = null;
 
         payment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);

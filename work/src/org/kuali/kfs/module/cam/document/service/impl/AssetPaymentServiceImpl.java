@@ -146,7 +146,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
      * 
      * @param document
      */
-    private void processPayments(AssetPaymentDocument document) {
+    protected void processPayments(AssetPaymentDocument document) {
         List<AssetPaymentDetail> assetPaymentDetailLines = document.getSourceAccountingLines();
         List<AssetPaymentAssetDetail> assetPaymentAssetDetails = document.getAssetPaymentAssetDetail();
         List<PersistableBusinessObject> assetPayments = new ArrayList<PersistableBusinessObject>();
@@ -248,7 +248,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
      * 
      * @param document
      */
-    private List<KualiDecimal> calculateAssetPaymentTotal(AssetPaymentDocument document) {
+    protected List<KualiDecimal> calculateAssetPaymentTotal(AssetPaymentDocument document) {
         List<AssetPaymentDetail> assetPaymentDetailLines = document.getSourceAccountingLines();
         List<KualiDecimal> assetPaymentTotalList = new ArrayList<KualiDecimal>();
         List<AssetPaymentAssetDetail> assetPaymentAssetDetails = document.getAssetPaymentAssetDetail();

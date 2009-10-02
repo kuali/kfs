@@ -70,8 +70,8 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
     public static final String TOTAL_RECORDS_UPLOADED_MSG = "Total records uploaded";
     public static final String TOTAL_RECORDS_IN_ERROR_MSG = "Total records in error";
 
-    private static final int MAX_NUMBER_OF_COLUMNS = 8;
-    private static final String DOCUMENT_EXPLANATION = "BARCODE ERROR INVENTORY";
+    protected static final int MAX_NUMBER_OF_COLUMNS = 8;
+    protected static final String DOCUMENT_EXPLANATION = "BARCODE ERROR INVENTORY";
 
     private BusinessObjectService businessObjectService;
     private WorkflowDocumentService workflowDocumentService;
@@ -352,7 +352,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      * 
      * @param file
      */
-    private void removeDoneFile(File file) {
+    protected void removeDoneFile(File file) {
         String filePath = file.getAbsolutePath();
         File doneFile = new File(StringUtils.substringBeforeLast(filePath, ".") + ".done");
 
@@ -367,7 +367,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      * 
      * @param barcodeInventoryErrorDetails
      */
-    private void processBarcodeInventory(List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails, AssetBarCodeInventoryInputFileForm form) throws Exception {
+    protected void processBarcodeInventory(List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails, AssetBarCodeInventoryInputFileForm form) throws Exception {
         Long lineNumber = new Long(0);
         boolean docCreated = false;
         int errorRecCount = 0;
@@ -422,7 +422,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      * @param bcies
      * @param barcodeInventoryErrorDocument
      */
-    private String createBarcodeInventoryErrorDocuments(List<BarcodeInventoryErrorDetail> bcies, BarcodeInventoryErrorDocument barcodeInventoryErrorDocument, AssetBarCodeInventoryInputFileForm form) {
+    protected String createBarcodeInventoryErrorDocuments(List<BarcodeInventoryErrorDetail> bcies, BarcodeInventoryErrorDocument barcodeInventoryErrorDocument, AssetBarCodeInventoryInputFileForm form) {
         List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = new ArrayList<BarcodeInventoryErrorDetail>();
         boolean isFirstDocument = true;
         int ln = 0;
@@ -505,7 +505,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      * @param barcodeInventoryErrorDetails
      * @return BarcodeInventoryErrorDocument
      */
-    private BarcodeInventoryErrorDocument createInvalidBarcodeInventoryDocument(List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails, String uploadDescription) throws WorkflowException {
+    protected BarcodeInventoryErrorDocument createInvalidBarcodeInventoryDocument(List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails, String uploadDescription) throws WorkflowException {
         BarcodeInventoryErrorDocument document = (BarcodeInventoryErrorDocument) documentService.getNewDocument(BarcodeInventoryErrorDocument.class);
 
         document.getDocumentHeader().setExplanation(DOCUMENT_EXPLANATION);
@@ -523,7 +523,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      * 
      * @param document
      */
-    private void saveInvalidBarcodeInventoryDocument(BarcodeInventoryErrorDocument document) {
+    protected void saveInvalidBarcodeInventoryDocument(BarcodeInventoryErrorDocument document) {
         try {
             // The errors are being deleted because, when the document services finds any error then, changes are not saved.
             GlobalVariables.clear();
@@ -544,7 +544,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      * @param userId
      * @return
      */
-    private AdHocRouteRecipient buildApprovePersonRecipient(String userId) {
+    protected AdHocRouteRecipient buildApprovePersonRecipient(String userId) {
         AdHocRouteRecipient adHocRouteRecipient = new AdHocRoutePerson();
         adHocRouteRecipient.setActionRequested(KEWConstants.ACTION_REQUEST_APPROVE_REQ);
         adHocRouteRecipient.setId(userId);

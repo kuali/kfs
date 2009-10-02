@@ -249,7 +249,7 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         return assetPaymentDetails;
     }
 
-    private PreparedStatementSetter preparedStatementSetter(final Calendar depreciationDate) {
+    protected PreparedStatementSetter preparedStatementSetter(final Calendar depreciationDate) {
         return new PreparedStatementSetter() {
             public void setValues(PreparedStatement pstmt) throws SQLException {
                 Calendar DateOf1900 = Calendar.getInstance();
@@ -260,7 +260,7 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         };
     }
 
-    private String buildCriteria(Integer fiscalYear, Integer fiscalMonth, List<String> depreciationMethodList, List<String> notAcceptedAssetStatus, List<String> federallyOwnedObjectSubTypes, boolean includeFederal, boolean includePending) {
+    protected String buildCriteria(Integer fiscalYear, Integer fiscalMonth, List<String> depreciationMethodList, List<String> notAcceptedAssetStatus, List<String> federallyOwnedObjectSubTypes, boolean includeFederal, boolean includePending) {
         String sql = "  FROM CM_AST_PAYMENT_T A0 INNER JOIN CM_CPTLAST_T A1 ON A0.CPTLAST_NBR=A1.CPTLAST_NBR INNER JOIN ";
         sql = sql + "CM_ASSET_TYPE_T A2 ON A1.CPTLAST_TYP_CD=A2.CPTLAST_TYP_CD INNER JOIN CA_OBJECT_CODE_T A3 ON " + fiscalYear + "=A3.UNIV_FISCAL_YR ";
         sql = sql + "AND A0.FIN_COA_CD=A3.FIN_COA_CD AND A0.FIN_OBJECT_CD=A3.FIN_OBJECT_CD INNER JOIN CA_ACCOUNT_T A4 ON A0.FIN_COA_CD=A4.FIN_COA_CD ";
@@ -394,7 +394,7 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
      * 
      * @return
      */
-    private List<String> getFederallyOwnedObjectSubTypes() {
+    protected List<String> getFederallyOwnedObjectSubTypes() {
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "getting the federally owned object subtype codes.");
 
         List<String> federallyOwnedObjectSubTypes = new ArrayList<String>();
@@ -412,7 +412,7 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
      * @param list values
      * @return concatenated string
      */
-    private String buildINValues(List<String> list) {
+    protected String buildINValues(List<String> list) {
         if (list.isEmpty()) {
             return "''";
         }

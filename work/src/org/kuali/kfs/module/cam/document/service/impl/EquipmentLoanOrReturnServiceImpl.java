@@ -85,7 +85,7 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
     /**
      * @see org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService#updateBorrowerLocation(org.kuali.module.cams.document.EquipmentLoanOrReturn)
      */
-    private void updateBorrowerLocation(EquipmentLoanOrReturnDocument document, Asset updateAsset) {
+    protected void updateBorrowerLocation(EquipmentLoanOrReturnDocument document, Asset updateAsset) {
         AssetLocation borrowerLocation = new AssetLocation();
         borrowerLocation.setCapitalAssetNumber(updateAsset.getCapitalAssetNumber());
         borrowerLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.BORROWER);
@@ -120,7 +120,7 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
     /**
      * @see org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService#updateStoreAtLocation(org.kuali.module.cams.document.EquipmentLoanOrReturn)
      */
-    private void updateStoreAtLocation(EquipmentLoanOrReturnDocument document, Asset updateAsset) {
+    protected void updateStoreAtLocation(EquipmentLoanOrReturnDocument document, Asset updateAsset) {
         AssetLocation storeAtLocation = new AssetLocation();
         storeAtLocation.setCapitalAssetNumber(updateAsset.getCapitalAssetNumber());
         storeAtLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.BORROWER_STORAGE);

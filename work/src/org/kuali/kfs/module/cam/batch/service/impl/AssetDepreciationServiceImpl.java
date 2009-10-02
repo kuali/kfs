@@ -480,7 +480,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
      * @param capitalizationFinancialObjectCode
      * @return
      */
-    private ObjectCode getDepreciationObjectCode(Map<String, ObjectCode> capObjectCodesCache, AssetPaymentInfo assetPaymentInfo, String capitalizationFinancialObjectCode) {
+    protected ObjectCode getDepreciationObjectCode(Map<String, ObjectCode> capObjectCodesCache, AssetPaymentInfo assetPaymentInfo, String capitalizationFinancialObjectCode) {
         ObjectCode deprObjCode = null;
         String key = assetPaymentInfo.getChartOfAccountsCode() + "-" + capitalizationFinancialObjectCode;
         if ((deprObjCode = capObjectCodesCache.get(key)) == null) {

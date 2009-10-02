@@ -46,7 +46,7 @@ import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class AssetTransferServiceImpl implements AssetTransferService {
-    private static enum AmountCategory {
+    protected static enum AmountCategory {
         CAPITALIZATION {
             public void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode, boolean isSource, OffsetDefinition offsetDefinition) {
                 postable.setFinancialDocumentLineDescription("" + (isSource ? "Reverse" : "Transfer") + " asset cost");

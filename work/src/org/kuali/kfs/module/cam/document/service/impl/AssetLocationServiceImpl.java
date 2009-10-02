@@ -121,7 +121,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
         return false;
     }
 
-    private boolean isOffCampusLocationEmpty(AssetLocation offCampusLocation) {
+    protected boolean isOffCampusLocationEmpty(AssetLocation offCampusLocation) {
         if (ObjectUtils.isNotNull(offCampusLocation)) {
             if (StringUtils.isNotBlank(offCampusLocation.getAssetLocationCityName()) || StringUtils.isNotBlank(offCampusLocation.getAssetLocationContactIdentifier()) || StringUtils.isNotBlank(offCampusLocation.getAssetLocationContactName()) || StringUtils.isNotBlank(offCampusLocation.getAssetLocationCountryCode()) || StringUtils.isNotBlank(offCampusLocation.getAssetLocationInstitutionName()) || StringUtils.isNotBlank(offCampusLocation.getAssetLocationPhoneNumber()) || StringUtils.isNotBlank(offCampusLocation.getAssetLocationStateCode()) || StringUtils.isNotBlank(offCampusLocation.getAssetLocationStreetAddress()) || StringUtils.isNotBlank(offCampusLocation.getAssetLocationZipCode())) {
                 return false;
@@ -177,7 +177,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
     }
 
 
-    private boolean validateCapitalAssetLocation(AssetType assetType, Map<LocationField, String> fieldMap, String campusCode, String buildingCode, String roomNumber, String subRoomNumber, String contactName, String streetAddress, String cityName, String stateCode, String zipCode, String countryCode, boolean onCampus, boolean offCampus, DataDictionaryEntryBase businessObjectEntry) {
+    protected boolean validateCapitalAssetLocation(AssetType assetType, Map<LocationField, String> fieldMap, String campusCode, String buildingCode, String roomNumber, String subRoomNumber, String contactName, String streetAddress, String cityName, String stateCode, String zipCode, String countryCode, boolean onCampus, boolean offCampus, DataDictionaryEntryBase businessObjectEntry) {
         boolean valid = true;
         if (ObjectUtils.isNull(assetType)) {
             GlobalVariables.getMessageMap().putErrorForSectionId(CamsConstants.LOCATION_INFORMATION_SECTION_ID, CamsKeyConstants.AssetLocation.ERROR_CHOOSE_ASSET_TYPE);
@@ -256,7 +256,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
         return valid;
     }
 
-    private boolean validateNonCapitalAssetLocation(Map<LocationField, String> fieldMap, String contactName, String streetAddress, String cityName, String stateCode, String zipCode, String countryCode, boolean onCampus, boolean offCampus) {
+    protected boolean validateNonCapitalAssetLocation(Map<LocationField, String> fieldMap, String contactName, String streetAddress, String cityName, String stateCode, String zipCode, String countryCode, boolean onCampus, boolean offCampus) {
         boolean valid = true;
         if (offCampus) {
             valid = validateOffCampusLocation(fieldMap, contactName, streetAddress, cityName, stateCode, zipCode, countryCode);
@@ -268,11 +268,11 @@ public class AssetLocationServiceImpl implements AssetLocationService {
     /**
      * Convenience method to append the path prefix
      */
-    private void putError(Map<LocationField, String> fieldMap, LocationField field, String errorKey, String... errorParameters) {
+    protected void putError(Map<LocationField, String> fieldMap, LocationField field, String errorKey, String... errorParameters) {
         GlobalVariables.getMessageMap().putError(fieldMap.get(field), errorKey, errorParameters);
     }
 
-    private boolean validateOnCampusLocation(Map<LocationField, String> fieldMap, AssetType assetType, String campusCode, String buildingCode, String buildingRoomNumber, String subRoomNumber) {
+    protected boolean validateOnCampusLocation(Map<LocationField, String> fieldMap, AssetType assetType, String campusCode, String buildingCode, String buildingRoomNumber, String subRoomNumber) {
         boolean valid = true;
         if (assetType.isMovingIndicator()) {
             if (StringUtils.isBlank(buildingCode)) {
@@ -301,7 +301,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
         return valid;
     }
 
-    private boolean validateOffCampusLocation(Map<LocationField, String> fieldMap, String contactName, String streetAddress, String cityName, String stateCode, String zipCode, String countryCode) {
+    protected boolean validateOffCampusLocation(Map<LocationField, String> fieldMap, String contactName, String streetAddress, String cityName, String stateCode, String zipCode, String countryCode) {
         boolean valid = true;
         boolean isCountryUS = false;
         if (isBlank(fieldMap, LocationField.COUNTRY_CODE, countryCode)) {
@@ -350,11 +350,11 @@ public class AssetLocationServiceImpl implements AssetLocationService {
         return valid;
     }
 
-    private boolean isBlank(Map<LocationField, String> fieldMap, LocationField field, String countryCode) {
+    protected boolean isBlank(Map<LocationField, String> fieldMap, LocationField field, String countryCode) {
         return fieldMap.get(field) != null && StringUtils.isBlank(countryCode);
     }
 
-    private String readPropertyValue(BusinessObject currObject, Map<LocationField, String> fieldMap, LocationField field) {
+    protected String readPropertyValue(BusinessObject currObject, Map<LocationField, String> fieldMap, LocationField field) {
         String stringValue = null;
         try {
             String propertyName = fieldMap.get(field);

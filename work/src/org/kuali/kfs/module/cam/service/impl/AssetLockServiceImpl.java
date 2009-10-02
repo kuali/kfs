@@ -241,7 +241,7 @@ public class AssetLockServiceImpl implements AssetLockService {
         }
     }
 
-    private BusinessObjectService getBusinessObjectService() {
+    protected BusinessObjectService getBusinessObjectService() {
         return SpringContext.getBean(BusinessObjectService.class);
     }
 

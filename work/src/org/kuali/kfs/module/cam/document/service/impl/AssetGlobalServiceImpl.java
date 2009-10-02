@@ -58,7 +58,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class AssetGlobalServiceImpl implements AssetGlobalService {
 
-    private enum AmountCategory {
+    protected enum AmountCategory {
 
         PAYMENT {
             void setParams(AssetGlpeSourceDetail postable, AssetPaymentDetail assetPaymentDetail, AssetObjectCode assetObjectCode, OffsetDefinition offsetDefinition, AssetAcquisitionType acquisitionType) {
@@ -268,7 +268,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         return Arrays.asList(groupName.split(";")).contains(memberName);
     }
 
-    private boolean isPaymentFinancialObjectActive(AssetPaymentDetail assetPayment) {
+    protected boolean isPaymentFinancialObjectActive(AssetPaymentDetail assetPayment) {
         ObjectCode financialObjectCode = new ObjectCode();
         financialObjectCode.setUniversityFiscalYear(getUniversityDateService().getCurrentFiscalYear());
         financialObjectCode.setChartOfAccountsCode(assetPayment.getChartOfAccountsCode());

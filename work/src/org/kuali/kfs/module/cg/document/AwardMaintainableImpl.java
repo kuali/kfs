@@ -30,6 +30,7 @@ import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.businessobject.AwardOrganization;
 import org.kuali.kfs.module.cg.businessobject.AwardProjectDirector;
+import org.kuali.kfs.module.cg.businessobject.AwardSubcontractor;
 import org.kuali.kfs.module.cg.businessobject.CGProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.module.cg.document.validation.impl.AwardRuleUtil;
@@ -95,6 +96,19 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
         List<AwardOrganization> organizations = getAward().getAwardOrganizations();
         if (organizations.size() == 1) {
             organizations.get(0).setAwardPrimaryOrganizationIndicator(true);
+        }
+        List<AwardSubcontractor> awardSubcontractors = getAward().getAwardSubcontractors();
+        int i = 0;
+        if (awardSubcontractors != null && !awardSubcontractors.isEmpty()) {
+            for (AwardSubcontractor awardSubcontractor : awardSubcontractors) {
+                i++;
+                if (StringUtils.isBlank(awardSubcontractor.getAwardSubcontractorAmendmentNumber())) {
+                    awardSubcontractor.setAwardSubcontractorAmendmentNumber("" + i);
+                }
+                if (StringUtils.isBlank(awardSubcontractor.getAwardSubcontractorNumber())) {
+                    awardSubcontractor.setAwardSubcontractorNumber("" + i);
+                }
+            }
         }
 
         super.prepareForSave();
@@ -200,8 +214,8 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
      * Refreshes the reference to ProjectDirector, giving priority to its secondary key. Any secondary key that it has may be user
      * input, so that overrides the primary key, setting the primary key. If its primary key is blank or nonexistent, then leave the
      * current reference as it is, because it may be a nonexistent instance which is holding the secondary key (the username, i.e.,
-     * principalName) so we can redisplay it to the user for correction. If it only has a primary key then use that, because
-     * it may be coming from the database, without any user input.
+     * principalName) so we can redisplay it to the user for correction. If it only has a primary key then use that, because it may
+     * be coming from the database, without any user input.
      * 
      * @param director the ProjectDirector to refresh
      */
@@ -213,7 +227,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
                 Person dir = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(secondaryKey);
                 director.setPrincipalId(dir == null ? null : dir.getPrincipalId());
             }
-            if (StringUtils.isNotBlank(director.getPrincipalId()) ) {
+            if (StringUtils.isNotBlank(director.getPrincipalId())) {
                 Person person = SpringContext.getBean(PersonService.class).getPerson(director.getPrincipalId());
                 if (person != null) {
                     ((PersistableBusinessObject) director).refreshNonUpdateableReferences();
@@ -270,4 +284,3 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
         return locks;
     }
 }
-

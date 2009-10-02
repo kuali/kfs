@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk;
+import org.kuali.kfs.module.cg.businessobject.ProposalSubcontractor;
 import org.kuali.kfs.module.cg.businessobject.ResearchRiskType;
 import org.kuali.kfs.module.cg.businessobject.defaultvalue.NextProposalNumberFinder;
 import org.kuali.kfs.module.cg.document.service.RoutingFormResearchRiskService;
@@ -40,7 +41,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * Methods for the Proposal maintenance document UI.
  */
-public class ProposalMaintainableImpl extends FinancialSystemMaintainable {  
+public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
     public ProposalMaintainableImpl() {
         super();
     }
@@ -90,6 +91,16 @@ public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
         if (directors.size() == 1) {
             directors.get(0).setProposalPrimaryProjectDirectorIndicator(true);
         }
+        List<ProposalSubcontractor> proposalSubcontractors = getProposal().getProposalSubcontractors();
+        if (proposalSubcontractors != null && !proposalSubcontractors.isEmpty()) {
+            int i = 0;
+            for (ProposalSubcontractor proposalSubcontractor : proposalSubcontractors) {
+                i++;
+                if (StringUtils.isBlank(proposalSubcontractor.getProposalSubcontractorNumber())) {
+                    proposalSubcontractor.setProposalSubcontractorNumber("" + i);
+                }
+            }
+        }
         super.prepareForSave();
     }
 
@@ -113,11 +124,11 @@ public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
      * 
      * @param generateDefaultValues true for initialization
      */
-	@Override
+    @Override
     public void setGenerateDefaultValues(String docTypeName) {
-        //if (generateDefaultValues) {
-            initResearchRiskTypes();
-        //}
+        // if (generateDefaultValues) {
+        initResearchRiskTypes();
+        // }
         super.setGenerateDefaultValues(docTypeName);
     }
 
@@ -198,7 +209,7 @@ public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
             Person dir = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(secondaryKey);
             ppd.setPrincipalId(dir == null ? null : dir.getPrincipalId());
         }
-        if (StringUtils.isNotBlank(ppd.getPrincipalId()) ) {
+        if (StringUtils.isNotBlank(ppd.getPrincipalId())) {
             Person person = SpringContext.getBean(PersonService.class).getPerson(ppd.getPrincipalId());
             if (person != null) {
                 ppd.refreshNonUpdateableReferences();

@@ -36,6 +36,7 @@ public class ProposalSubcontractor extends PersistableBusinessObjectBase impleme
     private boolean active = true;
 
     private SubContractor subcontractor;
+    private Proposal proposal;
 
     /**
      * Default constructor.
@@ -194,5 +195,13 @@ public class ProposalSubcontractor extends PersistableBusinessObjectBase impleme
         String name = ObjectUtils.isNull(getSubcontractor()) ? "nonexistent" : getSubcontractor().getSubcontractorName();
         String description = getProposalSubcontractorDescription() == null ? "" : " " + getProposalSubcontractorDescription();
         return name + " " + getProposalSubcontractorAmount() + description;
+    }
+
+    public Proposal getProposal() {
+        return proposal;
+    }
+
+    public void setProposal(Proposal proposal) {
+        this.proposal = proposal;
     }
 }

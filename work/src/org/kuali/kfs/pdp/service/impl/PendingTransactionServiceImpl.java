@@ -56,12 +56,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class PendingTransactionServiceImpl implements PendingTransactionService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PendingTransactionServiceImpl.class);
 
-    private static String FDOC_TYP_CD_PROCESS_ACH = "ACHD";
-    private static String FDOC_TYP_CD_PROCESS_CHECK = "CHKD";
-    private static String FDOC_TYP_CD_CANCEL_REISSUE_ACH = "ACHR";
-    private static String FDOC_TYP_CD_CANCEL_REISSUE_CHECK = "CHKR";
-    private static String FDOC_TYP_CD_CANCEL_ACH = "ACHC";
-    private static String FDOC_TYP_CD_CANCEL_CHECK = "CHKC";
+    protected static String FDOC_TYP_CD_PROCESS_ACH = "ACHD";
+    protected static String FDOC_TYP_CD_PROCESS_CHECK = "CHKD";
+    protected static String FDOC_TYP_CD_CANCEL_REISSUE_ACH = "ACHR";
+    protected static String FDOC_TYP_CD_CANCEL_REISSUE_CHECK = "CHKR";
+    protected static String FDOC_TYP_CD_CANCEL_ACH = "ACHC";
+    protected static String FDOC_TYP_CD_CANCEL_CHECK = "CHKC";
 
     private PendingTransactionDao glPendingTransactionDao;
     private AccountingPeriodService accountingPeriodService;

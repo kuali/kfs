@@ -71,7 +71,7 @@ public class UniversityDateDaoOjb extends PlatformAwareDaoBaseOjb implements Uni
      * @param date a java.util.Date to convert
      * @return a java.sql.Date
      */
-    private java.sql.Date convertDate(java.util.Date date) {
+    protected java.sql.Date convertDate(java.util.Date date) {
         return new Date(date.getTime());
     }
 

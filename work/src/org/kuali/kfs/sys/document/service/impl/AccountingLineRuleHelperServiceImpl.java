@@ -172,7 +172,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
      * @param account
      * @return an unexpired continuation account for the given account, or, if one cannot be found, null
      */
-    private Account getUnexpiredContinuationAccountOrNull(Account account) {
+    protected Account getUnexpiredContinuationAccountOrNull(Account account) {
         int count = 0;
         while (count++ < 10) { // prevents infinite loops
             String continuationChartCode = account.getContinuationFinChrtOfAcctCd();
@@ -482,7 +482,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
      * @param propertyName the name of the property within the global error path.
      * @return whether the given Object exists or not
      */
-    private boolean checkExistence(Object toCheck, BusinessObjectEntry accountingLineEntry, String attributeName, String propertyName) {
+    protected boolean checkExistence(Object toCheck, BusinessObjectEntry accountingLineEntry, String attributeName, String propertyName) {
         String label = accountingLineEntry.getAttributeDefinition(attributeName).getShortLabel();
         if (ObjectUtils.isNull(toCheck)) {
             GlobalVariables.getMessageMap().putError(propertyName, KFSKeyConstants.ERROR_EXISTENCE, label);

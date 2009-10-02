@@ -154,7 +154,7 @@ public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountSe
      * @param runCalendar The date the expiration date is tested against.
      * @return True if the account has expired, false otherwise.
      */
-    private boolean isExpired(Account account, Calendar runCalendar) {
+    protected boolean isExpired(Account account, Calendar runCalendar) {
 
         Calendar expirationDate = Calendar.getInstance();
         expirationDate.setTimeInMillis(account.getAccountExpirationDate().getTime());

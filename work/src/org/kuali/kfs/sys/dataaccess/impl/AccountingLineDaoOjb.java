@@ -94,7 +94,7 @@ public class AccountingLineDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
      * @param query
      * @return
      */
-    private Collection findCollection(Query query) throws DataAccessException {
+    protected Collection findCollection(Query query) throws DataAccessException {
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 }

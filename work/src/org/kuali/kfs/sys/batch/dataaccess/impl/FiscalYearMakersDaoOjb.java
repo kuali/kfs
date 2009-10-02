@@ -44,7 +44,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements FiscalYearMakersDao {
     private static Logger LOG = org.apache.log4j.Logger.getLogger(FiscalYearMakersDaoOjb.class);
     
-    private static final String KEY_STRING_DELIMITER = "|";
+    protected static final String KEY_STRING_DELIMITER = "|";
 
     private PersistenceStructureService persistenceStructureService;
     private BusinessObjectService businessObjectService;

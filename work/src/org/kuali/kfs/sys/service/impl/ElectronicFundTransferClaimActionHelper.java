@@ -48,12 +48,12 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
     private BusinessObjectService boService;
     private DocumentService documentService;
     
-    private static final String ACTION_NAME = "claim";
-    private static final String CHOSEN_DOCUMENT_PROPERTY = "chosenElectronicPaymentClaimingDocumentCode";
-    private static final String CLAIM_PROPERTY = "claims";
-    private static final String HAS_DOCUMENTATION_PROPERTY = "hasDocumentation";
-    private static final String BASIC_FORWARD = "basic";
-    private static final String PORTAL_FORWARD = "portal";
+    protected static final String ACTION_NAME = "claim";
+    protected static final String CHOSEN_DOCUMENT_PROPERTY = "chosenElectronicPaymentClaimingDocumentCode";
+    protected static final String CLAIM_PROPERTY = "claims";
+    protected static final String HAS_DOCUMENTATION_PROPERTY = "hasDocumentation";
+    protected static final String BASIC_FORWARD = "basic";
+    protected static final String PORTAL_FORWARD = "portal";
 
     /**
      * Claims the ElectronicPaymentClaim records with a document and then redirects to that docment.
@@ -107,7 +107,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
      * @param chosenDoc the value of chosenElectronicPaymentClaimingDocumentCode from the form
      * @return true if the validation resulted in no errors, false if otherwise
      */
-    private boolean checkChosenDocumentType(String chosenDoc) {
+    protected boolean checkChosenDocumentType(String chosenDoc) {
         boolean result = true;
         if (StringUtils.isBlank(chosenDoc)) {
             GlobalVariables.getMessageMap().putError(ElectronicFundTransferClaimActionHelper.CHOSEN_DOCUMENT_PROPERTY, KFSKeyConstants.ElectronicPaymentClaim.ERROR_EFT_NO_CHOSEN_CLAIMING_DOCTYPE, new String[]{});
@@ -124,7 +124,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
      * @throws AuthorizationException thrown if the user entered an invalid or unusable ElectronicPaymentClaimingDocumentGenerationStrategy code
      * @return an ElectronicPaymentClaimingDocumentGenerationStrategy helper to use to create the document
      */
-    private ElectronicPaymentClaimingDocumentGenerationStrategy getRequestedClaimingHelper(String chosenDoc, List<ElectronicPaymentClaimingDocumentGenerationStrategy> availableClaimingDocs, Person currentUser) {
+    protected ElectronicPaymentClaimingDocumentGenerationStrategy getRequestedClaimingHelper(String chosenDoc, List<ElectronicPaymentClaimingDocumentGenerationStrategy> availableClaimingDocs, Person currentUser) {
         ElectronicPaymentClaimingDocumentGenerationStrategy chosenDocHelper = null;
         int count = 0;
         while (count < availableClaimingDocs.size() && chosenDocHelper == null) {
@@ -146,7 +146,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
      * @param claims the list of electronic payment claims 
      * @return the list of electronic payment claims with all pre-claimed records removed
      */
-    private List<ElectronicPaymentClaim> handlePreClaimedRecords(List<ElectronicPaymentClaim> claims, Set<String> preClaimedByCheckbox, List<ElectronicPaymentClaimingDocumentGenerationStrategy> documentGenerationStrategies) {
+    protected List<ElectronicPaymentClaim> handlePreClaimedRecords(List<ElectronicPaymentClaim> claims, Set<String> preClaimedByCheckbox, List<ElectronicPaymentClaimingDocumentGenerationStrategy> documentGenerationStrategies) {
         List<ElectronicPaymentClaim> stillToClaim = new ArrayList<ElectronicPaymentClaim>();
         int count = 0;
         for (ElectronicPaymentClaim claim: claims) {
@@ -184,7 +184,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
      * @param checkboxHelpers the list of checked ElectronicPaymentClaimClaimedHelpers from the form
      * @return a Set of electronic payment claim representations for records that have been reclaimed
      */
-    private Set<String> generatePreClaimedByCheckboxSet(List<ElectronicPaymentClaimClaimedHelper> checkboxHelpers) {
+    protected Set<String> generatePreClaimedByCheckboxSet(List<ElectronicPaymentClaimClaimedHelper> checkboxHelpers) {
         Set<String> claimedByCheckboxRepresentations = new HashSet<String>();
         for (ElectronicPaymentClaimClaimedHelper helper: checkboxHelpers) {
             claimedByCheckboxRepresentations.add(helper.getElectronicPaymentClaimRepresentation());
@@ -197,7 +197,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
      * @param hasDocumentation the user's response to the "has documentation" question
      * @return true if the user was able to successfully answer this question, false otherwise
      */
-    private boolean handleDocumentationForClaim(String hasDocumentation) {
+    protected boolean handleDocumentationForClaim(String hasDocumentation) {
         boolean success = true;
         if (StringUtils.isBlank(hasDocumentation) || !hasDocumentation.equalsIgnoreCase("yep")) {
             GlobalVariables.getMessageMap().putError(ElectronicFundTransferClaimActionHelper.HAS_DOCUMENTATION_PROPERTY, KFSKeyConstants.ElectronicPaymentClaim.ERROR_NO_DOCUMENTATION, new String[] {});

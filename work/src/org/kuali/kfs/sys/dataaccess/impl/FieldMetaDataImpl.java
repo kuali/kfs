@@ -110,7 +110,7 @@ public class FieldMetaDataImpl implements DatabaseMetaDataCallback, FieldMetaDat
         return this;
     }
     
-    private FieldMetaData populateAndReturnNonPersistableInstance() {
+    protected FieldMetaData populateAndReturnNonPersistableInstance() {
         tableName = "N/A";
         columnName = tableName;
         dataType = tableName;

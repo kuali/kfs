@@ -56,12 +56,12 @@ import org.kuali.rice.kns.util.TransactionalServiceUtils;
 public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb implements GeneralLedgerPendingEntryDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerPendingEntryDaoOjb.class);
 
-    private final static String TRANSACTION_LEDGER_ENTRY_SEQUENCE_NUMBER = "transactionLedgerEntrySequenceNumber";
-    private final static String FINANCIAL_DOCUMENT_APPROVED_CODE = "financialDocumentApprovedCode";
-    private final static String ACCOUNT_NUMBER = "accountNumber";
-    private final static String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
-    private final static String CHART_FINANCIAL_CASH_OBJECT_CODE = "chart.financialCashObjectCode";
-    private final static String OBJECT_TYPE_FIN_OBJECT_TYPE_DEBITCREDIT_CD = "objectType.finObjectTypeDebitcreditCd";
+    protected final static String TRANSACTION_LEDGER_ENTRY_SEQUENCE_NUMBER = "transactionLedgerEntrySequenceNumber";
+    protected final static String FINANCIAL_DOCUMENT_APPROVED_CODE = "financialDocumentApprovedCode";
+    protected final static String ACCOUNT_NUMBER = "accountNumber";
+    protected final static String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
+    protected final static String CHART_FINANCIAL_CASH_OBJECT_CODE = "chart.financialCashObjectCode";
+    protected final static String OBJECT_TYPE_FIN_OBJECT_TYPE_DEBITCREDIT_CD = "objectType.finObjectTypeDebitcreditCd";
 
     private ParameterService parameterService;
     private BalanceTypeService balanceTypService;
@@ -424,7 +424,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      * This method creates Criteria that exclude the fund balance object type from the result.
      * @return Criteria
      */
-    private Criteria buildCriteriaToExcludeFundBalance() {
+    protected Criteria buildCriteriaToExcludeFundBalance() {
 
         SystemOptions option = optionsService.getCurrentYearOptions();
         String fundBalanceObjectTypeCode = option.getFinObjectTypeFundBalanceCd();
@@ -483,7 +483,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      * 
      * @return List an attribute list
      */
-    private List buildAttributeList() {
+    protected List buildAttributeList() {
         List attributeList = buildGroupList();
         attributeList.add("sum(" + KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")");
         return attributeList;
@@ -494,7 +494,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      * 
      * @return List an group by attribute list
      */
-    private List buildGroupList() {
+    protected List buildGroupList() {
         List groupList = new ArrayList();
 
         groupList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
@@ -510,7 +510,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      * @param criteria the given criteria
      * @param isApproved the flag that indictates if only approved status code can be added into the given searach criteria
      */
-    private void addStatusCode(Criteria criteria, boolean isOnlyApproved) {
+    protected void addStatusCode(Criteria criteria, boolean isOnlyApproved) {
         // add criteria for the approved pending entries
         if (isOnlyApproved) {
             criteria.addIn("documentHeader.financialDocumentStatusCode", this.buildApprovalCodeList());
@@ -533,7 +533,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      * 
      * @return an approval code list
      */
-    private List buildApprovalCodeList() {
+    protected List buildApprovalCodeList() {
         List approvalCodeList = new ArrayList();
 
         approvalCodeList.add(KFSConstants.DocumentStatusCodes.APPROVED);
@@ -664,7 +664,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         return GeneralLedgerPendingEntry.class;
     }
 
-    private Object getEntryClassInstance() {
+    protected Object getEntryClassInstance() {
         Object entryObject = null;
         try {
             entryObject = getEntryClass().newInstance();

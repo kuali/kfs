@@ -589,7 +589,7 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
      * @param messageLines the given information being written out
      * @param headerLinesInNewPage the given header lines being written in the begin of a new page
      */
-    private void writeMultipleFormattedMessageLines(String[] messageLines, String[] headerLinesInNewPage, boolean isRowBreakAcrossPageAllowed) {
+    protected void writeMultipleFormattedMessageLines(String[] messageLines, String[] headerLinesInNewPage, boolean isRowBreakAcrossPageAllowed) {
         int currentPageNumber = this.page;
 
         for (String line : messageLines) {

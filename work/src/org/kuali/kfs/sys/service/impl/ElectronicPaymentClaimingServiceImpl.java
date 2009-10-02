@@ -48,14 +48,14 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
     private ParameterService parameterService;
     private DateTimeService dateTimeService;
 
-    private static final String ELECTRONIC_FUNDS_CLAIMANT_GROUP_PARAMETER = "ELECTRONIC_FUNDS_CLAIMANT_GROUP";
-    private final static String ELECTRONIC_PAYMENT_ADMINISTRATOR_GROUP_PARAM_NAME = "ELECTRONIC_FUNDS_ADMINISTRATOR_GROUP";
-    private static final String ELECTRONIC_FUNDS_CLAIM_SUMMARIES_PER_NOTE_PARAMETER = "ELECTRONIC_FUNDS_CLAIM_SUMMARIES_PER_NOTE";
-    private static final String CLAIMING_NOTE_PRELUDE = "Claiming CR Items: ";
-    private static final String DI_CLAIMING_DOC_HELPER_BEAN_NAME = "distributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper";
-    private static final String YEDI_CLAIMING_DOC_HELPER_BEAN_NAME = "yearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper";
-    private static final String CLAIMING_DOC_HELPER_BEAN_NAME = "expenseElectronicPaymentClaimingDocumentHelper";
-    private static final String ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER = "ELECTRONIC_FUNDS_ACCOUNTS";
+    protected static final String ELECTRONIC_FUNDS_CLAIMANT_GROUP_PARAMETER = "ELECTRONIC_FUNDS_CLAIMANT_GROUP";
+    protected final static String ELECTRONIC_PAYMENT_ADMINISTRATOR_GROUP_PARAM_NAME = "ELECTRONIC_FUNDS_ADMINISTRATOR_GROUP";
+    protected static final String ELECTRONIC_FUNDS_CLAIM_SUMMARIES_PER_NOTE_PARAMETER = "ELECTRONIC_FUNDS_CLAIM_SUMMARIES_PER_NOTE";
+    protected static final String CLAIMING_NOTE_PRELUDE = "Claiming CR Items: ";
+    protected static final String DI_CLAIMING_DOC_HELPER_BEAN_NAME = "distributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper";
+    protected static final String YEDI_CLAIMING_DOC_HELPER_BEAN_NAME = "yearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper";
+    protected static final String CLAIMING_DOC_HELPER_BEAN_NAME = "expenseElectronicPaymentClaimingDocumentHelper";
+    protected static final String ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER = "ELECTRONIC_FUNDS_ACCOUNTS";
 
     /**
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#constructNotesForClaims(java.util.List)
@@ -86,7 +86,7 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
      * @param maxSummariesPerNote the number of ElectronicPaymentClaim summaries we can have on a note
      * @return a newly constructed note, that needs to have a user added
      */
-    private String constructNoteText(List<ElectronicPaymentClaim> claims, int startPoint, int maxSummariesPerNote) {
+    protected String constructNoteText(List<ElectronicPaymentClaim> claims, int startPoint, int maxSummariesPerNote) {
         StringBuilder sb = new StringBuilder();
         sb.append(CLAIMING_NOTE_PRELUDE);
         for (int i = startPoint; i < (startPoint + maxSummariesPerNote) && i < claims.size(); i++) {
@@ -104,7 +104,7 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
      * @param claim the electronic payment claim to summarize
      * @return a String with the summary of the claim.
      */
-    private String createSummaryLineForClaim(ElectronicPaymentClaim claim) {
+    protected String createSummaryLineForClaim(ElectronicPaymentClaim claim) {
         StringBuilder summary = new StringBuilder();
         summary.append(claim.getDocumentNumber());
         summary.append('-');
@@ -245,7 +245,7 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
      * @param accountingLine an accounting line that an electronic payment claim record should be created for
      * @return the created ElectronicPaymentClaim business object
      */
-    private ElectronicPaymentClaim createElectronicPayment(AdvanceDepositDocument document, AccountingLine accountingLine) {
+    protected ElectronicPaymentClaim createElectronicPayment(AdvanceDepositDocument document, AccountingLine accountingLine) {
         ElectronicPaymentClaim electronicPayment = new ElectronicPaymentClaim();
         electronicPayment.setDocumentNumber(document.getDocumentNumber());
         electronicPayment.setFinancialDocumentLineNumber(accountingLine.getSequenceNumber());

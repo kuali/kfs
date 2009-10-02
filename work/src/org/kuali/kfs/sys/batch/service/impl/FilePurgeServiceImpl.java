@@ -36,8 +36,8 @@ public class FilePurgeServiceImpl implements FilePurgeService {
     protected org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FilePurgeServiceImpl.class);
     private ParameterService parameterService;
     
-    private static final String DAYS_BEFORE_PURGE_PARAMETER_SUFFIX = "_NUMBER_OF_DAYS_OLD";
-    private static final String DAYS_BEFORE_PURGE_PARAMETER_PREFIX = "DEFAULT";
+    protected static final String DAYS_BEFORE_PURGE_PARAMETER_SUFFIX = "_NUMBER_OF_DAYS_OLD";
+    protected static final String DAYS_BEFORE_PURGE_PARAMETER_PREFIX = "DEFAULT";
     
     /**
      * Uses a FilePurgeDirectoryWalker to get a List of Files to purge, then purges each

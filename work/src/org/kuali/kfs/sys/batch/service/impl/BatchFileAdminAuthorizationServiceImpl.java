@@ -83,14 +83,14 @@ public class BatchFileAdminAuthorizationServiceImpl implements BatchFileAdminAut
         return generateRoleQualifiers(batchFile, user);
     }
 
-    private AttributeSet generatePermissionDetails(BatchFile batchFile, Person user) {
+    protected AttributeSet generatePermissionDetails(BatchFile batchFile, Person user) {
         AttributeSet permissionDetails = new AttributeSet();
         permissionDetails.put(KimAttributes.NAMESPACE_CODE, determineNamespaceCode(batchFile));
         permissionDetails.put("filePath", batchFile.retrieveFile().getAbsolutePath());
         return permissionDetails;
     }
     
-    private AttributeSet generateRoleQualifiers(BatchFile batchFile, Person user) {
+    protected AttributeSet generateRoleQualifiers(BatchFile batchFile, Person user) {
         return new AttributeSet();
     }
     

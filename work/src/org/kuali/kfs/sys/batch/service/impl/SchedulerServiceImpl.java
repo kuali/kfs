@@ -56,10 +56,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class SchedulerServiceImpl implements SchedulerService {
     private static final Logger LOG = Logger.getLogger(SchedulerServiceImpl.class);
-    private static final String SCHEDULE_JOB_NAME = "scheduleJob";
+    protected static final String SCHEDULE_JOB_NAME = "scheduleJob";
     public static final String JOB_STATUS_PARAMETER = "status";
-    private static final String SOFT_DEPENDENCY_CODE = "softDependency";
-    private static final String HARD_DEPENDENCY_CODE = "hardDependency";
+    protected static final String SOFT_DEPENDENCY_CODE = "softDependency";
+    protected static final String HARD_DEPENDENCY_CODE = "hardDependency";
 
     private Scheduler scheduler;
     private JobListener jobListener;
@@ -135,7 +135,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
     }
 
-    private void loadJob(JobDescriptor jobDescriptor) {
+    protected void loadJob(JobDescriptor jobDescriptor) {
         JobDetail jobDetail = jobDescriptor.getJobDetail();
         addJob(jobDetail);
         if (SCHEDULED_GROUP.equals(jobDetail.getGroup())) {
@@ -179,7 +179,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
     }
 
-    private boolean isIncomplete(JobDetail scheduledJobDetail) {
+    protected boolean isIncomplete(JobDetail scheduledJobDetail) {
         try {
             if (!SCHEDULE_JOB_NAME.equals(scheduledJobDetail.getName()) && (isPending(scheduledJobDetail) || isScheduled(scheduledJobDetail))) {
                 Trigger[] triggersOfJob = scheduler.getTriggersOfJob(scheduledJobDetail.getName(), SCHEDULED_GROUP);
@@ -208,7 +208,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         return isPastScheduleCutoffTime(dateTimeService.getCurrentCalendar(), true);
     }
 
-    private boolean isPastScheduleCutoffTime(Calendar dateTime, boolean log) {
+    protected boolean isPastScheduleCutoffTime(Calendar dateTime, boolean log) {
         try {
             Date scheduleCutoffTimeTemp = scheduler.getTriggersOfJob(SCHEDULE_JOB_NAME, SCHEDULED_GROUP)[0].getPreviousFireTime();
             Calendar scheduleCutoffTime;
@@ -381,7 +381,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         return false;
     }
 
-    private void addJob(JobDetail jobDetail) {
+    protected void addJob(JobDetail jobDetail) {
         try {
             if ( LOG.isInfoEnabled() ) {
                 LOG.info("Adding job: " + jobDetail.getFullName());
@@ -393,7 +393,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
     }
 
-    private void addTrigger(Trigger trigger) {
+    protected void addTrigger(Trigger trigger) {
         try {
             if (UNSCHEDULED_GROUP.equals(trigger.getGroup())) {
                 LOG.error("Triggers should not be specified for jobs in the unscheduled group - not adding trigger: " + trigger.getName());
@@ -412,7 +412,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
     }
 
-    private void scheduleJob(String groupName, String jobName, int startStep, int endStep, Date startTime, String requestorEmailAddress) {
+    protected void scheduleJob(String groupName, String jobName, int startStep, int endStep, Date startTime, String requestorEmailAddress) {
         try {
             updateStatus(groupName, jobName, SchedulerService.SCHEDULED_JOB_STATUS_CODE);
             SimpleTriggerDescriptor trigger = new SimpleTriggerDescriptor(jobName, groupName, jobName, dateTimeService);
@@ -431,7 +431,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
     }
 
-    private boolean shouldScheduleJob(JobDetail jobDetail) {
+    protected boolean shouldScheduleJob(JobDetail jobDetail) {
         try {
             if (scheduler.getTriggersOfJob(jobDetail.getName(), SCHEDULED_GROUP).length > 0) {
                 return false;
@@ -452,7 +452,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         return true;
     }
 
-    private boolean shouldCancelJob(JobDetail jobDetail) {
+    protected boolean shouldCancelJob(JobDetail jobDetail) {
         for (String dependencyJobName : getJobDependencies(jobDetail.getName()).keySet()) {
             JobDetail dependencyJobDetail = getScheduledJobDetail(dependencyJobName);
             if (isDependencySatisfiedNegatively(jobDetail, dependencyJobDetail)) {
@@ -462,39 +462,39 @@ public class SchedulerServiceImpl implements SchedulerService {
         return false;
     }
 
-    private boolean isDependencySatisfiedPositively(JobDetail dependentJobDetail, JobDetail dependencyJobDetail) {
+    protected boolean isDependencySatisfiedPositively(JobDetail dependentJobDetail, JobDetail dependencyJobDetail) {
         return isSucceeded(dependencyJobDetail) || ((isFailed(dependencyJobDetail) || isCancelled(dependencyJobDetail)) && isSoftDependency(dependentJobDetail.getName(), dependencyJobDetail.getName()));
     }
 
-    private boolean isDependencySatisfiedNegatively(JobDetail dependentJobDetail, JobDetail dependencyJobDetail) {
+    protected boolean isDependencySatisfiedNegatively(JobDetail dependentJobDetail, JobDetail dependencyJobDetail) {
         return (isFailed(dependencyJobDetail) || isCancelled(dependencyJobDetail)) && !isSoftDependency(dependentJobDetail.getName(), dependencyJobDetail.getName());
     }
 
-    private boolean isSoftDependency(String dependentJobName, String dependencyJobName) {
+    protected boolean isSoftDependency(String dependentJobName, String dependencyJobName) {
         return SOFT_DEPENDENCY_CODE.equals(getJobDependencies(dependentJobName).get(dependencyJobName));
     }
 
-    private Map<String, String> getJobDependencies(String jobName) {
+    protected Map<String, String> getJobDependencies(String jobName) {
         return BatchSpringContext.getJobDescriptor(jobName).getDependencies();
     }
 
-    private boolean isPending(JobDetail jobDetail) {
+    protected boolean isPending(JobDetail jobDetail) {
         return getStatus(jobDetail) == null;
     }
 
-    private boolean isScheduled(JobDetail jobDetail) {
+    protected boolean isScheduled(JobDetail jobDetail) {
         return SCHEDULED_JOB_STATUS_CODE.equals(getStatus(jobDetail));
     }
 
-    private boolean isSucceeded(JobDetail jobDetail) {
+    protected boolean isSucceeded(JobDetail jobDetail) {
         return SUCCEEDED_JOB_STATUS_CODE.equals(getStatus(jobDetail));
     }
 
-    private boolean isFailed(JobDetail jobDetail) {
+    protected boolean isFailed(JobDetail jobDetail) {
         return FAILED_JOB_STATUS_CODE.equals(getStatus(jobDetail));
     }
 
-    private boolean isCancelled(JobDetail jobDetail) {
+    protected boolean isCancelled(JobDetail jobDetail) {
         return CANCELLED_JOB_STATUS_CODE.equals(getStatus(jobDetail));
     }
 
@@ -508,7 +508,7 @@ public class SchedulerServiceImpl implements SchedulerService {
                     : jobDetail.getJobDataMap().getString(SchedulerServiceImpl.JOB_STATUS_PARAMETER);
     }
 
-    private JobDetail getScheduledJobDetail(String jobName) {
+    protected JobDetail getScheduledJobDetail(String jobName) {
         try {
             JobDetail jobDetail = scheduler.getJobDetail(jobName, SCHEDULED_GROUP);
             if ( jobDetail == null ) {
@@ -624,7 +624,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
     }
 
-    private void updateStatus(String groupName, String jobName, String jobStatus) {
+    protected void updateStatus(String groupName, String jobName, String jobStatus) {
         try {
             JobDetail jobDetail = scheduler.getJobDetail(jobName, groupName);
             updateStatus(jobDetail, jobStatus);

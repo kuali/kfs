@@ -206,7 +206,7 @@ public class FiscalYearMakerServiceImpl implements FiscalYearMakerService {
      * @return true if the parent class was found in one of the children list (meaning we have a circular reference), false
      *         otherwise
      */
-    private boolean checkChildrenForParentReference(Class<? extends PersistableBusinessObject> parent, Set<Class<? extends PersistableBusinessObject>> children, Map<Class<? extends PersistableBusinessObject>, Set<Class<? extends PersistableBusinessObject>>> parentChildren, Set<Class<? extends PersistableBusinessObject>> checkedParents) {
+    protected boolean checkChildrenForParentReference(Class<? extends PersistableBusinessObject> parent, Set<Class<? extends PersistableBusinessObject>> children, Map<Class<? extends PersistableBusinessObject>, Set<Class<? extends PersistableBusinessObject>>> parentChildren, Set<Class<? extends PersistableBusinessObject>> checkedParents) {
         // if parent is in child list then we have a circular reference
         if (children.contains(parent)) {
             return true;

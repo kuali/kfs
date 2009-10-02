@@ -143,7 +143,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     /**
      * Creates a '.done' file with the name of the batch file.
      */
-    private void createDoneFile(File batchFile) {
+    protected void createDoneFile(File batchFile) {
         File doneFile = generateDoneFileObject(batchFile);
         String doneFileName = doneFile.getName();
 
@@ -244,7 +244,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     /**
      * Returns List of filenames for existing files in the directory given by the batch input type.
      */
-    private File[] listFilesInBatchTypeDirectory(BatchInputFileType batchInputFileType) {
+    protected File[] listFilesInBatchTypeDirectory(BatchInputFileType batchInputFileType) {
         File batchTypeDirectory = new File(batchInputFileType.getDirectoryPath());
         return batchTypeDirectory.listFiles();
     }
@@ -276,7 +276,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     /**
      * Retrieves files in a directory with the .done extension.
      */
-    private class DoneFilenameFilter implements FilenameFilter {
+    protected class DoneFilenameFilter implements FilenameFilter {
         /**
          * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
          */

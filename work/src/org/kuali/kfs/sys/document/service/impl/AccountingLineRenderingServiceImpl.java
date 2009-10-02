@@ -64,7 +64,7 @@ import org.kuali.rice.kns.web.ui.Field;
  * The default implementation of the AccountingLineRenderingService
  */
 public class AccountingLineRenderingServiceImpl implements AccountingLineRenderingService {
-    private final String KUALI_FORM_NAME = "KualiForm";
+    protected final String KUALI_FORM_NAME = "KualiForm";
     
     private List<AccountingLineFieldRenderingTransformation> fieldTransformations;
     private DataDictionaryService dataDictionaryService;
@@ -370,7 +370,7 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
         return (KualiAccountingDocumentFormBase)GlobalVariables.getKualiForm();
     }
     
-    private DocumentHelperService getDocumentHelperService() {
+    protected DocumentHelperService getDocumentHelperService() {
         if (documentHelperService == null) {
             documentHelperService = SpringContext.getBean(DocumentHelperService.class);
         }

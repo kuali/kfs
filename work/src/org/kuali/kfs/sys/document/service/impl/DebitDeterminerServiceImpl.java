@@ -32,9 +32,9 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     private static Logger LOG = Logger.getLogger(DebitDeterminerServiceImpl.class);
-    private static final String isDebitCalculationIllegalStateExceptionMessage = "an invalid debit/credit check state was detected";
-    private static final String isErrorCorrectionIllegalStateExceptionMessage = "invalid (error correction) document not allowed";
-    private static final String isInvalidLineTypeIllegalArgumentExceptionMessage = "invalid accounting line type";
+    protected static final String isDebitCalculationIllegalStateExceptionMessage = "an invalid debit/credit check state was detected";
+    protected static final String isErrorCorrectionIllegalStateExceptionMessage = "invalid (error correction) document not allowed";
+    protected static final String isInvalidLineTypeIllegalArgumentExceptionMessage = "invalid accounting line type";
     
     private AccountingDocumentRuleHelperService accountingDocumentRuleUtil;
     private OptionsService optionsService;

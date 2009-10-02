@@ -28,7 +28,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class OjbQueryCustomizer extends QueryCustomizerDefaultImpl {
     // used to AND in additional criteria on a collection
-    private static final String FIELD_PREFIX = "parent.";
+    protected static final String FIELD_PREFIX = "parent.";
 
     @Override
     public Query customizeQuery(Object arg0, PersistenceBroker arg1, CollectionDescriptor arg2, QueryByCriteria arg3) {

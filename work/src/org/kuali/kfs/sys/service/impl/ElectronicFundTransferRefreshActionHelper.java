@@ -40,9 +40,9 @@ public class ElectronicFundTransferRefreshActionHelper implements ElectronicFund
     private ElectronicPaymentClaimingService electronicPaymentClaimingService;
     private DataDictionaryService ddService;
     
-    private static final String BASIC_FORWARD = "basic";
-    private static final String ACTION_NAME = "claim";
-    private static final String PORTAL_FORWARD = "portal";
+    protected static final String BASIC_FORWARD = "basic";
+    protected static final String ACTION_NAME = "claim";
+    protected static final String PORTAL_FORWARD = "portal";
 
     /**
      * @see org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper#performAction(org.kuali.rice.kns.web.struts.form.KualiForm, org.apache.struts.action.ActionMapping)
@@ -77,7 +77,7 @@ public class ElectronicFundTransferRefreshActionHelper implements ElectronicFund
      * @param lookupResultsSequenceNumber the parameter for the lookup results sequence number
      * @return a list of claims
      */
-    private List<ElectronicPaymentClaim> getClaimedPayments(Person currentUser, String lookupResultsSequenceNumber) {
+    protected List<ElectronicPaymentClaim> getClaimedPayments(Person currentUser, String lookupResultsSequenceNumber) {
         List<ElectronicPaymentClaim> claims = new ArrayList<ElectronicPaymentClaim>();
         try {
             Collection selectedClaims = KNSServiceLocator.getLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, ElectronicPaymentClaim.class, currentUser.getPrincipalId());

@@ -191,7 +191,7 @@ public class FiscalYearMakerImpl extends PlatformAwareDaoBaseOjb implements Fisc
      * 
      * @see org.kuali.kfs.sys.KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR
      */
-    private void verifyUniversityFiscalYearPropertyExists() {
+    protected void verifyUniversityFiscalYearPropertyExists() {
         List<String> fields = persistenceStructureService.listFieldNames(businessObjectClass);
         if (fields == null || !fields.contains(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR)) {
             String msg = String.format("No %s property in business object class %s", KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, businessObjectClass.getName());

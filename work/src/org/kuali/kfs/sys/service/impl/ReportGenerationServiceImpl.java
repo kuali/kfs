@@ -160,7 +160,7 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
      *        If an extension is included in the name, it should be prefixed ".jasper" or '.jrxml".
      * @return a class path resource that references to the given report template
      */
-    private ClassPathResource getReportTemplateClassPathResource(String reportTemplateName) {
+    protected ClassPathResource getReportTemplateClassPathResource(String reportTemplateName) {
         if (reportTemplateName.endsWith(DESIGN_FILE_EXTENSION) || reportTemplateName.endsWith(JASPER_REPORT_EXTENSION)) {
             return new ClassPathResource(reportTemplateName);
         }
@@ -182,7 +182,7 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
      * @param designTemplate the full name of the report template xml file
      * @param jasperReport the full name of the compiled report file
      */
-    private void compileReportTemplate(String designTemplate, String jasperReport) throws JRException {
+    protected void compileReportTemplate(String designTemplate, String jasperReport) throws JRException {
         File jasperFile = new File(jasperReport);
         File designFile = new File(designTemplate);
 
@@ -206,7 +206,7 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
      * @param subReports the sub report Map that hold the sub report templete names indexed with keys
      * @param subReportDirectory the directory where sub report templates are located
      */
-    private void compileSubReports(Map<String, String> subReports, String subReportDirectory) throws Exception {
+    protected void compileSubReports(Map<String, String> subReports, String subReportDirectory) throws Exception {
         for (Map.Entry<String, String> entry: subReports.entrySet()) {
             ClassPathResource resource = getReportTemplateClassPathResource(subReportDirectory + entry.getValue());
             String realTemplateNameWithoutExtension = removeTemplateExtension(resource);
@@ -224,7 +224,7 @@ public class ReportGenerationServiceImpl implements ReportGenerationService {
      * @param template the given template
      * @return the template without file extension
      */
-    private String removeTemplateExtension(ClassPathResource template) throws IOException {
+    protected String removeTemplateExtension(ClassPathResource template) throws IOException {
         String realTemplateName = template.getFile().getAbsolutePath();
 
         int lastIndex = realTemplateName.lastIndexOf(".");

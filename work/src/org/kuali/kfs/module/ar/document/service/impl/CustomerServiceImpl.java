@@ -36,7 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
     private BusinessObjectService businessObjectService;
     private CustomerInvoiceDocumentService customerInvoiceDocumentService;
     private NoteService noteService;
-    private static final String CUSTOMER_NUMBER_SEQUENCE = "CUST_NBR_SEQ";
+    protected static final String CUSTOMER_NUMBER_SEQUENCE = "CUST_NBR_SEQ";
     
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerService#getByPrimaryKey(java.lang.String)

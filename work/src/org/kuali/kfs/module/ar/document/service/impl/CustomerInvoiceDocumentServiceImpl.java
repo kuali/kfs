@@ -82,7 +82,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     private CustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails;
     private UniversityDateService universityDateService;
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentServiceImpl.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentServiceImpl.class);
 
     public void convertDiscountsToPaidApplieds(CustomerInvoiceDocument invoice) {
 
@@ -657,7 +657,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     /**
      * @param document
      */
-    private void setupBasicDefaultValuesForCustomerInvoiceDocument(CustomerInvoiceDocument document) {
+    protected void setupBasicDefaultValuesForCustomerInvoiceDocument(CustomerInvoiceDocument document) {
         ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
         if (currentUser != null) {
             document.setBillByChartOfAccountCode(currentUser.getChartOfAccountsCode());
@@ -672,7 +672,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      * 
      * @param dateTimeService
      */
-    private Date getDefaultInvoiceDueDate() {
+    protected Date getDefaultInvoiceDueDate() {
         Calendar cal = dateTimeService.getCurrentCalendar();
         cal.add(Calendar.DATE, 30);
         Date sqlDueDate = null;

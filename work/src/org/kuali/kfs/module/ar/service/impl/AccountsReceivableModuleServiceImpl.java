@@ -25,7 +25,7 @@ import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStra
  * The KFS AR module implementation of the AccountsReceivableModuleService
  */
 public class AccountsReceivableModuleServiceImpl implements AccountsReceivableModuleService {
-    private static final String CASH_CONTROL_ELECTRONIC_PAYMENT_CLAIMING_DOCUMENT_GENERATION_STRATEGY_BEAN_NAME = "cashControlElectronicPaymentClaimingDocumentHelper";
+    protected static final String CASH_CONTROL_ELECTRONIC_PAYMENT_CLAIMING_DOCUMENT_GENERATION_STRATEGY_BEAN_NAME = "cashControlElectronicPaymentClaimingDocumentHelper";
 
     /**
      * @see org.kuali.kfs.integration.service.AccountsReceivableModuleService#getAccountsReceivablePaymentClaimingStrategy()

@@ -431,7 +431,7 @@ public class LockboxServiceImpl implements LockboxService {
 
     }
 
-    private void routePayAppWithoutBusinessRules(String payAppDocNumber, String annotation) {
+    protected void routePayAppWithoutBusinessRules(String payAppDocNumber, String annotation) {
 
         //  load up the PayApp document that was created
         LOG.info("   loading the generated PayApp [" + payAppDocNumber + "], so we can route or approve it.");
@@ -455,13 +455,13 @@ public class LockboxServiceImpl implements LockboxService {
         }
     }
     
-    private void deleteProcessedLockboxEntry(Lockbox lockboxEntry) {
+    protected void deleteProcessedLockboxEntry(Lockbox lockboxEntry) {
         Map<String,Object> pkMap = new HashMap<String,Object>();
         pkMap.put("invoiceSequenceNumber", lockboxEntry.getInvoiceSequenceNumber());
         boService.deleteMatching(Lockbox.class, pkMap);
     }
     
-    private com.lowagie.text.Document getPdfDoc() {
+    protected com.lowagie.text.Document getPdfDoc() {
         
         String reportDropFolder = reportsDirectory + "/" + ArConstants.Lockbox.LOCKBOX_REPORT_SUBFOLDER + "/";
         String fileName = ArConstants.Lockbox.BATCH_REPORT_BASENAME + "_" +  
@@ -493,11 +493,11 @@ public class LockboxServiceImpl implements LockboxService {
         return pdfdoc;
     }
 
-    private String rightPad(String valToPad, int sizeToPadTo) {
+    protected String rightPad(String valToPad, int sizeToPadTo) {
         return rightPad(valToPad, sizeToPadTo, " ");
     }
     
-    private String rightPad(String valToPad, int sizeToPadTo, String padChar) {
+    protected String rightPad(String valToPad, int sizeToPadTo, String padChar) {
         if (StringUtils.isBlank(valToPad)) {
             return StringUtils.repeat(padChar, sizeToPadTo);
         }
@@ -507,7 +507,7 @@ public class LockboxServiceImpl implements LockboxService {
         return valToPad + StringUtils.repeat(padChar, sizeToPadTo - valToPad.length());
     }
     
-    private void writeBatchGroupSectionTitle(com.lowagie.text.Document pdfDoc, String batchSeqNbr, java.sql.Date procInvDt, String cashControlDocNumber) {
+    protected void writeBatchGroupSectionTitle(com.lowagie.text.Document pdfDoc, String batchSeqNbr, java.sql.Date procInvDt, String cashControlDocNumber) {
         Font font = FontFactory.getFont(FontFactory.COURIER, 10, Font.BOLD);
         
         String lineText = "CASHCTL " + rightPad(cashControlDocNumber, 12) + " " + 
@@ -532,7 +532,7 @@ public class LockboxServiceImpl implements LockboxService {
         }
     }
     
-    private void writeLockboxRecordLine(com.lowagie.text.Document pdfDoc, String lockboxNumber, String customerNumber, String invoiceNumber, 
+    protected void writeLockboxRecordLine(com.lowagie.text.Document pdfDoc, String lockboxNumber, String customerNumber, String invoiceNumber, 
             KualiDecimal invoiceTotalAmount, String paymentMediumCode, String bankCode) {
         
         writeDetailLine(pdfDoc, StringUtils.repeat("-", 100));
@@ -548,7 +548,7 @@ public class LockboxServiceImpl implements LockboxService {
         writeDetailLine(pdfDoc, sb.toString());
     }
     
-    private void writeInvoiceDetailLine(com.lowagie.text.Document pdfDoc, String invoiceNumber, boolean open, String customerNumber, KualiDecimal openAmount) {
+    protected void writeInvoiceDetailLine(com.lowagie.text.Document pdfDoc, String invoiceNumber, boolean open, String customerNumber, KualiDecimal openAmount) {
         
         StringBuilder sb = new StringBuilder();
         sb.append("   ");                                                        // 3:   1 - 3
@@ -566,7 +566,7 @@ public class LockboxServiceImpl implements LockboxService {
         writeDetailLine(pdfDoc, sb.toString());
     }
     
-    private void writeCashControlDetailLine(com.lowagie.text.Document pdfDoc, KualiDecimal amount, String description) {
+    protected void writeCashControlDetailLine(com.lowagie.text.Document pdfDoc, KualiDecimal amount, String description) {
         
         StringBuilder sb = new StringBuilder();
         sb.append("   ");                                                        // 3:   1 - 3
@@ -576,11 +576,11 @@ public class LockboxServiceImpl implements LockboxService {
         writeDetailLine(pdfDoc, sb.toString());
     }
     
-    private void writeSummaryDetailLine(com.lowagie.text.Document pdfDoc, String summary) {
+    protected void writeSummaryDetailLine(com.lowagie.text.Document pdfDoc, String summary) {
         writeDetailLine(pdfDoc, "   " + summary);
     }
     
-    private void writePayAppLine(com.lowagie.text.Document pdfDoc, String payAppDocNbr, String description) {
+    protected void writePayAppLine(com.lowagie.text.Document pdfDoc, String payAppDocNbr, String description) {
         
         StringBuilder sb = new StringBuilder();
         sb.append("   ");                                                    // 3:   1 - 3
@@ -590,7 +590,7 @@ public class LockboxServiceImpl implements LockboxService {
         writeDetailLine(pdfDoc, sb.toString());
     }
     
-    private void writeExceptionStackTrace(com.lowagie.text.Document pdfDoc, Exception e) {
+    protected void writeExceptionStackTrace(com.lowagie.text.Document pdfDoc, Exception e) {
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
         PrintWriter printWriter = new PrintWriter(outStream, true);
         
@@ -599,7 +599,7 @@ public class LockboxServiceImpl implements LockboxService {
         writeDetailLine(pdfDoc, outStream.toString());
     }
     
-    private void writeDetailLine(com.lowagie.text.Document pdfDoc, String detailLineText) {
+    protected void writeDetailLine(com.lowagie.text.Document pdfDoc, String detailLineText) {
         Font font = FontFactory.getFont(FontFactory.COURIER, 8, Font.NORMAL);
         
         Paragraph paragraph = new Paragraph();

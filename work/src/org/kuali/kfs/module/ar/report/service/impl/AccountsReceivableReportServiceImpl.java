@@ -523,7 +523,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         return reports;
     }
 
-    private List<File> generateStatementReports(Collection<CustomerInvoiceDocument> invoices) {
+    protected List<File> generateStatementReports(Collection<CustomerInvoiceDocument> invoices) {
         List<CustomerInvoiceDocument> invoiceList = new ArrayList<CustomerInvoiceDocument>(invoices);
         Collections.sort(invoiceList);
 
@@ -589,7 +589,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * @param invoiceList
      * @return
      */
-    private Map<String, Map<String, Map<String, List<CustomerStatementDetailReportDataHolder>>>> sortCustomerStatementData(List<CustomerInvoiceDocument> invoiceList) {
+    protected Map<String, Map<String, Map<String, List<CustomerStatementDetailReportDataHolder>>>> sortCustomerStatementData(List<CustomerInvoiceDocument> invoiceList) {
         Map<String, Map<String, Map<String, List<CustomerStatementDetailReportDataHolder>>>> customerStatementDetailsSorted = new HashMap<String, Map<String, Map<String, List<CustomerStatementDetailReportDataHolder>>>>();
         CustomerCreditMemoDocumentService service = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
 
@@ -663,7 +663,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * @param zipCode
      * @return
      */
-    private String generateCityStateZipLine(String city, String state, String zipCode) {
+    protected String generateCityStateZipLine(String city, String state, String zipCode) {
         StringBuffer cityStateZip = new StringBuffer(city);
         cityStateZip.append(", ").append(state);
         cityStateZip.append("  ").append(zipCode);
@@ -677,7 +677,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * @param details
      * @param invoiceMap
      */
-    private void calculateAgingAmounts(List<CustomerStatementDetailReportDataHolder> details, Map<String, String> invoiceMap) {
+    protected void calculateAgingAmounts(List<CustomerStatementDetailReportDataHolder> details, Map<String, String> invoiceMap) {
         for (CustomerStatementDetailReportDataHolder csdrdh : details) {
             CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
             CustomerInvoiceDocument ci = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(csdrdh.getDocumentNumber());
@@ -704,7 +704,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * @param amountToAdd
      * @param invoiceMap
      */
-    private void addAgingAmountToInvoiceMap(String mapKey, KualiDecimal amountToAdd, Map<String, String> invoiceMap) {
+    protected void addAgingAmountToInvoiceMap(String mapKey, KualiDecimal amountToAdd, Map<String, String> invoiceMap) {
         BigDecimal amount = BigDecimal.ZERO;
         String currentAmount = invoiceMap.get(mapKey);
         if (StringUtils.isNotEmpty(currentAmount)) {
@@ -728,7 +728,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * @param org
      * @return
      */
-    private String getChartAndOrgCodesCombined(Organization org) {
+    protected String getChartAndOrgCodesCombined(Organization org) {
         if (org == null) {
             return null;
         }

@@ -188,7 +188,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
 
     }
     
-    private String getInvoiceRecurrenceMaintenanceDocumentTypeName() {
+    protected String getInvoiceRecurrenceMaintenanceDocumentTypeName() {
         return "INVR";
     }
 
@@ -198,7 +198,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
      * @param userId
      * @return
      */
-    private AdHocRouteRecipient buildFyiPersonRecipient(String userId) {
+    protected AdHocRouteRecipient buildFyiPersonRecipient(String userId) {
         AdHocRouteRecipient adHocRouteRecipient = new AdHocRoutePerson();
         adHocRouteRecipient.setActionRequested(KEWConstants.ACTION_REQUEST_FYI_REQ);
         adHocRouteRecipient.setId(userId);
@@ -211,7 +211,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
      * @param userId
      * @return
      */
-    private AdHocRouteRecipient buildApprovePersonRecipient(String userId) {
+    protected AdHocRouteRecipient buildApprovePersonRecipient(String userId) {
         AdHocRouteRecipient adHocRouteRecipient = new AdHocRoutePerson();
         adHocRouteRecipient.setActionRequested(KEWConstants.ACTION_REQUEST_APPROVE_REQ);
         adHocRouteRecipient.setId(userId);
@@ -224,7 +224,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
      * @param userId
      * @return
      */
-    private AdHocRouteRecipient buildFyiWorkgroupRecipient(String workgroupId) {
+    protected AdHocRouteRecipient buildFyiWorkgroupRecipient(String workgroupId) {
         AdHocRouteRecipient adHocRouteRecipient = new AdHocRouteWorkgroup();
         adHocRouteRecipient.setActionRequested(KEWConstants.ACTION_REQUEST_FYI_REQ);
         adHocRouteRecipient.setId(workgroupId);
@@ -237,7 +237,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
      * @param userId
      * @return
      */
-    private AdHocRouteRecipient buildApproveWorkgroupRecipient(String workgroupId) {
+    protected AdHocRouteRecipient buildApproveWorkgroupRecipient(String workgroupId) {
         AdHocRouteRecipient adHocRouteRecipient = new AdHocRouteWorkgroup();
         adHocRouteRecipient.setActionRequested(KEWConstants.ACTION_REQUEST_APPROVE_REQ);
         adHocRouteRecipient.setId(workgroupId);

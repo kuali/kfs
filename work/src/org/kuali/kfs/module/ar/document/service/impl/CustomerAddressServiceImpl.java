@@ -37,7 +37,7 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
     private BusinessObjectService businessObjectService;
     private SequenceAccessorService sequenceAccessorService;
 
-    private static final String CUST_ADDR_ID_SEQ = "CUST_ADDR_ID_SEQ";
+    protected static final String CUST_ADDR_ID_SEQ = "CUST_ADDR_ID_SEQ";
 
     @SuppressWarnings("unchecked")
     public CustomerAddress getByPrimaryKey(String customerNumber, Integer customerAddressIdentifier) {

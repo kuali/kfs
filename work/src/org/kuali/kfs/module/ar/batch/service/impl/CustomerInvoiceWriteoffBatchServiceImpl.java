@@ -140,7 +140,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
     /**
      * Clears out associated .done files for the processed data files.
      */
-    private void removeDoneFiles(List<String> dataFileNames) {
+    protected void removeDoneFiles(List<String> dataFileNames) {
         for (String dataFileName : dataFileNames) {
             String doneFileName = doneFileName(dataFileName);
             File doneFile = new File(doneFileName);
@@ -189,7 +189,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
      * 
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService#createCustomerInvoiceWriteoffDocumentsFromBatchVO(org.kuali.kfs.module.ar.batch.vo.CustomerInvoiceWriteoffBatchVO)
      */
-    private void createCustomerInvoiceWriteoffDocumentsFromBatchVO(CustomerInvoiceWriteoffBatchVO batchVO, com.lowagie.text.Document pdfdoc) {
+    protected void createCustomerInvoiceWriteoffDocumentsFromBatchVO(CustomerInvoiceWriteoffBatchVO batchVO, com.lowagie.text.Document pdfdoc) {
         
         //  retrieve the Person from the batch
         Person person = getPersonService().getPersonByPrincipalName(batchVO.getSubmittedByPrincipalName());
@@ -260,7 +260,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
      * @param fileName String containing valid path & filename (relative or absolute) of file to load.
      * @return A Byte Array of the contents of the file.
      */
-    private byte[] safelyLoadFileBytes(String fileName) {
+    protected byte[] safelyLoadFileBytes(String fileName) {
         
         InputStream fileContents;
         byte[] fileByteContent;
@@ -281,7 +281,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
         return fileByteContent;
     }
     
-    private List<String> getListOfFilesToProcess() {
+    protected List<String> getListOfFilesToProcess() {
         
         //  create a list of the files to process
         List<String> fileNamesToLoad = batchInputFileService.listInputFileNamesWithDoneFile(batchInputFileType);
@@ -306,7 +306,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
         return fileNamesToLoad;
     }
     
-    private com.lowagie.text.Document getPdfDoc() {
+    protected com.lowagie.text.Document getPdfDoc() {
         
         String reportDropFolder = reportsDirectory + "/" + ArConstants.CustomerInvoiceWriteoff.CUSTOMER_INVOICE_WRITEOFF_REPORT_SUBFOLDER + "/";
         String fileName = ArConstants.CustomerInvoiceWriteoff.BATCH_REPORT_BASENAME + "_" +  
@@ -338,7 +338,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
         return pdfdoc;
     }
 
-    private void writeFileNameSectionTitle(com.lowagie.text.Document pdfDoc, String filenameLine) {
+    protected void writeFileNameSectionTitle(com.lowagie.text.Document pdfDoc, String filenameLine) {
         Font font = FontFactory.getFont(FontFactory.COURIER, 10, Font.BOLD);
         
         //  file name title, get title only, on windows & unix platforms
@@ -366,7 +366,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
         }
     }
     
-    private void writeInvoiceSectionTitle(com.lowagie.text.Document pdfDoc, String customerNameLine) {
+    protected void writeInvoiceSectionTitle(com.lowagie.text.Document pdfDoc, String customerNameLine) {
         Font font = FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD + Font.UNDERLINE);
         
         Paragraph paragraph = new Paragraph();
@@ -385,7 +385,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
         }
     }
     
-    private void writeInvoiceSectionMessage(com.lowagie.text.Document pdfDoc, String resultLine) {
+    protected void writeInvoiceSectionMessage(com.lowagie.text.Document pdfDoc, String resultLine) {
         Font font = FontFactory.getFont(FontFactory.COURIER, 8, Font.NORMAL);
         
         Paragraph paragraph = new Paragraph();
@@ -419,16 +419,16 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
         return batchXmlFileName;
     }
 
-    private String getBatchXMLNamespace() {
+    protected String getBatchXMLNamespace() {
         return XML_BATCH_NAMESPACE;
     }
     
-    private String doneFileName(String filename) {
+    protected String doneFileName(String filename) {
         String fileNoExtension = filename.substring(0, filename.lastIndexOf("."));
         return fileNoExtension + ".done";
     }
     
-    private void createDoneFile(String filename) {
+    protected void createDoneFile(String filename) {
         String fileNoExtension = doneFileName(filename);
         File doneFile = new File(fileNoExtension);
         try {
@@ -439,7 +439,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
         }
     }
     
-    private String getBatchFilePathAndName(Person person) {
+    protected String getBatchFilePathAndName(Person person) {
         
         String filename = batchInputFileType.getFileName(person.getPrincipalId(), "", "");
         
@@ -451,7 +451,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
         return filepath + filename + "." + extension;
     }
     
-    private String dropXmlFile(Person person, org.w3c.dom.Document xmldoc) {
+    protected String dropXmlFile(Person person, org.w3c.dom.Document xmldoc) {
 
         //  determine file paths and names
         String filename = getBatchFilePathAndName(person); 
@@ -492,7 +492,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
         return filename;
     }
     
-    private Document transformVOtoXml(CustomerInvoiceWriteoffBatchVO writeoffBatchVO) {
+    protected Document transformVOtoXml(CustomerInvoiceWriteoffBatchVO writeoffBatchVO) {
 
         Document xmldoc = new DocumentImpl();
         Element e = null;
@@ -538,7 +538,7 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
 
     // this strange construct (rather than using setter injection) is here to eliminate a 
     // circular reference problem with Spring's eager init.
-    private CustomerInvoiceWriteoffDocumentService getInvoiceWriteoffDocumentService() {
+    protected CustomerInvoiceWriteoffDocumentService getInvoiceWriteoffDocumentService() {
         return SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);
     }
     

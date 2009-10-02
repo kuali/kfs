@@ -370,7 +370,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
      * @param amount The amount
      * @return The created accounting line
      */
-    private AccountingLine buildAccountingLine(String accountNumber, String subAccountNumber, String objectCode, String subObjectCode, String chartOfAccountsCode, String debitOrCredit, KualiDecimal amount) {
+    protected AccountingLine buildAccountingLine(String accountNumber, String subAccountNumber, String objectCode, String subObjectCode, String chartOfAccountsCode, String debitOrCredit, KualiDecimal amount) {
 
         AccountingLine accountingLine = null;
 
@@ -406,7 +406,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
      * @param options the current year oprions
      * @param documentType the document type to be associated with the glpe
      */
-    private GeneralLedgerPendingEntry createAndAddNewExplicitEntry(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, SystemOptions options, String documentType) {
+    protected GeneralLedgerPendingEntry createAndAddNewExplicitEntry(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, SystemOptions options, String documentType) {
 
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
 
@@ -436,7 +436,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
      * @param sequenceHelper the sequence helper
      * @return true if successfuly created and added, false otherwise
      */
-    private boolean createAndAddTheOffsetEntry(CashControlDocument cashControlDocument, GeneralLedgerPendingEntry explicitEntry, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    protected boolean createAndAddTheOffsetEntry(CashControlDocument cashControlDocument, GeneralLedgerPendingEntry explicitEntry, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
 
         // create offset

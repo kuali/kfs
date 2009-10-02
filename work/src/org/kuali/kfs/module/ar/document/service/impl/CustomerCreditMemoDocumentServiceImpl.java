@@ -40,11 +40,11 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemoDocumentService {
 
-    DocumentService documentService;
-    InvoicePaidAppliedService<CustomerInvoiceDetail> paidAppliedService;
-    UniversityDateService universityDateService;
-    BusinessObjectService businessObjectService;
-    DateTimeService dateTimeService;
+    private DocumentService documentService;
+    private InvoicePaidAppliedService<CustomerInvoiceDetail> paidAppliedService;
+    private UniversityDateService universityDateService;
+    private BusinessObjectService businessObjectService;
+    private DateTimeService dateTimeService;
     
     public void completeCustomerCreditMemo(CustomerCreditMemoDocument creditMemo) {
         

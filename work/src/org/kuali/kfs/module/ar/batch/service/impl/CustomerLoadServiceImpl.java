@@ -143,7 +143,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         return result;
     }
     
-    private List<String> getListOfFilesToProcess() {
+    protected List<String> getListOfFilesToProcess() {
         
         //  create a list of the files to process
         List<String> fileNamesToLoad = batchInputFileService.listInputFileNamesWithDoneFile(batchInputFileType);
@@ -171,7 +171,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     /**
      * Clears out associated .done files for the processed data files.
      */
-    private void removeDoneFiles(List<String> dataFileNames) {
+    protected void removeDoneFiles(List<String> dataFileNames) {
         for (String dataFileName : dataFileNames) {
             File doneFile = new File(StringUtils.substringBeforeLast(dataFileName, ".") + ".done");
             if (doneFile.exists()) {
@@ -231,7 +231,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         return result;
     }
 
-    private boolean sendDocumentsIntoWorkflow(List<MaintenanceDocument> readyTransientDocs, List<String> routedDocumentNumbers, 
+    protected boolean sendDocumentsIntoWorkflow(List<MaintenanceDocument> readyTransientDocs, List<String> routedDocumentNumbers, 
             List<String> failedDocumentNumbers, CustomerLoadFileResult reporter) {
         boolean result = true;
         for (MaintenanceDocument readyTransientDoc : readyTransientDocs) {
@@ -240,7 +240,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         return result;
     }
     
-    private boolean sendDocumentIntoWorkflow(MaintenanceDocument readyTransientDoc, List<String> routedDocumentNumbers, 
+    protected boolean sendDocumentIntoWorkflow(MaintenanceDocument readyTransientDoc, List<String> routedDocumentNumbers, 
             List<String> failedDocumentNumbers, CustomerLoadFileResult reporter) {
         boolean result = true;
         
@@ -285,15 +285,15 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         return result;
     }
     
-    private String getCustomerMaintenanceDocumentTypeName() {
+    protected String getCustomerMaintenanceDocumentTypeName() {
         return "CUS";
     }
     
-    private void addError(CustomerLoadBatchErrors batchErrors, String customerName, String propertyName, Class<?> propertyClass, String origValue, String description) {
+    protected void addError(CustomerLoadBatchErrors batchErrors, String customerName, String propertyName, Class<?> propertyClass, String origValue, String description) {
         batchErrors.addError(customerName, propertyName, propertyClass, origValue, description);
     }
     
-    private void addBatchErrorsToGlobalVariables(CustomerLoadBatchErrors batchErrors) {
+    protected void addBatchErrorsToGlobalVariables(CustomerLoadBatchErrors batchErrors) {
         Set<String> errorMessages = batchErrors.getErrorStrings();
         for (String errorMessage : errorMessages) {
             GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, 
@@ -301,7 +301,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         }
     }
     
-    private void addBatchErrorstoCustomerLoadResult(CustomerLoadBatchErrors batchErrors, CustomerLoadResult result) {
+    protected void addBatchErrorstoCustomerLoadResult(CustomerLoadBatchErrors batchErrors, CustomerLoadResult result) {
         Set<String> errorMessages = batchErrors.getErrorStrings();
         for (String errorMessage : errorMessages) {
             result.addErrorMessage(errorMessage);
@@ -317,7 +317,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
      * @param fileName String containing valid path & filename (relative or absolute) of file to load.
      * @return A Byte Array of the contents of the file.
      */
-    private byte[] safelyLoadFileBytes(String fileName) {
+    protected byte[] safelyLoadFileBytes(String fileName) {
         
         InputStream fileContents;
         byte[] fileByteContent;
@@ -362,7 +362,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         return validateAndPrepare(customerUploads, customerMaintDocs, new CustomerLoadFileResult(), useGlobalErrorMap);
     }
     
-    private boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, CustomerLoadFileResult reporter, boolean useGlobalErrorMap) {
+    protected boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, CustomerLoadFileResult reporter, boolean useGlobalErrorMap) {
         
         //  fail if empty or null list
         if (customerUploads == null) {
@@ -497,7 +497,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         return groupSucceeded;
     }
 
-    private void processBeforeValidating(Customer customer, Customer existingCustomer, boolean isUpdate) {
+    protected void processBeforeValidating(Customer customer, Customer existingCustomer, boolean isUpdate) {
         
         
         //  if its an update, but has no customerNumber, then set it from existing record
@@ -568,7 +568,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         
     }
     
-    private void upperCaseKeyFields(Customer customer) {
+    protected void upperCaseKeyFields(Customer customer) {
         
         //  customer name
         if (StringUtils.isNotBlank(customer.getCustomerName())) { 
@@ -687,7 +687,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
      * @param existingCustomer
      * @param propertyName
      */
-    private void dontBlankOutFieldsOnUpdate(Customer batchCustomer, Customer existingCustomer, String propertyName) {
+    protected void dontBlankOutFieldsOnUpdate(Customer batchCustomer, Customer existingCustomer, String propertyName) {
         String batchValue;
         String existingValue;
         Class<?> propertyClass = null;
@@ -728,7 +728,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         }
     }
     
-    private boolean validateSingle(MaintenanceDocument maintDoc, CustomerLoadBatchErrors batchErrors, String customerName) {
+    protected boolean validateSingle(MaintenanceDocument maintDoc, CustomerLoadBatchErrors batchErrors, String customerName) {
         boolean result = true;
         
         //  get an instance of the business rule 
@@ -742,7 +742,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         return result;
     }
     
-    private boolean extractGlobalVariableErrors(CustomerLoadBatchErrors batchErrors, String customerName) {
+    protected boolean extractGlobalVariableErrors(CustomerLoadBatchErrors batchErrors, String customerName) {
         boolean result = true;
         
         MessageMap errorMap = GlobalVariables.getMessageMap();
@@ -780,12 +780,12 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         return result;
     }
     
-    private MaintenanceDocument createTransientMaintDoc() {
+    protected MaintenanceDocument createTransientMaintDoc() {
         MaintenanceDocument maintDoc = new MaintenanceDocumentBase(getCustomerMaintenanceDocumentTypeName());
         return maintDoc;
     }
     
-    private MaintenanceDocument createRealMaintDoc(MaintenanceDocument document) {
+    protected MaintenanceDocument createRealMaintDoc(MaintenanceDocument document) {
         if (document == null) {
             try {
                 document = (MaintenanceDocument) docService.getNewDocument(getCustomerMaintenanceDocumentTypeName());
@@ -799,7 +799,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     
     /**
      */
-    private Customer customerAlreadyExists(Customer customer) {
+    protected Customer customerAlreadyExists(Customer customer) {
         
         Customer existingCustomer = null;
         
@@ -831,7 +831,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         return existingCustomer;
     }
     
-    private void writeReportPDF(List<CustomerLoadFileResult> fileResults) {
+    protected void writeReportPDF(List<CustomerLoadFileResult> fileResults) {
         
         if (fileResults.isEmpty()) {
             return;
@@ -878,7 +878,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         pdfDoc.close();
     }
     
-    private void writeFileNameSectionTitle(Document pdfDoc, String filenameLine) {
+    protected void writeFileNameSectionTitle(Document pdfDoc, String filenameLine) {
         Font font = FontFactory.getFont(FontFactory.COURIER, 10, Font.BOLD);
         
         Paragraph paragraph = new Paragraph();
@@ -899,7 +899,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         }
     }
     
-    private void writeCustomerSectionTitle(Document pdfDoc, String customerNameLine) {
+    protected void writeCustomerSectionTitle(Document pdfDoc, String customerNameLine) {
         Font font = FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD + Font.UNDERLINE);
         
         Paragraph paragraph = new Paragraph();
@@ -918,7 +918,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         }
     }
     
-    private void writeCustomerSectionResult(Document pdfDoc, String resultLine) {
+    protected void writeCustomerSectionResult(Document pdfDoc, String resultLine) {
         Font font = FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD);
         
         Paragraph paragraph = new Paragraph();
@@ -937,7 +937,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         }
     }
     
-    private void writeMessageEntryLines(Document pdfDoc, List<String[]> messageLines) {
+    protected void writeMessageEntryLines(Document pdfDoc, List<String[]> messageLines) {
         Font font = FontFactory.getFont(FontFactory.COURIER, 8, Font.NORMAL);
         
         Paragraph paragraph;
@@ -961,7 +961,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         }
     }
     
-    private void getPdfWriter(Document pdfDoc) {
+    protected void getPdfWriter(Document pdfDoc) {
         
         String reportDropFolder = reportsDirectory + "/" + ArConstants.CustomerLoad.CUSTOMER_LOAD_REPORT_SUBFOLDER + "/";
         String fileName = ArConstants.CustomerLoad.BATCH_REPORT_BASENAME + "_" +  

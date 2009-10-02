@@ -44,7 +44,7 @@ public class OCRLineServiceImpl implements OCRLineService {
         return builder.toString();
     }
 
-    private int calculateCheckDigit(String... args) {
+    protected int calculateCheckDigit(String... args) {
         for(String str: args) {
             //do something with the Strings
         }

@@ -191,7 +191,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
      * @param results <=> CustomerOpenItemReportDetails to display in the report
      * @param details <=> <key = documentNumber, value = customerOpenItemReportDetail>
      */
-    private void populateReportDetailsForInvoices(List invoiceIds, List results, Hashtable details) {
+    protected void populateReportDetailsForInvoices(List invoiceIds, List results, Hashtable details) {
         CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         Collection invoices = getDocuments(CustomerInvoiceDocument.class, invoiceIds);
 
@@ -231,7 +231,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
      * @param results <=> CustomerOpenItemReportDetails to display in the report
      * @param details <=> <key = documentNumber, value = customerOpenItemReportDetail>
      */
-    private void populateReportDetailsForPaymentApplications(List paymentApplicationIds, List results, Hashtable details) throws WorkflowException {
+    protected void populateReportDetailsForPaymentApplications(List paymentApplicationIds, List results, Hashtable details) throws WorkflowException {
         Collection paymentApplications = getDocuments(PaymentApplicationDocument.class, paymentApplicationIds);
 
         for (Iterator itr = paymentApplications.iterator(); itr.hasNext();) {
@@ -268,7 +268,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
      * @param results <=> CustomerOpenItemReportDetails to display in the report
      * @param details <=> <key = documentNumber, value = customerOpenItemReportDetail>
      */
-    private void populateReportDetailsForUnappliedPaymentApplications(List unappliedHoldingIds, List results, Hashtable details) throws WorkflowException {
+    protected void populateReportDetailsForUnappliedPaymentApplications(List unappliedHoldingIds, List results, Hashtable details) throws WorkflowException {
         Collection paymentApplications = getDocuments(PaymentApplicationDocument.class, unappliedHoldingIds);
 
         for (Iterator itr = paymentApplications.iterator(); itr.hasNext();) {
@@ -348,7 +348,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         return docs;
     }
 
-    private Date getSqlDate(Calendar cal) {
+    protected Date getSqlDate(Calendar cal) {
         Date sqlDueDate = null;
 
         if (ObjectUtils.isNull(cal))
@@ -486,7 +486,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
      * @param urlParameters
      * @return ARDocumentHeader objects meeting the search criteria
      */
-    private Collection getARDocumentHeaders(Map urlParameters) {
+    protected Collection getARDocumentHeaders(Map urlParameters) {
         Collection arDocumentHeaders;
 
         String reportOption = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_OPTION))[0];
@@ -511,7 +511,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
      * @param details (will get populated here)
      * @return invoices
      */
-    private Collection<CustomerInvoiceDocument> getInvoicesByAccountNumberByDocumentIds(String accountNumber, List arDocumentHeaderIds, Collection<CustomerInvoiceDetail> details) {
+    protected Collection<CustomerInvoiceDocument> getInvoicesByAccountNumberByDocumentIds(String accountNumber, List arDocumentHeaderIds, Collection<CustomerInvoiceDetail> details) {
         Collection<CustomerInvoiceDocument> invoices = null;
         
         if (ObjectUtils.isNull(details) | details.size()==0)
@@ -532,7 +532,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         return invoices;
    }
     
-    private void populateReporDetails(List<CustomerInvoiceDocument> selectedInvoices,List results, Collection<CustomerInvoiceDetail> invoiceDetails) {
+    protected void populateReporDetails(List<CustomerInvoiceDocument> selectedInvoices,List results, Collection<CustomerInvoiceDetail> invoiceDetails) {
         
         for (Iterator<CustomerInvoiceDocument> iter = selectedInvoices.iterator(); iter.hasNext();) {
             CustomerInvoiceDocument invoice = iter.next();
@@ -592,7 +592,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         }
     }
     
-    private void populateReportDetails(List<CustomerInvoiceDocument> invoices, List results) {
+    protected void populateReportDetails(List<CustomerInvoiceDocument> invoices, List results) {
         for (CustomerInvoiceDocument invoice:invoices) {
             CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
             // Document Type

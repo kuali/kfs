@@ -52,11 +52,11 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     private CashControlDocumentService cashControlDocumentService;
     private KualiConfigurationService kualiConfigurationService;
 
-    private final static String CC_WORKFLOW_DOCUMENT_TYPE = "CTRL";
-    private final static String URL_PREFIX = "ar";
-    private final static String URL_MIDDLE = "Document.do?methodToCall=docHandler&command=";
-    private final static String URL_SUFFIX = "&docId=";
-    private final static String URL_DOC_TYPE = "CashControl";
+    protected final static String CC_WORKFLOW_DOCUMENT_TYPE = "CTRL";
+    protected final static String URL_PREFIX = "ar";
+    protected final static String URL_MIDDLE = "Document.do?methodToCall=docHandler&command=";
+    protected final static String URL_SUFFIX = "&docId=";
+    protected final static String URL_DOC_TYPE = "CashControl";
 
     /**
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#createDocumentFromElectronicPayments(java.util.List,
@@ -93,7 +93,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      * 
      * @param document the cash control document
      */
-    private void addDescriptionToDocument(CashControlDocument document) {
+    protected void addDescriptionToDocument(CashControlDocument document) {
         document.getDocumentHeader().setDocumentDescription(kualiConfigurationService.getPropertyString(ArKeyConstants.ELECTRONIC_PAYMENT_CLAIM));
     }
 
@@ -123,7 +123,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      * @param electronicPayments the electronic payments to be claimed
      * @throws WorkflowException workflow exception
      */
-    private void addCashControlDetailsToDocument(CashControlDocument document, List<ElectronicPaymentClaim> electronicPayments) throws WorkflowException {
+    protected void addCashControlDetailsToDocument(CashControlDocument document, List<ElectronicPaymentClaim> electronicPayments) throws WorkflowException {
         for (ElectronicPaymentClaim electronicPaymentClaim : electronicPayments) {
             CashControlDetail newCashControlDetail = new CashControlDetail();
             newCashControlDetail.setCashControlDocument(document);

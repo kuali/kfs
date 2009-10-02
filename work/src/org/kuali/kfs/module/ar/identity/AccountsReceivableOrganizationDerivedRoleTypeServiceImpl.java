@@ -40,7 +40,7 @@ import org.kuali.rice.kim.service.support.impl.PassThruRoleTypeServiceBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
-    private static final String PROCESSOR_ROLE_NAME = "Processor";
+    protected static final String PROCESSOR_ROLE_NAME = "Processor";
 
     private BusinessObjectService businessObjectService;
     private FinancialSystemUserService financialSystemUserService;

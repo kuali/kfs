@@ -66,14 +66,14 @@ public class AccountsReceivableDocumentHeaderServiceImpl implements AccountsRece
         throw new UnsupportedOperationException("");
     }
 
-    private OrganizationOptions getOrgOptionsIfExists(String chartOfAccountsCode, String organizationCode) {
+    protected OrganizationOptions getOrgOptionsIfExists(String chartOfAccountsCode, String organizationCode) {
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", chartOfAccountsCode);
         criteria.put("organizationCode", organizationCode);
         return (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
     }
     
-    private SystemInformation getProcessingOrgIfExists(String chartOfAccountsCode, String organizationCode) {
+    protected SystemInformation getProcessingOrgIfExists(String chartOfAccountsCode, String organizationCode) {
         return sysInfoService.getByProcessingChartOrgAndFiscalYear(chartOfAccountsCode, organizationCode, universityDateService.getCurrentFiscalYear());
     }
     /**

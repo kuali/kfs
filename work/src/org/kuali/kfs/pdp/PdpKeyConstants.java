@@ -90,6 +90,7 @@ public class PdpKeyConstants {
     // KFSMI-3771
     public static final String ERROR_PDP_CHECK_BANK_REQUIRED = "error.pdp.customerProfile.checkBank.required";
     public static final String ERROR_PDP_ACH_BANK_REQUIRED = "error.pdp.customerProfile.achBank.required";
+    public static final String ERROR_CUSTOMER_PROFILE_CHART_UNIT_SUB_UNIT_NOT_UNIQUE = "error.pdp.customerProfile.chartUnitSubUnit.notUnique";
     
     public static class BatchConstants{
         public static class ErrorMessages{

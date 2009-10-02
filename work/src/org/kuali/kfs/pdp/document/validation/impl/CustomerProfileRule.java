@@ -15,15 +15,22 @@
  */
 package org.kuali.kfs.pdp.document.validation.impl;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.CustomerBank;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.MessageMap;
@@ -114,7 +121,34 @@ public class CustomerProfileRule extends MaintenanceDocumentRuleBase {
             
         }
         
+        isValid &= verifyChartUnitSubUnitIsUnique(customerProfile);
+        
         return isValid;
     } 
+    
+    /**
+     * Verifies that the chart/unit/sub-unit combination on this customer profile is unique
+     * @param customerProfile the customer profile to check
+     * @return true if the chart/unit/sub-unit is unique, false otherwise
+     */
+    protected boolean verifyChartUnitSubUnitIsUnique(CustomerProfile customerProfile) {
+        boolean result = true;
+        
+        if (!StringUtils.isBlank(customerProfile.getChartCode()) && !StringUtils.isBlank(customerProfile.getUnitCode()) && !StringUtils.isBlank(customerProfile.getSubUnitCode())) {
+            final BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+            Map<String, Object> searchKeys = new HashMap<String, Object>();
+            searchKeys.put(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_CHART_CODE, customerProfile.getChartCode());
+            searchKeys.put(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_UNIT_CODE, customerProfile.getUnitCode());
+            searchKeys.put(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_SUB_UNIT_CODE, customerProfile.getSubUnitCode());
+            
+            final Collection foundCustomerProfiles = businessObjectService.findMatching(CustomerProfile.class, searchKeys);
+            if (foundCustomerProfiles != null && foundCustomerProfiles.size() > 0) {
+                result = false;
+                putFieldError(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_UNIT_CODE, PdpKeyConstants.ERROR_CUSTOMER_PROFILE_CHART_UNIT_SUB_UNIT_NOT_UNIQUE, new String[] { customerProfile.getChartCode(), customerProfile.getUnitCode(), customerProfile.getSubUnitCode()});
+            }
+        }
+        
+        return result;
+    }
     
 }

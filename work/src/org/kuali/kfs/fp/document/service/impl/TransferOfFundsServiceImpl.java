@@ -49,7 +49,7 @@ public class TransferOfFundsServiceImpl implements TransferOfFundsService {
      * @param parameterName
      * @return boolean
      */
-    private final boolean checkMandatoryTransfersSubType(String objectSubTypeCode, String parameterName) {
+    protected boolean checkMandatoryTransfersSubType(String objectSubTypeCode, String parameterName) {
         if (objectSubTypeCode == null) {
             throw new IllegalArgumentException(EXCEPTIONS.NULL_OBJECT_SUBTYPE_MESSAGE);
         }

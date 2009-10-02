@@ -92,7 +92,7 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
      * @param line a line to generate fringe benefit lines for
      * @return a List of BudgetAdjustmentAccountingLines to add to the document as fringe benefit lines
      */
-    private List<BudgetAdjustmentAccountingLine> generateBenefitLines(Integer fiscalYear, BudgetAdjustmentAccountingLine line, BudgetAdjustmentDocument document) {
+    protected List<BudgetAdjustmentAccountingLine> generateBenefitLines(Integer fiscalYear, BudgetAdjustmentAccountingLine line, BudgetAdjustmentDocument document) {
         List<BudgetAdjustmentAccountingLine> fringeLines = new ArrayList<BudgetAdjustmentAccountingLine>();
 
         try {
@@ -175,7 +175,7 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
     }
 
     
-    private KualiDecimal formatPercentageForMultiplication(KualiDecimal percent) {
+    protected KualiDecimal formatPercentageForMultiplication(KualiDecimal percent) {
         return percent.divide(new KualiDecimal(100));
     }
 

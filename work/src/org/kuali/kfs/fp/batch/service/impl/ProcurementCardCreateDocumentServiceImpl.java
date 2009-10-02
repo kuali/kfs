@@ -178,7 +178,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * Returns a list of all initiated but not yet routed procurement card documents, using the KualiWorkflowInfo service.
      * @return a list of procurement card documents to route
      */
-    private List<String> retrieveProcurementCardDocumentsToRoute(String statusCode) throws WorkflowException, RemoteException {
+    protected List<String> retrieveProcurementCardDocumentsToRoute(String statusCode) throws WorkflowException, RemoteException {
         List<String> documentIds = new ArrayList<String>();
         
         DocumentSearchCriteriaDTO criteria = new DocumentSearchCriteriaDTO();
@@ -202,7 +202,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * @param routeDocHeader the String representing an HTML link to the document
      * @return the document id
      */
-    private String parseDocumentIdFromRouteDocHeader(String routeDocHeader) {
+    protected String parseDocumentIdFromRouteDocHeader(String routeDocHeader) {
         int rightBound = routeDocHeader.indexOf('>') + 1;
         int leftBound = routeDocHeader.indexOf('<', rightBound);
         return routeDocHeader.substring(rightBound, leftBound);
@@ -277,7 +277,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * 
      * @return List containing transactions for document.
      */
-    private List retrieveTransactions() {
+    protected List retrieveTransactions() {
         List groupedTransactions = new ArrayList();
 
         // retrieve records from transaction table order by card number
@@ -320,7 +320,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * @param transactions List of ProcurementCardTransaction objects to be used for creating the document.
      * @return A ProcurementCardDocument populated with the transactions provided.
      */
-    private ProcurementCardDocument createProcurementCardDocument(List transactions) {
+    protected ProcurementCardDocument createProcurementCardDocument(List transactions) {
         ProcurementCardDocument pcardDocument = null;
 
         try {
@@ -380,7 +380,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * @param pcardDocument Procurement card document to place the record in.
      * @param transaction The transaction to set the card holder record fields from.
      */
-    private void createCardHolderRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction) {
+    protected void createCardHolderRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction) {
         ProcurementCardHolder cardHolder = new ProcurementCardHolder();
 
         cardHolder.setDocumentNumber(pcardDocument.getDocumentNumber());
@@ -413,7 +413,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * @param transactionLineNumber Line number of the new transaction detail record within the procurement card document.
      * @return The error text that was generated from the creation of the detail records.  If the text is empty, no errors were encountered.
      */
-    private String createTransactionDetailRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, Integer transactionLineNumber) {
+    protected String createTransactionDetailRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, Integer transactionLineNumber) {
         ProcurementCardTransactionDetail transactionDetail = new ProcurementCardTransactionDetail();
 
         // set the document transaction detail fields from the loaded transaction record
@@ -461,7 +461,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * @param transaction Transaction to set fields from.
      * @param transactionDetail The transaction detail to set the vendor record on.
      */
-    private void createTransactionVendorRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail transactionDetail) {
+    protected void createTransactionVendorRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail transactionDetail) {
         ProcurementCardVendor transactionVendor = new ProcurementCardVendor();
 
         transactionVendor.setDocumentNumber(pcardDocument.getDocumentNumber());
@@ -488,7 +488,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * @param docTransactionDetail The transaction detail to create source and target accounting lines from.
      * @return String containing any error messages.
      */
-    private String createAndValidateAccountingLines(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail docTransactionDetail) {
+    protected String createAndValidateAccountingLines(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail docTransactionDetail) {
         // build source lines
         ProcurementCardSourceAccountingLine sourceLine = createSourceAccountingLine(transaction, docTransactionDetail);
         sourceLine.setPostingYear(pcardDocument.getPostingYear());
@@ -514,7 +514,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * @param docTransactionDetail The transaction detail to pull information from to populate the accounting line.
      * @return The target accounting line fully populated with values from the parameters passed in. 
      */
-    private ProcurementCardTargetAccountingLine createTargetAccountingLine(ProcurementCardTransaction transaction, ProcurementCardTransactionDetail docTransactionDetail) {
+    protected ProcurementCardTargetAccountingLine createTargetAccountingLine(ProcurementCardTransaction transaction, ProcurementCardTransactionDetail docTransactionDetail) {
         ProcurementCardTargetAccountingLine targetLine = new ProcurementCardTargetAccountingLine();
 
         targetLine.setDocumentNumber(docTransactionDetail.getDocumentNumber());
@@ -543,7 +543,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * @param docTransactionDetail The transaction detail to pull information from to populate the accounting line.
      * @return The source accounting line fully populated with values from the parameters passed in.
      */
-    private ProcurementCardSourceAccountingLine createSourceAccountingLine(ProcurementCardTransaction transaction, ProcurementCardTransactionDetail docTransactionDetail) {
+    protected ProcurementCardSourceAccountingLine createSourceAccountingLine(ProcurementCardTransaction transaction, ProcurementCardTransactionDetail docTransactionDetail) {
         ProcurementCardSourceAccountingLine sourceLine = new ProcurementCardSourceAccountingLine();
 
         sourceLine.setDocumentNumber(docTransactionDetail.getDocumentNumber());
@@ -647,7 +647,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * Retrieves the error chart code from the parameter table.
      * @return The error chart code defined in the parameter table.
      */
-    private String getErrorChartCode() {
+    protected String getErrorChartCode() {
         return parameterService.getParameterValue(ProcurementCardCreateDocumentsStep.class, ProcurementCardDocumentRuleConstants.ERROR_TRANS_CHART_CODE_PARM_NM);
     }
 
@@ -655,7 +655,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * Retrieves the error account number from the parameter table.
      * @return The error account number defined in the parameter table.
      */
-    private String getErrorAccountNumber() {
+    protected String getErrorAccountNumber() {
         return parameterService.getParameterValue(ProcurementCardCreateDocumentsStep.class, ERROR_TRANS_ACCOUNT_PARM_NM);
     }
 
@@ -663,7 +663,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * Retrieves the default chard code from the parameter table.
      * @return The default chart code defined in the parameter table.
      */
-    private String getDefaultChartCode() {
+    protected String getDefaultChartCode() {
         return parameterService.getParameterValue(ProcurementCardLoadStep.class, DEFAULT_TRANS_CHART_CODE_PARM_NM);
     }
 
@@ -671,7 +671,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * Retrieves the default account number from the parameter table.
      * @return The default account number defined in the parameter table.
      */
-    private String getDefaultAccountNumber() {
+    protected String getDefaultAccountNumber() {
         return parameterService.getParameterValue(ProcurementCardLoadStep.class, DEFAULT_TRANS_ACCOUNT_PARM_NM);
     }
 
@@ -679,14 +679,14 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * Retrieves the default object code from the parameter table.
      * @return The default object code defined in the parameter table.
      */
-    private String getDefaultObjectCode() {
+    protected String getDefaultObjectCode() {
         return parameterService.getParameterValue(ProcurementCardLoadStep.class, DEFAULT_TRANS_OBJECT_CODE_PARM_NM);
     }
 
     /**
      * Calls businessObjectService to remove all the procurement card transaction rows from the transaction load table.
      */
-    private void cleanTransactionsTable() {
+    protected void cleanTransactionsTable() {
         businessObjectService.deleteMatching(ProcurementCardTransaction.class, new HashMap());
     }
 
@@ -695,7 +695,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * 
      * @param transactions List of ProcurementCardTransactions to load.
      */
-    private void loadTransactions(List transactions) {
+    protected void loadTransactions(List transactions) {
         businessObjectService.save(transactions);
     }
 

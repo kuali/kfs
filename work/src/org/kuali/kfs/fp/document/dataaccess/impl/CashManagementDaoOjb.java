@@ -105,7 +105,7 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
      * @param cashieringRecordSource the cashiering record source
      * @return a criteria, based on all of the given information
      */
-    private Criteria getCashDetailCriteria(String documentNumber, String documentTypeCode, String cashieringRecordSource) {
+    protected Criteria getCashDetailCriteria(String documentNumber, String documentTypeCode, String cashieringRecordSource) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("documentNumber", documentNumber);
         criteria.addEqualTo("financialDocumentTypeCode", documentTypeCode);
@@ -122,7 +122,7 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
      * @param detailType the class of the cash detail type we want
      * @return the cash detail type record
      */
-    private Object retrieveCashDetail(String documentNumber, String documentTypeCode, String cashieringRecordSource, Class detailType) {
+    protected Object retrieveCashDetail(String documentNumber, String documentTypeCode, String cashieringRecordSource, Class detailType) {
         QueryByCriteria cashDetailQuery = QueryFactory.newQuery(detailType, getCashDetailCriteria(documentNumber, documentTypeCode, cashieringRecordSource));
         Iterator iter = getPersistenceBrokerTemplate().getIteratorByQuery(cashDetailQuery);
         return (iter.hasNext() ? iter.next() : null);
@@ -143,7 +143,7 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
      * @param depositLineNumber the line number of the deposit
      * @return a criteria to find those checks
      */
-    private Criteria createDepositedCashieringCheckCriteria(String documentNumber, Integer depositLineNumber) {
+    protected Criteria createDepositedCashieringCheckCriteria(String documentNumber, Integer depositLineNumber) {
         Criteria criteria = getCashDetailCriteria(documentNumber, CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CheckSources.CASH_MANAGEMENT);
         criteria.addEqualTo("financialDocumentDepositLineNumber", depositLineNumber);
         return criteria;
@@ -155,7 +155,7 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
      * @param iter an iterator with checks results in it
      * @return a list of checks
      */
-    private List<Check> putResultsIntoCheckList(Iterator iter) {
+    protected List<Check> putResultsIntoCheckList(Iterator iter) {
         List<Check> result = new ArrayList<Check>();
         while (iter.hasNext()) {
             result.add((Check) iter.next());
@@ -177,7 +177,7 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
      * @param documentNumber the document number undeposited checks are associated with
      * @return a criteria to find them
      */
-    private Criteria createUndepositedCashieringCheckCriteria(String documentNumber) {
+    protected Criteria createUndepositedCashieringCheckCriteria(String documentNumber) {
         Criteria criteria = getCashDetailCriteria(documentNumber, CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CheckSources.CASH_MANAGEMENT);
         criteria.addColumnIsNull("FDOC_DPST_LN_NBR");
         return criteria;
@@ -197,7 +197,7 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
      * @param documentNumber the CM document the checks are associated with
      * @return a criteria to find deposited checks
      */
-    private Criteria createDepositedCashieringCheckCriteria(String documentNumber) {
+    protected Criteria createDepositedCashieringCheckCriteria(String documentNumber) {
         Criteria criteria = getCashDetailCriteria(documentNumber, CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CheckSources.CASH_MANAGEMENT);
         criteria.addColumnNotNull("FDOC_DPST_LN_NBR");
         return criteria;
@@ -239,7 +239,7 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
      * @param documentNumber the document number to get cash details for
      * @return the criteria that will allow the retrieval of the right cash details
      */
-    private Criteria getAllCashDetailCriteria(String documentNumber) {
+    protected Criteria getAllCashDetailCriteria(String documentNumber) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("documentNumber", documentNumber);
         criteria.addEqualTo("financialDocumentTypeCode", CashieringTransaction.DETAIL_DOCUMENT_TYPE);

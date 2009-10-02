@@ -212,7 +212,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
      * 
      * @param cashDrawer The cash drawer to be persisted.
      */
-    private void save(CashDrawer cashDrawer) {
+    protected void save(CashDrawer cashDrawer) {
         if (cashDrawer == null) {
             throw new IllegalArgumentException("invalid (null) cashDrawer");
         }
@@ -227,7 +227,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
      * @param campusCode The campus code to be added to the map.
      * @return Map suitable for use with primaryKey-related OJB methods
      */
-    private Map buildPrimaryKeyMap(String campusCode) {
+    protected Map buildPrimaryKeyMap(String campusCode) {
         Map keyMap = new HashMap();
         keyMap.put(CAMPUS_CODE_PROPERTY, campusCode);
         return keyMap;

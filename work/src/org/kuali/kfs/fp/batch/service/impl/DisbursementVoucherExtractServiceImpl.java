@@ -140,7 +140,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @param user The user object used when creating the batch file to upload with outstanding payments.
      * @param processRunDate This is the date that the batch file is created, often this value will be today's date.
      */
-    private void extractPaymentsForCampus(String campusCode, Person user, Date processRunDate) {
+    protected void extractPaymentsForCampus(String campusCode, Person user, Date processRunDate) {
         LOG.debug("extractPaymentsForCampus() started for campus: " + campusCode);
 
         Batch batch = createBatch(campusCode, user, processRunDate);
@@ -168,7 +168,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @param batch The batch file used to build a payment group and detail.
      * @param processRunDate The date the batch file is to post.
      */
-    private void addPayment(DisbursementVoucherDocument document, Batch batch, Date processRunDate) {
+    protected void addPayment(DisbursementVoucherDocument document, Batch batch, Date processRunDate) {
         LOG.debug("addPayment() started");
 
         PaymentGroup pg = buildPaymentGroup(document, batch);
@@ -201,7 +201,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @param batch The batch that the payment group will be associated with.
      * @return A PaymentGroup object fully populated with all the values necessary to make a payment.
      */
-    private PaymentGroup buildPaymentGroup(DisbursementVoucherDocument document, Batch batch) {
+    protected PaymentGroup buildPaymentGroup(DisbursementVoucherDocument document, Batch batch) {
         LOG.debug("buildPaymentGroup() started");
 
         PaymentGroup pg = new PaymentGroup();
@@ -284,7 +284,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @param processRunDate The date of the payment detail invoice.
      * @return A fully populated PaymentDetail instance.
      */
-    private PaymentDetail buildPaymentDetail(DisbursementVoucherDocument document, Batch batch, Date processRunDate) {
+    protected PaymentDetail buildPaymentDetail(DisbursementVoucherDocument document, Batch batch, Date processRunDate) {
         LOG.debug("buildPaymentDetail() started");
 
         PaymentDetail pd = new PaymentDetail();
@@ -508,7 +508,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @param processRunDate The date the batch was submitted and the date the customer profile was generated.
      * @return A fully populated batch instance.
      */
-    private Batch createBatch(String campusCode, Person user, Date processRunDate) {
+    protected Batch createBatch(String campusCode, Person user, Date processRunDate) {
         String orgCode = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DvPdpExtractGroup.DV_PDP_ORG_CODE);
         String subUnitCode = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DvPdpExtractGroup.DV_PDP_SBUNT_CODE);
         CustomerProfile customer = customerProfileService.get(campusCode, orgCode, subUnitCode);
@@ -540,7 +540,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @param statusCode The status code to retrieve disbursement vouchers by.
      * @return A collection of campus codes of all the campuses with disbursement vouchers in the status given.
      */
-    private Set<String> getCampusListByDocumentStatusCode(String statusCode) {
+    protected Set<String> getCampusListByDocumentStatusCode(String statusCode) {
         LOG.debug("getCampusListByDocumentStatusCode() started");
 
         Set<String> campusSet = new HashSet<String>();
@@ -561,7 +561,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @param campusCode The campus code that the disbursement vouchers will be associated with.
      * @return A collection of disbursement voucher objects that meet the search criteria given.
      */
-    private Collection<DisbursementVoucherDocument> getListByDocumentStatusCodeCampus(String statusCode, String campusCode) {
+    protected Collection<DisbursementVoucherDocument> getListByDocumentStatusCodeCampus(String statusCode, String campusCode) {
         LOG.debug("getListByDocumentStatusCodeCampus() started");
 
         Collection<DisbursementVoucherDocument> list = new ArrayList<DisbursementVoucherDocument>();
@@ -643,7 +643,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * 
      * @param glpe the general ledger pending entry to undo
      */
-    private void oppositifyEntry(GeneralLedgerPendingEntry glpe, BusinessObjectService boService, GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper) {
+    protected void oppositifyEntry(GeneralLedgerPendingEntry glpe, BusinessObjectService boService, GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper) {
         if (glpe.getTransactionDebitCreditCode().equals(KFSConstants.GL_CREDIT_CODE)) {
             glpe.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
         }

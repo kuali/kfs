@@ -163,7 +163,7 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
      * @param keyValue The primary key value to be used to lookup the object by.
      * @return An instance of a business object matching the class type and primary key value given.
      */
-    private PersistableBusinessObject retrieveObjectByKey(Class clazz, String keyValue) {
+    protected PersistableBusinessObject retrieveObjectByKey(Class clazz, String keyValue) {
         List primaryKeyFields = persistenceStructureService.listPrimaryKeyFieldNames(clazz);
         if (primaryKeyFields.size() != 1) {
             throw new IllegalArgumentException("multi-part key found. expecting single key field for " + clazz.getName());
@@ -182,7 +182,7 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
      * @param key The key to the value being retrieved.
      * @return The value associated with the key provided, or empty string if no value is found.
      */
-    private String getValueForKey(KeyValuesFinder keyValuesFinder, String key) {
+    protected String getValueForKey(KeyValuesFinder keyValuesFinder, String key) {
         for (Iterator i = keyValuesFinder.getKeyValues().iterator(); i.hasNext();) {
             KeyLabelPair pair = (KeyLabelPair) i.next();
             if (StringUtils.equals((String) pair.getKey(), key)) {
@@ -198,7 +198,7 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
      * @param docLocCd A key used to retrieve the document location.
      * @return The address the cover sheet will be sent to or empty string if no location is found.
      */
-    private String retrieveAddress(String docLocCd) {
+    protected String retrieveAddress(String docLocCd) {
         String address = "";
         try {
             address = ((DisbursementVoucherDocumentationLocation) retrieveObjectByKey(DisbursementVoucherDocumentationLocation.class, docLocCd)).getDisbursementVoucherDocumentationLocationAddress();

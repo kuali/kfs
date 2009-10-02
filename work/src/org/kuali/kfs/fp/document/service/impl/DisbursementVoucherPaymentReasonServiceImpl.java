@@ -239,7 +239,7 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
     }
 
     // get and concatenate the descriptive payee types of the given codes
-    private String getDescriptivePayeeTypesAsString(List<String> payeeTypeCodes) {
+    protected String getDescriptivePayeeTypesAsString(List<String> payeeTypeCodes) {
         List<String> payeeTypeDescriptions = new ArrayList<String>();
 
         for (String payeeTypeCode : payeeTypeCodes) {
@@ -250,8 +250,7 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
         return this.convertListToString(payeeTypeDescriptions);
     }
 
-    // concatenates the emlements of the given String list as a String
-    private String convertListToString(List<String> list) {
+    protected String convertListToString(List<String> list) {
         if (list == null || list.isEmpty()) {
             return StringUtils.EMPTY;
         }

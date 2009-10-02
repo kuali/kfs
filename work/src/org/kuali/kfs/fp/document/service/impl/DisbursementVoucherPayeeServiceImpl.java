@@ -219,13 +219,12 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
     }
 
     /**
-     * This method...
-     * 
-     * @param newPayeeDetail
-     * @param oldPayeeDetail
-     * @return
+     * Creates text for a note which records changes to the payee
+     * @param newPayeeDetail the changed payee detail
+     * @param oldPayeeDetail the original payee detail
+     * @return the string for a note
      */
-    private String buildPayeeChangedNoteText(DisbursementVoucherPayeeDetail newPayeeDetail, DisbursementVoucherPayeeDetail oldPayeeDetail) {
+    protected String buildPayeeChangedNoteText(DisbursementVoucherPayeeDetail newPayeeDetail, DisbursementVoucherPayeeDetail oldPayeeDetail) {
         StringBuilder noteText = new StringBuilder();
         String valueLabel = "";
         try {
@@ -264,7 +263,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
      * @param newValue
      * @return
      */
-    private String buildAddressValueDifferenceText(String valueName, String oldValue, String newValue) {
+    protected String buildAddressValueDifferenceText(String valueName, String oldValue, String newValue) {
         // Nothing to log if values are still the same
         if (StringUtils.equals(oldValue, newValue)) {
             return "";
@@ -286,7 +285,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
      * @param priorApprovers the previous approvers
      * @param initiatorUserId the id of the initiator
      */
-    private void setupFYIs(DisbursementVoucherDocument dvDoc, Set<Person> priorApprovers, String initiatorUserId) {
+    protected void setupFYIs(DisbursementVoucherDocument dvDoc, Set<Person> priorApprovers, String initiatorUserId) {
         List<AdHocRoutePerson> adHocRoutePersons = dvDoc.getAdHocRoutePersons();
         final FinancialSystemTransactionalDocumentAuthorizerBase documentAuthorizer = getDocumentAuthorizer(dvDoc);
         
@@ -306,7 +305,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
      * Constructs a document authorizer for this class
      * @return the document authorizer for this class
      */
-    private FinancialSystemTransactionalDocumentAuthorizerBase getDocumentAuthorizer(DisbursementVoucherDocument dvDoc) {
+    protected FinancialSystemTransactionalDocumentAuthorizerBase getDocumentAuthorizer(DisbursementVoucherDocument dvDoc) {
         final String docTypeName = dataDictionaryService.getDocumentTypeNameByClass(dvDoc.getClass());
         Class<? extends DocumentAuthorizer> documentAuthorizerClass = dataDictionaryService.getDataDictionary().getDocumentEntry(docTypeName).getDocumentAuthorizerClass();
         
@@ -330,7 +329,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
      * @param userId
      * @return
      */
-    private AdHocRoutePerson buildFyiRecipient(String userId) {
+    protected AdHocRoutePerson buildFyiRecipient(String userId) {
         AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
         adHocRoutePerson.setActionRequested(KEWConstants.ACTION_REQUEST_FYI_REQ);
         adHocRoutePerson.setId(userId);
@@ -338,7 +337,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
     }
 
     // get the description of the vendor type with the given vendor type code
-    private String getVendorTypeDescription(String vendorTypeCode) {
+    protected String getVendorTypeDescription(String vendorTypeCode) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(KFSPropertyConstants.VENDOR_TYPE_CODE, vendorTypeCode);
 
@@ -347,7 +346,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
     }
 
     // determine whether the given payee id number is associated with an individual vendor
-    private boolean isPayeeIndividualVendor(String payeeIdNumber) {
+    protected boolean isPayeeIndividualVendor(String payeeIdNumber) {
         List<String> individualOwnerShipTypeCodes = parameterService.getParameterValues(DisbursementVoucherDocument.class, DisbursementVoucherConstants.INDIVIDUAL_OWNERSHIP_TYPES_PARM_NM);
 
         VendorDetail vendor = vendorService.getByVendorNumber(payeeIdNumber);

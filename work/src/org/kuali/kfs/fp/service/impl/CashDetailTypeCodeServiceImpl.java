@@ -66,7 +66,7 @@ public class CashDetailTypeCodeServiceImpl implements CashDetailTypeCodeService 
      * @see #CASH_RECEIPT_CHECK
      * @see #CASH_RECEIPT_COIN
      */
-    private CashDetailTypeCode getCashDetailTypeCodeByCode(String cashDetailTypeCode) {
+    protected CashDetailTypeCode getCashDetailTypeCodeByCode(String cashDetailTypeCode) {
         // return (CashDetailTypeCode) kualiCodeService.getByCode(CashDetailTypeCode.class, cashDetailTypeCode);
         return getDummyInstance(cashDetailTypeCode);
     }
@@ -80,7 +80,7 @@ public class CashDetailTypeCodeServiceImpl implements CashDetailTypeCodeService 
      * @param cashDetailTypeCodeCode The code to populate the dummy instance with.
      * @return A CashDetailTypeCode instance based on the value provided.
      */
-    private CashDetailTypeCode getDummyInstance(String cashDetailTypeCodeCode) {
+    protected CashDetailTypeCode getDummyInstance(String cashDetailTypeCodeCode) {
         CashDetailTypeCode cashDetailTypeCode = new CashDetailTypeCode();
         cashDetailTypeCode.setCode(cashDetailTypeCodeCode);
         return cashDetailTypeCode;

@@ -330,7 +330,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param bank The bank account of the deposit being added.
      * @param selectedCashReceipts The collection of cash receipts associated with the new deposit.
      */
-    private void validateDepositParams(CashManagementDocument cashManagementDoc, Bank bank, List<CashReceiptDocument> selectedCashReceipts) {
+    protected void validateDepositParams(CashManagementDocument cashManagementDoc, Bank bank, List<CashReceiptDocument> selectedCashReceipts) {
         if (cashManagementDoc == null) {
             throw new IllegalArgumentException("invalid (null) cashManagementDoc");
         }
@@ -369,7 +369,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param selectedCashieringChecks The cashiering checks that make up the deposit.
      * @return A new instance of a deposit generated from all the parameters provided.
      */
-    private Deposit buildDeposit(CashManagementDocument cashManagementDoc, String depositTypeCode, String depositTicketNumber, Bank bank, List<CashReceiptDocument> selectedCashReceipts, List selectedCashieringChecks) {
+    protected Deposit buildDeposit(CashManagementDocument cashManagementDoc, String depositTypeCode, String depositTicketNumber, Bank bank, List<CashReceiptDocument> selectedCashReceipts, List selectedCashieringChecks) {
         Deposit deposit = new Deposit();
         deposit.setDocumentNumber(cashManagementDoc.getDocumentNumber());
         deposit.setCashManagementDocument(cashManagementDoc);
@@ -411,7 +411,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param cmDoc The cash management doc to find undeposited checks for.
      * @return A map of checks keyed on sequence id.
      */
-    private Map<Integer, Check> getUndepositedChecksAsMap(CashManagementDocument cmDoc) {
+    protected Map<Integer, Check> getUndepositedChecksAsMap(CashManagementDocument cmDoc) {
         Map<Integer, Check> checks = new HashMap<Integer, Check>();
         List<Check> checkList = cashManagementDao.selectUndepositedCashieringChecks(cmDoc.getDocumentNumber());
         if (checkList != null && checkList.size() > 0) {
@@ -707,7 +707,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * 
      * @param deposit The deposit the cash receipts are associated with.
      */
-    private void finalizeCashReceiptsForDeposit(Deposit deposit) {
+    protected void finalizeCashReceiptsForDeposit(Deposit deposit) {
         List cashReceipts = this.retrieveCashReceipts(deposit);
         for (Object o: cashReceipts) {
             CashReceiptDocument crDoc = (CashReceiptDocument)o;
@@ -749,7 +749,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param drawer The cash drawer to operate on.
      * @param trans The transaction that is the operation.
      */
-    private void updateCashDrawer(CashDrawer drawer, CashieringTransaction trans) {
+    protected void updateCashDrawer(CashDrawer drawer, CashieringTransaction trans) {
         // add money in to cash drawer
         if (!trans.getMoneyInCurrency().isEmpty()) {
             drawer.addCurrency(trans.getMoneyInCurrency());
@@ -775,7 +775,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * 
      * @param trans The transaction being performed.
      */
-    private void completeNewItemInProcess(CashieringTransaction trans) {
+    protected void completeNewItemInProcess(CashieringTransaction trans) {
         if (trans.getNewItemInProcess().isPopulated()) {
             trans.getNewItemInProcess().setItemRemainingAmount(trans.getNewItemInProcess().getItemAmount());
         }
@@ -790,7 +790,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * 
      * @param cmDoc The cash management document the checks will be saved against.
      */
-    private void saveChecks(CashManagementDocument cmDoc) {
+    protected void saveChecks(CashManagementDocument cmDoc) {
         if (cmDoc.getChecks() != null) {
             for (Check check: cmDoc.getChecks()) {
                 check.setDocumentNumber(cmDoc.getDocumentNumber());
@@ -808,7 +808,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param cmDoc The document the checks will be transferred to.
      * @param trans The transaction the checks are associated with.
      */
-    private void transferChecksToCashManagementDocument(CashManagementDocument cmDoc, CashieringTransaction trans) {
+    protected void transferChecksToCashManagementDocument(CashManagementDocument cmDoc, CashieringTransaction trans) {
         for (Check check: trans.getMoneyInChecks()) {
             check.setFinancialDocumentTypeCode(CashieringTransaction.DETAIL_DOCUMENT_TYPE);
             check.setCashieringRecordSource(KFSConstants.CheckSources.CASH_MANAGEMENT);
@@ -823,7 +823,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param cmDoc The cash management doc that the new item in process will be associated with.
      * @param trans The cashiering transaction that created the new item in process.
      */
-    private void saveNewItemInProcess(CashManagementDocument cmDoc, CashieringTransaction trans) {
+    protected void saveNewItemInProcess(CashManagementDocument cmDoc, CashieringTransaction trans) {
         if (trans.getNewItemInProcess().isPopulated()) {
             trans.getNewItemInProcess().setItemRemainingAmount(trans.getNewItemInProcess().getItemAmount());
             trans.getNewItemInProcess().setItemReducedAmount(KualiDecimal.ZERO);
@@ -850,7 +850,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param cmDoc The cash management document that the items in process will be associated with
      * @param trans The cashiering transaction the items in process are associated with.
      */
-    private void saveExisingItemsInProcess(CashManagementDocument cmDoc, CashieringTransaction trans) {
+    protected void saveExisingItemsInProcess(CashManagementDocument cmDoc, CashieringTransaction trans) {
         if (trans.getOpenItemsInProcess() != null) {
             CashDrawer drawer = cmDoc.getCashDrawer();
             
@@ -879,7 +879,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param cmDoc The cash management document that the cash will be saved to.
      * @param trans The cashiering transaction the cash is currently associated with.
      */
-    private void saveMoneyInCash(CashManagementDocument cmDoc, CashieringTransaction trans) {
+    protected void saveMoneyInCash(CashManagementDocument cmDoc, CashieringTransaction trans) {
         // get the cumulative money in coin for this doc
         CoinDetail cumulativeMoneyInCoin = cashManagementDao.findCoinDetailByCashieringRecordSource(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
         // add the new money in coin
@@ -900,7 +900,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param cmDoc The cash management document that the cash will be saved to.
      * @param trans The cashiering transaction the cash is currently associated with.
      */
-    private void saveMoneyOutCash(CashManagementDocument cmDoc, CashieringTransaction trans) {
+    protected void saveMoneyOutCash(CashManagementDocument cmDoc, CashieringTransaction trans) {
         CoinDetail cumulativeMoneyOutCoin = cashManagementDao.findCoinDetailByCashieringRecordSource(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_OUT);
         cumulativeMoneyOutCoin.add(trans.getMoneyOutCoin());
         businessObjectService.save(cumulativeMoneyOutCoin);
@@ -1146,7 +1146,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param cmDoc The cash management document to find cash receipts associated with the campus of.
      * @return True if there's some cash receipts that verified, interim, or final in this campus; false if otherwise.
      */
-    private boolean existCashReceipts(CashManagementDocument cmDoc) {
+    protected boolean existCashReceipts(CashManagementDocument cmDoc) {
         List<CashReceiptDocument> cashReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(cmDoc.getCampusCode(), new String[] {KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, KFSConstants.DocumentStatusCodes.CashReceipt.FINAL} );
         return cashReceipts != null && cashReceipts.size() > 0;
     }
@@ -1157,7 +1157,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param cmDoc A cash management document to find details.
      * @return True if it finds populated currency or coin details, false if otherwise.
      */
-    private boolean existCashDetails(CashManagementDocument cmDoc) {
+    protected boolean existCashDetails(CashManagementDocument cmDoc) {
         boolean result = false;
         List<CurrencyDetail> currencyDetails = cashManagementDao.getAllCurrencyDetails(cmDoc.getDocumentNumber());
         if (currencyDetails != null && currencyDetails.size() > 0) {
@@ -1182,7 +1182,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param cmDoc The cash management document to test.
      * @return True if it finds some checks, false if otherwise.
      */
-    private boolean existCashieringChecks(CashManagementDocument cmDoc) {
+    protected boolean existCashieringChecks(CashManagementDocument cmDoc) {
         List<Check> undepositedChecks = this.selectUndepositedCashieringChecks(cmDoc.getDocumentNumber());
         List<Check> depositedChecks = cashManagementDao.selectDepositedCashieringChecks(cmDoc.getDocumentNumber());
         return (undepositedChecks != null && undepositedChecks.size() > 0) || (depositedChecks != null && depositedChecks.size() > 0);

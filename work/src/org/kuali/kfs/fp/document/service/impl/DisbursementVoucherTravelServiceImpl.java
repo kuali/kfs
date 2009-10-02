@@ -154,7 +154,7 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
      * @param periodEndMinute The ending minute of the per diem period.
      * @return True if the date passed in occurred within the period defined by the given parameters, false otherwise.
      */
-    private boolean timeInPerDiemPeriod(Calendar cal, int periodStartHour, int periodStartMinute, int periodEndHour, int periodEndMinute) {
+    protected boolean timeInPerDiemPeriod(Calendar cal, int periodStartHour, int periodStartMinute, int periodEndHour, int periodEndMinute) {
         int hour = cal.get(Calendar.HOUR_OF_DAY);
         int minute = cal.get(Calendar.MINUTE);
 

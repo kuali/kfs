@@ -153,7 +153,7 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
      * @param searchPath The directory path of the template to be used to generate the cover sheet.
      * @param returnStream The output stream the cover sheet will be written to.
      */
-    private void stampPdfFormValues(CashReceiptDocument document, String searchPath, OutputStream returnStream) throws Exception {
+    protected void stampPdfFormValues(CashReceiptDocument document, String searchPath, OutputStream returnStream) throws Exception {
         String templateName = CR_COVERSHEET_TEMPLATE_NM;
 
         try {
@@ -207,7 +207,7 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
      * @param output The PDF output field the check number will be written to.
      * @param check The check the check number will be retrieved from.
      */
-    private void writeCheckNumber(PdfContentByte output, Check check) {
+    protected void writeCheckNumber(PdfContentByte output, Check check) {
         writeCheckField(output, CHECK_NUMBER_FIELD_POSITION, check.getCheckNumber().toString());
     }
 
@@ -217,7 +217,7 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
      * @param output The PDF output field the check date will be written to.
      * @param check The check the check date will be retrieved from.
      */
-    private void writeCheckDate(PdfContentByte output, Check check) {
+    protected void writeCheckDate(PdfContentByte output, Check check) {
         writeCheckField(output, CHECK_DATE_FIELD_POSITION, check.getCheckDate().toString());
     }
 
@@ -227,7 +227,7 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
      * @param output The PDF output field the check description will be written to.
      * @param check The check the check description will be retrieved from.
      */
-    private void writeCheckDescription(PdfContentByte output, Check check) {
+    protected void writeCheckDescription(PdfContentByte output, Check check) {
         writeCheckField(output, CHECK_DESCRIPTION_FIELD_POSITION, check.getDescription());
     }
 
@@ -237,7 +237,7 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
      * @param output The PDF output field the check amount will be written to.
      * @param check The check the check amount will be retrieved from.
      */
-    private void writeCheckAmount(PdfContentByte output, Check check) {
+    protected void writeCheckAmount(PdfContentByte output, Check check) {
         writeCheckField(output, CHECK_AMOUNT_FIELD_POSITION, check.getAmount().toString());
     }
 
@@ -249,7 +249,7 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
      * @param xPos The x coordinate of the starting point on the document where the value will be written to.
      * @param fieldValue The value to be written to the PDF cover sheet.
      */
-    private void writeCheckField(PdfContentByte output, float xPos, String fieldValue) {
+    protected void writeCheckField(PdfContentByte output, float xPos, String fieldValue) {
         output.beginText();
         output.setTextMatrix(xPos, getCurrentRenderingYPosition());
         output.newlineShowText(fieldValue);
@@ -262,7 +262,7 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
      * 
      * @return A BaseFont object used to identify what type of font is used on the cover sheet.
      */
-    private BaseFont getTextFont() throws DocumentException, IOException {
+    protected BaseFont getTextFont() throws DocumentException, IOException {
         return BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
     }
 
@@ -271,7 +271,7 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
      * 
      * @param y The y coordinate to be set.
      */
-    private void setCurrentRenderingYPosition(float y) {
+    protected void setCurrentRenderingYPosition(float y) {
         _yPos = y;
     }
 
@@ -280,7 +280,7 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
      * 
      * @return The current y coordinate.
      */
-    private float getCurrentRenderingYPosition() {
+    protected float getCurrentRenderingYPosition() {
         return _yPos;
     }
 
@@ -291,7 +291,7 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
      * @param writer The output writer used to write the check data to the PDF file.
      * @param reader The input reader used to read data from the PDF file.
      */
-    private void populateCheckDetail(CashReceiptDocument crDoc, PdfWriter writer, PdfReader reader) throws Exception {
+    protected void populateCheckDetail(CashReceiptDocument crDoc, PdfWriter writer, PdfReader reader) throws Exception {
         PdfContentByte content;
         ModifiableInteger pageNumber;
         int checkCount = 0;
@@ -329,7 +329,7 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
      * @exception DocumentException
      * @exception IOException
      */
-    private PdfContentByte startNewPage(PdfWriter writer, PdfReader reader, ModifiableInteger pageNumber) throws DocumentException, IOException {
+    protected PdfContentByte startNewPage(PdfWriter writer, PdfReader reader, ModifiableInteger pageNumber) throws DocumentException, IOException {
         PdfContentByte retval;
         PdfContentByte under;
         Rectangle pageSize;

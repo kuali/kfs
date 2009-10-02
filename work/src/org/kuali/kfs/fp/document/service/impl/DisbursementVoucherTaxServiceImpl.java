@@ -133,7 +133,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
      * 
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService#generateNRATaxLines(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
      */
-    private void generateNRATaxLines(DisbursementVoucherDocument document) {
+    protected void generateNRATaxLines(DisbursementVoucherDocument document) {
         // retrieve first accounting line for tax line attributes
         AccountingLine line1 = document.getSourceAccountingLine(0);
 
@@ -247,7 +247,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
      * @return A fully populated AccountingLine instance representing the amount of tax that will be applied to the 
      *         disbursement voucher provided.
      */
-    private AccountingLine generateTaxAccountingLine(DisbursementVoucherDocument document, String chart, String account, String objectCode, KualiDecimal taxPercent, KualiDecimal taxableAmount) {
+    protected AccountingLine generateTaxAccountingLine(DisbursementVoucherDocument document, String chart, String account, String objectCode, KualiDecimal taxPercent, KualiDecimal taxableAmount) {
         AccountingLine taxLine = null;
         try {
             taxLine = (SourceAccountingLine) document.getSourceAccountingLineClass().newInstance();
@@ -408,7 +408,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService#validateNRATaxInformation(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
      * @see org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentRule#validateNonResidentAlienInformation(DisbursementVoucherDocument)
      */
-    private boolean validateNRATaxInformation(DisbursementVoucherDocument document) {
+    protected boolean validateNRATaxInformation(DisbursementVoucherDocument document) {
         MessageMap errors = GlobalVariables.getMessageMap();
 
         // set nulls to 0

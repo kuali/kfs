@@ -77,7 +77,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      * @param campusCode The campus code to be verified.
      * @return True if the campus code provided is valid and exists, false otherwise.
      */
-    private boolean verifyCampus(String campusCode) {
+    protected boolean verifyCampus(String campusCode) {
         List campusList = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(
                 Campus.class).getExternalizableBusinessObjectsList(Campus.class, new HashMap<String, Object>());
         Iterator campiiIter = campusList.iterator();
@@ -191,7 +191,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      * @param statii A collection of possible statuses to use as search criteria for looking up cash receipts.
      * @return The search criteria provided in a map with CashReceiptConstants used as keys to the parameters given.
      */
-    private Map buildCashReceiptCriteriaMap(String campusCode, String[] statii) {
+    protected Map buildCashReceiptCriteriaMap(String campusCode, String[] statii) {
         Map queryCriteria = new HashMap();
 
         if (statii.length == 1) {
@@ -212,7 +212,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      * 
      * @param documents A collection of CashReceiptDocuments to be populated with workflow document data.
      */
-    private void populateWorkflowFields(List documents) {
+    protected void populateWorkflowFields(List documents) {
         for (Iterator i = documents.iterator(); i.hasNext();) {
             CashReceiptDocument cr = (CashReceiptDocument) i.next();
 
@@ -266,7 +266,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      * @param crDoc The document the cash drawer will be retrieved from.
      * @return An instance of a cash drawer associated with the cash receipt document provided.
      */
-    private CashDrawer retrieveCashDrawer(CashReceiptDocument crDoc) {
+    protected CashDrawer retrieveCashDrawer(CashReceiptDocument crDoc) {
         String campusCode = crDoc.getCampusLocationCode();
         if (campusCode == null) {
             throw new RuntimeException("Cannot find workgroup name for Cash Receipt document: "+crDoc.getDocumentNumber());

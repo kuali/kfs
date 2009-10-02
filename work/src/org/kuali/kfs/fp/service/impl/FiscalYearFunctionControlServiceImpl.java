@@ -47,7 +47,7 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
      * @param financialSystemFunctionControlCode The function control code associated with the fiscal year function control being retrieved.
      * @return Returns the value of the active indicator; returns null if PK is not found
      */
-    private boolean getActiveIndByPrimaryId(Integer postingYear, String financialSystemFunctionControlCode) {
+    protected boolean getActiveIndByPrimaryId(Integer postingYear, String financialSystemFunctionControlCode) {
         HashMap<String, Object> keys = new HashMap();
         keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, postingYear);
         keys.put(KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_CONTROL_CODE, financialSystemFunctionControlCode);
@@ -62,7 +62,7 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
      * @param financialSystemFunctionActiveIndicator An active indicator used as a search parameter.
      * @return The list of FiscalYearFunctionControls matching the search criteria provided.
      */
-    private List getByFunctionControlCodeAndActiveInd(String financialSystemFunctionControlCode, String financialSystemFunctionActiveIndicator) {
+    protected List getByFunctionControlCodeAndActiveInd(String financialSystemFunctionControlCode, String financialSystemFunctionActiveIndicator) {
         HashMap values = new HashMap();
         values.put(KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_CONTROL_CODE, financialSystemFunctionControlCode);
         values.put(KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_ACTIVE_INDICATOR, financialSystemFunctionActiveIndicator);

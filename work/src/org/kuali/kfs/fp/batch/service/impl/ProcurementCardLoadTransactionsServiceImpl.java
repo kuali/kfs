@@ -97,7 +97,7 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
      * 
      * @param transactions List of ProcurementCardTransactions to load.
      */
-    private void loadTransactions(List transactions) {
+    protected void loadTransactions(List transactions) {
         businessObjectService.save(transactions);
     }
 

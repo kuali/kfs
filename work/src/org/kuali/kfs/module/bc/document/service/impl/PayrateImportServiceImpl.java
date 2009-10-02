@@ -312,7 +312,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
      * File format for payrate import file
      * 
      */
-    private static class DefaultImportFileFormat {
+    protected static class DefaultImportFileFormat {
         private static final int[] fieldLengths = new int[] {11, 8, 50, 5, 4, 3, 3, 10, 8};
         private static final String[] fieldNames = new String[] {KFSPropertyConstants.EMPLID, KFSPropertyConstants.POSITION_NUMBER, KFSPropertyConstants.PERSON_NAME, BCPropertyConstants.SET_SALARY_ID, BCPropertyConstants.SALARY_ADMINISTRATION_PLAN, BCPropertyConstants.GRADE, "unionCode", BCPropertyConstants.APPOINTMENT_REQUESTED_PAY_RATE, BCPropertyConstants.CSF_FREEZE_DATE};
     }

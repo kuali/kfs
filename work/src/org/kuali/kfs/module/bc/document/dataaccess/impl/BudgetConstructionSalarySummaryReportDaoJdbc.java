@@ -316,7 +316,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
      * clean out all rows in the report tables associated with this user
      * @param principalName--the user requesting the report
      */
-    private void clearUserPreviouSalarySummaryReports(String principalName) {
+    protected void clearUserPreviouSalarySummaryReports(String principalName) {
         this.clearTempTableByUnvlId("ld_bcn_sal_ssn_t", "PERSON_UNVL_ID", principalName);
         this.clearTempTableByUnvlId("ld_bcn_sal_fnd_t", "PERSON_UNVL_ID", principalName);
     }
@@ -326,7 +326,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
      * clean out the work table used by all reports
      * @param idForSession--the session which requested the report
      */
-    private void clearCommonWorkTable(String idForSession) {
+    protected void clearCommonWorkTable(String idForSession) {
         this.clearTempTableBySesId("LD_BCN_BUILD_SALSUMM05_MT", "SESID", idForSession);
     }
     
@@ -335,7 +335,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
      * clean out the work tables for reporting by threshold
      * @param idForSession--the session which requested the report
      */
-    private void clearThresholdWorkTables(String idForSession) {
+    protected void clearThresholdWorkTables(String idForSession) {
         this.clearTempTableBySesId("LD_BCN_BUILD_SALSUMM01_MT", "SESID", idForSession);
         this.clearTempTableBySesId("LD_BCN_BUILD_SALSUMM02_MT", "SESID", idForSession);
         this.clearTempTableBySesId("LD_BCN_BUILD_SALSUMM03_MT", "SESID", idForSession);
@@ -348,7 +348,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
      * @param principalName--the user requesting the report
      * @param idForSession--the session of the user
      */
-    private void runCommonSQLForSalaryReports(String principalName, String idForSession) {
+    protected void runCommonSQLForSalaryReports(String principalName, String idForSession) {
         getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(0).getSQL(), principalName, principalName, idForSession);
         getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(1).getSQL(), principalName, principalName, idForSession);
         clearCommonWorkTable(idForSession);

@@ -368,7 +368,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
      * @param idForSession--a unique ID for the session of the user running the report
      * @param previousFiscalYear--the fiscal year preceding the one for which we are preparing a budget
      */
-    private void adjustLastYearSalaryForAppointmentChanges(String principalName, String idForSession, Integer previousFiscalYear)
+    protected void adjustLastYearSalaryForAppointmentChanges(String principalName, String idForSession, Integer previousFiscalYear)
     {
         //  strings to be inserted into SQL
         ArrayList<String >stringsToInsert = new ArrayList<String>(2);
@@ -398,7 +398,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
      * @param principalName
      * @param idForSession
      */
-    private void fetchIndividualDetailForContinuingPeople(String principalName, String idForSession)
+    protected void fetchIndividualDetailForContinuingPeople(String principalName, String idForSession)
     {
         // salaries and FTE by EMPLID and organization for people in the payroll in the base budget year
         getSimpleJdbcTemplate().update(updateReportsReasonStatisticsTable.get(8).getSQL(), idForSession, principalName, idForSession);
@@ -483,7 +483,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
      * sum base and request amounts and FTE by organization to produce the data used by the report
      * @param idForSession--the session of the user doing the report
      */
-    private void sumTheDetailRowsToProduceTheReportData (String principalName, String idForSession) {
+    protected void sumTheDetailRowsToProduceTheReportData (String principalName, String idForSession) {
         getSimpleJdbcTemplate().update(updateReportsReasonStatisticsTable.get(9).getSQL(), principalName, idForSession);
     }
     

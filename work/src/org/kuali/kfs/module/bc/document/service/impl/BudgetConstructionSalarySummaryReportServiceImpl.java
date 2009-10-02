@@ -537,7 +537,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
     }
 
     // a total holder that contains the totals for a single person
-    private class PersonTotalHolder {
+    protected class PersonTotalHolder {
         String emplid = StringUtils.EMPTY;
         String positionNumber = StringUtils.EMPTY;
         String fiscalYearTag = StringUtils.EMPTY;
@@ -562,7 +562,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
     }
 
     // a total holder that contains the totals for an organization
-    private class OrganizationTotalHolder {
+    protected class OrganizationTotalHolder {
         BigDecimal newFte = BigDecimal.ZERO;
         Integer newTotalAmount = 0;
         Integer newAverageAmount = 0;

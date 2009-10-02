@@ -687,7 +687,7 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
 
     }
 
-    private List<String> fieldsForType() {
+    protected List<String> fieldsForType() {
         List<String> fieldList = new ArrayList();
         fieldList.addAll(fieldsForIncexp());
         fieldList.add(KFSPropertyConstants.INCOME_EXPENSE_CODE);
@@ -695,7 +695,7 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
         // firstBcms.getIncomeExpenseCode().equals(secondBcms.getIncomeExpenseCode())) {
     }
 
-    private List<String> fieldsForIncexp() {
+    protected List<String> fieldsForIncexp() {
         // firstBcms.getOrganizationChartOfAccountsCode().equals(secondBcms.getOrganizationChartOfAccountsCode())
         // firstBcms.getOrganizationCode().equals(secondBcms.getOrganizationCode()) &&
         // firstBcms.getSubFundGroupCode().equals(secondBcms.getSubFundGroupCode()) &&

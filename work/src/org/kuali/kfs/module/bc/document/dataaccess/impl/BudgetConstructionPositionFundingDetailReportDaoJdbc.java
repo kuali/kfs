@@ -150,7 +150,7 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
      * @param principalName--the user requesting the list
      * @param thresholdPercent--the percent marking the threshold
      */
-    private void updateReportsPositionFundingDetailTableAboveThreshold(String principalName, KualiDecimal thresholdPercent)
+    protected void updateReportsPositionFundingDetailTableAboveThreshold(String principalName, KualiDecimal thresholdPercent)
     {
         Guid guid = new Guid();
         String idForSession = guid.toString();
@@ -173,7 +173,7 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
      * @param principalName--the user requesting the list
      * @param thresholdPercent--the percent marking the threshold
      */
-    private void updateReportsPositionFundingDetailTableBelowThreshold(String principalName, KualiDecimal thresholdPercent)
+    protected void updateReportsPositionFundingDetailTableBelowThreshold(String principalName, KualiDecimal thresholdPercent)
     {
         Guid guid = new Guid();
         String idForSession = guid.toString();
@@ -195,7 +195,7 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
      * build a list of all salaries which this user can see
      * @param principalName--the user requesting the list
      */
-    private void updateReportsPositionFundingDetailTableWithAllData(String principalName)
+    protected void updateReportsPositionFundingDetailTableWithAllData(String principalName)
     {
         // get rid of any previous reporting data from this user
         cleanReportsPositionFundingDetailTable(principalName);

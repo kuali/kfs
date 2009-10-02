@@ -246,7 +246,7 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
         insertionPoints.clear();
     }
     
-    private void buildInitialAccountBalances(String sessionId, String principalName) 
+    protected void buildInitialAccountBalances(String sessionId, String principalName) 
     {
         // remove any rows previously processed by this user
         cleanReportsAccountObjectDetailTable(principalName);
@@ -268,11 +268,11 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
         getSimpleJdbcTemplate().update(updateReportsAccountObjectDetailTable.get(3).getSQL(stringsToInsert), sessionId);
     }
     
-    private void cleanReportsAccountObjectDetailTable(String principalName) {
+    protected void cleanReportsAccountObjectDetailTable(String principalName) {
         clearTempTableByUnvlId("ld_bcn_acct_bal_t", "PERSON_UNVL_ID", principalName);
     }
     
-    private void cleanReportsAccountObjectTemporaryTable(String sessionId)
+    protected void cleanReportsAccountObjectTemporaryTable(String sessionId)
     {
       clearTempTableBySesId("ld_bcn_build_acctbal01_mt","SESID",sessionId);
     }

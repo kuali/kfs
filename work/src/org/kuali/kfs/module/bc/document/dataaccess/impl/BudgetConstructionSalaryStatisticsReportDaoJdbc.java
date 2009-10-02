@@ -259,7 +259,7 @@ public class BudgetConstructionSalaryStatisticsReportDaoJdbc extends BudgetConst
         persistenceService.clearCache();
     }
     
-    private void cleanWorkTables(String idForSession)
+    protected void cleanWorkTables(String idForSession)
     {
         clearTempTableBySesId("LD_BCN_BUILD_SALTOT01_MT","SESID",idForSession);
         clearTempTableBySesId("LD_BCN_BUILD_SALTOT02_MT","SESID",idForSession);

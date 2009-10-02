@@ -299,7 +299,7 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
      * @param principalName--the user requesting the report
      * @param idForSession--the session id for the user
      */
-    private void consolidateMonthSummaryReportToObjectCodeLevel(String principalName, String idForSession) {
+    protected void consolidateMonthSummaryReportToObjectCodeLevel(String principalName, String idForSession) {
 
        // set up the things that need to be inserted into the SQL (default sub object code and an object type IN list) 
        ArrayList<String> revenueInsertions     = new ArrayList<String>(2);
@@ -325,7 +325,7 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
      * @param principalName--the user requesting the report
      * @param idForSession--the ID for the user's session
      */
-    private void detailedMonthSummaryTableReport(String principalName, String idForSession)  {
+    protected void detailedMonthSummaryTableReport(String principalName, String idForSession)  {
        
        // set up the strings to be inserted into the SQL (revenue and expenditure object types 
         ArrayList<String> revenueInsertions     = new ArrayList<String>(2);

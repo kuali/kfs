@@ -44,7 +44,7 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
     private BudgetPullupDao budgetPullupDao;
 
     // controls used to trap any runaways due to cycles in the reporting tree
-    private static final int MAXLEVEL = 50;
+    protected static final int MAXLEVEL = 50;
     private int curLevel;
 
     /**

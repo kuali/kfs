@@ -226,7 +226,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         clearTempTableBySesId("ld_bcn_build_pos_sel01_mt", "SESID", sessionId);
     }
 
-    private void initSelectedPositionOrgs(String sessionId, String principalName) {
+    protected void initSelectedPositionOrgs(String sessionId, String principalName) {
 
         int currentLevel = 0;
 
@@ -237,7 +237,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         }
     }
 
-    private void populateSelectedPositionOrgsSubTree(int previousLevel, String sessionId) {
+    protected void populateSelectedPositionOrgsSubTree(int previousLevel, String sessionId) {
 
         if (previousLevel <= MAXLEVEL) {
             int currentLevel = previousLevel + 1;
@@ -254,7 +254,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         }
     }
 
-    private void populatePositionSelectForSubTree(String sessionId, String principalName, Integer universityFiscalYear) {
+    protected void populatePositionSelectForSubTree(String sessionId, String principalName, Integer universityFiscalYear) {
 
         // insert actives that are funded with person or vacant
         getSimpleJdbcTemplate().update(populatePositionSelectForSubTreeTemplates[0], principalName, sessionId, universityFiscalYear);

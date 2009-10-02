@@ -324,7 +324,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
         }
     }
 
-    private Collection<BudgetConstructionOrgReasonSummaryReportTotal> calculatePersonTotal(Integer universityFiscalYear, Collection<BudgetConstructionSalaryFunding> reasonSummaryList, List<BudgetConstructionSalaryFunding> listForCalculateTotalPerson, Map budgetSsnMap) {
+    protected Collection<BudgetConstructionOrgReasonSummaryReportTotal> calculatePersonTotal(Integer universityFiscalYear, Collection<BudgetConstructionSalaryFunding> reasonSummaryList, List<BudgetConstructionSalaryFunding> listForCalculateTotalPerson, Map budgetSsnMap) {
         Collection<BudgetConstructionOrgReasonSummaryReportTotal> returnCollection = new ArrayList<BudgetConstructionOrgReasonSummaryReportTotal>();
 
         for (BudgetConstructionSalaryFunding totalPersonEntry : listForCalculateTotalPerson) {

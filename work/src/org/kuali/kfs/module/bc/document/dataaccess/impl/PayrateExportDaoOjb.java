@@ -82,7 +82,7 @@ public class PayrateExportDaoOjb extends PlatformAwareDaoBaseOjb implements Payr
      * @param positionUnionCode
      * @return
      */
-    private ReportQueryByCriteria queryForPayrateHoldingRecords(Integer budgetYear, String positionUnionCode) {
+    protected ReportQueryByCriteria queryForPayrateHoldingRecords(Integer budgetYear, String positionUnionCode) {
         Criteria criteria = new Criteria();
         
         criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, budgetYear);

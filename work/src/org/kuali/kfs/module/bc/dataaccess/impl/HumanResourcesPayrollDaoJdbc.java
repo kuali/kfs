@@ -72,7 +72,7 @@ public class HumanResourcesPayrollDaoJdbc extends BudgetConstructionDaoJdbcBase 
      * @param positionNumber
      * @return
      */
-    private PositionData getPositionDataForFiscalYear(Integer universityFiscalYear, String positionNumber) {
+    protected PositionData getPositionDataForFiscalYear(Integer universityFiscalYear, String positionNumber) {
         Collection<PositionData> positionData = getPositionData(positionNumber);
         
         if (positionData == null || positionData.isEmpty()) {
@@ -211,7 +211,7 @@ public class HumanResourcesPayrollDaoJdbc extends BudgetConstructionDaoJdbcBase 
         }
     }
     
-    private class PositionData extends PersistableBusinessObjectBase {
+    protected class PositionData extends PersistableBusinessObjectBase {
         private String positionNumber;
         private String jobCode;
         private Date effectiveDate;

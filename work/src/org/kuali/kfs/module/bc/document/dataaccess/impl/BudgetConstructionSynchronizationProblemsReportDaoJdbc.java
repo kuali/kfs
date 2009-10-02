@@ -99,7 +99,7 @@ public class BudgetConstructionSynchronizationProblemsReportDaoJdbc extends Budg
      * removes any rows from a previous report for this uear
      * @param principalName--the user requesting the report
      */
-    private void cleanReportsSynchronizationProblemsTable(String principalName) {
+    protected void cleanReportsSynchronizationProblemsTable(String principalName) {
         clearTempTableByUnvlId("ld_bcn_pos_fnd_t", "PERSON_UNVL_ID", principalName);
     }
     

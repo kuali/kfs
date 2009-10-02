@@ -107,7 +107,7 @@ public class BudgetConstructionBatchHelperDaoOjb extends PlatformAwareDaoBaseOjb
         Double tempValue = ((Number)(getPersistenceBrokerTemplate().getCount(queryID))).floatValue()*(1.45);
         return (Integer) tempValue.intValue();
     }
-    private Integer hashCapacity(Integer hashSize)
+    protected Integer hashCapacity(Integer hashSize)
     {
         // this corresponds to a little more than the default load factor of .75
         // a rehash supposedly occurs when the actual number of elements exceeds
@@ -168,7 +168,7 @@ public class BudgetConstructionBatchHelperDaoOjb extends PlatformAwareDaoBaseOjb
         return (hashCapacity(queryID));
     }
     
-    private String[] buildCountDistinct(ReportQueryByCriteria originalQuery)
+    protected String[] buildCountDistinct(ReportQueryByCriteria originalQuery)
     {
         // build the select list element COUNT(DISTINCT from the input query.
         // return an empty array for the SELECT list if this is not possible.
@@ -207,7 +207,7 @@ public class BudgetConstructionBatchHelperDaoOjb extends PlatformAwareDaoBaseOjb
         return returnSelectList;
     }
     
-    private String[] buildCountDistinct(String ojbAttributeName, Class ojbClass)
+    protected String[] buildCountDistinct(String ojbAttributeName, Class ojbClass)
     {
         String[] returnSelectList = {""};
         // get the attribute/DB column name map for the class
@@ -229,7 +229,7 @@ public class BudgetConstructionBatchHelperDaoOjb extends PlatformAwareDaoBaseOjb
      * @param ojbClass = class of the query
      * @return hash set of DB column names keyed by OJB attribute name, 
      */
-    private HashMap<String,String> getDBFieldNamesForClass(Class ojbClass)
+    protected HashMap<String,String> getDBFieldNamesForClass(Class ojbClass)
     {
         ClassDescriptor ojbClassDescriptor = MetadataManager.getInstance().getRepository().getDescriptorFor(ojbClass);
         FieldDescriptor[] fieldDescriptorArray = ojbClassDescriptor.getFieldDescriptions();
@@ -247,7 +247,7 @@ public class BudgetConstructionBatchHelperDaoOjb extends PlatformAwareDaoBaseOjb
      * @param originalQuery = OJB report query for which to find a value for the row count returned
      * @return: number of rows the query should return
      */
-    private Integer queryCountDistinct(ReportQueryByCriteria originalQuery)
+    protected Integer queryCountDistinct(ReportQueryByCriteria originalQuery)
     {
         // for every query with a distinct attribute, or with a group by:
         // we will build a COUNT(DISTINCT ...) with proper concatentation for Oracle and MySQL based on the fields in the select list.

@@ -64,7 +64,7 @@ public class BudgetConstructionList2PLGReportDaoJdbc extends BudgetConstructionD
     /**
      *  remove from the table rows for any previous report requested by this user
      */
-    private void cleanReportsList2PLGTable(String principalName) {
+    protected void cleanReportsList2PLGTable(String principalName) {
         clearTempTableByUnvlId("ld_bcn_2plg_list_mt", "PERSON_UNVL_ID", principalName);
     }
 

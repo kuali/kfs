@@ -351,13 +351,13 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         clearBothYearsHeaders(BaseYear);
     }
 
-    private void clearBudgetConstructionAdministrativePost() {
+    protected void clearBudgetConstructionAdministrativePost() {
         QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionAdministrativePost.class, QueryByCriteria.CRITERIA_SELECT_ALL);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearBaseYearBudgetConstructionAppointmentFundingReason(Integer BaseYear) {
+    protected void clearBaseYearBudgetConstructionAppointmentFundingReason(Integer BaseYear) {
         Criteria criteriaId = new Criteria();
         criteriaId.addColumnEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
         QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionAppointmentFundingReason.class, criteriaId);
@@ -365,7 +365,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearBothYearsBudgetConstructionAppointmentFundingReason(Integer BaseYear) {
+    protected void clearBothYearsBudgetConstructionAppointmentFundingReason(Integer BaseYear) {
         Integer RequestYear = BaseYear + 1;
         Criteria criteriaId = new Criteria();
         criteriaId.addBetween(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear, RequestYear);
@@ -374,13 +374,13 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearBudgetConstructionAppointmentFundingReason() {
+    protected void clearBudgetConstructionAppointmentFundingReason() {
         QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionAppointmentFundingReason.class, QueryByCriteria.CRITERIA_SELECT_ALL);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearRequestYearBudgetConstructionAppointmentFundingReason(Integer BaseYear) {
+    protected void clearRequestYearBudgetConstructionAppointmentFundingReason(Integer BaseYear) {
         Integer RequestYear = BaseYear + 1;
         Criteria criteriaId = new Criteria();
         criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, RequestYear);
@@ -389,7 +389,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearBaseYearBCSF(Integer BaseYear) {
+    protected void clearBaseYearBCSF(Integer BaseYear) {
         Criteria criteriaId = new Criteria();
         criteriaId.addColumnEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
         QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionCalculatedSalaryFoundationTracker.class, criteriaId);
@@ -397,7 +397,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearBothYearsBCSF(Integer BaseYear) {
+    protected void clearBothYearsBCSF(Integer BaseYear) {
         Integer RequestYear = BaseYear + 1;
         Criteria criteriaId = new Criteria();
         criteriaId.addBetween(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear, RequestYear);
@@ -406,19 +406,19 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearBCSF() {
+    protected void clearBCSF() {
         QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionCalculatedSalaryFoundationTracker.class, QueryByCriteria.CRITERIA_SELECT_ALL);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearBudgetConstructionIntendedIncumbent() {
+    protected void clearBudgetConstructionIntendedIncumbent() {
         QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionIntendedIncumbent.class, QueryByCriteria.CRITERIA_SELECT_ALL);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearBaseYearBCPosition(Integer BaseYear) {
+    protected void clearBaseYearBCPosition(Integer BaseYear) {
         Criteria criteriaId = new Criteria();
         criteriaId.addColumnEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
         QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionPosition.class, criteriaId);
@@ -426,7 +426,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearBothYearsBCPosition(Integer BaseYear) {
+    protected void clearBothYearsBCPosition(Integer BaseYear) {
         Integer RequestYear = BaseYear + 1;
         Criteria criteriaId = new Criteria();
         criteriaId.addBetween(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear, RequestYear);
@@ -435,13 +435,13 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearBCPosition() {
+    protected void clearBCPosition() {
         QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionPosition.class, QueryByCriteria.CRITERIA_SELECT_ALL);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearRequestYearBCPosition(Integer BaseYear) {
+    protected void clearRequestYearBCPosition(Integer BaseYear) {
         Integer RequestYear = BaseYear + 1;
         Criteria criteriaId = new Criteria();
         criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, RequestYear);
@@ -450,7 +450,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearRequestYearBCSF(Integer BaseYear) {
+    protected void clearRequestYearBCSF(Integer BaseYear) {
         Integer RequestYear = BaseYear + 1;
         Criteria criteriaId = new Criteria();
         criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, RequestYear);
@@ -459,7 +459,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearBaseYearHeaders(Integer BaseYear) {
+    protected void clearBaseYearHeaders(Integer BaseYear) {
         Criteria criteriaId = new Criteria();
         criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
         QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionHeader.class, criteriaId);
@@ -467,7 +467,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearBothYearsHeaders(Integer BaseYear) {
+    protected void clearBothYearsHeaders(Integer BaseYear) {
         Integer RequestYear = BaseYear + 1;
         Criteria criteriaId = new Criteria();
         criteriaId.addBetween(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear, RequestYear);
@@ -476,13 +476,13 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearHeaders() {
+    protected void clearHeaders() {
         QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionHeader.class, QueryByCriteria.CRITERIA_SELECT_ALL);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearBaseYearPBGL(Integer BaseYear) {
+    protected void clearBaseYearPBGL(Integer BaseYear) {
         // the order here is mandated by referential integrity
         // remove rows from the base year from budget construction months
         Criteria mnCriteriaID = new Criteria();
@@ -499,12 +499,12 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearBothYearsPBGL(Integer BaseYear) {
+    protected void clearBothYearsPBGL(Integer BaseYear) {
         clearBaseYearPBGL(BaseYear);
         clearRequestYearPBGL(BaseYear);
     }
 
-    private void clearPBGL() {
+    protected void clearPBGL() {
         // the order here is mandated by referential integrity
         QueryByCriteria mnQueryId = new QueryByCriteria(BudgetConstructionMonthly.class, QueryByCriteria.CRITERIA_SELECT_ALL);
         getPersistenceBrokerTemplate().deleteByQuery(mnQueryId);
@@ -513,7 +513,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearRequestYearPBGL(Integer BaseYear) {
+    protected void clearRequestYearPBGL(Integer BaseYear) {
         Integer RequestYear = BaseYear + 1;
         // the order here is mandated by referential integrity
         // remove rows from the request year from budget construction months
@@ -531,7 +531,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearBaseYearPendingApptFunding(Integer BaseYear) {
+    protected void clearBaseYearPendingApptFunding(Integer BaseYear) {
         Criteria criteriaId = new Criteria();
         criteriaId.addColumnEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
         QueryByCriteria queryId = new QueryByCriteria(PendingBudgetConstructionAppointmentFunding.class, criteriaId);
@@ -539,7 +539,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearBothYearsPendingApptFunding(Integer BaseYear) {
+    protected void clearBothYearsPendingApptFunding(Integer BaseYear) {
         Integer RequestYear = BaseYear + 1;
         Criteria criteriaId = new Criteria();
         criteriaId.addBetween(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear, RequestYear);
@@ -548,13 +548,13 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearPendingApptFunding() {
+    protected void clearPendingApptFunding() {
         QueryByCriteria queryId = new QueryByCriteria(PendingBudgetConstructionAppointmentFunding.class, QueryByCriteria.CRITERIA_SELECT_ALL);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
         getPersistenceBrokerTemplate().clearCache();
     }
 
-    private void clearRequestYearPendingApptFunding(Integer BaseYear) {
+    protected void clearRequestYearPendingApptFunding(Integer BaseYear) {
         Integer RequestYear = BaseYear + 1;
         Criteria criteriaId = new Criteria();
         criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, RequestYear);
@@ -602,7 +602,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     // these routines are used to merge CSF and CSF Override
     private HashMap<String, String[]> CSFTrackerKeys = new HashMap<String, String[]>(1);
 
-    private void createNewDocumentsCleanUp() {
+    protected void createNewDocumentsCleanUp() {
         currentBCHeaderKeys.clear();
         CSFTrackerKeys.clear();
     }
@@ -650,7 +650,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     }
 
     //  here are the private methods that go with it      
-    private void getAndStoreCurrentCSFBCHeaderCandidates(Integer BaseYear) {
+    protected void getAndStoreCurrentCSFBCHeaderCandidates(Integer BaseYear) {
         Integer RequestYear = BaseYear + 1;
         for (Map.Entry<String, String[]> newCSFDocs : CSFTrackerKeys.entrySet()) {
             // all the CSF keys in the map require new documents
@@ -687,7 +687,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         }
     }
 
-    private void getAndStoreCurrentGLBCHeaderCandidates(Integer BaseYear) {
+    protected void getAndStoreCurrentGLBCHeaderCandidates(Integer BaseYear) {
         Integer RequestYear = BaseYear + 1;
         // first build a document set from GL BALANCE
         Criteria criteriaId = new Criteria();
@@ -814,7 +814,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         }
     }
 
-    private void getCurrentBCHeaderKeys(Integer BaseYear) {
+    protected void getCurrentBCHeaderKeys(Integer BaseYear) {
         Integer RequestYear = BaseYear + 1;
         Criteria criteriaId = new Criteria();
         Iterator<Object[]> Results;
@@ -903,7 +903,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
 
     //  private working methods for the BC chart update
 
-    private void buildNewAccountReportsTo() {
+    protected void buildNewAccountReportsTo() {
 
         //  All active accounts are loaded into the budget accounting table
 
@@ -938,7 +938,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         LOG.info(String.format("\nAccount reporting lines added to budget construction %d", accountsAdded));
     }
 
-    private void buildNewOrganizationReportsTo() {
+    protected void buildNewOrganizationReportsTo() {
 
         //  all active organizations are loaded into the budget construction
         //  organization table
@@ -999,7 +999,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     private HashMap<String, BudgetConstructionOrganizationReports> orgRptsToMap = new HashMap<String, BudgetConstructionOrganizationReports>(1);
     private HashMap<String, BudgetConstructionAccountOrganizationHierarchy> acctOrgHierMap = new HashMap<String, BudgetConstructionAccountOrganizationHierarchy>(1);
 
-    private void organizationHierarchyCleanUp() {
+    protected void organizationHierarchyCleanUp() {
         acctRptsToMap.clear();
         orgRptsToMap.clear();
         acctOrgHierMap.clear();
@@ -1114,7 +1114,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
 
     //  private utility methods
 
-    private void buildAcctOrgHierFromAcctRpts(BudgetConstructionAccountReports acctRpts, Integer RequestYear) {
+    protected void buildAcctOrgHierFromAcctRpts(BudgetConstructionAccountReports acctRpts, Integer RequestYear) {
         // it is possible that a header row could have an account which exists in the chart but not in account reports to, the parallel chart for budget construction.  these two charts must be maintained in parallel.  if that is the case, a verification routine will print a list of problems at the end.  here we just skip building the hierarchy.
         if (acctRpts == null)
         {
@@ -1176,49 +1176,49 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         }
     }
 
-    private String getAcctRptsToKey(BudgetConstructionAccountReports acctRpts) {
+    protected String getAcctRptsToKey(BudgetConstructionAccountReports acctRpts) {
         String TestKey = new String();
         TestKey = acctRpts.getChartOfAccountsCode() + acctRpts.getAccountNumber();
         return TestKey;
     }
 
-    private String getAcctRptsToKeyFromBCHdr(BudgetConstructionHeader bCHdr) {
+    protected String getAcctRptsToKeyFromBCHdr(BudgetConstructionHeader bCHdr) {
         String TestKey = new String();
         TestKey = bCHdr.getChartOfAccountsCode() + bCHdr.getAccountNumber();
         return TestKey;
     }
 
-    private String getOrgHierarchyKey(BudgetConstructionAccountOrganizationHierarchy orgHier) {
+    protected String getOrgHierarchyKey(BudgetConstructionAccountOrganizationHierarchy orgHier) {
         String TestKey = new String();
         TestKey = orgHier.getChartOfAccountsCode() + orgHier.getAccountNumber() + orgHier.getOrganizationChartOfAccountsCode() + orgHier.getOrganizationCode();
         return TestKey;
     }
 
-    private String getOrgHierarchyKeyFromAcctRpts(BudgetConstructionAccountReports acctRpts) {
+    protected String getOrgHierarchyKeyFromAcctRpts(BudgetConstructionAccountReports acctRpts) {
         String TestKey = new String();
         TestKey = acctRpts.getChartOfAccountsCode() + acctRpts.getAccountNumber() + acctRpts.getReportsToChartOfAccountsCode() + acctRpts.getReportsToOrganizationCode();
         return TestKey;
     }
 
-    private String getOrgHierarchyKeyFromBCHeader(BudgetConstructionHeader bCHdr) {
+    protected String getOrgHierarchyKeyFromBCHeader(BudgetConstructionHeader bCHdr) {
         String TestKey = new String();
         TestKey = bCHdr.getChartOfAccountsCode() + bCHdr.getAccountNumber() + bCHdr.getOrganizationLevelChartOfAccountsCode() + bCHdr.getOrganizationLevelOrganizationCode();
         return TestKey;
     }
 
-    private String getOrgRptsToKey(BudgetConstructionOrganizationReports orgRpts) {
+    protected String getOrgRptsToKey(BudgetConstructionOrganizationReports orgRpts) {
         String TestKey = new String();
         TestKey = orgRpts.getChartOfAccountsCode() + orgRpts.getOrganizationCode();
         return TestKey;
     }
 
-    private String getOrgRptsToKeyFromAcctOrgHier(BudgetConstructionAccountOrganizationHierarchy acctOrgHier) {
+    protected String getOrgRptsToKeyFromAcctOrgHier(BudgetConstructionAccountOrganizationHierarchy acctOrgHier) {
         String TestKey = new String();
         TestKey = acctOrgHier.getOrganizationChartOfAccountsCode() + acctOrgHier.getOrganizationCode();
         return TestKey;
     }
 
-    private boolean noNewMapEntryNeeded(BudgetConstructionOrganizationReports orgRpts) {
+    protected boolean noNewMapEntryNeeded(BudgetConstructionOrganizationReports orgRpts) {
         // no new entry is needed we are at the root of the organization tree
         String thisChart = orgRpts.getChartOfAccountsCode();
         String thisOrg = orgRpts.getOrganizationCode();
@@ -1247,7 +1247,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         return false;
     }
 
-    private void readAcctReportsTo() {
+    protected void readAcctReportsTo() {
         // we will use a report query, to bypass the "persistence" bureaucracy and its cache, saving memory and time
         // we will use the OJB class as a convenient container object in the hashmap
         Integer sqlChartOfAccountsCode = 0;
@@ -1274,7 +1274,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         LOG.info(String.format("\nNumber of account-reports-to rows: %d", acctRptsToMap.size()));
     }
 
-    private void readOrgReportsTo() {
+    protected void readOrgReportsTo() {
         // we will use a report query, to bypass the "persistence" bureaucracy and its cache, saving memory and time
         // we will use the OJB class as a convenient container object in the hashmap
         Integer sqlChartOfAccountsCode = 0;
@@ -1301,7 +1301,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         LOG.info(String.format("\nNumber of organization-reports-to rows: %d", orgRptsToMap.size()));
     }
 
-    private void updateBudgetConstructionHeaderAsNeeded(BudgetConstructionHeader bCHdr) {
+    protected void updateBudgetConstructionHeaderAsNeeded(BudgetConstructionHeader bCHdr) {
         // header rows at the lowest (initial) level should be left alone
         if (bCHdr.getOrganizationLevelCode().equals(BCConstants.INITIAL_ORGANIZATION_LEVEL_CODE)) {
             return;
@@ -1346,7 +1346,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     private HashMap<String, String> documentNumberFromBCHdr = new HashMap<String, String>(1);
     private HashMap<String, Integer> skippedPBGLKeys = new HashMap();
 
-    private void pBGLCleanUp() {
+    protected void pBGLCleanUp() {
         pBGLFromGL.clear();
         documentNumberFromBCHdr.clear();
     }
@@ -1434,7 +1434,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     //
     //  two test routines to display the field values in the two business objects
     //  produced from the GL read.  these are primarily here for initial testing
-    private void info() {
+    protected void info() {
         if (!LOG.isEnabledFor(Level.INFO)) {
             return;
         }
@@ -1465,7 +1465,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         }
     }
 
-    private void debug() {
+    protected void debug() {
         if (!LOG.isEnabledFor(Level.DEBUG)) {
             return;
         }
@@ -1501,7 +1501,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     // private working methods
 
     //
-    private void addNewGLRowsToPBGL(Integer BaseYear) {
+    protected void addNewGLRowsToPBGL(Integer BaseYear) {
         // this method adds the GL rows not yet in PBGL to PBGL
         for (Map.Entry<String, PendingBudgetConstructionGeneralLedger> newPBGLRows : pBGLFromGL.entrySet()) {
             PendingBudgetConstructionGeneralLedger rowToAdd = newPBGLRows.getValue();
@@ -1521,13 +1521,13 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     //
     // these two methods build the GL field string that triggers creation of a new
     // pending budget construction general ledger row
-    private String buildGLTestKeyFromPBGL(PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger) {
+    protected String buildGLTestKeyFromPBGL(PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger) {
         String PBGLTestKey = new String();
         PBGLTestKey = pendingBudgetConstructionGeneralLedger.getChartOfAccountsCode() + pendingBudgetConstructionGeneralLedger.getAccountNumber() + pendingBudgetConstructionGeneralLedger.getSubAccountNumber() + pendingBudgetConstructionGeneralLedger.getFinancialObjectCode() + pendingBudgetConstructionGeneralLedger.getFinancialSubObjectCode() + pendingBudgetConstructionGeneralLedger.getFinancialBalanceTypeCode() + pendingBudgetConstructionGeneralLedger.getFinancialObjectTypeCode();
         return PBGLTestKey;
     }
 
-    private String buildGLTestKeyFromSQLResults(Object[] sqlResult) {
+    protected String buildGLTestKeyFromSQLResults(Object[] sqlResult) {
         String GLTestKey = new String();
         GLTestKey = (String) sqlResult[sqlChartOfAccountsCode] + (String) sqlResult[sqlAccountNumber] + (String) sqlResult[sqlSubAccountNumber] + (String) sqlResult[sqlObjectCode] + (String) sqlResult[sqlSubObjectCode] + (String) sqlResult[sqlBalanceTypeCode] + (String) sqlResult[sqlObjectTypeCode];
         return GLTestKey;
@@ -1542,13 +1542,13 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         return headerBCTestKey;
     }
 
-    private String buildHeaderTestKeyFromSQLResults(Object[] sqlResult) {
+    protected String buildHeaderTestKeyFromSQLResults(Object[] sqlResult) {
         String headerBCTestKey = new String();
         headerBCTestKey = (String) sqlResult[sqlChartOfAccountsCode] + (String) sqlResult[sqlAccountNumber] + (String) sqlResult[sqlSubAccountNumber];
         return headerBCTestKey;
     }
 
-    private PendingBudgetConstructionGeneralLedger newPBGLBusinessObject(Integer RequestYear, Object[] sqlResult) {
+    protected PendingBudgetConstructionGeneralLedger newPBGLBusinessObject(Integer RequestYear, Object[] sqlResult) {
         PendingBudgetConstructionGeneralLedger PBGLObj = new PendingBudgetConstructionGeneralLedger();
         /*  
          * the document number will be set later if we have to store this in a new document
@@ -1575,7 +1575,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         return PBGLObj;
     }
 
-    private void readBCHeaderForDocNumber(Integer BaseYear) {
+    protected void readBCHeaderForDocNumber(Integer BaseYear) {
         //  we have to read all the budget construction header objects so that
         //  we can use them to assign document numbers
         //
@@ -1597,7 +1597,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         LOG.info(String.format("\nBC Headers read = %d", documentsRead));
     }
 
-    private void readGLForPBGL(Integer BaseYear, boolean excludeZeroNetAmounts) {
+    protected void readGLForPBGL(Integer BaseYear, boolean excludeZeroNetAmounts) {
         Integer RequestYear = BaseYear + 1;
         //
         //  set up a report query to fetch all the GL rows we are going to need
@@ -1668,7 +1668,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         nGLBBRowsRead = pBGLFromGL.size() + nGLBBRowsRead;
     }
 
-    private void recordSkippedKeys(String badGLKey) {
+    protected void recordSkippedKeys(String badGLKey) {
         nGLBBRowsSkipped = nGLBBRowsSkipped + 1;
         if (skippedPBGLKeys.get(badGLKey) == null) {
             skippedPBGLKeys.put(badGLKey, new Integer(1));
@@ -1679,7 +1679,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         }
     }
 
-    private void updateBaseBudgetAmount(PendingBudgetConstructionGeneralLedger currentPBGLInstance) {
+    protected void updateBaseBudgetAmount(PendingBudgetConstructionGeneralLedger currentPBGLInstance) {
         String TestKey = buildGLTestKeyFromPBGL(currentPBGLInstance);
         if (!pBGLFromGL.containsKey(TestKey)) {
             return;
@@ -1702,7 +1702,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         getPersistenceBrokerTemplate().store(currentPBGLInstance);
     }
 
-    private void updateCurrentPBGL(Integer BaseYear) {
+    protected void updateCurrentPBGL(Integer BaseYear) {
         Integer RequestYear = BaseYear + 1;
 
 
@@ -1729,7 +1729,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         }
     }
 
-    private void writeFinalDiagnosticCounts() {
+    protected void writeFinalDiagnosticCounts() {
         LOG.info(String.format("\n\nGeneral Ledger Run Statistics\n\n"));
         LOG.info(String.format("\nGeneral Ledger BB Keys read: %d", nGLBBKeysRead));
         LOG.info(String.format("\nGeneral Ledger BB Rows read: %d", nGLBBRowsRead));
@@ -1764,7 +1764,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     private HashMap<String, String[]> gLBBObjects = new HashMap<String, String[]>(1);
     private Integer nInactiveBBObjectCodes = new Integer(0);
 
-    private void objectClassRICleanUp() {
+    protected void objectClassRICleanUp() {
         baseYearInactiveObjects.clear();
         gLBBObjects.clear();
     }
@@ -1788,7 +1788,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         objectClassRICleanUp();
     }
 
-    private void addRIObjectClassesForBB(Integer BaseYear) {
+    protected void addRIObjectClassesForBB(Integer BaseYear) {
         //  we will read the object table for the request year first
         //  if the row is there (someone could have added it, or updated it),
         //  we will not change it at all.
@@ -1824,7 +1824,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         }
     }
 
-    private boolean isObjectInRequestYear(Integer BaseYear, String Chart, String ObjectCode) {
+    protected boolean isObjectInRequestYear(Integer BaseYear, String Chart, String ObjectCode) {
         Integer RequestYear = BaseYear + 1;
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, RequestYear);
@@ -1835,7 +1835,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         return (!Result.equals(0));
     }
 
-    private void readBaseYearInactiveObjects(Integer BaseYear) {
+    protected void readBaseYearInactiveObjects(Integer BaseYear) {
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
         criteriaID.addEqualTo(KFSPropertyConstants.ACTIVE, false);
@@ -1853,7 +1853,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         }
     }
 
-    private void readAndFilterGLBBObjects(Integer BaseYear) {
+    protected void readAndFilterGLBBObjects(Integer BaseYear) {
         // this must be done before we read GL for PBGL
         // otherwise, we will get an RI violation when we try to add a PBGL
         // row with an object inactive in the current year
@@ -1902,7 +1902,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     // we need the position normal work months to write a new appointment funding row: the normal work months is the "months appointment"
     private HashMap<String, Integer> positionNormalWorkMonths = new HashMap<String, Integer>(1);
 
-    private void buildAppointmentFundingCleanUp() {
+    protected void buildAppointmentFundingCleanUp() {
         bCSF.clear();
         bcHdrDocNumbers.clear();
         currentPBGLKeys.clear();
@@ -1986,7 +1986,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     }
 
     // overload the vacant BCSF line object builders
-    private void addToExistingBCSFVacant(CalculatedSalaryFoundationTrackerOverride csf, String csfKey) {
+    protected void addToExistingBCSFVacant(CalculatedSalaryFoundationTrackerOverride csf, String csfKey) {
         //
         // this method takes care of a rare occurrence.
         // - more than one person shares a position in the same line.
@@ -2018,7 +2018,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         CSFVacantsConsolidated = CSFVacantsConsolidated + 1;
     }
 
-    private void addToExistingBCSFVacant(CalculatedSalaryFoundationTracker csf, String csfKey) {
+    protected void addToExistingBCSFVacant(CalculatedSalaryFoundationTracker csf, String csfKey) {
         //
         // this method takes care of a rare occurrence.
         // - more than one person shares a position in the same line.
@@ -2051,7 +2051,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     }
 
     // make the rounding adjustments
-    private void adjustCSFRounding() {
+    protected void adjustCSFRounding() {
         for (Map.Entry<String, roundMechanism> roundMap : keysNeedingRounding.entrySet()) {
             roundMechanism rx = roundMap.getValue();
             rx.fixRoundErrors();
@@ -2061,7 +2061,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     }
 
     // overload the BCSF object builders
-    private void buildAndStoreBCSFfromCSF(CalculatedSalaryFoundationTrackerOverride csf, String csfKey) {
+    protected void buildAndStoreBCSFfromCSF(CalculatedSalaryFoundationTrackerOverride csf, String csfKey) {
         boolean vacantLine = isVacantLine(csf);
         BudgetConstructionCalculatedSalaryFoundationTracker csfBC = new BudgetConstructionCalculatedSalaryFoundationTracker();
         // budget construction CSF contains the coming fiscal year
@@ -2096,7 +2096,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         }
     }
 
-    private void buildAndStoreBCSFfromCSF(CalculatedSalaryFoundationTracker csf, String csfKey) {
+    protected void buildAndStoreBCSFfromCSF(CalculatedSalaryFoundationTracker csf, String csfKey) {
         boolean vacantLine = isVacantLine(csf);
         BudgetConstructionCalculatedSalaryFoundationTracker csfBC = new BudgetConstructionCalculatedSalaryFoundationTracker();
         // budget construction CSF contains the coming fiscal year
@@ -2129,7 +2129,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         }
     }
 
-    private void buildAppointemntFundingFromBCSF(BudgetConstructionCalculatedSalaryFoundationTracker bcsf) {
+    protected void buildAppointemntFundingFromBCSF(BudgetConstructionCalculatedSalaryFoundationTracker bcsf) {
         // current referential integrity insists that the position exists
         // if implementers take it out, we hedge our bets below
         String positionNumber = bcsf.getPositionNumber();
@@ -2169,26 +2169,26 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         getPersistenceBrokerTemplate().store(bcsf);
     }
 
-    private String buildAppointmentFundingKey(PendingBudgetConstructionAppointmentFunding bcaf) {
+    protected String buildAppointmentFundingKey(PendingBudgetConstructionAppointmentFunding bcaf) {
         return (bcaf.getEmplid()) + bcaf.getPositionNumber() + bcaf.getAccountNumber() + bcaf.getChartOfAccountsCode() + bcaf.getSubAccountNumber() + bcaf.getFinancialObjectCode() + bcaf.getFinancialSubObjectCode();
     }
 
     // overload the CSF key builders 
-    private String buildCSFKey(CalculatedSalaryFoundationTrackerOverride csf) {
+    protected String buildCSFKey(CalculatedSalaryFoundationTrackerOverride csf) {
         return (csf.getEmplid()) + csf.getPositionNumber() + csf.getAccountNumber() + csf.getChartOfAccountsCode() + csf.getSubAccountNumber() + csf.getFinancialObjectCode() + csf.getFinancialSubObjectCode();
     }
 
-    private String buildCSFKey(CalculatedSalaryFoundationTracker csf) {
+    protected String buildCSFKey(CalculatedSalaryFoundationTracker csf) {
         return (csf.getEmplid()) + csf.getPositionNumber() + csf.getAccountNumber() + csf.getChartOfAccountsCode() + csf.getSubAccountNumber() + csf.getFinancialObjectCode() + csf.getFinancialSubObjectCode();
     }
 
-    private String buildDocKeyFromBCSF(BudgetConstructionCalculatedSalaryFoundationTracker bcsf) {
+    protected String buildDocKeyFromBCSF(BudgetConstructionCalculatedSalaryFoundationTracker bcsf) {
         // see setUpbcHdrDocNumbers for the correct key elements
         // the order here must match the order there
         return bcsf.getChartOfAccountsCode() + bcsf.getAccountNumber() + bcsf.getSubAccountNumber();
     }
 
-    private boolean buildPBGLFromBCSFAndStore(BudgetConstructionCalculatedSalaryFoundationTracker bcsf) {
+    protected boolean buildPBGLFromBCSFAndStore(BudgetConstructionCalculatedSalaryFoundationTracker bcsf) {
         // first we need to see if a new PBGL row is needed
         String testKey = buildPBGLKey(bcsf);
         if (currentPBGLKeys.contains(testKey)) {
@@ -2228,27 +2228,27 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     }
 
     // these two rows are overloaded so we have a standardized key
-    private String buildPBGLKey(BudgetConstructionCalculatedSalaryFoundationTracker bcsf) {
+    protected String buildPBGLKey(BudgetConstructionCalculatedSalaryFoundationTracker bcsf) {
         return bcsf.getAccountNumber() + bcsf.getFinancialObjectCode() + bcsf.getChartOfAccountsCode() + bcsf.getSubAccountNumber() + bcsf.getFinancialSubObjectCode();
     }
 
-    private String buildPBGLKey(PendingBudgetConstructionGeneralLedger pbgl) {
+    protected String buildPBGLKey(PendingBudgetConstructionGeneralLedger pbgl) {
         return pbgl.getAccountNumber() + pbgl.getFinancialObjectCode() + pbgl.getChartOfAccountsCode() + pbgl.getSubAccountNumber() + pbgl.getFinancialSubObjectCode();
     }
 
-    private String buildVacantCSFKey(CalculatedSalaryFoundationTrackerOverride csf) {
+    protected String buildVacantCSFKey(CalculatedSalaryFoundationTrackerOverride csf) {
         boolean vacantLine = isVacantLine(csf);
         return (vacantLine ? BCConstants.VACANT_EMPLID : csf.getEmplid()) + csf.getPositionNumber() + csf.getAccountNumber() + csf.getChartOfAccountsCode() + csf.getSubAccountNumber() + csf.getFinancialObjectCode() + csf.getFinancialSubObjectCode();
     }
 
-    private String buildVacantCSFKey(CalculatedSalaryFoundationTracker csf) {
+    protected String buildVacantCSFKey(CalculatedSalaryFoundationTracker csf) {
         boolean vacantLine = isVacantLine(csf);
         return (vacantLine ? BCConstants.VACANT_EMPLID : csf.getEmplid()) + csf.getPositionNumber() + csf.getAccountNumber() + csf.getChartOfAccountsCode() + csf.getSubAccountNumber() + csf.getFinancialObjectCode() + csf.getFinancialSubObjectCode();
     }
 
     //
     // clean out the existing BCSF data for the key in question.
-    private void clearBCCSF(Integer FiscalYear) {
+    protected void clearBCCSF(Integer FiscalYear) {
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, FiscalYear);
         QueryByCriteria queryID = new QueryByCriteria(BudgetConstructionCalculatedSalaryFoundationTracker.class, criteriaID);
@@ -2258,7 +2258,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     }
 
 
-    private void CSFDiagnostics() {
+    protected void CSFDiagnostics() {
         LOG.info(String.format("\n\nResults of building BC CSF"));
         LOG.info(String.format("\nCSF override active rows %d", CSFOverrideRead));
         LOG.info(String.format("\nCSF override deletes     %d", CSFOverrideDeletesRead));
@@ -2277,7 +2277,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         LOG.info(String.format("\n\nend of BC CSF build statistics"));
     }
 
-    private ArrayList<String> findPositionRequiredObjectCodes(Integer BaseYear) {
+    protected ArrayList<String> findPositionRequiredObjectCodes(Integer BaseYear) {
         // we want to build an SQL IN criteria to filter a return set. 
         // we will find distinct objects only, regardless of chart, so OJB can build the SQL instead of our having to concatenate the chart and object code fields.  
         // this will not be a concern--it will make the return set bigger,but include every case we want. 
@@ -2299,17 +2299,17 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     }
 
     //  we will overload both of these checks as well             
-    private boolean isVacantLine(CalculatedSalaryFoundationTracker csf) {
+    protected boolean isVacantLine(CalculatedSalaryFoundationTracker csf) {
         return ((csf.getCsfFundingStatusCode().equals(BCConstants.csfFundingStatusFlag.VACANT.getFlagValue())) || (csf.getCsfFundingStatusCode().equals(BCConstants.csfFundingStatusFlag.UNFUNDED.getFlagValue())));
     }
 
-    private boolean isVacantLine(CalculatedSalaryFoundationTrackerOverride csf) {
+    protected boolean isVacantLine(CalculatedSalaryFoundationTrackerOverride csf) {
         return ((csf.getCsfFundingStatusCode().equals(BCConstants.csfFundingStatusFlag.VACANT.getFlagValue())) || (csf.getCsfFundingStatusCode().equals(BCConstants.csfFundingStatusFlag.UNFUNDED.getFlagValue())));
     }
 
     // here are the routines to build BCSF
 
-    private void readAndWriteBCSFAndNewAppointmentFundingAndNewPBGL(Integer BaseYear) {
+    protected void readAndWriteBCSFAndNewAppointmentFundingAndNewPBGL(Integer BaseYear) {
         // read through the remaining BCSF objects (those that do not presently exist in appointment funding (BCAF).
         // we will check whether they exist in Pending GL (PBGL), and, if not, write a new GL line.  
         // Then, we will write a PBGL row and a BCSF row (in that order, because of referential integrity.  
@@ -2325,7 +2325,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         }
     }
 
-    private void readCSF(Integer BaseYear) {
+    protected void readCSF(Integer BaseYear) {
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
         criteriaID.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BCConstants.ACTIVE_CSF_DELETE_CODE);
@@ -2354,7 +2354,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         csfOverrideKeys.clear();
     }
 
-    private void readCSFOverride(Integer BaseYear) {
+    protected void readCSFOverride(Integer BaseYear) {
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
         criteriaID.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, BCConstants.ACTIVE_CSF_DELETE_CODE);
@@ -2377,7 +2377,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         }
     }
 
-    private void readExistingAppointmentFunding(Integer BaseYear) {
+    protected void readExistingAppointmentFunding(Integer BaseYear) {
         // we will read all existing appointment funding (BCAF).
         // -- if a BCAF object matches with a BCSF row, we will store and remove the BCSF row, and ignore the AF object
         // -- if a BCAF object does NOT match with a BCSF row, we will check to see if it has been altered by a user.  if not, we will mark it deleted and store it as such.
@@ -2409,7 +2409,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     }
 
     // set up the hash objects   
-    private void setUpBCSFMap(Integer BaseYear) {
+    protected void setUpBCSFMap(Integer BaseYear) {
         // we'll just overestimate, making the size equal to active override rows and active CSF rows, even though the former might replace some of the latter
         Integer bCSFSize = new Integer(0);
         Criteria criteriaID = new Criteria();
@@ -2423,7 +2423,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         bCSF = new HashMap<String, BudgetConstructionCalculatedSalaryFoundationTracker>(bCSFSize);
     }
 
-    private void setUpbcHdrDocNumbers(Integer BaseYear) {
+    protected void setUpbcHdrDocNumbers(Integer BaseYear) {
         Integer RequestYear = BaseYear + 1;
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, RequestYear);
@@ -2439,7 +2439,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         }
     }
 
-    private void setUpCSFOverrideKeys(Integer BaseYear) {
+    protected void setUpCSFOverrideKeys(Integer BaseYear) {
         //  these are rows in CSF Override--they should take precedence over what is in CSF
         //  the idea is this:
         //  (1) we build BCSF from CSF Override first.  so, when we read CSF, we will not create a new BCSF entry if the override already has created one.
@@ -2465,7 +2465,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         }
     }
 
-    private void setUpCurrentPBGLKeys(Integer BaseYear) {
+    protected void setUpCurrentPBGLKeys(Integer BaseYear) {
         // this will actually set up two maps. 
         // both will be used in the same routine to build the PBGL for BCSF.  
         // keys not in the base budget (someone is being paid from an account, but no one has yet bothered to move base budget funding into the account to cover the expense).
@@ -2502,7 +2502,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         }
     }
 
-    private void setUpKeysNeedingRounding(Integer BaseYear) {
+    protected void setUpKeysNeedingRounding(Integer BaseYear) {
         Integer emplidCSFOvrdCount = new Integer(0);
         Integer emplidCSFCount = new Integer(0);
         Criteria criteriaID = new Criteria();
@@ -2537,7 +2537,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     }
 
     // read the position table so we can attach normal work months to new bcaf rows
-    private void setUpPositionNormalWorkMonths(Integer BaseYear) {
+    protected void setUpPositionNormalWorkMonths(Integer BaseYear) {
         Integer RequestYear = BaseYear + 1;
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, RequestYear);
@@ -2558,7 +2558,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     BigDecimal pctTime = new BigDecimal(0);
     BigDecimal FTE = new BigDecimal(0);
 
-    private void untouchedAppointmentFunding(PendingBudgetConstructionAppointmentFunding bcaf) {
+    protected void untouchedAppointmentFunding(PendingBudgetConstructionAppointmentFunding bcaf) {
         //     this checks to see whether the missing row could have come in from CSF earlier, but the CSF row which created it is not inactive.  
         //     if they it not come in from CSF, then it follows that someone entered it and we should not touch it.  
         CSFBCAFRowsMissing = CSFBCAFRowsMissing + 1;
@@ -2625,9 +2625,9 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         TransactionalServiceUtils.exhaustIterator(resultSet);
     }
     
-    private static final MathContext compareContext = new MathContext(2,RoundingMode.HALF_UP);
+    protected static final MathContext compareContext = new MathContext(2,RoundingMode.HALF_UP);
 
-    private boolean untouchedFTEPercentTimeCheck(PendingBudgetConstructionAppointmentFunding bcaf, CalculatedSalaryFoundationTracker resultCSF)
+    protected boolean untouchedFTEPercentTimeCheck(PendingBudgetConstructionAppointmentFunding bcaf, CalculatedSalaryFoundationTracker resultCSF)
     {
         // we need to check whether the current appointment funding row not in BCSF should be marked deleted.
         // it should be if it has not been "touched" by a user.  
@@ -2651,7 +2651,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     //     this is an inner class which will store the data we need to perform the rounding, and supply the methods as well    
     KualiDecimal shavePennies = new KualiDecimal(100);
 
-    private class roundMechanism {
+    protected class roundMechanism {
         //     the idea here is that people split over many lines could lose or gain several dollars if we rounded each salary line individually.  so, we do the following.
         //     (1) assume that all the amounts are positive
         //     (2) truncate the actual amount to the next lowest integer (round floor)

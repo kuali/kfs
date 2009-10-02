@@ -98,7 +98,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
      * @return HashMapap keyed on document number containing the next entry sequence number to use for the key
      */
 
-    private HashMap<String, Integer> entrySequenceNumber(Integer requestYear) {
+    protected HashMap<String, Integer> entrySequenceNumber(Integer requestYear) {
         HashMap<String, Integer> nextEntrySequenceNumber;
         // set up the query: each distinct document number in the source load table
         Criteria criteriaID = new Criteria();
@@ -128,7 +128,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
      * @return intiliazed GeneralLedgerPendingEntry business object
      */
 
-    private GeneralLedgerPendingEntry getNewPendingEntryWithDefaults(DaoGlobalVariables daoGlobalVariables) {
+    protected GeneralLedgerPendingEntry getNewPendingEntryWithDefaults(DaoGlobalVariables daoGlobalVariables) {
         GeneralLedgerPendingEntry newRow = new GeneralLedgerPendingEntry();
         newRow.setUniversityFiscalYear(daoGlobalVariables.getRequestYear());
         newRow.setTransactionLedgerEntryDescription(BCConstants.BC_TRN_LDGR_ENTR_DESC);
@@ -152,7 +152,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
         return newRow;
     }
 
-    private void loadBudgetConstructionMonthlyBudget(DaoGlobalVariables daoGlobalVariables, DiagnosticCounters diagnosticCounters) {
+    protected void loadBudgetConstructionMonthlyBudget(DaoGlobalVariables daoGlobalVariables, DiagnosticCounters diagnosticCounters) {
         QueryByCriteria queryID = queryForBudgetConstructionMonthly(daoGlobalVariables.getRequestYear());
         Iterator<BudgetConstructionMonthly> monthlyBudgetRows = getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
         while (monthlyBudgetRows.hasNext()) {
@@ -174,7 +174,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
      * @param daoGlobalVariables
      * @param diagnosticCounters
      */
-    private void loadPendingBudgetConstructionGeneralLedger(DaoGlobalVariables daoGlobalVariables, DiagnosticCounters diagnosticCounters) {
+    protected void loadPendingBudgetConstructionGeneralLedger(DaoGlobalVariables daoGlobalVariables, DiagnosticCounters diagnosticCounters) {
         QueryByCriteria queryID = queryForPendingBudgetConstructionGeneralLedger(daoGlobalVariables.getRequestYear());
         Iterator<PendingBudgetConstructionGeneralLedger> pbglRows = getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
         while (pbglRows.hasNext()) {
@@ -196,7 +196,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
      * @param fiscalYear : the year to be loaded
      * @return query for fetching monthly budget rows
      */
-    private QueryByCriteria queryForBudgetConstructionMonthly(Integer fiscalYear) {
+    protected QueryByCriteria queryForBudgetConstructionMonthly(Integer fiscalYear) {
         // we only select rows which have non-zero budget amounts
         // on this object, proxy=true, so we can do a regular query for a business object instead of a report query
         Criteria criteriaID = new Criteria();
@@ -223,7 +223,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
      * @return query for fetching pending budget construction GL rows
      */
 
-    private QueryByCriteria queryForPendingBudgetConstructionGeneralLedger(Integer fiscalYear) {
+    protected QueryByCriteria queryForPendingBudgetConstructionGeneralLedger(Integer fiscalYear) {
         // we only select rows which have non-zero budget amounts
         // on this object, proxy=true, so we can do a regular query for a business object instead of a report query
         Criteria criteriaID = new Criteria();
@@ -240,7 +240,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
      * @param source annual budget construction GL row
      * @param object containing global constants
      */
-    private void writeGeneralLedgerPendingEntryFromAnnual(GeneralLedgerPendingEntry newRow, PendingBudgetConstructionGeneralLedger pbgl, DaoGlobalVariables daoGlobalVariables, DiagnosticCounters diagnosticCounters) {
+    protected void writeGeneralLedgerPendingEntryFromAnnual(GeneralLedgerPendingEntry newRow, PendingBudgetConstructionGeneralLedger pbgl, DaoGlobalVariables daoGlobalVariables, DiagnosticCounters diagnosticCounters) {
         /**
          * first get the document number
          */
@@ -282,7 +282,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
         diagnosticCounters.increasGenneralLedgerCurrentBudgetWritten();
     }
 
-    private void writeGeneralLedgerPendingEntryFromMonthly(GeneralLedgerPendingEntry newRow, BudgetConstructionMonthly pbglMonthly, DaoGlobalVariables daoGlobalVariables, DiagnosticCounters diagnosticCounters) {
+    protected void writeGeneralLedgerPendingEntryFromMonthly(GeneralLedgerPendingEntry newRow, BudgetConstructionMonthly pbglMonthly, DaoGlobalVariables daoGlobalVariables, DiagnosticCounters diagnosticCounters) {
         /**
          * first get the document number
          */
@@ -356,7 +356,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
      * @return hashset of accounts NOT to be loaded
      */
 
-    private HashSet<String> getAccountsNotToBeLoaded() {
+    protected HashSet<String> getAccountsNotToBeLoaded() {
         HashSet<String> bannedAccounts;
         /**
          * list of subfunds which should not be loaded
@@ -395,7 +395,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
      * @see org.kuali.kfs.module.bc.BCConstants to initialize the String[] array(s) as desired
      * @return list of subfunds whose accounts will NOT be loaded
      */
-    private HashSet<String> getSubFundsNotToBeLoaded() {
+    protected HashSet<String> getSubFundsNotToBeLoaded() {
         HashSet<String> bannedSubFunds;
         if (BCConstants.NO_BC_GL_LOAD_FUND_GROUPS.size() != 0) {
             /**
@@ -444,7 +444,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
      * 
      * @param request fiscal year (or other fiscal period) which is the TARGET of the load
      */
-    private void openAllAccountingPeriods(Integer requestYear) {
+    protected void openAllAccountingPeriods(Integer requestYear) {
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, requestYear);
         criteriaID.addNotEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_STATUS_CODE, "Y");
@@ -469,7 +469,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
      * This class keeps a set of counters and provides a method to print them out This allows us to set up thread-local counters in
      * the unlikely event this code is run by more than one thread
      */
-    private class DiagnosticCounters {
+    protected class DiagnosticCounters {
         long budgetConstructionPendingGeneralLedgerRead = 0;
         long budgetConstructionPendingGeneralLedgerSkipped = 0;
         long generalLedgerBaseBudgetWritten = 0;
@@ -529,7 +529,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
      * @param current SQL Date (which will be the transaction date in the general ledger entry rows we create)
      * @param the "financial system Origination Code" for this database
      */
-    private class DaoGlobalVariables {
+    protected class DaoGlobalVariables {
         private Integer requestYear;
         private HashMap<String, Integer> entrySequenceNumber;
         private Date transactionDate;

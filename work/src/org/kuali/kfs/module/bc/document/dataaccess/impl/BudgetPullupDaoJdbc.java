@@ -81,7 +81,7 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
      * 
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetPullupDao#initPointOfView(java.lang.String, java.lang.String, java.lang.String, int)
      */
-    private void initPointOfView(String principalName, String chartOfAccountsCode, String organizationCode, int currentLevel) {
+    protected void initPointOfView(String principalName, String chartOfAccountsCode, String organizationCode, int currentLevel) {
    
         LOG.debug("initPointOfView() called");
         
@@ -93,7 +93,7 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
      * 
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetPullupDao#insertChildOrgs(java.lang.String, int)
      */
-    private void insertChildOrgs(String principalName, int previousLevel) {
+    protected void insertChildOrgs(String principalName, int previousLevel) {
         
         LOG.debug("insertChildOrgs() called");
 

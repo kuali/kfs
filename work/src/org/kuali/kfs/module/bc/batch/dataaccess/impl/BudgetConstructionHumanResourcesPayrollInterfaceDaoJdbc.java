@@ -277,7 +277,7 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
      *   In this placeholder code, we set these based on the salary plan and the position type.  At IU, there is a table containing salary plan and 
      *   grade that is shared by payroll and the budget to mandate the object class used for salary funding.
      */
-    private void setAcademicDefaultObjectClass(Integer fiscalYear)
+    protected void setAcademicDefaultObjectClass(Integer fiscalYear)
     {
         // build constants for DB independence
         Integer monthConstant = new Integer(10);
@@ -295,7 +295,7 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
         String sqlString = sqlBuilder.toString();
         getSimpleJdbcTemplate().update(sqlString,monthConstant,monthConstant,positionType,defaultObject,fiscalYear,salaryPlan);
     }
-    private void setMonthlyStaffOvertimeEligibleDefaultObjectClass(Integer fiscalYear)
+    protected void setMonthlyStaffOvertimeEligibleDefaultObjectClass(Integer fiscalYear)
     {
         // build constants for DB independence
         Integer monthConstant = new Integer(12);
@@ -314,7 +314,7 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
         getSimpleJdbcTemplate().update(sqlString,monthConstant,monthConstant,positionType,defaultObject,fiscalYear,salaryPlan[0],salaryPlan[1]);
     }
 
-    private void setMonthlyStaffOvertimeExemptDefaultObjectClass(Integer fiscalYear)
+    protected void setMonthlyStaffOvertimeExemptDefaultObjectClass(Integer fiscalYear)
     {
         // build constants for DB independence
         // (note that this uses a pattern, and therefore assumes that any specific position types beginning with 'P' that go to
@@ -336,7 +336,7 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
         getSimpleJdbcTemplate().update(sqlString,monthConstant,monthConstant,positionType,defaultObject,fiscalYear,salaryPlan);
     }
     
-    private void setBiweeklyStaffDefaultObjectClass(Integer fiscalYear)
+    protected void setBiweeklyStaffDefaultObjectClass(Integer fiscalYear)
     {
         // build constants for DB independence
         // (note that we are only assigning default object codes to positions not yet assigned a default.  so, this method must

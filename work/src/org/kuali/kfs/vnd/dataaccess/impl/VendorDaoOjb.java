@@ -42,8 +42,6 @@ public class VendorDaoOjb extends PlatformAwareDaoBaseOjb implements VendorDao {
         Criteria beginDate = new Criteria();
         Criteria endDate = new Criteria();
         Criteria b2b = new Criteria();
-//        Criteria b2b_B = new Criteria();
-//        Criteria b2b_N = new Criteria();
 
         header.addEqualTo("VNDR_HDR_GNRTD_ID", vendorDetail.getVendorHeaderGeneratedIdentifier());
         detail.addEqualTo("VNDR_DTL_ASND_ID", vendorDetail.getVendorDetailAssignedIdentifier());
@@ -51,8 +49,6 @@ public class VendorDaoOjb extends PlatformAwareDaoBaseOjb implements VendorDao {
         beginDate.addLessOrEqualThan("VNDR_CONTR_BEG_DT", now);
         endDate.addGreaterOrEqualThan("VNDR_CONTR_END_DT", now);
         b2b.addEqualTo("VNDR_B2B_IND", "Y");
-//        b2b.addOrCriteria(b2b_B);
-//        b2b.addOrCriteria(b2b_N);
 
         header.addAndCriteria(detail);
         header.addAndCriteria(campusCode);

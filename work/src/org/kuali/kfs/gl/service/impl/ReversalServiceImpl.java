@@ -99,7 +99,7 @@ public class ReversalServiceImpl implements ReversalService {
      * @param reversal reversal to build LedgerEntry with
      * @return a new LedgerEntry, populated by the reversal
      */
-    private LedgerEntryForReporting buildLedgerEntryFromReversal(Reversal reversal) {
+    protected LedgerEntryForReporting buildLedgerEntryFromReversal(Reversal reversal) {
         LedgerEntryForReporting entry = new LedgerEntryForReporting(universityDateService.getFiscalYear(reversal.getFinancialDocumentReversalDate()), accountingPeriodService.getByDate(reversal.getFinancialDocumentReversalDate()).getUniversityFiscalPeriodCode(), reversal.getFinancialBalanceTypeCode(), reversal.getFinancialSystemOriginationCode());
         if (KFSConstants.GL_CREDIT_CODE.equals(reversal.getTransactionDebitCreditCode())) {
             entry.setCreditAmount(reversal.getTransactionLedgerEntryAmount());

@@ -978,7 +978,7 @@ public class OrganizationReversionProcessImpl implements OrganizationReversionPr
      * @param countName the name of the count to increment
      * @param increment the amount to increment
      */
-    private void incrementCount(String countName, int increment) {
+    protected void incrementCount(String countName, int increment) {
         Integer count = organizationReversionCounts.get(countName);
         if (countName.equals("recordsWritten")) {
             int countAsInt = count.intValue();

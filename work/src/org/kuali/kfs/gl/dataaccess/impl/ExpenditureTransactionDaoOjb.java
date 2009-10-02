@@ -140,9 +140,6 @@ public class ExpenditureTransactionDaoOjb extends PlatformAwareDaoBaseOjb implem
         }
         catch (Exception e) {
             throw new RuntimeException(e);
-        }
-        
-        
-        
+        }   
     }
 }

@@ -180,7 +180,7 @@ public class PostSufficientFundBalances implements PostTransaction {
      * @param bal a sufficient funds balance to update
      * @param amount the amount to debit or credit
      */
-    private void updateExpendedAmount(String debitCreditCode, SufficientFundBalances bal, KualiDecimal amount) {
+    protected void updateExpendedAmount(String debitCreditCode, SufficientFundBalances bal, KualiDecimal amount) {
         if (KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode)) {
             bal.setAccountActualExpenditureAmt(bal.getAccountActualExpenditureAmt().subtract(amount));
         }
@@ -196,7 +196,7 @@ public class PostSufficientFundBalances implements PostTransaction {
      * @param bal a sufficient funds balance to update
      * @param amount the amount to debit or credit
      */
-    private void updateEncumbranceAmount(String debitCreditCode, SufficientFundBalances bal, KualiDecimal amount) {
+    protected void updateEncumbranceAmount(String debitCreditCode, SufficientFundBalances bal, KualiDecimal amount) {
         if (KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode)) {
             bal.setAccountEncumbranceAmount(bal.getAccountEncumbranceAmount().subtract(amount));
         }
@@ -212,7 +212,7 @@ public class PostSufficientFundBalances implements PostTransaction {
      * @param bal a sufficient funds balance to update
      * @param amount the amount to debit or credit
      */
-    private void updateBudgetAmount(String debitCreditCode, SufficientFundBalances bal, KualiDecimal amount) {
+    protected void updateBudgetAmount(String debitCreditCode, SufficientFundBalances bal, KualiDecimal amount) {
         if (KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode)) {
             bal.setCurrentBudgetBalanceAmount(bal.getCurrentBudgetBalanceAmount().subtract(amount));
         }

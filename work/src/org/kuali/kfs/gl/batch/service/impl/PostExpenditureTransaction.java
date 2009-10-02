@@ -292,7 +292,7 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
      * @param mode the mode of the poster as it is currently running
      * @return the accomplished post type
      */
-    private String postTransaction(Transaction t, int mode) {
+    protected String postTransaction(Transaction t, int mode) {
         LOG.debug("postTransaction() started");
 
         String returnCode = GeneralLedgerConstants.UPDATE_CODE;

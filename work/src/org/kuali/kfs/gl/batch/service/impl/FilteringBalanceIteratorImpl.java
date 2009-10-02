@@ -84,7 +84,7 @@ public class FilteringBalanceIteratorImpl implements FilteringBalanceIterator {
     /**
      * Creates the FilterIterator that underlies this Iterator
      */
-    private void initialize() {
+    protected void initialize() {
         if (!initialized) {
             filteredBalances = new FilterIterator(balancesSource, new Predicate() {
                 public boolean evaluate(Object obj) {

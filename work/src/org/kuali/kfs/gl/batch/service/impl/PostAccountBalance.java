@@ -109,7 +109,7 @@ public class PostAccountBalance implements PostTransaction, AccountBalanceCalcul
         return b;
     }
 
-    private boolean updateAccountBalanceReturn(Transaction t, AccountBalance ab) {
+    protected boolean updateAccountBalanceReturn(Transaction t, AccountBalance ab) {
         if (t.getFinancialBalanceTypeCode().equals(t.getOption().getBudgetCheckingBalanceTypeCd())) {
             ab.setCurrentBudgetLineBalanceAmount(ab.getCurrentBudgetLineBalanceAmount().add(t.getTransactionLedgerEntryAmount()));
         }

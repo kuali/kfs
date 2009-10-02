@@ -198,7 +198,7 @@ public class PosterServiceImpl implements PosterService {
      * 
      * @param mode the poster's current run mode
      */
-    private void postEntries(int mode, FileReader INPUT_GLE_FILE, PrintStream OUTPUT_GLE_FILE_ps, File OUTPUT_ERR_FILE) throws FileNotFoundException {
+    protected void postEntries(int mode, FileReader INPUT_GLE_FILE, PrintStream OUTPUT_GLE_FILE_ps, File OUTPUT_ERR_FILE) throws FileNotFoundException {
         if (LOG.isDebugEnabled()) {
             LOG.debug("postEntries() started");
         }
@@ -333,7 +333,7 @@ public class PosterServiceImpl implements PosterService {
      * @param line
      * @return whether the transaction was posted or not. Useful if calling class attempts to report on the transaction
      */
-    private boolean postTransaction(Transaction tran, int mode, Map<String,Integer> reportSummary, LedgerSummaryReport ledgerSummaryReport, PrintStream invalidGroup, UniversityDate runUniversityDate, String line, PrintStream OUTPUT_GLE_FILE_ps) {
+    protected boolean postTransaction(Transaction tran, int mode, Map<String,Integer> reportSummary, LedgerSummaryReport ledgerSummaryReport, PrintStream invalidGroup, UniversityDate runUniversityDate, String line, PrintStream OUTPUT_GLE_FILE_ps) {
 
         List<Message> errors = new ArrayList();
         Transaction originalTransaction = tran;
@@ -592,7 +592,7 @@ public class PosterServiceImpl implements PosterService {
      * @param runDate the transaction date for the newly created origin entry
      * @param group the group to save the origin entry to
      */
-    private void generateTransactions(ExpenditureTransaction et, IndirectCostRecoveryRateDetail icrRateDetail, KualiDecimal generatedTransactionAmount, Date runDate, PrintStream group, IndirectCostRecoveryGenerationMetadata icrGenerationMetadata) {
+    protected void generateTransactions(ExpenditureTransaction et, IndirectCostRecoveryRateDetail icrRateDetail, KualiDecimal generatedTransactionAmount, Date runDate, PrintStream group, IndirectCostRecoveryGenerationMetadata icrGenerationMetadata) {
 
         BigDecimal pct = new BigDecimal(icrRateDetail.getAwardIndrCostRcvyRatePct().toString());
         pct = pct.divide(BDONEHUNDRED);
@@ -733,11 +733,10 @@ public class PosterServiceImpl implements PosterService {
         }
     }
 
-    private static KualiDecimal ONEHUNDRED = new KualiDecimal("100");
-    private static DecimalFormat DFPCT = new DecimalFormat("#0.000");
-    private static DecimalFormat DFAMT = new DecimalFormat("##########.00");
-    private static BigDecimal BDONEHUNDRED = new BigDecimal("100");
-
+    public final static KualiDecimal ONEHUNDRED = new KualiDecimal("100");
+    public final static DecimalFormat DFPCT = new DecimalFormat("#0.000");
+    public final static DecimalFormat DFAMT = new DecimalFormat("##########.00");
+    public final static BigDecimal BDONEHUNDRED = new BigDecimal("100");
 
     /**
      * Returns ICR Generation Metadata based on SubAccount information if the SubAccount on the expenditure transaction is properly
@@ -838,7 +837,7 @@ public class PosterServiceImpl implements PosterService {
      * @param percent the percentage of that amount to calculate
      * @return the percent of the amount
      */
-    private KualiDecimal getPercentage(KualiDecimal amount, BigDecimal percent) {
+    protected KualiDecimal getPercentage(KualiDecimal amount, BigDecimal percent) {
         BigDecimal result = amount.bigDecimalValue().multiply(percent).divide(BDONEHUNDRED, 2, BigDecimal.ROUND_DOWN);
         return new KualiDecimal(result);
     }
@@ -852,7 +851,7 @@ public class PosterServiceImpl implements PosterService {
      * @param amount the amount of this entry
      * @return a description for the charge entry
      */
-    private String getChargeDescription(BigDecimal rate, String objectCode, String type, KualiDecimal amount) {
+    protected String getChargeDescription(BigDecimal rate, String objectCode, String type, KualiDecimal amount) {
         BigDecimal newRate = rate.multiply(PosterServiceImpl.BDONEHUNDRED);
 
         StringBuffer desc = new StringBuffer("CHG ");
@@ -882,7 +881,7 @@ public class PosterServiceImpl implements PosterService {
      * @param accountNumber the account number of the debit entry
      * @return a description for the debit entry
      */
-    private String getOffsetDescription(BigDecimal rate, KualiDecimal amount, String chartOfAccountsCode, String accountNumber) {
+    protected String getOffsetDescription(BigDecimal rate, KualiDecimal amount, String chartOfAccountsCode, String accountNumber) {
         BigDecimal newRate = rate.multiply(PosterServiceImpl.BDONEHUNDRED);
 
         StringBuffer desc = new StringBuffer("RCV ");
@@ -910,7 +909,7 @@ public class PosterServiceImpl implements PosterService {
      * @param destination the destination of a given transaction
      * @param operation the operation being performed on the transaction
      */
-    private void addReporting(Map reporting, String destination, String operation) {
+    protected void addReporting(Map reporting, String destination, String operation) {
         String key = destination + "," + operation;
         if (reporting.containsKey(key)) {
             Integer c = (Integer) reporting.get(key);
@@ -995,7 +994,7 @@ public class PosterServiceImpl implements PosterService {
         this.runDateService = runDateService;
     }
 
-    private void createOutputEntry(Transaction entry, PrintStream group) throws IOException {
+    protected void createOutputEntry(Transaction entry, PrintStream group) throws IOException {
         OriginEntryFull oef = new OriginEntryFull();
         oef.copyFieldsFromTransaction(entry);
         try {
@@ -1006,7 +1005,7 @@ public class PosterServiceImpl implements PosterService {
         }
     }
 
-    private void writeErrorEntry(String line, PrintStream invaliGroup) throws IOException {
+    protected void writeErrorEntry(String line, PrintStream invaliGroup) throws IOException {
         try {
             invaliGroup.printf("%s\n", line);
         } catch (Exception e) {

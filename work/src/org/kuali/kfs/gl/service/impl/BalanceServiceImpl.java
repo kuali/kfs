@@ -61,7 +61,7 @@ public class BalanceServiceImpl implements BalanceService {
      * @param s an array of Strings
      * @return an implementation of Collection (a List) of Strings
      */
-    private Collection wrap(String[] s) {
+    protected Collection wrap(String[] s) {
         return Arrays.asList(s);
     }
 
@@ -165,7 +165,7 @@ public class BalanceServiceImpl implements BalanceService {
      * @param balances an Iterator of balances to sum
      * @return the sum of all of those balances
      */
-    private KualiDecimal sumBalances(Iterator balances) {
+    protected KualiDecimal sumBalances(Iterator balances) {
         KualiDecimal runningTotal = KualiDecimal.ZERO;
 
         KualiDecimal begin;
@@ -397,7 +397,7 @@ public class BalanceServiceImpl implements BalanceService {
     /**
      * Private method to load the values from the system options service and store them locally for later use.
      */
-    private void loadConstantsFromOptions() {
+    protected void loadConstantsFromOptions() {
         LOG.debug("loadConstantsFromOptions() started");
         SystemOptions options = optionsService.getCurrentYearOptions();
         // String[] actualBalanceCodes = new String[] { "AC" };
@@ -432,7 +432,7 @@ public class BalanceServiceImpl implements BalanceService {
      *
      * @return an array of balance type codes for actual balances
      */
-    private String[] getActualBalanceCodes() {
+    protected String[] getActualBalanceCodes() {
         if (actualBalanceCodes == null) {
             loadConstantsFromOptions();
         }
@@ -444,7 +444,7 @@ public class BalanceServiceImpl implements BalanceService {
      * 
      * @return an array of income balance type codes
      */
-    private String[] getIncomeObjectTypeCodes() {
+    protected String[] getIncomeObjectTypeCodes() {
         if (incomeObjectTypeCodes == null) {
             loadConstantsFromOptions();
         }
@@ -456,7 +456,7 @@ public class BalanceServiceImpl implements BalanceService {
      * 
      * @return an array of expense option type codes
      */
-    private String[] getExpenseObjectTypeCodes() {
+    protected String[] getExpenseObjectTypeCodes() {
         if (expenseObjectTypeCodes == null) {
             loadConstantsFromOptions();
         }
@@ -468,7 +468,7 @@ public class BalanceServiceImpl implements BalanceService {
      * 
      * @return an array of asset/liability balance type codes
      */
-    private String[] getAssetLiabilityFundBalanceBalanceTypeCodes() {
+    protected String[] getAssetLiabilityFundBalanceBalanceTypeCodes() {
         if (assetLiabilityFundBalanceObjectTypeCodes == null) {
             loadConstantsFromOptions();
         }
@@ -480,7 +480,7 @@ public class BalanceServiceImpl implements BalanceService {
      * 
      * @return an array of encumbrance balance type codes
      */
-    private String[] getEncumbranceBaseBudgetBalanceTypeCodes() {
+    protected String[] getEncumbranceBaseBudgetBalanceTypeCodes() {
         if (encumbranceBaseBudgetBalanceTypeCodes == null) {
             loadConstantsFromOptions();
         }

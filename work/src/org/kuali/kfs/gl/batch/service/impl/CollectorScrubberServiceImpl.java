@@ -69,26 +69,6 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
     
     //TODO: Shawn - need to delete couple files
     public void removeTempGroups(Collection<CollectorScrubberStatus> allStatusObjectsFromCollectorExecution) {
-//        for (CollectorScrubberStatus collectorScrubberStatus : allStatusObjectsFromCollectorExecution) {
-//            OriginEntryGroupService originEntryGroupService = collectorScrubberStatus.getOriginEntryGroupService();
-//            Collection<OriginEntryGroup> groupsToDelete = new ArrayList<OriginEntryGroup>();
-//
-//            if (collectorScrubberStatus.getInputGroup() != null && collectorScrubberStatus.getInputGroup().getId() != null) {
-//                groupsToDelete.add(collectorScrubberStatus.getInputGroup());
-//            }
-//            if (collectorScrubberStatus.getValidGroup() != null && collectorScrubberStatus.getValidGroup().getId() != null) {
-//                groupsToDelete.add(collectorScrubberStatus.getValidGroup());
-//            }
-//            if (collectorScrubberStatus.getExpiredGroup() != null && collectorScrubberStatus.getExpiredGroup().getId() != null) {
-//                groupsToDelete.add(collectorScrubberStatus.getExpiredGroup());
-//            }
-//            if (collectorScrubberStatus.getErrorGroup() != null && collectorScrubberStatus.getErrorGroup().getId() != null) {
-//                groupsToDelete.add(collectorScrubberStatus.getErrorGroup());
-//            }
-//            if (!groupsToDelete.isEmpty()) {
-//                originEntryGroupService.deleteGroups(groupsToDelete);
-//            }
-//        }
     }
 
     /**

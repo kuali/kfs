@@ -207,7 +207,7 @@ public class SufficientFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Su
      * @param isEqualDebitCode should debits be included in the calculation or not
      * @return this part of the encumbrance total
      */
-    KualiDecimal calculatePendEncum1(boolean isYearEndDocument, String extrnlEncumFinBalanceTypCd, String intrnlEncumFinBalanceTypCd, String preencumbranceFinBalTypeCd, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String acctSufficientFundsFinObjCd, boolean isEqualDebitCode, List expenditureCodes) {
+    protected KualiDecimal calculatePendEncum1(boolean isYearEndDocument, String extrnlEncumFinBalanceTypCd, String intrnlEncumFinBalanceTypCd, String preencumbranceFinBalTypeCd, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String acctSufficientFundsFinObjCd, boolean isEqualDebitCode, List expenditureCodes) {
         Criteria criteria = new Criteria();
 
         Criteria sub1 = new Criteria();
@@ -262,7 +262,7 @@ public class SufficientFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Su
      * @param acctSufficientFundsFinObjCd the object code for sufficient funds
      * @return this part of the actual total
      */
-    KualiDecimal calculatePendActual1(boolean isYearEndDocument, String actualFinancialBalanceTypeCd, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String acctSufficientFundsFinObjCd, boolean isEqualDebitCode, List expenditureCodes) {
+    protected KualiDecimal calculatePendActual1(boolean isYearEndDocument, String actualFinancialBalanceTypeCd, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String acctSufficientFundsFinObjCd, boolean isEqualDebitCode, List expenditureCodes) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(KFSConstants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, actualFinancialBalanceTypeCd);
         criteria.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
@@ -299,7 +299,7 @@ public class SufficientFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Su
      * @param accountNumber the account number of sufficient fund balances to summarize
      * @return thsi part of the actual total
      */
-    KualiDecimal calculateM113PendActual1(boolean financialBeginBalanceLoadInd, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isEqualDebitCode, String financialObjectCodeForCashInBank) {
+    protected KualiDecimal calculateM113PendActual1(boolean financialBeginBalanceLoadInd, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isEqualDebitCode, String financialObjectCodeForCashInBank) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(KFSConstants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, KFSConstants.BALANCE_TYPE_ACTUAL);
 
@@ -344,7 +344,7 @@ public class SufficientFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Su
      * @param specialFinancialObjectCodes include only these financial object codes
      * @return this part of the actual total
      */
-    KualiDecimal calculateM113PendActual2(boolean financialBeginBalanceLoadInd, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isEqualDebitCode, List specialFinancialObjectCodes) {
+    protected KualiDecimal calculateM113PendActual2(boolean financialBeginBalanceLoadInd, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isEqualDebitCode, List specialFinancialObjectCodes) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(KFSConstants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, KFSConstants.BALANCE_TYPE_ACTUAL);
 
@@ -407,7 +407,7 @@ public class SufficientFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Su
      * @param reportQuery the ReportQuery to find the first value for
      * @return the first value generated from the given query
      */
-    private KualiDecimal executeReportQuery(ReportQueryByCriteria reportQuery) {
+    protected KualiDecimal executeReportQuery(ReportQueryByCriteria reportQuery) {
         Iterator iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportQuery);
         if (iterator.hasNext()) {
             KualiDecimal returnResult = (KualiDecimal) ((Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(iterator))[0];

@@ -127,7 +127,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
      * @return true if the class implements <code>YearEndDocument</code>
      */
     @SuppressWarnings("unchecked")
-    private boolean isYearEndDocument(Class documentClass) {
+    protected boolean isYearEndDocument(Class documentClass) {
         return YearEndDocument.class.isAssignableFrom(documentClass);
     }
 
@@ -167,7 +167,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
      * @return a List of corresponding SufficientFundsItem
      */
     @SuppressWarnings("unchecked")
-    private List<SufficientFundsItem> summarizeTransactions(List<? extends Transaction> transactions) {
+    protected List<SufficientFundsItem> summarizeTransactions(List<? extends Transaction> transactions) {
         Map<String, SufficientFundsItem> items = new HashMap<String, SufficientFundsItem>();
 
         SystemOptions currentYear = optionsService.getCurrentYearOptions();
@@ -206,7 +206,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
      * @param item the item to check
      * @return true if there are sufficient funds available, false otherwise
      */
-    private boolean hasSufficientFundsOnItem(SufficientFundsItem item) {
+    protected boolean hasSufficientFundsOnItem(SufficientFundsItem item) {
 
         if (item.getAmount().equals(KualiDecimal.ZERO)) {
             LOG.debug("hasSufficientFundsOnItem() Transactions with zero amounts shold pass");
@@ -333,7 +333,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
     /**
      * An inner class to hold summary totals of pending ledger entry amounts
      */
-    private class PendingAmounts {
+    protected class PendingAmounts {
         public KualiDecimal budget = KualiDecimal.ZERO;
         public KualiDecimal actual = KualiDecimal.ZERO;
         public KualiDecimal encumbrance = KualiDecimal.ZERO;
@@ -345,7 +345,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
      * @param item the sufficient funds item to check against
      * @return a PendingAmounts record with the pending budget and encumbrance
      */
-    private PendingAmounts getPriorYearSufficientFundsBalanceAmount(SufficientFundsItem item) {
+    protected PendingAmounts getPriorYearSufficientFundsBalanceAmount(SufficientFundsItem item) {
         PendingAmounts amounts = new PendingAmounts();
 
         // This only gets called for sufficient funds type of Cash at Account (H). The object code in the table for this type is
@@ -372,7 +372,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
      * @return the totals encapsulated in a PendingAmounts object
      */
     @SuppressWarnings("unchecked")
-    private PendingAmounts getPendingBalanceAmount(SufficientFundsItem item) {
+    protected PendingAmounts getPendingBalanceAmount(SufficientFundsItem item) {
         LOG.debug("getPendingBalanceAmount() started");
 
         Integer fiscalYear = item.getYear().getUniversityFiscalYear();

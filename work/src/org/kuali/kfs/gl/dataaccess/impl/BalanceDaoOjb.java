@@ -160,7 +160,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @param name - name of the attribute
      * @param collection - the collection to inspect
      */
-    private void criteriaBuilder(Criteria criteria, String name, Collection collection) {
+    protected void criteriaBuilder(Criteria criteria, String name, Collection collection) {
         criteriaBuilderHelper(criteria, name, collection, false);
     }
 
@@ -171,7 +171,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @param name - name of the attribute
      * @param collection - the collection to inspect
      */
-    private void negatedCriteriaBuilder(Criteria criteria, String name, Collection collection) {
+    protected void negatedCriteriaBuilder(Criteria criteria, String name, Collection collection) {
         criteriaBuilderHelper(criteria, name, collection, true);
     }
 
@@ -184,7 +184,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @param collection - the collection to inspect
      * @param negate - the criterion will be negated (NOT EQUALS, NOT IN) when this is true
      */
-    private void criteriaBuilderHelper(Criteria criteria, String name, Collection collection, boolean negate) {
+    protected void criteriaBuilderHelper(Criteria criteria, String name, Collection collection, boolean negate) {
         if (collection != null) {
             int size = collection.size();
             if (size == 1) {
@@ -328,7 +328,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @param fieldValues a map of keys to use when building the query
      * @return an OJB ReportQuery to use as the query 
      */
-    private ReportQueryByCriteria getCashBalanceCountQuery(Map fieldValues) {
+    protected ReportQueryByCriteria getCashBalanceCountQuery(Map fieldValues) {
         Criteria criteria = buildCriteriaFromMap(fieldValues, new CashBalance());
         criteria.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
         criteria.addEqualToField("chart.financialCashObjectCode", KFSPropertyConstants.OBJECT_CODE);
@@ -357,7 +357,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @param isConsolidated should the results be consolidated?
      * @return the OJB query to perform
      */
-    private Query getCashBalanceQuery(Map fieldValues, boolean isConsolidated) {
+    protected Query getCashBalanceQuery(Map fieldValues, boolean isConsolidated) {
         Criteria criteria = buildCriteriaFromMap(fieldValues, new CashBalance());
         criteria.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
         criteria.addEqualToField("chart.financialCashObjectCode", KFSPropertyConstants.OBJECT_CODE);
@@ -394,7 +394,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @param isConsolidated should the results be consolidated?
      * @return an OJB query to perform
      */
-    private Query getBalanceQuery(Map fieldValues, boolean isConsolidated) {
+    protected Query getBalanceQuery(Map fieldValues, boolean isConsolidated) {
         LOG.debug("getBalanceQuery(Map, boolean) started");
 
         Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance());
@@ -431,7 +431,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @param fieldValues Map of keys to use for the query
      * @return an OJB ReportQuery to perform
      */
-    private ReportQueryByCriteria getBalanceCountQuery(Map fieldValues) {
+    protected ReportQueryByCriteria getBalanceCountQuery(Map fieldValues) {
         Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance());
         ReportQueryByCriteria query = QueryFactory.newReportQuery(Balance.class, criteria);
 
@@ -456,7 +456,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @param balance this really usen't used in the method 
      * @return a query criteria
      */
-    private Criteria buildCriteriaFromMap(Map fieldValues, Balance balance) {
+    protected Criteria buildCriteriaFromMap(Map fieldValues, Balance balance) {
         Map localFieldValues = new HashMap();
         localFieldValues.putAll(fieldValues);
 
@@ -487,7 +487,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @param isExtended should we add the attributes to sum each of the monthly totals?
      * @return List an attribute list
      */
-    private List<String> buildAttributeList(boolean isExtended) {
+    protected List<String> buildAttributeList(boolean isExtended) {
         List attributeList = this.buildGroupByList();
 
         attributeList.add("sum(accountLineAnnualBalanceAmount)");
@@ -518,7 +518,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * 
      * @return List an group by attribute list
      */
-    private List<String> buildGroupByList() {
+    protected List<String> buildGroupByList() {
         List attributeList = new ArrayList();
 
         attributeList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
@@ -795,7 +795,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
         return filteredBalances;
     }
 
-    private static final String PARAMETER_PREFIX = "SELECTION_";
+    protected static final String PARAMETER_PREFIX = "SELECTION_";
 
     /**
      * Returns a list of balances to return for the Organization Reversion year end job to process

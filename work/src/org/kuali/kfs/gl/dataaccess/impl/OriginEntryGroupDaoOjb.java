@@ -216,37 +216,6 @@ public class OriginEntryGroupDaoOjb extends PlatformAwareDaoBaseOjb implements O
     }
 
     /**
-     * Run a sql command.  This method takes its connection from the given persistence broker.
-     * 
-     * @param sql the sql to execute; it must be an update state
-     * @return the result of the execute update
-     */
-    private int sqlCommand(String sql) {
-        LOG.info("sqlCommand() started: " + sql);
-
-        Statement stmt = null;
-
-        try {
-            Connection c = getPersistenceBroker(true).serviceConnectionManager().getConnection();
-            stmt = c.createStatement();
-            return stmt.executeUpdate(sql);
-        }
-        catch (Exception e) {
-            throw new RuntimeException("Unable to execute: " + e.getMessage());
-        }
-        finally {
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-            }
-            catch (Exception e) {
-                throw new RuntimeException("Unable to close connection: " + e.getMessage());
-            }
-        }
-    }
-
-    /**
      * Given a date, finds all origin entry groups that were created on or after that date
      * @param day the date that defines recency - all qualifying origin entries groups will have been created on or after that day
      * @return a Collection of OriginEntryGroup records

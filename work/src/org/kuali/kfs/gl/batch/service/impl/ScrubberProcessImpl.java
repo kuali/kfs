@@ -171,37 +171,6 @@ public class ScrubberProcessImpl implements ScrubberProcess {
     private String validFile;
     private String errorFile;
     private String expiredFile;
-    
-//    /**
-//     * These parameters are all the dependencies.
-//     */
-//    public ScrubberProcessImpl(FlexibleOffsetAccountService flexibleOffsetAccountService, AccountingCycleCachingService accountingCycleCachingService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService configurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ScrubberValidator scrubberValidator, GeneratedCostShareOriginEntryObjectCodeOverride scrubberProcessObjectCodeOverride, RunDateService runDateService, String batchFileDirectoryName, DocumentNumberAwareReportWriterService scrubberReportWriterService, DocumentNumberAwareReportWriterService scrubberLedgerReportWriterService, DocumentNumberAwareReportWriterService scrubberListingReportWriterService, ReportWriterService scrubberBadBalanceListingReportWriterService, ReportWriterService demergerReportWriterService, ReportWriterService demergerRemovedTransactionsListingReportWriterService, PreScrubberService preScrubberService) {
-//        super();
-//        this.flexibleOffsetAccountService = flexibleOffsetAccountService;
-//        this.accountingCycleCachingService = accountingCycleCachingService;
-//        this.dateTimeService = dateTimeService;
-//        this.offsetDefinitionService = offsetDefinitionService;
-//        this.objectCodeService = objectCodeService;
-//        this.configurationService = configurationService;
-//        this.universityDateDao = universityDateDao;
-//        this.persistenceService = persistenceService;
-//        this.scrubberValidator = scrubberValidator;
-//        this.unscrubbedToScrubbedEntries = new HashMap<OriginEntryInformation, OriginEntryInformation>();
-//        this.scrubberProcessObjectCodeOverride = scrubberProcessObjectCodeOverride;
-//        this.runDateService = runDateService;
-//        this.collectorMode = false;
-//        this.parameterService = SpringContext.getBean(ParameterService.class);
-//        this.batchFileDirectoryName = batchFileDirectoryName;
-//        this.scrubberReportWriterService = scrubberReportWriterService;
-//        this.scrubberLedgerReportWriterService = scrubberLedgerReportWriterService;
-//        this.scrubberListingReportWriterService = scrubberListingReportWriterService;
-//        this.scrubberBadBalanceListingReportWriterService = scrubberBadBalanceListingReportWriterService;
-//        this.demergerReportWriterService = demergerReportWriterService;
-//        this.demergerRemovedTransactionsListingReportWriterService = demergerRemovedTransactionsListingReportWriterService;
-//        this.scrubberReportErrors = new IdentityHashMap<Transaction, List<Message>>();
-//        ledgerSummaryReport = new LedgerSummaryReport();
-//        this.preScrubberService = preScrubberService;
-//    }
 
     /**
      * Scrub this single group read only. This will only output the scrubber report. It won't output any other groups.

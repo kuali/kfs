@@ -206,7 +206,7 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
      * @param fieldValues a Map of values to use as keys for the query
      * @return an OJB query
      */
-    private Query getOpenEncumbranceQuery(Map fieldValues) {
+    protected Query getOpenEncumbranceQuery(Map fieldValues) {
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new Encumbrance());
         criteria.addIn(KFSPropertyConstants.BALANCE_TYPE_CODE, Arrays.asList(KFSConstants.ENCUMBRANCE_BALANCE_TYPE));
         return QueryFactory.newQuery(Encumbrance.class, criteria);
@@ -217,7 +217,7 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
      * 
      * @return a List of encumbrance attributes that need to be summed
      */
-    private List buildAttributeList() {
+    protected List buildAttributeList() {
         List attributeList = this.buildGroupByList();
 
         attributeList.add("sum(" + KFSPropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_AMOUNT + ")");
@@ -231,7 +231,7 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
      * 
      * @return a List of encumbrance attributes to search on
      */
-    private List buildGroupByList() {
+    protected List buildGroupByList() {
         List attributeList = new ArrayList();
 
         attributeList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);

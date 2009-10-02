@@ -100,7 +100,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
      * 
      * @return the fiscal year
      */
-    private Integer getFiscalYear() {
+    protected Integer getFiscalYear() {
         String val = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM);
         return Integer.parseInt(val);
     }
@@ -199,7 +199,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
     /**
      * Initializes the process at the beginning of a run.
      */
-    private void initService() {
+    protected void initService() {
         batchError = new HashMap();
         reportSummary = new ArrayList();
 
@@ -218,7 +218,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
      * 
      * @param sfrb the sufficient fund rebuild record to convert
      */
-    private void convertOtypeToAtypes(SufficientFundRebuild sfrb) {
+    protected void convertOtypeToAtypes(SufficientFundRebuild sfrb) {
         ++sfrbRecordsConvertedCount;
         Collection fundBalances = sufficientFundBalancesDao.getByObjectCode(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode());
 
@@ -248,7 +248,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
      * 
      * @param sfrb the sufficient fund rebuild record, with a chart and account number
      */
-    private void calculateSufficientFundsByAccount(SufficientFundRebuild sfrb) {
+    protected void calculateSufficientFundsByAccount(SufficientFundRebuild sfrb) {
         Account sfrbAccount = accountService.getByPrimaryId(sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode());
 
         if ((sfrbAccount.getAccountSufficientFundsCode() != null) 
@@ -335,7 +335,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
      * @param sfbl the sufficient funds balance to check
      * @return true if all sums in the balance are zero, false otherwise
      */
-    private boolean amountsAreNonZero(SufficientFundBalances sfbl) {
+    protected boolean amountsAreNonZero(SufficientFundBalances sfbl) {
         boolean zero = true;
         zero &= KualiDecimal.ZERO.equals(sfbl.getAccountActualExpenditureAmt());
         zero &= KualiDecimal.ZERO.equals(sfbl.getAccountEncumbranceAmount());
@@ -349,7 +349,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
      * @param sfrbAccount the account of the current sufficient funds balance rebuild record
      * @param balance the cash encumbrance balance to update the sufficient funds balance with
      */
-    private void processObjectOrAccount(Account sfrbAccount, Balance balance) {
+    protected void processObjectOrAccount(Account sfrbAccount, Balance balance) {
         if (options.getFinObjTypeExpenditureexpCd().equals(balance.getObjectTypeCode()) || options.getFinObjTypeExpendNotExpCode().equals(balance.getObjectTypeCode()) || options.getFinObjTypeExpNotExpendCode().equals(balance.getObjectTypeCode()) || options.getFinancialObjectTypeTransferExpenseCd().equals(balance.getObjectTypeCode())) {
             if (options.getActualFinancialBalanceTypeCd().equals(balance.getBalanceTypeCode())) {
                 processObjtAcctActual(balance);
@@ -368,7 +368,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
      * 
      * @param balance the cash encumbrance balance to update the sufficient funds balance with
      */
-    private void processObjtAcctActual(Balance balance) {
+    protected void processObjtAcctActual(Balance balance) {
         currentSfbl.setAccountActualExpenditureAmt(currentSfbl.getAccountActualExpenditureAmt().add(balance.getAccountLineAnnualBalanceAmount()));
     }
 
@@ -377,7 +377,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
      * 
      * @param balance the cash encumbrance balance to update the sufficient funds balance with
      */
-    private void processObjtAcctEncmbrnc(Balance balance) {
+    protected void processObjtAcctEncmbrnc(Balance balance) {
         currentSfbl.setAccountEncumbranceAmount(currentSfbl.getAccountEncumbranceAmount().add(balance.getAccountLineAnnualBalanceAmount()));
         currentSfbl.setAccountEncumbranceAmount(currentSfbl.getAccountEncumbranceAmount().add(balance.getBeginningBalanceLineAmount()));
     }
@@ -387,7 +387,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
      * 
      * @param balance the cash encumbrance balance to update the sufficient funds balance with
      */
-    private void processObjtAcctBudget(Balance balance) {
+    protected void processObjtAcctBudget(Balance balance) {
         currentSfbl.setCurrentBudgetBalanceAmount(currentSfbl.getCurrentBudgetBalanceAmount().add(balance.getAccountLineAnnualBalanceAmount()));
         currentSfbl.setCurrentBudgetBalanceAmount(currentSfbl.getCurrentBudgetBalanceAmount().add(balance.getBeginningBalanceLineAmount()));
     }
@@ -398,7 +398,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
      * @param sfrbAccount the account of the current sufficient funds balance record
      * @param balance the cash encumbrance balance to update the sufficient funds balance with
      */
-    private void processCash(Account sfrbAccount, Balance balance) {
+    protected void processCash(Account sfrbAccount, Balance balance) {
         if (balance.getBalanceTypeCode().equals(options.getActualFinancialBalanceTypeCd())) {
             if (balance.getObjectCode().equals(sfrbAccount.getChartOfAccounts().getFinancialCashObjectCode()) || balance.getObjectCode().equals(sfrbAccount.getChartOfAccounts().getFinAccountsPayableObjectCode())) {
                 processCashActual(sfrbAccount, balance);
@@ -417,7 +417,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
      * @param sfrbAccount the account of the current sufficient funds balance record
      * @param balance the cash encumbrance balance to update the sufficient funds balance with
      */
-    private void processCashActual(Account sfrbAccount, Balance balance) {
+    protected void processCashActual(Account sfrbAccount, Balance balance) {
         if (balance.getObjectCode().equals(sfrbAccount.getChartOfAccounts().getFinancialCashObjectCode())) {
             currentSfbl.setCurrentBudgetBalanceAmount(currentSfbl.getCurrentBudgetBalanceAmount().add(balance.getAccountLineAnnualBalanceAmount()));
             currentSfbl.setCurrentBudgetBalanceAmount(currentSfbl.getCurrentBudgetBalanceAmount().add(balance.getBeginningBalanceLineAmount()));
@@ -433,7 +433,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
      * 
      * @param balance the cash encumbrance balance to update the sufficient funds balance with
      */
-    private void processCashEncumbrance(Balance balance) {
+    protected void processCashEncumbrance(Balance balance) {
         currentSfbl.setAccountEncumbranceAmount(currentSfbl.getAccountEncumbranceAmount().add(balance.getAccountLineAnnualBalanceAmount()));
         currentSfbl.setAccountEncumbranceAmount(currentSfbl.getAccountEncumbranceAmount().add(balance.getBeginningBalanceLineAmount()));
     }
@@ -442,7 +442,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
      * Adds an error message to this instance's List of error messages
      * @param errorMessage the error message to keep
      */
-    private void addTransactionError(String errorMessage) {
+    protected void addTransactionError(String errorMessage) {
         transactionErrors.add(new Message(errorMessage, Message.TYPE_WARNING));
     }
 

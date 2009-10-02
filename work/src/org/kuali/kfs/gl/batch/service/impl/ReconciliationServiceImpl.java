@@ -276,7 +276,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
      * @param errorMessages a list to which error messages will be appended.
      * @return true if there are no problems, false otherwise
      */
-    private boolean performSanityChecks(List<ColumnReconciliation> columns, List<JavaAttributeAugmentedColumnReconciliation> javaAttributeNames, KualiDecimal[] columnSums, List<Message> errorMessages) {
+    protected boolean performSanityChecks(List<ColumnReconciliation> columns, List<JavaAttributeAugmentedColumnReconciliation> javaAttributeNames, KualiDecimal[] columnSums, List<Message> errorMessages) {
         boolean success = true;
 
         if (javaAttributeNames.size() != columnSums.length || javaAttributeNames.size() != columns.size()) {
@@ -305,7 +305,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
      * @param size the size of the constructed array
      * @return the array, all initialized to {@link KualiDecimal#ZERO}
      */
-    private KualiDecimal[] createColumnSumsArray(int size) {
+    protected KualiDecimal[] createColumnSumsArray(int size) {
         KualiDecimal[] array = new KualiDecimal[size];
         for (int i = 0; i < array.length; i++) {
             array[i] = KualiDecimal.ZERO;
@@ -321,7 +321,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
      *         have the same size as the parameter, and each element in one list corresponds to the element at the same position in
      *         the other list
      */
-    private List<JavaAttributeAugmentedColumnReconciliation> resolveJavaAttributeNames(List<ColumnReconciliation> columns) {
+    protected List<JavaAttributeAugmentedColumnReconciliation> resolveJavaAttributeNames(List<ColumnReconciliation> columns) {
         List<JavaAttributeAugmentedColumnReconciliation> attributes = new ArrayList<JavaAttributeAugmentedColumnReconciliation>();
         for (ColumnReconciliation column : columns) {
             JavaAttributeAugmentedColumnReconciliation c = new JavaAttributeAugmentedColumnReconciliation();

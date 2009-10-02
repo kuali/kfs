@@ -206,7 +206,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @param MessageMap a map of errors resultant from the parsing
      * @return the CollectorBatch of details parsed from the file
      */
-    private List<CollectorBatch> doCollectorFileParse(String fileName, MessageMap messageMap, BatchInputFileType collectorInputFileType, CollectorReportData collectorReportData) {
+    protected List<CollectorBatch> doCollectorFileParse(String fileName, MessageMap messageMap, BatchInputFileType collectorInputFileType, CollectorReportData collectorReportData) {
 
         InputStream inputStream = null;
         try {
@@ -302,19 +302,19 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         }
     }
 
-    private String extractChartOfAccountsCode(Object originEntryOrDetail) {
+    protected String extractChartOfAccountsCode(Object originEntryOrDetail) {
         if (originEntryOrDetail instanceof OriginEntryInformation)
             return ((OriginEntryInformation) originEntryOrDetail).getChartOfAccountsCode(); 
         return ((CollectorDetail) originEntryOrDetail).getChartOfAccountsCode();
     }
     
-    private String extractAccountNumber(Object originEntryOrDetail) {
+    protected String extractAccountNumber(Object originEntryOrDetail) {
         if (originEntryOrDetail instanceof OriginEntryInformation)
             return ((OriginEntryInformation) originEntryOrDetail).getAccountNumber(); 
         return ((CollectorDetail) originEntryOrDetail).getAccountNumber();
     }
     
-    private void setChartOfAccountsCode(Object originEntryOrDetail, String chartOfAccountsCode) {
+    protected void setChartOfAccountsCode(Object originEntryOrDetail, String chartOfAccountsCode) {
         if (originEntryOrDetail instanceof OriginEntryInformation)
             ((OriginEntryInformation) originEntryOrDetail).setChartOfAccountsCode(chartOfAccountsCode);
         else
@@ -466,7 +466,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @param batch - batch to check
      * @return true if header if OK, false if header was used previously
      */
-    private boolean duplicateHeaderCheck(CollectorBatch batch, MessageMap messageMap) {
+    protected boolean duplicateHeaderCheck(CollectorBatch batch, MessageMap messageMap) {
         boolean validHeader = true;
 
         CollectorHeader foundHeader = batch.retrieveDuplicateHeader();
@@ -566,7 +566,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @param delimiter the String delimiter to separate parts of the key
      * @return the key as a String
      */
-    private String generateOriginEntryMatchingKey(OriginEntryFull entry, String delimiter) {
+    protected String generateOriginEntryMatchingKey(OriginEntryFull entry, String delimiter) {
         return StringUtils.join(new String[] { entry.getUniversityFiscalYear().toString(), entry.getUniversityFiscalPeriodCode(), entry.getChartOfAccountsCode(), entry.getAccountNumber(), entry.getSubAccountNumber(), entry.getFinancialObjectCode(), entry.getFinancialSubObjectCode(), entry.getFinancialObjectTypeCode(), entry.getDocumentNumber(), entry.getFinancialDocumentTypeCode(), entry.getFinancialSystemOriginationCode() }, delimiter);
     }
 
@@ -577,7 +577,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @param delimiter the String delimiter to separate parts of the key
      * @return the key as a String
      */
-    private String generateCollectorDetailMatchingKey(CollectorDetail collectorDetail, String delimiter) {
+    protected String generateCollectorDetailMatchingKey(CollectorDetail collectorDetail, String delimiter) {
         return StringUtils.join(new String[] { collectorDetail.getUniversityFiscalYear().toString(), collectorDetail.getUniversityFiscalPeriodCode(), collectorDetail.getChartOfAccountsCode(), collectorDetail.getAccountNumber(), collectorDetail.getSubAccountNumber(), collectorDetail.getFinancialObjectCode(), collectorDetail.getFinancialSubObjectCode(), collectorDetail.getFinancialObjectTypeCode(), collectorDetail.getDocumentNumber(), collectorDetail.getFinancialDocumentTypeCode(), collectorDetail.getFinancialSystemOriginationCode() }, delimiter);
     }
 

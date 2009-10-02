@@ -130,7 +130,7 @@ public class CollectorServiceImpl implements CollectorService {
      * Clears out associated .done files for the processed data files.
      * @param dataFileNames the name of files with done files to remove
      */
-    private void removeDoneFiles(List<String> dataFileNames) {
+    protected void removeDoneFiles(List<String> dataFileNames) {
         for (String dataFileName : dataFileNames) {
             File doneFile = new File(StringUtils.substringBeforeLast(dataFileName, ".") + ".done");
             if (doneFile.exists()) {

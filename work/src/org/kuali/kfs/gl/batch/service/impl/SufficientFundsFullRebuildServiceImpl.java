@@ -31,7 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class SufficientFundsFullRebuildServiceImpl implements SufficientFundsFullRebuildService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsFullRebuildServiceImpl.class);
 
-  //  private AccountService accountService;
     private SufficientFundRebuildDao sufficientFundRebuildDao;
 
     /**
@@ -45,25 +44,10 @@ public class SufficientFundsFullRebuildServiceImpl implements SufficientFundsFul
         
         sufficientFundRebuildDao.populateSufficientFundRebuild();
         
-//        Iterator i = accountService.getAllAccounts();
-//        while (i.hasNext()) {
-//            Account a = (Account) i.next();
-//            SufficientFundRebuild sfr = sufficientFundRebuildDao.getByAccount(a.getChartOfAccountsCode(), a.getAccountNumber());
-//            if (sfr == null) {
-//                sfr = new SufficientFundRebuild();
-//                sfr.setAccountFinancialObjectTypeCode("A");
-//                sfr.setAccountNumberFinancialObjectCode(a.getAccountNumber());
-//                sfr.setChartOfAccountsCode(a.getChartOfAccountsCode());
-//                sufficientFundRebuildDao.save(sfr);
-//            }
-//        }
     }
 
     public void setSufficientFundRebuildDao(SufficientFundRebuildDao sfd) {
         sufficientFundRebuildDao = sfd;
     }
 
-//    public void setAccountService(AccountService as) {
-//        accountService = as;
-//    }
 }

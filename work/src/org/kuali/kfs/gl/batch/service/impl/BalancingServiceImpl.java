@@ -490,7 +490,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
         this.encumbranceDao = encumbranceDao;
     }
     
-    private BalanceHistory createBalanceFromMap(Map<String, Object> map) {
+    protected BalanceHistory createBalanceFromMap(Map<String, Object> map) {
         BalanceHistory balance = new BalanceHistory();
         balance.setUniversityFiscalYear(((BigDecimal)(map.get(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR))).intValue());
         balance.setChartOfAccountsCode((String)map.get(GeneralLedgerConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE));
@@ -522,7 +522,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
         
     }
     
-    private EntryHistory createEntryHistoryFromMap(Map<String, Object> map) {
+    protected EntryHistory createEntryHistoryFromMap(Map<String, Object> map) {
         EntryHistory entry = new EntryHistory();
         entry.setUniversityFiscalYear(((BigDecimal)(map.get(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR))).intValue());
         entry.setChartOfAccountsCode((String)map.get(GeneralLedgerConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE));
@@ -537,7 +537,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
         
     }
     
-    private AccountBalanceHistory createAccountBalanceHistoryFromMap(Map<String, Object> map) {
+    protected AccountBalanceHistory createAccountBalanceHistoryFromMap(Map<String, Object> map) {
         //UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT 
         AccountBalanceHistory accountBalanceHistory = new AccountBalanceHistory();
         accountBalanceHistory.setUniversityFiscalYear(((BigDecimal)(map.get(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR))).intValue());
@@ -554,7 +554,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
         return accountBalanceHistory;
     }
     
-    private EncumbranceHistory createEncumbranceHistoryFromMap(Map<String, Object> map) {
+    protected EncumbranceHistory createEncumbranceHistoryFromMap(Map<String, Object> map) {
         EncumbranceHistory encumbranceHistory = new EncumbranceHistory();
         encumbranceHistory.setUniversityFiscalYear(((BigDecimal)(map.get(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR))).intValue());
         encumbranceHistory.setChartOfAccountsCode((String)map.get(GeneralLedgerConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE));
@@ -573,7 +573,7 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
         return encumbranceHistory;
     }
     
-    private KualiDecimal convertBigDecimalToKualiDecimal(BigDecimal biggy) {
+    protected KualiDecimal convertBigDecimalToKualiDecimal(BigDecimal biggy) {
         if (ObjectUtils.isNull(biggy))
             return new KualiDecimal(0);   
         else 

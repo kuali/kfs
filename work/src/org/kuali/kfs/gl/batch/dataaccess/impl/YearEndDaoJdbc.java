@@ -35,13 +35,13 @@ public class YearEndDaoJdbc extends PlatformAwareDaoBaseJdbc implements YearEndD
 
     // All of the Comparators and RowMappers are stateless, so I can simply create them as variables and avoid unnecessary object
     // creation
-    private final Comparator<Map<String, String>> subFundGroupPrimaryKeyComparator = new Comparator<Map<String, String>>() {
+    protected Comparator<Map<String, String>> subFundGroupPrimaryKeyComparator = new Comparator<Map<String, String>>() {
         public int compare(Map<String, String> firstSubFundGroupPK, Map<String, String> secondSubFundGroupPK) {
             return firstSubFundGroupPK.get("subFundGroupCode").compareTo(secondSubFundGroupPK.get("subFundGroupCode"));
         }
     };
 
-    private final Comparator<Map<String, String>> priorYearAccountPrimaryKeyComparator = new Comparator<Map<String, String>>() {
+    protected Comparator<Map<String, String>> priorYearAccountPrimaryKeyComparator = new Comparator<Map<String, String>>() {
         public int compare(Map<String, String> firstPriorYearPK, Map<String, String> secondPriorYearPK) {
             if (firstPriorYearPK.get("chartOfAccountsCode").equals(secondPriorYearPK.get("chartOfAccountsCode"))) {
                 return firstPriorYearPK.get("accountNumber").compareTo(secondPriorYearPK.get("accountNumber"));
@@ -52,7 +52,7 @@ public class YearEndDaoJdbc extends PlatformAwareDaoBaseJdbc implements YearEndD
         }
     };
 
-    private final RowMapper subFundGroupRowMapper = new RowMapper() {
+    protected RowMapper subFundGroupRowMapper = new RowMapper() {
         public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
             Map<String, String> subFundGroupKey = new LinkedHashMap<String, String>();
             subFundGroupKey.put("subFundGroupCode", rs.getString("sub_fund_grp_cd"));
@@ -60,7 +60,7 @@ public class YearEndDaoJdbc extends PlatformAwareDaoBaseJdbc implements YearEndD
         }
     };
 
-    private final RowMapper priorYearAccountRowMapper = new RowMapper() {
+    protected RowMapper priorYearAccountRowMapper = new RowMapper() {
         public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
             Map<String, String> keyMap = new LinkedHashMap<String, String>();
             keyMap.put("chartOfAccountsCode", rs.getString("fin_coa_cd"));
@@ -91,7 +91,7 @@ public class YearEndDaoJdbc extends PlatformAwareDaoBaseJdbc implements YearEndD
      * @param priorYearKeys the prior year keys to search for
      * @return the set of those prior year accounts that are missing
      */
-    private Set<Map<String, String>> selectMissingPriorYearAccounts(List priorYearKeys) {
+    protected Set<Map<String, String>> selectMissingPriorYearAccounts(List priorYearKeys) {
         Set<Map<String, String>> missingPriorYears = new TreeSet<Map<String, String>>(priorYearAccountPrimaryKeyComparator);
         for (Object priorYearKeyAsObject : priorYearKeys) {
             Map<String, String> priorYearKey = (Map<String, String>) priorYearKeyAsObject;
@@ -123,7 +123,7 @@ public class YearEndDaoJdbc extends PlatformAwareDaoBaseJdbc implements YearEndD
      * @param subFundGroupKeys the list of sub fund group keys to search through
      * @return a set of those sub fund group keys that are missing
      */
-    private Set<Map<String, String>> selectMissingSubFundGroups(List subFundGroupKeys) {
+    protected Set<Map<String, String>> selectMissingSubFundGroups(List subFundGroupKeys) {
         Set<Map<String, String>> missingSubFundGroups = new TreeSet<Map<String, String>>(subFundGroupPrimaryKeyComparator);
         for (Object subFundGroupKeyAsObject : subFundGroupKeys) {
             Map<String, String> subFundGroupKey = (Map<String, String>) subFundGroupKeyAsObject;

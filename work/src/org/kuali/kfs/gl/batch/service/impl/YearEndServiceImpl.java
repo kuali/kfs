@@ -203,7 +203,7 @@ public class YearEndServiceImpl implements YearEndService {
      * @param countName the name of the specific count ot update
      * @return the newly incremented amount
      */
-    private int incrementCount(Map<String, Integer> counts, String countName) {
+    protected int incrementCount(Map<String, Integer> counts, String countName) {
         Integer value = counts.get(countName);
         int incremented = value.intValue() + 1;
         counts.put(countName, new Integer(incremented));

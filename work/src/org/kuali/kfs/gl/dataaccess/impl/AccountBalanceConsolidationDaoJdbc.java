@@ -120,7 +120,7 @@ public class AccountBalanceConsolidationDaoJdbc extends AccountBalanceDaoJdbcBas
      * @param sessionId the unique session id of the web session of the currently inquiring users, so temp table entries have a unique identifier 
      * @return true if pending entries exist that would affect this inquiry, false otherwise
      */
-    private boolean getMatchingPendingEntriesByConsolidation(String[] objectTypes, SystemOptions options, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isCostShareExcluded, int pendingEntriesCode, String sessionId) {
+    protected boolean getMatchingPendingEntriesByConsolidation(String[] objectTypes, SystemOptions options, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isCostShareExcluded, int pendingEntriesCode, String sessionId) {
         LOG.debug("getMatchingPendingEntriesByConsolidation() started");
 
         // If they have specified this year, we will get all the pending entries
@@ -179,7 +179,7 @@ public class AccountBalanceConsolidationDaoJdbc extends AccountBalanceDaoJdbcBas
      * @param options the system options of the fiscal year that is being inquired upon
      * @param sessionId the session id of the inquiring user, for a unique primary key in the temporary tables
      */
-    private void summarizePendingEntriesByConsolidation(SystemOptions options, String sessionId) {
+    protected void summarizePendingEntriesByConsolidation(SystemOptions options, String sessionId) {
         LOG.debug("summarizePendingEntriesByConsolidation() started");
 
         try {

@@ -106,7 +106,7 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
      * @param options a given set of system options
      * @param sessionId the unique web id of the currently inquiring user, which acts as a key for the temporary table
      */
-    private void summarizePendingEntriesByLevel(SystemOptions options, String sessionId) {
+    protected void summarizePendingEntriesByLevel(SystemOptions options, String sessionId) {
         LOG.debug("summarizePendingEntriesByLevel() started");
 
         try {
@@ -228,7 +228,7 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
      * @param sessionId the unique web id of the currently inquiring user, used as a key for the temporary tables
      * @return true if summarization process found pending entries to process, false otherwise
      */
-    private boolean getMatchingPendingEntriesByLevel(SystemOptions options, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, int pendingEntriesCode, String sessionId) {
+    protected boolean getMatchingPendingEntriesByLevel(SystemOptions options, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, int pendingEntriesCode, String sessionId) {
         LOG.debug("getMatchingPendingEntriesByLevel() started");
 
         // If they have specified this year, we will get all the pending entries where the year is equal or the year is null

@@ -207,7 +207,7 @@ public class ReconciliationParserServiceImpl implements ReconciliationParserServ
      * @param line the line
      * @return stripped and trimmed line
      */
-    private String stripCommentsAndTrim(String line) {
+    protected String stripCommentsAndTrim(String line) {
         int commentIndex = line.indexOf(COMMENT_STRING);
         if (commentIndex > -1) {
             // chop off comments

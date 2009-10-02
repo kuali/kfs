@@ -110,12 +110,6 @@ public class OriginEntryServiceImpl implements OriginEntryService {
             return ledgerEntryHolder;
         }
 
-//        Iterator entrySummaryIterator = originEntryDao.getSummaryByGroupId(groupIdList);
-//        while (entrySummaryIterator.hasNext()) {
-//            Object[] entrySummary = (Object[]) entrySummaryIterator.next();
-//            LedgerEntry ledgerEntry = this.buildLedgerEntry(entrySummary);
-//            ledgerEntryHolder.insertLedgerEntry(ledgerEntry, true);
-//        }
         return ledgerEntryHolder;
     }
 
@@ -252,49 +246,6 @@ public class OriginEntryServiceImpl implements OriginEntryService {
             return output;
         }
 
-//        Iterator entrySummaryIterator = originEntryDao.getPosterOutputSummaryByGroupId(groupIdList);
-//        while (entrySummaryIterator.hasNext()) {
-//            Object[] entrySummary = (Object[]) entrySummaryIterator.next();
-//            PosterOutputSummaryEntry posterOutputSummaryEntry = new PosterOutputSummaryEntry();
-//            int indexOfField = 0;
-//
-//            Object tempEntry = entrySummary[indexOfField++];
-//            String entry = (tempEntry == null) ? "" : tempEntry.toString();
-//            posterOutputSummaryEntry.setBalanceTypeCode(entry);
-//
-//            tempEntry = entrySummary[indexOfField++];
-//            entry = (tempEntry == null) ? null : tempEntry.toString();
-//            posterOutputSummaryEntry.setUniversityFiscalYear(new Integer(entry));
-//
-//            tempEntry = entrySummary[indexOfField++];
-//            entry = (tempEntry == null) ? "" : tempEntry.toString();
-//            posterOutputSummaryEntry.setFiscalPeriodCode(entry);
-//
-//            tempEntry = entrySummary[indexOfField++];
-//            entry = (tempEntry == null) ? "" : tempEntry.toString();
-//            posterOutputSummaryEntry.setFundGroup(entry);
-//
-//            tempEntry = entrySummary[indexOfField++];
-//            String objectTypeCode = (tempEntry == null) ? "" : tempEntry.toString();
-//            posterOutputSummaryEntry.setObjectTypeCode(objectTypeCode);
-//
-//            tempEntry = entrySummary[indexOfField++];
-//            String debitCreditCode = (tempEntry == null) ? KFSConstants.GL_BUDGET_CODE : tempEntry.toString();
-//
-//            tempEntry = entrySummary[indexOfField];
-//            entry = (tempEntry == null) ? "0" : tempEntry.toString();
-//            KualiDecimal amount = new KualiDecimal(entry);
-//
-//            posterOutputSummaryEntry.setAmount(debitCreditCode, objectTypeCode, amount);
-//
-//            if (output.containsKey(posterOutputSummaryEntry.getKey())) {
-//                PosterOutputSummaryEntry pose = output.get(posterOutputSummaryEntry.getKey());
-//                pose.add(posterOutputSummaryEntry);
-//            }
-//            else {
-//                output.put(posterOutputSummaryEntry.getKey(), posterOutputSummaryEntry);
-//            }
-//        }
         return output;
     }
 

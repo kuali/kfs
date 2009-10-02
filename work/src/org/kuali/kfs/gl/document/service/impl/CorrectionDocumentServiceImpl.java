@@ -892,7 +892,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         CorrectionDocumentUtils.copyStatisticsToDocument(statistics, document);
     }
     
-    final class CorrectionFileFilter implements FilenameFilter {
+    protected class CorrectionFileFilter implements FilenameFilter {
         /**
          * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
          */

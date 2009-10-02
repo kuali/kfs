@@ -197,7 +197,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     /*
      * buildBackupFileOuput with doneFileList and PrintStream
      */
-    private void buildBackupFileOutput(File[] doneFileList, PrintStream ps) {
+    protected void buildBackupFileOutput(File[] doneFileList, PrintStream ps) {
         BufferedReader inputFileReader = null;
 
         for (File doneFile : doneFileList) {
@@ -288,7 +288,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         return new File(batchLaborFileDirectoryName + File.separator + fileName);
     }
 
-    final class ScrubberErrorFilenameFilter implements FilenameFilter {
+    protected class ScrubberErrorFilenameFilter implements FilenameFilter {
         /**
          * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
          */
@@ -297,7 +297,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         }
     }
 
-    final class DateAndDoneFileFilter implements FilenameFilter {
+    protected class DateAndDoneFileFilter implements FilenameFilter {
         /**
          * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
          */
@@ -306,7 +306,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         }
     }
 
-    final class DoneFileFilter implements FilenameFilter {
+    protected class DoneFileFilter implements FilenameFilter {
         /**
          * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
          */
@@ -315,7 +315,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         }
     }
 
-    private File getDataFile(File doneFile) {
+    protected File getDataFile(File doneFile) {
         String doneFileAbsPath = doneFile.getAbsolutePath();
         if (!doneFileAbsPath.endsWith(GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION)) {
             throw new IllegalArgumentException("DOne file name must end with " + GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);

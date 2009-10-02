@@ -33,7 +33,7 @@ public class ScrubberServiceImpl implements ScrubberService {
     private ScrubberProcess scrubberProcess;
     private ScrubberProcess demergerScrubberProcess;
     
-    private static final String COLLECTOR_SCRUBBER_PROCESS_BEAN_NAME = "batchScrubberProcess";
+    protected static final String COLLECTOR_SCRUBBER_PROCESS_BEAN_NAME = "batchScrubberProcess";
     /**
      * This process will call the scrubber in a read only mode. It will scrub a single group, won't create any output in origin
      * entry. It will create a the scrubber report
@@ -44,10 +44,6 @@ public class ScrubberServiceImpl implements ScrubberService {
     public void scrubGroupReportOnly(String fileName, String documentNumber) {
         LOG.debug("scrubGroupReportOnly() started");
 
-        // The logic for this was moved into another object because the process was written using
-        // many instance variables which shouldn't be used for Spring services
-
-            //new ScrubberProcessImpl(flexibleOffsetAccountService, accountingCycleCachingService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, scrubberValidator, generatedCostShareOriginEntryObjectCodeOverride, runDateService, batchFileDirectoryName, scrubberReportOnlyWriterService, glcpScrubberLedgerReportWriterService, scrubberListingReportWriterService, null, null, null, null);
         reportOnlyScrubberProcess.scrubGroupReportOnly(fileName, documentNumber);
     }
 
@@ -58,10 +54,6 @@ public class ScrubberServiceImpl implements ScrubberService {
     public void scrubEntries() {
         LOG.debug("scrubEntries() started");
 
-        // The logic for this was moved into another object because the process was written using
-        // many instance variables which shouldn't be used for Spring services
-
-            //new ScrubberProcessImpl(flexibleOffsetAccountService, accountingCycleCachingService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, scrubberValidator, generatedCostShareOriginEntryObjectCodeOverride, runDateService, batchFileDirectoryName, scrubberReportWriterService, scrubberLedgerReportWriterService, null, scrubberBadBalanceListingReportWriterService, null, null, null);
         scrubberProcess.scrubEntries();
     }
 

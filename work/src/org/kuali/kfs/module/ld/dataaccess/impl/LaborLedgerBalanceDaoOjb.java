@@ -141,7 +141,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     // build the query for balance search
-    private Query getBalanceQuery(Map fieldValues, boolean isConsolidated) {
+    protected Query getBalanceQuery(Map fieldValues, boolean isConsolidated) {
         LOG.debug("getBalanceQuery(Map, boolean) started");
         LOG.debug("Building criteria from map fields: " + fieldValues.keySet());
 
@@ -157,7 +157,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     // build the query for balance search
-    private ReportQueryByCriteria getBalanceCountQuery(Map fieldValues) {
+    protected ReportQueryByCriteria getBalanceCountQuery(Map fieldValues) {
         Criteria criteria = buildCriteriaFromMap(fieldValues, new LedgerBalance());
         ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerBalance.class, criteria);
 
@@ -182,7 +182,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
      * @param balance
      * @return a query criteria
      */
-    private Criteria buildCriteriaFromMap(Map fieldValues, LedgerBalance balance) {
+    protected Criteria buildCriteriaFromMap(Map fieldValues, LedgerBalance balance) {
         Map localFieldValues = new HashMap();
         localFieldValues.putAll(fieldValues);
 
@@ -289,7 +289,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     // get the current funds according to the given criteria
-    private Iterator<Object[]> findCurrentFundsRawData(Map fieldValues) {
+    protected Iterator<Object[]> findCurrentFundsRawData(Map fieldValues) {
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new LedgerBalance());
         criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
 
@@ -302,7 +302,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     // get the encumbrance funds according to the given criteria
-    private Iterator<Object[]> findEncumbranceFundsRawData(Map fieldValues) {
+    protected Iterator<Object[]> findEncumbranceFundsRawData(Map fieldValues) {
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new LedgerBalance());
         criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE);
 
@@ -310,7 +310,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     // get the funds based on the given criteria
-    private Iterator<Object[]> findFundsRawData(Criteria criteria) {
+    protected Iterator<Object[]> findFundsRawData(Criteria criteria) {
         ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerBalance.class, criteria);
 
         List<String> groupByList = this.getGroupByListForFundingInquiry();
@@ -326,7 +326,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     // get the balance summary based on the given criteria
-    private Iterator<Object[]> findBalanceSummaryRawData(Criteria criteria) {
+    protected Iterator<Object[]> findBalanceSummaryRawData(Criteria criteria) {
         ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerBalance.class, criteria);
 
         List<String> groupByList = this.getGroupByListForBalanceSummary();
@@ -342,7 +342,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     // marshal into AccountStatusBaseFunds from the query result
-    private LedgerBalance marshalFundsAsLedgerBalance(Object[] queryResult) {
+    protected LedgerBalance marshalFundsAsLedgerBalance(Object[] queryResult) {
         LedgerBalance ledgerBalance = new LedgerBalance();
         List<String> keyFields = this.getAttributeListForFundingInquiry(true);
 
@@ -351,7 +351,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     // marshal into AccountStatusBaseFunds from the query result
-    private EmployeeFunding marshalFundsAsEmployeeFunding(Object[] queryResult) {
+    protected EmployeeFunding marshalFundsAsEmployeeFunding(Object[] queryResult) {
         EmployeeFunding employeeFunding = new EmployeeFunding();
         List<String> keyFields = this.getAttributeListForFundingInquiry(true);
 
@@ -360,12 +360,12 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     // marshal into LaborBalanceSummary from the query result
-    private LaborBalanceSummary marshalFundsAsLaborBalanceSummary(Object[] queryResult) {
+    protected LaborBalanceSummary marshalFundsAsLaborBalanceSummary(Object[] queryResult) {
         return new LaborBalanceSummary(queryResult);
     }
 
     // define the attribute list that can be used to group the search results
-    private List<String> getGroupByListForFundingInquiry() {
+    protected List<String> getGroupByListForFundingInquiry() {
         List<String> groupByList = new ArrayList<String>();
         groupByList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         groupByList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
@@ -380,7 +380,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     // define the return attribute list for funding query
-    private List<String> getAttributeListForFundingInquiry(boolean isAttributeNameNeeded) {
+    protected List<String> getAttributeListForFundingInquiry(boolean isAttributeNameNeeded) {
         List<String> attributeList = getGroupByListForFundingInquiry();
         attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.ACCOUNTING_LINE_ANNUAL_BALANCE_AMOUNT, isAttributeNameNeeded));
         attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.FINANCIAL_BEGINNING_BALANCE_LINE_AMOUNT, isAttributeNameNeeded));
@@ -389,14 +389,14 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     // define the attribute list that can be used to group the search results
-    private List<String> getGroupByListForBalanceSummary() {
+    protected List<String> getGroupByListForBalanceSummary() {
         List<String> groupByList = new ArrayList<String>();
         groupByList.add("account.subFundGroup.fundGroupCode");
         return groupByList;
     }
 
     // define the return attribute list for balance summary
-    private List<String> getAttributeListForBalanceSummary(boolean isAttributeNameNeeded) {
+    protected List<String> getAttributeListForBalanceSummary(boolean isAttributeNameNeeded) {
         List<String> attributeList = getGroupByListForBalanceSummary();
         attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.ACCOUNTING_LINE_ANNUAL_BALANCE_AMOUNT, isAttributeNameNeeded));
         attributeList.add(ConsolidationUtil.wrapAttributeName(KFSPropertyConstants.FINANCIAL_BEGINNING_BALANCE_LINE_AMOUNT, isAttributeNameNeeded));

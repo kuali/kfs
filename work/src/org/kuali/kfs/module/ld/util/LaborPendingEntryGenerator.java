@@ -197,7 +197,7 @@ public class LaborPendingEntryGenerator {
      * @param benefitAmountSumByBenefitType the given benefit amount summary map
      * @param accountingLine the given accounting line
      */
-    private static void updateBenefitAmountSum(Map<String, KualiDecimal> benefitAmountSumByBenefitType, ExpenseTransferAccountingLine accountingLine) {
+    protected static void updateBenefitAmountSum(Map<String, KualiDecimal> benefitAmountSumByBenefitType, ExpenseTransferAccountingLine accountingLine) {
         accountingLine.refreshReferenceObject(KFSPropertyConstants.LABOR_OBJECT);
         if (ObjectUtils.isNull(accountingLine.getLaborObject())) {
             return;
@@ -232,7 +232,7 @@ public class LaborPendingEntryGenerator {
      * @return true if the pay fiscal year and period from the accounting line match with its university fiscal year and period;
      *         otherwise, false
      */
-    private static boolean isAccountingLinePayFYPeriodMatchesUniversityPayFYPeriod(LaborLedgerPostingDocument document, ExpenseTransferAccountingLine accountingLine) {
+    protected static boolean isAccountingLinePayFYPeriodMatchesUniversityPayFYPeriod(LaborLedgerPostingDocument document, ExpenseTransferAccountingLine accountingLine) {
         Integer fiscalYear = document.getPostingYear();
         Integer payFiscalYear = accountingLine.getPayrollEndDateFiscalYear();
         if (!fiscalYear.equals(payFiscalYear)) {

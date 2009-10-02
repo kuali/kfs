@@ -121,7 +121,7 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
      * 
      * @return the returning attribute list
      */
-    private List<String> buildConsolidationAttributeList() {
+    protected List<String> buildConsolidationAttributeList() {
         List<String> attributeList = this.buildGroupByList();
         attributeList.add("sum(" + KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")");
         return attributeList;
@@ -132,7 +132,7 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
      * 
      * @return the grouping attribute list
      */
-    private List<String> buildGroupByList() {
+    protected List<String> buildGroupByList() {
         List<String> groupByList = new ArrayList<String>(LaborConstants.consolidationAttributesOfOriginEntry());
         groupByList.remove(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
         return groupByList;

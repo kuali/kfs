@@ -56,7 +56,7 @@ public class LaborBaseFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Lab
     }
 
     // get the labor base funds according to the given criteria
-    private Iterator<Object[]> findLaborBaseFundsRawData(Map fieldValues, boolean isConsolidated) {
+    protected Iterator<Object[]> findLaborBaseFundsRawData(Map fieldValues, boolean isConsolidated) {
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatusBaseFunds());
         criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_BASE_BUDGET);
 
@@ -81,7 +81,7 @@ public class LaborBaseFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Lab
     }
 
     // marshal into AccountStatusBaseFunds from the query result
-    private AccountStatusBaseFunds marshalAccountStatusBaseFunds(Object[] queryResult) {
+    protected AccountStatusBaseFunds marshalAccountStatusBaseFunds(Object[] queryResult) {
         AccountStatusBaseFunds baseFunds = new AccountStatusBaseFunds();
         List<String> keyFields = this.getAttributeListForBaseFunds(false, true);
 
@@ -90,7 +90,7 @@ public class LaborBaseFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Lab
     }
 
     // define a list of attributes that are used as the grouping criteria
-    private List<String> getGroupByList(boolean isConsolidated) {
+    protected List<String> getGroupByList(boolean isConsolidated) {
         List<String> groupByList = new ArrayList<String>();
         groupByList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         groupByList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
@@ -105,7 +105,7 @@ public class LaborBaseFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Lab
     }
 
     // define the return attribute list
-    private List<String> getAttributeList(boolean isConsolidated) {
+    protected List<String> getAttributeList(boolean isConsolidated) {
         List<String> attributeList = getGroupByList(isConsolidated);
 
         if (isConsolidated) {
@@ -116,7 +116,7 @@ public class LaborBaseFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Lab
     }
 
     // define the return attribute list for base funds query
-    private List<String> getAttributeListForBaseFunds(boolean isConsolidated, boolean isAttributeNameNeeded) {
+    protected List<String> getAttributeListForBaseFunds(boolean isConsolidated, boolean isAttributeNameNeeded) {
         List<String> attributeList = getAttributeList(isConsolidated);
 
         if (!isAttributeNameNeeded) {

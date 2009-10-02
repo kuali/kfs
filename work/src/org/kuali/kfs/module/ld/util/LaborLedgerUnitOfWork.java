@@ -197,7 +197,7 @@ public class LaborLedgerUnitOfWork {
     /**
      * Get the default key fields as a list
      */
-    private List<String> getDefaultKeyFields() {
+    protected List<String> getDefaultKeyFields() {
         List<String> defaultKeyFields = new ArrayList<String>(LaborConstants.consolidationAttributesOfOriginEntry());
         defaultKeyFields.remove(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
         defaultKeyFields.remove(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE);

@@ -150,7 +150,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
     }
 
     // create a done file after balance forward completes.
-    private void createDoneFile(String originEntryFileName) {
+    protected void createDoneFile(String originEntryFileName) {
         String doneFileName = originEntryFileName.replace(GeneralLedgerConstants.BatchFileSystem.EXTENSION, GeneralLedgerConstants.BatchFileSystem.DONE_FILE_EXTENSION);
         File doneFile = new File(doneFileName);
 

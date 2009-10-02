@@ -189,7 +189,7 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
     }
     
     // build the pay type criteria
-    private Criteria buildPayTypeCriteria(Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
+    protected Criteria buildPayTypeCriteria(Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
         Criteria criteria = new Criteria();
 
         Criteria criteriaForPayPeriods = new Criteria();
@@ -237,7 +237,7 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
     /**
      * @return the Class type of the business object accessed and managed
      */
-    private Class getEntryClass() {
+    protected Class getEntryClass() {
         return LedgerEntry.class;
     }
 }

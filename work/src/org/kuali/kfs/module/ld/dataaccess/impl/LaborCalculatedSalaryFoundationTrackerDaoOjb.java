@@ -103,7 +103,7 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
     }
 
     // get the Consolidated CSF trackers according to the given criteria
-    private Iterator<Object[]> findConsolidatedCSFTrackerRawData(Map fieldValues, List<String> groupByList, List<String> attributeList) {
+    protected Iterator<Object[]> findConsolidatedCSFTrackerRawData(Map fieldValues, List<String> groupByList, List<String> attributeList) {
 
         Criteria tempCriteria1 = new Criteria();
         tempCriteria1.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, LaborConstants.DASHES_DELETE_CODE);
@@ -129,7 +129,7 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
     }
 
     // get the detailed CSF trackers according to the given criteria
-    private Collection<LaborCalculatedSalaryFoundationTracker> findDetailedCSFTrackerRawData(Map fieldValues) {
+    protected Collection<LaborCalculatedSalaryFoundationTracker> findDetailedCSFTrackerRawData(Map fieldValues) {
 
         Criteria tempCriteria1 = new Criteria();
         tempCriteria1.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, LaborConstants.DASHES_DELETE_CODE);
@@ -148,7 +148,7 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
     }
 
     // marshal into CalculatedSalaryFoundationTracker from the query result
-    private LaborCalculatedSalaryFoundationTracker marshalCSFTracker(Object[] queryResult) {
+    protected LaborCalculatedSalaryFoundationTracker marshalCSFTracker(Object[] queryResult) {
         LaborCalculatedSalaryFoundationTracker CSFTracker = new LaborCalculatedSalaryFoundationTracker();
         List<String> keyFields = this.getAttributeListForCSFTracker(false, true);
 
@@ -157,7 +157,7 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
     }
 
     // marshal into AccountStatusBaseFunds from the query results
-    private AccountStatusBaseFunds marshalCSFTrackerAsAccountStatusBaseFunds(Object[] queryResult) {
+    protected AccountStatusBaseFunds marshalCSFTrackerAsAccountStatusBaseFunds(Object[] queryResult) {
         AccountStatusBaseFunds baseFunds = new AccountStatusBaseFunds();
         List<String> keyFields = this.getAttributeListForCSFTracker(false, true);
 
@@ -166,7 +166,7 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
     }
 
     // marshal into EmployeeFunding from the query results
-    private EmployeeFunding marshalCSFTrackerAsEmployeeFunding(Object[] queryResult) {
+    protected EmployeeFunding marshalCSFTrackerAsEmployeeFunding(Object[] queryResult) {
         EmployeeFunding employeeFunding = new EmployeeFunding();
         List<String> keyFields = this.getAttributeListForCSFTracker(false, true);
 
@@ -175,7 +175,7 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
     }
 
     // define a list of attributes that are used as the grouping criteria
-    private List<String> getGroupByList(boolean isConsolidated) {
+    protected List<String> getGroupByList(boolean isConsolidated) {
         List<String> groupByList = new ArrayList<String>();
         groupByList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         groupByList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
@@ -190,7 +190,7 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
     }
 
     // define the return attribute list
-    private List<String> getAttributeList(boolean isConsolidated) {
+    protected List<String> getAttributeList(boolean isConsolidated) {
         List<String> attributeList = getGroupByList(isConsolidated);
 
         if (isConsolidated) {
@@ -201,7 +201,7 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
     }
 
     // define the return attribute list for CSF traker query
-    private List<String> getAttributeListForCSFTracker(boolean isConsolidated, boolean isAttributeNameNeeded) {
+    protected List<String> getAttributeListForCSFTracker(boolean isConsolidated, boolean isAttributeNameNeeded) {
         List<String> attributeList = getAttributeList(isConsolidated);
 
         if (!isAttributeNameNeeded) {

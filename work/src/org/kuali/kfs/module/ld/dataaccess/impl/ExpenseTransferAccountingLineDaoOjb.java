@@ -83,7 +83,7 @@ public class ExpenseTransferAccountingLineDaoOjb extends PlatformAwareDaoBaseOjb
      * @param query
      * @return
      */
-    private Collection findCollection(Query query) throws DataAccessException {
+    protected Collection findCollection(Query query) throws DataAccessException {
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 }

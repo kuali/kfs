@@ -35,7 +35,7 @@ import org.kuali.kfs.sys.service.UniversityDateService;
  */
 public class LaborLedgerPendingEntryDaoOjb extends GeneralLedgerPendingEntryDaoOjb implements LaborLedgerPendingEntryDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerPendingEntryDaoOjb.class);
-    private final static String FINANCIAL_DOCUMENT_APPROVED_CODE = "financialDocumentApprovedCode";
+    protected final static String FINANCIAL_DOCUMENT_APPROVED_CODE = "financialDocumentApprovedCode";
 
     /**
      * @see org.kuali.kfs.sys.dataaccess.impl.GeneralLedgerPendingEntryDaoOjb#getEntryClass()

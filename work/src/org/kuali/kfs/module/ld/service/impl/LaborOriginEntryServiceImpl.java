@@ -47,24 +47,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
 
-    //private LaborOriginEntryDao laborOriginEntryDao;
-    //private OriginEntryDao originEntryDao;
     private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
     
     private String batchFileDirectoryName;
-
-//    public OriginEntryStatistics getStatistics(Integer groupId) {
-//        LOG.debug("getStatistics() started");
-//
-//        OriginEntryStatistics oes = new OriginEntryStatistics();
-//
-//        oes.setCreditTotalAmount(laborOriginEntryDao.getGroupTotal(groupId, true));
-//        oes.setDebitTotalAmount(laborOriginEntryDao.getGroupTotal(groupId, false));
-//        oes.setRowCount(laborOriginEntryDao.getGroupCount(groupId));
-//
-//        return oes;
-//    }
     
     public OriginEntryStatistics getStatistics(String fileName) {
         LOG.debug("getStatistics() started");

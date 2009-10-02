@@ -85,7 +85,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     private String batchFileDirectoryName;
     private PrintStream POSTER_OUTPUT_ERR_FILE_ps;
     
-    private static final String MOCK_REPORT_WRITER_BEAN_NAME = "mockReportWriterService";
+    protected static final String MOCK_REPORT_WRITER_BEAN_NAME = "mockReportWriterService";
 
     /**
      * @see org.kuali.kfs.module.ld.batch.service.LaborPosterService#postMainEntries()

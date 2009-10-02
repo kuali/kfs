@@ -107,7 +107,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         return getAccountStatus(AccountStatusCurrentFunds.class, fieldValues, isConsolidated);
     }
 
-    private <T> Iterator getAccountStatus(Class<T> clazz, Map fieldValues, boolean isConsolidated) {
+    protected <T> Iterator getAccountStatus(Class<T> clazz, Map fieldValues, boolean isConsolidated) {
         Query query = getAccountStatusQuery(clazz, fieldValues, isConsolidated);
         OJBUtility.limitResultSize(query);
 
@@ -118,7 +118,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     }
 
     // build the query for balance search
-    private <T> Query getAccountStatusQuery(Class<T> clazz, Map fieldValues, boolean isConsolidated) {
+    protected <T> Query getAccountStatusQuery(Class<T> clazz, Map fieldValues, boolean isConsolidated) {
         LOG.debug("getAccountStatusQuery(Class<T>, Map, boolean) started");
         LOG.debug("Building criteria from map fields: " + fieldValues.entrySet());
 

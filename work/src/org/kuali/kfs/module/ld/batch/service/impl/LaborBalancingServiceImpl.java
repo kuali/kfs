@@ -258,7 +258,7 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
         this.laborPosterErrorOutputFile = null;
     }
     
-    private LaborBalanceHistory createBalanceFromMap(Map<String, Object> map) {
+    protected LaborBalanceHistory createBalanceFromMap(Map<String, Object> map) {
         LaborBalanceHistory balance = new LaborBalanceHistory();
         balance.setUniversityFiscalYear(((BigDecimal)(map.get(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR))).intValue());
         balance.setChartOfAccountsCode((String)map.get(GeneralLedgerConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE));
@@ -292,7 +292,7 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
         
     }
     
-    private LaborEntryHistory createEntryHistoryFromMap(Map<String, Object> map) {
+    protected LaborEntryHistory createEntryHistoryFromMap(Map<String, Object> map) {
         LaborEntryHistory entry = new LaborEntryHistory();
         entry.setUniversityFiscalYear(((BigDecimal)(map.get(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR))).intValue());
         entry.setChartOfAccountsCode((String)map.get(GeneralLedgerConstants.ColumnNames.CHART_OF_ACCOUNTS_CODE));
@@ -306,7 +306,7 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
         
     }
     
-    private KualiDecimal convertBigDecimalToKualiDecimal(BigDecimal biggy) {
+    protected KualiDecimal convertBigDecimalToKualiDecimal(BigDecimal biggy) {
         if (ObjectUtils.isNull(biggy))
             return new KualiDecimal(0);   
         else 

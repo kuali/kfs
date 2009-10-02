@@ -336,7 +336,7 @@ public class LaborPendingEntryConverter {
      * @param backupValue the backup value of the target value
      * @return target value if it is not null; otherwise, return its backup
      */
-    private static String pickValue(String targetValue, String backupValue) {
+    protected static String pickValue(String targetValue, String backupValue) {
         return StringUtils.isNotBlank(targetValue) ? targetValue : backupValue;
     }
 
@@ -346,7 +346,7 @@ public class LaborPendingEntryConverter {
      * @param sequenceHelper the given squence helper
      * @return the next sequence number and increments
      */
-    private static Integer getNextSequenceNumber(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    protected static Integer getNextSequenceNumber(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         Integer nextSequenceNumber = sequenceHelper.getSequenceCounter();
         sequenceHelper.increment();
 

@@ -95,7 +95,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      * @param account the given account
      * @return the primary award account for the given account
      */
-    private AwardAccount getPrimaryAwardAccount(String chartOfAccountsCode, String accountNumber) {
+    protected AwardAccount getPrimaryAwardAccount(String chartOfAccountsCode, String accountNumber) {
         AwardAccount primaryAwardAccount = null;
         long highestProposalNumber = 0;
 
@@ -148,7 +148,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      * 
      * @return the maxium account responsiblity id from system parameter
      */
-    private int getMaxiumAccountResponsibilityId() {
+    protected int getMaxiumAccountResponsibilityId() {
         String maxResponsibilityId = getParameterService().getParameterValue(KfsParameterConstants.CONTRACTS_AND_GRANTS_ALL.class, CGConstants.MAXIMUM_ACCOUNT_RESPONSIBILITY_ID);
 
         return Integer.valueOf(maxResponsibilityId);

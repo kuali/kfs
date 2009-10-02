@@ -39,7 +39,7 @@ public class SubcontractorServiceImpl implements SubcontractorService {
         return (SubContractor) businessObjectService.findByPrimaryKey(SubContractor.class, mapPrimaryKeys(subcontractorNumber));
     }
 
-    private Map<String, Object> mapPrimaryKeys(String subcontractorNumber) {
+    protected Map<String, Object> mapPrimaryKeys(String subcontractorNumber) {
         Map<String, Object> primaryKeys = new HashMap();
         primaryKeys.put(KFSPropertyConstants.SUBCONTRACTOR_NUMBER, subcontractorNumber.trim());
         return primaryKeys;

@@ -58,7 +58,7 @@ public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentP
      * @param String uuid
      * @return boolean
      */
-    private boolean isUserInRequests(ActionRequestDTO[] requests, String principalId) {
+    protected boolean isUserInRequests(ActionRequestDTO[] requests, String principalId) {
         for (int i = 0; i < requests.length; i++) {
             ActionRequestDTO request = (ActionRequestDTO) requests[i];
             if (request.getPrincipalId().equals(principalId)) {

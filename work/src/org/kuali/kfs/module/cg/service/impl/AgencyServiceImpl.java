@@ -39,7 +39,7 @@ public class AgencyServiceImpl implements AgencyService {
         return (Agency) businessObjectService.findByPrimaryKey(Agency.class, mapPrimaryKeys(agencyNumber));
     }
 
-    private Map<String, Object> mapPrimaryKeys(String agencyNumber) {
+    protected Map<String, Object> mapPrimaryKeys(String agencyNumber) {
         Map<String, Object> primaryKeys = new HashMap();
         primaryKeys.put(KFSPropertyConstants.AGENCY_NUMBER, agencyNumber.trim());
         return primaryKeys;

@@ -122,7 +122,7 @@ public class CloseServiceImpl implements CloseService {
     /**
      * @see org.kuali.kfs.module.cg.service.CloseService#addDocumentNoteAfterClosing(String)
      */
-    private boolean addDocumentNoteAfterClosing(ProposalAwardCloseDocument close, String noteText) {
+    protected boolean addDocumentNoteAfterClosing(ProposalAwardCloseDocument close, String noteText) {
         Note note = new Note();
         note.setNoteText(noteText);
         note.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());

@@ -46,7 +46,7 @@ import au.com.bytecode.opencsv.CSVReader;
 public class CfdaServiceImpl implements CfdaService {
 
     private BusinessObjectService businessObjectService;
-    private static Comparator cfdaComparator;
+    protected static Comparator cfdaComparator;
 
     static {
         cfdaComparator = new Comparator() {
@@ -271,7 +271,7 @@ public class CfdaServiceImpl implements CfdaService {
         return (CFDA) businessObjectService.findByPrimaryKey(CFDA.class, mapPrimaryKeys(cfdaNumber));
     }
 
-    private Map<String, Object> mapPrimaryKeys(String cfdaNumber) {
+    protected Map<String, Object> mapPrimaryKeys(String cfdaNumber) {
         Map<String, Object> primaryKeys = new HashMap();
         primaryKeys.put(KFSPropertyConstants.CFDA_NUMBER, cfdaNumber.trim());
         return primaryKeys;

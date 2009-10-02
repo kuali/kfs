@@ -40,7 +40,7 @@ public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRi
      * 
      * @return List<ResearchRiskType>
      */
-    private List<ResearchRiskType> getAllResearchRiskTypes() {
+    protected List<ResearchRiskType> getAllResearchRiskTypes() {
         return getResearchRiskTypes(new String[0]);
     }
 

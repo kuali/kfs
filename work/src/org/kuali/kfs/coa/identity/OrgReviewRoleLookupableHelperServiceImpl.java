@@ -123,7 +123,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             return super.getUrlData(businessObject, methodToCall, displayText, pkNames);
     }
     
-    private AnchorHtmlData getCreateDelegationUrl(BusinessObject businessObject, List pkNames){
+    protected AnchorHtmlData getCreateDelegationUrl(BusinessObject businessObject, List pkNames){
         OrgReviewRole orr = (OrgReviewRole)businessObject;
         Properties parameters = new Properties();
         parameters.put(OrgReviewRole.ORIGINAL_DELEGATION_MEMBER_ID_TO_MODIFY, OrgReviewRole.NEW_DELEGATION_ID_KEY_VALUE);
@@ -153,7 +153,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         return UrlFactory.parameterizeUrl(KNSConstants.MAINTENANCE_ACTION, parameters);
     }
 
-    private List<String> getOverridePKNames(OrgReviewRole orr){
+    protected List<String> getOverridePKNames(OrgReviewRole orr){
         List overridePKNames = new ArrayList<String>();
         if(orr.isDelegate())
             overridePKNames.add(KimConstants.PrimaryKeyConstants.DELEGATION_MEMBER_ID);
@@ -181,7 +181,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         return getMemberSearchResults(fieldValues);
     }
     
-    private List<? extends BusinessObject> getMemberSearchResults(Map<String, String> fieldValues){
+    protected List<? extends BusinessObject> getMemberSearchResults(Map<String, String> fieldValues){
         String delegateStr = fieldValues.get(DELEGATE);
         String documentTypeName = fieldValues.get(DOCUMENT_TYPE_NAME);
         List<Class> classesToSearch = new ArrayList<Class>();
@@ -219,7 +219,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         return flattenedSearchResults;
     }
 
-    private Map<String, String> addRoleToConsiderSearchCriteria(String documentTypeName, Map<String, String> searchCriteria){
+    protected Map<String, String> addRoleToConsiderSearchCriteria(String documentTypeName, Map<String, String> searchCriteria){
         List<String> roleNamesToSearchInto = getRolesToConsider(documentTypeName);
         if(searchCriteria==null)
             searchCriteria = new HashMap<String, String>();
@@ -237,13 +237,13 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         return searchCriteria;
     }
 
-    private List<RoleMemberCompleteInfo> searchRoleMembers(Map<String, String> searchCriteriaRoleMembers){
+    protected List<RoleMemberCompleteInfo> searchRoleMembers(Map<String, String> searchCriteriaRoleMembers){
         List<RoleMemberCompleteInfo> members = new ArrayList<RoleMemberCompleteInfo>();
         members.addAll(getRoleManagementService().findRoleMembersCompleteInfo(searchCriteriaRoleMembers));
         return members;
     }
 
-    private List<DelegateMemberCompleteInfo> searchDelegations(Map<String, String> searchCriteriaDelegateMembers){
+    protected List<DelegateMemberCompleteInfo> searchDelegations(Map<String, String> searchCriteriaDelegateMembers){
         List<DelegateMemberCompleteInfo> members = new ArrayList<DelegateMemberCompleteInfo>();
         members.addAll(getRoleManagementService().findDelegateMembersCompleteInfo(searchCriteriaDelegateMembers));
         return members;
@@ -328,7 +328,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         return roleToConsider;
     }
     
-    private List<OrgReviewRole> flattenToOrgReviewMembers(String active, String documentTypeName, List<RoleMemberCompleteInfo> members){
+    protected List<OrgReviewRole> flattenToOrgReviewMembers(String active, String documentTypeName, List<RoleMemberCompleteInfo> members){
         List<OrgReviewRole> orgReviewRoles = new ArrayList<OrgReviewRole>();
         if(members==null || members.size()<1) return orgReviewRoles;
         
@@ -376,7 +376,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         return orgReviewRoles;
     }
     
-    private List<OrgReviewRole> flattenToOrgReviewDelegationMembers(String active, String documentTypeName, List<DelegateMemberCompleteInfo> delegationMembers){
+    protected List<OrgReviewRole> flattenToOrgReviewDelegationMembers(String active, String documentTypeName, List<DelegateMemberCompleteInfo> delegationMembers){
         List<OrgReviewRole> orgReviewRoles = new ArrayList<OrgReviewRole>();
         if(delegationMembers==null || delegationMembers.size()<1) return orgReviewRoles;
         
@@ -426,7 +426,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         return orgReviewRoles;
     }
     
-    private KimDelegationImpl getDelegation(KimDelegationMemberImpl delegationMember){
+    protected KimDelegationImpl getDelegation(KimDelegationMemberImpl delegationMember){
         Map<String, String> criteria = new HashMap<String, String>();
         KimDelegationImpl delegation;
         criteria.put(KimConstants.PrimaryKeyConstants.DELEGATION_ID, delegationMember.getDelegationId());

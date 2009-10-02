@@ -66,7 +66,7 @@ public class AccountDelegateGlobalDaoOjb extends PlatformAwareDaoBaseOjb impleme
      * @return The String representation of MaintenanceLock with the financialDocumentTypeCode replaced with a wildcard(%).
      */
     
-    private String convertForLikeCriteria(String lockingRepresentation) {
+    protected String convertForLikeCriteria(String lockingRepresentation) {
         //org.kuali.kfs.coa.businessobject.AccountDelegate!!chartOfAccountsCode^^BL::accountNumber^^1031400::financialDocumentTypeCode^^IB::accountsDelegatePrmrtIndicator^^true
         String[] values = StringUtils.split(lockingRepresentation, "::");
         StringBuilder sb = new StringBuilder();

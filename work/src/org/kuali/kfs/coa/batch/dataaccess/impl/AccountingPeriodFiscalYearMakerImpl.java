@@ -111,7 +111,7 @@ public class AccountingPeriodFiscalYearMakerImpl extends FiscalYearMakerImpl {
      * @param inDate date to increment
      * @return Date incoming date plus one year
      */
-    private java.sql.Date addYearToDate(Date inDate) {
+    protected java.sql.Date addYearToDate(Date inDate) {
         GregorianCalendar currentCalendarDate = new GregorianCalendar();
         currentCalendarDate.clear();
 

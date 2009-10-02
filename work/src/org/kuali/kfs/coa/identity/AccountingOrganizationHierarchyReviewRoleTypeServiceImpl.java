@@ -53,13 +53,13 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
                 && super.performMatch(qualification, roleQualifier);
     }
 
-    private boolean doesOverrideCodeMatch(AttributeSet qualification, AttributeSet roleQualifier) {
+    protected boolean doesOverrideCodeMatch(AttributeSet qualification, AttributeSet roleQualifier) {
         return qualification==null || roleQualifier==null || StringUtils.isBlank(qualification.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE)) 
                 || StringUtils.isBlank(roleQualifier.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE)) 
                 || qualification.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE).equals(roleQualifier.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE));
     }
 
-    private boolean isValidTotalAmount(AttributeSet qualification, AttributeSet roleQualifier) {
+    protected boolean isValidTotalAmount(AttributeSet qualification, AttributeSet roleQualifier) {
         boolean isValidTotalAmount = false;
         if(qualification==null || roleQualifier==null) {
             return false;
@@ -145,7 +145,7 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         return validationErrors;
     }
 
-    private boolean isLesserNumber(String numberStr1, String numberStr2){
+    protected boolean isLesserNumber(String numberStr1, String numberStr2){
         if(StringUtils.isBlank(numberStr1) ) {
             numberStr1 = "0";
         }
@@ -157,7 +157,7 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         return number1 < number2;
     }
 
-    private boolean isGreaterNumber(String numberStr1, String numberStr2){
+    protected boolean isGreaterNumber(String numberStr1, String numberStr2){
         if(StringUtils.isBlank(numberStr1) ) {
             numberStr1 = "0";
         }

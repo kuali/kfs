@@ -99,7 +99,7 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
      * This checks to see if there is a value for checking if a Fund Group denotes Contracts and Grants
      * @return false if there is no value
      */
-    private boolean fundGroupDenotesContractsAndGrants() {
+    protected boolean fundGroupDenotesContractsAndGrants() {
         return parameterService.getIndicatorParameter(Account.class, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
     }
 

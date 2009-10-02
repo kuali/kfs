@@ -107,7 +107,7 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
      * @param period
      * @return
      */
-    private boolean isInvalidPeriodCode(AccountingPeriod period) {
+    protected boolean isInvalidPeriodCode(AccountingPeriod period) {
         String periodCode = period.getUniversityFiscalPeriodCode();
         if (periodCode == null) {
             throw new IllegalArgumentException("invalid (null) universityFiscalPeriodCode (" + periodCode + ")for" + period);

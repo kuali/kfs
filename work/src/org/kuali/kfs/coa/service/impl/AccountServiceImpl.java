@@ -140,7 +140,7 @@ public class AccountServiceImpl implements AccountService {
      * @param accountDelegatesToFilterFrom
      * @return
      */
-    private List<AccountDelegate> filterAccountDelegates(AccountDelegate delegateExample, List<AccountDelegate> accountDelegatesToFilterFrom){
+    protected List<AccountDelegate> filterAccountDelegates(AccountDelegate delegateExample, List<AccountDelegate> accountDelegatesToFilterFrom){
         String documentTypeName = delegateExample.getFinancialDocumentTypeCode();
         AccountDelegate delegate;
         List<AccountDelegate> filteredAccountDelegates = filterAccountDelegates(accountDelegatesToFilterFrom, documentTypeName);
@@ -161,7 +161,7 @@ public class AccountServiceImpl implements AccountService {
      * @param documentTypeNameToFilterOn
      * @return
      */
-    private List<AccountDelegate> filterAccountDelegates(List<AccountDelegate> delegations, String documentTypeNameToFilterOn){
+    protected List<AccountDelegate> filterAccountDelegates(List<AccountDelegate> delegations, String documentTypeNameToFilterOn){
         AccountDelegate delegate;
         List<AccountDelegate> filteredSecondaryDelegations = new ArrayList<AccountDelegate>();
         for(Object delegateObject: delegations){
@@ -180,7 +180,7 @@ public class AccountServiceImpl implements AccountService {
      * @param delegations
      * @return
      */
-    private Set<String> getPotentialParentDocumentTypeNames(List<AccountDelegate> delegations){
+    protected Set<String> getPotentialParentDocumentTypeNames(List<AccountDelegate> delegations){
         AccountDelegate delegate;
         Set<String> potentialParentDocumentTypeNames = new HashSet<String>();
         for(Object delegateObject: delegations){

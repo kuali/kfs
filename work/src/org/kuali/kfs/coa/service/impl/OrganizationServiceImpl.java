@@ -126,26 +126,6 @@ public class OrganizationServiceImpl implements OrganizationService {
         return false;
     }
     
-//    public boolean isChildOrg( String chartOfAccountsCode, String organizationCode, String parentChartOfAccountsCode, String parentOrganizationCode ) {
-//        boolean isChild = false;
-//        if (StringUtils.isBlank(chartOfAccountsCode)) {
-//            throw new IllegalArgumentException("String parameter chartOfAccountsCode was null or blank.");
-//        }
-//        if (StringUtils.isBlank(organizationCode)) {
-//            throw new IllegalArgumentException("String parameter organizationCode was null or blank.");
-//        }
-//        if (StringUtils.isBlank(parentChartOfAccountsCode)) {
-//            throw new IllegalArgumentException("String parameter parentChartOfAccountsCode was null or blank.");
-//        }
-//        if (StringUtils.isBlank(parentOrganizationCode)) {
-//            throw new IllegalArgumentException("String parameter parentOrganizationCode was null or blank.");
-//        }
-//        
-//        
-//        
-//        return isChild;
-//    }
-    
     /**
      * 
      * @see org.kuali.kfs.coa.service.OrganizationService#getActiveOrgsByType(java.lang.String)

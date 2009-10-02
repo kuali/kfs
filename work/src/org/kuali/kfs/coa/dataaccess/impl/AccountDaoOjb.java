@@ -120,7 +120,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
      * @param accountsDelegatePrmrtIndicator
      * @return example {@link Delegate} {@link Criteria}
      */
-    private Criteria getDelegateByExampleCriteria(AccountDelegate delegateExample, String totalDollarAmount, String accountsDelegatePrmrtIndicator) {
+    protected Criteria getDelegateByExampleCriteria(AccountDelegate delegateExample, String totalDollarAmount, String accountsDelegatePrmrtIndicator) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, delegateExample.getChartOfAccountsCode());
         criteria.addEqualTo(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, delegateExample.getAccountNumber());
@@ -188,7 +188,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
      * @param person - fiscal officer to check for
      * @return list of {@link AccountResponsibility} for this fiscal officer
      */
-    private List getFiscalOfficerResponsibilities(Person person) {
+    protected List getFiscalOfficerResponsibilities(Person person) {
         List fiscalOfficerResponsibilities = new ArrayList();
         Criteria criteria = new Criteria();
         criteria.addEqualTo("accountFiscalOfficerSystemIdentifier", person.getPrincipalId());
@@ -208,7 +208,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
      * @param account the account to check responsibilities on
      * @return true if user does have fiscal officer responsibility on account, false if otherwise
      */
-    private boolean hasFiscalOfficerResponsibility(Person person, Account account) {
+    protected boolean hasFiscalOfficerResponsibility(Person person, Account account) {
         boolean hasFiscalOfficerResponsibility = false;
         Criteria criteria = new Criteria();
         criteria.addEqualTo("accountFiscalOfficerSystemIdentifier", person.getPrincipalId());
@@ -230,7 +230,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
      * @param person - user to check against
      * @return a list of {@link AccountResponsibility} objects for a delegate
      */
-    private List getDelegatedResponsibilities(Person person) {
+    protected List getDelegatedResponsibilities(Person person) {
         List delegatedResponsibilities = new ArrayList();
         Criteria criteria = new Criteria();
         criteria.addEqualTo("accountDelegateSystemId", person.getPrincipalId());
@@ -260,7 +260,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
      * @param account the account to check responsibilities on
      * @return true if user has delegated responsibilities
      */
-    private boolean hasDelegatedResponsibility(Person person, Account account) {
+    protected boolean hasDelegatedResponsibility(Person person, Account account) {
         boolean hasResponsibility = false;
         Criteria criteria = new Criteria();
         criteria.addEqualTo("accountDelegateSystemId", person.getPrincipalId());

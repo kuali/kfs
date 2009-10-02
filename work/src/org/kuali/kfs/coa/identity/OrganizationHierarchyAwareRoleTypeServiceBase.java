@@ -128,7 +128,7 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends KimR
         return roleMembers;
     }
 
-    private class SortableRoleMembershipHolder implements Comparable<SortableRoleMembershipHolder> {
+    protected class SortableRoleMembershipHolder implements Comparable<SortableRoleMembershipHolder> {
         
         public String chart;
         public String org;

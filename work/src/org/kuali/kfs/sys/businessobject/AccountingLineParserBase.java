@@ -43,6 +43,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
@@ -79,7 +80,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
     /**
      * @see org.kuali.rice.kns.bo.AccountingLineParser#getExpectedAccountingLineFormatAsString(java.lang.Class)
      */
-    public final String getExpectedAccountingLineFormatAsString(Class<? extends AccountingLine> accountingLineClass) {
+    public String getExpectedAccountingLineFormatAsString(Class<? extends AccountingLine> accountingLineClass) {
         StringBuffer sb = new StringBuffer();
         boolean first = true;
         for (String attributeName : chooseFormat(accountingLineClass)) {
@@ -98,7 +99,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
      * @see org.kuali.rice.kns.bo.AccountingLineParser#parseSourceAccountingLine(org.kuali.rice.kns.document.TransactionalDocument,
      *      java.lang.String)
      */
-    public final SourceAccountingLine parseSourceAccountingLine(AccountingDocument transactionalDocument, String sourceAccountingLineString) {
+    public SourceAccountingLine parseSourceAccountingLine(AccountingDocument transactionalDocument, String sourceAccountingLineString) {
         Class sourceAccountingLineClass = getSourceAccountingLineClass(transactionalDocument);
         SourceAccountingLine sourceAccountingLine = (SourceAccountingLine) populateAccountingLine(transactionalDocument, sourceAccountingLineClass, sourceAccountingLineString, parseAccountingLine(sourceAccountingLineClass, sourceAccountingLineString), transactionalDocument.getNextSourceLineNumber());
         return sourceAccountingLine;
@@ -117,7 +118,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
      * @see org.kuali.rice.kns.bo.AccountingLineParser#parseTargetAccountingLine(org.kuali.rice.kns.document.TransactionalDocument,
      *      java.lang.String)
      */
-    public final TargetAccountingLine parseTargetAccountingLine(AccountingDocument transactionalDocument, String targetAccountingLineString) {
+    public TargetAccountingLine parseTargetAccountingLine(AccountingDocument transactionalDocument, String targetAccountingLineString) {
         Class targetAccountingLineClass = getTargetAccountingLineClass(transactionalDocument);
         TargetAccountingLine targetAccountingLine = (TargetAccountingLine) populateAccountingLine(transactionalDocument, targetAccountingLineClass, targetAccountingLineString, parseAccountingLine(targetAccountingLineClass, targetAccountingLineString), transactionalDocument.getNextTargetLineNumber());
         return targetAccountingLine;
@@ -142,7 +143,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
      * @param sequenceNumber
      * @return AccountingLine
      */
-    private final AccountingLine populateAccountingLine(AccountingDocument transactionalDocument, Class<? extends AccountingLine> accountingLineClass, String accountingLineAsString, Map<String, String> attributeValueMap, Integer sequenceNumber) {
+    protected AccountingLine populateAccountingLine(AccountingDocument transactionalDocument, Class<? extends AccountingLine> accountingLineClass, String accountingLineAsString, Map<String, String> attributeValueMap, Integer sequenceNumber) {
 
         putCommonAttributesInMap(attributeValueMap, transactionalDocument, sequenceNumber);
 
@@ -228,7 +229,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
      * @param lineToParse
      * @return Map containing accounting line attribute,value pairs
      */
-    private final Map<String, String> parseAccountingLine(Class<? extends AccountingLine> accountingLineClass, String lineToParse) {
+    protected Map<String, String> parseAccountingLine(Class<? extends AccountingLine> accountingLineClass, String lineToParse) {
         if (StringUtils.isNotBlank(fileName) && !StringUtils.lowerCase(fileName).endsWith(".csv")) {
             throw new AccountingLineParserException("unsupported file format: " + fileName, ERROR_INVALID_FILE_FORMAT, fileName);
         }
@@ -272,7 +273,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
      * @param isSource
      * @return List
      */
-    private final List<AccountingLine> importAccountingLines(String fileName, InputStream stream, AccountingDocument transactionalDocument, boolean isSource) {
+    protected List<AccountingLine> importAccountingLines(String fileName, InputStream stream, AccountingDocument transactionalDocument, boolean isSource) {
 
 
         List<AccountingLine> importedAccountingLines = new ArrayList<AccountingLine>();
@@ -298,7 +299,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
                     importedAccountingLines.add(accountingLine);
                 }
                 catch (AccountingLineParserException e) {
-
+                    GlobalVariables.getMessageMap().putError((isSource ? "sourceAccountingLines" : "targetAccountingLines"), KFSKeyConstants.ERROR_ACCOUNTING_DOCUMENT_ACCOUNTING_LINE_IMPORT_GENERAL, new String[] { e.getMessage() });
                 }
             }
         }
@@ -359,7 +360,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
         return label;
     }
 
-    private String[] chooseFormat(Class<? extends AccountingLine> accountingLineClass) {
+    protected String[] chooseFormat(Class<? extends AccountingLine> accountingLineClass) {
         String[] format = null;
         if (SourceAccountingLine.class.isAssignableFrom(accountingLineClass)) {
             format = getSourceAccountingLineFormat();

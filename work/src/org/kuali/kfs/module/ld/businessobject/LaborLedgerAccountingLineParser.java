@@ -72,7 +72,7 @@ public class LaborLedgerAccountingLineParser extends AccountingLineParserBase {
      * @param accountingLineClass
      * @return Returns The format.
      */
-    private String[] chooseFormat(Class<? extends AccountingLine> accountingLineClass) {
+    protected String[] chooseFormat(Class<? extends AccountingLine> accountingLineClass) {
         String[] format = null;
         if (SourceAccountingLine.class.isAssignableFrom(accountingLineClass)) {
             format = getSourceAccountingLineFormat();

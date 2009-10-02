@@ -53,6 +53,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.dao.DocumentDao;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -775,5 +776,35 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return personService;
     }
 
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#checkIfInvoiceNumberIsFinal(java.lang.String)
+     */
+    public boolean checkIfInvoiceNumberIsFinal(String invDocumentNumber) {
+        boolean success = true;
+        if (StringUtils.isBlank(invDocumentNumber)) {
+            success &= false;
+        }
+        else {
+            CustomerInvoiceDocumentService service = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+            CustomerInvoiceDocument customerInvoiceDocument = service.getInvoiceByInvoiceDocumentNumber(invDocumentNumber);
+
+            if (ObjectUtils.isNull(customerInvoiceDocument)) {
+                success &= false;
+            }
+            else {
+                Document doc = null;
+                try {
+                    doc = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(invDocumentNumber);
+                }
+                catch (WorkflowException e) {
+                    success &= false;
+                }
+                if (ObjectUtils.isNull(doc) || ObjectUtils.isNull(doc.getDocumentHeader()) || doc.getDocumentHeader().getWorkflowDocument() == null || !(doc.getDocumentHeader().getWorkflowDocument().stateIsApproved() || doc.getDocumentHeader().getWorkflowDocument().stateIsProcessed())) {
+                    success &= false;
+                }
+            }
+        }
+        return success;
+    }
 
 }

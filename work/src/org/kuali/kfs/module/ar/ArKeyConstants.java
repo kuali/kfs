@@ -20,7 +20,7 @@ package org.kuali.kfs.module.ar;
  */
 public class ArKeyConstants {
 
-    //Customer Invoice Document errors:
+    // Customer Invoice Document errors:
     public static final String ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO = "error.document.customerInvoiceDocument.invalidCustomerInvoiceDetailTotalAmount";
     public static final String ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO = "error.document.customerInvoiceDocument.invalidCustomerInvoiceDetailUnitPrice";
     public static final String ERROR_CUSTOMER_INVOICE_DETAIL_QUANTITY_LESS_THAN_OR_EQUAL_TO_ZERO = "error.document.customerInvoiceDocument.invalidCustomerInvoiceDetailQuantityPrice";
@@ -51,7 +51,7 @@ public class ArKeyConstants {
     public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SUBFUND_WITH_NO_AR_OBJ_CD = "error.document.customerInvoiceDocument.invalidSubFundWithNoARObjectCode";
     public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SUBFUND_AR_OBJ_CD_IN_PARM = "error.document.customerInvoiceDocument.invalidSubFundARObjectCodeInParm";
     public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_UNIT_OF_MEASURE_CD = "error.document.customerInvoiceDocument.invalidUnitOfMeasureCode";
-    
+
     // Invoice Recurrence errors/warnings:
     public static final String ERROR_RECURRING_INVOICE_NUMBER_MUST_BE_APPROVED = "error.document.invoiceRecurrenceMaintenance.invoiceMustBeApproved";
     public static final String ERROR_MAINTENANCE_DOCUMENT_ALREADY_EXISTS = "error.document.invoiceRecurrenceMaintenance.maintenanceDocumentsExists";
@@ -80,12 +80,12 @@ public class ArKeyConstants {
         public static final String ERROR_WRITEOFF_ACCOUNT_NUMBER_REQUIRED = "error.document.customerInvoiceDocument.writeoffAccountNumberRequired";
         public static final String ERROR_PAYMENT_CHART_OF_ACCOUNTS_CODE_REQUIRED = "error.document.customerInvoiceDocument.paymentChartOfAccountsCodeRequired";
         public static final String ERROR_PAYMENT_ACCOUNT_NUMBER_REQUIRED = "error.document.customerInvoiceDocument.paymentAccountNumberRequired";
-        public static final String ERROR_PAYMENT_OBJECT_CODE_REQUIRED = "error.document.customerInvoiceDocument.paymentPaymentObjectCodeRequired";        
+        public static final String ERROR_PAYMENT_OBJECT_CODE_REQUIRED = "error.document.customerInvoiceDocument.paymentPaymentObjectCodeRequired";
     }
 
     // System Information errors
     public static final class SystemInformation {
-        //public static final String SALES_TAX_OBJECT_CODE_INVALID = "error.SystemInformation.salesTaxObjectCodeInvalid";
+        // public static final String SALES_TAX_OBJECT_CODE_INVALID = "error.SystemInformation.salesTaxObjectCodeInvalid";
         public static final String ERROR_CLEARING_ACCOUNT_INACTIVE = "error.SystemInformation.clearingAccountInactive";
         public static final String ERROR_WIRE_ACCOUNT_INACTIVE = "error.SystemInformation.wireAccountInactive";
         public static final String ERROR_LOCKBOX_NUMBER_NOT_UNIQUE = "error.SystemInformation.lockboxNumberNotUnique";
@@ -109,6 +109,7 @@ public class ArKeyConstants {
     public static final class CustomerLoad {
         public static final String MESSAGE_BATCH_UPLOAD_TITLE_CUSTOMER = "message.ar.customerLoad.batchUpload.title";
     }
+
     // Customer errors
     public static class CustomerConstants {
         public static final String MESSAGE_CUSTOMER_WITH_SAME_NAME_EXISTS = "message.document.customerMaintenance.customerWithSameNameExists";
@@ -144,6 +145,8 @@ public class ArKeyConstants {
     public static final String ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_NO_DATA_TO_SUBMIT = "error.document.customerCreditMemoDocument.noDataToSubmit";
     public static final String ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_CORRECTED_INVOICE = "error.document.customerCreditMemoDocument.invoiceHasBeenCorrected";
     public static final String ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_CORRECTING_INVOICE = "error.document.customerCreditMemoDocument.invoiceCorrectsAnotherInvoice";
+
+    public static final String ERROR_CUSTOMER_INVOICE_DOCUMENT_NOT_FINAL = "error.document.customerInvoiceDocument.notFinal";
 
     // Cash Control Document errors
     public static final String ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH = "error.ar.ReferenceDocNumberCannotBeNullforPaymentMediumCash";
@@ -184,12 +187,12 @@ public class ArKeyConstants {
     public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_ONE_WRITEOFF_IN_ROUTE_PER_INVOICE = "error.document.customerInvoiceWriteoff.onlyOneWriteoffInRoutePerInvoice";
     public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_INVOICE_NOT_FINAL = "error.document.customerInvoiceWriteoff.invoiceNotFinal";
 
-    
+
     // Organization Options errors
     public static class OrganizationOptionsErrors {
         public static final String SYS_INFO_DOES_NOT_EXIST_FOR_PROCESSING_CHART_AND_ORG = "error.document.organizationOptions.sysInfoDoesNotExistForProcessingChartAndOrg";
         public static final String ERROR_ORG_OPTIONS_ZIP_CODE_REQUIRED = "error.document.organizationOptions.orgOptionsZipCodeRequired";
-    }    
+    }
 
     public static class PaymentApplicationDocumentErrors {
         public static final String AMOUNT_TO_BE_APPLIED_CANNOT_BE_ZERO = "error.document.paymentApplication.amountToBeAppliedCannotBeZero";

@@ -55,8 +55,9 @@
 					Invoice
 				</th>
 				<td>
-					<c:choose>
-						<c:when test="${empty KualiForm.enteredInvoiceDocumentNumber}">
+					<kul:checkErrors keyMatch="${KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB}"/>
+					<c:choose>						
+						<c:when test="${empty KualiForm.enteredInvoiceDocumentNumber || hasErrors }">
 							<kul:htmlControlAttribute
 								readOnly="${readOnly}"
 								attributeEntry="${invoiceAttributes.organizationInvoiceNumber}"

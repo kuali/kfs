@@ -247,7 +247,7 @@ public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
      *  This method tests if checkIfInvoiceNumberIsValid returns false if passed invalid invoice number
      */
     public void testCheckIfInvoiceNumberIsValid_False() {
-        assertFalse(rule.checkIfInvoiceNumberIsValid("KLM0456"));   
+        assertFalse(rule.checkIfInvoiceNumberIsFinal("KLM0456"));   
     }
     
     /*
@@ -260,7 +260,7 @@ public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
             {CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_CHART_RECEIVABLE},
             null);
 
-        assertTrue(rule.checkIfInvoiceNumberIsValid(documentNumber));   
+        assertTrue(rule.checkIfInvoiceNumberIsFinal(documentNumber));   
     }
     
     /*

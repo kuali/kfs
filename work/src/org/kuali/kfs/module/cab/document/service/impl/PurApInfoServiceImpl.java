@@ -60,7 +60,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
     private static final Logger LOG = Logger.getLogger(PurApInfoServiceImpl.class);
     private BusinessObjectService businessObjectService;
 
-    private static final String PURCHASE_ORDER_CURRENT_INDICATOR = "purchaseOrderCurrentIndicator";
+    protected static final String PURCHASE_ORDER_CURRENT_INDICATOR = "purchaseOrderCurrentIndicator";
 
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApInfoService#getDocumentNumberForPurchaseOrderIdentifier(java.lang.Integer)
@@ -464,7 +464,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
         return capitalAssetNumbers;
     }
 
-    private CapitalAssetSystem getCapitalAssetSystemForIndividual(Integer poId, PurApItem purApItem) {
+    protected CapitalAssetSystem getCapitalAssetSystemForIndividual(Integer poId, PurApItem purApItem) {
         List<PurchasingCapitalAssetItem> capitalAssetItems = this.getPurchaseOrderService().retrieveCapitalAssetItemsForIndividual(poId);
         if (capitalAssetItems == null || capitalAssetItems.isEmpty()) {
             return null;
@@ -491,7 +491,7 @@ public class PurApInfoServiceImpl implements PurApInfoService {
         return null;
     }
 
-    private AssetService getAssetService() {
+    protected AssetService getAssetService() {
         return SpringContext.getBean(AssetService.class);
     }
 

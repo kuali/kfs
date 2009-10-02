@@ -66,7 +66,7 @@ public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseO
      * @param fieldValues
      * @return
      */
-    private ReportQueryByCriteria getGeneralLedgerReportQuery(Map fieldValues) {
+    protected ReportQueryByCriteria getGeneralLedgerReportQuery(Map fieldValues) {
         Collection docTypeCodes = getDocumentType(fieldValues);
         Collection activityStatusCodes = getActivityStatusCode(fieldValues);
 
@@ -97,7 +97,7 @@ public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseO
      * @param fieldValues
      * @return
      */
-    private Collection getActivityStatusCode(Map fieldValues) {
+    protected Collection getActivityStatusCode(Map fieldValues) {
         Collection activityStatusCodes = new ArrayList<String>();
 
         if (fieldValues.containsKey(CabPropertyConstants.GeneralLedgerEntry.ACTIVITY_STATUS_CODE)) {
@@ -119,7 +119,7 @@ public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseO
      * @param fieldValues
      * @return
      */
-    private Collection getDocumentType(Map fieldValues) {
+    protected Collection getDocumentType(Map fieldValues) {
         Collection docTypeCodes = new ArrayList<String>();
 
         if (fieldValues.containsKey(CabPropertyConstants.GeneralLedgerEntry.FINANCIAL_DOCUMENT_TYPE_CODE)) {
@@ -145,7 +145,7 @@ public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseO
      * @param isExtended
      * @return
      */
-    private List<String> buildAttributeList(boolean isExtended) {
+    protected List<String> buildAttributeList(boolean isExtended) {
         List attributeList = new ArrayList();
 
         attributeList.add(CabPropertyConstants.GeneralLedgerEntry.UNIVERSITY_FISCAL_YEAR);

@@ -413,7 +413,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param buildingRoomNumber
      * @return
      */
-    private boolean checkBuildingRoomNumberValid(String campusCode, String buildingCode, String buildingRoomNumber) {
+    protected boolean checkBuildingRoomNumberValid(String campusCode, String buildingCode, String buildingRoomNumber) {
         Map<String, Object> pKeys = new HashMap<String, Object>();
         pKeys.put(CabPropertyConstants.AssetGlobalDocumentCreate.CAMPUS_CODE, campusCode);
         pKeys.put(CabPropertyConstants.AssetGlobalDocumentCreate.BUILDING_CODE, buildingCode);
@@ -429,7 +429,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param buildingCode
      * @return
      */
-    private boolean checkBuildingCodeValid(String campusCode, String buildingCode) {
+    protected boolean checkBuildingCodeValid(String campusCode, String buildingCode) {
         Map<String, Object> pKeys = new HashMap<String, Object>();
         pKeys.put(CabPropertyConstants.AssetGlobalDocumentCreate.CAMPUS_CODE, campusCode);
         pKeys.put(CabPropertyConstants.AssetGlobalDocumentCreate.BUILDING_CODE, buildingCode);
@@ -444,7 +444,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param campusCode
      * @return
      */
-    private boolean checkCampusCodeValid(String campusCode) {
+    protected boolean checkCampusCodeValid(String campusCode) {
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(CabPropertyConstants.AssetGlobalDocumentCreate.CAMPUS_CODE, campusCode);
         Campus campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
@@ -667,7 +667,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param assetGlobalDetails
      * @param purApdocument
      */
-    private void setOrgInventoryNameForAssetDetail(List<AssetGlobalDetail> assetGlobalDetails, PurchaseOrderDocument purApdocument) {
+    protected void setOrgInventoryNameForAssetDetail(List<AssetGlobalDetail> assetGlobalDetails, PurchaseOrderDocument purApdocument) {
         if (ObjectUtils.isNotNull(purApdocument)) {
             String orgInventoryName = purApdocument.getInstitutionContactName();
 
@@ -715,7 +715,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param capitalAssetTypeCode
      * @return
      */
-    private boolean checkCapitalAssetTypeCodeExist(String capitalAssetTypeCode) {
+    protected boolean checkCapitalAssetTypeCodeExist(String capitalAssetTypeCode) {
         Map<String, Object> pKeys = new HashMap<String, Object>();
         pKeys.put(CabPropertyConstants.AssetGlobalDocumentCreate.CAPITAL_ASSET_TYPE_CODE, capitalAssetTypeCode);
         AssetType assetType = (AssetType) this.getBusinessObjectService().findByPrimaryKey(AssetType.class, pKeys);

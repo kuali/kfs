@@ -116,7 +116,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilderModuleService {
     private static Logger LOG = Logger.getLogger(CapitalAssetBuilderModuleService.class);
 
-    private static enum AccountCapitalObjectCode {
+    protected static enum AccountCapitalObjectCode {
         BOTH_NONCAP {
             boolean validateAssetInfoAllowed(AccountingDocument accountingDocument, boolean isNewAssetBlank, boolean isUpdateAssetBlank) {
                 boolean valid = true;
@@ -197,7 +197,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
          * @param isUpdateAssetBlank
          * @return
          */
-        private static boolean validateAssetInfoEntered(boolean isNewAssetBlank, boolean isUpdateAssetBlank) {
+        protected static boolean validateAssetInfoEntered(boolean isNewAssetBlank, boolean isUpdateAssetBlank) {
             boolean valid = true;
             // can modify existing or create new. Required to enter one of each type.
             if (isNewAssetBlank && isUpdateAssetBlank) {
@@ -214,7 +214,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
          * @param isUpdateAssetBlank
          * @return
          */
-        private static boolean validateOnlyOneAssetInfoEntered(boolean isNewAssetBlank, boolean isUpdateAssetBlank) {
+        protected static boolean validateOnlyOneAssetInfoEntered(boolean isNewAssetBlank, boolean isUpdateAssetBlank) {
             boolean valid = true;
             if (!isNewAssetBlank && !isUpdateAssetBlank) {
                 // Data exists on both crate new asset and update asset, give error
@@ -1279,7 +1279,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param capitalAssetInformation
      * @return boolean false if the new asset is not blank
      */
-    private boolean isNewAssetBlank(CapitalAssetInformation capitalAssetInformation) {
+    protected boolean isNewAssetBlank(CapitalAssetInformation capitalAssetInformation) {
         boolean isBlank = true;
 
         if (ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetTypeCode()) || ObjectUtils.isNotNull(capitalAssetInformation.getVendorName()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetQuantity()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetManufacturerName()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetManufacturerModelNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetDescription())) {
@@ -1294,7 +1294,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param capitalAssetInformation
      * @return boolean false if the update asset is not blank
      */
-    private boolean isUpdateAssetBlank(CapitalAssetInformation capitalAssetInformation) {
+    protected boolean isUpdateAssetBlank(CapitalAssetInformation capitalAssetInformation) {
         boolean isBlank = true;
 
         if (ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetNumber())) {
@@ -1309,7 +1309,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param capitalAssetManagementAsset the asset to be validated
      * @return boolean false if the asset is not active
      */
-    private boolean validateUpdateCapitalAssetField(CapitalAssetInformation capitalAssetInformation, AccountingDocument accountingDocument) {
+    protected boolean validateUpdateCapitalAssetField(CapitalAssetInformation capitalAssetInformation, AccountingDocument accountingDocument) {
         boolean valid = true;
 
         Map<String, String> params = new HashMap<String, String>();
@@ -1346,7 +1346,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param capitalAssetInformation the fields of add asset to be checked
      * @return boolean false if a required field is missing
      */
-    private boolean checkNewCapitalAssetFieldsExist(CapitalAssetInformation capitalAssetInformation, AccountingDocument accountingDocument) {
+    protected boolean checkNewCapitalAssetFieldsExist(CapitalAssetInformation capitalAssetInformation, AccountingDocument accountingDocument) {
         boolean valid = true;
 
         if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetTypeCode())) {
@@ -1414,7 +1414,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param capitalAssetInformation the information of add asset to be validated
      * @return boolean false if data is incorrect
      */
-    private boolean validateNewCapitalAssetFields(CapitalAssetInformation capitalAssetInformation) {
+    protected boolean validateNewCapitalAssetFields(CapitalAssetInformation capitalAssetInformation) {
         boolean valid = true;
 
         if (!isAssetTypeExisting(capitalAssetInformation.getCapitalAssetTypeCode().toString())) {
@@ -1493,7 +1493,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param capitalAssetInformation
      * @return
      */
-    private boolean validateTotalNumberOfAssetTagLines(CapitalAssetInformation capitalAssetInformation) {
+    protected boolean validateTotalNumberOfAssetTagLines(CapitalAssetInformation capitalAssetInformation) {
         boolean valid = true;
         Integer userInputAssetQuantity = capitalAssetInformation.getCapitalAssetQuantity();
         if (userInputAssetQuantity != null && (ObjectUtils.isNull(capitalAssetInformation.getCapitalAssetInformationDetails()) || capitalAssetInformation.getCapitalAssetInformationDetails().isEmpty())) {
@@ -1514,7 +1514,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param capitalAssetInformation, capitalAssetInformationDetail
      * @return boolean false if data is duplicate or in use
      */
-    private boolean isTagNumberDuplicate(List<CapitalAssetInformationDetail> capitalAssetInformationDetails, CapitalAssetInformationDetail dtl) {
+    protected boolean isTagNumberDuplicate(List<CapitalAssetInformationDetail> capitalAssetInformationDetails, CapitalAssetInformationDetail dtl) {
         boolean duplicateTag = false;
         int tagCounter = 0;
         if (!this.getAssetService().findActiveAssetsMatchingTagNumber(dtl.getCapitalAssetTagNumber()).isEmpty()) {
@@ -1725,7 +1725,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param assetNumbers
      * @return
      */
-    private String buildNoteTextForPurApDoc(String documentType, List<Long> assetNumbers) {
+    protected String buildNoteTextForPurApDoc(String documentType, List<Long> assetNumbers) {
         StringBuffer noteText = new StringBuffer();
 
         if (DocumentTypeName.ASSET_ADD_GLOBAL.equalsIgnoreCase(documentType)) {
@@ -1751,7 +1751,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param documentNumber
      * @param assetNumbers
      */
-    private List<Long> getAssetNumbersFromAssetGlobal(String documentNumber) {
+    protected List<Long> getAssetNumbersFromAssetGlobal(String documentNumber) {
         List<Long> assetNumbers = new ArrayList<Long>();
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(CamsPropertyConstants.AssetGlobalDetail.DOCUMENT_NUMBER, documentNumber);
@@ -1768,7 +1768,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param documentNumber
      * @param assetNumbers
      */
-    private List<Long> getAssetNumbersFromAssetPayment(String documentNumber) {
+    protected List<Long> getAssetNumbersFromAssetPayment(String documentNumber) {
         List<Long> assetNumbers = new ArrayList<Long>();
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(CamsPropertyConstants.DOCUMENT_NUMBER, documentNumber);
@@ -1789,7 +1789,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param documentNumber
      * @return
      */
-    private Integer getPurchaseOrderIdentifier(String camsDocumentNumber) {
+    protected Integer getPurchaseOrderIdentifier(String camsDocumentNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.CAMS_DOCUMENT_NUMBER, camsDocumentNumber);
         Collection<PurchasingAccountsPayableItemAsset> matchingItems = this.getBusinessObjectService().findMatching(PurchasingAccountsPayableItemAsset.class, fieldValues);
@@ -1879,7 +1879,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param accountingDocument
      * @return
      */
-    private String getDocumentTypeName(AccountingDocument accountingDocument) {
+    protected String getDocumentTypeName(AccountingDocument accountingDocument) {
         String documentTypeName = null;
         if (accountingDocument instanceof YearEndGeneralErrorCorrectionDocument)
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.YEAR_END_GENERAL_ERROR_CORRECTION;
@@ -1931,7 +1931,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return SpringContext.getBean(CapitalAssetManagementModuleService.class);
     }
 
-    private PurApInfoService getPurApInfoService() {
+    protected PurApInfoService getPurApInfoService() {
         return SpringContext.getBean(PurApInfoService.class);
     }
 

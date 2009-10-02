@@ -440,7 +440,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @param itemAsset
      * @param poDocMap
      */
-    private void addAssetLocks(HashMap<String, Object> assetLockMap, PurchasingAccountsPayableDocument cabPurapDoc, PurApItem purapItem, Integer accountsPaymentItemId, HashMap<Integer, PurchaseOrderDocument> poDocMap) {
+    protected void addAssetLocks(HashMap<String, Object> assetLockMap, PurchasingAccountsPayableDocument cabPurapDoc, PurApItem purapItem, Integer accountsPaymentItemId, HashMap<Integer, PurchaseOrderDocument> poDocMap) {
         PurchaseOrderDocument purApdocument = null;
         if (poDocMap.containsKey(cabPurapDoc.getPurchaseOrderIdentifier())) {
             purApdocument = poDocMap.get(cabPurapDoc.getPurchaseOrderIdentifier());
@@ -473,7 +473,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         }
     }
 
-    private List getAssetNumbersForLocking(PurchaseOrderDocument purApdocument, PurApItem purapItem) {
+    protected List getAssetNumbersForLocking(PurchaseOrderDocument purApdocument, PurApItem purapItem) {
         String capitalAssetSystemTypeCode = purApdocument.getCapitalAssetSystemTypeCode();
         if (!PurapConstants.CapitalAssetSystemStates.MODIFY.equalsIgnoreCase(purApdocument.getCapitalAssetSystemStateCode())) {
             return null;
@@ -482,17 +482,17 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     }
 
 
-    private CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+    protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
         return SpringContext.getBean(CapitalAssetManagementModuleService.class);
     }
 
-    private GeneralLedgerEntry createPositiveGlEntry(Entry entry) {
+    protected GeneralLedgerEntry createPositiveGlEntry(Entry entry) {
         GeneralLedgerEntry copyEntry = new GeneralLedgerEntry(entry);
         copyEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
         return copyEntry;
     }
 
-    private GeneralLedgerEntry createNegativeGlEntry(Entry entry) {
+    protected GeneralLedgerEntry createNegativeGlEntry(Entry entry) {
         GeneralLedgerEntry copyEntry = new GeneralLedgerEntry(entry);
         copyEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
         return copyEntry;

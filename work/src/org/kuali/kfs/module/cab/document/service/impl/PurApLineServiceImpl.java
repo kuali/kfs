@@ -1203,7 +1203,7 @@ public class PurApLineServiceImpl implements PurApLineService {
      * 
      * @return
      */
-    private AssetService getAssetService() {
+    protected AssetService getAssetService() {
         return SpringContext.getBean(AssetService.class);
     }
 

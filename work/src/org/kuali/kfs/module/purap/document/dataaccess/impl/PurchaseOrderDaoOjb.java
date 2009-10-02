@@ -103,7 +103,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
      * @param criteria - list of criteria to use in the retrieve
      * @return Document number string if a valid purchase order is found, null if no purchase order is found
      */
-    private String getDocumentNumberUsingPurchaseOrderCriteria(Criteria criteria) {
+    protected String getDocumentNumberUsingPurchaseOrderCriteria(Criteria criteria) {
         Iterator<Object[]> iter = getDocumentNumbersUsingPurchaseOrderCriteria(criteria);
         if (iter.hasNext()) {
             Object[] cols = iter.next();
@@ -126,7 +126,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
      * @param criteria - list of criteria to use in the retrieve
      * @return Iterator of document numbers
      */
-    private Iterator<Object[]> getDocumentNumbersUsingPurchaseOrderCriteria(Criteria criteria) {
+    protected Iterator<Object[]> getDocumentNumbersUsingPurchaseOrderCriteria(Criteria criteria) {
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PurchaseOrderDocument.class, criteria);
         rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
         rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);

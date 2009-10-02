@@ -107,7 +107,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         }
     }
 
-    private void validateHeaderInformation(ElectronicInvoiceOrderHolder orderHolder){
+    protected void validateHeaderInformation(ElectronicInvoiceOrderHolder orderHolder){
         
         String dunsField = PurapConstants.ElectronicInvoice.RejectDocumentFields.VENDOR_DUNS_NUMBER;
         String applnResourceKeyName = PurapKeyConstants.ERROR_REJECT_INVALID_DUNS;
@@ -174,7 +174,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         
     }
 
-    private void validateSummaryAmounts(ElectronicInvoiceOrderHolder orderHolder) {
+    protected void validateSummaryAmounts(ElectronicInvoiceOrderHolder orderHolder) {
         
         if (orderHolder.isRejectDocumentHolder()){
             /**
@@ -214,7 +214,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         
     }
 
-    private void validateSummaryAmount(ElectronicInvoiceOrderHolder orderHolder, 
+    protected void validateSummaryAmount(ElectronicInvoiceOrderHolder orderHolder, 
                                        BigDecimal summaryAmount, 
                                        String invoiceLineItemTypeCode, 
                                        String rejectDescriptionCode) {
@@ -230,7 +230,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
 //        }
     }
 
-    private void validateItemTypes(ElectronicInvoiceOrderHolder orderHolder) {
+    protected void validateItemTypes(ElectronicInvoiceOrderHolder orderHolder) {
         
         validateItemMapping(orderHolder, ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_ITEM);
         validateItemMapping(orderHolder, ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_TAX);
@@ -240,7 +240,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
 
     }
 
-    private void validateItemMapping(ElectronicInvoiceOrderHolder orderHolder, String kualiItemTypeCode) {
+    protected void validateItemMapping(ElectronicInvoiceOrderHolder orderHolder, String kualiItemTypeCode) {
 
         if (!orderHolder.isItemTypeAvailableInItemMapping(kualiItemTypeCode)) {
             String extraDescription = kualiItemTypeCode;
@@ -251,18 +251,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         
     }
     
-//    private void validateKualiItemTypeCode(ElectronicInvoiceOrderHolder orderHolder, String invoiceItemTypeCode, String fieldName) {
-//
-//        String kualiItemTypeCode = orderHolder.getInvoiceItemTypeCodeFromMappings(invoiceItemTypeCode);
-//
-//        if (StringUtils.isEmpty(kualiItemTypeCode)) {
-//            String extraDescription = invoiceItemTypeCode;
-//            ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.ITEM_TYPE_NAME_NOT_AVAILABLE, extraDescription, orderHolder.getFileName());
-//            orderHolder.addInvoiceHeaderRejectReason(rejectReason);
-//        }
-//    }
-    
-    private void validateInvoiceDetails(ElectronicInvoiceOrderHolder orderHolder){
+    protected void validateInvoiceDetails(ElectronicInvoiceOrderHolder orderHolder){
         
         validatePurchaseOrderMatch(orderHolder);
         
@@ -279,7 +268,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         }
     }
     
-    private void validatePurchaseOrderMatch(ElectronicInvoiceOrderHolder orderHolder){
+    protected void validatePurchaseOrderMatch(ElectronicInvoiceOrderHolder orderHolder){
         
         String poIDFieldName = PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_PO_ID;
         String poID = orderHolder.getInvoicePurchaseOrderID();
@@ -317,7 +306,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         
     }
     
-    private void validateInvoiceItems(ElectronicInvoiceOrderHolder orderHolder){
+    protected void validateInvoiceItems(ElectronicInvoiceOrderHolder orderHolder){
         
         Set poLineNumbers = new HashSet();
         
@@ -329,7 +318,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         }
     }
     
-    private void validateInvoiceItem(ElectronicInvoiceItemHolder itemHolder,
+    protected void validateInvoiceItem(ElectronicInvoiceItemHolder itemHolder,
                                      Set poLineNumbers){
         
         PurchaseOrderItem poItem = itemHolder.getPurchaseOrderItem();
@@ -394,7 +383,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         
     }
     
-    private void validateCatalogNumber(ElectronicInvoiceItemHolder itemHolder){
+    protected void validateCatalogNumber(ElectronicInvoiceItemHolder itemHolder){
         
         PurchaseOrderItem poItem = itemHolder.getPurchaseOrderItem();
         ElectronicInvoiceOrderHolder orderHolder = itemHolder.getInvoiceOrderHolder();
@@ -434,7 +423,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         }
     }
     
-    private void validateQtyBasedItem(ElectronicInvoiceItemHolder itemHolder){
+    protected void validateQtyBasedItem(ElectronicInvoiceItemHolder itemHolder){
         
         PurchaseOrderItem poItem = itemHolder.getPurchaseOrderItem();
         
@@ -471,7 +460,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         
     }
     
-    private void validateNonQtyBasedItem(ElectronicInvoiceItemHolder itemHolder){
+    protected void validateNonQtyBasedItem(ElectronicInvoiceItemHolder itemHolder){
         
         PurchaseOrderItem poItem = itemHolder.getPurchaseOrderItem();
         
@@ -496,7 +485,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         }
     }
     
-    private void validateUnitPrice(ElectronicInvoiceItemHolder itemHolder){
+    protected void validateUnitPrice(ElectronicInvoiceItemHolder itemHolder){
         
         PurchaseOrderCostSource costSource = itemHolder.getInvoiceOrderHolder().getPurchaseOrderDocument().getPurchaseOrderCostSource();
         PurchaseOrderItem poItem = itemHolder.getPurchaseOrderItem();
@@ -544,7 +533,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         
     }
     
-    private void validateSalesTax(ElectronicInvoiceItemHolder itemHolder){
+    protected void validateSalesTax(ElectronicInvoiceItemHolder itemHolder){
 
         if (LOG.isInfoEnabled()){
             LOG.info("Validating sales tax");
@@ -623,7 +612,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
     
     
     //Copied from PurApItemBase.calculateExtendedPrice
-    private BigDecimal getExtendedPrice(ElectronicInvoiceItemHolder itemHolder){
+    protected BigDecimal getExtendedPrice(ElectronicInvoiceItemHolder itemHolder){
         if (itemHolder.getPurchaseOrderItem().getItemType().isAmountBasedGeneralLedgerIndicator()) {
             // SERVICE ITEM: return unit price as extended price
             return itemHolder.getUnitPrice();
@@ -665,7 +654,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         return rejectReasonTypes.get(rejectReasonTypeCode);
     }
 
-    private Map<String, ElectronicInvoiceRejectReasonType> getElectronicInvoiceRejectReasonTypes(){
+    protected Map<String, ElectronicInvoiceRejectReasonType> getElectronicInvoiceRejectReasonTypes(){
         
         Collection<ElectronicInvoiceRejectReasonType> collection = SpringContext.getBean(BusinessObjectService.class).findAll(ElectronicInvoiceRejectReasonType.class);
         Map rejectReasonTypesMap = new HashMap<String, ElectronicInvoiceRejectReasonType>();

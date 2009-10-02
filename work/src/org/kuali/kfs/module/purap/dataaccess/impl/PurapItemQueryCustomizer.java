@@ -35,7 +35,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
  * does
  */
 public class PurapItemQueryCustomizer extends KualiQueryCustomizerDefaultImpl {
-    private static final String MYSQL_NEGATION = "-";
+    protected static final String MYSQL_NEGATION = "-";
     public final static String ORDER_BY_FIELD = "orderByField.";
     public final static String ASCENDING = "ASC";
     public final static String DESCENDING = "DESC";

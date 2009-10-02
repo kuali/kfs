@@ -87,7 +87,7 @@ public class PurApObjectUtils {
      * @param excludedFieldNames field names to exclude
      * @return true if a field is processable
      */
-    private static boolean isProcessableField(Class baseClass, String fieldName, Map excludedFieldNames) {
+    protected static boolean isProcessableField(Class baseClass, String fieldName, Map excludedFieldNames) {
         if (excludedFieldNames.containsKey(fieldName)) {
             Class potentialClassName = (Class) excludedFieldNames.get(fieldName);
             if ((ObjectUtils.isNull(potentialClassName)) || (potentialClassName.equals(baseClass))) {
@@ -106,7 +106,7 @@ public class PurApObjectUtils {
      * @param targetObject target object
      * @param supplementalUncopyable
      */
-    private static void attemptCopyOfFieldName(String baseClassName, String fieldName, BusinessObject sourceObject, BusinessObject targetObject, Map supplementalUncopyable) {
+    protected static void attemptCopyOfFieldName(String baseClassName, String fieldName, BusinessObject sourceObject, BusinessObject targetObject, Map supplementalUncopyable) {
         try {
 
             Object propertyValue = ObjectUtils.getPropertyValue(sourceObject, fieldName);
@@ -141,7 +141,7 @@ public class PurApObjectUtils {
      * @throws InvocationTargetException
      * @throws NoSuchMethodException
      */
-    private static void copyCollection(String fieldName, BusinessObject targetObject, Object propertyValue, Map supplementalUncopyable) throws FormatException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    protected static void copyCollection(String fieldName, BusinessObject targetObject, Object propertyValue, Map supplementalUncopyable) throws FormatException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Collection sourceList = (Collection) propertyValue;
         Collection listToSet = null;
 
@@ -199,7 +199,7 @@ public class PurApObjectUtils {
      * 
      * @return a newInstance() of clazz
      */
-    private static Object createNewObjectFromClass(Class clazz) {
+    protected static Object createNewObjectFromClass(Class clazz) {
         if (clazz == null) {
             throw new RuntimeException("BO class was passed in as null");
         }

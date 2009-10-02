@@ -332,7 +332,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *                             less than the limit.
      * @return                     boolean true if the payment request document is eligible for auto approval.
      */
-    private boolean isEligibleForAutoApproval(PaymentRequestDocument document, KualiDecimal defaultMinimumLimit) {
+    protected boolean isEligibleForAutoApproval(PaymentRequestDocument document, KualiDecimal defaultMinimumLimit) {
         // Check if vendor is foreign.
         if (document.getVendorDetail().getVendorHeader().getVendorForeignIndicator().booleanValue()) {
             return false;
@@ -398,7 +398,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *                       minimum limit amount.
      * @return               The minimum of the given minimum amount and the least among the limits in the collection.
      */
-    private KualiDecimal getMinimumLimitAmount(Collection<NegativePaymentRequestApprovalLimit> limits, KualiDecimal minimumAmount) {
+    protected KualiDecimal getMinimumLimitAmount(Collection<NegativePaymentRequestApprovalLimit> limits, KualiDecimal minimumAmount) {
         for (NegativePaymentRequestApprovalLimit limit : limits) {
             KualiDecimal amount = limit.getNegativePaymentRequestApprovalLimitAmount();
             if (null == minimumAmount) {
@@ -635,7 +635,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @param processedDateCalendar  The other date to be used in determining which date is later.
      * @return                       The date which is the later of the two given dates in the input parameters.
      */
-    private java.sql.Date returnLaterDate(Calendar invoicedDateCalendar, Calendar processedDateCalendar) {
+    protected java.sql.Date returnLaterDate(Calendar invoicedDateCalendar, Calendar processedDateCalendar) {
         if (invoicedDateCalendar.after(processedDateCalendar)) {
             return new java.sql.Date(invoicedDateCalendar.getTimeInMillis());
         }
@@ -652,7 +652,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @param invoicedDateCalendar  The Calendar object of the invoice date.
      * @param discountDueNumber     Either the vendorDiscountDueNumber or the vendorDiscountDueNumber of the payment term.
      */
-    private void paymentTermsDateCalculation(String dueTypeDescription, Calendar invoicedDateCalendar, Integer dueNumber) {
+    protected void paymentTermsDateCalculation(String dueTypeDescription, Calendar invoicedDateCalendar, Integer dueNumber) {
 
         if (StringUtils.equals(dueTypeDescription, PurapConstants.PREQ_PAY_DATE_DATE)) {
             // date specified set to date in next month
@@ -701,7 +701,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * 
      * @param paymentRequestDocument  The payment request document whose discount to be calculated.
      */
-    private void calculateDiscount(PaymentRequestDocument paymentRequestDocument) {
+    protected void calculateDiscount(PaymentRequestDocument paymentRequestDocument) {
         PaymentRequestItem discountItem = findDiscountItem(paymentRequestDocument);
         // find out if we really need the discount item
         PaymentTermType pt = paymentRequestDocument.getVendorPaymentTerms();
@@ -811,7 +811,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * 
      * @param preq The payment request from which all tax items are to be removed.
      */
-    private void removeTaxItems(PaymentRequestDocument preq) {
+    protected void removeTaxItems(PaymentRequestDocument preq) {
         List<PurApItem> items = (List<PurApItem>) preq.getItems();
         for (int i=0; i < items.size(); i++) {
             PurApItem item = items.get(i);
@@ -831,7 +831,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @param taxableAmount The amount to which tax is computed against.
      * @return A fully populated PurApItem instance representing NRA tax amount data for the specified payment request.
      */
-    private PurApItem addTaxItem(PaymentRequestDocument preq, String itemTypeCode, BigDecimal taxableAmount) {
+    protected PurApItem addTaxItem(PaymentRequestDocument preq, String itemTypeCode, BigDecimal taxableAmount) {
         PurApItem taxItem = null;
         
         try {
@@ -872,7 +872,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @param taxableAmount The amount to which tax is computed against.
      * @return A fully populated PurApAccountingLine instance for the specified tax item.
      */
-    private PurApAccountingLine addTaxAccountingLine(PurApItem taxItem, BigDecimal taxableAmount) {
+    protected PurApAccountingLine addTaxAccountingLine(PurApItem taxItem, BigDecimal taxableAmount) {
         PaymentRequestDocument preq = taxItem.getPurapDocument();
         PurApAccountingLine taxLine = null;
         
@@ -980,7 +980,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @param paymentRequestDocument  The payment request document to be used to find the discount item.
      * @return                        The discount item if it exists.
      */
-    private PaymentRequestItem findDiscountItem(PaymentRequestDocument paymentRequestDocument) {
+    protected PaymentRequestItem findDiscountItem(PaymentRequestDocument paymentRequestDocument) {
         PaymentRequestItem discountItem = null;
         for (PaymentRequestItem preqItem : (List<PaymentRequestItem>) paymentRequestDocument.getItems()) {
             if (StringUtils.equals(preqItem.getItemTypeCode(), PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE)) {
@@ -997,7 +997,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @param paymentRequestDocument  The payment request document to be used to find the full order discount item.
      * @return                        The discount item if it exists.
      */
-    private PaymentRequestItem findFullOrderDiscountItem(PaymentRequestDocument paymentRequestDocument) {
+    protected PaymentRequestItem findFullOrderDiscountItem(PaymentRequestDocument paymentRequestDocument) {
         PaymentRequestItem discountItem = null;
         for (PaymentRequestItem preqItem : (List<PaymentRequestItem>) paymentRequestDocument.getItems()) {
             if (StringUtils.equals(preqItem.getItemTypeCode(), PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) {
@@ -1013,7 +1013,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * 
      * @param paymentRequestDocument
      */
-    private void distributeAccounting(PaymentRequestDocument paymentRequestDocument) {
+    protected void distributeAccounting(PaymentRequestDocument paymentRequestDocument) {
         // update the account amounts before doing any distribution
         purapAccountingService.updateAccountAmounts(paymentRequestDocument);
 
@@ -1156,7 +1156,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * 
      * @param document  The payment request document whose request cancel fields to be cleared.
      */
-    private void clearRequestCancelFields(PaymentRequestDocument document) {
+    protected void clearRequestCancelFields(PaymentRequestDocument document) {
         document.setPaymentRequestedCancelIndicator(false);
         document.setLastActionPerformedByPersonId(null);
         document.setAccountsPayableRequestCancelIdentifier(null);
@@ -1169,7 +1169,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         return (ObjectUtils.isNull(document.getExtractedTimestamp()) ? false : true);
     }
 
-    private boolean isBeingAdHocRouted(PaymentRequestDocument document) {
+    protected boolean isBeingAdHocRouted(PaymentRequestDocument document) {
         return document.getDocumentHeader().getWorkflowDocument().isAdHocRequested();
     }
     
@@ -1357,7 +1357,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @param preqDoc          The payment request document whose status to be updated.
      * @return                 The canceled status code.
      */
-    private String updateStatusByNode(String currentNodeName, PaymentRequestDocument preqDoc) {
+    protected String updateStatusByNode(String currentNodeName, PaymentRequestDocument preqDoc) {
         // remove request cancel if necessary
         clearRequestCancelFields(preqDoc);
 
@@ -1527,7 +1527,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @param pr          PaymentRequest to set in
      * @return            New PaymentRequest to use
      */
-    private void setVendorAddress(VendorAddress va, PaymentRequestDocument preq) {
+    protected void setVendorAddress(VendorAddress va, PaymentRequestDocument preq) {
                         
       if (va != null) {          
         preq.setVendorAddressGeneratedIdentifier(va.getVendorAddressGeneratedIdentifier());

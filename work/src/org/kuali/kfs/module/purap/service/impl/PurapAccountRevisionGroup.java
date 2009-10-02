@@ -223,7 +223,7 @@ public class PurapAccountRevisionGroup {
         return equalsBuilder.isEquals();
     }
 
-    private String replaceFiller(String val) {
+    protected String replaceFiller(String val) {
         if (val == null) {
             return "";
         }

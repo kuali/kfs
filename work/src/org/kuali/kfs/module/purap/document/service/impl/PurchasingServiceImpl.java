@@ -122,7 +122,7 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         }
     }
 
-    private PurchasingCapitalAssetItem createCamsItem(PurchasingDocument purDoc, PurApItem purapItem) {
+    protected PurchasingCapitalAssetItem createCamsItem(PurchasingDocument purDoc, PurApItem purapItem) {
         PurchasingDocumentSpecificService purchasingDocumentSpecificService = purDoc.getDocumentSpecificService();
         if (purapItem.getItemIdentifier() == null) {
             ClassDescriptor cd = this.getClassDescriptor(purapItem.getClass());
@@ -136,7 +136,7 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
     }
 
 
-    private PurchasingCapitalAssetItem getItemIfAlreadyInCamsItemsList(PurApItem item, List<PurchasingCapitalAssetItem> camsItemsList) {
+    protected PurchasingCapitalAssetItem getItemIfAlreadyInCamsItemsList(PurApItem item, List<PurchasingCapitalAssetItem> camsItemsList) {
         for (PurchasingCapitalAssetItem camsItem : camsItemsList) {
             if (camsItem.getItemIdentifier() != null && camsItem.getItemIdentifier().equals(item.getItemIdentifier())) {
                 return camsItem;

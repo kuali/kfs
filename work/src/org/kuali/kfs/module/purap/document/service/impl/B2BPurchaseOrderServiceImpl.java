@@ -446,7 +446,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
     /**
      * Retrieve the Contract Manager's email
      */
-    private String getContractManagerEmail(ContractManager cm) {
+    protected String getContractManagerEmail(ContractManager cm) {
         Person contractManager = personService.getPerson(cm.getContractManagerUserIdentifier());
         if (ObjectUtils.isNotNull(contractManager)) {
             return contractManager.getEmailAddressUnmasked();
@@ -473,7 +473,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
     /**
      * Throws an exception if running on production
      */
-    private boolean isProduction() {
+    protected boolean isProduction() {
         KualiConfigurationService configService = SpringContext.getBean(KualiConfigurationService.class);
         return StringUtils.equals(configService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY), b2bEnvironment);
     }

@@ -90,7 +90,7 @@ public class ThresholdDaoOjb extends PlatformAwareDaoBaseOjb implements Threshol
         return getThresholdEnum(criteriaFields);
     }
     
-    private Collection<ReceivingThreshold> getThresholdEnum(Map criteriaFields){
+    protected Collection<ReceivingThreshold> getThresholdEnum(Map criteriaFields){
         
         if (criteriaFields == null || criteriaFields.size() == 0){
             return null;
@@ -116,7 +116,7 @@ public class ThresholdDaoOjb extends PlatformAwareDaoBaseOjb implements Threshol
     /**
      * Will return a mock object
      */
-    private ReceivingThreshold returnAMockObject(){
+    protected ReceivingThreshold returnAMockObject(){
         ReceivingThreshold newOne = new ReceivingThreshold();
         newOne.setThresholdAmount(new KualiDecimal(10.00));
         return newOne;

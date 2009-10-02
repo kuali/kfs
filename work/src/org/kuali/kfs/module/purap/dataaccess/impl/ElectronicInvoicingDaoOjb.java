@@ -81,7 +81,7 @@ public class ElectronicInvoicingDaoOjb extends PlatformAwareDaoBaseOjb implement
         return this.getItemMappingMap(criteria);
     }
 
-    private Map getItemMappingMap(Criteria criteria) {
+    protected Map getItemMappingMap(Criteria criteria) {
         Map hm = new HashMap();
         List itemMappings = (List) getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(ElectronicInvoiceItemMapping.class, criteria));
 

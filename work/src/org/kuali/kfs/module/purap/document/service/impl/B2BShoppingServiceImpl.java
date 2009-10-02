@@ -89,7 +89,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
     private String b2bPurchaseOrderURL;
     private String b2bPurchaseOrderPassword;
 
-    private B2BInformation getB2bShoppingConfigurationInformation() {
+    protected B2BInformation getB2bShoppingConfigurationInformation() {
         B2BInformation b2b = new B2BInformation();
         b2b.setPunchoutURL(b2bPunchoutURL);
         b2b.setPunchbackURL(b2bPunchbackURL);
@@ -239,7 +239,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
      * @param items Items in the shopping cart
      * @return List of VendorDetails for each vendor in the shopping cart
      */
-    private List getAllVendors(List items) {
+    protected List getAllVendors(List items) {
         LOG.debug("getAllVendors() started");
 
         Set vendorNumbers = new HashSet();
@@ -286,7 +286,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
      * @param updateUserId last update user id
      * @return list of RequisitionItems for a specific vendor id
      */
-    private List getAllVendorItems(List items, String vendorId, String updateUserId) {
+    protected List getAllVendorItems(List items, String vendorId, String updateUserId) {
         LOG.debug("getAllVendorItems() started");
 
         // First get all the ShoppingCartItems for this vendor in a list
@@ -313,7 +313,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
 
 
     // These are helper classes for extracting information from the cxml message
-    private RequisitionItem createRequisitionItem(B2BShoppingCartItem item, Integer itemLine) {
+    protected RequisitionItem createRequisitionItem(B2BShoppingCartItem item, Integer itemLine) {
         RequisitionItem reqItem = new RequisitionItem();
         reqItem.setItemTypeCode(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);
         reqItem.setItemLineNumber(itemLine);

@@ -123,7 +123,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param processRunDate time/date to use to put on the {@link Batch} that's created; and when immediateOnly is false, is also
      *        used as the maximum allowed PREQ pay date when searching PREQ documents eligible to have payments extracted
      */
-    private void extractPayments(boolean immediateOnly, Date processRunDate) {
+    protected void extractPayments(boolean immediateOnly, Date processRunDate) {
         LOG.debug("extractPayments() started");
 
         Person uuser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
@@ -145,7 +145,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param puser
      * @param processRunDate
      */
-    private void extractPaymentsForCampus(String campusCode, Person puser, Date processRunDate, boolean immediateOnly) {
+    protected void extractPaymentsForCampus(String campusCode, Person puser, Date processRunDate, boolean immediateOnly) {
         LOG.debug("extractPaymentsForCampus() started for campus: " + campusCode);
 
         Batch batch = createBatch(campusCode, puser, processRunDate);
@@ -181,7 +181,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param batch
      * @return Totals
      */
-    private Totals extractRegularPaymentsForChart(String campusCode, Person puser, Date processRunDate, Batch batch) {
+    protected Totals extractRegularPaymentsForChart(String campusCode, Person puser, Date processRunDate, Batch batch) {
         LOG.debug("START - extractRegularPaymentsForChart()");
 
         Totals totals = new Totals();
@@ -324,7 +324,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param processRunDate
      * @return PaymentGroup
      */
-    private PaymentGroup processSinglePaymentRequestDocument(PaymentRequestDocument paymentRequestDocument, Batch batch, Person puser, Date processRunDate) {
+    protected PaymentGroup processSinglePaymentRequestDocument(PaymentRequestDocument paymentRequestDocument, Batch batch, Person puser, Date processRunDate) {
         List<PaymentRequestDocument> prds = new ArrayList<PaymentRequestDocument>();
         List<VendorCreditMemoDocument> cmds = new ArrayList<VendorCreditMemoDocument>();
         prds.add(paymentRequestDocument);
@@ -347,7 +347,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param batch
      * @return Totals
      */
-    private Totals extractSpecialPaymentsForChart(String campusCode, Person puser, Date processRunDate, Batch batch, boolean immediatesOnly) {
+    protected Totals extractSpecialPaymentsForChart(String campusCode, Person puser, Date processRunDate, Batch batch, boolean immediatesOnly) {
         Totals totals = new Totals();
 
         Collection<PaymentRequestDocument> paymentRequests = null;
@@ -376,7 +376,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param puser
      * @param processRunDate
      */
-    private void updateCreditMemo(VendorCreditMemoDocument creditMemoDocument, Person puser, Date processRunDate) {
+    protected void updateCreditMemo(VendorCreditMemoDocument creditMemoDocument, Person puser, Date processRunDate) {
         try {
             VendorCreditMemoDocument doc = (VendorCreditMemoDocument) documentService.getByDocumentHeaderId(creditMemoDocument.getDocumentNumber());
             doc.setExtractedTimestamp(new Timestamp(processRunDate.getTime()));
@@ -394,7 +394,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param puser
      * @param processRunDate
      */
-    private void updatePaymentRequest(PaymentRequestDocument paymentRequestDocument, Person puser, Date processRunDate) {
+    protected void updatePaymentRequest(PaymentRequestDocument paymentRequestDocument, Person puser, Date processRunDate) {
         try {
             PaymentRequestDocument doc = (PaymentRequestDocument) documentService.getByDocumentHeaderId(paymentRequestDocument.getDocumentNumber());
             doc.setExtractedTimestamp(new Timestamp(processRunDate.getTime()));
@@ -413,7 +413,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param batch
      * @return PaymentGroup
      */
-    private PaymentGroup buildPaymentGroup(List<PaymentRequestDocument> paymentRequests, List<VendorCreditMemoDocument> creditMemos, Batch batch) {
+    protected PaymentGroup buildPaymentGroup(List<PaymentRequestDocument> paymentRequests, List<VendorCreditMemoDocument> creditMemos, Batch batch) {
         // There should always be at least one Payment Request Document in the list.
         PaymentGroup paymentGroup = null;
         if (creditMemos.size() > 0) {
@@ -443,7 +443,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param paymentGroup group to validate
      * @return true if group is valid, false otherwise
      */
-    private boolean validatePaymentGroup(PaymentGroup paymentGroup) {
+    protected boolean validatePaymentGroup(PaymentGroup paymentGroup) {
         // Check to see if the payment group has too many note lines to be printed on a check
         List<PaymentDetail> payDetails = paymentGroup.getPaymentDetails();
 
@@ -483,7 +483,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     /**
      * @return configured maximum number of note lines allowed
      */
-    private int getMaxNoteLines() {
+    protected int getMaxNoteLines() {
         String maxLines = parameterService.getParameterValue(KfsParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.MAX_NOTE_LINES);
         if (StringUtils.isBlank(maxLines)) {
             throw new RuntimeException("System parameter for max note lines is blank");
@@ -499,7 +499,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param batch current PDP batch object
      * @return populated PaymentDetail line
      */
-    private PaymentDetail populatePaymentDetail(VendorCreditMemoDocument creditMemoDocument, Batch batch) {
+    protected PaymentDetail populatePaymentDetail(VendorCreditMemoDocument creditMemoDocument, Batch batch) {
         PaymentDetail paymentDetail = new PaymentDetail();
 
         String invoiceNumber = creditMemoDocument.getCreditMemoNumber();
@@ -585,7 +585,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param batch current PDP batch object
      * @return populated PaymentDetail line
      */
-    private PaymentDetail populatePaymentDetail(PaymentRequestDocument paymentRequestDocument, Batch batch) {
+    protected PaymentDetail populatePaymentDetail(PaymentRequestDocument paymentRequestDocument, Batch batch) {
         PaymentDetail paymentDetail = new PaymentDetail();
 
         paymentDetail.setCustPaymentDocNbr(paymentRequestDocument.getDocumentNumber());
@@ -700,7 +700,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param accountsPayableDocument
      * @param paymentDetail
      */
-    private void addNotes(AccountsPayableDocument accountsPayableDocument, PaymentDetail paymentDetail) {
+    protected void addNotes(AccountsPayableDocument accountsPayableDocument, PaymentDetail paymentDetail) {
         int count = 1;
 
         if (accountsPayableDocument instanceof PaymentRequestDocument) {
@@ -761,7 +761,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param batch
      * @return PaymentGroup
      */
-    private PaymentGroup populatePaymentGroup(PaymentRequestDocument paymentRequestDocument, Batch batch) {
+    protected PaymentGroup populatePaymentGroup(PaymentRequestDocument paymentRequestDocument, Batch batch) {
         LOG.debug("populatePaymentGroup() payment request documentNumber: " + paymentRequestDocument.getDocumentNumber());
 
         PaymentGroup paymentGroup = new PaymentGroup();
@@ -822,7 +822,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param batch
      * @return PaymentGroup
      */
-    private PaymentGroup populatePaymentGroup(VendorCreditMemoDocument creditMemoDocument, Batch batch) {
+    protected PaymentGroup populatePaymentGroup(VendorCreditMemoDocument creditMemoDocument, Batch batch) {
         LOG.debug("populatePaymentGroup() credit memo documentNumber: " + creditMemoDocument.getDocumentNumber());
 
         PaymentGroup paymentGroup = new PaymentGroup();
@@ -883,7 +883,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param processRunDate
      * @return Batch
      */
-    private Batch createBatch(String campusCode, Person puser, Date processRunDate) {
+    protected Batch createBatch(String campusCode, Person puser, Date processRunDate) {
         String orgCode = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_BATCH.class, KFSParameterKeyConstants.PurapPdpParameterConstants.PURAP_PDP_ORG_CODE);
         String subUnitCode = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_BATCH.class, KFSParameterKeyConstants.PurapPdpParameterConstants.PURAP_PDP_SUB_UNIT_CODE);
         CustomerProfile customer = customerProfileService.get(campusCode, orgCode, subUnitCode);
@@ -913,7 +913,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * 
      * @return List<String>
      */
-    private List<String> getChartCodes(boolean immediatesOnly, Date processRunDate) {
+    protected List<String> getChartCodes(boolean immediatesOnly, Date processRunDate) {
         List<String> output = new ArrayList<String>();
 
         Collection<PaymentRequestDocument> paymentRequests = null;
@@ -937,7 +937,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     /**
      * Holds total count and amount for extract
      */
-    private class Totals {
+    protected class Totals {
         public Integer count = 0;
         public KualiDecimal totalAmount = KualiDecimal.ZERO;
     }
@@ -945,7 +945,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     /**
      * Holds temporary accounting information for combining into payment accounting details
      */
-    private class AccountingInfo {
+    protected class AccountingInfo {
         private String chart;
         private String account;
         private String subAccount;
@@ -1007,7 +1007,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             }
         }
 
-        private String key() {
+        protected String key() {
             return chart + "~" + account + "~" + subAccount + "~" + objectCode + "~" + subObjectCode + "~" + orgReferenceId + "~" + projectCode;
         }
 

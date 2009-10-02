@@ -162,7 +162,7 @@ public class PurapAccountRevisionServiceImpl implements PurapAccountRevisionServ
      * @param postingPeriodCode Posting period
      * @return
      */
-    private Map<PurapAccountRevisionGroup, PurapAccountRevisionGroup> buildAccountLineGroups(AccountsPayableItemBase item, Integer postingYear, String postingPeriodCode) {
+    protected Map<PurapAccountRevisionGroup, PurapAccountRevisionGroup> buildAccountLineGroups(AccountsPayableItemBase item, Integer postingYear, String postingPeriodCode) {
         Map<PurapAccountRevisionGroup, PurapAccountRevisionGroup> accountLineGroups = new HashMap<PurapAccountRevisionGroup, PurapAccountRevisionGroup>();
         for (PurApAccountingLine account : item.getSourceAccountingLines()) {
             PurapAccountRevisionGroup lineGroup = new PurapAccountRevisionGroup((PurApAccountingLineBase) account);
@@ -187,7 +187,7 @@ public class PurapAccountRevisionServiceImpl implements PurapAccountRevisionServ
      * @param clazz History class
      * @return Map of account history groups
      */
-    private Map<PurapAccountRevisionGroup, PurapAccountRevisionGroup> buildAccountHistoryGroups(AccountsPayableItemBase item, Integer postingYear, String postingPeriodCode, Class<? extends PurApAccountingLineBase> clazz) {
+    protected Map<PurapAccountRevisionGroup, PurapAccountRevisionGroup> buildAccountHistoryGroups(AccountsPayableItemBase item, Integer postingYear, String postingPeriodCode, Class<? extends PurApAccountingLineBase> clazz) {
         Map<PurapAccountRevisionGroup, PurapAccountRevisionGroup> historyGroups = new HashMap<PurapAccountRevisionGroup, PurapAccountRevisionGroup>();
         // find the current sum value from history table and adjusts the amount
         Map<String, Object> fieldValues = new HashMap<String, Object>();

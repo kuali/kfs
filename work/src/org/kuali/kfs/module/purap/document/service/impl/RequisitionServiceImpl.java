@@ -162,7 +162,7 @@ public class RequisitionServiceImpl implements RequisitionService {
      * @return String containing the reason why the requisition was not eligible to become an APO if it was not eligible, or an
      *         empty String if the requisition is eligible to become an APO.
      */
-    private String checkAutomaticPurchaseOrderRules(RequisitionDocument requisition) {
+    protected String checkAutomaticPurchaseOrderRules(RequisitionDocument requisition) {
         String requisitionSource = requisition.getRequisitionSourceCode();
         KualiDecimal reqTotal = requisition.getTotalDollarAmount();
         KualiDecimal apoLimit = purapService.getApoLimit(requisition.getVendorContractGeneratedIdentifier(), requisition.getChartOfAccountsCode(), requisition.getOrganizationCode());
@@ -302,7 +302,7 @@ public class RequisitionServiceImpl implements RequisitionService {
      * @param commodityCodeRequired
      * @return
      */
-    private String checkAPORulesPerItemForCommodityCodes(RequisitionItem purItem, List<VendorCommodityCode>vendorCommodityCodes, boolean commodityCodeRequired) {
+    protected String checkAPORulesPerItemForCommodityCodes(RequisitionItem purItem, List<VendorCommodityCode>vendorCommodityCodes, boolean commodityCodeRequired) {
         // If the commodity code is blank on any line item and a commodity code is required,
         // then the system should use the default commodity code for the vendor
         if (purItem.getCommodityCode() == null && commodityCodeRequired) {

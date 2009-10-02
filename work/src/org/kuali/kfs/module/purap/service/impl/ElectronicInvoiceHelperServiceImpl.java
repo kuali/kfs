@@ -121,8 +121,8 @@ import org.w3c.dom.Node;
 public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelperService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceHelperServiceImpl.class);
 
-    private final String UNKNOWN_DUNS_IDENTIFIER = "Unknown";
-    private final String INVOICE_FILE_MIME_TYPE = "text/xml";  
+    protected final String UNKNOWN_DUNS_IDENTIFIER = "Unknown";
+    protected final String INVOICE_FILE_MIME_TYPE = "text/xml";  
     
     private StringBuffer emailTextErrorList;
     
@@ -284,7 +284,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
 
     }
     
-    private byte[] addNamespaceDefinition(ElectronicInvoiceLoad eInvoiceLoad, 
+    protected byte[] addNamespaceDefinition(ElectronicInvoiceLoad eInvoiceLoad, 
                                           File invoiceFile) {
         
         
@@ -363,7 +363,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
      * @param eInvoiceLoad the load summary to be modified
      * @return boolean where true means there has been some type of reject
      */
-    private boolean processElectronicInvoice(ElectronicInvoiceLoad eInvoiceLoad, 
+    protected boolean processElectronicInvoice(ElectronicInvoiceLoad eInvoiceLoad, 
                                              File invoiceFile,
                                              byte[] xmlAsBytes) {
 
@@ -471,7 +471,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         return eInvoice.isFileRejected();
     }
     
-    private void setVendorDUNSNumber(ElectronicInvoice eInvoice) {
+    protected void setVendorDUNSNumber(ElectronicInvoice eInvoice) {
         
         String dunsNumber = null;
         
@@ -490,7 +490,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
     }
     
-    private void setVendorDetails(ElectronicInvoice eInvoice){
+    protected void setVendorDetails(ElectronicInvoice eInvoice){
         
         if (StringUtils.isNotEmpty(eInvoice.getDunsNumber())){
             
@@ -511,7 +511,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         }
     }
     
-    private void validateVendorDetails(ElectronicInvoiceRejectDocument rejectDocument){
+    protected void validateVendorDetails(ElectronicInvoiceRejectDocument rejectDocument){
         
         boolean vendorFound = false;
         
@@ -540,7 +540,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         rejectDocument.getDocumentHeader().setDocumentDescription(newDocumentDesc);
     }
     
-    private Map getItemTypeMappings(Integer vendorHeaderId,
+    protected Map getItemTypeMappings(Integer vendorHeaderId,
                                     Integer vendorDetailId) {
 
         Map itemTypeMappings = null;
@@ -557,7 +557,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         return itemTypeMappings;
     }
     
-    private String getVendorNumber(Integer vendorHeaderId,
+    protected String getVendorNumber(Integer vendorHeaderId,
                                    Integer vendorDetailId ){
         
         if (vendorHeaderId != null && vendorDetailId != null) {
@@ -570,7 +570,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         }
     }
     
-    private Map<String, ItemType> getKualiItemTypes(){
+    protected Map<String, ItemType> getKualiItemTypes(){
         
         Collection<ItemType> collection = SpringContext.getBean(BusinessObjectService.class).findAll(ItemType.class);
         Map kualiItemTypes = new HashMap<String, ItemType>();
@@ -590,7 +590,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         return kualiItemTypes;
     }
     
-    private boolean checkForCompleteFailure(ElectronicInvoiceLoad electronicInvoiceLoad, 
+    protected boolean checkForCompleteFailure(ElectronicInvoiceLoad electronicInvoiceLoad, 
                                             ElectronicInvoice electronicInvoice,
                                             File invoiceFile){
         
@@ -630,11 +630,11 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
     }
     
-    private ElectronicInvoiceRejectReasonType getRejectReasonType(String rejectReasonTypeCode){
+    protected ElectronicInvoiceRejectReasonType getRejectReasonType(String rejectReasonTypeCode){
         return matchingService.getElectronicInvoiceRejectReasonType(rejectReasonTypeCode);
     }
     
-    private void rejectElectronicInvoiceFile(ElectronicInvoiceLoad eInvoiceLoad, 
+    protected void rejectElectronicInvoiceFile(ElectronicInvoiceLoad eInvoiceLoad, 
                                              String fileDunsNumber, 
                                              File filename, 
                                              String rejectReasonTypeCode) {
@@ -642,7 +642,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         rejectElectronicInvoiceFile(eInvoiceLoad,fileDunsNumber,filename,null,rejectReasonTypeCode);
     }
     
-    private void rejectElectronicInvoiceFile(ElectronicInvoiceLoad eInvoiceLoad, 
+    protected void rejectElectronicInvoiceFile(ElectronicInvoiceLoad eInvoiceLoad, 
                                              String fileDunsNumber, 
                                              File invoiceFile, 
                                              String extraDescription,
@@ -695,7 +695,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         }
     }
     
-    private void attachInvoiceXMLWithRejectDoc(ElectronicInvoiceRejectDocument eInvoiceRejectDocument,
+    protected void attachInvoiceXMLWithRejectDoc(ElectronicInvoiceRejectDocument eInvoiceRejectDocument,
                                                File attachmentFile,
                                                String noteText){
         
@@ -738,7 +738,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         //eInvoiceRejectDocument.getDocumentHeader().addNote(note);
     }
     
-    private PersistableBusinessObject getNoteParent(ElectronicInvoiceRejectDocument document, Note newNote) {
+    protected PersistableBusinessObject getNoteParent(ElectronicInvoiceRejectDocument document, Note newNote) {
         //get the property name to set (this assumes this is a document type note)
         String propertyName = SpringContext.getBean(NoteService.class).extractNoteProperty(newNote);
         //get BO to set
@@ -798,7 +798,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         return eInvoiceRejectDocument;
     }
     
-    private void addRejectReasonsToNote(String rejectReasons, ElectronicInvoiceRejectDocument eInvoiceRejectDocument){
+    protected void addRejectReasonsToNote(String rejectReasons, ElectronicInvoiceRejectDocument eInvoiceRejectDocument){
 
         try {
             Note note = SpringContext.getBean(DocumentService.class).createNoteFromDocument(eInvoiceRejectDocument, rejectReasons);
@@ -810,7 +810,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
     }
     
     
-    private String generateRejectDocumentDescription(ElectronicInvoice eInvoice,
+    protected String generateRejectDocumentDescription(ElectronicInvoice eInvoice,
                                                      ElectronicInvoiceOrder electronicInvoiceOrder){
         
         String poID = StringUtils.isEmpty(electronicInvoiceOrder.getInvoicePurchaseOrderID()) ?
@@ -826,7 +826,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         return checkDescriptionLengthAndStripIfNeeded(description);
     }
     
-    private String generateRejectDocumentDescription(ElectronicInvoiceRejectDocument rejectDoc) {
+    protected String generateRejectDocumentDescription(ElectronicInvoiceRejectDocument rejectDoc) {
 
         String poID = StringUtils.isEmpty(rejectDoc.getInvoicePurchaseOrderNumber()) ? 
                       "UNKNOWN" : 
@@ -842,7 +842,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         return checkDescriptionLengthAndStripIfNeeded(description);
     }
     
-    private String checkDescriptionLengthAndStripIfNeeded(String description){
+    protected String checkDescriptionLengthAndStripIfNeeded(String description){
         
         int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KNSPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
 
@@ -891,7 +891,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
       
     }
     
-    private StringBuffer saveLoadSummary(ElectronicInvoiceLoad eInvoiceLoad) {
+    protected StringBuffer saveLoadSummary(ElectronicInvoiceLoad eInvoiceLoad) {
 
         Map savedLoadSummariesMap = new HashMap();
         StringBuffer summaryMessage = new StringBuffer();
@@ -934,7 +934,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         return summaryMessage;
     }
     
-    private void routeRejectDocument(ElectronicInvoiceRejectDocument rejectDoc,
+    protected void routeRejectDocument(ElectronicInvoiceRejectDocument rejectDoc,
                                      Map savedLoadSummariesMap){
         
         LOG.info("Saving Invoice Reject for DUNS '" + rejectDoc.getVendorDunsNumber() + "'");
@@ -955,7 +955,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
     }
     
-    private void sendSummary(StringBuffer message) {
+    protected void sendSummary(StringBuffer message) {
 
         String fromMailId = SpringContext.getBean(ParameterService.class).getParameterValue(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.DAILY_SUMMARY_REPORT_FROM_EMAIL_ADDRESS);
         List<String> toMailIds = SpringContext.getBean(ParameterService.class).getParameterValues(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.DAILY_SUMMARY_REPORT_TO_EMAIL_ADDRESSES);
@@ -982,7 +982,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
     }
     
-    private MailMessage setMessageToAddressesAndSubject(MailMessage message, List<String> toAddressList) {
+    protected MailMessage setMessageToAddressesAndSubject(MailMessage message, List<String> toAddressList) {
         
         if (!toAddressList.isEmpty()) {
             for (int i = 0; i < toAddressList.size(); i++) {
@@ -1051,7 +1051,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
     }
     
-    private PaymentRequestDocument createPaymentRequest(ElectronicInvoiceOrderHolder orderHolder){
+    protected PaymentRequestDocument createPaymentRequest(ElectronicInvoiceOrderHolder orderHolder){
         
         if (LOG.isInfoEnabled()){
             LOG.info("Creating Payment Request document");
@@ -1202,7 +1202,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         return preqDoc;
     }
     
-    private void addShipToNotes(PaymentRequestDocument preqDoc, 
+    protected void addShipToNotes(PaymentRequestDocument preqDoc, 
                                 ElectronicInvoiceOrderHolder orderHolder){
         
         String shipToAddress = orderHolder.getInvoiceShipToAddressAsString();
@@ -1215,7 +1215,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         }
     }
     
-    private void processItemsForDiscount(PaymentRequestDocument preqDocument, 
+    protected void processItemsForDiscount(PaymentRequestDocument preqDocument, 
                                          ElectronicInvoiceOrderHolder orderHolder){
         
         if (LOG.isInfoEnabled()){
@@ -1316,7 +1316,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
     }
     
-    private void populateItemDetails(PaymentRequestDocument preqDocument, ElectronicInvoiceOrderHolder orderHolder) {
+    protected void populateItemDetails(PaymentRequestDocument preqDocument, ElectronicInvoiceOrderHolder orderHolder) {
 
         if (LOG.isInfoEnabled()) {
             LOG.info("Populating invoice order items into the payment request document");
@@ -1357,7 +1357,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
 
     }
     
-    private void processAboveTheLineItem(PaymentRequestItem purapItem,
+    protected void processAboveTheLineItem(PaymentRequestItem purapItem,
                                          ElectronicInvoiceOrderHolder orderHolder){
 
         if (LOG.isInfoEnabled()){
@@ -1398,7 +1398,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
     }
     
-    private void processSpecialHandlingItem(PaymentRequestItem purapItem,
+    protected void processSpecialHandlingItem(PaymentRequestItem purapItem,
                                             ElectronicInvoiceOrderHolder orderHolder){
         
         if (LOG.isInfoEnabled()){
@@ -1421,7 +1421,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
     }
     
-    private void processTaxItem (PaymentRequestItem preqItem,
+    protected void processTaxItem (PaymentRequestItem preqItem,
                                  ElectronicInvoiceOrderHolder orderHolder){
         
         if (LOG.isInfoEnabled()){
@@ -1441,7 +1441,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
     }
     
-    private void processShippingItem(PaymentRequestItem preqItem,
+    protected void processShippingItem(PaymentRequestItem preqItem,
                                                    ElectronicInvoiceOrderHolder orderHolder){
         
         if (LOG.isInfoEnabled()){
@@ -1461,7 +1461,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
     }
     
-    private void processDepositItem(PaymentRequestItem preqItem,
+    protected void processDepositItem(PaymentRequestItem preqItem,
                                     ElectronicInvoiceOrderHolder orderHolder){
 
         LOG.info("Processing Deposit Item");
@@ -1471,7 +1471,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
     }
     
-    private void processDueItem(PaymentRequestItem preqItem,
+    protected void processDueItem(PaymentRequestItem preqItem,
                                 ElectronicInvoiceOrderHolder orderHolder){
 
         LOG.info("Processing Deposit Item");
@@ -1481,7 +1481,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
     }
     
-    private void setItemDefaultDescription(PaymentRequestItem preqItem){
+    protected void setItemDefaultDescription(PaymentRequestItem preqItem){
         
         //If description is empty and item is not type "ITEM"... use default description
         if (StringUtils.isEmpty(preqItem.getItemDescription()) &&
@@ -1492,7 +1492,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         }
     }
     
-    private boolean isItemValidForUpdation(String itemTypeCode,
+    protected boolean isItemValidForUpdation(String itemTypeCode,
                                            String invoiceItemTypeCode,
                                            ElectronicInvoiceOrderHolder orderHolder){
         
@@ -1501,7 +1501,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
     }
      
     
-    private String generatePREQDocumentDescription(PurchaseOrderDocument poDocument) {
+    protected String generatePREQDocumentDescription(PurchaseOrderDocument poDocument) {
         String description = "PO: " + poDocument.getPurapDocumentIdentifier() + " Vendor: " + poDocument.getVendorName() + " Electronic Invoice";
         return checkDescriptionLengthAndStripIfNeeded(description);
     }
@@ -1551,7 +1551,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
     }
     
-    private void moveFileList(Map filesToMove) {
+    protected void moveFileList(Map filesToMove) {
         for (Iterator iter = filesToMove.keySet().iterator(); iter.hasNext();) {
             File fileToMove = (File) iter.next();
 
@@ -1563,28 +1563,28 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         }
     }
 
-    private boolean moveFile(File fileForMove, String location) {
+    protected boolean moveFile(File fileForMove, String location) {
         File moveDir = new File(location);
         return fileForMove.renameTo(new File(moveDir, fileForMove.getName()));
     }
 
-    private String getBaseDirName(){
+    protected String getBaseDirName(){
         return electronicInvoiceInputFileType.getDirectoryPath() + File.separator;
     }
     
-    private String getRejectDirName(){
+    protected String getRejectDirName(){
         return getBaseDirName() + "reject" + File.separator;
     }
     
-    private String getAcceptDirName(){
+    protected String getAcceptDirName(){
         return getBaseDirName() + "accept" + File.separator;
     }
     
-    private File getInvoiceFile(String fileName){
+    protected File getInvoiceFile(String fileName){
         return new File(getBaseDirName() + fileName);
     }
     
-    private ElectronicInvoiceLoadSummary saveElectronicInvoiceLoadSummary(ElectronicInvoiceLoadSummary eils) {
+    protected ElectronicInvoiceLoadSummary saveElectronicInvoiceLoadSummary(ElectronicInvoiceLoadSummary eils) {
         return electronicInvoicingDao.saveElectronicInvoiceLoadSummary(eils);
     }
     

@@ -93,7 +93,7 @@ public class ReceivingDaoOjb extends PlatformAwareDaoBaseOjb implements Receivin
      * @param orderByAscending - boolean to sort results ascending if true, descending otherwise
      * @return - Iterator of document numbers
      */
-    private Iterator<Object[]> getDocumentNumbersOfReceivingLineByCriteria(Criteria criteria, boolean orderByAscending) {
+    protected Iterator<Object[]> getDocumentNumbersOfReceivingLineByCriteria(Criteria criteria, boolean orderByAscending) {
         
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(LineItemReceivingDocument.class, criteria);
         rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
@@ -106,7 +106,7 @@ public class ReceivingDaoOjb extends PlatformAwareDaoBaseOjb implements Receivin
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
     }
 
-    private Iterator<Object[]> getDocumentNumbersOfCorrectionReceivingByCriteria(Criteria criteria, boolean orderByAscending) {
+    protected Iterator<Object[]> getDocumentNumbersOfCorrectionReceivingByCriteria(Criteria criteria, boolean orderByAscending) {
         
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(CorrectionReceivingDocument.class, criteria);
         rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });

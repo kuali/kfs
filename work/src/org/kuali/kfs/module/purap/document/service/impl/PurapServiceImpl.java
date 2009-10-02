@@ -374,7 +374,7 @@ public class PurapServiceImpl implements PurapService {
      * @param existingItems
      * @param belowTheLine
      */
-    private void sortBelowTheLine(String[] itemTypes, List<PurApItem> existingItems, List<PurApItem> belowTheLine) {
+    protected void sortBelowTheLine(String[] itemTypes, List<PurApItem> existingItems, List<PurApItem> belowTheLine) {
         LOG.debug("sortBelowTheLine() started");
 
         // sort existing below the line if any
@@ -699,7 +699,7 @@ public class PurapServiceImpl implements PurapService {
      * @param preqId
      * @return Note to be saved
      */
-    private String assemblePurchaseOrderNote(AccountsPayableDocumentBase apDocument, String docType, String action) {
+    protected String assemblePurchaseOrderNote(AccountsPayableDocumentBase apDocument, String docType, String action) {
         LOG.debug("assemblePurchaseOrderNote() started");
 
         String documentLabel = dataDictionaryService.getDocumentLabelByClass(apDocument.getClass());
@@ -890,7 +890,7 @@ public class PurapServiceImpl implements PurapService {
           return null;
       }
       
-      private String getDeliveryPostalCode(PurchasingAccountsPayableDocument purapDocument){
+      protected String getDeliveryPostalCode(PurchasingAccountsPayableDocument purapDocument){
           if (purapDocument instanceof PurchasingDocument){
               PurchasingDocument document = (PurchasingDocument)purapDocument; 
               return document.getDeliveryPostalCode();
@@ -949,7 +949,7 @@ public class PurapServiceImpl implements PurapService {
      * @param item
      * @return
      */
-    private boolean doesCommodityAllowCallToTaxService(PurApItem item) {
+    protected boolean doesCommodityAllowCallToTaxService(PurApItem item) {
         boolean callService = true;
 
         // only check for commodity code on above the line times (additional charges don't allow commodity code)
@@ -970,7 +970,7 @@ public class PurapServiceImpl implements PurapService {
         return callService;
     }
 
-    private boolean isCommodityCodeTaxable(CommodityCode commodityCode){
+    protected boolean isCommodityCodeTaxable(CommodityCode commodityCode){
         boolean isTaxable = true;
         
         if(ObjectUtils.isNotNull(commodityCode)){                
@@ -1000,7 +1000,7 @@ public class PurapServiceImpl implements PurapService {
      * @param item
      * @return
      */
-    private boolean doesAccountAllowCallToTaxService(String deliveryState, PurApItem item) {
+    protected boolean doesAccountAllowCallToTaxService(String deliveryState, PurApItem item) {
         boolean callService = false;
         boolean deliveryStateTaxable = isDeliveryStateTaxable(deliveryState);       
 
@@ -1044,7 +1044,7 @@ public class PurapServiceImpl implements PurapService {
      * @param acctLine
      * @return
      */
-    private boolean isAccountTaxable(String parameterSuffix, PurApAccountingLine acctLine){
+    protected boolean isAccountTaxable(String parameterSuffix, PurApAccountingLine acctLine){
         
         boolean isAccountTaxable = false;
         String fundParam = TaxParameters.TAXABLE_FUND_GROUPS_PREFIX + parameterSuffix;
@@ -1078,7 +1078,7 @@ public class PurapServiceImpl implements PurapService {
      * @param acctLine
      * @return
      */
-    private boolean isObjectCodeTaxable(String parameterSuffix, PurApAccountingLine acctLine){
+    protected boolean isObjectCodeTaxable(String parameterSuffix, PurApAccountingLine acctLine){
         
         boolean isObjectCodeTaxable = false;
         String levelParam = TaxParameters.TAXABLE_OBJECT_LEVELS_PREFIX + parameterSuffix;
@@ -1109,7 +1109,7 @@ public class PurapServiceImpl implements PurapService {
      * @param eval
      * @return
      */
-    private boolean isAllowedFound(ParameterEvaluator eval) {
+    protected boolean isAllowedFound(ParameterEvaluator eval) {
         boolean exists = false;
 
         if (eval.evaluationSucceeds() && eval.constraintIsAllow()) {
@@ -1125,7 +1125,7 @@ public class PurapServiceImpl implements PurapService {
      * @param eval
      * @return
      */
-    private boolean isAllowedNotFound(ParameterEvaluator eval) {
+    protected boolean isAllowedNotFound(ParameterEvaluator eval) {
         boolean exists = false;
 
         if (eval.evaluationSucceeds() == false && eval.constraintIsAllow()) {
@@ -1141,7 +1141,7 @@ public class PurapServiceImpl implements PurapService {
      * @param eval
      * @return
      */
-    private boolean isDeniedFound(ParameterEvaluator eval) {
+    protected boolean isDeniedFound(ParameterEvaluator eval) {
         boolean exists = false;
 
         if (eval.evaluationSucceeds() == false && eval.constraintIsAllow() == false) {
@@ -1157,7 +1157,7 @@ public class PurapServiceImpl implements PurapService {
      * @param eval
      * @return
      */
-    private boolean isDeniedNotFound(ParameterEvaluator eval) {
+    protected boolean isDeniedNotFound(ParameterEvaluator eval) {
         boolean exists = false;
 
         if (eval.evaluationSucceeds() && eval.constraintIsAllow() == false) {
@@ -1175,7 +1175,7 @@ public class PurapServiceImpl implements PurapService {
      * @param itemUseTaxClass
      */
     @SuppressWarnings("unchecked")
-    private void calculateItemTax(boolean useTaxIndicator, 
+    protected void calculateItemTax(boolean useTaxIndicator, 
                                   String deliveryPostalCode, 
                                   Date transactionTaxDate, 
                                   PurApItem item,

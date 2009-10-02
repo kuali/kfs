@@ -439,7 +439,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      * @param cmDoc            The credit memo document to be updated.
      * @return                 The string representing the canceledStatusCode, if empty it is assumed to be not from workflow. 
      */
-    private String updateStatusByNode(String currentNodeName, VendorCreditMemoDocument cmDoc) {
+    protected String updateStatusByNode(String currentNodeName, VendorCreditMemoDocument cmDoc) {
         // update the status on the document
 
         String cancelledStatusCode = "";
@@ -832,7 +832,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      * 
      * @param cmDocument - Credit Memo Document to Populate
      */
-    private void populateDocumentDescription(VendorCreditMemoDocument cmDocument) {
+    protected void populateDocumentDescription(VendorCreditMemoDocument cmDocument) {
         String description = "";
         if (cmDocument.isSourceVendor()) {
             description = "Vendor: " + cmDocument.getVendorName();

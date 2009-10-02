@@ -34,8 +34,8 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class RelatedDocumentDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
-    private static final String SOURCE_DOCUMENT_ROUTER_ROLE_NAME = "Source Document Router";
-    private static final String SENSITIVE_RELATED_DOCUMENT_INITATOR_OR_REVIEWER_ROLE_NAME = "Sensitive Related Document Initiator Or Reviewer";
+    protected static final String SOURCE_DOCUMENT_ROUTER_ROLE_NAME = "Source Document Router";
+    protected static final String SENSITIVE_RELATED_DOCUMENT_INITATOR_OR_REVIEWER_ROLE_NAME = "Sensitive Related Document Initiator Or Reviewer";
 
     private DocumentService documentService;
     private PurapService purapService;

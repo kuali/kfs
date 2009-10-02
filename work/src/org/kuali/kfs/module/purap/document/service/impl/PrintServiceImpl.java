@@ -56,8 +56,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PrintServiceImpl implements PrintService {
     private static Log LOG = LogFactory.getLog(PrintServiceImpl.class);
-    private static final boolean TRANSMISSION_IS_RETRANSMIT = true;
-    private static final boolean TRANSMISSION_IS_NOT_RETRANSMIT = !TRANSMISSION_IS_RETRANSMIT;
+    protected static final boolean TRANSMISSION_IS_RETRANSMIT = true;
+    protected static final boolean TRANSMISSION_IS_NOT_RETRANSMIT = !TRANSMISSION_IS_RETRANSMIT;
 
     private ImageDao imageDao;
     private ParameterService parameterService;
@@ -126,7 +126,7 @@ public class PrintServiceImpl implements PrintService {
      * @param po  The PurchaseOrderDocument object to be used to obtain the PurchaseOrderPdfParameters.
      * @return    The PurchaseOrderPdfParameters given the PurchaseOrderDocument.
      */
-    private PurchaseOrderPdfParameters getPurchaseOrderQuotePdfParameters(PurchaseOrderDocument po) {
+    protected PurchaseOrderPdfParameters getPurchaseOrderQuotePdfParameters(PurchaseOrderDocument po) {
         String key = po.getPurapDocumentIdentifier().toString(); // key can be any string; chose to use the PO number.
         String campusCode = po.getDeliveryCampusCode().toLowerCase();
         String imageTempLocation = "";
@@ -182,7 +182,7 @@ public class PrintServiceImpl implements PrintService {
      * @param po  The PurchaseOrderDocument object to be used to obtain the PurchaseOrderPdfParameters.
      * @return    The PurchaseOrderPdfParameters given the PurchaseOrderDocument.
      */
-    private PurchaseOrderPdfParameters getPurchaseOrderQuoteRequestsListPdfParameters(PurchaseOrderDocument po) {
+    protected PurchaseOrderPdfParameters getPurchaseOrderQuoteRequestsListPdfParameters(PurchaseOrderDocument po) {
         String key = po.getPurapDocumentIdentifier().toString(); // key can be any string; chose to use the PO number.
         String campusCode = po.getDeliveryCampusCode().toLowerCase();
         String imageTempLocation = "";
@@ -302,7 +302,7 @@ public class PrintServiceImpl implements PrintService {
      * @param po  The PurchaseOrderDocument object to be used to obtain the PurchaseOrderPdfParameters.
      * @return    The PurchaseOrderPdfParameters given the PurchaseOrderDocument.
      */
-    private PurchaseOrderPdfParameters getPurchaseOrderPdfParameters(PurchaseOrderDocument po) {
+    protected PurchaseOrderPdfParameters getPurchaseOrderPdfParameters(PurchaseOrderDocument po) {
         String key = po.getPurapDocumentIdentifier().toString(); // key can be any string; chose to use the PO number.
         String campusCode = po.getDeliveryCampusCode().toLowerCase();
         String imageTempLocation = "";
@@ -390,7 +390,7 @@ public class PrintServiceImpl implements PrintService {
      * @param retransmitItems        The items selected by the user to be retransmitted.
      * @return                       Collection of error strings.
      */
-    private Collection generatePurchaseOrderPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, boolean isRetransmit, String environment, List<PurchaseOrderItem> retransmitItems) {
+    protected Collection generatePurchaseOrderPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, boolean isRetransmit, String environment, List<PurchaseOrderItem> retransmitItems) {
         LOG.debug("generatePurchaseOrderPdf() started");
 
         PurchaseOrderPdf poPdf = new PurchaseOrderPdf();
@@ -437,7 +437,7 @@ public class PrintServiceImpl implements PrintService {
      * @param environment   The current environment used (e.g. DEV if it is a development environment).
      * @return              Collection of error strings.
      */
-    private Collection savePurchaseOrderPdf(PurchaseOrderDocument po, boolean isRetransmit, String environment) {
+    protected Collection savePurchaseOrderPdf(PurchaseOrderDocument po, boolean isRetransmit, String environment) {
         LOG.debug("savePurchaseOrderPdf() started");
 
         PurchaseOrderPdf poPdf = new PurchaseOrderPdf();

@@ -64,7 +64,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
      * @param annotation
      * @throws WorkflowException
      */
-    private void superUserApproveAllActionRequests(Person superUser, Long documentNumber, String nodeName, Person user, String annotation) throws WorkflowException {
+    protected void superUserApproveAllActionRequests(Person superUser, Long documentNumber, String nodeName, Person user, String annotation) throws WorkflowException {
         KualiWorkflowDocument workflowDoc = workflowDocumentService.createWorkflowDocument(documentNumber, superUser);
         List<ActionRequestDTO> actionRequests = getActiveActionRequestsForCriteria(documentNumber, nodeName, user);
         for (ActionRequestDTO actionRequestDTO : actionRequests) {
@@ -166,7 +166,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
      * @return List of action requests
      * @throws WorkflowException
      */
-    private List<ActionRequestDTO> getActiveActionRequestsForCriteria(Long documentNumber, String nodeName, Person user) throws WorkflowException {
+    protected List<ActionRequestDTO> getActiveActionRequestsForCriteria(Long documentNumber, String nodeName, Person user) throws WorkflowException {
         if (ObjectUtils.isNull(documentNumber)) {
             // throw exception
         }
@@ -236,7 +236,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
      * @param givenNodeDetail
      * @return boolean to indicate if given node is after the current node
      */
-    private boolean isGivenNodeAfterCurrentNode(NodeDetails currentNodeDetail, NodeDetails givenNodeDetail) {
+    protected boolean isGivenNodeAfterCurrentNode(NodeDetails currentNodeDetail, NodeDetails givenNodeDetail) {
         if (ObjectUtils.isNull(givenNodeDetail)) {
             // given node does not exist
             return false;
@@ -248,7 +248,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
         return givenNodeDetail.getOrdinal() > currentNodeDetail.getOrdinal();
     }
     
-    private WorkflowInfo getWorkflowInfo() {
+    protected WorkflowInfo getWorkflowInfo() {
         if (workflowInfo == null) {
             workflowInfo = new WorkflowInfo();
         }

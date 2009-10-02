@@ -120,7 +120,7 @@ public class ElectronicInvoiceOrderHolder {
         
     }
     
-    private void retainSummaryRejects(ElectronicInvoiceRejectDocument rejectDocument){
+    protected void retainSummaryRejects(ElectronicInvoiceRejectDocument rejectDocument){
         
         if (LOG.isInfoEnabled()){
             LOG.info("Searching for summary rejects");
@@ -735,7 +735,7 @@ public class ElectronicInvoiceOrderHolder {
         }
     }
     
-    private class FieldErrorHelper {
+    protected class FieldErrorHelper {
         
         private String fieldName;
         private String applicationResourceKeyName;

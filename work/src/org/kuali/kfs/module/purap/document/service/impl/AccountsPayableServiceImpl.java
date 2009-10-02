@@ -190,7 +190,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
      * @param accounts  The HashMap where the keys are the string representations of the chart and account of the 
      *                  original account and the values are the ExpiredOrClosedAccountEntry.
      */
-    private void addContinuationAccountsNote(AccountsPayableDocument document, HashMap<String, ExpiredOrClosedAccountEntry> accounts) {
+    protected void addContinuationAccountsNote(AccountsPayableDocument document, HashMap<String, ExpiredOrClosedAccountEntry> accounts) {
         String noteText;
         StringBuffer sb = new StringBuffer("");
         ExpiredOrClosedAccountEntry accountEntry = null;
@@ -237,7 +237,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
      * @return          The HashMap where the keys are the string representations of the chart
      *                  and account of the original account and the values are the ExpiredOrClosedAccountEntry.
      */
-    private HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountsList(AccountsPayableDocument document) {
+    protected HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountsList(AccountsPayableDocument document) {
 
         HashMap<String, ExpiredOrClosedAccountEntry> list = new HashMap<String, ExpiredOrClosedAccountEntry>();
         ExpiredOrClosedAccountEntry entry = null;
@@ -424,7 +424,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
      * @param ecAccount  The account whose chart and account number we're going to use to create the resulting String for this method.
      * @return           The string representing the chart and account number of the given ecAccount.
      */
-    private String createChartAccountString(ExpiredOrClosedAccount ecAccount) {
+    protected String createChartAccountString(ExpiredOrClosedAccount ecAccount) {
         StringBuffer buff = new StringBuffer("");
 
         buff.append(ecAccount.getChartOfAccountsCode());
@@ -441,7 +441,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
      * @param user      The current user.
      * @return          boolean true if the user is a fiscal officer.
      */
-    private boolean isFiscalUser(AccountsPayableDocument document, Person user) {
+    protected boolean isFiscalUser(AccountsPayableDocument document, Person user) {
         boolean isFiscalUser = false;
 
         if (PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(document.getStatusCode()) && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
@@ -458,7 +458,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
      * @param user      The current user.
      * @return          boolean true if the user is an AP User.
      */
-    private boolean isAPUser(AccountsPayableDocument document, Person user) {
+    protected boolean isAPUser(AccountsPayableDocument document, Person user) {
         boolean isFiscalUser = false;
 
         if ((PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(document.getStatusCode()) && 
@@ -619,7 +619,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
      * @param sourceItem   The purchase order item from which we're getting the unit price, catalog number and description to be set in the destItem.
      * @param destItem     The payment request item to which we're setting the unit price, catalog number and description.
      */
-    private void updatePossibleAmmendedFields(PurchaseOrderItem sourceItem, PaymentRequestItem destItem) {
+    protected void updatePossibleAmmendedFields(PurchaseOrderItem sourceItem, PaymentRequestItem destItem) {
         destItem.setPurchaseOrderItemUnitPrice(sourceItem.getItemUnitPrice());
         destItem.setItemCatalogNumber(sourceItem.getItemCatalogNumber());
         destItem.setItemDescription(sourceItem.getItemDescription());
@@ -632,7 +632,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
      * @param poItem    The purchase order item from which we're obtaining the invoice total quantity, unit price and invoice total amount.
      * @param cmItem    The credit memo item whose invoice total quantity, unit price and extended price are to be updated.
      */
-    private void updateEncumberances(PaymentRequestItem preqItem, PurchaseOrderItem poItem, CreditMemoItem cmItem) {
+    protected void updateEncumberances(PaymentRequestItem preqItem, PurchaseOrderItem poItem, CreditMemoItem cmItem) {
         if (poItem.getItemInvoicedTotalQuantity() != null && preqItem.getItemQuantity() != null && poItem.getItemInvoicedTotalQuantity().isLessThan(preqItem.getItemQuantity())) {
             cmItem.setPreqInvoicedTotalQuantity(poItem.getItemInvoicedTotalQuantity());
             cmItem.setPreqUnitPrice(poItem.getItemUnitPrice());
@@ -651,7 +651,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
      * @param purchaseOrderItem  The purchase order item from which we're obtaining the invoice total quantity, unit price and invoice total amount.
      * @param cmItem             The credit memo item whose invoice total quantity, unit price and extended price are to be updated.
      */
-    private void updateEncumberance(PurchaseOrderItem purchaseOrderItem, CreditMemoItem cmItem) {
+    protected void updateEncumberance(PurchaseOrderItem purchaseOrderItem, CreditMemoItem cmItem) {
         cmItem.setPoInvoicedTotalQuantity(purchaseOrderItem.getItemInvoicedTotalQuantity());
         cmItem.setPreqUnitPrice(purchaseOrderItem.getItemUnitPrice());
         cmItem.setPoTotalAmount(purchaseOrderItem.getItemInvoicedTotalAmount());

@@ -254,7 +254,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * 
      * @param document The purchase order document to be saved.
      */
-    private void saveDocumentNoValidationUsingClearErrorMap(PurchaseOrderDocument document) {
+    protected void saveDocumentNoValidationUsingClearErrorMap(PurchaseOrderDocument document) {
         MessageMap errorHolder = GlobalVariables.getMessageMap();
         GlobalVariables.setMessageMap(new MessageMap());
         try {
@@ -270,7 +270,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * 
      * @param document The document to be saved.
      */
-    private void saveDocumentStandardSave(PurchaseOrderDocument document) {
+    protected void saveDocumentStandardSave(PurchaseOrderDocument document) {
         try {
             documentService.saveDocument(document);
         }
@@ -365,7 +365,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @return The purchase order document created by this method.
      * @throws WorkflowException
      */
-    private PurchaseOrderDocument generatePurchaseOrderFromRequisition(RequisitionDocument reqDocument) throws WorkflowException {
+    protected PurchaseOrderDocument generatePurchaseOrderFromRequisition(RequisitionDocument reqDocument) throws WorkflowException {
         PurchaseOrderDocument poDocument = null;
         poDocument = (PurchaseOrderDocument) documentService.getNewDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT);
         poDocument.populatePurchaseOrderFromRequisition(reqDocument);
@@ -452,7 +452,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param errorKey The resource key used to retrieve the error text from the error message resource bundle.
      * @param errors The collection of error messages.
      */
-    private void addStringErrorMessagesToErrorMap(String errorKey, Collection<String> errors) {
+    protected void addStringErrorMessagesToErrorMap(String errorKey, Collection<String> errors) {
         if (ObjectUtils.isNotNull(errors)) {
             for (String error : errors) {
                 LOG.error("Adding error message using error key '" + errorKey + "' with text '" + error + "'");
@@ -590,7 +590,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @return the new Purchase Order Document of the given document type or null if the given source document is null
      * @throws WorkflowException if a new document cannot be created using the given type
      */
-    private PurchaseOrderDocument createPurchaseOrderDocumentFromSourceDocument(PurchaseOrderDocument sourceDocument, String docType) throws WorkflowException {
+    protected PurchaseOrderDocument createPurchaseOrderDocumentFromSourceDocument(PurchaseOrderDocument sourceDocument, String docType) throws WorkflowException {
         if (ObjectUtils.isNull(sourceDocument)) {
             String errorMsg = "Attempting to create new PO of type '" + docType + "' from source PO doc that is null";
             LOG.error(errorMsg);
@@ -630,7 +630,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return newPurchaseOrderChangeDocument;
     }
 
-    private void updateCapitalAssetRelatedCollections(PurchaseOrderDocument newDocument) {
+    protected void updateCapitalAssetRelatedCollections(PurchaseOrderDocument newDocument) {
  
         for (PurchasingCapitalAssetItem capitalAssetItem : newDocument.getPurchasingCapitalAssetItems()) {
             Integer lineNumber = capitalAssetItem.getPurchasingItem().getItemLineNumber();
@@ -638,16 +638,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             capitalAssetItem.setItemIdentifier(newItem.getItemIdentifier());
             capitalAssetItem.setPurchasingDocument(newDocument);
             capitalAssetItem.setCapitalAssetSystemIdentifier(null);
-//            if (capitalAssetItem.getPurchasingCapitalAssetSystem() != null) {
-//                for (CapitalAssetLocation loc : capitalAssetItem.getPurchasingCapitalAssetSystem().getCapitalAssetLocations()) {
-//                    //loc.setCapitalAssetLocationIdentifier(null);
-//                    loc.setCapitalAssetSystemIdentifier(null);
-//                }
-//                for (ItemCapitalAsset asset : capitalAssetItem.getPurchasingCapitalAssetSystem().getItemCapitalAssets()) {
-//                    //asset.setItemCapitalAssetIdentifier(null);
-//                    asset.setCapitalAssetSystemIdentifier(null);
-//                }
-//            }
             CapitalAssetSystem oldSystem = capitalAssetItem.getPurchasingCapitalAssetSystem();
             capitalAssetItem.setPurchasingCapitalAssetSystem(new PurchaseOrderCapitalAssetSystem(oldSystem));
             
@@ -828,7 +818,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * 
      * @return A Set<Class> 
      */
-    private Set<Class> getClassesToExcludeFromCopy() {
+    protected Set<Class> getClassesToExcludeFromCopy() {
         Set<Class> classesToExclude = new HashSet<Class>();
         Class sourceObjectClass = DocumentBase.class;
         classesToExclude.add(sourceObjectClass);
@@ -846,7 +836,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @return The current route node name.
      * @throws WorkflowException
      */
-    private String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
+    protected String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
         String[] nodeNames = wd.getNodeNames();
         if ((nodeNames == null) || (nodeNames.length == 0)) {
             return null;
@@ -903,7 +893,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     }
 
-    private boolean completeB2BPurchaseOrder(PurchaseOrderDocument po) {
+    protected boolean completeB2BPurchaseOrder(PurchaseOrderDocument po) {
         String errors = b2bPurchaseOrderService.sendPurchaseOrder(po);
         if (StringUtils.isEmpty(errors)) {
             //PO sent successfully; change status to OPEN
@@ -1069,7 +1059,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param documentNumber
      * @param poID
      */
-    private void addNoteForCommodityCodeToVendor(Maintainable maintainable, String documentNumber, Integer poID) {
+    protected void addNoteForCommodityCodeToVendor(Maintainable maintainable, String documentNumber, Integer poID) {
         Note newBONote = new Note();
         newBONote.setNoteText("Change vendor document ID <" + documentNumber + ">. Document was automatically created from PO <" + poID + "> to add commodity codes used on this PO that were not yet assigned to this vendor.");
         try {
@@ -1087,7 +1077,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param document The MaintenanceDocument containing the vendor.
      * @return boolean true if the vendor is currently locked and false otherwise.
      */
-    private boolean checkForLockingDocument(MaintenanceDocument document) {
+    protected boolean checkForLockingDocument(MaintenanceDocument document) {
         String blockingDocId = maintenanceDocumentService.getLockingDocumentId(document);
         if (StringUtils.isBlank(blockingDocId)) {
             return false;
@@ -1150,7 +1140,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * 
      * @param po The purchase order document whose status to be updated.
      */
-    private void setupDocumentForPendingFirstTransmission(PurchaseOrderDocument po) {
+    protected void setupDocumentForPendingFirstTransmission(PurchaseOrderDocument po) {
         if (POTransmissionMethods.PRINT.equals(po.getPurchaseOrderTransmissionMethodCode()) || POTransmissionMethods.FAX.equals(po.getPurchaseOrderTransmissionMethodCode()) || POTransmissionMethods.ELECTRONIC.equals(po.getPurchaseOrderTransmissionMethodCode())) {
             String newStatusCode = PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.get(po.getPurchaseOrderTransmissionMethodCode());
             LOG.debug("setupDocumentForPendingFirstTransmission() Purchase Order Transmission Type is '" + po.getPurchaseOrderTransmissionMethodCode() + "' setting status to '" + newStatusCode + "'");
@@ -1164,7 +1154,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * 
      * @param po The purchase order document whose initial open date and status we want to update.
      */
-    private void attemptSetupOfInitialOpenOfDocument(PurchaseOrderDocument po) {
+    protected void attemptSetupOfInitialOpenOfDocument(PurchaseOrderDocument po) {
         LOG.debug("attemptSetupOfInitialOpenOfDocument() started using document with doc id " + po.getDocumentNumber());
 
         if (!PurchaseOrderStatuses.OPEN.equals(po.getStatusCode())) {
@@ -1251,7 +1241,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param documentBusinessObject The oldest purchase order whose purapDocumentIdentifier is the same as the po's
      *        purapDocumentIdentifier.
      */
-    private void updateNotes(PurchaseOrderDocument po, PurchaseOrderDocument documentBusinessObject) {
+    protected void updateNotes(PurchaseOrderDocument po, PurchaseOrderDocument documentBusinessObject) {
         if (ObjectUtils.isNotNull(documentBusinessObject)) {
             if (ObjectUtils.isNotNull(po.getObjectId())) {
                 List<Note> dbNotes = noteService.getByRemoteObjectId(po.getObjectId());
@@ -1273,7 +1263,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      *        purapDocumentIdentifier.
      * @param dbNotes The notes of the purchase order obtained from the database.
      */
-    private void fixDbNoteFields(PurchaseOrderDocument documentBusinessObject, List<Note> dbNotes) {
+    protected void fixDbNoteFields(PurchaseOrderDocument documentBusinessObject, List<Note> dbNotes) {
         for (int i = 0; i < dbNotes.size(); i++) {
             Note dbNote = dbNotes.get(i);
             List<Note> currentNotes = (List<Note>) documentBusinessObject.getBoNotes();
@@ -1375,7 +1365,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param newPOStatus The status to be set on the new change purchase order document.
      * @param oldPOStatus The status to be set on the existing (old) purchase order document.
      */
-    private void updateCurrentDocumentForNoPendingAction(PurchaseOrderDocument newPO, String newPOStatus, String oldPOStatus) {
+    protected void updateCurrentDocumentForNoPendingAction(PurchaseOrderDocument newPO, String newPOStatus, String oldPOStatus) {
         // Get the "current PO" that's in the database, i.e. the PO row that contains current indicator = Y
         PurchaseOrderDocument oldPO = getCurrentPurchaseOrder(newPO.getPurapDocumentIdentifier());
         // Set the Pending indicator for the oldPO to N
@@ -1472,7 +1462,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * 
      * @param po
      */
-    private void sendFyiForNewUnorderedItems(PurchaseOrderDocument po){
+    protected void sendFyiForNewUnorderedItems(PurchaseOrderDocument po){
 
         List<AdHocRoutePerson> fyiList = createFyiFiscalOfficerListForNewUnorderedItems(po);
         String annotation = "Notification of New Unordered Items for Purchase Order" + po.getPurapDocumentIdentifier() + "(document id " + po.getDocumentNumber() + ")";
@@ -1498,7 +1488,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param po
      * @return
      */
-    private List<AdHocRoutePerson> createFyiFiscalOfficerListForNewUnorderedItems(PurchaseOrderDocument po){
+    protected List<AdHocRoutePerson> createFyiFiscalOfficerListForNewUnorderedItems(PurchaseOrderDocument po){
 
         List<AdHocRoutePerson> adHocRoutePersons = new ArrayList<AdHocRoutePerson>();
         Map fiscalOfficers = new HashMap();
@@ -1587,7 +1577,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param documentNumber  The documentNumber of the PurchaseOrderDocument containing the PurchaseOrderVendorQuote.
      * @return
      */
-    private PurchaseOrderVendorQuote populateAddressForPOVendorQuote(VendorDetail newVendor, String documentNumber) {
+    protected PurchaseOrderVendorQuote populateAddressForPOVendorQuote(VendorDetail newVendor, String documentNumber) {
         PurchaseOrderVendorQuote newPOVendorQuote = new PurchaseOrderVendorQuote();
         newPOVendorQuote.setVendorName(newVendor.getVendorName());
         newPOVendorQuote.setVendorHeaderGeneratedIdentifier(newVendor.getVendorHeaderGeneratedIdentifier());
@@ -1625,7 +1615,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * 
      * @param vendor The VendorDetail object whose default address we'll obtain and set the fields.
      */
-    private void updateDefaultVendorAddress(VendorDetail vendor) {
+    protected void updateDefaultVendorAddress(VendorDetail vendor) {
         VendorAddress defaultAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(vendor.getVendorAddresses(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
         if (defaultAddress != null ) {
             if (defaultAddress.getVendorState() != null) {
@@ -1814,7 +1804,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * 
      * @return Calendar object of today minus three months.
      */
-    private Calendar getTodayMinusThreeMonths() {
+    protected Calendar getTodayMinusThreeMonths() {
         Calendar todayMinusThreeMonths = Calendar.getInstance(); // Set to today.
         todayMinusThreeMonths.add(Calendar.MONTH, -3); // Back up 3 months.
         todayMinusThreeMonths.set(Calendar.HOUR, 12);
@@ -1834,7 +1824,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @return                The MailMessage object after the to addresses, from 
      *                        address and the subject have been set.
      */
-    private MailMessage setMessageAddressesAndSubject(MailMessage message, String parameterEmail) {
+    protected MailMessage setMessageAddressesAndSubject(MailMessage message, String parameterEmail) {
         String toAddressList[] = parameterEmail.split(";");
 
         if (toAddressList.length > 0) {
@@ -1863,7 +1853,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param message    The MailMessage object containing information to be sent.
      * @param emailBody  The String containing the body of the email to be sent.
      */
-    private void sendMessage(MailMessage message, String emailBody) {
+    protected void sendMessage(MailMessage message, String emailBody) {
         message.setMessage(emailBody);
         try {
             mailService.sendMessage(message);
@@ -1878,7 +1868,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * Resets the AUTO_CLOSE_RECURRING_ORDER_DT system parameter to "mm/dd/yyyy".
      * 
      */
-    private void resetAutoCloseRecurringOrderDateParameter() {
+    protected void resetAutoCloseRecurringOrderDateParameter() {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("parameterName", PurapParameterConstants.AUTO_CLOSE_RECURRING_PO_DATE);
         
@@ -1893,7 +1883,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * 
      * @return a List of excluded vendor choice codes
      */
-    private List<String> getExcludedVendorChoiceCodes() {
+    protected List<String> getExcludedVendorChoiceCodes() {
         List<String> excludedVendorChoiceCodes = new ArrayList<String>();
         for (int i = 0; i < PurapConstants.AUTO_CLOSE_EXCLUSION_VNDR_CHOICE_CODES.length; i++) {
             String excludedCode = PurapConstants.AUTO_CLOSE_EXCLUSION_VNDR_CHOICE_CODES[i];
@@ -1911,7 +1901,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param purchaseOrderDocument The purchase order document that is being closed by the batch job.
      * @param annotation            The string to appear on the note to be attached to the purchase order.
      */
-    private void createNoteForAutoCloseOrders(PurchaseOrderDocument purchaseOrderDocument, String annotation) {
+    protected void createNoteForAutoCloseOrders(PurchaseOrderDocument purchaseOrderDocument, String annotation) {
         try {
             Note noteObj = documentService.createNoteFromDocument(purchaseOrderDocument, annotation);
             documentService.addNoteToDocument(purchaseOrderDocument, noteObj);
@@ -1964,7 +1954,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     /**
      * This method fixes the item references in this document
      */
-    private void fixItemReferences(PurchaseOrderDocument po) {
+    protected void fixItemReferences(PurchaseOrderDocument po) {
         //fix item and account references in case this is a new doc (since they will be lost)
         for (PurApItem item : (List<PurApItem>)po.getItems()) {
             item.setPurapDocument(po);

@@ -106,7 +106,7 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
      * Builds a Criteria object for activeIndicator field set to true
      * @return Criteria
      */
-    private Criteria buildActiveCriteria(){
+    protected Criteria buildActiveCriteria(){
         Criteria criteria = new Criteria();
         criteria.addEqualTo(KNSPropertyConstants.ACTIVE, true);
         

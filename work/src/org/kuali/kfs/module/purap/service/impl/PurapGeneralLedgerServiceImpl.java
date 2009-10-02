@@ -222,7 +222,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * @param preq Payment Request document to cancel
      * @see org.kuali.kfs.module.purap.service.PurapGeneralLedgerService#generateEntriesCancelAccountsPayableDocument(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
-    private void generateEntriesCancelPaymentRequest(PaymentRequestDocument preq) {
+    protected void generateEntriesCancelPaymentRequest(PaymentRequestDocument preq) {
         LOG.debug("generateEntriesCreatePaymentRequest() started");
         List<SourceAccountingLine> encumbrances = reencumberEncumbrance(preq);
         List<SummaryAccount> summaryAccounts = purapAccountingService.generateSummaryAccountsWithNoZeroTotalsNoUseTax(preq);
@@ -301,7 +301,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * @param preq Payment Request document to cancel
      * @see org.kuali.kfs.module.purap.service.PurapGeneralLedgerService#generateEntriesCancelAccountsPayableDocument(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
-    private void generateEntriesCancelCreditMemo(VendorCreditMemoDocument cm) {
+    protected void generateEntriesCancelCreditMemo(VendorCreditMemoDocument cm) {
         LOG.debug("generateEntriesCancelCreditMemo() started");
         generateEntriesCreditMemo(cm, CANCEL_CREDIT_MEMO);
     }
@@ -312,7 +312,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * @param documentNumber Document number to find next sequence number
      * @return Next available sequence number
      */
-    private int getNextAvailableSequence(String documentNumber) {
+    protected int getNextAvailableSequence(String documentNumber) {
         LOG.debug("getNextAvailableSequence() started");
         Map fieldValues = new HashMap();
         fieldValues.put("financialSystemOriginationCode", PURAP_ORIGIN_CODE);
@@ -330,7 +330,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * @param processType Type of process (create, modify, cancel)
      * @return Boolean returned indicating whether entry creation succeeded
      */
-    private boolean generateEntriesPaymentRequest(PaymentRequestDocument preq, List encumbrances, List summaryAccounts, String processType) {
+    protected boolean generateEntriesPaymentRequest(PaymentRequestDocument preq, List encumbrances, List summaryAccounts, String processType) {
         LOG.debug("generateEntriesPaymentRequest() started");
         boolean success = true;
         preq.setGeneralLedgerPendingEntries(new ArrayList());
@@ -430,7 +430,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * @param isCancel Indicates if request is a cancel or create
      * @return Boolean returned indicating whether entry creation succeeded
      */
-    private boolean generateEntriesCreditMemo(VendorCreditMemoDocument cm, boolean isCancel) {
+    protected boolean generateEntriesCreditMemo(VendorCreditMemoDocument cm, boolean isCancel) {
         LOG.debug("generateEntriesCreditMemo() started");
 
         cm.setGeneralLedgerPendingEntries(new ArrayList());
@@ -716,7 +716,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * @param po
      * @return
      */
-    private boolean shouldGenerateGLPEForPurchaseOrder(PurchaseOrderDocument po) {
+    protected boolean shouldGenerateGLPEForPurchaseOrder(PurchaseOrderDocument po) {
         for (SourceAccountingLine acct : (List<SourceAccountingLine>)po.getSourceAccountingLines()) {
             if (acct.getAmount().abs().compareTo(new KualiDecimal(0)) > 0) {
                 return true;
@@ -865,7 +865,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * @param preq PREQ for invoice
      * @return List of accounting lines to use to create the pending general ledger entries
      */
-    private List<SourceAccountingLine> relieveEncumbrance(PaymentRequestDocument preq) {
+    protected List<SourceAccountingLine> relieveEncumbrance(PaymentRequestDocument preq) {
         LOG.debug("relieveEncumbrance() started");
 
         Map encumbranceAccountMap = new HashMap();
@@ -1097,7 +1097,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * @param preq PREQ for invoice
      * @return List of accounting lines to use to create the pending general ledger entries
      */
-    private List<SourceAccountingLine> reencumberEncumbrance(PaymentRequestDocument preq) {
+    protected List<SourceAccountingLine> reencumberEncumbrance(PaymentRequestDocument preq) {
         LOG.debug("reencumberEncumbrance() started");
 
         PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(preq.getPurchaseOrderIdentifier());
@@ -1250,7 +1250,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * @param po Purchase Order document modify encumbrances
      * @return List of accounting lines to use to create the pending general ledger entries
      */
-    private List<SourceAccountingLine> getCreditMemoEncumbrance(VendorCreditMemoDocument cm, PurchaseOrderDocument po, boolean cancel) {
+    protected List<SourceAccountingLine> getCreditMemoEncumbrance(VendorCreditMemoDocument cm, PurchaseOrderDocument po, boolean cancel) {
         LOG.debug("getCreditMemoEncumbrance() started");
 
         if (ObjectUtils.isNull(po)) {
@@ -1421,7 +1421,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * 
      * @param glEntries List of GeneralLedgerPendingEntries to be saved
      */
-    private void saveGLEntries(List<GeneralLedgerPendingEntry> glEntries) {
+    protected void saveGLEntries(List<GeneralLedgerPendingEntry> glEntries) {
         LOG.debug("saveGLEntries() started");
         businessObjectService.save(glEntries);
     }
@@ -1432,7 +1432,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * @param sourceLines Accounts to be saved
      * @param purapDocumentIdentifier Purap document id for accounts
      */
-    private void saveAccountsPayableSummaryAccounts(List<SummaryAccount> summaryAccounts, Integer purapDocumentIdentifier, String docType) {
+    protected void saveAccountsPayableSummaryAccounts(List<SummaryAccount> summaryAccounts, Integer purapDocumentIdentifier, String docType) {
         LOG.debug("saveAccountsPayableSummaryAccounts() started");
         purapAccountingService.deleteSummaryAccounts(purapDocumentIdentifier, docType);
         List<AccountsPayableSummaryAccount> apSummaryAccounts = new ArrayList();
@@ -1450,7 +1450,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * @param itemType Item type of desired item
      * @return PurcahseOrderItem found matching given criteria
      */
-    private PurchaseOrderItem getPoItem(PurchaseOrderDocument po, Integer nbr, ItemType itemType) {
+    protected PurchaseOrderItem getPoItem(PurchaseOrderDocument po, Integer nbr, ItemType itemType) {
         LOG.debug("getPoItem() started");
         for (Iterator iter = po.getItems().iterator(); iter.hasNext();) {
             PurchaseOrderItem element = (PurchaseOrderItem) iter.next();
@@ -1474,7 +1474,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * @param description String to be formatted
      * @return Formatted String
      */
-    private String entryDescription(String description) {
+    protected String entryDescription(String description) {
         if (description != null && description.length() > 40) {
             return description.toString().substring(0, 39);
         }
@@ -1491,7 +1491,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * @param cmQuantity Quantity on credit memo item
      * @return Calculated change
      */
-    private KualiDecimal calculateQuantityChange(boolean cancel, PurchaseOrderItem poItem, KualiDecimal cmQuantity) {
+    protected KualiDecimal calculateQuantityChange(boolean cancel, PurchaseOrderItem poItem, KualiDecimal cmQuantity) {
         LOG.debug("calculateQuantityChange() started");
 
         // Calculate quantity change & adjust invoiced quantity & outstanding encumbered quantity

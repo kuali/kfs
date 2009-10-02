@@ -97,7 +97,7 @@ public class BulkReceivingDaoOjb  extends PlatformAwareDaoBaseOjb implements Bul
         return returnList;
     }
     
-    private Iterator<Object[]> getDocumentNumbersOfBulkReceivingByCriteria(Criteria criteria, 
+    protected Iterator<Object[]> getDocumentNumbersOfBulkReceivingByCriteria(Criteria criteria, 
                                                                            boolean orderByAscending) {
         
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(BulkReceivingDocument.class, criteria);

@@ -35,9 +35,9 @@ import org.kuali.rice.kns.service.DocumentService;
 public class AccountsPayableDocumentDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableDocumentDerivedRoleTypeServiceImpl.class);
     
-    private static final String FISCAL_OFFICER_ROLE_NAME = "Fiscal Officer";
-    private static final String SUB_ACCOUNT_ROLE_NAME = "Sub-Account Reviewer";
-    private static final String ACCOUNTING_REVIEWER_ROLE_NAME = "Accounting Reviewer";
+    protected static final String FISCAL_OFFICER_ROLE_NAME = "Fiscal Officer";
+    protected static final String SUB_ACCOUNT_ROLE_NAME = "Sub-Account Reviewer";
+    protected static final String ACCOUNTING_REVIEWER_ROLE_NAME = "Accounting Reviewer";
     
     /**
      * Overridden to check if the current user has document reviewer permission based on the data in the document.

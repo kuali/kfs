@@ -103,7 +103,7 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
      * @param location - location of file
      * @return - location to copied file
      */
-    private String getFile(String prefix, String fileKey, String key, String extension, String location) {
+    protected String getFile(String prefix, String fileKey, String key, String extension, String location) {
         LOG.debug("getFile() started");
 
         String externalizableUrlSettingName = "externalizable.images.url";

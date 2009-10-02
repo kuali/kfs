@@ -178,7 +178,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         return canCreateLineItemReceivingDocument(po, null);
     }
     
-    private boolean canCreateLineItemReceivingDocument(PurchaseOrderDocument po, String receivingDocumentNumber) {
+    protected boolean canCreateLineItemReceivingDocument(PurchaseOrderDocument po, String receivingDocumentNumber) {
         boolean canCreate = false;
 
         if (isPurchaseOrderValidForLineItemReceivingDocumentCreation(po) && 
@@ -195,7 +195,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         return isPurchaseOrderValidForLineItemReceivingDocumentCreation(po);
     }
     
-    private boolean isPurchaseOrderValidForLineItemReceivingDocumentCreation(PurchaseOrderDocument po){
+    protected boolean isPurchaseOrderValidForLineItemReceivingDocumentCreation(PurchaseOrderDocument po){
         return po != null &&
                ObjectUtils.isNotNull(po.getPurapDocumentIdentifier()) && 
                po.isPurchaseOrderCurrentIndicator() && 
@@ -227,7 +227,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         return canCreate;
     }
 
-    private boolean isLineItemReceivingDocumentInProcessForPurchaseOrder(Integer poId, String receivingDocumentNumber) throws RuntimeException{
+    protected boolean isLineItemReceivingDocumentInProcessForPurchaseOrder(Integer poId, String receivingDocumentNumber) throws RuntimeException{
         return !getLineItemReceivingDocumentNumbersInProcessForPurchaseOrder(poId, receivingDocumentNumber).isEmpty();
     }
 
@@ -291,7 +291,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         
     }
     
-    private boolean isCorrectionReceivingDocumentInProcessForPurchaseOrder(Integer poId, String receivingDocumentNumber) throws RuntimeException{
+    protected boolean isCorrectionReceivingDocumentInProcessForPurchaseOrder(Integer poId, String receivingDocumentNumber) throws RuntimeException{
         return !getCorrectionReceivingDocumentNumbersInProcessForPurchaseOrder(poId, receivingDocumentNumber).isEmpty();
     }
     
@@ -324,7 +324,7 @@ public class ReceivingServiceImpl implements ReceivingService {
     }
     
     
-    private boolean isCorrectionReceivingDocumentInProcessForReceivingLine(String receivingDocumentNumber, String receivingCorrectionDocNumber) throws RuntimeException{
+    protected boolean isCorrectionReceivingDocumentInProcessForReceivingLine(String receivingDocumentNumber, String receivingCorrectionDocNumber) throws RuntimeException{
         
         boolean isInProcess = false;
         
@@ -406,7 +406,7 @@ public class ReceivingServiceImpl implements ReceivingService {
      * @param docNumbers
      * @return
      */
-    private boolean hasDuplicateEntry(List<String> docNumbers){
+    protected boolean hasDuplicateEntry(List<String> docNumbers){
         
         boolean isDuplicate = false;
         KualiWorkflowDocument workflowDocument = null;
@@ -429,7 +429,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         return isDuplicate;
 
     }
-    private void appendDuplicateMessage(StringBuffer currentMessage, String duplicateMessageKey, Integer poId){
+    protected void appendDuplicateMessage(StringBuffer currentMessage, String duplicateMessageKey, Integer poId){
         
         //append prefix if this is first call
         if(currentMessage.length() == 0){
@@ -523,7 +523,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         }
     }
     
-    private void updateReceivingTotalsOnPurchaseOrder(ReceivingDocument receivingDocument, PurchaseOrderDocument poDoc) {
+    protected void updateReceivingTotalsOnPurchaseOrder(ReceivingDocument receivingDocument, PurchaseOrderDocument poDoc) {
         for (ReceivingItem receivingItem : (List<ReceivingItem>)receivingDocument.getItems()) {
             ItemType itemType = receivingItem.getItemType();
             if(!StringUtils.equalsIgnoreCase(itemType.getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE)) {
@@ -595,7 +595,7 @@ public class ReceivingServiceImpl implements ReceivingService {
      * @param receivingDocument
      * @param po
      */
-    private void spawnPoAmendmentForUnorderedItems(ReceivingDocument receivingDocument, PurchaseOrderDocument po){
+    protected void spawnPoAmendmentForUnorderedItems(ReceivingDocument receivingDocument, PurchaseOrderDocument po){
 
         //if receiving line document
         if (receivingDocument instanceof LineItemReceivingDocument) {
@@ -650,7 +650,7 @@ public class ReceivingServiceImpl implements ReceivingService {
      * @param rlDoc
      * @return
      */
-    private boolean hasNewUnorderedItem(LineItemReceivingDocument rlDoc){
+    protected boolean hasNewUnorderedItem(LineItemReceivingDocument rlDoc){
         
         boolean itemAdded = false;
         
@@ -671,7 +671,7 @@ public class ReceivingServiceImpl implements ReceivingService {
      * @param amendment
      * @param rlDoc
      */
-    private void addUnorderedItemsToAmendment(PurchaseOrderAmendmentDocument amendment, LineItemReceivingDocument rlDoc){
+    protected void addUnorderedItemsToAmendment(PurchaseOrderAmendmentDocument amendment, LineItemReceivingDocument rlDoc){
 
         PurchaseOrderItem poi = null;
         
@@ -694,7 +694,7 @@ public class ReceivingServiceImpl implements ReceivingService {
      * @param rlItem
      * @return
      */
-    private PurchaseOrderItem createPoItemFromReceivingLine(LineItemReceivingItem rlItem){
+    protected PurchaseOrderItem createPoItemFromReceivingLine(LineItemReceivingItem rlItem){
         
         PurchaseOrderItem poi = new PurchaseOrderItem();
                              
@@ -725,7 +725,7 @@ public class ReceivingServiceImpl implements ReceivingService {
      * @param po
      * @return
      */
-    private List<AdHocRoutePerson> createFyiFiscalOfficerList(ReceivingDocument recDoc){
+    protected List<AdHocRoutePerson> createFyiFiscalOfficerList(ReceivingDocument recDoc){
 
         PurchaseOrderDocument po = recDoc.getPurchaseOrderDocument();
         List<AdHocRoutePerson> adHocRoutePersons = new ArrayList<AdHocRoutePerson>();
@@ -769,7 +769,7 @@ public class ReceivingServiceImpl implements ReceivingService {
      * 
      * @param po
      */
-    private void sendFyiForItems(ReceivingDocument recDoc){
+    protected void sendFyiForItems(ReceivingDocument recDoc){
 
         List<AdHocRoutePerson> fyiList = createFyiFiscalOfficerList(recDoc);
         String annotation = "Notification of Item exceeded Quantity or Damaged" + "(document id " + recDoc.getDocumentNumber() + ")";
@@ -879,7 +879,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         
     }
     
-    private void approveReceivingDoc(LineItemReceivingDocument receivingDoc){
+    protected void approveReceivingDoc(LineItemReceivingDocument receivingDoc){
         PurchaseOrderDocument poDoc = receivingDoc.getPurchaseOrderDocument();
         if (purchaseOrderService.canAmendPurchaseOrder(poDoc)){
             try{

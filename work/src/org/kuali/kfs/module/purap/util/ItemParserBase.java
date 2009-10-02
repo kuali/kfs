@@ -122,7 +122,7 @@ public class ItemParserBase implements ItemParser {
      * 
      * @param itemClass the specified item class
      */
-    private void checkItemClass(Class<? extends PurApItem> itemClass) {
+    protected void checkItemClass(Class<? extends PurApItem> itemClass) {
         if (!PurApItem.class.isAssignableFrom(itemClass)) {
             throw new IllegalArgumentException("unknown item class: " + itemClass);
         }
@@ -134,7 +134,7 @@ public class ItemParserBase implements ItemParser {
      * 
      * @param itemClass the specified item import file
      */
-    private void checkItemFile(FormFile itemFile) {
+    protected void checkItemFile(FormFile itemFile) {
         if (itemFile == null) {
             throw new ItemParserException("invalid (null) item import file", KFSKeyConstants.ERROR_UPLOADFILE_NULL);
         }
@@ -150,7 +150,7 @@ public class ItemParserBase implements ItemParser {
      * @param itemLine a string read from a line in the item import file
      * @return a map containing item attribute name-value string pairs
      */
-    private Map<String, String> retrieveItemAttributes( String itemLine ) {
+    protected Map<String, String> retrieveItemAttributes( String itemLine ) {
         String[] attributeNames = getItemFormat();
         String[] attributeValues = StringUtils.splitPreserveAllTokens(itemLine, ',');
         if ( attributeNames.length != attributeValues.length ) {
@@ -173,7 +173,7 @@ public class ItemParserBase implements ItemParser {
      * @param itemClass the class of which the new item instance shall be created
      * @return the populated item
      */
-    private PurApItem genItemWithRetrievedAttributes( Map<String, String> itemMap, Class<? extends PurApItem> itemClass ) {
+    protected PurApItem genItemWithRetrievedAttributes( Map<String, String> itemMap, Class<? extends PurApItem> itemClass ) {
         PurApItem item;
         try {
             item = itemClass.newInstance();
@@ -235,7 +235,7 @@ public class ItemParserBase implements ItemParser {
      * @param item the item to be populated
      * @param documentNumber the number of the docment that contains the item
      */
-    private void populateExtraAttributes( PurApItem item, String documentNumber ) {     
+    protected void populateExtraAttributes( PurApItem item, String documentNumber ) {     
         if (item.getItemQuantity() != null) {
             String paramName = PurapParameterConstants.DEFAULT_QUANTITY_ITEM_TYPE;
             String itemTypeCode = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "Document", paramName);            

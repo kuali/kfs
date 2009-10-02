@@ -292,7 +292,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      * @param criteria - list of criteria to use in the retrieve
      * @return - document number
      */
-    private String getDocumentNumberOfPaymentRequestByCriteria(Criteria criteria) {
+    protected String getDocumentNumberOfPaymentRequestByCriteria(Criteria criteria) {
         LOG.debug("getDocumentNumberOfPaymentRequestByCriteria() started");
         Iterator<Object[]> iter = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);
         if (iter.hasNext()) {
@@ -318,7 +318,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      * @param orderByAscending - boolean to sort results ascending if true, descending otherwise
      * @return - Iterator of document numbers
      */
-    private Iterator<Object[]> getDocumentNumbersOfPaymentRequestByCriteria(Criteria criteria, boolean orderByAscending) {
+    protected Iterator<Object[]> getDocumentNumbersOfPaymentRequestByCriteria(Criteria criteria, boolean orderByAscending) {
         LOG.debug("getDocumentNumberOfPaymentRequestByCriteria() started");
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PaymentRequestDocument.class, criteria);
         rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
@@ -337,7 +337,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      * @param qbc - query with criteria
      * @return - list of payment requests
      */
-    private List<PaymentRequestDocument> getPaymentRequestsByQueryByCriteria(QueryByCriteria qbc) {
+    protected List<PaymentRequestDocument> getPaymentRequestsByQueryByCriteria(QueryByCriteria qbc) {
         LOG.debug("getPaymentRequestsByQueryByCriteria() started");
         List l = (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
         return l;

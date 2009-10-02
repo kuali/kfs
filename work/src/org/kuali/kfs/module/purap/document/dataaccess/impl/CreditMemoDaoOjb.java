@@ -149,7 +149,7 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
      * @param criteria - holds field and value pairs defined by the calling method
      * @return - document number
      */
-    private String getDocumentNumberOfCreditMemoByCriteria(Criteria criteria) {
+    protected String getDocumentNumberOfCreditMemoByCriteria(Criteria criteria) {
         LOG.debug("getDocumentNumberOfCreditMemoByCriteria() started");
         Iterator<Object[]> iter = getDocumentNumbersOfCreditMemoByCriteria(criteria, false);
         if (iter.hasNext()) {
@@ -175,7 +175,7 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
      * @param orderByAscending - boolean indicating results should be sorted ascending, descending otherwise
      * @return - Iterator of document numbers
      */
-    private Iterator<Object[]> getDocumentNumbersOfCreditMemoByCriteria(Criteria criteria, boolean orderByAscending) {
+    protected Iterator<Object[]> getDocumentNumbersOfCreditMemoByCriteria(Criteria criteria, boolean orderByAscending) {
         LOG.debug("getDocumentNumberOfCreditMemoByCriteria() started");
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(VendorCreditMemoDocument.class, criteria);
         rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });

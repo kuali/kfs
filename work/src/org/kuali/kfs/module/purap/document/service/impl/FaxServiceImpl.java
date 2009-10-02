@@ -233,7 +233,7 @@ public class FaxServiceImpl implements FaxService {
      * @param po The PurchaseOrderDocument object to be used to obtain the PurchaseOrderPdfParameters.
      * @return The PurchaseOrderPdfParameters given the PurchaseOrderDocument.
      */
-    private PurchaseOrderPdfParameters getPurchaseOrderPdfParameters(PurchaseOrderDocument po) {
+    protected PurchaseOrderPdfParameters getPurchaseOrderPdfParameters(PurchaseOrderDocument po) {
         String key = po.getPurapDocumentIdentifier().toString(); // key can be any string; chose to use the PO number.
         String campusCode = po.getDeliveryCampusCode().toLowerCase();
         String imageTempLocation = "";
@@ -314,7 +314,7 @@ public class FaxServiceImpl implements FaxService {
     /**
      * Here is where the PDF is actually faxed, needs to be implemented at each institution
      */
-    private void faxPDF(String[] files, String pdfFileLocation, String recipientFaxNumber, String vendorName, String faxDescription) {
+    protected void faxPDF(String[] files, String pdfFileLocation, String recipientFaxNumber, String vendorName, String faxDescription) {
         LOG.info("faxPDF() NEEDS TO BE IMPLEMENTED!");
         throw new RuntimeException("faxPDF() NEEDS TO BE IMPLEMENTED!");
     }

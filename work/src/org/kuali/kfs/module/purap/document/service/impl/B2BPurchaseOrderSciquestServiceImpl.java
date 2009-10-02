@@ -472,7 +472,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
     /**
      * Retrieve the Contract Manager's email
      */
-    private String getContractManagerEmail(ContractManager cm) {
+    protected String getContractManagerEmail(ContractManager cm) {
 
         Person contractManager = getPersonService().getPerson(cm.getContractManagerUserIdentifier());
         if (ObjectUtils.isNotNull(contractManager)) {

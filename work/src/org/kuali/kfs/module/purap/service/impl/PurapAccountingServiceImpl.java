@@ -61,19 +61,19 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class PurapAccountingServiceImpl implements PurapAccountingService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapAccountingServiceImpl.class);
 
-    private static final BigDecimal ONE_HUNDRED = new BigDecimal(100);
-    private static final int SCALE = 340;
-    private static final int BIG_DECIMAL_ROUNDING_MODE = BigDecimal.ROUND_HALF_UP;
+    protected static final BigDecimal ONE_HUNDRED = new BigDecimal(100);
+    protected static final int SCALE = 340;
+    protected static final int BIG_DECIMAL_ROUNDING_MODE = BigDecimal.ROUND_HALF_UP;
 
     // local constants
-    private static final Boolean ITEM_TYPES_INCLUDED_VALUE = Boolean.TRUE;;
-    private static final Boolean ITEM_TYPES_EXCLUDED_VALUE = Boolean.FALSE;
-    private static final Boolean ZERO_TOTALS_RETURNED_VALUE = Boolean.TRUE;
-    private static final Boolean ZERO_TOTALS_NOT_RETURNED_VALUE = Boolean.FALSE;
-    private static final Boolean ALTERNATE_AMOUNT_USED = Boolean.TRUE;
-    private static final Boolean ALTERNATE_AMOUNT_NOT_USED = Boolean.FALSE;
-    private static final Boolean USE_TAX_INCLUDED = Boolean.TRUE;
-    private static final Boolean USE_TAX_EXCLUDED = Boolean.FALSE;
+    protected static final Boolean ITEM_TYPES_INCLUDED_VALUE = Boolean.TRUE;;
+    protected static final Boolean ITEM_TYPES_EXCLUDED_VALUE = Boolean.FALSE;
+    protected static final Boolean ZERO_TOTALS_RETURNED_VALUE = Boolean.TRUE;
+    protected static final Boolean ZERO_TOTALS_NOT_RETURNED_VALUE = Boolean.FALSE;
+    protected static final Boolean ALTERNATE_AMOUNT_USED = Boolean.TRUE;
+    protected static final Boolean ALTERNATE_AMOUNT_NOT_USED = Boolean.FALSE;
+    protected static final Boolean USE_TAX_INCLUDED = Boolean.TRUE;
+    protected static final Boolean USE_TAX_EXCLUDED = Boolean.FALSE;
 
     private ParameterService parameterService;    
     private PurApAccountingDao purApAccountingDao;
@@ -84,7 +84,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * gets the lowest possible number for rounding, it works for ROUND_HALF_UP
      * @return a BigDecimal representing the lowest possible number for rounding
      */
-    private BigDecimal getLowestPossibleRoundUpNumber() {
+    protected BigDecimal getLowestPossibleRoundUpNumber() {
         BigDecimal startingDigit = new BigDecimal(0.5);
         if (SCALE != 0) {
             startingDigit = startingDigit.movePointLeft(SCALE);
@@ -98,7 +98,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * @param methodName the method it's coming from
      * @param errorMessage the actual error
      */
-    private void throwRuntimeException(String methodName, String errorMessage) {
+    protected void throwRuntimeException(String methodName, String errorMessage) {
         LOG.error(methodName + "  " + errorMessage);
         throw new RuntimeException(errorMessage);
     }
@@ -359,7 +359,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * @param items a list of PurAp Items.
      * @return a list of summary accounts.
      */
-    private List<SummaryAccount> generateSummaryAccounts(List<PurApItem> items, Boolean useZeroTotals, Boolean useTaxIncluded) {
+    protected List<SummaryAccount> generateSummaryAccounts(List<PurApItem> items, Boolean useZeroTotals, Boolean useTaxIncluded) {
         String methodName = "generateSummaryAccounts()";
         List<SummaryAccount> returnList = new ArrayList<SummaryAccount>();
         if ( LOG.isDebugEnabled() ) {
@@ -514,7 +514,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * @param useAlternateAmount an alternate amount used in certain cases for GL entry
      * @return a list of source accounts
      */
-    private List<SourceAccountingLine> generateAccountSummary(List<PurApItem> items, Set<String> itemTypeCodes, Boolean itemTypeCodesAreIncluded, 
+    protected List<SourceAccountingLine> generateAccountSummary(List<PurApItem> items, Set<String> itemTypeCodes, Boolean itemTypeCodesAreIncluded, 
             Boolean useZeroTotals, Boolean useAlternateAmount, Boolean useTaxIncluded, Boolean taxableOnly) {
         List<PurApItem> itemsToProcess = getProcessablePurapItems(items, itemTypeCodes, itemTypeCodesAreIncluded, useZeroTotals);
         Map<PurApAccountingLine,KualiDecimal> accountMap = new HashMap<PurApAccountingLine,KualiDecimal>();
@@ -631,7 +631,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * @param useZeroTotals - value to tell whether to include zero dollar items (see {@link #ZERO_TOTALS_RETURNED_VALUE})
      * @return a list of {@link PurchasingApItem} objects that should be used for processing by calling method
      */
-    private List<PurApItem> getProcessablePurapItems(List<PurApItem> items, Set itemTypeCodes, Boolean itemTypeCodesAreIncluded, Boolean useZeroTotals) {
+    protected List<PurApItem> getProcessablePurapItems(List<PurApItem> items, Set itemTypeCodes, Boolean itemTypeCodesAreIncluded, Boolean useZeroTotals) {
         String methodName = "getProcessablePurapItems()";
         List<PurApItem> newItemList = new ArrayList<PurApItem>();
         // error out if we have an invalid 'itemTypeCodesAreIncluded' value

@@ -37,9 +37,7 @@ public class SensitiveDataServiceImpl implements SensitiveDataService {
     
     private SensitiveDataDao sensitiveDataDao;
     private PurchaseOrderDao purchaseOrderDao;
-    //private PurchaseOrderService purchaseOrderService;
 
-    
     public void setPurchaseOrderDao(PurchaseOrderDao purchaseOrderDao) {
         this.purchaseOrderDao = purchaseOrderDao;
     }

@@ -149,7 +149,7 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
      * @param docNumbers
      * @return
      */
-    private boolean hasDuplicateEntry(List<String> docNumbers){
+    protected boolean hasDuplicateEntry(List<String> docNumbers){
         
         boolean isDuplicate = false;
         KualiWorkflowDocument workflowDocument = null;
@@ -173,7 +173,7 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
 
     }
     
-    private void appendDuplicateMessage(StringBuffer currentMessage, 
+    protected void appendDuplicateMessage(StringBuffer currentMessage, 
                                         String duplicateMessageKey, 
                                         Integer poId){
         
@@ -263,7 +263,7 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
         
     }
     
-    private void addStringErrorMessagesToErrorMap(String errorKey, 
+    protected void addStringErrorMessagesToErrorMap(String errorKey, 
                                                   Collection<String> errors) {
         
         if (ObjectUtils.isNotNull(errors)) {

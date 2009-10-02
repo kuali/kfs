@@ -22,7 +22,7 @@ import org.kuali.kfs.module.cg.businessobject.ControlAttributeType;
 import org.kuali.kfs.module.cg.document.service.ResearchDocumentControlAttributeTypeService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * This class is used to acquire and build a collection of possible ControlAttributeTypes that can be used to generate user drop

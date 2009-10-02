@@ -28,7 +28,7 @@ import org.kuali.rice.core.service.EncryptionService;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 public class BatchFileUtils {
     public static List<File> retrieveBatchFileLookupRootDirectories() {

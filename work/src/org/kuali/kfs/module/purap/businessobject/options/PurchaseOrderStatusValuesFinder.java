@@ -29,7 +29,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus;
 import org.kuali.kfs.module.purap.businessobject.Status;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * Value Finder for Purchase Order Statuses.

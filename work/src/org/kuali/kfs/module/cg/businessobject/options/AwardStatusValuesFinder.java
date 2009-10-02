@@ -23,7 +23,7 @@ import org.kuali.kfs.module.cg.businessobject.AwardStatus;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * Allows custom handling of {@link AwardStatus} values in the UI.

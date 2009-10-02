@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * returns valid effort reporting fiscal periods 1 - 12

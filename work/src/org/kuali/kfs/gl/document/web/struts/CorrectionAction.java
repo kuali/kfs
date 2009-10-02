@@ -79,7 +79,7 @@ import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
 import org.kuali.rice.kns.web.struts.action.KualiTableRenderAction;
 import org.kuali.rice.kns.web.struts.form.KualiTableRenderFormMetadata;
 import org.kuali.rice.kns.web.ui.Column;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class CorrectionAction extends KualiDocumentActionBase implements KualiTableRenderAction {

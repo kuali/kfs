@@ -24,7 +24,7 @@ import org.kuali.kfs.module.purap.businessobject.CreditMemoStatus;
 import org.kuali.kfs.module.purap.businessobject.Status;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * Value Finder for Credit Memo Statuses.

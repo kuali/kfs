@@ -24,7 +24,7 @@ import org.kuali.kfs.module.cg.businessobject.CFDA;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * Allows some information about persisted {@link Cfda} instances to be looked up.

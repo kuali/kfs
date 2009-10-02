@@ -28,7 +28,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.ui.Field;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.springframework.web.util.HtmlUtils;
 
 /**

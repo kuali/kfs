@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * This class returns list of GLCP editing methods key value pairs, to populate a dropdown select control

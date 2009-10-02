@@ -20,7 +20,7 @@ import java.util.List;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.sys.businessobject.BatchUpload;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * Struts action form for the batch upload screen.

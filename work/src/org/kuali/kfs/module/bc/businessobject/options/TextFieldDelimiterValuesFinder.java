@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * returns text field delimiter values

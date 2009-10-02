@@ -56,7 +56,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.FieldUtils;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.workflow.attribute.DataDictionarySearchableAttribute;
 

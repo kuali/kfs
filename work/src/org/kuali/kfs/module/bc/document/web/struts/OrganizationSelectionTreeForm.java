@@ -28,7 +28,7 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * ActionForm that supports the Organization Selection Tree page

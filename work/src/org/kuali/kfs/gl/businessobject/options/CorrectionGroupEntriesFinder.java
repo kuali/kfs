@@ -27,7 +27,7 @@ import org.kuali.kfs.gl.web.util.OriginEntryFileComparator;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
 

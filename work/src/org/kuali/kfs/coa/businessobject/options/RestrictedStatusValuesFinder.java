@@ -24,7 +24,7 @@ import org.kuali.kfs.coa.businessobject.RestrictedStatus;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * This class creates a new finder for our forms view (creates a drop-down of {@link RestrictedStatus}s)

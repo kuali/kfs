@@ -101,14 +101,11 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
          sqlBuilder.append("(SELECT EMPLID, PERSON_NM, BUSINESS_UNIT, POS_SAL_PLAN_DFLT, POS_GRADE_DFLT, ?, 'Y'\n"); 
          sqlBuilder.append("FROM\n");
          sqlBuilder.append("(SELECT DISTINCT csf.EMPLID,\n");
-         sqlBuilder.append("        CONCAT(COALESCE(KRIM_ENTITY_NM_T.LAST_NM,CONCAT(csf.EMPLID,'Last')),CONCAT(', ',COALESCE(KRIM_ENTITY_NM_T.FIRST_NM,CONCAT(csf.EMPLID,'First')))) AS PERSON_NM,\n");
+         sqlBuilder.append("        CONCAT(CONCAT(csf.EMPLID,' LastNm HR'),CONCAT(', ',CONCAT(csf.EMPLID,' 1stNm HR'))) AS PERSON_NM,\n");
          sqlBuilder.append("        pos.BUSINESS_UNIT,\n");
          sqlBuilder.append("        pos.POS_SAL_PLAN_DFLT,\n");
          sqlBuilder.append("        pos.POS_GRADE_DFLT\n");
-         sqlBuilder.append(" FROM LD_CSF_TRACKER_T csf LEFT OUTER JOIN KRIM_ENTITY_EMP_INFO_T\n");
-         sqlBuilder.append(" ON csf.EMPLID = KRIM_ENTITY_EMP_INFO_T.EMP_ID\n");
-         sqlBuilder.append(" LEFT OUTER JOIN KRIM_ENTITY_NM_T\n");
-         sqlBuilder.append("    ON KRIM_ENTITY_EMP_INFO_T.ENTITY_ID = KRIM_ENTITY_NM_T.ENTITY_ID,\n");
+         sqlBuilder.append(" FROM LD_CSF_TRACKER_T csf,\n");
          sqlBuilder.append(" PS_POSITION_DATA pos\n");
          sqlBuilder.append(" WHERE (csf.UNIV_FISCAL_YR = ?)\n");
          sqlBuilder.append("   AND (csf.POS_CSF_DELETE_CD = ?)\n");

@@ -26,9 +26,9 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * Field Finder for Labor Origin Entry.

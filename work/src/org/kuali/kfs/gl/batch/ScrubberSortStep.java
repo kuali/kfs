@@ -18,8 +18,11 @@ package org.kuali.kfs.gl.batch;
 import java.io.File;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Map;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.businessobject.OriginEntryFieldUtil;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.springframework.util.StopWatch;
 
@@ -58,26 +61,29 @@ public class ScrubberSortStep extends AbstractStep {
     public static class ScrubberSortComparator implements Comparator {
 
         public int compare(Object object1, Object object2) {
+            OriginEntryFieldUtil oefu = new OriginEntryFieldUtil();
+            Map<String, Integer> pMap = oefu.getFieldBeginningPositionMap();
+            
             String string1 = (String) object1;
             String string2 = (String) object2;
-            string1 = org.apache.commons.lang.StringUtils.rightPad(string1, 186, ' ');
-            string2 = org.apache.commons.lang.StringUtils.rightPad(string2, 186, ' ');
+            string1 = org.apache.commons.lang.StringUtils.rightPad(string1, GeneralLedgerConstants.getSpaceAllOriginEntryFields().length(), ' ');
+            string2 = org.apache.commons.lang.StringUtils.rightPad(string2, GeneralLedgerConstants.getSpaceAllOriginEntryFields().length(), ' ');
             StringBuffer sb1 = new StringBuffer();
             
-            sb1.append(string1.substring(31, 51));
-            sb1.append(string1.substring(4, 18));
-            sb1.append(string1.substring(25, 27));
-            sb1.append(string1.substring(175, 185));
-            sb1.append(string1.substring(0, 4));
-            sb1.append(string1.substring(29, 31));
+            sb1.append(string1.substring(pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER)));
+            sb1.append(string1.substring(pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE)));
+            sb1.append(string1.substring(pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE)));
+            sb1.append(string1.substring(pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE), pMap.get(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD)));
+            sb1.append(string1.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)));
+            sb1.append(string1.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE)));
             
             StringBuffer sb2 = new StringBuffer();
-            sb2.append(string2.substring(31, 51));
-            sb2.append(string2.substring(4, 18));
-            sb2.append(string2.substring(25, 27));
-            sb2.append(string2.substring(175, 185));
-            sb2.append(string2.substring(0, 4));
-            sb2.append(string2.substring(29, 31));
+            sb2.append(string2.substring(pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER)));
+            sb2.append(string2.substring(pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE)));
+            sb2.append(string2.substring(pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE)));
+            sb2.append(string2.substring(pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE), pMap.get(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD)));
+            sb2.append(string2.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)));
+            sb2.append(string2.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE)));
             
             return sb1.toString().compareTo(sb2.toString());
         }

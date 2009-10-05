@@ -18,12 +18,15 @@ package org.kuali.kfs.gl.batch;
 import java.io.File;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Map;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.BatchSortService;
+import org.kuali.kfs.gl.businessobject.OriginEntryFieldUtil;
 import org.kuali.kfs.gl.exception.LoadException;
 import org.kuali.kfs.gl.service.ScrubberService;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.util.StopWatch;
@@ -61,20 +64,23 @@ public class PosterSortStep extends AbstractStep {
     public static class PosterSortComparator implements Comparator {
 
         public int compare(Object object1, Object object2) {
+            OriginEntryFieldUtil oefu = new OriginEntryFieldUtil();
+            Map<String, Integer> pMap = oefu.getFieldBeginningPositionMap();
+            
             String string1 = (String) object1;
             String string2 = (String) object2;
             StringBuffer sb1 = new StringBuffer();
             
-            sb1.append(string1.substring(0, 51));
+            sb1.append(string1.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER)));
             //TODO:- something wrong
             //sb1.append(string1.substring(129, 147));
-            sb1.append(string1.substring(137, 155));
+            sb1.append(string1.substring(pMap.get(KFSPropertyConstants.PROJECT_CODE), pMap.get(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE)));
             
             StringBuffer sb2 = new StringBuffer();
-            sb2.append(string1.substring(0, 51));
+            sb2.append(string1.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER)));
             //TODO:- something wrong
             //sb2.append(string1.substring(129, 147));
-            sb2.append(string1.substring(137, 155));
+            sb2.append(string1.substring(pMap.get(KFSPropertyConstants.PROJECT_CODE), pMap.get(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE)));
             return sb1.toString().compareTo(sb2.toString());
         }
     }

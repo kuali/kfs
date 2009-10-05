@@ -125,7 +125,8 @@ public class OriginEntrySource extends KualiCodeBase {
      */
     public static final String LABOR_SCRUBBER_ERROR = "LSCE";
     /**
-     * a labor ledger group of origin entries that the labor scrubber considers valid (and therefore can be posted by the labor poster)
+     * a labor ledger group of origin entries that the labor scrubber considers valid (and therefore can be posted by the labor
+     * poster)
      */
     public static final String LABOR_SCRUBBER_VALID = "LSCV";
     /**
@@ -157,6 +158,5 @@ public class OriginEntrySource extends KualiCodeBase {
      * a labor ledger group of origin entries
      */
     public static final String LABOR_LEDGER_GENERAL_LEDGER = "LLGL";
-
-    // Code base has all the fields we need
+    
 }

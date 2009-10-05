@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.gl.businessobject.OriginEntryFieldUtil;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
@@ -405,10 +406,7 @@ public class GeneralLedgerConstants {
 
             for ( AttributeDefinition attributeDefinition : attributes ) {
 
-                if (KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT.equals(attributeDefinition.getName())) {
-                    totalLength += OriginEntryFull.ZERO_TRANSACTION_LEDGER_ENTRY_AMOUNT.length();
-                }
-                else if (!(KFSPropertyConstants.ENTRY_GROUP_ID.equals(attributeDefinition.getName()) || KFSPropertyConstants.ENTRY_ID.equals(attributeDefinition.getName()))) {
+                if (!(KFSPropertyConstants.ENTRY_GROUP_ID.equals(attributeDefinition.getName()) || KFSPropertyConstants.ENTRY_ID.equals(attributeDefinition.getName()))) {
                     totalLength += attributeDefinition.getMaxLength();
                 }
             }
@@ -426,6 +424,16 @@ public class GeneralLedgerConstants {
             ZERO_TRANSACTION_ENTRY_SEQUENCE_NUMBER = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(OriginEntryFull.class, KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), '0');
         }
         return ZERO_TRANSACTION_ENTRY_SEQUENCE_NUMBER;
+    }
+    
+    public static String getZeroTransactionLedgerEntryAmout(){
+        OriginEntryFieldUtil oefu = new OriginEntryFieldUtil();
+        int length = oefu.getFieldLengthMap().get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
+        
+        String amount = "";
+        amount = StringUtils.rightPad("+", length - 3, "0") + ".00"; 
+        
+        return amount;
     }
 
     private static String DASH_ORGANIZATION_REFERENCE_ID = null;

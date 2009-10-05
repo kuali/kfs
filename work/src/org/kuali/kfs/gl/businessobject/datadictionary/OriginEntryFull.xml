@@ -271,9 +271,9 @@
     <property name="name" value="transactionLedgerEntryAmount"/>
     <property name="label" value="Transaction Ledger Entry Amount"/>
     <property name="shortLabel" value="TxnLdgrEntryAmt"/>
-    <property name="maxLength" value="19"/>
+    <property name="maxLength" value="21"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="19"/>
+      <bean parent="TextControlDefinition" p:size="21"/>
     </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>

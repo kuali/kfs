@@ -19,8 +19,10 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
@@ -56,7 +58,7 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
     
  // 17 characters while it is 19 character in DD. Don't change, it has to be 17.
     // KFSMI-3308 - changed to 20
-    public static final String ZERO_TRANSACTION_LEDGER_ENTRY_AMOUNT =  "+0000000000000000.00"; 
+     
     
     private Integer entryId;
     private Integer entryGroupId;
@@ -176,17 +178,21 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
     
     public List<Message> setFromTextFileForBatch(String line, int lineNumber) throws LoadException {
         List<Message> returnList = new ArrayList(); 
+        OriginEntryFieldUtil oefu = new OriginEntryFieldUtil();
+        //Map<String, Integer> fieldLengthMap = oefu.getFieldLengthMap();
+        Map<String, Integer> pMap = oefu.getFieldBeginningPositionMap();
+        
         
         // Just in case
-        line = org.apache.commons.lang.StringUtils.rightPad(line, 186, ' ');
-        line = line + GeneralLedgerConstants.getSpaceAllOriginEntryFields();
+        line = org.apache.commons.lang.StringUtils.rightPad(line, GeneralLedgerConstants.getSpaceAllOriginEntryFields().length(), ' ');
+        
 
-        if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(line.substring(0, 4))) {
+        if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(line.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)))) {
             try {
-                setUniversityFiscalYear(new Integer(getValue(line, 0, 4)));
+                setUniversityFiscalYear(new Integer(getValue(line, pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE))));
             }
             catch (NumberFormatException e) {
-                returnList.add(new Message("Fiscal year '" + line.substring(0, 4) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Fiscal year '" + line.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)) + "' contains an invalid value." , Message.TYPE_FATAL));
                 setUniversityFiscalYear(null);
             }
         }
@@ -194,25 +200,25 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
             setUniversityFiscalYear(null);
         }
 
-        setChartOfAccountsCode(getValue(line, 4, 6));
-        setAccountNumber(getValue(line, 6, 13));
-        setSubAccountNumber(getValue(line, 13, 18));
-        setFinancialObjectCode(getValue(line, 18, 22));
-        setFinancialSubObjectCode(getValue(line, 22, 25));
-        setFinancialBalanceTypeCode(getValue(line, 25, 27));
-        setFinancialObjectTypeCode(getValue(line, 27, 29));
-        setUniversityFiscalPeriodCode(getValue(line, 29, 31));
-        setFinancialDocumentTypeCode(getValue(line, 31, 35));
-        setFinancialSystemOriginationCode(getValue(line, 35, 37));
-        setDocumentNumber(getValue(line, 37, 51));
+        setChartOfAccountsCode(getValue(line, pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), pMap.get(KFSPropertyConstants.ACCOUNT_NUMBER)));
+        setAccountNumber(getValue(line, pMap.get(KFSPropertyConstants.ACCOUNT_NUMBER), pMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER)));
+        setSubAccountNumber(getValue(line, pMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER), pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE)));
+        setFinancialObjectCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE)));
+        setFinancialSubObjectCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE)));
+        setFinancialBalanceTypeCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE)));
+        setFinancialObjectTypeCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE), pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE)));
+        setUniversityFiscalPeriodCode(getValue(line, pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE)));
+        setFinancialDocumentTypeCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE)));
+        setFinancialSystemOriginationCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE), pMap.get(KFSPropertyConstants.DOCUMENT_NUMBER)));
+        setDocumentNumber(getValue(line, pMap.get(KFSPropertyConstants.DOCUMENT_NUMBER), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER)));
         
         // don't trim sequenceNumber because SpaceTransactionEntrySequenceNumber is "     "
-        if (!GeneralLedgerConstants.getSpaceTransactionEntrySequenceNumber().equals(line.substring(51, 56)) && !GeneralLedgerConstants.getZeroTransactionEntrySequenceNumber().equals(getValue(line, 51, 56))) {
+        if (!GeneralLedgerConstants.getSpaceTransactionEntrySequenceNumber().equals(line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC))) && !GeneralLedgerConstants.getZeroTransactionEntrySequenceNumber().equals(getValue(line, pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC)))) {
             try {
-                setTransactionLedgerEntrySequenceNumber(new Integer(getValue(line, 51, 56)));
+                setTransactionLedgerEntrySequenceNumber(new Integer(getValue(line, pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC))));
             }
             catch (NumberFormatException e) {
-                returnList.add(new Message("Transaction Sequence Number '" + line.substring(51, 56) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Transaction Sequence Number '" + line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC)) + "' contains an invalid value." , Message.TYPE_FATAL));
                 setTransactionLedgerEntrySequenceNumber(null);
             }
         }
@@ -220,14 +226,14 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
             setTransactionLedgerEntrySequenceNumber(null);
         }
         
-        setTransactionLedgerEntryDescription(getValue(line, 56, 96));
+        setTransactionLedgerEntryDescription(getValue(line, pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT)));
         
-        if (!getValue(line, 96, 117).equals(GeneralLedgerConstants.EMPTY_CODE)){
+        if (!getValue(line, pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT), pMap.get(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE)).equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setTransactionLedgerEntryAmount(new KualiDecimal(getValue(line, 96, 117).trim()));
+                setTransactionLedgerEntryAmount(new KualiDecimal(getValue(line, pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT), pMap.get(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE)).trim()));
             }
             catch (NumberFormatException e) {
-                returnList.add(new Message("Transaction Amount '" + line.substring(96, 117) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Transaction Amount '" + line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT), pMap.get(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE)) + "' contains an invalid value." , Message.TYPE_FATAL));
                 setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
             }
         } else {
@@ -235,40 +241,41 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
             setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
         }
         
-        setTransactionDebitCreditCode(line.substring(117, 118));
+        setTransactionDebitCreditCode(line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_DATE)));
 
-        if (!getValue(line, 118, 128).equals(GeneralLedgerConstants.EMPTY_CODE)){
+        if (!getValue(line, pMap.get(KFSPropertyConstants.TRANSACTION_DATE), pMap.get(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER)).equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setTransactionDate(parseDate(getValue(line, 118, 128), false));
+                setTransactionDate(parseDate(getValue(line, pMap.get(KFSPropertyConstants.TRANSACTION_DATE), pMap.get(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER)), false));
             }
             catch (ParseException e) {
                 setTransactionDate(null);
-                returnList.add(new Message("Transaction Date '" + line.substring(118, 128) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Transaction Date '" + line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_DATE), pMap.get(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER)) + "' contains an invalid value." , Message.TYPE_FATAL));
             }
         } else {
             setTransactionDate(null);
         }
         
-        setOrganizationDocumentNumber(getValue(line, 128, 138));
-        setProjectCode(getValue(line, 138, 148));
-        setOrganizationReferenceId(getValue(line, 148, 156));
-        setReferenceFinancialDocumentTypeCode(getValue(line, 156, 160));
-        setReferenceFinancialSystemOriginationCode(getValue(line, 160, 162));
-        setReferenceFinancialDocumentNumber(getValue(line, 162, 176));
-        if (!getValue(line, 175, 185).equals(GeneralLedgerConstants.EMPTY_CODE)){
+        setOrganizationDocumentNumber(getValue(line, pMap.get(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER), pMap.get(KFSPropertyConstants.PROJECT_CODE)));
+        setProjectCode(getValue(line, pMap.get(KFSPropertyConstants.PROJECT_CODE), pMap.get(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID)));
+        setOrganizationReferenceId(getValue(line, pMap.get(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID), pMap.get(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE)));
+        setReferenceFinancialDocumentTypeCode(getValue(line, pMap.get(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.FIN_SYSTEM_REF_ORIGINATION_CODE)));
+        setReferenceFinancialSystemOriginationCode(getValue(line, pMap.get(KFSPropertyConstants.FIN_SYSTEM_REF_ORIGINATION_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REFERENCE_NBR)));
+        setReferenceFinancialDocumentNumber(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REFERENCE_NBR), pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE)));
+        if (!getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE), pMap.get(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD)).equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setFinancialDocumentReversalDate(parseDate(getValue(line, 176, 186), false));
+                setFinancialDocumentReversalDate(parseDate(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE), pMap.get(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD)), false));
             }
             catch (ParseException e) {
                 setFinancialDocumentReversalDate(null);
-                returnList.add(new Message("Reversal Date '" + line.substring(176, 186) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Reversal Date '" + line.substring(pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE), pMap.get(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD)) + "' contains an invalid value." , Message.TYPE_FATAL));
                 
             }
         } else {
             setFinancialDocumentReversalDate(null);
         }
         
-        setTransactionEncumbranceUpdateCode(line.substring(186, 187));
+        //set till end
+        setTransactionEncumbranceUpdateCode(line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD), GeneralLedgerConstants.getSpaceAllOriginEntryFields().length()));
 
     
     return returnList;
@@ -292,6 +299,9 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
 
     public String getLine() {
         StringBuffer sb = new StringBuffer();
+        OriginEntryFieldUtil oefu = new OriginEntryFieldUtil();
+        Map<String, Integer> fieldLengthMap = oefu.getFieldLengthMap();
+        
         if (universityFiscalYear == null) {
             sb.append(GeneralLedgerConstants.getSpaceUniversityFiscalYear());
         }
@@ -299,17 +309,17 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
             sb.append(universityFiscalYear);
         }
 
-        sb.append(getField(2, chartOfAccountsCode));
-        sb.append(getField(7, accountNumber));
-        sb.append(getField(5, subAccountNumber));
-        sb.append(getField(4, financialObjectCode));
-        sb.append(getField(3, financialSubObjectCode));
-        sb.append(getField(2, financialBalanceTypeCode));
-        sb.append(getField(2, financialObjectTypeCode));
-        sb.append(getField(2, universityFiscalPeriodCode));
-        sb.append(getField(4, financialDocumentTypeCode));
-        sb.append(getField(2, financialSystemOriginationCode));
-        sb.append(getField(14, documentNumber));
+        sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), chartOfAccountsCode));
+        sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.ACCOUNT_NUMBER), accountNumber));
+        sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER), subAccountNumber));
+        sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE), financialObjectCode));
+        sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE), financialSubObjectCode));
+        sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE), financialBalanceTypeCode));
+        sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE), financialObjectTypeCode));
+        sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE), universityFiscalPeriodCode));
+        sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE), financialDocumentTypeCode));
+        sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE), financialSystemOriginationCode));
+        sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.DOCUMENT_NUMBER), documentNumber));
 
         // This is the cobol code for transaction sequence numbers.
         // 3025 019280 IF TRN-ENTR-SEQ-NBR OF GLEN-RECORD NOT NUMERIC
@@ -322,21 +332,16 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         // 3032 019350 MOVE TRN-ENTR-SEQ-NBR OF GLEN-RECORD
         // 3033 019360 TO TRN-ENTR-SEQ-NBR OF ALT-GLEN-RECORD
         // 3034 019370 END-IF
-
-        if (transactionLedgerEntrySequenceNumber == null) {
-            sb.append("00000");
+        String seqNum ="";  
+        if (transactionLedgerEntrySequenceNumber != null) {
+            seqNum = transactionLedgerEntrySequenceNumber.toString();
         }
-        else {
-            // Format to a length of 5
-            String seqNum = transactionLedgerEntrySequenceNumber.toString();
-            while (5 > seqNum.length()) {
-                seqNum = "0" + seqNum;
-            }
-            sb.append(seqNum);
-        }
-        sb.append(getField(40, transactionLedgerEntryDescription));
+        // Format to a length of 5
+        sb.append(oefu.fillFieldWithZero(fieldLengthMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), seqNum));
+        
+        sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC), transactionLedgerEntryDescription));
         if (transactionLedgerEntryAmount == null) {
-            sb.append(ZERO_TRANSACTION_LEDGER_ENTRY_AMOUNT);
+            sb.append(GeneralLedgerConstants.getZeroTransactionEntrySequenceNumber());
         }
         else {
             String a = transactionLedgerEntryAmount.abs().toString();
@@ -345,21 +350,21 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
             } else {
                 sb.append("+");
             }
-            sb.append(ZERO_TRANSACTION_LEDGER_ENTRY_AMOUNT.substring(1, 21 - a.length()));
+            sb.append(GeneralLedgerConstants.getZeroTransactionLedgerEntryAmout().substring(1, fieldLengthMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT) - a.length()));
             sb.append(a);
         }
-        sb.append(getField(1, transactionDebitCreditCode));
+        sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE), transactionDebitCreditCode));
         sb.append(formatDate(transactionDate));
-        sb.append(getField(10, organizationDocumentNumber));
-        sb.append(getField(10, projectCode));
-        sb.append(getField(8, organizationReferenceId));
-        sb.append(getField(4, referenceFinancialDocumentTypeCode));
-        sb.append(getField(2, referenceFinancialSystemOriginationCode));
-        sb.append(getField(14, referenceFinancialDocumentNumber));
+        sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER), organizationDocumentNumber));
+        sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.PROJECT_CODE), projectCode));
+        sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID), organizationReferenceId));
+        sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE), referenceFinancialDocumentTypeCode));
+        sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.FIN_SYSTEM_REF_ORIGINATION_CODE), referenceFinancialSystemOriginationCode));
+        sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REFERENCE_NBR), referenceFinancialDocumentNumber));
         sb.append(formatDate(financialDocumentReversalDate));
-        sb.append(getField(1, transactionEncumbranceUpdateCode));
-        // pad to full length of 186 chars.
-        while (186 > sb.toString().length()) {
+        sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD), transactionEncumbranceUpdateCode));
+        // pad to full length 
+        while (GeneralLedgerConstants.getSpaceAllOriginEntryFields().length() > sb.toString().length()) {
             sb.append(' ');
         }
         return sb.toString();
@@ -1090,4 +1095,6 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         newOriginEntry.setUniversityFiscalYear(oe.getUniversityFiscalYear());
         return newOriginEntry;
     }
+    
+
 }

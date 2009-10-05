@@ -23,10 +23,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
  * An extension of KeyValuesBase that 
@@ -40,31 +43,31 @@ public class OriginEntryFieldFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List activeLabels = new ArrayList();
-        activeLabels.add(new KeyLabelPair("universityFiscalYear", "Fiscal Year"));
-        activeLabels.add(new KeyLabelPair("chartOfAccountsCode", "Chart Code"));
-        activeLabels.add(new KeyLabelPair("accountNumber", "Account Number"));
-        activeLabels.add(new KeyLabelPair("subAccountNumber", "Sub-Account Number"));
-        activeLabels.add(new KeyLabelPair("financialObjectCode", "Object Code"));
-        activeLabels.add(new KeyLabelPair("financialSubObjectCode", "Sub-Object Code"));
-        activeLabels.add(new KeyLabelPair("financialBalanceTypeCode", "Balance Type"));
-        activeLabels.add(new KeyLabelPair("financialObjectTypeCode", "Object Type"));
-        activeLabels.add(new KeyLabelPair("universityFiscalPeriodCode", "Fiscal Period"));
-        activeLabels.add(new KeyLabelPair("financialDocumentTypeCode", "Document Type"));
-        activeLabels.add(new KeyLabelPair("financialSystemOriginationCode", "Origin code"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, "Fiscal Year"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "Chart Code"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.ACCOUNT_NUMBER, "Account Number"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, "Sub-Account Number"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, "Object Code"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, "Sub-Object Code"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, "Balance Type"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, "Object Type"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, "Fiscal Period"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, "Document Type"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, "Origin code"));
         activeLabels.add(new KeyLabelPair(KFSPropertyConstants.DOCUMENT_NUMBER, "Document Number"));
-        activeLabels.add(new KeyLabelPair("transactionLedgerEntrySequenceNumber", "Sequence Number"));
-        activeLabels.add(new KeyLabelPair("transactionLedgerEntryDescription", "Description"));
-        activeLabels.add(new KeyLabelPair("transactionLedgerEntryAmount", "Amount"));
-        activeLabels.add(new KeyLabelPair("transactionDebitCreditCode", "Debit Credit Indicator"));
-        activeLabels.add(new KeyLabelPair("transactionDate", "Transaction Date"));
-        activeLabels.add(new KeyLabelPair("organizationDocumentNumber", "Org Doc Number"));
-        activeLabels.add(new KeyLabelPair("projectCode", "Project Code"));
-        activeLabels.add(new KeyLabelPair("organizationReferenceId", "Org Ref ID"));
-        activeLabels.add(new KeyLabelPair("referenceFinancialDocumentTypeCode", "Ref Doc Type"));
-        activeLabels.add(new KeyLabelPair("referenceFinancialSystemOriginationCode", "Ref Origin code"));
-        activeLabels.add(new KeyLabelPair("referenceFinancialDocumentNumber", "Ref Doc Number"));
-        activeLabels.add(new KeyLabelPair("financialDocumentReversalDate", "Reversal Date"));
-        activeLabels.add(new KeyLabelPair("transactionEncumbranceUpdateCode", "Enc Update Code"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER, "Sequence Number"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC, "Description"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT, "Amount"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE, "Debit Credit Indicator"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.TRANSACTION_DATE, "Transaction Date"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER, "Org Doc Number"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.PROJECT_CODE, "Project Code"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID, "Org Ref ID"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE, "Ref Doc Type"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.FIN_SYSTEM_REF_ORIGINATION_CODE, "Ref Origin code"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.FINANCIAL_DOCUMENT_REFERENCE_NBR, "Ref Doc Number"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE, "Reversal Date"));
+        activeLabels.add(new KeyLabelPair(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD, "Enc Update Code"));
         return activeLabels;
     }
 
@@ -161,19 +164,19 @@ public class OriginEntryFieldFinder extends KeyValuesBase {
      * @return a String with the name of the class that field returns
      */
     public String getFieldType(String fieldName) {
-        if (fieldName.equals("universityFiscalYear")) {
+        if (fieldName.equals(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR)) {
             return "Integer";
         }
-        if (fieldName.equals("transactionLedgerEntrySequenceNumber")) {
+        if (fieldName.equals(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER)) {
             return "Integer";
         }
-        if (fieldName.equals("transactionLedgerEntryAmount")) {
+        if (fieldName.equals(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT)) {
             return "KualiDecimal";
         }
-        if (fieldName.equals("transactionDate")) {
+        if (fieldName.equals(KFSPropertyConstants.TRANSACTION_DATE)) {
             return "Date";
         }
-        if (fieldName.equals("financialDocumentReversalDate")) {
+        if (fieldName.equals(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE)) {
             return "Date";
         }
         return "String";
@@ -186,7 +189,7 @@ public class OriginEntryFieldFinder extends KeyValuesBase {
      * @return true if it can be set to null, false otherwise
      */
     public boolean allowNull(String fieldName) {
-        if (fieldName.equals("transactionLedgerEntryAmount")) {
+        if (fieldName.equals(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT)) {
             return false;
         }
         return true;
@@ -199,84 +202,10 @@ public class OriginEntryFieldFinder extends KeyValuesBase {
      * @return the length of the field
      */
     public int getFieldLength(String fieldName) {
-        // TODO  AUGH!!!!!  BASE THIS ON THE DATA DICTIONARY!!!!!
-        // TODO:- can't use Data Dictionary since we are not using DB for OE, Constant maybe??
-        
-        if (fieldName.equals("universityFiscalYear")) {
-            return 4;
-        }
-        else if (fieldName.equals("transactionLedgerEntrySequenceNumber")) {
-            return 5;
-        }
-        else if (fieldName.equals("transactionLedgerEntryAmount")) {
-            return 20;
-        }
-        else if (fieldName.equals("transactionDate")) {
-            return 10;
-        }
-        else if (fieldName.equals("financialDocumentReversalDate")) {
-            return 10;
-        }
-        else if (fieldName.equals("chartOfAccountsCode")) {
-            return 2;
-        }
-        else if (fieldName.equals("accountNumber")) {
-            return 7;
-        }
-        else if (fieldName.equals("subAccountNumber")) {
-            return 5;
-        }
-        else if (fieldName.equals("financialObjectCode")) {
-            return 4;
-        }
-        else if (fieldName.equals("financialSubObjectCode")) {
-            return 3;
-        }
-        else if (fieldName.equals("financialBalanceTypeCode")) {
-            return 2;
-        }
-        else if (fieldName.equals("financialObjectTypeCode")) {
-            return 2;
-        }
-        else if (fieldName.equals("universityFiscalPeriodCode")) {
-            return 2;
-        }
-        else if (fieldName.equals("financialDocumentTypeCode")) {
-            return 4;
-        }
-        else if (fieldName.equals("financialSystemOriginationCode")) {
-            return 2;
-        }
-        else if (fieldName.equals(KFSPropertyConstants.DOCUMENT_NUMBER)) {
-            return 14;
-        }
-        else if (fieldName.equals("transactionLedgerEntryDescription")) {
-            return 40;
-        }
-        else if (fieldName.equals("transactionDebitCreditCode")) {
-            return 1;
-        }
-        else if (fieldName.equals("organizationDocumentNumber")) {
-            return 10;
-        }
-        else if (fieldName.equals("projectCode")) {
-            return 10;
-        }
-        else if (fieldName.equals("organizationReferenceId")) {
-            return 8;
-        }
-        else if (fieldName.equals("referenceFinancialDocumentTypeCode")) {
-            return 4;
-        }
-        else if (fieldName.equals("referenceFinancialSystemOriginationCode")) {
-            return 2;
-        }
-        else if (fieldName.equals("referenceFinancialDocumentNumber")) {
-            return 14;
-        }
-        else if (fieldName.equals("transactionEncumbranceUpdateCode")) {
-            return 1;
-        }
-        return 0;
+        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+        int fieldLength = 0;
+        fieldLength = dataDictionaryService.getAttributeMaxLength(OriginEntryFull.class, fieldName);
+        return fieldLength;
     }
+    
 }

@@ -219,7 +219,7 @@
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Financial Document Reversal Date"/>
     <property name="shortLabel" value="Date"/>
-    <property name="maxLength" value="7"/>
+    <property name="maxLength" value="10"/>
     <property name="validationPattern">
       <bean parent="DateValidationPattern"/>
     </property>
@@ -474,7 +474,7 @@
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Pay Period End Date"/>
     <property name="shortLabel" value="Date"/>
-    <property name="maxLength" value="7"/>
+    <property name="maxLength" value="10"/>
     <property name="validationPattern">
       <bean parent="DateValidationPattern"/>
     </property>
@@ -645,12 +645,12 @@
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Transaction Date"/>
     <property name="shortLabel" value="Date"/>
-    <property name="maxLength" value="7"/>
+    <property name="maxLength" value="10"/>
     <property name="validationPattern">
       <bean parent="DateValidationPattern"/>
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
   <bean id="LaborOriginEntry-transactionDateTimeStamp" parent="LaborOriginEntry-transactionDateTimeStamp-parentBean"/>
@@ -735,7 +735,7 @@
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Transaction Ledger Entry Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="maxLength" value="19"/>
+    <property name="maxLength" value="21"/>
     <property name="validationPattern">
       <bean parent="FloatingPointValidationPattern"/>
     </property>
@@ -780,7 +780,7 @@
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Transaction Posting Date"/>
     <property name="shortLabel" value="Date"/>
-    <property name="maxLength" value="7"/>
+    <property name="maxLength" value="10"/>
     <property name="validationPattern">
       <bean parent="DateValidationPattern"/>
     </property>

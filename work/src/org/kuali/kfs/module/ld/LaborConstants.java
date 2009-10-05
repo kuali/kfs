@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.ParameterService;
 
@@ -52,7 +53,7 @@ public class LaborConstants {
         public static final String POSITION_NUMBER = "POSITION_NBR";
         public static final String EMPLOYEE_IDENTIFIER = "EMPLID";
     }
-    
+
     public static class BenefitExpenseTransfer {
         public static final String LABOR_LEDGER_BENEFIT_CODE = "F";
     }
@@ -94,12 +95,12 @@ public class LaborConstants {
         public static final String OBJECT_CODES_NOT_PROCESSED = "SENT_TO_POSTER_OBJECT_CODES";
         public static final String PERIOD_CODES_NOT_PROCESSED = "SENT_TO_GL_PERIOD_CODES";
     }
-    
+
     public static class Balancing {
         public static final String NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE = "NUMBER_OF_PAST_FISCAL_YEARS_TO_INCLUDE";
-        public static final String NUMBER_OF_COMPARISON_FAILURES_TO_PRINT_PER_REPORT = "NUMBER_OF_COMPARISON_FAILURES_TO_PRINT_PER_REPORT";        
+        public static final String NUMBER_OF_COMPARISON_FAILURES_TO_PRINT_PER_REPORT = "NUMBER_OF_COMPARISON_FAILURES_TO_PRINT_PER_REPORT";
     }
-    
+
     public static class SalaryExpenseTransfer {
         public static final String BENEFIT_CLEARING_ACCOUNT_PARM_NM = "BENEFIT_CLEARING_ACCOUNT_NUMBER";
         public static final String BENEFIT_CLEARING_CHART_PARM_NM = "BENEFIT_CLEARING_CHART_OF_ACCOUNTS";
@@ -122,25 +123,25 @@ public class LaborConstants {
         public static final String NON_FRINGE_ACCOUNT_BYPASS_ORIGINATIONS = "NON_FRINGE_ACCOUNT_BYPASS_ORIGINATIONS";
         public static final String NON_WAGE_SUB_FUND_BYPASS_ORIGINATIONS = "NON_WAGE_SUB_FUND_BYPASS_ORIGINATIONS";
     }
-    
+
     public static class BatchFileSystem {
         static final public String NIGHTLY_OUT_FILE = "ld_labentry_kfs";
         static final public String BACKUP_FILE = "ld_ldbackup";
         static final public String PRE_SCRUBBER_FILE = "ld_prescrub";
         static final public String SCRUBBER_INPUT_FILE = "ld_sortscrb";
-        
+
         static final public String SCRUBBER_VALID_OUTPUT_FILE = "ld_scrbout1";
         static final public String SCRUBBER_ERROR_OUTPUT_FILE = "ld_scrberr1";
         static final public String SCRUBBER_EXPIRED_OUTPUT_FILE = "ld_expaccts";
-        
+
         static final public String SCRUBBER_ERROR_SORTED_FILE = "ld_sorterr1";
         static final public String DEMERGER_VAILD_OUTPUT_FILE = "ld_scrbout2";
         static final public String DEMERGER_ERROR_OUTPUT_FILE = "ld_scrberr2";
-        
+
         static final public String POSTER_INPUT_FILE = "ld_sortpost";
         static final public String POSTER_VALID_OUTPUT_FILE = "ld_postout";
         static final public String POSTER_ERROR_OUTPUT_FILE = "ld_posterrs";
-        
+
         static final public String LABOR_GL_ENTRY_FILE = "gl_glentry_lab";
         static final public String BALANCE_FORWARDS_FILE = "ld_balance_forwards";
     }
@@ -160,10 +161,10 @@ public class LaborConstants {
         public static final String ORIGINATION_CODE = "ORIGINATION";
         public static final String SUB_FUND_GROUP_PROCESSED = "SUB_FUND_GROUPS";
     }
-    
-    public static class PurgeJob{
-        public static final String PURGE_LEDGER_BALANCE_YEAR= "PRIOR_TO_YEAR";
-        public static final String PURGE_LEDGER_ENTRY_YEAR= "PRIOR_TO_YEAR";
+
+    public static class PurgeJob {
+        public static final String PURGE_LEDGER_BALANCE_YEAR = "PRIOR_TO_YEAR";
+        public static final String PURGE_LEDGER_ENTRY_YEAR = "PRIOR_TO_YEAR";
     }
 
     public static final String BASE_FUNDS_LOOKUP_HELPER_SRVICE_NAME = "BaseFundsLookupableHelperService";
@@ -241,16 +242,17 @@ public class LaborConstants {
         }
         return SPACE_TRANSACTION_DATE;
     }
-    
-    public static final String ANNUAL_CLOSING_DOCUMENT_TYPE_CODE = getAnnualClosingDocumentType();   
+
+    public static final String ANNUAL_CLOSING_DOCUMENT_TYPE_CODE = getAnnualClosingDocumentType();
+
     private static String getAnnualClosingDocumentType() {
         return SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE);
     }
 
     public static final String[] ACCOUNT_FIELDS = { KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.ACCOUNT_NUMBER };
-    
+
     public static final String LABOR_OBJECT_SALARY_CODE = "S";
-    
+
     private static String DASH_POSITION_NUMBER = null;
 
     public static String getDashPositionNumber() {
@@ -268,11 +270,24 @@ public class LaborConstants {
         }
         return DASH_EMPLID;
     }
-    
+
+    public static String getSpaceAllLaborOriginEntryFields() {
+
+        List<AttributeDefinition> attributes = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(LaborOriginEntry.class.getName()).getAttributes();
+        int totalLength = 0;
+        for (AttributeDefinition attributeDefinition : attributes) {
+            if (!(KFSPropertyConstants.ENTRY_GROUP_ID.equals(attributeDefinition.getName()) || KFSPropertyConstants.ENTRY_ID.equals(attributeDefinition.getName()))) {
+                totalLength += attributeDefinition.getMaxLength();
+            }
+        }
+
+        return StringUtils.rightPad("", totalLength, ' ');
+    }
+
+
     public static final String LABOR_MODULE_CODE = "KFS-LD";
-    
+
     public static class PermissionNames {
-        public static final String 
-            OVERRIDE_TRANSFER_IMPACTING_EFFORT_CERTIFICATION = "Override Transfer Impacting Open Effort Certification";
-    }    
+        public static final String OVERRIDE_TRANSFER_IMPACTING_EFFORT_CERTIFICATION = "Override Transfer Impacting Open Effort Certification";
+    }
 }

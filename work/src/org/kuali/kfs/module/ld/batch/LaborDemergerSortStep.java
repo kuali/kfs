@@ -18,10 +18,13 @@ package org.kuali.kfs.module.ld.batch;
 import java.io.File;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Map;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.BatchSortUtil;
 import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntryFieldUtil;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.springframework.util.StopWatch;
 
@@ -62,20 +65,24 @@ public class LaborDemergerSortStep extends AbstractStep {
     public static class LaborDemergerSortComparator implements Comparator {
 
         public int compare(Object object1, Object object2) {
+            
+            LaborOriginEntryFieldUtil loefu = new LaborOriginEntryFieldUtil();
+            Map<String, Integer> pMap = loefu.getFieldBeginningPositionMap();
+            
             String string1 = (String) object1;
             String string2 = (String) object2;
             StringBuffer sb1 = new StringBuffer();
 
-            sb1.append(string1.substring(31, 51));
+            sb1.append(string1.substring(pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER)));
             // sb1.append(string1.substring(51, 56)); // reverse???
             StringBuffer sb2 = new StringBuffer();
-            sb2.append(string1.substring(31, 51));
+            sb2.append(string1.substring(pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER)));
             // sb2.append(string1.substring(51, 56));
 
             int returnValue = sb1.toString().compareTo(sb2.toString());
             if (returnValue == 0) {
-                sb1.append(string1.substring(51, 56)); // reverse???
-                sb2.append(string1.substring(51, 56));
+                sb1.append(string1.substring(pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC))); // reverse???
+                sb2.append(string1.substring(pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC)));
                 returnValue = sb2.toString().compareTo(sb1.toString());
             }
             return returnValue;

@@ -23,6 +23,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
@@ -30,6 +31,7 @@ import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
@@ -45,8 +47,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInformation, LaborTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborOriginEntry.class);
-    private static String SPACES = "                                                                                                              ";
-    public static final String ZERO_TRANSACTION_LEDGER_ENTRY_AMOUNT =  "+0000000000000000.00"; 
     private static final String DATE_FORMAT = "yyyy-MM-dd";
     private String positionNumber;
     private Date transactionPostingDate;
@@ -690,47 +690,44 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
      */
     public String getLine() {
         StringBuilder sb = new StringBuilder();
+        LaborOriginEntryFieldUtil loefu = new LaborOriginEntryFieldUtil();
+        Map<String, Integer> lMap = loefu.getFieldLengthMap();
+        Map<String, Integer> pMap = loefu.getFieldBeginningPositionMap();
+        int entryLength = pMap.get(LaborPropertyConstants.SET_ID) +  lMap.get(LaborPropertyConstants.SET_ID);
+        
         if (universityFiscalYear == null) {
-            sb.append("    ");
+            sb.append(GeneralLedgerConstants.getSpaceUniversityFiscalYear());
         }
         else {
             sb.append(universityFiscalYear);
         }
 
-        sb.append(getField(2, chartOfAccountsCode));
-        sb.append(getField(7, accountNumber));
-        sb.append(getField(5, subAccountNumber));
-        sb.append(getField(4, financialObjectCode));
-        sb.append(getField(3, financialSubObjectCode));
-        sb.append(getField(2, financialBalanceTypeCode));
-        sb.append(getField(2, financialObjectTypeCode));
-        sb.append(getField(2, universityFiscalPeriodCode));
-        sb.append(getField(4, financialDocumentTypeCode));
-        sb.append(getField(2, financialSystemOriginationCode));
-        sb.append(getField(14, documentNumber));
+        sb.append(getField(lMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), chartOfAccountsCode));
+        sb.append(getField(lMap.get(KFSPropertyConstants.ACCOUNT_NUMBER), accountNumber));
+        sb.append(getField(lMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER), subAccountNumber));
+        sb.append(getField(lMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE), financialObjectCode));
+        sb.append(getField(lMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE), financialSubObjectCode));
+        sb.append(getField(lMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE), financialBalanceTypeCode));
+        sb.append(getField(lMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE), financialObjectTypeCode));
+        sb.append(getField(lMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE), universityFiscalPeriodCode));
+        sb.append(getField(lMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE), financialDocumentTypeCode));
+        sb.append(getField(lMap.get(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE), financialSystemOriginationCode));
+        sb.append(getField(lMap.get(KFSPropertyConstants.DOCUMENT_NUMBER), documentNumber));
 
-        if (transactionLedgerEntrySequenceNumber == null) {
-            sb.append("00000");
+        String seqNum ="";  
+        if (transactionLedgerEntrySequenceNumber != null) {
+            seqNum = transactionLedgerEntrySequenceNumber.toString();
         }
-        else {
-            // Format to a length of 5
-            String seqNum = transactionLedgerEntrySequenceNumber.toString();
-            while (5 > seqNum.length()) {
-                seqNum = "0" + seqNum;
-            }
-            sb.append(seqNum);
-        }
+        // Format to a length of 5
+        sb.append(loefu.fillFieldWithZero(lMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), seqNum));
 
         // Labor Specified fields
-        sb.append(getField(8, positionNumber));
-        sb.append(getField(10, projectCode));
-        sb.append(getField(40, transactionLedgerEntryDescription));
+        sb.append(getField(lMap.get(KFSPropertyConstants.POSITION_NUMBER), positionNumber));
+        sb.append(getField(lMap.get(KFSPropertyConstants.PROJECT_CODE), projectCode));
+        sb.append(getField(lMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC), transactionLedgerEntryDescription));
 
-        // The length of Labor's transactionLedgerEntryAmount is 19
-        // GL's transactionLedgerEntryAmount is 17
-        // now it changed to 20
         if (transactionLedgerEntryAmount == null) {
-            sb.append(ZERO_TRANSACTION_LEDGER_ENTRY_AMOUNT);
+            sb.append(GeneralLedgerConstants.getZeroTransactionLedgerEntryAmout());
         }
         else {
             String a = transactionLedgerEntryAmount.abs().toString();
@@ -739,61 +736,61 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
             } else {
                 sb.append("+");
             } 
-            sb.append(ZERO_TRANSACTION_LEDGER_ENTRY_AMOUNT.substring(1, 21 - a.length()));
+            sb.append(GeneralLedgerConstants.getZeroTransactionLedgerEntryAmout().substring(1, lMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT) - a.length()));
             sb.append(a);
         }
 
-        sb.append(getField(1, transactionDebitCreditCode));
+        sb.append(getField(lMap.get(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE), transactionDebitCreditCode));
         sb.append(formatDate(transactionDate));
-        sb.append(getField(10, organizationDocumentNumber));
-        sb.append(getField(8, organizationReferenceId));
-        sb.append(getField(4, referenceFinancialDocumentTypeCode));
-        sb.append(getField(2, referenceFinancialSystemOriginationCode));
-        sb.append(getField(14, referenceFinancialDocumentNumber));
+        sb.append(getField(lMap.get(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER), organizationDocumentNumber));
+        sb.append(getField(lMap.get(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID), organizationReferenceId));
+        sb.append(getField(lMap.get(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE), referenceFinancialDocumentTypeCode));
+        sb.append(getField(lMap.get(KFSPropertyConstants.FIN_SYSTEM_REF_ORIGINATION_CODE), referenceFinancialSystemOriginationCode));
+        sb.append(getField(lMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REFERENCE_NBR), referenceFinancialDocumentNumber));
         sb.append(formatDate(financialDocumentReversalDate));
-        sb.append(getField(1, transactionEncumbranceUpdateCode));
+        sb.append(getField(lMap.get(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD), transactionEncumbranceUpdateCode));
         sb.append(formatDate(transactionPostingDate));
         sb.append(formatDate(payPeriodEndDate));
 
         if (transactionTotalHours == null) {
-            sb.append("         ");
+            sb.append(StringUtils.rightPad("", lMap.get(KFSPropertyConstants.TRANSACTION_TOTAL_HOURS), " "));
         }
         else {
-            sb.append(getField(9, transactionTotalHours.toString()));
+            sb.append(getField(lMap.get(KFSPropertyConstants.TRANSACTION_TOTAL_HOURS), transactionTotalHours.toString()));
         }
 
         if (payrollEndDateFiscalYear == null) {
-            sb.append("    ");
+            sb.append(StringUtils.rightPad("", lMap.get(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR), " "));
         }
         else {
-            sb.append(getField(4, payrollEndDateFiscalYear.toString()));
+            sb.append(getField(lMap.get(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR), payrollEndDateFiscalYear.toString()));
         }
 
-        sb.append(getField(2, payrollEndDateFiscalPeriodCode));
-        sb.append(getField(11, emplid));
+        sb.append(getField(lMap.get(LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE), payrollEndDateFiscalPeriodCode));
+        sb.append(getField(lMap.get(KFSPropertyConstants.EMPLID), emplid));
 
         if (employeeRecord == null) {
-            sb.append("   ");
+            sb.append(StringUtils.rightPad("", lMap.get(KFSPropertyConstants.EMPLOYEE_RECORD), " "));
         }
         else {
-            sb.append(getField(3, employeeRecord.toString()));
+            sb.append(getField(lMap.get(KFSPropertyConstants.EMPLOYEE_RECORD), employeeRecord.toString()));
         }
 
-        sb.append(getField(3, earnCode));
-        sb.append(getField(3, payGroup));
-        sb.append(getField(4, salaryAdministrationPlan));
-        sb.append(getField(3, grade));
-        sb.append(getField(10, runIdentifier));
-        sb.append(getField(2, laborLedgerOriginalChartOfAccountsCode));
-        sb.append(getField(7, laborLedgerOriginalAccountNumber));
-        sb.append(getField(5, laborLedgerOriginalSubAccountNumber));
-        sb.append(getField(4, laborLedgerOriginalFinancialObjectCode));
-        sb.append(getField(3, laborLedgerOriginalFinancialSubObjectCode));
-        sb.append(getField(3, hrmsCompany));
-        sb.append(getField(5, setid));
+        sb.append(getField(lMap.get(KFSPropertyConstants.EARN_CODE), earnCode));
+        sb.append(getField(lMap.get(KFSPropertyConstants.PAY_GROUP), payGroup));
+        sb.append(getField(lMap.get(LaborPropertyConstants.SALARY_ADMINISTRATION_PLAN), salaryAdministrationPlan));
+        sb.append(getField(lMap.get(LaborPropertyConstants.GRADE), grade));
+        sb.append(getField(lMap.get(LaborPropertyConstants.RUN_IDENTIFIER), runIdentifier));
+        sb.append(getField(lMap.get(LaborPropertyConstants.LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE), laborLedgerOriginalChartOfAccountsCode));
+        sb.append(getField(lMap.get(LaborPropertyConstants.LABORLEDGER_ORIGINAL_ACCOUNT_NUMBER), laborLedgerOriginalAccountNumber));
+        sb.append(getField(lMap.get(LaborPropertyConstants.LABORLEDGER_ORIGINAL_SUB_ACCOUNT_NUMBER), laborLedgerOriginalSubAccountNumber));
+        sb.append(getField(lMap.get(LaborPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_OBJECT_CODE), laborLedgerOriginalFinancialObjectCode));
+        sb.append(getField(lMap.get(LaborPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_SUB_OBJECT_CODE), laborLedgerOriginalFinancialSubObjectCode));
+        sb.append(getField(lMap.get(LaborPropertyConstants.HRMS_COMPANY), hrmsCompany));
+        sb.append(getField(lMap.get(LaborPropertyConstants.SET_ID), setid));
 
         // pad to full length of 295 chars.
-        while (295 > sb.toString().length()) {
+        while (entryLength > sb.toString().length()) {
             sb.append(' ');
         }
 
@@ -807,16 +804,21 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
     public List<Message> setFromTextFileForBatch(String line, int lineNumber)  {
         List<Message> returnList = new ArrayList();
         
+        LaborOriginEntryFieldUtil loefu = new LaborOriginEntryFieldUtil();
+        Map<String, Integer> pMap = loefu.getFieldBeginningPositionMap();
+        Map<String, Integer> lMap = loefu.getFieldLengthMap();
+        int entryLength = pMap.get(LaborPropertyConstants.SET_ID) +  lMap.get(LaborPropertyConstants.SET_ID); 
+        
         // Just in case
-        line = org.apache.commons.lang.StringUtils.rightPad(line, 294, ' ');
-        line = line + SPACES;
-
-        if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(line.substring(0, 4))) {
+        line = org.apache.commons.lang.StringUtils.rightPad(line, entryLength, ' ');
+        String fiscalYearString = line.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
+        if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(fiscalYearString)) {
+            
             try {
-                setUniversityFiscalYear(new Integer(line.substring(0, 4)));
+                setUniversityFiscalYear(new Integer(fiscalYearString));
             }
             catch (NumberFormatException e) {
-                returnList.add(new Message("Fiscal year '" + line.substring(0, 4) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Fiscal year '" + fiscalYearString + "' contains an invalid value." , Message.TYPE_FATAL));
                 setUniversityFiscalYear(null);
             }
 
@@ -824,24 +826,25 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         else {
             setUniversityFiscalYear(null);
         }
-        setChartOfAccountsCode(getValue(line, 4, 6));
-        setAccountNumber(getValue(line, 6, 13));
-        setSubAccountNumber(getValue(line, 13, 18));
-        setFinancialObjectCode(getValue(line, 18, 22));
-        setFinancialSubObjectCode(getValue(line, 22, 25));
-        setFinancialBalanceTypeCode(getValue(line, 25, 27));
-        setFinancialObjectTypeCode(getValue(line, 27, 29));
-        setUniversityFiscalPeriodCode(getValue(line, 29, 31));
-        setFinancialDocumentTypeCode(getValue(line, 31, 35));
-        setFinancialSystemOriginationCode(getValue(line, 35, 37));
-        setDocumentNumber(getValue(line, 37, 51));
+        setChartOfAccountsCode(getValue(line, pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), pMap.get(KFSPropertyConstants.ACCOUNT_NUMBER)));
+        setAccountNumber(getValue(line, pMap.get(KFSPropertyConstants.ACCOUNT_NUMBER), pMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER)));
+        setSubAccountNumber(getValue(line, pMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER), pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE)));
+        setFinancialObjectCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE)));
+        setFinancialSubObjectCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE)));
+        setFinancialBalanceTypeCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE)));
+        setFinancialObjectTypeCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE), pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE)));
+        setUniversityFiscalPeriodCode(getValue(line, pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE)));
+        setFinancialDocumentTypeCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE)));
+        setFinancialSystemOriginationCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE), pMap.get(KFSPropertyConstants.DOCUMENT_NUMBER)));
+        setDocumentNumber(getValue(line, pMap.get(KFSPropertyConstants.DOCUMENT_NUMBER), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER)));
         
-        if (!GeneralLedgerConstants.getSpaceTransactionEntrySequenceNumber().equals(line.substring(51, 56)) && !GeneralLedgerConstants.getZeroTransactionEntrySequenceNumber().equals(line.substring(51, 56))) {
+        String sequenceNumberString = line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.POSITION_NUMBER));
+        if (!GeneralLedgerConstants.getSpaceTransactionEntrySequenceNumber().equals(sequenceNumberString) && !GeneralLedgerConstants.getZeroTransactionEntrySequenceNumber().equals(sequenceNumberString)) {
             try {
-                setTransactionLedgerEntrySequenceNumber(new Integer(line.substring(51, 56).trim()));
+                setTransactionLedgerEntrySequenceNumber(new Integer(sequenceNumberString.trim()));
             }
             catch (NumberFormatException e) {
-                returnList.add(new Message("Transaction Sequence Number '" + line.substring(51, 56) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Transaction Sequence Number '" + sequenceNumberString + "' contains an invalid value." , Message.TYPE_FATAL));
                 setTransactionLedgerEntrySequenceNumber(null);
             }
         }
@@ -849,16 +852,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
             setTransactionLedgerEntrySequenceNumber(null);
         }
         
-        setPositionNumber(getValue(line, 56, 64));
-        setProjectCode(getValue(line, 64, 74));
-        setTransactionLedgerEntryDescription(getValue(line, 74, 114));
+        setPositionNumber(getValue(line, pMap.get(KFSPropertyConstants.POSITION_NUMBER), pMap.get(KFSPropertyConstants.PROJECT_CODE)));
+        setProjectCode(getValue(line, pMap.get(KFSPropertyConstants.PROJECT_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC)));
+        setTransactionLedgerEntryDescription(getValue(line, pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT)));
         
-        if (!line.substring(114, 135).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+        String amountString = line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT), pMap.get(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE));
+        if (!amountString.trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setTransactionLedgerEntryAmount(new KualiDecimal(line.substring(114, 135).trim()));
+                setTransactionLedgerEntryAmount(new KualiDecimal(amountString.trim()));
             }
             catch (NumberFormatException e) {
-                returnList.add(new Message("Transaction Amount '" + line.substring(114, 135) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Transaction Amount '" + amountString + "' contains an invalid value." , Message.TYPE_FATAL));
                 setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
             }
         } else {
@@ -866,82 +870,87 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
             setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
         }
         
-        setTransactionDebitCreditCode(line.substring(135, 136));
+        setTransactionDebitCreditCode(line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_DATE)));
         
-        if (!line.substring(136, 146).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+        String transactionDateString = line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_DATE), pMap.get(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER));
+        if (!transactionDateString.trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setTransactionDate(parseDate(line.substring(136, 146), false));
+                setTransactionDate(parseDate(org.springframework.util.StringUtils.trimTrailingWhitespace(transactionDateString), false));
             }
             catch (ParseException e) {
                 setTransactionDate(null);
-                returnList.add(new Message("Transaction Date '" + line.substring(136, 146) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Transaction Date '" + transactionDateString + "' contains an invalid value." , Message.TYPE_FATAL));
             }
         } else {
             setTransactionDate(null);
         }
         
-        setOrganizationDocumentNumber(getValue(line, 146, 156));
-        setOrganizationReferenceId(getValue(line, 156, 164));
-        setReferenceFinancialDocumentTypeCode(getValue(line, 164, 168));
-        setReferenceFinancialSystemOriginationCode(getValue(line, 168, 170));
-        setReferenceFinancialDocumentNumber(getValue(line, 170, 184));
+        setOrganizationDocumentNumber(getValue(line, pMap.get(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER), pMap.get(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID)));
+        setOrganizationReferenceId(getValue(line, pMap.get(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID), pMap.get(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE)));
+        setReferenceFinancialDocumentTypeCode(getValue(line, pMap.get(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.FIN_SYSTEM_REF_ORIGINATION_CODE)));
+        setReferenceFinancialSystemOriginationCode(getValue(line, pMap.get(KFSPropertyConstants.FIN_SYSTEM_REF_ORIGINATION_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REFERENCE_NBR)));
+        setReferenceFinancialDocumentNumber(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REFERENCE_NBR), pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE)));
         
-        if (!line.substring(184, 194).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+        String revDateStr = line.substring(pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE), pMap.get(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD));
+        if (!revDateStr.trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setFinancialDocumentReversalDate(parseDate(line.substring(184, 194), false));
+                setFinancialDocumentReversalDate(parseDate(org.springframework.util.StringUtils.trimTrailingWhitespace(revDateStr), false));
             }
             catch (ParseException e) {
                 setFinancialDocumentReversalDate(null);
-                returnList.add(new Message("Reversal Date '" + line.substring(184, 194) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Reversal Date '" + revDateStr + "' contains an invalid value." , Message.TYPE_FATAL));
             }
         } else {
             setFinancialDocumentReversalDate(null);
         }
         
-        setTransactionEncumbranceUpdateCode(line.substring(194, 195));
+        setTransactionEncumbranceUpdateCode(line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD), pMap.get(KFSPropertyConstants.TRANSACTION_POSTING_DATE)));
 
-        if (!line.substring(195, 205).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+        String postDateStr = line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_POSTING_DATE), pMap.get(KFSPropertyConstants.PAY_PERIOD_END_DATE));
+        if (!postDateStr.trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setTransactionPostingDate(parseDate(getValue(line, 195, 205), false));
+                setTransactionPostingDate(parseDate(org.springframework.util.StringUtils.trimTrailingWhitespace(postDateStr), false));
             }
             catch (ParseException e) {
                 setTransactionPostingDate(null);
-                returnList.add(new Message("Transaction Posting Date '" + line.substring(195, 205) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Transaction Posting Date '" + postDateStr + "' contains an invalid value." , Message.TYPE_FATAL));
             }
         } else {
             setTransactionPostingDate(null);
         }
         
-        if (!line.substring(205, 215).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+        String payPeriodDateStr = line.substring(pMap.get(KFSPropertyConstants.PAY_PERIOD_END_DATE), pMap.get(KFSPropertyConstants.TRANSACTION_TOTAL_HOURS));
+        if (!payPeriodDateStr.trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setPayPeriodEndDate(parseDate(getValue(line, 205, 215), false));
+                setPayPeriodEndDate(parseDate(org.springframework.util.StringUtils.trimTrailingWhitespace(payPeriodDateStr), false));
             }
             catch (ParseException e) {
                 setPayPeriodEndDate(null);
-                returnList.add(new Message("Pay Period End Date '" + line.substring(205, 215) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Pay Period End Date '" + payPeriodDateStr + "' contains an invalid value." , Message.TYPE_FATAL));
             }
         } else {
             setPayPeriodEndDate(null);
         }
         
-        if (!line.substring(215, 224).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+        String transTotHrsStr = line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_TOTAL_HOURS), pMap.get(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR)); 
+        if (!transTotHrsStr.trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setTransactionTotalHours(new BigDecimal(getValue(line, 215, 224)));
+                setTransactionTotalHours(new BigDecimal(org.springframework.util.StringUtils.trimTrailingWhitespace(transTotHrsStr)));
             }
             catch (NumberFormatException e) {
                 setTransactionTotalHours(null);
-                returnList.add(new Message("Transaction Total Hours '" + line.substring(215, 224) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Transaction Total Hours '" + transTotHrsStr + "' contains an invalid value." , Message.TYPE_FATAL));
             }
         } else {
             setTransactionTotalHours(null);
         }
-
-        if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(line.substring(224, 228))) {
+        String payEndFisYrStr = line.substring(pMap.get(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR), pMap.get(LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE));
+        if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(payEndFisYrStr)) {
             try {
-                setPayrollEndDateFiscalYear(new Integer(getValue(line, 224, 228)));
+                setPayrollEndDateFiscalYear(new Integer(org.springframework.util.StringUtils.trimTrailingWhitespace(payEndFisYrStr)));
             }
             catch (NumberFormatException e) {
-                returnList.add(new Message("Payroll End Date Fiscal Year '" + line.substring(224, 228) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Payroll End Date Fiscal Year '" + payEndFisYrStr + "' contains an invalid value." , Message.TYPE_FATAL));
                 setPayrollEndDateFiscalYear(null);
             }
         }
@@ -949,33 +958,34 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
             setPayrollEndDateFiscalYear(null);
         }
 
-        setPayrollEndDateFiscalPeriodCode(getValue(line, 228, 230));
-        setEmplid(getValue(line, 230, 241));
+        setPayrollEndDateFiscalPeriodCode(getValue(line, pMap.get(LaborPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE), pMap.get(KFSPropertyConstants.EMPLID)));
+        setEmplid(getValue(line, pMap.get(KFSPropertyConstants.EMPLID), pMap.get(KFSPropertyConstants.EMPLOYEE_RECORD)));
 
-        if (!line.substring(241, 244).trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
+        String empRecordStr = line.substring(pMap.get(KFSPropertyConstants.EMPLOYEE_RECORD), pMap.get(KFSPropertyConstants.EARN_CODE));
+        if (!empRecordStr.trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setEmployeeRecord(new Integer(getValue(line, 241, 244)));
+                setEmployeeRecord(new Integer(org.springframework.util.StringUtils.trimTrailingWhitespace(empRecordStr)));
             }
             catch (NumberFormatException e) {
-                returnList.add(new Message("Employee Record '" + line.substring(241, 244) + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Employee Record '" + empRecordStr + "' contains an invalid value." , Message.TYPE_FATAL));
                 setEmployeeRecord(null);
             }
         } else {
             setEmployeeRecord(null);
         }
         
-        setEarnCode(getValue(line, 244, 247));
-        setPayGroup(getValue(line, 247, 250));
-        setSalaryAdministrationPlan(getValue(line, 250, 254));
-        setGrade(getValue(line, 254, 257));
-        setRunIdentifier(getValue(line, 257, 267));
-        setLaborLedgerOriginalChartOfAccountsCode(getValue(line, 267, 269));
-        setLaborLedgerOriginalAccountNumber(getValue(line, 269, 276));
-        setLaborLedgerOriginalSubAccountNumber(getValue(line, 276, 281));
-        setLaborLedgerOriginalFinancialObjectCode(getValue(line, 281, 285));
-        setLaborLedgerOriginalFinancialSubObjectCode(getValue(line, 285, 288));
-        setHrmsCompany(getValue(line, 288, 291));
-        setSetid(getValue(line, 291, 296));
+        setEarnCode(getValue(line, pMap.get(KFSPropertyConstants.EARN_CODE), pMap.get(KFSPropertyConstants.PAY_GROUP)));
+        setPayGroup(getValue(line, pMap.get(KFSPropertyConstants.PAY_GROUP), pMap.get(LaborPropertyConstants.SALARY_ADMINISTRATION_PLAN)));
+        setSalaryAdministrationPlan(getValue(line, pMap.get(LaborPropertyConstants.SALARY_ADMINISTRATION_PLAN), pMap.get(LaborPropertyConstants.GRADE)));
+        setGrade(getValue(line, pMap.get(LaborPropertyConstants.GRADE), pMap.get(LaborPropertyConstants.RUN_IDENTIFIER)));
+        setRunIdentifier(getValue(line, pMap.get(LaborPropertyConstants.RUN_IDENTIFIER), pMap.get(LaborPropertyConstants.LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE)));
+        setLaborLedgerOriginalChartOfAccountsCode(getValue(line, pMap.get(LaborPropertyConstants.LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE), pMap.get(LaborPropertyConstants.LABORLEDGER_ORIGINAL_ACCOUNT_NUMBER)));
+        setLaborLedgerOriginalAccountNumber(getValue(line, pMap.get(LaborPropertyConstants.LABORLEDGER_ORIGINAL_ACCOUNT_NUMBER), pMap.get(LaborPropertyConstants.LABORLEDGER_ORIGINAL_SUB_ACCOUNT_NUMBER)));
+        setLaborLedgerOriginalSubAccountNumber(getValue(line, pMap.get(LaborPropertyConstants.LABORLEDGER_ORIGINAL_SUB_ACCOUNT_NUMBER), pMap.get(LaborPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_OBJECT_CODE)));
+        setLaborLedgerOriginalFinancialObjectCode(getValue(line, pMap.get(LaborPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_OBJECT_CODE), pMap.get(LaborPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_SUB_OBJECT_CODE)));
+        setLaborLedgerOriginalFinancialSubObjectCode(getValue(line, pMap.get(LaborPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_SUB_OBJECT_CODE), pMap.get(LaborPropertyConstants.HRMS_COMPANY)));
+        setHrmsCompany(getValue(line, pMap.get(LaborPropertyConstants.HRMS_COMPANY), pMap.get(LaborPropertyConstants.SET_ID)));
+        setSetid(getValue(line, pMap.get(LaborPropertyConstants.SET_ID), entryLength));
         
         return returnList;
     }

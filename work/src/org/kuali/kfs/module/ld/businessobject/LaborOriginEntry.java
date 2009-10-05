@@ -719,7 +719,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
             seqNum = transactionLedgerEntrySequenceNumber.toString();
         }
         // Format to a length of 5
-        sb.append(loefu.fillFieldWithZero(lMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), seqNum));
+        sb.append(StringUtils.leftPad(seqNum.trim(), lMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), "0"));
 
         // Labor Specified fields
         sb.append(getField(lMap.get(KFSPropertyConstants.POSITION_NUMBER), positionNumber));
@@ -756,7 +756,8 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
             sb.append(StringUtils.rightPad("", lMap.get(KFSPropertyConstants.TRANSACTION_TOTAL_HOURS), " "));
         }
         else {
-            sb.append(getField(lMap.get(KFSPropertyConstants.TRANSACTION_TOTAL_HOURS), transactionTotalHours.toString()));
+            String totalhour = getField(lMap.get(KFSPropertyConstants.TRANSACTION_TOTAL_HOURS), transactionTotalHours.toString());
+            sb.append(StringUtils.leftPad(totalhour.trim(), lMap.get(KFSPropertyConstants.TRANSACTION_TOTAL_HOURS), " "));
         }
 
         if (payrollEndDateFiscalYear == null) {
@@ -773,7 +774,8 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
             sb.append(StringUtils.rightPad("", lMap.get(KFSPropertyConstants.EMPLOYEE_RECORD), " "));
         }
         else {
-            sb.append(getField(lMap.get(KFSPropertyConstants.EMPLOYEE_RECORD), employeeRecord.toString()));
+            String empRecord = getField(lMap.get(KFSPropertyConstants.EMPLOYEE_RECORD), employeeRecord.toString());
+            sb.append(StringUtils.leftPad(empRecord.trim(), lMap.get(KFSPropertyConstants.EMPLOYEE_RECORD), " "));
         }
 
         sb.append(getField(lMap.get(KFSPropertyConstants.EARN_CODE), earnCode));

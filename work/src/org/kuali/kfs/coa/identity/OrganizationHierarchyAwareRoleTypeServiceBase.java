@@ -69,14 +69,32 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends KimR
     
     @Override
     public AttributeSet convertQualificationForMemberRoles(String namespaceCode, String roleName, String memberRoleNamespaceCode, String memberRoleName, AttributeSet qualification) {
-        AttributeSet newQualification = new AttributeSet(qualification);
-        try {
-            newQualification.put(KfsKimAttributes.CAMPUS_CODE, organizationService.getByPrimaryId(qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE), qualification.get(KfsKimAttributes.ORGANIZATION_CODE)).getOrganizationPhysicalCampusCode());
+        if ( qualification == null ) {
+            return null;
         }
-        catch (Exception e) {
-            if (LOG.isDebugEnabled()) LOG.warn("Unable to convert organization qualification to physical campus", e);
+        // only attempt the conversion if :
+        // (a) there is not already a campus code provided by the document 
+        // and (b) we have a chart and organization to resolve
+        if ( StringUtils.isBlank( qualification.get(KfsKimAttributes.CAMPUS_CODE ) )
+                && StringUtils.isNotBlank( KfsKimAttributes.CHART_OF_ACCOUNTS_CODE)
+                && StringUtils.isNotBlank( KfsKimAttributes.ORGANIZATION_CODE ) ) {
+            AttributeSet newQualification = new AttributeSet(qualification);
+            try {
+                Organization org = organizationService.getByPrimaryId(qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE), qualification.get(KfsKimAttributes.ORGANIZATION_CODE));
+                if ( org != null ) {
+                    newQualification.put(KfsKimAttributes.CAMPUS_CODE, org.getOrganizationPhysicalCampusCode());
+                } else {
+                    if ( LOG.isDebugEnabled() ) {
+                        LOG.debug( "Invalid Chart/Org passed to convertQualificationForMemberRoles: " + namespaceCode + "/" + roleName + "/" + memberRoleNamespaceCode + "/" + memberRoleName + "/" + qualification );
+                    }
+                }
+            } catch (Exception ex) {
+                LOG.warn("Unable to convert organization qualification to physical campus", ex);
+            }
+            return newQualification;
+        } else {
+            return qualification;
         }
-        return newQualification;
     }
 
     public boolean doesDelegationQualifierMatchQualification(AttributeSet qualification, AttributeSet delegationQualifier) {

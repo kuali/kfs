@@ -271,7 +271,6 @@ public class FormatServiceImpl implements FormatService {
         boolean successful = true;
 
         paymentGroup.setSortValue(paymentGroupService.getSortGroupId(paymentGroup));
-        paymentGroup.setDisbursementDate(new java.sql.Date(paymentProcess.getProcessTimestamp().getTime()));
         paymentGroup.setPhysCampusProcessCd(paymentProcess.getCampusCode());
         paymentGroup.setProcess(paymentProcess);
 
@@ -743,7 +742,7 @@ public class FormatServiceImpl implements FormatService {
     public void setExtractPaymentService(ExtractPaymentService extractPaymentService) {
         this.extractPaymentService = extractPaymentService;
     }
-    
+
     /**
      * @return Returns the personService.
      */

@@ -106,7 +106,7 @@
 
   <bean id="Batch-paymentFileName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="paymentFileName"/>
-    <property name="label" value="Pyment File Name"/>
+    <property name="label" value="Payment File Name"/>
     <property name="shortLabel" value="File Name"/>
     <property name="maxLength" value="7"/>
     <property name="validationPattern">

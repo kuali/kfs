@@ -43,7 +43,9 @@ import org.kuali.kfs.pdp.service.PaymentDetailService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -66,6 +68,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     private PdpEmailService paymentFileEmailService;
     private BusinessObjectService businessObjectService;
     private KualiConfigurationService kualiConfigurationService;
+    private CountryService countryService;
 
     // Set this to true to run this process without updating the database. This
     // should stay false for production.
@@ -88,10 +91,10 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
         Date processDate = dateTimeService.getCurrentDate();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        
+
         String checkCancelledFilePrefix = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.ExtractPayment.CHECK_CANCEL_FILENAME);
-        checkCancelledFilePrefix = MessageFormat.format(checkCancelledFilePrefix, new Object[]{ null });
-        
+        checkCancelledFilePrefix = MessageFormat.format(checkCancelledFilePrefix, new Object[] { null });
+
         String filename = getOutputFile(checkCancelledFilePrefix, processDate);
         LOG.debug("extractCanceledChecks() filename = " + filename);
 
@@ -113,13 +116,13 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                 writePayee(os, 4, history.getPaymentGroup());
 
                 writeTag(os, 4, "netAmount", history.getPaymentGroup().getNetPaymentAmount().toString());
-                if (ObjectUtils.isNotNull(history.getOrigDisburseNbr()) ) {
+                if (ObjectUtils.isNotNull(history.getOrigDisburseNbr())) {
                     writeTag(os, 4, "disbursementNumber", history.getOrigDisburseNbr().toString());
                 }
                 else {
                     writeTag(os, 4, "disbursementNumber", history.getPaymentGroup().getDisbursementNbr().toString());
                 }
-                if (ObjectUtils.isNotNull(history.getPaymentGroup().getDisbursementType()) ) {
+                if (ObjectUtils.isNotNull(history.getPaymentGroup().getDisbursementType())) {
                     writeTag(os, 4, "disbursementType", history.getPaymentGroup().getDisbursementType().getCode());
                 }
                 else {
@@ -168,18 +171,18 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         PaymentStatus extractedStatus = (PaymentStatus) this.businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
 
         String achFilePrefix = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.ExtractPayment.ACH_FILENAME);
-        achFilePrefix = MessageFormat.format(achFilePrefix, new Object[]{ null });
-        
+        achFilePrefix = MessageFormat.format(achFilePrefix, new Object[] { null });
+
         String filename = getOutputFile(achFilePrefix, processDate);
         LOG.debug("extractAchPayments() filename = " + filename);
 
         // Open file
         BufferedWriter os = null;
-        
+
         writeExtractAchFile(extractedStatus, filename, processDate, sdf);
-        
+
     }
-        
+
     /**
      * @see org.kuali.kfs.pdp.batch.service.ExtractPaymentService#extractChecks()
      */
@@ -189,10 +192,10 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         Date processDate = dateTimeService.getCurrentDate();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         PaymentStatus extractedStatus = (PaymentStatus) this.businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
-        
+
         String checkFilePrefix = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.ExtractPayment.CHECK_FILENAME);
-        checkFilePrefix = MessageFormat.format(checkFilePrefix, new Object[]{ null });
-        
+        checkFilePrefix = MessageFormat.format(checkFilePrefix, new Object[] { null });
+
         String filename = getOutputFile(checkFilePrefix, processDate);
         LOG.debug("extractChecks() filename: " + filename);
 
@@ -214,23 +217,23 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
             writeOpenTagAttribute(os, 0, "checks", "processId", processId.toString(), "campusCode", p.getCampusCode());
 
             List<String> bankCodes = paymentGroupService.getDistinctBankCodesForProcessAndType(processId, PdpConstants.DisbursementTypeCodes.CHECK);
-            
-            for (String bankCode: bankCodes) {
+
+            for (String bankCode : bankCodes) {
                 List<Integer> disbNbrs = paymentGroupService.getDisbursementNumbersByDisbursementTypeAndBankCode(processId, PdpConstants.DisbursementTypeCodes.CHECK, bankCode);
                 for (Iterator<Integer> iter = disbNbrs.iterator(); iter.hasNext();) {
                     Integer disbursementNbr = iter.next();
-    
+
                     boolean first = true;
-                    
+
                     KualiDecimal totalNetAmount = new KualiDecimal(0);
-                    
+
                     // this seems wasteful, but since the total net amount is needed on the first payment detail...it's needed
                     Iterator<PaymentDetail> i2 = paymentDetailService.getByDisbursementNumber(disbursementNbr, processId, PdpConstants.DisbursementTypeCodes.CHECK, bankCode);
                     while (i2.hasNext()) {
                         PaymentDetail pd = i2.next();
                         totalNetAmount = totalNetAmount.add(pd.getNetPaymentAmount());
-                    }   
-    
+                    }
+
                     Iterator<PaymentDetail> paymentDetails = paymentDetailService.getByDisbursementNumber(disbursementNbr, processId, PdpConstants.DisbursementTypeCodes.CHECK, bankCode);
                     while (paymentDetails.hasNext()) {
                         PaymentDetail pd = paymentDetails.next();
@@ -240,17 +243,17 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                             pg.setPaymentStatus(extractedStatus);
                             this.businessObjectService.save(pg);
                         }
-    
+
                         if (first) {
                             writeOpenTagAttribute(os, 2, "check", "disbursementNbr", pg.getDisbursementNbr().toString());
-    
+
                             // Write check level information
-    
+
                             writeBank(os, 4, pg.getBank());
-    
+
                             writeTag(os, 4, "disbursementDate", sdf.format(processDate));
                             writeTag(os, 4, "netAmount", totalNetAmount.toString());
-    
+
                             writePayee(os, 4, pg);
                             writeTag(os, 4, "campusAddressIndicator", pg.getCampusAddress().booleanValue() ? "Y" : "N");
                             writeTag(os, 4, "attachmentIndicator", pg.getPymtAttachment().booleanValue() ? "Y" : "N");
@@ -258,39 +261,39 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                             writeTag(os, 4, "immediatePaymentIndicator", pg.getProcessImmediate().booleanValue() ? "Y" : "N");
                             writeTag(os, 4, "customerUnivNbr", pg.getCustomerInstitutionNumber());
                             writeTag(os, 4, "paymentDate", sdf.format(pg.getPaymentDate()));
-    
+
                             // Write customer profile information
                             CustomerProfile cp = pg.getBatch().getCustomerProfile();
                             writeCustomerProfile(os, 4, cp);
-    
+
                             writeOpenTag(os, 4, "payments");
-    
+
                         }
-    
+
                         writeOpenTag(os, 6, "payment");
-    
+
                         writeTag(os, 8, "purchaseOrderNbr", pd.getPurchaseOrderNbr());
                         writeTag(os, 8, "invoiceNbr", pd.getInvoiceNbr());
                         writeTag(os, 8, "requisitionNbr", pd.getRequisitionNbr());
                         writeTag(os, 8, "custPaymentDocNbr", pd.getCustPaymentDocNbr());
                         writeTag(os, 8, "invoiceDate", sdf.format(pd.getInvoiceDate()));
-    
+
                         writeTag(os, 8, "origInvoiceAmount", pd.getOrigInvoiceAmount().toString());
                         writeTag(os, 8, "netPaymentAmount", pd.getNetPaymentAmount().toString());
                         writeTag(os, 8, "invTotDiscountAmount", pd.getInvTotDiscountAmount().toString());
                         writeTag(os, 8, "invTotShipAmount", pd.getInvTotShipAmount().toString());
                         writeTag(os, 8, "invTotOtherDebitAmount", pd.getInvTotOtherDebitAmount().toString());
                         writeTag(os, 8, "invTotOtherCreditAmount", pd.getInvTotOtherCreditAmount().toString());
-    
+
                         writeOpenTag(os, 8, "notes");
                         for (Iterator ix = pd.getNotes().iterator(); ix.hasNext();) {
                             PaymentNoteText note = (PaymentNoteText) ix.next();
                             writeTag(os, 10, "note", note.getCustomerNoteText());
                         }
                         writeCloseTag(os, 8, "notes");
-    
+
                         writeCloseTag(os, 6, "payment");
-    
+
                         first = false;
                     }
                     writeCloseTag(os, 4, "payments");
@@ -423,7 +426,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
             }
         }
     }
-    
+
     protected static String SPACES = "                                                       ";
 
     protected void writeTag(BufferedWriter os, int indent, String tag, String data) throws IOException {
@@ -501,7 +504,15 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         writeTag(os, indent + 2, "city", pg.getCity());
         writeTag(os, indent + 2, "state", pg.getState());
         writeTag(os, indent + 2, "zipCd", pg.getZipCd());
-        writeTag(os, indent + 2, "country", pg.getCountry());
+        
+        // get country name for code
+        Country country = countryService.getByPrimaryId(pg.getCountry());
+        if (country != null) {
+            writeTag(os, indent + 2, "country", country.getPostalCountryName());
+        }
+        else {
+            writeTag(os, indent + 2, "country", pg.getCountry());
+        }
 
         if (includeAch) {
             writeTag(os, indent + 2, "achBankRoutingNbr", pg.getAchBankRoutingNbr());
@@ -605,4 +616,24 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
+
+    /**
+     * Gets the countryService attribute.
+     * 
+     * @return Returns the countryService.
+     */
+    protected CountryService getCountryService() {
+        return countryService;
+    }
+
+    /**
+     * Sets the countryService attribute value.
+     * 
+     * @param countryService The countryService to set.
+     */
+    public void setCountryService(CountryService countryService) {
+        this.countryService = countryService;
+    }
+
+
 }

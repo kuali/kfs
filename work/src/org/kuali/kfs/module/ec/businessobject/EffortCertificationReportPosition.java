@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.ld.LaborLedgerPositionObjectGroup;
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -19,6 +20,8 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
     private boolean active;
 
     private LaborLedgerPositionObjectGroup positionObjectGroup;
+    private EffortCertificationReportDefinition effortCertificationReportDefinition;
+    private SystemOptions options;
 
     /**
      * Default constructor.
@@ -108,6 +111,51 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
         positionObjectGroup = (LaborLedgerPositionObjectGroup) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(LaborLedgerPositionObjectGroup.class).retrieveExternalizableBusinessObjectIfNecessary(this, positionObjectGroup, LaborPropertyConstants.POSITION_OBJECT_GROUP);
 
         return positionObjectGroup;
+    }
+
+    /**
+     * Gets the effortCertificationReportDefinition attribute.
+     * 
+     * @return Returns the effortCertificationReportDefinition.
+     */
+    public EffortCertificationReportDefinition getEffortCertificationReportDefinition() {
+        return effortCertificationReportDefinition;
+    }
+
+    /**
+     * Sets the effortCertificationReportDefinition attribute value.
+     * 
+     * @param effortCertificationReportDefinition The effortCertificationReportDefinition to set.
+     */
+    public void setEffortCertificationReportDefinition(EffortCertificationReportDefinition effortCertificationReportDefinition) {
+        this.effortCertificationReportDefinition = effortCertificationReportDefinition;
+    }
+
+    /**
+     * Gets the options attribute.
+     * 
+     * @return Returns the options.
+     */
+    public SystemOptions getOptions() {
+        return options;
+    }
+
+    /**
+     * Sets the options attribute value.
+     * 
+     * @param options The options to set.
+     */
+    public void setOptions(SystemOptions options) {
+        this.options = options;
+    }
+
+    /**
+     * Sets the positionObjectGroup attribute value.
+     * 
+     * @param positionObjectGroup The positionObjectGroup to set.
+     */
+    public void setPositionObjectGroup(LaborLedgerPositionObjectGroup positionObjectGroup) {
+        this.positionObjectGroup = positionObjectGroup;
     }
 
     /**

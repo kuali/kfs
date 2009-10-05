@@ -94,11 +94,5 @@ public class LaborOriginEntryFieldUtil {
         positionMap.put(LaborPropertyConstants.SET_ID, positionMap.get(LaborPropertyConstants.HRMS_COMPANY) + lengthMap.get(LaborPropertyConstants.HRMS_COMPANY));
         return positionMap;
     }
-    
-    public String fillFieldWithZero(int fieldLength, String fieldString){
-        while (fieldLength  > fieldString.length()) {
-            fieldString += "0";
-        }
-        return fieldString;
-    }
+
 }

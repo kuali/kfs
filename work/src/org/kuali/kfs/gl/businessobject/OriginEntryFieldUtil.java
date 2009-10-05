@@ -73,32 +73,40 @@ public class OriginEntryFieldUtil {
     public Map<String, Integer> getFieldBeginningPositionMap() {
         Map<String, Integer> positionMap = new HashMap();
         Map<String, Integer> lengthMap = getFieldLengthMap();
-        positionMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, 0);
-        positionMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, lengthMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR));
-        positionMap.put(KFSPropertyConstants.ACCOUNT_NUMBER, positionMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE) + lengthMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
-        positionMap.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, positionMap.get(KFSPropertyConstants.ACCOUNT_NUMBER) + lengthMap.get(KFSPropertyConstants.ACCOUNT_NUMBER));
-        positionMap.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, positionMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER) + lengthMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER));
-        positionMap.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, positionMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE) + lengthMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE));
-        positionMap.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, positionMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE) + lengthMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE));
-        positionMap.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, positionMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE) + lengthMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE));
-        positionMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, positionMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE) + lengthMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE));
-        positionMap.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, positionMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE) + lengthMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE));
-        positionMap.put(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, positionMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE) + lengthMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE));
-        positionMap.put(KFSPropertyConstants.DOCUMENT_NUMBER, positionMap.get(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE) + lengthMap.get(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE));
-        positionMap.put(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER, positionMap.get(KFSPropertyConstants.DOCUMENT_NUMBER) + lengthMap.get(KFSPropertyConstants.DOCUMENT_NUMBER));
-        positionMap.put(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC, positionMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER) + lengthMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER));
-        positionMap.put(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT, positionMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC) + lengthMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC));
-        positionMap.put(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE, positionMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT) + lengthMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT));
-        positionMap.put(KFSPropertyConstants.TRANSACTION_DATE, positionMap.get(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE) + lengthMap.get(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE));
-        positionMap.put(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER, positionMap.get(KFSPropertyConstants.TRANSACTION_DATE) + lengthMap.get(KFSPropertyConstants.TRANSACTION_DATE));
-        positionMap.put(KFSPropertyConstants.PROJECT_CODE, positionMap.get(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER) + lengthMap.get(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER));
-        positionMap.put(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID, positionMap.get(KFSPropertyConstants.PROJECT_CODE) + lengthMap.get(KFSPropertyConstants.PROJECT_CODE));
-        positionMap.put(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE, positionMap.get(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID) + lengthMap.get(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID));
-        positionMap.put(KFSPropertyConstants.FIN_SYSTEM_REF_ORIGINATION_CODE, positionMap.get(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE) + lengthMap.get(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE));
-        positionMap.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_REFERENCE_NBR, positionMap.get(KFSPropertyConstants.FIN_SYSTEM_REF_ORIGINATION_CODE) + lengthMap.get(KFSPropertyConstants.FIN_SYSTEM_REF_ORIGINATION_CODE));
-        positionMap.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE, positionMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REFERENCE_NBR) + lengthMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REFERENCE_NBR));
-        positionMap.put(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD, positionMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE) + lengthMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE));
+        
+        final String[] orderedProperties = new String[] {
+            KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
+            KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+            KFSPropertyConstants.ACCOUNT_NUMBER,
+            KFSPropertyConstants.SUB_ACCOUNT_NUMBER,
+            KFSPropertyConstants.FINANCIAL_OBJECT_CODE,
+            KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE,
+            KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE,
+            KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE,
+            KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE,
+            KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE,
+            KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE,
+            KFSPropertyConstants.DOCUMENT_NUMBER,
+            KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER,
+            KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC,
+            KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT,
+            KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE,
+            KFSPropertyConstants.TRANSACTION_DATE,
+            KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER,
+            KFSPropertyConstants.PROJECT_CODE,
+            KFSPropertyConstants.ORGANIZATION_REFERENCE_ID,
+            KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE,
+            KFSPropertyConstants.FIN_SYSTEM_REF_ORIGINATION_CODE,
+            KFSPropertyConstants.FINANCIAL_DOCUMENT_REFERENCE_NBR,
+            KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE,
+            KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD
+        };
+        int lengthTracker = 0;
+   
+        for (String property : orderedProperties) {
+            positionMap.put(property, new Integer(lengthTracker));
+            lengthTracker += lengthMap.get(property).intValue();
+        }
         return positionMap;
     }
-    
 }

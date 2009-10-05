@@ -101,10 +101,4 @@ public class OriginEntryFieldUtil {
         return positionMap;
     }
     
-    public String fillFieldWithZero(int fieldLength, String fieldString){
-        while (fieldLength  > fieldString.length()) {
-            fieldString += "0";
-        }
-        return fieldString;
-    }
 }

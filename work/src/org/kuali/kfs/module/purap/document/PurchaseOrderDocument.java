@@ -74,6 +74,7 @@ import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.MultiselectableDocSearchConversion;
@@ -167,6 +168,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     private boolean assigningSensitiveData = false; // whether the form is currently used for assigning sensitive data to the PO
     private List<PurchaseOrderSensitiveData> purchaseOrderSensitiveData;  
     private String assignedUserPrincipalName; // this serves as a temporary holder before validation is done
+    
+    //this is a holder for the accountinglines for GL purposes only; used only for PO change docs
+    private List<SourceAccountingLine> glOnlySourceAccountingLines;
     
     // REFERENCE OBJECTS
     private PurchaseOrderVendorChoice purchaseOrderVendorChoice;
@@ -1730,6 +1734,14 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      */
     public boolean getNeedWarning() {
         return getPurchaseOrderInitialOpenTimestamp() == null;
+    }
+
+    public List<SourceAccountingLine> getGlOnlySourceAccountingLines() {
+        return glOnlySourceAccountingLines;
+    }
+
+    public void setGlOnlySourceAccountingLines(List<SourceAccountingLine> glOnlySourceAccountingLines) {
+        this.glOnlySourceAccountingLines = glOnlySourceAccountingLines;
     }
 
 }

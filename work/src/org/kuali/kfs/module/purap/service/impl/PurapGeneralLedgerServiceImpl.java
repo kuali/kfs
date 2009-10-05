@@ -631,7 +631,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }
 
-        po.setSourceAccountingLines(encumbranceAccounts);
+        po.setGlOnlySourceAccountingLines(encumbranceAccounts);
         generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(po);
         saveGLEntries(po.getGeneralLedgerPendingEntries());
         LOG.debug("generateEntriesApproveAmendPo() gl entries created; exit method");
@@ -700,7 +700,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }// endfor
 
-        po.setSourceAccountingLines(purapAccountingService.generateSummaryWithNoZeroTotalsUsingAlternateAmount(po.getItemsActiveOnly()));
+        po.setGlOnlySourceAccountingLines(purapAccountingService.generateSummaryWithNoZeroTotalsUsingAlternateAmount(po.getItemsActiveOnly()));
         if (shouldGenerateGLPEForPurchaseOrder(po)) {
             generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(po);
             saveGLEntries(po.getGeneralLedgerPendingEntries());
@@ -784,7 +784,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }// endfor
 
-        po.setSourceAccountingLines(purapAccountingService.generateSummaryWithNoZeroTotalsUsingAlternateAmount(po.getItemsActiveOnly()));
+        po.setGlOnlySourceAccountingLines(purapAccountingService.generateSummaryWithNoZeroTotalsUsingAlternateAmount(po.getItemsActiveOnly()));
         if (shouldGenerateGLPEForPurchaseOrder(po)) {
             generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(po);
             saveGLEntries(po.getGeneralLedgerPendingEntries());
@@ -852,7 +852,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }// endfor
 
-        po.setSourceAccountingLines(purapAccountingService.generateSummaryWithNoZeroTotalsUsingAlternateAmount(po.getItemsActiveOnly()));
+        po.setGlOnlySourceAccountingLines(purapAccountingService.generateSummaryWithNoZeroTotalsUsingAlternateAmount(po.getItemsActiveOnly()));
         generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(po);
         saveGLEntries(po.getGeneralLedgerPendingEntries());
         LOG.debug("generateEntriesVoidPurchaseOrder() gl entries created; exit method");

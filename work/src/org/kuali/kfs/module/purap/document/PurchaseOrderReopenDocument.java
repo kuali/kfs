@@ -19,6 +19,7 @@ package org.kuali.kfs.module.purap.document;
 import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.PurapConstants;
@@ -117,4 +118,18 @@ public class PurchaseOrderReopenDocument extends PurchaseOrderDocument {
         explicitEntry.setFinancialDocumentTypeCode(PurapDocTypeCodes.PO_REOPEN_DOCUMENT);
         explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
     }
+    
+    @Override
+    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
+        List<GeneralLedgerPendingEntrySourceDetail> accountingLines = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
+        if (getGlOnlySourceAccountingLines() != null) {
+            Iterator iter = getGlOnlySourceAccountingLines().iterator();
+            while (iter.hasNext()) {
+                accountingLines.add((GeneralLedgerPendingEntrySourceDetail) iter.next());
+            }
+        }
+        return accountingLines;
+    }
+
+
 }

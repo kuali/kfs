@@ -51,7 +51,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     protected String chartOfAccountsCode;
     protected String accountNumber;
     protected String organizationCode;
-    protected boolean descendHierarchy;
+    protected Boolean descendHierarchy;
     protected String fromAmount;
     protected String toAmount;
     protected String accountingLineOverrideCode;
@@ -141,7 +141,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
      * 
      * @return Returns the descendHierarchy.
      */
-    public boolean isDescendHierarchy() {
+    public Boolean isDescendHierarchy() {
         return descendHierarchy;
     }
 
@@ -150,7 +150,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
      * 
      * @param descendHierarchy The descendHierarchy to set.
      */
-    public void setDescendHierarchy(boolean descendHierarchy) {
+    public void setDescendHierarchy(Boolean descendHierarchy) {
         this.descendHierarchy = descendHierarchy;
     }
 

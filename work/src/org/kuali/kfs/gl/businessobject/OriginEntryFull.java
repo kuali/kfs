@@ -337,7 +337,7 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
             seqNum = transactionLedgerEntrySequenceNumber.toString();
         }
         // Format to a length of 5
-        sb.append(oefu.fillFieldWithZero(fieldLengthMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), seqNum));
+        sb.append(StringUtils.leftPad(seqNum.trim(), fieldLengthMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), "0"));
         
         sb.append(getField(fieldLengthMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC), transactionLedgerEntryDescription));
         if (transactionLedgerEntryAmount == null) {

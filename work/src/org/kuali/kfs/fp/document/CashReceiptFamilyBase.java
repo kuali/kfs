@@ -181,15 +181,6 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase imple
         return KFSConstants.EMPTY_STRING;
     }
 
-
-    /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getAccountingLineParser()
-     */
-    @Override
-    public AccountingLineParser getAccountingLineParser() {
-        return new BasicFormatWithLineDescriptionAccountingLineParser();
-    }
-
     /**
      * Returns true if accounting line is debit
      * 

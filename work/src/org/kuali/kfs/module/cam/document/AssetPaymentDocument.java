@@ -145,14 +145,6 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getSourceAccountingLineClass()
-     */
-    @Override
-    public Class<AssetPaymentDetail> getSourceAccountingLineClass() {
-        return AssetPaymentDetail.class;
-    }
-
-    /**
      * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
     @Override
@@ -211,14 +203,6 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         // This is an empty method in order to prevent kuali from generating a gl pending entry record.
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getAccountingLineParser()
-     */
-    @Override
-    public AccountingLineParser getAccountingLineParser() {
-        return new AssetPaymentAccountingLineParser();
     }
 
     public List<AssetPaymentAssetDetail> getAssetPaymentAssetDetail() {

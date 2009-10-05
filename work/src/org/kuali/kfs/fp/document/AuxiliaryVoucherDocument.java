@@ -257,24 +257,6 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
     }
 
     /**
-     * Overrides the base implementation to return "From".
-     * 
-     * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
-     */
-    @Override
-    public String getSourceAccountingLinesSectionTitle() {
-        return EMPTY_STRING;
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getAccountingLineParser()
-     */
-    @Override
-    public AccountingLineParser getAccountingLineParser() {
-        return new AuxiliaryVoucherAccountingLineParser();
-    }
-
-    /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#toErrorCorrection()
      */
     @Override

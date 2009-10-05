@@ -9,7 +9,8 @@
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.purap.document.validation.impl.CreditMemoDocumentPreRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.VendorCreditMemoDocumentPresentationController"/>
-    <property name="attachmentTypesValuesFinderClass" value="org.kuali.kfs.module.purap.businessobject.options.VendorCreditMemoAttachmentTypeValuesFinder"/>    
+    <property name="attachmentTypesValuesFinderClass" value="org.kuali.kfs.module.purap.businessobject.options.VendorCreditMemoAttachmentTypeValuesFinder"/>
+    <property name="importedLineParserClass" value="org.kuali.kfs.module.purap.businessobject.PurApAccountingLineParser" />    
     <property name="sessionDocument" value="true"/>
     <property name="potentiallySensitive" value="true"/>
     <property name="allowsNoteFYI" value="true"/>

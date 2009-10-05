@@ -94,14 +94,6 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getAccountingLineParser()
-     */
-    @Override
-    public AccountingLineParser getAccountingLineParser() {
-        return new GeneralErrorCorrectionDocumentAccountingLineParser();
-    }
-
-    /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getSourceAccountingLineClass()
      */
     @Override

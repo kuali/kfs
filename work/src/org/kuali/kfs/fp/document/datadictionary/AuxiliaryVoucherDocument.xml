@@ -127,6 +127,7 @@
   <bean id="AuxiliaryVoucher-sourceAccountingLineGroup" parent="AuxiliaryVoucher-sourceAccountingLineGroup-parentBean"/>
   
   <bean id="AuxiliaryVoucher-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+  	<property name="groupLabel" value="" />
   	<property name="accountingLineView" ref="AuxiliaryVoucher-accountingLineView"/>
 	<property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine"/>
 	<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase"/>

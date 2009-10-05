@@ -1220,14 +1220,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getAccountingLineParser()
-     */
-    @Override
-    public AccountingLineParser getAccountingLineParser() {
-        return new BasicFormatWithLineDescriptionAccountingLineParser();
-    }
-
-    /**
      * Returns check total.
      * 
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getTotalDollarAmount()

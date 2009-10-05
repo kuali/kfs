@@ -327,14 +327,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 //            retrievedDocument.allowDeleteAwareCollection = false;
 //        }
     }
-
-    /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getAccountingLineParser()
-     */
-    @Override
-    public AccountingLineParser getAccountingLineParser() {
-        return new PurApAccountingLineParser();
-    }
     
     /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getPersistedSourceAccountingLinesForComparison()

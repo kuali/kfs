@@ -9,7 +9,7 @@
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.ServiceBillingDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase"/>
-    
+    <property name="importedLineParserClass" value="org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser" />
     <property name="sessionDocument" value="true"/>
     <property name="allowsCopy" value="true"/>
 
@@ -25,8 +25,7 @@
 	    		<ref bean="ServiceBillingDocument-targetAccountingLineGroup" parent="AccountingLineGroup"/>
 	    	</entry>
     	</map>
-    </property> 
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase"/>
+    </property>
     <property name="workflowAttributes">
     	<ref bean="ServiceBillingDocument-workflowAttributes"/>
     </property>     

@@ -6,7 +6,7 @@
     <property name="documentTypeName" value="CR"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.CashReceiptDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
-    
+    <property name="importedLineParserClass" value="org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CashReceiptDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.CashReceiptDocumentPresentationController"/>    
     
@@ -34,7 +34,6 @@
 	    	</entry>
     	</map>
     </property>
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase"/>
     <property name="workflowAttributes">
     	<ref bean="CashReceiptDocument-workflowAttributes"/>
     </property>

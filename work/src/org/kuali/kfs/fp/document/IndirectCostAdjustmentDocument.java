@@ -96,14 +96,6 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
         // add target line
         addTargetAccountingLine(targetAccountingLine);
     }
-
-    /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getAccountingLineParser()
-     */
-    @Override
-    public AccountingLineParser getAccountingLineParser() {
-        return new IndirectCostAdjustmentDocumentAccountingLineParser();
-    }
     
     /**
      * Same logic as <code>IsDebitUtils#isDebitConsideringType(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)</code>

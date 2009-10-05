@@ -166,14 +166,6 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getAccountingLineParser()
-     */
-    @Override
-    public AccountingLineParser getAccountingLineParser() {
-        return new AccountingLineParserBase();
-    }
-
-    /**
      * This method determines if an accounting line is a debit accounting line by calling IsDebitUtils.isDebitConsideringSection().
      * 
      * @param transactionalDocument The document containing the accounting line being analyzed.

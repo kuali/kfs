@@ -32,14 +32,6 @@ import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 public class ServiceBillingDocument extends InternalBillingDocument implements CapitalAssetEditable {
 
     /**
-     * @see org.kuali.kfs.fp.document.InternalBillingDocument#getAccountingLineParser()
-     */
-    @Override
-    public AccountingLineParser getAccountingLineParser() {
-        return new BasicFormatWithLineDescriptionAccountingLineParser();
-    }
-
-    /**
      * This method further restricts the valid accounting line types exclusively to those with income or expense object type codes
      * only. This is done by calling isIncome() and isExpense() passing the accounting line.
      * 

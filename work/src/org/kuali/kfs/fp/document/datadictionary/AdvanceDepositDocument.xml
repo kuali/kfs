@@ -8,6 +8,7 @@
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.AdvanceDepositDocumentPreRules"/>
+    <property name="importedLineParserClass" value="org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser" />
     <property name="sessionDocument" value="true"/>
     
     <property name="allowsCopy" value="true"/>

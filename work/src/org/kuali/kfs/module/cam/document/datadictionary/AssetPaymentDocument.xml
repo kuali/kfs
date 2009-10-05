@@ -7,6 +7,7 @@
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentDocumentPreRules"/>    
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetPaymentDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetPaymentPresentationController"/>
+    <property name="importedLineParserClass" value="org.kuali.kfs.module.cam.businessobject.AssetPaymentAccountingLineParser" />
     <property name="workflowAttributes">
       <ref bean="AssetPaymentDocument-workflowAttributes"/>
     </property>
@@ -31,7 +32,6 @@
 	    	</entry>
     	</map>
     </property>
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase"/>        
   </bean>
 
 <!-- Attribute Definitions -->

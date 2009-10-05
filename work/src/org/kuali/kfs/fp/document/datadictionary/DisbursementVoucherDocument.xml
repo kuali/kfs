@@ -11,7 +11,7 @@
     
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.DisbursementVoucherDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.DisbursementVoucherDocumentPresentationController"/>
-    
+    <property name="importedLineParserClass" value="org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser" />
     <property name="sessionDocument" value="true"/>
     
     <property name="workflowAttributes">
@@ -60,18 +60,6 @@
 	    	</entry>
     	</map>
     </property>
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase"/>    
- <!--    <property name="defaultExistenceChecks" >
-     	<list>
-        	<bean parent="ReferenceDefinition"
-              p:attributeName="disbVchrDocumentationLoc"
-              p:attributeToHighlightOnFail="disbVchrDocumentationLoc"/>
-     	    <bean parent="ReferenceDefinition"
-              p:attributeName="bank"
-              p:attributeToHighlightOnFail="bank"/>
-        </list>  
-              
-    </property> -->
   </bean>
 
 <!-- Attribute Definitions -->

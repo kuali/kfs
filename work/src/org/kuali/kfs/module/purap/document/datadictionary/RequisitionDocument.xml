@@ -9,6 +9,7 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.RequisitionDocumentPresentationController"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.purap.document.validation.impl.RequisitionDocumentPreRules"/>
+    <property name="importedLineParserClass" value="org.kuali.kfs.module.purap.businessobject.PurApAccountingLineParser" />
     <property name="allowsCopy" value="true"/>
     <property name="allowsNoteFYI" value="true"/>    
     <property name="sessionDocument" value="true"/>

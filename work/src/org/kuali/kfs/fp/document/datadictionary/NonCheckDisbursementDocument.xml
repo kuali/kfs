@@ -9,6 +9,7 @@
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.NonCheckDisbursementDocumentPreRules"/>
+    <property name="importedLineParserClass" value="org.kuali.kfs.fp.businessobject.NonCheckDisbursementDocumentAccountingLineParser" />
     <property name="sessionDocument" value="true"/>
     <property name="allowsCopy" value="true"/>
 
@@ -21,7 +22,6 @@
 	    	</entry>
     	</map>
     </property>
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase"/>
     <property name="workflowAttributes">
     	<ref bean="NonCheckDisbursementDocument-workflowAttributes"/>
     </property>  

@@ -224,14 +224,6 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
 
         return managedLists;
     }
-
-    /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getAccountingLineParser()
-     */
-    @Override
-    public AccountingLineParser getAccountingLineParser() {
-        return new BasicFormatWithLineDescriptionAccountingLineParser();
-    }
     
     /**
      * Generates bank offset GLPEs for deposits, if enabled.

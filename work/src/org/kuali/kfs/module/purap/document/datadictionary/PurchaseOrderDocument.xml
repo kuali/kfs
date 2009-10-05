@@ -12,6 +12,7 @@
 	<property name="documentSearchGeneratorClass" value="org.kuali.kfs.module.purap.document.workflow.PurchaseOrderWarningSearchGenerator"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentPreRules"/>
     <property name="attachmentTypesValuesFinderClass" value="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderAttachmentTypeValuesFinder"/>
+    <property name="importedLineParserClass" value="org.kuali.kfs.module.purap.businessobject.PurApAccountingLineParser" />
     <property name="allowsCopy" value="true"/>
     <property name="allowsNoteFYI" value="true"/>
     <property name="potentiallySensitive" value="true"/>

@@ -9,6 +9,7 @@
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderRetransmitDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderRetransmitDocumentPresentationController"/>
+    <property name="importedLineParserClass" value="org.kuali.kfs.module.purap.businessobject.PurApAccountingLineParser" />
     <property name="potentiallySensitive" value="true"/>
     <property name="workflowAttributes">
     	<ref bean="PurchaseOrderRetransmitDocument-workflowAttributes"/>

@@ -484,14 +484,6 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getAccountingLineParser()
-     */
-    @Override
-    public AccountingLineParser getAccountingLineParser() {
-        return new BudgetAdjustmentAccountingLineParser();
-    }
-
-    /**
      * The base checks that the posting year is the current year, not a requirement for the ba document.
      * 
      * @see org.kuali.rice.kns.document.TransactionalDocumentBase#getAllowsCopy()

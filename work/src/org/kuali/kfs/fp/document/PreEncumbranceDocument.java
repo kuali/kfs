@@ -102,14 +102,6 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getAccountingLineParser()
-     */
-    @Override
-    public AccountingLineParser getAccountingLineParser() {
-        return new PreEncumbranceDocumentAccountingLineParser();
-    }
-
-    /**
      * This method limits valid debits to only expense object type codes.  Additionally, an 
      * IllegalStateException will be thrown if the accounting line passed in is not an expense, 
      * is an error correction with a positive dollar amount or is not an error correction and 

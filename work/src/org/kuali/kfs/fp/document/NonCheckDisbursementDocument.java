@@ -116,14 +116,6 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getAccountingLineParser()
-     */
-    @Override
-    public AccountingLineParser getAccountingLineParser() {
-        return new NonCheckDisbursementDocumentAccountingLineParser();
-    }
-
-    /**
      * This method determines if a given accounting line is a debit accounting line. This is done by calling
      * IsDebitUtiles.isDebitConsideringNothingPositiveOnly(). An IllegalStateException will be thrown if the accounting line passed
      * in is not an expense, is an error correction with a positive dollar amount or is not an error correction and has a negative

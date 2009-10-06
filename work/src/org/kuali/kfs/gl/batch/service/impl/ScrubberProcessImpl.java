@@ -51,6 +51,7 @@ import org.kuali.kfs.gl.batch.service.RunDateService;
 import org.kuali.kfs.gl.batch.service.ScrubberProcess;
 import org.kuali.kfs.gl.batch.service.impl.FilteringOriginEntryFileIterator.OriginEntryFilter;
 import org.kuali.kfs.gl.businessobject.DemergerReportData;
+import org.kuali.kfs.gl.businessobject.OriginEntryFieldUtil;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.Transaction;
@@ -66,6 +67,7 @@ import org.kuali.kfs.gl.service.impl.ScrubberStatus;
 import org.kuali.kfs.gl.service.impl.StringHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
@@ -357,6 +359,9 @@ public class ScrubberProcessImpl implements ScrubberProcess {
     public void performDemerger() {
         LOG.debug("performDemerger() started");
 
+        OriginEntryFieldUtil oefu = new OriginEntryFieldUtil();
+        Map<String, Integer> pMap = oefu.getFieldBeginningPositionMap();
+        
         // Without this step, the job fails with Optimistic Lock Exceptions
         persistenceService.clearCache();
 
@@ -443,8 +448,8 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                 try{
                    //validLine is null means that errorLine is not null 
                    if (org.apache.commons.lang.StringUtils.isEmpty(currentValidLine)) {
-                       String errorDesc = currentErrorLine.substring(56, 96);
-                       String errorFinancialBalanceTypeCode = currentErrorLine.substring(25, 27);
+                       String errorDesc = currentErrorLine.substring(pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT));
+                       String errorFinancialBalanceTypeCode = currentErrorLine.substring(pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE));
                        
                        if (!checkingBypassEntry(errorFinancialBalanceTypeCode, errorDesc, demergerReport)){
                            createOutputEntry(currentErrorLine, OUTPUT_DEMERGER_ERR_FILE_ps);
@@ -455,8 +460,8 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                        continue;
                    }
                    
-                   String financialBalanceTypeCode = currentValidLine.substring(25, 27);
-                   String desc = currentValidLine.substring(56, 96);
+                   String financialBalanceTypeCode = currentValidLine.substring(pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE));
+                   String desc = currentValidLine.substring(pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT));
                    
                    //errorLine is null means that validLine is not null
                    if (org.apache.commons.lang.StringUtils.isEmpty(currentErrorLine)) {
@@ -470,11 +475,11 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                        continue;
                    }
                    
-                   String compareStringFromValidEntry = currentValidLine.substring(31, 51); 
-                   String compareStringFromErrorEntry = currentErrorLine.substring(31, 51);
+                   String compareStringFromValidEntry = currentValidLine.substring(pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER)); 
+                   String compareStringFromErrorEntry = currentErrorLine.substring(pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER));
                    
-                   String errorDesc = currentErrorLine.substring(56, 96);
-                   String errorFinancialBalanceTypeCode = currentErrorLine.substring(25, 27);
+                   String errorDesc = currentErrorLine.substring(pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT));
+                   String errorFinancialBalanceTypeCode = currentErrorLine.substring(pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE));
                    
                    if (compareStringFromValidEntry.compareTo(compareStringFromErrorEntry) < 0){
                        // Read all the transactions in the valid group and update the cost share transactions

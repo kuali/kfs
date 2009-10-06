@@ -28,6 +28,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.apache.commons.io.FileUtils;
@@ -59,11 +60,13 @@ import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.batch.LaborScrubberSortStep.LaborScrubberSortComparator;
 import org.kuali.kfs.module.ld.batch.service.LaborAccountingCycleCachingService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
+import org.kuali.kfs.module.ld.businessobject.LaborOriginEntryFieldUtil;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.module.ld.util.FilteringLaborOriginEntryFileIterator;
 import org.kuali.kfs.module.ld.util.LaborOriginEntryFileIterator;
 import org.kuali.kfs.module.ld.util.FilteringLaborOriginEntryFileIterator.LaborOriginEntryFilter;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
@@ -796,6 +799,9 @@ public class LaborScrubberProcess {
      */
     public void performDemerger() {
         LOG.debug("performDemerger() started");
+        LaborOriginEntryFieldUtil loefu = new LaborOriginEntryFieldUtil();
+        Map<String, Integer> pMap = loefu.getFieldBeginningPositionMap();
+        
         String validOutputFilename = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         String errorOutputFilename = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         runDate = calculateRunDate(dateTimeService.getCurrentDate());
@@ -878,14 +884,14 @@ public class LaborScrubberProcess {
                     continue;
                 }
 
-                String documentTypeCode = currentErrorLine.substring(31, 35);
+                String documentTypeCode = currentErrorLine.substring(pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE));
                 if (documentTypeCode != null) {
                     documentTypeCode = documentTypeCode.trim();
                 }
 
                 if (ArrayUtils.contains(documentTypesBeProcessed, documentTypeCode)) {
-                    String compareStringFromValidEntry = currentValidLine.substring(31, 51);
-                    String compareStringFromErrorEntry = currentErrorLine.substring(31, 51);
+                    String compareStringFromValidEntry = currentValidLine.substring(pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER));
+                    String compareStringFromErrorEntry = currentErrorLine.substring(pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER));
 
                     if (compareStringFromValidEntry.compareTo(compareStringFromErrorEntry) < 0) {
                         createOutputEntry(currentValidLine, OUTPUT_DEMERGER_GLE_FILE_ps);

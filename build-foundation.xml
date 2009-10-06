@@ -20,13 +20,13 @@ are intended for use only by Kuali Foundation developers.
 
 -->
 <project name="imported">
-	<!-- dummy target to keep validation happy -->
+	<!-- dummy targets to keep validation happy -->
 	<target name="init-properties" />
 	<target name="init-property-files" />
 	<target name="dist-local" />
 	<target name="clean" />
 	<target name="make-source" />
-	
+
 	<target name="init-additional-properties">
 		<property file="build-foundation.properties" />
 	</target>
@@ -134,7 +134,12 @@ are intended for use only by Kuali Foundation developers.
     	<replace file="${all.temp.directory}/kuali_project/build.xml">
       		<replacefilter token="&lt;import file=&quot;build-foundation.xml&quot;/&gt;" value="" />
     	</replace>
-    <!-- replace foundation database URLs -->
+
+		<!-- There's no need to do this in a development environment.  Add this to the distribution.
+		<unzip dest="${distribution.licenses.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.licenses.suffix}" />
+		-->
+		
+	<!-- replace foundation database URLs -->
     	<replace file="${all.temp.directory}/kuali_project/build/external/user/kuali-build.properties">
       		<replacefilter token="mysql.datasource.url=jdbc:mysql://esdbk01.uits.indiana.edu:3306/$${datasource.username}" 
     		     value="mysql.datasource.url=jdbc:mysql://localhost:3306/$${datasource.username}" />
@@ -144,11 +149,11 @@ are intended for use only by Kuali Foundation developers.
     	<copy file="${all.temp.directory}/${release.kfs.cvs.module}/build/README.txt" todir="${all.temp.directory}" />
     <!-- dump a file with the extracted tags -->
     	<echo file="${all.temp.directory}/release-details.txt">
-      		KFS Tag: ${release.kfs.cvs.tag}
-      		Demo Dataset Tag: ${release.demo.dataset.cvs.tag}
-      		Bootstrap Dataset Tag: ${release.bootstrap.dataset.cvs.tag}
-      		Impex Tag: ${release.impex.tool.cvs.tag}
-      		Rice Tag: ${release.rice.cvs.tag}
+      		KFS URL: ${release.kfs.cvs.tag}
+      		Demo Dataset URL: ${release.demo.dataset.cvs.tag}
+      		Bootstrap Dataset URL: ${release.bootstrap.dataset.cvs.tag}
+      		Impex URL: ${release.impex.tool.cvs.tag}
+      		Rice URL: ${release.rice.cvs.tag}
     	</echo>
     
     <!-- zip it up -->
@@ -190,46 +195,49 @@ are intended for use only by Kuali Foundation developers.
   
 	<target name="update-rice" depends="update-rice-basic,update-rice-extended,dist-local" />
   
-	<target name="update-rice-basic" depends="init-property-files,init-additional-properties,update-rice-jars,update-rice-web,update-rice-server-war" />
+	<target name="update-rice-basic" depends="init-property-files,init-additional-properties,update-rice-jars,update-rice-server-war" />
   
 	<target name="update-rice-jars" depends="init-property-files,init-additional-properties">
-    	<delete>
-      		<fileset dir="${basedir}" includes="${lib.directory}/${rice.output.file.prefix}${rice.output.lib.suffix}" />
-    	</delete>
 	    <if>
 	        <isset property="clean.rice" />
 	        <then>
-                <maven goals="clean:clean" modulePath="/api" />
-                <maven goals="clean:clean" modulePath="/impl" />
+                <maven goals="clean:clean" modulePath="/${rice.api.module.name}" />
+                <maven goals="clean:clean" modulePath="/${rice.impl.module.name}" />
             </then>
         </if>
-        <maven goals="install" modulePath="/api" />
-        <maven goals="install" modulePath="/impl" />
-    	<copy todir="${lib.directory}" flatten="true">
-      		<fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.lib.suffix}" excludes="${rice.excludes}" />
+        <maven goals="install" modulePath="/${rice.api.module.name}" />
+        <maven goals="install" modulePath="/${rice.impl.module.name}" />
+    	<delete verbose="true">
+      		<fileset dir="${basedir}" includes="${lib.directory}/rice-*.jar" />
+    	</delete>
+    	<copy todir="${lib.directory}" flatten="true" verbose="true">
+      		<fileset dir="${rice.project.directory}">
+      			<include name="${rice.api.module.name}/target/${rice.name}-${rice.api.module.name}-${rice.version}.jar" />
+      			<include name="${rice.impl.module.name}/target/${rice.name}-${rice.impl.module.name}-${rice.version}.jar" />
+      		</fileset>
     	</copy>
 	</target>
   
-	<target name="update-rice-web" depends="init-property-files,init-additional-properties">
-    	<delete>
-      		<fileset dir="${build.project.directory}" includes="${rice.name}*${rice.output.web.suffix}" />
-    	</delete>
-    	<zip destfile="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" basedir="${rice.web.directory}" excludes="*.*,META-INF/**/**,WEB-INF/*.*,WEB-INF/jsp/**/**,**/CVS" />
-	</target>
-  
     <target name="update-rice-server-war" depends="init-property-files,init-additional-properties">
-        <maven goals="package" modulePath="/web" />
-        <copy file="${rice.project.directory}/web/${rice.output.directory}/${rice.name}-web-${rice.version}.war" todir="${build.appserver.directory}" />
+	    <if>
+	        <isset property="clean.rice" />
+	        <then>
+                <maven goals="clean:clean" modulePath="/${rice.web.module.name}" />
+            </then>
+        </if>
+        <maven goals="package" modulePath="/${rice.web.module.name}" />
+        <copy file="${rice.project.directory}/${rice.web.module.name}/target/${rice.server.war.file.name}" 
+        	  todir="${build.appserver.directory}" />
     </target>
     
 	<target name="update-rice-extended" depends="init-property-files,init-additional-properties,update-rice-kuali-dependencies,update-rice-licenses" />
   
 	<target name="update-rice-kuali-dependencies" depends="init-property-files,init-additional-properties">
-    	<delete>
+    	<delete verbose="true" failonerror="false">
       		<fileset dir="${dependencies.project.directory}" includes="${rice.output.file.prefix}" />
     	</delete>
     	<maven goals="compile source:jar javadoc:jar" />
-    	<copy todir="${dependencies.project.directory}">
+    	<copy todir="${dependencies.project.directory}" verbose="true" overwrite="true">
       		<fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.src.suffix},${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.doc.suffix}" excludes="${rice.excludes}" />
       		<chainedmapper>
         		<flattenmapper />
@@ -239,10 +247,12 @@ are intended for use only by Kuali Foundation developers.
 	</target>
   
 	<target name="update-rice-licenses" depends="init-property-files,init-additional-properties">
-    	<delete>
-      		<fileset dir="${build.project.directory}" includes="${rice.name}*${rice.output.licenses.suffix}" />
+    	<delete verbose="true" failonerror="false">
+      		<fileset dir="${build.project.directory}" 
+      				 includes="${rice.name}*${rice.output.licenses.suffix}" />
     	</delete>
-    	<zip destfile="${build.project.directory}/${rice.name}-${rice.version}-licenses.zip" basedir="${rice.project.directory}/${licenses.directory}" excludes="**/CVS" />
+    	<zip destfile="${build.project.directory}/${rice.name}-${rice.version}-licenses.zip" 
+    		 basedir="${rice.project.directory}/${licenses.directory}" />
   	</target>
 		
 	<target name="build-dd-doc" depends="init-properties" description="Builds documentation for the Data Dictionary custom tags.">

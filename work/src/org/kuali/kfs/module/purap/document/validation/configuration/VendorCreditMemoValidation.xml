@@ -187,7 +187,7 @@
 					</property>
 				</bean>
   			
-			    
+			    <bean parent="VendorCreditMemo-routeDocument-itemsCollectionValidation" scope="prototype" />
 
 				<bean parent="PurchasingAccountsPayable-newProcessItemValidation-parentBean" scope="prototype"/>
 				

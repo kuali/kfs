@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.gl.service;
 
+import java.io.File;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
+import org.kuali.kfs.gl.batch.BatchSortUtil;
+import org.kuali.kfs.gl.batch.DemergerSortStep.DemergerSortComparator;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -92,7 +95,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
                 testingYear+"BA6044900-----5300---ACEE07CHKD  BLANKORIG     12345214090047 EVERETT J PRESCOTT INC.                  1445.00D"+testingYear+"-01-05ABCDEFGHIJ----------12345678                                                                       ", testingYear+"BA6044900-----5300---ACEE07CHKDPD              12345214090047 EVERETT J PRESCOTT INC.                  1445.00D"+testingYear+"-01-05ABCDEFGHIJ----------12345678                                                                  ", };
 
         // Add inputs to expected output ...
-        EntryHolder output[] = new EntryHolder[12];
+        EntryHolder output[] = new EntryHolder[24];
         for (int i = 0; i < stringInput.length; i++) {
             output[i] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, stringInput[i]);
         }
@@ -104,9 +107,23 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, testingYear+"BA6044900-----5300---ACEE07CHKDPD              12345214090047 EVERETT J PRESCOTT INC.                  1445.00D"+testingYear+"-01-05ABCDEFGHIJ----------12345678                                                                       ");
         output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, testingYear+"BA6044900-----5300---ACEE07CHKD  BLANKORIG     12345214090047 EVERETT J PRESCOTT INC.                  1445.00D"+testingYear+"-01-05ABCDEFGHIJ----------12345678                                                                       ");
         output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, testingYear+"BA6044900-----5300---ACEE07    PDBLANKDOCT     12345214090047 EVERETT J PRESCOTT INC.                  1445.00D"+testingYear+"-01-05ABCDEFGHIJ----------12345678                                                                       ");
+        
+        output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE, testingYear+"BA       -----5300---ACEE07CHKDPDBLANKACCT     12345214090047 EVERETT J PRESCOTT INC.                  1445.00D"+testingYear+"-01-05ABCDEFGHIJ----------12345678                                                                       ");
+        output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE, testingYear+"  6044900-----5300---ACEE07CHKDPDBLANKCHAR     12345214090047 EVERETT J PRESCOTT INC.                  1445.00D"+testingYear+"-01-05ABCDEFGHIJ----------12345678                                                                       ");
+        output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE, testingYear+"BA6044900-----    ---ACEE07CHKDPDBLANKOBJ      12345214090047 EVERETT J PRESCOTT INC.                  1445.00D"+testingYear+"-01-05ABCDEFGHIJ----------12345678                                                                       ");
+        output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE, testingYear+"BA6044900-----5300---ACEE07CHKDPD              12345214090047 EVERETT J PRESCOTT INC.                  1445.00D"+testingYear+"-01-05ABCDEFGHIJ----------12345678                                                                       ");
+        output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE, testingYear+"BA6044900-----5300---ACEE07CHKD  BLANKORIG     12345214090047 EVERETT J PRESCOTT INC.                  1445.00D"+testingYear+"-01-05ABCDEFGHIJ----------12345678                                                                       ");
+        output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE, testingYear+"BA6044900-----5300---ACEE07    PDBLANKDOCT     12345214090047 EVERETT J PRESCOTT INC.                  1445.00D"+testingYear+"-01-05ABCDEFGHIJ----------12345678                                                                       ");
+
+        output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE, testingYear+"BA       -----5300---ACEE07CHKDPDBLANKACCT     12345214090047 EVERETT J PRESCOTT INC.                  1445.00D"+testingYear+"-01-05ABCDEFGHIJ----------12345678                                                                       ");
+        output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE, testingYear+"  6044900-----5300---ACEE07CHKDPDBLANKCHAR     12345214090047 EVERETT J PRESCOTT INC.                  1445.00D"+testingYear+"-01-05ABCDEFGHIJ----------12345678                                                                       ");
+        output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE, testingYear+"BA6044900-----    ---ACEE07CHKDPDBLANKOBJ      12345214090047 EVERETT J PRESCOTT INC.                  1445.00D"+testingYear+"-01-05ABCDEFGHIJ----------12345678                                                                       ");
+        output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE, testingYear+"BA6044900-----5300---ACEE07CHKDPD              12345214090047 EVERETT J PRESCOTT INC.                  1445.00D"+testingYear+"-01-05ABCDEFGHIJ----------12345678                                                                       ");
+        output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE, testingYear+"BA6044900-----5300---ACEE07CHKD  BLANKORIG     12345214090047 EVERETT J PRESCOTT INC.                  1445.00D"+testingYear+"-01-05ABCDEFGHIJ----------12345678                                                                       ");
+        output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE, testingYear+"BA6044900-----5300---ACEE07    PDBLANKDOCT     12345214090047 EVERETT J PRESCOTT INC.                  1445.00D"+testingYear+"-01-05ABCDEFGHIJ----------12345678                                                                       ");
 
         scrub(stringInput);
-        assertOriginEntries(4, output);
+        assertOriginEntries(7, output);
     }
 
     /**
@@ -123,7 +140,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
                 testingYear+"BL4831496CS0014866---PEEX07PE  01CSENCPE       00000Correction to: 01-PU3355206                           1650.00D"+testingYear+"-01-05          ----------                                      D                                " };
 
         // Add inputs to expected output ...
-        EntryHolder output[] = new EntryHolder[6];
+        EntryHolder output[] = new EntryHolder[10];
         for (int i = 0; i < stringInput.length; i++) {
             output[i] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, stringInput[i]);
         }
@@ -133,10 +150,15 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         output[3] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----9893---CEFB07PE  01CSENCPE       00000GENERATED OFFSET                        +00000000000001650.00C"+formattedRunDate+"          ----------                                                                       ");
         output[4] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0014866---PEEX07PE  01CSENCPE       00000Correction to: 01-PU3355206             +00000000000001650.00D"+testingYear+"-01-05          ----------                                      D                                ");
         output[5] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---PEAS07PE  01CSENCPE       00000TP Generated Offset                     +00000000000001650.00C"+testingYear+"-01-05          ----------                                      D                                ");
+        
+        output[6] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL1031400-----9940---CEEX07PE  01CSENCPE       00000Correction to: 01-PU3355206 FR-BL4831496+00000000000001650.00D"+formattedRunDate+"          ----------                                      D                                ");
+        output[7] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL1031400-----9893---CEFB07PE  01CSENCPE       00000GENERATED OFFSET                        +00000000000001650.00C"+formattedRunDate+"          ----------                                                                       ");
+        output[8] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0014866---PEEX07PE  01CSENCPE       00000Correction to: 01-PU3355206             +00000000000001650.00D"+testingYear+"-01-05          ----------                                      D                                ");
+        output[9] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0018000---PEAS07PE  01CSENCPE       00000TP Generated Offset                     +00000000000001650.00C"+testingYear+"-01-05          ----------                                      D                                ");
 
         scrub(stringInput);
 
-        assertOriginEntries(4, output);
+        assertOriginEntries(7, output);
     }
 
     /**
@@ -150,7 +172,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         String[] stringInput = new String[] { testingYear+"BL4831496CS0014190---IEEX07PE  01CSENCIE       00000THOMAS BUSEY/NEWEGG COMPUTERS                           40.72C"+testingYear+"-01-05          ----------                                      D                                ", testingYear+"BL4831496CS0018000---IEAS07PE  01CSENCIE       00000TP Generated Offset                                     40.72D"+testingYear+"-01-05          ----------                                      D                                " };
 
         // Add inputs to expected output ...
-        EntryHolder[] output = new EntryHolder[6];
+        EntryHolder[] output = new EntryHolder[10];
         for (int i = 0; i < stringInput.length; i++) {
             output[i] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, stringInput[i]);
         }
@@ -160,10 +182,16 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         output[3] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----9893---CEFB07PE  01CSENCIE       00000GENERATED OFFSET                        +00000000000000040.72D"+formattedRunDate+"          ----------                                                                       ");
         output[4] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0014190---IEEX07PE  01CSENCIE       00000THOMAS BUSEY/NEWEGG COMPUTERS           +00000000000000040.72C"+testingYear+"-01-05          ----------                                      D                                ");
         output[5] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---IEAS07PE  01CSENCIE       00000TP Generated Offset                     +00000000000000040.72D"+testingYear+"-01-05          ----------                                      D                                ");
+        
+        output[6] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL1031400-----9940---CEEX07PE  01CSENCIE       00000THOMAS BUSEY/NEWEGG COMPUTERFR-BL4831496+00000000000000040.72C"+formattedRunDate+"          ----------                                      D                                ");
+        output[7] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL1031400-----9893---CEFB07PE  01CSENCIE       00000GENERATED OFFSET                        +00000000000000040.72D"+formattedRunDate+"          ----------                                                                       ");
+        output[8] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0014190---IEEX07PE  01CSENCIE       00000THOMAS BUSEY/NEWEGG COMPUTERS           +00000000000000040.72C"+testingYear+"-01-05          ----------                                      D                                ");
+        output[9] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0018000---IEAS07PE  01CSENCIE       00000TP Generated Offset                     +00000000000000040.72D"+testingYear+"-01-05          ----------                                      D                                ");
+
 
         // ... and run the test.
         scrub(stringInput);
-        assertOriginEntries(4, output);
+        assertOriginEntries(7, output);
     }
 
     /**
@@ -176,7 +204,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         String[] stringInput = new String[] { testingYear+"BL4831496CS0011800---EXIN07IB  LGCSENCEX       00000225050007 WILLIAMS DOTSON ASSOCIATES IN               1200.00D"+testingYear+"-01-05          ----------                                      D                                ", testingYear+"BL4831496CS0019041---EXLI07IB  LGCSENCEX       00000225050007 WILLIAMS DOTSON ASSOCIATES IN               1200.00C"+testingYear+"-01-05          ----------                                      D                                " };
 
         // Add inputs to expected output ...
-        EntryHolder output[] = new EntryHolder[4];
+        EntryHolder output[] = new EntryHolder[6];
         for (int i = 0; i < stringInput.length; i++) {
             output[i] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, stringInput[i]);
         }
@@ -184,9 +212,12 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         int c = stringInput.length;
         output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0011800---EXIN07IB  LGCSENCEX       00000225050007 WILLIAMS DOTSON ASSOCIATES IN +00000000000001200.00D"+testingYear+"-01-05          ----------                                      D                                ");
         output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0019041---EXLI07IB  LGCSENCEX       00000225050007 WILLIAMS DOTSON ASSOCIATES IN +00000000000001200.00C"+testingYear+"-01-05          ----------                                      D                                ");
+        
+        output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0011800---EXIN07IB  LGCSENCEX       00000225050007 WILLIAMS DOTSON ASSOCIATES IN +00000000000001200.00D"+testingYear+"-01-05          ----------                                      D                                ");
+        output[c++] = new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0019041---EXLI07IB  LGCSENCEX       00000225050007 WILLIAMS DOTSON ASSOCIATES IN +00000000000001200.00C"+testingYear+"-01-05          ----------                                      D                                ");
 
         scrub(stringInput);
-        assertOriginEntries(4, output);
+        assertOriginEntries(7, output);
     }
 
     /**
@@ -202,10 +233,12 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, stringInput[0]),
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, stringInput[1]), 
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0014866---CEEX07IB  01NOCSENCE      00000Correction to: 01-PU3355206             +00000000000001650.00D"+testingYear+"-01-05          ----------                                      D                                "), 
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---CEAS07IB  01NOCSENCE      00000TP Generated Offset                     +00000000000001650.00C"+testingYear+"-01-05          ----------                                      D                                ") };
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---CEAS07IB  01NOCSENCE      00000TP Generated Offset                     +00000000000001650.00C"+testingYear+"-01-05          ----------                                      D                                "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0014866---CEEX07IB  01NOCSENCE      00000Correction to: 01-PU3355206             +00000000000001650.00D"+testingYear+"-01-05          ----------                                      D                                "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0018000---CEAS07IB  01NOCSENCE      00000TP Generated Offset                     +00000000000001650.00C"+testingYear+"-01-05          ----------                                      D                                ") };
 
         scrub(stringInput);
-        assertOriginEntries(4, output);
+        assertOriginEntries(7, output);
 
     }
 
@@ -224,10 +257,12 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0014190---EXEX07JV  01NOCSENJV      00000THOMAS BUSEY/NEWEGG COMPUTERS                           40.72C"+testingYear+"-01-05          ----------                                      D                                "), 
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0018000---EXAS07JV  01NOCSENJV      00000TP Generated Offset                                     40.72D"+testingYear+"-01-05          ----------                                      D                                "), 
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0014190---EXEX07JV  01NOCSENJV      00000THOMAS BUSEY/NEWEGG COMPUTERS           +00000000000000040.72C"+testingYear+"-01-05          ----------                                      D                                "),
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---EXAS07JV  01NOCSENJV      00000TP Generated Offset                     +00000000000000040.72D"+testingYear+"-01-05          ----------                                      D                                "), };
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---EXAS07JV  01NOCSENJV      00000TP Generated Offset                     +00000000000000040.72D"+testingYear+"-01-05          ----------                                      D                                "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0014190---EXEX07JV  01NOCSENJV      00000THOMAS BUSEY/NEWEGG COMPUTERS           +00000000000000040.72C"+testingYear+"-01-05          ----------                                      D                                "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0018000---EXAS07JV  01NOCSENJV      00000TP Generated Offset                     +00000000000000040.72D"+testingYear+"-01-05          ----------                                      D                                ") };
 
         scrub(input);
-        assertOriginEntries(4, output);
+        assertOriginEntries(7, output);
     }
 
     /**
@@ -245,10 +280,12 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0011800---EXINCBIB  LGNOCSENCB      00000225050007 WILLIAMS DOTSON ASSOCIATES IN               1200.00D"+testingYear+"-01-05          ----------                                      D                                "), 
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0019041---EXLICBIB  LGNOCSENCB      00000225050007 WILLIAMS DOTSON ASSOCIATES IN               1200.00C"+testingYear+"-01-05          ----------                                      D                                "), 
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0011800---EXINCBIB  LGNOCSENCB      00000225050007 WILLIAMS DOTSON ASSOCIATES IN +00000000000001200.00D"+testingYear+"-01-05          ----------                                      D                                "),
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0019041---EXLICBIB  LGNOCSENCB      00000225050007 WILLIAMS DOTSON ASSOCIATES IN +00000000000001200.00C"+testingYear+"-01-05          ----------                                      D                                ") };
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0019041---EXLICBIB  LGNOCSENCB      00000225050007 WILLIAMS DOTSON ASSOCIATES IN +00000000000001200.00C"+testingYear+"-01-05          ----------                                      D                                "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0011800---EXINCBIB  LGNOCSENCB      00000225050007 WILLIAMS DOTSON ASSOCIATES IN +00000000000001200.00D"+testingYear+"-01-05          ----------                                      D                                "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0019041---EXLICBIB  LGNOCSENCB      00000225050007 WILLIAMS DOTSON ASSOCIATES IN +00000000000001200.00C"+testingYear+"-01-05          ----------                                      D                                ") };
 
         scrub(input);
-        assertOriginEntries(4, output);
+        assertOriginEntries(7, output);
     }
 
     /**
@@ -259,6 +296,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     public void testNoCostShareEncumbrancesForActuals() throws Exception {
         final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(SpringContext.getBean(DateTimeService.class).getCurrentDate());
         final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(SpringContext.getBean(DateTimeService.class).getCurrentDate());
+        final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(SpringContext.getBean(DateTimeService.class).getCurrentDate());
 
         String[] input = new String[] { 
                 testingYear+"BL4831496CS0018000---ACAS07IB  01NOCSENAC      00000TP Generated Offset                                   1650.00C"+testingYear+"-01-05          ----------                                      D                                ",
@@ -272,10 +310,17 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----9940---ACTE07IB  01NOCSENAC      00000GENERATED COST SHARE FROM 4831496***"+formattedOffsetDate+"+00000000000001650.00D"+formattedRunDate+"          ----------                                                                       "), 
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----8000---ACAS07IB  01NOCSENAC      00000GENERATED OFFSET                 ***"+formattedOffsetDate+"+00000000000001650.00C"+formattedRunDate+"          ----------                                                                       "),
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0014866---ACEX07IB  01NOCSENAC      00000Correction to: 01-PU3355206             +00000000000001650.00D"+testingYear+"-01-05          ----------                                                                       "), 
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07IB  01NOCSENAC      00000TP Generated Offset                     +00000000000001650.00C"+testingYear+"-01-05          ----------                                                                       ") };
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07IB  01NOCSENAC      00000TP Generated Offset                     +00000000000001650.00C"+testingYear+"-01-05          ----------                                                                       "),
+                
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0019915---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4831496       +00000000000001650.00C"+formattedRunDate+"          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                        +00000000000001650.00D"+formattedRunDate+"          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL1031400-----9940---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4831496       +00000000000001650.00D"+formattedRunDate+"          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL1031400-----8000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                        +00000000000001650.00C"+formattedRunDate+"          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0014866---ACEX07IB  01NOCSENAC      00000Correction to: 01-PU3355206             +00000000000001650.00D"+testingYear+"-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07IB  01NOCSENAC      00000TP Generated Offset                     +00000000000001650.00C"+testingYear+"-01-05          ----------                                                                       ")};
 
         scrub(input);
-        assertOriginEntries(4, output);
+        assertOriginEntries(7, output);
     }
 
     /**
@@ -293,10 +338,12 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0014190---BBEX07GEC 01NOCSENBB      00000THOMAS BUSEY/NEWEGG COMPUTERS                           40.72 "+testingYear+"-01-05          ----------                                      D                                "), 
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0018000---BBAS07GEC 01NOCSENBB      00000TP Generated Offset                                     40.72 "+testingYear+"-01-05          ----------                                      D                                "), 
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0014190---BBEX07GEC 01NOCSENBB      00000THOMAS BUSEY/NEWEGG COMPUTERS           +00000000000000040.72 "+testingYear+"-01-05          ----------                                                                       "),
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---BBAS07GEC 01NOCSENBB      00000TP Generated Offset                     +00000000000000040.72 "+testingYear+"-01-05          ----------                                                                       ") };
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---BBAS07GEC 01NOCSENBB      00000TP Generated Offset                     +00000000000000040.72 "+testingYear+"-01-05          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0014190---BBEX07GEC 01NOCSENBB      00000THOMAS BUSEY/NEWEGG COMPUTERS           +00000000000000040.72 "+testingYear+"-01-05          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0018000---BBAS07GEC 01NOCSENBB      00000TP Generated Offset                     +00000000000000040.72 "+testingYear+"-01-05          ----------                                                                       ")};
 
         scrub(input);
-        assertOriginEntries(4, output);
+        assertOriginEntries(7, output);
     }
 
     /**
@@ -314,10 +361,12 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0011800---EXIN07IB  LGNOCSENIN      00000225050007 WILLIAMS DOTSON ASSOCIATES IN               1200.00D"+testingYear+"-01-05          ----------                                      D                                "), 
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0019041---EXLI07IB  LGNOCSENIN      00000225050007 WILLIAMS DOTSON ASSOCIATES IN               1200.00C"+testingYear+"-01-05          ----------                                      D                                "), 
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0011800---EXIN07IB  LGNOCSENIN      00000225050007 WILLIAMS DOTSON ASSOCIATES IN +00000000000001200.00D"+testingYear+"-01-05          ----------                                      D                                "),
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0019041---EXLI07IB  LGNOCSENIN      00000225050007 WILLIAMS DOTSON ASSOCIATES IN +00000000000001200.00C"+testingYear+"-01-05          ----------                                      D                                ") };
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0019041---EXLI07IB  LGNOCSENIN      00000225050007 WILLIAMS DOTSON ASSOCIATES IN +00000000000001200.00C"+testingYear+"-01-05          ----------                                      D                                "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0011800---EXIN07IB  LGNOCSENIN      00000225050007 WILLIAMS DOTSON ASSOCIATES IN +00000000000001200.00D"+testingYear+"-01-05          ----------                                      D                                "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0019041---EXLI07IB  LGNOCSENIN      00000225050007 WILLIAMS DOTSON ASSOCIATES IN +00000000000001200.00C"+testingYear+"-01-05          ----------                                      D                                ") };
 
         scrub(input);
-        assertOriginEntries(4, output);
+        assertOriginEntries(7, output);
     }
 
     /**
@@ -328,6 +377,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     public void testCostShareOther() throws Exception {
         final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(SpringContext.getBean(DateTimeService.class).getCurrentDate());
         final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(SpringContext.getBean(DateTimeService.class).getCurrentDate());
+        final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(SpringContext.getBean(DateTimeService.class).getCurrentDate());
 
         String[] input = new String[] { 
                 testingYear+"BL4831496CS0014000---ACEX07DI  EUCSHROTHER     00000NOV-05 IMU Business Office          2224               241.75D"+testingYear+"-05-30          ----------                                                                       ", 
@@ -335,16 +385,25 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
         EntryHolder[] output = new EntryHolder[] { 
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0014000---ACEX07DI  EUCSHROTHER     00000NOV-05 IMU Business Office          2224               241.75D"+testingYear+"-05-30          ----------                                                                       "), 
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07DI  EUCSHROTHER     00000NOV-05 IMU Business Office          2237               241.75C"+testingYear+"-05-30          ----------                                                                       "), 
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0019915---ACTE07TF  CSCSHR01/01     00000GENERATED COST SHARE FROM 4631625***"+formattedOffsetDate+"+00000000000000241.75C"+formattedRunDate+"          ----------                                                                       "),
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07TF  CSCSHR01/01     00000GENERATED OFFSET                 ***"+formattedOffsetDate+"+00000000000000241.75D"+formattedRunDate+"          ----------                                                                       "),
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----9940---ACTE07TF  CSCSHR01/01     00000GENERATED COST SHARE FROM 4631625                      241.75D"+formattedRunDate+"          ----------                                                                       "), 
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----8000---ACAS07TF  CSCSHR01/01     00000GENERATED OFFSET                 ***"+formattedOffsetDate+"+00000000000000241.75C"+formattedRunDate+"          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07DI  EUCSHROTHER     00000NOV-05 IMU Business Office          2237               241.75C"+testingYear+"-05-30          ----------                                                                       "),
+                
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0019915---ACTE07DI  EUCSHROTHER     00000GENERATED COST SHARE FROM 4831496***"+formattedOffsetDate+"+00000000000000241.75C"+formattedRunDate+"          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07DI  EUCSHROTHER     00000GENERATED OFFSET                 ***"+formattedOffsetDate+"+00000000000000241.75D"+formattedRunDate+"          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----9940---ACTE07DI  EUCSHROTHER     00000GENERATED COST SHARE FROM 4831496***"+formattedOffsetDate+"+00000000000000241.75D"+formattedRunDate+"          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----8000---ACAS07DI  EUCSHROTHER     00000GENERATED OFFSET                 ***"+formattedOffsetDate+"+00000000000000241.75C"+formattedRunDate+"          ----------                                                                       "),
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0014000---ACEX07DI  EUCSHROTHER     00000NOV-05 IMU Business Office          2224+00000000000000241.75D"+testingYear+"-05-30          ----------                                                                       "), 
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07DI  EUCSHROTHER     00000NOV-05 IMU Business Office          2237+00000000000000241.75C"+testingYear+"-05-30          ----------                                                                       ") };
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07DI  EUCSHROTHER     00000NOV-05 IMU Business Office          2237+00000000000000241.75C"+testingYear+"-05-30          ----------                                                                       "),
+                
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0019915---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4831496       +00000000000000241.75C"+formattedRunDate+"          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                        +00000000000000241.75D"+formattedRunDate+"          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL1031400-----9940---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4831496       +00000000000000241.75D"+formattedRunDate+"          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL1031400-----8000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                        +00000000000000241.75C"+formattedRunDate+"          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0014000---ACEX07DI  EUCSHROTHER     00000NOV-05 IMU Business Office          2224+00000000000000241.75D"+testingYear+"-05-30          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07DI  EUCSHROTHER     00000NOV-05 IMU Business Office          2237+00000000000000241.75C"+testingYear+"-05-30          ----------                                                                       ")
+                };
 
         scrub(input);
-        assertOriginEntries(4, output);
+        assertOriginEntries(7, output);
     }
 
     /**
@@ -353,23 +412,35 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelTrin() throws Exception {
+        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(SpringContext.getBean(DateTimeService.class).getCurrentDate());
+        final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(SpringContext.getBean(DateTimeService.class).getCurrentDate());
+        final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(SpringContext.getBean(DateTimeService.class).getCurrentDate());
 
         String[] input = new String[] { 
-                testingYear+"BL2331489CS0019915---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      94.35D2006-01-05          ----------                                                                       ", 
-                testingYear+"BL2331489CS0019041---ACLI07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      94.35C2006-01-05          ----------                                                                       " };
+                testingYear+"BL4831496CS0019915---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                       94.35D"+testingYear+"-01-05          ----------                                                                       ", 
+                testingYear+"BL4831496CS0019041---ACLI07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                       94.35C"+testingYear+"-01-05          ----------                                                                       " };
 
         EntryHolder[] output = new EntryHolder[] { 
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL2331489CS0019915---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      94.35D"+testingYear+"-01-05          ----------                                                                       "), 
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL2331489CS0019041---ACLI07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      94.35C"+testingYear+"-01-05          ----------                                                                       "), 
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL2331489CS0019041---ACLI07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      94.35C"+testingYear+"-01-05          ----------                                                                       "),
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL2331489CS0019915---ACTE07TF  CSCSHR01/01     00000GENERATED COST SHARE FROM 2331489                      94.35C"+testingYear+"-01-01          ----------                                                                       "), 
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL2331489CS0018000---ACAS07TF  CSCSHR01/01     00000GENERATED OFFSET                                       94.35D"+testingYear+"-01-01          ----------                                                                       "), 
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----9915---ACTE07TF  CSCSHR01/01     00000GENERATED COST SHARE FROM 2331489                      94.35D"+testingYear+"-01-01          ----------                                                                       "),
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----8000---ACAS07TF  CSCSHR01/01     00000GENERATED OFFSET                                       94.35C"+testingYear+"-01-01          ----------                                                                       "), 
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL2331489CS0019915---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      94.35D"+testingYear+"-01-05          ----------                                                                       "), };
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0019915---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                       94.35D"+testingYear+"-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0019041---ACLI07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                       94.35C"+testingYear+"-01-05          ----------                                                                       "),
+                
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0019041---ACLI07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.       +00000000000000094.35C"+testingYear+"-01-05          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0019915---ACTE07DI  01CSHRTRIN      00000GENERATED COST SHARE FROM 4831496***"+formattedOffsetDate+"+00000000000000094.35C"+formattedRunDate+"          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07DI  01CSHRTRIN      00000GENERATED OFFSET                 ***"+formattedOffsetDate+"+00000000000000094.35D"+formattedRunDate+"          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----9915---ACTE07DI  01CSHRTRIN      00000GENERATED COST SHARE FROM 4831496***"+formattedOffsetDate+"+00000000000000094.35D"+formattedRunDate+"          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----8000---ACAS07DI  01CSHRTRIN      00000GENERATED OFFSET                 ***"+formattedOffsetDate+"+00000000000000094.35C"+formattedRunDate+"          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0019915---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.       +00000000000000094.35D"+testingYear+"-01-05          ----------                                                                       "),
+
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0019041---ACLI07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.       +00000000000000094.35C"+testingYear+"-01-05          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0019915---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4831496       +00000000000000094.35C"+formattedRunDate+"          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                        +00000000000000094.35D"+formattedRunDate+"          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL1031400-----9915---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4831496       +00000000000000094.35D"+formattedRunDate+"          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL1031400-----8000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                        +00000000000000094.35C"+formattedRunDate+"          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear+"BL4831496CS0019915---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.       +00000000000000094.35D"+testingYear+"-01-05          ----------                                                                       "),
+                };
 
         scrub(input);
-        assertOriginEntries(4, output);
+        assertOriginEntries(7, output);
     }
 
 //    /**
@@ -386,7 +457,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL1031400-----8000---ACAS07TF  CSCSHR01/01     00000GENERATED OFFSET                                    20.00D2006-01-01          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4831496CS0019900---ACEX07CR  01CSHRTREX      00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -403,7 +474,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631625CS0016000---ACEX07DI  EUCSHRTRAV      00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631625CS0018000---ACAS07DI  EUCSHRTRAV      00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                       ") };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -420,7 +491,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631618CS0015199---ACEX07DI  01CSHRTRAN      00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631618CS0019041---ACLI07DI  01CSHRTRAN      00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                       ") };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -437,7 +508,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4831496CS0012350---ACEX07CR  01CSHRSAAP      00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4831496CS0018000---ACAS07CR  01CSHRSAAP      00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                       ") };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -454,7 +525,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631625CS0017900---ACEX07DI  EUCSHRRESV      00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631625CS0018000---ACAS07DI  EUCSHRRESV      00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                       ") };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -471,7 +542,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631618CS0012400---ACEX07DI  01CSHRPRSA      00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631618CS0019041---ACLI07DI  01CSHRPRSA      00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                       ") };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -488,7 +559,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4831496CS0012300---ACEX07CR  01CSHRPART      00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4831496CS0018000---ACAS07CR  01CSHRPART      00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                       ") };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -505,7 +576,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631625CS0015500---ACEX07DI  EUCSHRICOE      00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631625CS0018000---ACAS07DI  EUCSHRICOE      00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                       ") };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -522,7 +593,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631618CS0013000---ACEX07DI  01CSHRHRCO      00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631618CS0019041---ACLI07DI  01CSHRHRCO      00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -539,7 +610,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4831496CS0015800---ACEX07CR  01CSHRFINA2     00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4831496CS0018000---ACAS07CR  01CSHRFINA2     00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                       ") };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -556,7 +627,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631625CS0015400---ACEX07DI  EUCSHRFINA1     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631625CS0018000---ACAS07DI  EUCSHRFINA1     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                       ") };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -573,7 +644,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL1031400-----8000---ACAS07TF  CSCSHR01/01     00000GENERATED OFFSET                                    94.35C2006-01-01          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631618CS0019912---ACEX07DI  01CSHRCORI      00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -590,7 +661,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL1031400-----8000---ACAS07TF  CSCSHR01/01     00000GENERATED OFFSET                                    20.00D2006-01-01          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4831496CS0019951---ACEX07CR  01CSHRCORE      00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -608,7 +679,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631625CS0018000---ACAS07DI  EUCSHRCAP       00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                       ") };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -625,7 +696,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631618CS0012500---ACEX07DI  01CSHRBISA      00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631618CS0019041---ACLI07DI  01CSHRBISA      00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                       ") };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -641,7 +712,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631625CS0015625---ACEX07DI  EUCSHRBENF6     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631625CS0018000---ACAS07DI  EUCSHRBENF6     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                       ") };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -658,7 +729,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631618CS0015509---ACEX07DI  01CSHRBASE      00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631618CS0019041---ACLI07DI  01CSHRBASE      00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                       ") };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -675,7 +746,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4831496CS0012000---ACEX07CR  01CSHRACSA      00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4831496CS0018000---ACAS07CR  01CSHRACSA      00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -691,7 +762,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631618CS0019041---ACLI07JV  01NOCSHRJV      00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -707,7 +778,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4831496CS0018000---ACASCBCR  01NOCSHRCB      00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -723,7 +794,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL1031400-----9893---CEFB07EXENEUNOCSHREX      00000GENERATED OFFSET                                   241.75C2006-01-01          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631625CS0014110---EXEX07EXENEUNOCSHREX      00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                      D                                "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631625CS0018000---EXAS07EXENEUNOCSHREX      00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                      D                                ") };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -739,7 +810,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631618CS0019041---BBLI07DI  01NOCSHRBB      00000Rite Quality Office Supplies Inc.                   94.35 2006-01-05          ----------                                                                       ") };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -755,7 +826,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4831496CS0018000---ACAS07CR  01NOCSHRIN      00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                       ") };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -775,7 +846,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA9120657-----9120---ACLI07ST  EUDEBTEDNES     00000PAYROLL EXPENSE TRANSFERS                          620.00C2006-01-05          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -792,7 +863,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA9544900-----9899---ACFB07DI  EUNODEBTP2      00000GENERATED TRANSFER FROM BA 9120657                3375.00D2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA9120657-----9100---ACLI07DI  EUNODEBTP2      00000BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -808,7 +879,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2006BL2231423-----9100---ACIN07CR  PLNODEBTP1      00000FRICKA FRACKA                                    45995.84C2006-01-05          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -824,7 +895,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA9021004-----9120---EXLI07TOPSEUNODEBTEX      00000PAYROLL EXPENSE TRANSFERS                          620.00C2006-01-05          ----------                                      D                                "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -840,7 +911,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA9020204-----9100---BBLI07SB  01NODEBTBB      00000Biology Stockroom                                   13.77 2006-01-05          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -856,7 +927,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA9544900-----9899---ACFB07CD  PDCAPITALCL     00000GENERATED LIABILITY                               1445.00C2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044900-----7099---ACEE07CD  PDCAPITALCL     00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044900-----8000---ACAS07CD  PDCAPITALCL     00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                       ") };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -872,7 +943,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA9544900-----9899---ACFB07GEC 01CAPITALLR     00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044913-----7465---ACEE07GEC 01CAPITALLR     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044913-----9041---ACLI07GEC 01CAPITALLR     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -888,7 +959,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA9544900-----9899---ACFB07TOPS01CAPITALLI     00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044906-----7100---ACEE07TOPS01CAPITALLI     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044906-----9041---ACLI07TOPS01CAPITALLI     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -904,7 +975,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA9544900-----9899---ACFB07CD  PDCAPITALLE     00000GENERATED CAPITALIZATION                          1445.00C2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044900-----7800---ACEE07CD  PDCAPITALLE     00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044900-----8000---ACAS07CD  PDCAPITALLE     00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                       ") };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -920,7 +991,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA9544900-----9899---ACFB07GEC 01CAPITALLA     00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044913-----7200---ACEE07GEC 01CAPITALLA     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044913-----9041---ACLI07GEC 01CAPITALLA     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -936,7 +1007,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA9544900-----9899---ACFB07TOPS01CAPITALIF     00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044906-----7400---ACEE07TOPS01CAPITALIF     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044906-----9041---ACLI07TOPS01CAPITALIF     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                       ") };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -952,7 +1023,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA9544900-----9899---ACFB07CD  PDCAPITALES     00000GENERATED CAPITALIZATION                          1445.00C2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044900-----7098---ACEE07CD  PDCAPITALES     00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044900-----8000---ACAS07CD  PDCAPITALES     00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -968,7 +1039,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA9544900-----9899---ACFB07GEC 01CAPITALCF     00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044913-----7030---ACEE07GEC 01CAPITALCF     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044913-----9041---ACLI07GEC 01CAPITALCF     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -984,7 +1055,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA9544900-----9899---ACFB07TOPS01CAPITALCM     00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044906-----7000---ACEE07TOPS01CAPITALCM     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044906-----9041---ACLI07TOPS01CAPITALCM     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -1000,7 +1071,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA9544900-----9899---ACFB07GEC 01CAPITALBF     00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044913-----7305---ACEE07GEC 01CAPITALBF     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044913-----9041---ACLI07GEC 01CAPITALBF     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -1016,7 +1087,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA9544900-----9899---ACFB07TOPS01CAPITALBD     00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044906-----7300---ACEE07TOPS01CAPITALBD     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044906-----9041---ACLI07TOPS01CAPITALBD     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -1032,7 +1103,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA9544900-----9899---ACFB07CD  PDCAPITALAM     00000GENERATED CAPITALIZATION                          1445.00C2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044900-----7677---ACEE07CD  PDCAPITALAM     00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044900-----8000---ACAS07CD  PDCAPITALAM     00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -1048,7 +1119,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044900-----8000---ACASCBCD  PDNOCAPCB       00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345679                                                               "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -1064,7 +1135,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044913-----9041---ACLI07TF  LGNOCAPTF       00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -1080,7 +1151,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044906-----9041---EXLI07TOPSLGNOCAPEX       00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                      D                                "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -1096,7 +1167,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL1031497-----8000---ACAS07GEC 01OFFSETPER     00000GENERATED OFFSET                                    40.72D2006-01-01          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL1031497-----8000---ACAS08GEC 01OFFSETPER     00000TP Generated Offset                                 40.72D2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL1031497-----8000---ACAS08GEC 01OFFSETPER     00000GENERATED OFFSET                                    40.72C2006-01-01          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -1112,7 +1183,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044913-----8000---ACAS07CR  01OFFSETREV     00000GENERATED OFFSET                                    20.00C2006-01-01          ----------                            2005-01-31                                 "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044913-----8000---ACAS07CR  01OFFSETREV     00000TP Generated Offset                                 20.00C2006-01-05          ----------                            2005-02-01                                 "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044913-----8000---ACAS07CR  01OFFSETREV     00000GENERATED OFFSET                                    20.00D2006-01-01          ----------                            2005-02-01                                 "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    // This test fails in anthill but runs in dev
@@ -1137,7 +1208,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //    // 25.15C2006-01-01 ---------- "), };
 //    //
 //    // scrub(input);
-//    // assertOriginEntries(4, output);
+//    // assertOriginEntries(7, output);
 //    // }
 //
 //    // This test fails in anthill but runs in dev
@@ -1217,7 +1288,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044906-----8000---ACAS07DI  01OFFSETORG     00000GENERATED OFFSET                                   294.64C2006-01-01          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044906-----5000---ACEX07DI  EUOFFSETORG     00000OFFICE SUPPLY CHARGEBACKS                          294.64D2006-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044906-----8000---ACAS07DI  EUOFFSETORG     00000GENERATED OFFSET                                   294.64C2006-01-01          ----------                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    // This test doesn't work in anthill for some reason
@@ -1270,7 +1341,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BA6044900-----8000---ACAS07CR  UBCLOSACCT      00000AUTO FR BA6044909TP Generated Offset                20.00D2006-01-05          ----------                                                                               "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE, "2007BA6044900-----1800---ACIN07CR  UBCLOSACCT      00000AUTO FR BA6044909Poplars Garage Fees                20.00C2006-01-05          ----------                                                                               "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE, "2007BA6044900-----8000---ACAS07CR  UBCLOSACCT      00000AUTO FR BA6044909TP Generated Offset                20.00D2006-01-05          ----------                                                                               "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -1286,7 +1357,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4631557-----9041---ACLI07LOCRLGEXPRACTLC     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                               "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -1302,7 +1373,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4131407-----9041---EXLI07TOPSLGEXPRACTEX     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                      D                                        "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -1318,7 +1389,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL1031467-----8000---ACAS07DD  01EXPRACT01     12345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345679                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -1333,7 +1404,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL4131407-----9041---ACLI07TOPSLGEXPIRCGAC     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                               "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    /**
@@ -1349,7 +1420,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2007BL1031467-----8000---ACAS07CD  PDEXPIRACCT     12345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345679                                                                       "), };
 //
 //        scrub(input);
-//        assertOriginEntries(4, output);
+//        assertOriginEntries(7, output);
 //    }
 //
 //    // ************************************************************** Tests for error conditions below.
@@ -1366,7 +1437,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1381,7 +1452,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1397,7 +1468,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1412,7 +1483,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1428,7 +1499,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1443,7 +1514,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1459,7 +1530,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1473,7 +1544,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1487,7 +1558,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1501,7 +1572,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1515,7 +1586,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1529,7 +1600,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1542,7 +1613,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1556,7 +1627,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1570,7 +1641,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1585,7 +1656,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1599,7 +1670,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1613,7 +1684,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1627,7 +1698,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1641,7 +1712,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1655,7 +1726,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1670,7 +1741,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1684,7 +1755,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, "2006BL2231423-----8000---ACAS07CR  PLINVALOBJ      00000TP Generated Offset                              45995.84D2006-01-05          ----------                                                                               "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, "2007BL2231423-----XXXX---ACIN  CR  PLINVALOBJ      00000FRICKA FRACKA                                    45995.84C2006-01-05          ----------                                                                               ") };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //
@@ -1699,7 +1770,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1713,7 +1784,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1727,7 +1798,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1741,7 +1812,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1755,7 +1826,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1770,7 +1841,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1785,7 +1856,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //
 //    }
 //
@@ -1801,7 +1872,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2006BA6044900-----5300---ACEE07CHKDPDBLANKFISC     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2006BA6044900-----8000---ACAS07CHKDPDBLANKFISC     12345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345678                                                                       ") };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1819,7 +1890,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1837,7 +1908,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1857,7 +1928,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 //
 //    /**
@@ -1875,7 +1946,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]) };
 //
 //        scrub(inputTransactions);
-//        assertOriginEntries(4, outputTransactions);
+//        assertOriginEntries(7, outputTransactions);
 //    }
 
     /**
@@ -1902,6 +1973,13 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         loadInputTransactions(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions);
         persistenceService.clearCache();
         scrubberService.scrubEntries();
+        
+        String inputFile = batchDirectory + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
+        String outputFile = batchDirectory + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION; 
+            
+        BatchSortUtil.sortTextFileWithFields(inputFile, outputFile, new DemergerSortComparator());
+        
+        scrubberService.performDemerger();
     }
 
     /**

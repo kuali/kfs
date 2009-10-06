@@ -26,8 +26,12 @@ are intended for use only by Kuali Foundation developers.
 	<target name="dist-local" />
 	<target name="clean" />
 	<target name="make-source" />
+	
+	<target name="init-additional-properties">
+		<property file="build-foundation.properties" />
+	</target>
 
-	<target name="modularization-test" depends="make-source">
+	<target name="modularization-test" depends="make-source,init-additional-properties">
         <javac destdir="${war.classes.directory}" debug="true" nowarn="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
             <classpath refid="compile.tests.classpath" />
             <src path="${test.infrastructure.source.directory}" />
@@ -64,7 +68,7 @@ are intended for use only by Kuali Foundation developers.
 		<fail if="context.test.failed" message="CheckModularization.java failed" />
   	</target>
   	  
-	<target name="make-javadoc-all" depends="init-properties">
+	<target name="make-javadoc-all" depends="init-properties,init-additional-properties">
     <!-- delete potential previous temp directories -->
     	<delete dir="${doc.directory}" failonerror="false" />
     	<delete dir="${all.temp.directory}" failonerror="false" />
@@ -96,12 +100,12 @@ are intended for use only by Kuali Foundation developers.
     	<delete dir="${all.temp.directory}" />
 	</target>
   
-	<target name="export-dataset">
+	<target name="export-dataset" depends="init-additional-properties">
 		<mkdir dir="${all.temp.directory}/${name}-dataset" />
 		<cvs command="export -d ${name}-dataset" dest="${all.temp.directory}" cvsroot="${release.cvs.root}" package="${release.database.cvs.module}" failonerror="true" tag="${branch}" compressionlevel="6" />
 	</target>
   
-	<target name="package-kfs" depends="init-properties">
+	<target name="package-kfs" depends="init-properties,init-additional-properties">
     <!-- copy build file to ${all.temp.directory} dir -->
     	<delete dir="${all.temp.directory}" failonerror="false" />
     	<mkdir dir="${all.temp.directory}" />    
@@ -171,7 +175,7 @@ are intended for use only by Kuali Foundation developers.
     	<delete dir="${all.temp.directory}" verbose="false" />
 	</target>
   
-	<target name="setup-rice" depends="init-property-files">
+	<target name="setup-rice" depends="init-property-files,init-additional-properties">
 		<ant dir="${rice.project.directory}" target="retrieve-maven-dependencies" />
     	<condition property="os.safe.driver.path" value="c:${drivers.directory}/ojdbc14.jar">
       		<os family="windows"/>
@@ -186,9 +190,9 @@ are intended for use only by Kuali Foundation developers.
   
 	<target name="update-rice" depends="update-rice-basic,update-rice-extended,dist-local" />
   
-	<target name="update-rice-basic" depends="init-property-files,update-rice-jars,update-rice-web,update-rice-server-war" />
+	<target name="update-rice-basic" depends="init-property-files,init-additional-properties,update-rice-jars,update-rice-web,update-rice-server-war" />
   
-	<target name="update-rice-jars" depends="init-property-files">
+	<target name="update-rice-jars" depends="init-property-files,init-additional-properties">
     	<delete>
       		<fileset dir="${basedir}" includes="${lib.directory}/${rice.output.file.prefix}${rice.output.lib.suffix}" />
     	</delete>
@@ -206,21 +210,21 @@ are intended for use only by Kuali Foundation developers.
     	</copy>
 	</target>
   
-	<target name="update-rice-web" depends="init-property-files">
+	<target name="update-rice-web" depends="init-property-files,init-additional-properties">
     	<delete>
       		<fileset dir="${build.project.directory}" includes="${rice.name}*${rice.output.web.suffix}" />
     	</delete>
     	<zip destfile="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" basedir="${rice.web.directory}" excludes="*.*,META-INF/**/**,WEB-INF/*.*,WEB-INF/jsp/**/**,**/CVS" />
 	</target>
   
-    <target name="update-rice-server-war" depends="init-property-files">
+    <target name="update-rice-server-war" depends="init-property-files,init-additional-properties">
         <maven goals="package" modulePath="/web" />
         <copy file="${rice.project.directory}/web/${rice.output.directory}/${rice.name}-web-${rice.version}.war" todir="${build.appserver.directory}" />
     </target>
     
-	<target name="update-rice-extended" depends="init-property-files,update-rice-kuali-dependencies,update-rice-licenses" />
+	<target name="update-rice-extended" depends="init-property-files,init-additional-properties,update-rice-kuali-dependencies,update-rice-licenses" />
   
-	<target name="update-rice-kuali-dependencies" depends="init-property-files">
+	<target name="update-rice-kuali-dependencies" depends="init-property-files,init-additional-properties">
     	<delete>
       		<fileset dir="${dependencies.project.directory}" includes="${rice.output.file.prefix}" />
     	</delete>
@@ -234,7 +238,7 @@ are intended for use only by Kuali Foundation developers.
     	</copy>
 	</target>
   
-	<target name="update-rice-licenses" depends="init-property-files">
+	<target name="update-rice-licenses" depends="init-property-files,init-additional-properties">
     	<delete>
       		<fileset dir="${build.project.directory}" includes="${rice.name}*${rice.output.licenses.suffix}" />
     	</delete>

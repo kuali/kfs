@@ -185,14 +185,14 @@
 	<bean id="methodCacheInterceptor" class="org.kuali.rice.kns.util.cache.MethodCacheInterceptor">
 		<property name="cache" ref="methodCache" />
 		<property name="expirationTimeInSeconds">
-			<value>60</value>
+			<value>${kns.cache.methodresult.max.age.seconds}</value>
 		</property>
 	</bean>
 
     <bean id="methodCacheNoCopyInterceptor" class="org.kuali.rice.kns.util.cache.MethodCacheNoCopyInterceptor">
         <property name="cache" ref="methodCacheNoCopy" />
         <property name="expirationTimeInSeconds">
-            <value>600</value>
+            <value>${kns.cache.methodresult.nocopy.max.age.seconds}</value>
 		</property>
 	</bean>
 
@@ -204,7 +204,7 @@
 				<prop key="cache.memory">true</prop>
 				<prop key="cache.key">__oscache_mrcache</prop>
 				<prop key="cache.persistence.overflow.only">false</prop>
-				<prop key="cache.capacity">1000</prop>
+				<prop key="cache.capacity">${kns.cache.methodresult.max.size}</prop>
 				<prop key="cache.event.listeners">org.kuali.rice.kns.util.cache.MethodResultsCacheMonitor</prop>
 			</props>
 		</constructor-arg>
@@ -218,7 +218,7 @@
                 <prop key="cache.memory">true</prop>
                 <prop key="cache.key">__oscache_mrcache</prop>
                 <prop key="cache.persistence.overflow.only">false</prop>
-                <prop key="cache.capacity">1000</prop>
+                <prop key="cache.capacity">${kns.cache.methodresult.nocopy.max.size}</prop>
                 <prop key="cache.event.listeners">org.kuali.rice.kns.util.cache.MethodResultsCacheNoCopyMonitor</prop>
             </props>
         </constructor-arg>

@@ -21,8 +21,11 @@ import java.util.Map;
 
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionProcessService;
+import org.kuali.kfs.gl.batch.service.YearEndService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
 import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.springframework.util.StopWatch;
 
 /**
@@ -32,6 +35,7 @@ import org.springframework.util.StopWatch;
 public class OrganizationReversionPriorYearAccountStep extends AbstractWrappedBatchStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionPriorYearAccountStep.class);
     private OrganizationReversionProcessService organizationReversionProcessService;
+    private YearEndService yearEndService;
 
     /**
      * @see org.kuali.kfs.sys.batch.AbstractWrappedBatchStep#getCustomBatchExecutor()
@@ -51,8 +55,11 @@ public class OrganizationReversionPriorYearAccountStep extends AbstractWrappedBa
 
                 Map jobParameters = organizationReversionProcessService.getJobParameters();
                 Map<String, Integer> organizationReversionCounts = new HashMap<String, Integer>();
+                
+                getYearEndService().logAllMissingPriorYearAccounts((Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR));
+                getYearEndService().logAllMissingSubFundGroups((Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR));
 
-                organizationReversionProcessService.organizationReversionPriorYearAccountProcess(jobParameters, organizationReversionCounts);
+                getOrganizationReversionProcessService().organizationReversionPriorYearAccountProcess(jobParameters, organizationReversionCounts);
                 
                 stopWatch.stop();
                 LOG.info("OrganizationReversionPriorYearAccountStep took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
@@ -72,4 +79,29 @@ public class OrganizationReversionPriorYearAccountStep extends AbstractWrappedBa
     public void setOrganizationReversionProcessService(OrganizationReversionProcessService organizationReversionProcessService) {
         this.organizationReversionProcessService = organizationReversionProcessService;
     }
+
+    /**
+     * Gets the yearEndService attribute. 
+     * @return Returns the yearEndService.
+     */
+    public YearEndService getYearEndService() {
+        return yearEndService;
+    }
+
+    /**
+     * Sets the yearEndService attribute value.
+     * @param yearEndService The yearEndService to set.
+     */
+    public void setYearEndService(YearEndService yearEndService) {
+        this.yearEndService = yearEndService;
+    }
+
+    /**
+     * Gets the organizationReversionProcessService attribute. 
+     * @return Returns the organizationReversionProcessService.
+     */
+    public OrganizationReversionProcessService getOrganizationReversionProcessService() {
+        return organizationReversionProcessService;
+    }
+    
 }

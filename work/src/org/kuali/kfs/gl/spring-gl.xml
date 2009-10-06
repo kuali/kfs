@@ -2034,7 +2034,7 @@
 	    <property name="wrappingBatchServices">
 			<list>
 				<ref bean="posterOutputSummaryReportWriterService"/>
-				<!-- BalanceSummbary and EncumbranceSummary are initialized in code due to fiscal year in filename -->
+				<!-- BalanceSummary and EncumbranceSummary are initialized in code due to fiscal year in filename -->
 				<ref bean="accountingCycleCachingService"/>
 			</list>
 		</property>
@@ -2059,6 +2059,7 @@
 		<property name="organizationReversionProcessService">
 			<ref bean="glOrganizationReversionProcessService" />
 		</property>
+		<property name="yearEndService" ref="glYearEndService" />
 	</bean>
 
 	<bean id="organizationReversionCurrentYearAccountStep" class="org.kuali.kfs.gl.batch.OrganizationReversionCurrentYearAccountStep" parent="wrappedStep">
@@ -2070,6 +2071,7 @@
 		<property name="organizationReversionProcessService">
 			<ref bean="glOrganizationReversionProcessService" />
 		</property>
+		<property name="yearEndService" ref="glYearEndService" />
 	</bean>
 	
 	<bean id="collectorStep" class="org.kuali.kfs.gl.batch.CollectorStep" parent="wrappedStep">

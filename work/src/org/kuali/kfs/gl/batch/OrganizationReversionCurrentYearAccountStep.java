@@ -35,6 +35,7 @@ import org.springframework.util.StopWatch;
 public class OrganizationReversionCurrentYearAccountStep extends AbstractWrappedBatchStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionCurrentYearAccountStep.class);
     private OrganizationReversionProcessService organizationReversionProcessService;
+    private YearEndService yearEndService;
 
     /**
      * @see org.kuali.kfs.sys.batch.AbstractWrappedBatchStep#getCustomBatchExecutor()
@@ -55,11 +56,9 @@ public class OrganizationReversionCurrentYearAccountStep extends AbstractWrapped
                 Map jobParameters = organizationReversionProcessService.getJobParameters();
                 Map<String, Integer> organizationReversionCounts = new HashMap<String, Integer>();
 
-                YearEndService yearEndService = SpringContext.getBean(YearEndService.class);
-                yearEndService.logAllMissingPriorYearAccounts((Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR));
-                yearEndService.logAllMissingSubFundGroups((Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR));
+                getYearEndService().logAllMissingSubFundGroups((Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR));
 
-                organizationReversionProcessService.organizationReversionCurrentYearAccountProcess(jobParameters, organizationReversionCounts);
+                getOrganizationReversionProcessService().organizationReversionCurrentYearAccountProcess(jobParameters, organizationReversionCounts);
 
                 stopWatch.stop();
                 LOG.info("OrganizationReversionCurrentYearAccountStep took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
@@ -69,7 +68,7 @@ public class OrganizationReversionCurrentYearAccountStep extends AbstractWrapped
     }
     
     /**
-     * Sets the organizationREversionProcessService (not to be confused with the OrganizationReversionService, which doesn't do a
+     * Sets the organizationReversionProcessService (not to be confused with the OrganizationReversionService, which doesn't do a
      * process, but which does all the database stuff associated with OrganizationReversion records; it's off in Chart), which
      * allows the injection of an implementation of the service.
      * 
@@ -78,5 +77,29 @@ public class OrganizationReversionCurrentYearAccountStep extends AbstractWrapped
      */
     public void setOrganizationReversionProcessService(OrganizationReversionProcessService organizationReversionProcessService) {
         this.organizationReversionProcessService = organizationReversionProcessService;
+    }
+    
+    /**
+     * Gets the yearEndService attribute. 
+     * @return Returns the yearEndService.
+     */
+    public YearEndService getYearEndService() {
+        return yearEndService;
+    }
+
+    /**
+     * Sets the yearEndService attribute value.
+     * @param yearEndService The yearEndService to set.
+     */
+    public void setYearEndService(YearEndService yearEndService) {
+        this.yearEndService = yearEndService;
+    }
+
+    /**
+     * Gets the organizationReversionProcessService attribute. 
+     * @return Returns the organizationReversionProcessService.
+     */
+    public OrganizationReversionProcessService getOrganizationReversionProcessService() {
+        return organizationReversionProcessService;
     }
 }

@@ -40,8 +40,11 @@
 	<target name="clean" depends="clean-project,clean-local" description="Remove all build output" />
 
 	<target name="init-property-files">
+		<echo message="Reading Properties: ${user.home}/${ant.project.name}-build.properties" />
 		<property file="${user.home}/${ant.project.name}-build.properties" />
+		<echo message="Reading Properties: ${shared.external.build.properties}" />
 		<property file="${shared.external.build.properties}" />
+		<echo message="Reading Properties: ${basedir}/build.properties" />
 		<property file="build.properties" />
 	</target>
 	
@@ -117,17 +120,17 @@
         <property name="rice.kim.url" value="${rice.url}/${kim.application}"/>
         <property name="rice.kew.url" value="${rice.url}/${workflow.application}"/>
         <property name="rice.externalizable.images.url" value="${rice.kr.url}/static/images/"/>
-		<condition property="rice.message.persistence" value="false"><isset property="is.local.build" /></condition>
-		<property name="rice.message.persistence" value="true" />
-		<condition property="rice.use.quartz.database" value="true">
+		<condition property="rice.ksb.message.persistence" value="false"><isset property="is.local.build" /></condition>
+		<property name="rice.ksb.message.persistence" value="true" />
+		<condition property="rice.ksb.use.quartz.database" value="true">
 			<and>
 				<equals arg1="${use.quartz.scheduling}" arg2="true" />
 			    <equals arg1="${use.quartz.jdbc.jobstore}" arg2="true" />
 			</and>
 		</condition>
-		<property name="rice.use.quartz.database" value="false" />
-		<condition property="rice.exception.routing.immediate" value="true"><equals arg1="${use.quartz.scheduling}" arg2="false" /></condition>
-		<property name="rice.exception.routing.immediate" value="false" />
+		<property name="rice.ksb.use.quartz.database" value="false" />
+		<condition property="rice.workflow.exception.routing.immediate" value="true"><equals arg1="${use.quartz.scheduling}" arg2="false" /></condition>
+		<property name="rice.workflow.exception.routing.immediate" value="false" />
         <condition property="kfs.rice.override.spring.files" value="${base.kfs.rice.override.spring.files},spring-kfs-batch.xml"><equals arg1="${use.quartz.scheduling}" arg2="true"/></condition>
         <property name="kfs.rice.override.spring.files" value="${base.kfs.rice.override.spring.files}" />
 		<property name="cas.datasource.url" value="${datasource.url}" />
@@ -148,7 +151,6 @@
 		<loadfile property="ojb-prop"    srcfile="${build.project.directory}/${ojb.properties.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="ojb-logging" srcfile="${build.project.directory}/${ojb.logging.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="ojb-repo"    srcfile="${build.project.directory}/${ojb.repository.file}"><filterchain><expandproperties/></filterchain></loadfile>
-		<loadfile property="jta-prop"    srcfile="${build.project.directory}/${jta.properties.file}"><filterchain><expandproperties/></filterchain></loadfile>			
 		
 		<loadfile property="context" srcfile="${build.appserver.directory}/${context.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="log4j" srcfile="${user.home}/${log4j.file}" failonerror="false"><filterchain><expandproperties/></filterchain></loadfile>
@@ -216,7 +218,6 @@
 				<include name="${source.directory}/${ojb.properties.file}" />
 				<include name="${source.directory}/${ojb.logging.file}" />
 				<include name="${source.directory}/${ojb.repository.file}" />
-				<include name="${source.directory}/${jta.properties.file}" />
 				<include name="${webinf.directory}/${web.file}" />
 				<include name="${lib.directory}/${log4j.library.file}" />
 				<include name="${lib.directory}/${institutional.customization.file.prefix}*.jar" />
@@ -323,7 +324,6 @@
 		<echo file="${source.directory}/${ojb.properties.file}" message="${ojb-prop}" />
 		<echo file="${source.directory}/${ojb.logging.file}" message="${ojb-logging}" />
 		<echo file="${source.directory}/${ojb.repository.file}" message="${ojb-repo}" />
-		<echo file="${source.directory}/${jta.properties.file}" message="${jta-prop}" />
 	    <if>
 	        <isset property="institutional.configuration" />
 	        <then>

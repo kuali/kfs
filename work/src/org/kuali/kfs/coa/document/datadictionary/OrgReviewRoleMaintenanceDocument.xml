@@ -24,10 +24,10 @@
       </list>
     </property>
     <property name="defaultExistenceChecks">
-      <dd:defaultExistenceChecks>
-      	<dd:check boAttribute="chart" attributeToHighlightOnFail="chartOfAccountsCode"/>
-      	<dd:check boAttribute="organization" attributeToHighlightOnFail="organizationCode"/>
-      </dd:defaultExistenceChecks>
+      <list>
+      	<bean parent="ReferenceDefinition" p:attributeName="chart" p:attributeToHighlightOnFail="chartOfAccountsCode" /> 
+      	<bean parent="ReferenceDefinition" p:attributeName="organization" p:attributeToHighlightOnFail="organizationCode" /> 
+      </list>
     </property>
 
     <property name="documentTypeName" value="ORR"/>

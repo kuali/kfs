@@ -13,27 +13,27 @@
       </list>
     </property>
     <property name="defaultExistenceChecks">
-      <dd:defaultExistenceChecks>
-      	<dd:check boAttribute="organization" attributeToHighlightOnFail="organizationCode"/>
-      	<dd:check boAttribute="accountPhysicalCampus" attributeToHighlightOnFail="accountPhysicalCampusCode"/>
-      	<dd:check boAttribute="cfda" attributeToHighlightOnFail="accountCfdaNumber"/>
-      	<dd:check boAttribute="accountState" attributeToHighlightOnFail="accountStateCode"/>
-      	<dd:check boAttribute="postalZipCode" attributeToHighlightOnFail="accountZipCode"/>
-      	<dd:check boAttribute="accountType" attributeToHighlightOnFail="accountTypeCode"/>
-      	<dd:check boAttribute="financialHigherEdFunction" attributeToHighlightOnFail="financialHigherEdFunctionCd"/>
-      	<dd:check boAttribute="reportsToAccount" attributeToHighlightOnFail="reportsToAccountNumber"/>
-      	<dd:check boAttribute="continuationAccount" attributeToHighlightOnFail="continuationAccountNumber"/>
-      	<dd:check boAttribute="endowmentIncomeAccount" attributeToHighlightOnFail="endowmentIncomeAccountNumber"/>
-      	<dd:check boAttribute="indirectCostRecoveryAcct" attributeToHighlightOnFail="indirectCostRecoveryAcctNbr"/>
-      	<dd:check boAttribute="sufficientFundsCode" attributeToHighlightOnFail="accountSufficientFundsCode"/>
-      	<dd:userCheck userAttribute="accountFiscalOfficerUser"/>
-      	<dd:userCheck userAttribute="accountSupervisoryUser"/>
-      	<dd:userCheck userAttribute="accountManagerUser"/>
-      	<dd:check boAttribute="accountRestrictedStatus" attributeToHighlightOnFail="accountRestrictedStatusCode"/>
-      	<dd:check boAttribute="subFundGroup" attributeToHighlightOnFail="subFundGroupCode"/>
-      	<dd:check boAttribute="budgetRecordingLevel" attributeToHighlightOnFail="budgetRecordingLevelCode"/>
-      	<dd:check boAttribute="acctIndirectCostRcvyType" attributeToHighlightOnFail="acctIndirectCostRcvyTypeCd"/>
-      </dd:defaultExistenceChecks>
+        <list>
+	      	<bean parent="ReferenceDefinition" p:attributeName="organization" p:attributeToHighlightOnFail="organizationCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="accountPhysicalCampus" p:attributeToHighlightOnFail="accountPhysicalCampusCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="cfda" p:attributeToHighlightOnFail="accountCfdaNumber" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="accountState" p:attributeToHighlightOnFail="accountStateCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="postalZipCode" p:attributeToHighlightOnFail="accountZipCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="accountType" p:attributeToHighlightOnFail="accountTypeCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="financialHigherEdFunction" p:attributeToHighlightOnFail="financialHigherEdFunctionCd" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="reportsToAccount" p:attributeToHighlightOnFail="reportsToAccountNumber" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="continuationAccount" p:attributeToHighlightOnFail="continuationAccountNumber" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="endowmentIncomeAccount" p:attributeToHighlightOnFail="endowmentIncomeAccountNumber" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="indirectCostRecoveryAcct" p:attributeToHighlightOnFail="indirectCostRecoveryAcctNbr" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="sufficientFundsCode" p:attributeToHighlightOnFail="accountSufficientFundsCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="accountFiscalOfficerUser" p:attributeToHighlightOnFail="accountFiscalOfficerUser.principalName" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="accountSupervisoryUser" p:attributeToHighlightOnFail="accountSupervisoryUser.principalName" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="accountManagerUser" p:attributeToHighlightOnFail="accountManagerUser.principalName" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="accountRestrictedStatus" p:attributeToHighlightOnFail="accountRestrictedStatusCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="subFundGroup" p:attributeToHighlightOnFail="subFundGroupCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="budgetRecordingLevel" p:attributeToHighlightOnFail="budgetRecordingLevelCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="acctIndirectCostRcvyType" p:attributeToHighlightOnFail="acctIndirectCostRcvyTypeCd" /> 
+  	    </list>   
     </property>
     <property name="lockingKeys">
       <list>
@@ -53,9 +53,7 @@
       </list>
     </property>
 
-    <property name="workflowAttributes">
-    	<ref bean="AccountMaintenanceDocument-workflowAttributes"/>
-    </property>
+    <property name="workflowAttributes" ref="AccountMaintenanceDocument-workflowAttributes"/>
   </bean>
 
 <!-- Maintenance Section Definitions -->

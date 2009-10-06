@@ -252,7 +252,7 @@
 		</property>
 	</bean>
 	
-	<bean id="purgeReportsAndStagingJob" parent="unscheduledJobDescriptor">
+	<bean id="purgeReportsAndStagingJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="filePurgeStep" />

@@ -455,7 +455,6 @@
 	</target>
 
 	<target name="dist-external" depends="init-properties">
-		<echo message="${log4j.file}" />
 		<echo file="${log4j.file}" message="${log4j}" />
 		<echo file="${security.file}" message="${security}"  />
 		<copy file="${build.external.directory}/${keystore.filename}" tofile="${keystore.filename}"/>

@@ -226,7 +226,6 @@
 				<include name="${source.directory}/${ojb.repository.file}" />
 				<include name="${webinf.directory}/${web.file}" />
 				<include name="${lib.directory}/${log4j.library.file}" />
-				<include name="${lib.directory}/${institutional.customization.file.prefix}*.jar" />
 				<include name="${xsd.directory}/**/**" />
 				<include name="${war.directory}/**/**" />
 				<include name="${test.directory}/**/**" />
@@ -329,14 +328,7 @@
 		<replace file="${spring.ide.support.file}" token="${file.separator}" value="/" />
   	</target>
 	
-	<target name="filter-project-custom-lib" if="custom.application.lib.directory" depends="init-properties">
-		<copy todir="${lib.directory}" verbose="true" preservelastmodified="true">
-			<fileset dir="${custom.application.lib.directory}" includes="*" />
-    		<globmapper from="*.jar" to="${institutional.customization.file.prefix}*.jar" />
-		</copy>
-	</target>
-
-	<target name="filter-project" depends="filter-project-p6spy,filter-project-help,filter-project-rice,filter-project-spring-ide,filter-project-custom-lib">
+	<target name="filter-project" depends="filter-project-p6spy,filter-project-help,filter-project-rice,filter-project-spring-ide">
 		<echo file="${source.directory}/${configuration.file}" message="${configuration}" />
 		
 		<echo file="${source.directory}/${ojb.properties.file}" message="${ojb-prop}" />
@@ -384,6 +376,7 @@
 
 	<target name="make-source" depends="init-make-references,filter-project">
 		<mkdir dir="${war.classes.directory}" />
+	    <echo message="Compiling Source from ${source.directory} into ${war.classes.directory}" />
 		<javac destdir="${war.classes.directory}" srcdir="${source.directory}"
 			   source="1.5" target="1.5"
 			   debug="true" nowarn="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
@@ -392,6 +385,27 @@
 		<copy todir="${war.classes.directory}">
 			<fileset dir="${source.directory}" includes="${non.java.resources}" />
 		</copy>
+        <if>
+            <isset property="additional.source.directory"/>
+            <then>
+                <echo message="Compiling Source from ${additional.source.directory} into ${war.classes.directory}" />
+                <javac destdir="${war.classes.directory}" srcdir="${additional.source.directory}"
+                       debug="true" nowarn="true" optimize="true" fork="true" 
+                       memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
+                    <!-- add the just compiled files to the classpath for compiling the customizations -->
+                    <classpath>
+                        <pathelement location="${war.classes.directory}"/>
+                        <path refid="compile.source.classpath" />
+                        <fileset dir="${additional.lib.directory}">
+                            <include name="*.jar"/>
+                        </fileset>
+                    </classpath>
+                </javac>
+                <copy todir="${war.classes.directory}" overwrite="true" verbose="true">
+                    <fileset dir="${additional.source.directory}" includes="${non.java.resources}" />
+                </copy>
+            </then>
+        </if>
 	</target>
 
 	<target name="make-tests" depends="init-make-references,filter-project">
@@ -413,6 +427,34 @@
 		<copy todir="${test.classes.directory}">
 			<fileset dir="${source.directory}" includes="${non.java.resources}" />
 		</copy>
+        <if>
+            <isset property="additional.test.source.directory"/>
+            <then>
+                <echo message="Compiling Test Source from ${additional.test.source.directory} into ${test.classes.directory}" />
+                <javac destdir="${test.classes.directory}" debug="true" nowarn="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
+                    <src path="${additional.source.directory}" />
+                    <src path="${additional.test.source.directory}" />
+                    <classpath>
+                        <pathelement location="${test.classes.directory}"/>
+                        <path refid="compile.tests.classpath" />
+                        <fileset dir="${additional.lib.directory}">
+                            <include name="*.jar"/>
+                        </fileset>
+                        <fileset dir="${additional.test.lib.directory}">
+                            <include name="*.jar" />
+                        </fileset>
+                    </classpath>
+                </javac>
+                <echo message="Copying Non-Java files from ${additional.test.source.directory} into ${test.classes.directory}" />
+                <copy todir="${test.classes.directory}">
+                    <fileset dir="${additional.test.source.directory}" includes="${non.java.resources}" />
+                </copy>
+                <echo message="Copying Non-Java files from ${additional.source.directory} into ${test.classes.directory}" />
+                <copy todir="${test.classes.directory}">
+                    <fileset dir="${additional.source.directory}" includes="${non.java.resources}" />
+                </copy>
+            </then>
+        </if>
 	</target>
 
 	<!-- please be careful if you muck with these settings - you can seriously hose the continuous integration process -->
@@ -434,12 +476,9 @@
 			<classpath refid="run.tests.classpath" />
 			<formatter type="xml" />
 			<batchtest todir="${test.xml.results.directory}">
-				<fileset dir="${test.unit.source.directory}">
-					<include name="${tests.includes}" />
-				</fileset>
-				<fileset dir="${test.integration.source.directory}">
-					<include name="${tests.includes}" />
-				</fileset>
+				<!-- use of the single "includes" attribute allows multiple comma-delimited patterns to be provided -->
+				<fileset dir="${test.unit.source.directory}" includes="${tests.includes}" />
+				<fileset dir="${test.integration.source.directory}" includes="${tests.includes}" />
 			</batchtest>
 			<test name="org.kuali.kfs.sys.context.${tests.shutdown.class}" todir="${test.xml.results.directory}" />
 		</junit>

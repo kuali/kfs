@@ -63,7 +63,6 @@
 				<value>autoCloseRecurringOrdersJob</value>
 				<value>electronicInvoiceExtractJob</value>
 				<value>faxPendingDocumentJob</value>
-				<value>purapMassRequisitionJob</value>
 				<value>approveLineItemReceivingJob</value>
 			</list>
 		</property>
@@ -72,7 +71,6 @@
 				<value>purchasingPreDisbursementImmediatesExtractJobTrigger</value>
 				<value>electronicInvoiceExtractJobTrigger</value>
 				<value>faxPendingDocumentTrigger</value>
-				<value>purapMassRequisitionJobTrigger</value>
 			</list>
 		</property>
 		<property name="externalizableBusinessObjectImplementations">
@@ -473,14 +471,6 @@
 	    <property name="faxBatchDocumentsService" ref="faxBatchDocumentsService" />
     </bean>
     
-    <bean id="purapMassRequisitionStep" class="org.kuali.kfs.module.purap.batch.PurapMassRequisitionStep" parent="step">
-	    <property name="documentService" ref="documentService" />
-	    <property name="requisitionService" ref="requisitionService" />
-	    <property name="purapService" ref="purapService" />
-	    <property name="boService" ref="businessObjectService" />
-	    <property name="psService" ref="persistenceStructureService" />
-    </bean>
-    
     <bean id="approveLineItemReceivingStep" class="org.kuali.kfs.module.purap.batch.ApproveLineItemReceivingStep" parent="step">
 	    <property name="receivingService" ref="receivingService" />
     </bean>
@@ -517,14 +507,6 @@
 		</property>
 	</bean>
 	
-	<bean id="purapMassRequisitionJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="purapMassRequisitionStep" />
-			</list>
-		</property>
-	</bean>
-	
 	<bean id="approveLineItemReceivingJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -546,12 +528,6 @@
 	<bean id="faxPendingDocumentTrigger" parent="cronTrigger">
 		<property name="jobName" value="faxPendingDocumentJob" />
 		<property name="cronExpression" value="00 00 11,15 ? * *" />
-	</bean>
-	
-	<bean id="purapMassRequisitionJobTrigger" parent="simpleTrigger">
-		<property name="jobName" value="purapMassRequisitionJob" />
-        <property name="startDelay" value="300000" />
-        <property name="repeatCount" value="0" />
 	</bean>
 	
 	<bean id="purchasingPreDisbursementExtractJob" parent="scheduledJobDescriptor">

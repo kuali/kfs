@@ -51,7 +51,6 @@
 		<property name="jobNames">
 			<list>
 				<value>lockboxJob</value>
-				<value>customerInvoiceDocumentBatchJob</value>
 				<value>customerLoadJob</value>
 				<value>invoiceRecurrenceJob</value>
 				<value>customerInvoiceWriteoffBatchJob</value>
@@ -60,7 +59,6 @@
 		<property name="triggerNames">
 			<list>
 				<value>lockboxJobTrigger</value>
-				<value>customerInvoiceDocumentBatchJobTrigger</value>
 				<value>invoiceRecurrenceJobTrigger</value>
 			</list>
 		</property>
@@ -453,36 +451,7 @@
 			</list>
 		</property>
 	</bean>
-	
-    <bean id="customerInvoiceDocumentBatchJobTrigger" parent="simpleTrigger">
-    	<property name="jobName" value="customerInvoiceDocumentBatchJob" />
-    	<property name="startDelay" value="240000" />
-    	<property name="repeatCount" value="0" />
-    </bean>	
-	
-	<bean id="customerInvoiceDocumentBatchStep" class="org.kuali.kfs.module.ar.batch.CustomerInvoiceDocumentBatchStep" parent="step">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="customerInvoiceDocumentService">
-			<ref bean="customerInvoiceDocumentService" />
-		</property>		
-		<property name="documentService">
-			<ref bean="documentService" />
-		</property>		
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>					
-	</bean>
-	
-	<bean id="customerInvoiceDocumentBatchJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="customerInvoiceDocumentBatchStep" />
-			</list>
-		</property>
-	</bean>
-	
+		
 	<bean id="cashControlElectronicPaymentClaimingDocumentHelper" class="org.kuali.kfs.module.ar.document.service.impl.CashControlElectronicPaymentClaimingHelperImpl">
 		<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
 		<property name="documentService"><ref bean="documentService" /></property>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2007 The Kuali Foundation.
+  
+  Licensed under the Educational Community License, Version 1.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+  http://www.opensource.org/licenses/ecl1.php
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:p="http://www.springframework.org/schema/p"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd"
+>
+
+	<!-- SYS Module -->
+	
+	<!--  Redefine the module bean to add the clear cache job. -->
+    <bean id="financialSystemModuleConfiguration" parent="financialSystemModuleConfiguration-parentBean" >
+        <property name="jobNames">
+            <list merge="true">
+				<value>clearCacheJob</value>
+            </list>
+        </property>
+	</bean>
+
+    <bean id="clearCacheStep" class="org.kuali.kfs.sys.batch.ClearCacheStep" parent="step">
+		<property name="cacheService">
+			<ref bean="cacheService" />
+		</property>
+	</bean>
+	
+	<bean id="clearCacheJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="clearCacheStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- GL Module -->
+	<bean id="glModuleConfiguration" parent="glModuleConfiguration-parentBean">
+		<property name="jobNames">
+			<list merge="true">
+				<value>markPostableGroupsAsUnpostableJob</value>
+				<value>markScrubbableBackupGroupsAsUnscrubbableJob</value>
+				<value>sufficientFundsFullRebuildJob</value>
+			</list>
+		</property>
+	
+	</bean>
+
+	<bean id="markScrubbableBackupGroupsAsUnscrubbableStep" class="org.kuali.kfs.gl.batch.MarkScrubbableBackupGroupsAsUnscrubbableStep" parent="step">
+		<property name="originEntryGroupService">
+			<ref bean="originEntryGroupService" />
+		</property>
+	</bean>
+
+    <bean id="markScrubbableBackupGroupsAsUnscrubbableJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="markScrubbableBackupGroupsAsUnscrubbableStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="markPostableScrubberValidGroupsAsUnpostableStep" class="org.kuali.kfs.gl.batch.MarkPostableScrubberValidGroupsAsUnpostableStep" parent="step">
+		<property name="originEntryGroupService">
+			<ref bean="originEntryGroupService" />
+		</property>
+	</bean>
+
+	<bean id="markPostableIcrGroupsAsUnpostableStep" class="org.kuali.kfs.gl.batch.MarkPostableIcrGroupsAsUnpostableStep" parent="step">
+		<property name="originEntryGroupService">
+			<ref bean="originEntryGroupService" />
+		</property>
+	</bean>
+	
+	<bean id="deleteAllExpenditureTransactionsStep" class="org.kuali.kfs.gl.batch.DeleteAllExpenditureTransactionsStep" parent="step">
+		<property name="expenditureTransactionService">
+			<ref bean="glExpenditureTransactionService"/>
+		</property>
+	</bean>
+	
+ 	<bean id="markPostableGroupsAsUnpostableJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="markPostableScrubberValidGroupsAsUnpostableStep" />
+				<ref bean="markPostableIcrGroupsAsUnpostableStep" />
+				<ref bean="deleteAllExpenditureTransactionsStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="sufficientFundsFullRebuildStep" class="org.kuali.kfs.gl.batch.SufficientFundsFullRebuildStep" parent="step">
+		<property name="sufficientFundsFullRebuildService">
+			<ref bean="glSufficientFundsFullRebuildService" />
+		</property>
+	</bean>
+
+	<bean id="sufficientFundsFullRebuildJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="sufficientFundsFullRebuildStep" />
+			</list>
+		</property>
+	</bean>
+		
+	<!-- PURAP Module -->
+	
+    <bean id="purapModuleConfiguration" parent="purapModuleConfiguration-parentBean">
+   		<property name="jobNames">
+			<list merge="true">
+				<value>purapMassRequisitionJob</value>
+			</list>
+		</property>
+		<property name="triggerNames">
+			<list merge="true">
+				<value>purapMassRequisitionJobTrigger</value>
+			</list>
+		</property>    
+    </bean>
+	
+    <bean id="purapMassRequisitionStep" class="org.kuali.kfs.module.purap.batch.PurapMassRequisitionStep" parent="step">
+	    <property name="documentService" ref="documentService" />
+	    <property name="requisitionService" ref="requisitionService" />
+	    <property name="purapService" ref="purapService" />
+	    <property name="boService" ref="businessObjectService" />
+	    <property name="psService" ref="persistenceStructureService" />
+    </bean>
+    
+	<bean id="purapMassRequisitionJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="purapMassRequisitionStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="purapMassRequisitionJobTrigger" parent="simpleTrigger">
+		<property name="jobName" value="purapMassRequisitionJob" />
+        <property name="startDelay" value="300000" />
+        <property name="repeatCount" value="0" />
+	</bean>
+	
+	<!--  AR Module -->
+	
+    <bean id="arModuleConfiguration" parent="arModuleConfiguration-parentBean">
+		<property name="jobNames">
+			<list merge="true">
+				<value>customerInvoiceDocumentBatchJob</value>
+			</list>
+		</property>
+		<property name="triggerNames">
+			<list merge="true">
+				<value>customerInvoiceDocumentBatchJobTrigger</value>
+			</list>
+		</property>
+    
+    </bean>
+	
+    <bean id="customerInvoiceDocumentBatchJobTrigger" parent="simpleTrigger">
+    	<property name="jobName" value="customerInvoiceDocumentBatchJob" />
+    	<property name="startDelay" value="240000" />
+    	<property name="repeatCount" value="0" />
+    </bean>	
+	
+	<bean id="customerInvoiceDocumentBatchStep" class="org.kuali.kfs.module.ar.batch.CustomerInvoiceDocumentBatchStep" parent="step">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="customerInvoiceDocumentService">
+			<ref bean="customerInvoiceDocumentService" />
+		</property>		
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>		
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>					
+	</bean>
+	
+	<bean id="customerInvoiceDocumentBatchJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="customerInvoiceDocumentBatchStep" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

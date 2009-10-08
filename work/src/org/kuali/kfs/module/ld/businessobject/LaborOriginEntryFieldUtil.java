@@ -21,33 +21,32 @@ import java.util.Map;
 
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.BusinessObjectStringParserFieldUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.service.DataDictionaryService;
 
 /**
  * This class has utility methods for OriginEntry
  */
-public class LaborOriginEntryFieldUtil extends BusinessObjectStringParserFieldUtils {
+public class LaborOriginEntryFieldUtil {
 
-    /**
-     * Returns the class to parse into LaborOriginEntry
-     * @see org.kuali.kfs.sys.businessobject.BusinessObjectStringParserFieldUtils#getBusinessObjectClass()
-     */
-    @Override
-    public Class<? extends BusinessObject> getBusinessObjectClass() {
-        return LaborOriginEntry.class;
+    public Map<String, Integer> getFieldLengthMap() {
+        Map<String, Integer> fieldLengthMap = new HashMap();
+        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+        List<AttributeDefinition> attributes = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(LaborOriginEntry.class.getName()).getAttributes();
+
+        for (AttributeDefinition attributeDefinition : attributes) {
+            Integer fieldLength;
+            fieldLength = dataDictionaryService.getAttributeMaxLength(LaborOriginEntry.class, attributeDefinition.getName());
+            fieldLengthMap.put(attributeDefinition.getName(), fieldLength);
+        }
+        return fieldLengthMap;
     }
 
-    /**
-     * Returns the fields, in order, to parse to create a LaborOriginEntry
-     * @see org.kuali.kfs.sys.businessobject.BusinessObjectStringParserFieldUtils#getOrderedProperties()
-     */
-    @Override
-    public String[] getOrderedProperties() {
-        return new String[] {
+    public Map<String, Integer> getFieldBeginningPositionMap() {
+        Map<String, Integer> positionMap = new HashMap();
+        Map<String, Integer> lengthMap = getFieldLengthMap();
+        final String[] orderedProperties = new String[] {
                 KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                 KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
                 KFSPropertyConstants.ACCOUNT_NUMBER,
@@ -96,5 +95,12 @@ public class LaborOriginEntryFieldUtil extends BusinessObjectStringParserFieldUt
                 LaborPropertyConstants.HRMS_COMPANY, 
                 LaborPropertyConstants.SET_ID
                 };
-    }
+            int lengthTracker = 0;
+       
+            for (String property : orderedProperties) {
+                positionMap.put(property, new Integer(lengthTracker));
+                lengthTracker += lengthMap.get(property).intValue();
+            }
+            return positionMap;
+        }
 }

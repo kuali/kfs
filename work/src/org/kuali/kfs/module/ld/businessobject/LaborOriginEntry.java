@@ -47,7 +47,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInformation, LaborTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborOriginEntry.class);
-    private static LaborOriginEntryFieldUtil laborOriginEntryFieldUtil;
     private static final String DATE_FORMAT = "yyyy-MM-dd";
     private String positionNumber;
     private Date transactionPostingDate;
@@ -691,8 +690,9 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
      */
     public String getLine() {
         StringBuilder sb = new StringBuilder();
-        Map<String, Integer> lMap = getLaborOriginEntryFieldUtil().getFieldLengthMap();
-        Map<String, Integer> pMap = getLaborOriginEntryFieldUtil().getFieldBeginningPositionMap();
+        LaborOriginEntryFieldUtil loefu = new LaborOriginEntryFieldUtil();
+        Map<String, Integer> lMap = loefu.getFieldLengthMap();
+        Map<String, Integer> pMap = loefu.getFieldBeginningPositionMap();
         int entryLength = pMap.get(LaborPropertyConstants.SET_ID) +  lMap.get(LaborPropertyConstants.SET_ID);
         
         if (universityFiscalYear == null) {
@@ -806,8 +806,9 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
     public List<Message> setFromTextFileForBatch(String line, int lineNumber)  {
         List<Message> returnList = new ArrayList();
         
-        Map<String, Integer> pMap = getLaborOriginEntryFieldUtil().getFieldBeginningPositionMap();
-        Map<String, Integer> lMap = getLaborOriginEntryFieldUtil().getFieldLengthMap();
+        LaborOriginEntryFieldUtil loefu = new LaborOriginEntryFieldUtil();
+        Map<String, Integer> pMap = loefu.getFieldBeginningPositionMap();
+        Map<String, Integer> lMap = loefu.getFieldLengthMap();
         int entryLength = pMap.get(LaborPropertyConstants.SET_ID) +  lMap.get(LaborPropertyConstants.SET_ID); 
         
         // Just in case
@@ -1386,15 +1387,5 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
             SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
             return sdf.format(date);
         }
-    }
-    
-    /**
-     * @return an initialized version of the LaborOriginEntryFieldUtil
-     */
-    protected static LaborOriginEntryFieldUtil getLaborOriginEntryFieldUtil() {
-        if (laborOriginEntryFieldUtil == null) {
-            laborOriginEntryFieldUtil = new LaborOriginEntryFieldUtil();
-        }
-        return laborOriginEntryFieldUtil;
     }
 }

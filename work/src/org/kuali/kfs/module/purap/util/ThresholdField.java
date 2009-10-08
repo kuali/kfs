@@ -33,6 +33,7 @@ public final class ThresholdField extends Enum {
     public static final ThresholdField VENDOR_HEADER_GENERATED_ID = new ThresholdField(PurapPropertyConstants.VENDOR_HEADER_GENERATED_ID);
     public static final ThresholdField VENDOR_DETAIL_ASSIGNED_ID = new ThresholdField(PurapPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID);
     public static final ThresholdField VENDOR_NUMBER = new ThresholdField(PurapPropertyConstants.VENDOR_NUMBER,false);
+    public static final ThresholdField ACTIVE = new ThresholdField(PurapPropertyConstants.BO_ACTIVE,true);
     
     /**
      * Indicates that a field is available in DB or not

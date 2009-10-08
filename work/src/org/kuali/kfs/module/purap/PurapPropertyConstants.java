@@ -127,13 +127,15 @@ public class PurapPropertyConstants {
     
     // Receiving Address
     public static final String RECEIVING_ADDRESS_DEFAULT_INDICATOR = "defaultIndicator";
-    public static final String RECEIVING_ADDRESS_ACTIVE = "active";
     public static final String RECEIVING_ADDRESS_STATE = "receivingStateCode";
     public static final String RECEIVING_ADDRESS_POSTAL_CODE = "receivingPostalCode";
 
-    // Billing Address
+    // Building Address
     public static final String BILLING_ADDRESS_STATE = "billingStateCode";
     public static final String BILLING_ADDRESS_POSTAL_CODE = "billingPostalCode";
+
+    // Business Object
+    public static final String BO_ACTIVE = "active";
 
     // AP DOCUMENT BASE
     public static final String PURCHASE_ORDER_IDENTIFIER = "purchaseOrderIdentifier";

@@ -37,6 +37,7 @@ public class ThresholdDaoOjb extends PlatformAwareDaoBaseOjb implements Threshol
     public Collection<ReceivingThreshold> findByChart(String chartCode) {
         Map criteriaFields = new HashMap(1);
         criteriaFields.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,chartCode);
+        criteriaFields.put(ThresholdField.ACTIVE,Boolean.TRUE);
         return getThresholdEnum(criteriaFields);
     }
 
@@ -45,6 +46,7 @@ public class ThresholdDaoOjb extends PlatformAwareDaoBaseOjb implements Threshol
         Map criteriaFields = new HashMap(2);
         criteriaFields.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,chartCode);
         criteriaFields.put(ThresholdField.ACCOUNT_TYPE_CODE,fund);
+        criteriaFields.put(ThresholdField.ACTIVE,Boolean.TRUE);
         return getThresholdEnum(criteriaFields);
     }
 
@@ -53,6 +55,7 @@ public class ThresholdDaoOjb extends PlatformAwareDaoBaseOjb implements Threshol
         Map criteriaFields = new HashMap(2);
         criteriaFields.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,chartCode);
         criteriaFields.put(ThresholdField.SUBFUND_GROUP_CODE,subFund);
+        criteriaFields.put(ThresholdField.ACTIVE,Boolean.TRUE);
         return getThresholdEnum(criteriaFields);
     }
 
@@ -61,6 +64,7 @@ public class ThresholdDaoOjb extends PlatformAwareDaoBaseOjb implements Threshol
         Map criteriaFields = new HashMap(2);
         criteriaFields.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,chartCode);
         criteriaFields.put(ThresholdField.COMMODITY_CODE,commodityCode);
+        criteriaFields.put(ThresholdField.ACTIVE,Boolean.TRUE);
         return getThresholdEnum(criteriaFields);
     }
 
@@ -69,6 +73,7 @@ public class ThresholdDaoOjb extends PlatformAwareDaoBaseOjb implements Threshol
         Map criteriaFields = new HashMap(2);
         criteriaFields.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,chartCode);
         criteriaFields.put(ThresholdField.FINANCIAL_OBJECT_CODE,objectCode);
+        criteriaFields.put(ThresholdField.ACTIVE,Boolean.TRUE);
         return getThresholdEnum(criteriaFields);
     }
 
@@ -77,6 +82,7 @@ public class ThresholdDaoOjb extends PlatformAwareDaoBaseOjb implements Threshol
         Map criteriaFields = new HashMap(2);
         criteriaFields.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,chartCode);
         criteriaFields.put(ThresholdField.ORGANIZATION_CODE,org);
+        criteriaFields.put(ThresholdField.ACTIVE,Boolean.TRUE);
         return getThresholdEnum(criteriaFields);
     }
 
@@ -87,6 +93,7 @@ public class ThresholdDaoOjb extends PlatformAwareDaoBaseOjb implements Threshol
         criteriaFields.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,chartCode);
         criteriaFields.put(ThresholdField.VENDOR_HEADER_GENERATED_ID,vendorHeaderGeneratedIdentifier);
         criteriaFields.put(ThresholdField.VENDOR_DETAIL_ASSIGNED_ID,vendorDetailAssignedIdentifier);
+        criteriaFields.put(ThresholdField.ACTIVE,Boolean.TRUE);
         return getThresholdEnum(criteriaFields);
     }
     

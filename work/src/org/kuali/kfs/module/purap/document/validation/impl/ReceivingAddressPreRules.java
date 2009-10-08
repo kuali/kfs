@@ -107,7 +107,7 @@ public class ReceivingAddressPreRules extends MaintenancePreRulesBase {
          * you must set another default address first.
          */
         else if ( unsetActive && wasDefault && existOther ) {            
-            putFieldError(PurapPropertyConstants.RECEIVING_ADDRESS_ACTIVE, PurapKeyConstants.ERROR_RCVNG_ADDR_DEACTIVATE_DFLT);
+            putFieldError(PurapPropertyConstants.BO_ACTIVE, PurapKeyConstants.ERROR_RCVNG_ADDR_DEACTIVATE_DFLT);
             abortRulesCheck();
             return false;
         }         

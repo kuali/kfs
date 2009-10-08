@@ -17,18 +17,29 @@
 <project name="kfs" default="dist-local" basedir=".">
 	<!-- run the help target to view usage instructions for public targets -->
 	
-	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local,dist-local-cas,dist-local-rice" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
+	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local,dist-local-cas,dist-local-rice,overlay-additional-web-content" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
 		<copy file="${metainf.directory}/${context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
 	</target>
-
-	<target name="dist-local-cas" if="deploy.local.cas.server" depends="filter-project">
-		<echo file="${metainf.directory}/${cas.context.file}" message="${cas.context}" />
-		<copy file="${metainf.directory}/${cas.context.file}" tofile="${appserver.localhost.dir}/${cas.context.name}.xml" overwrite="true" />
+	
+	<target name="dist-local-cas" depends="filter-project">
+		<!-- need to check this way, so that the default can be true -->
+		<if>
+			<equals arg1="${deploy.local.cas.server}" arg2="true" />
+			<then>
+				<echo file="${metainf.directory}/${cas.context.file}" message="${cas.context}" />
+				<copy file="${metainf.directory}/${cas.context.file}" tofile="${appserver.localhost.dir}/${cas.context.name}.xml" overwrite="true" />
+			</then>
+		</if>
 	</target>
 	
-	<target name="dist-local-rice" if="deploy.local.rice.server" depends="init-properties">
-        <copy file="${build.appserver.directory}/${rice.server.war.file.name}" tofile="${appserver.deploy.dir}/${rice.application}-${build.environment}.war"/>
-        <echo file="${rice.config.property.file}" message="${rice.config}"  />
+	<target name="dist-local-rice" depends="init-properties">
+		<if>
+			<equals arg1="${deploy.local.rice.server}" arg2="true" />
+			<then>
+		        <copy file="${build.appserver.directory}/${rice.server.war.file.name}" tofile="${appserver.deploy.dir}/${rice.application}-${build.environment}.war"/>
+        		<echo file="${rice.config.property.file}" message="${rice.config}"  />
+			</then>
+		</if>
 	</target>
 
 	<target name="test-local" depends="dist-local,make-tests,test" description="Run all unit tests and format results"/>
@@ -374,7 +385,9 @@
 		</copy>
 	</target>
 
-	<target name="make-source" depends="init-make-references,filter-project">
+	<target name="make-source" depends="make-foundation-source,make-additional-source" />
+	
+	<target name="make-foundation-source" depends="init-make-references,filter-project">
 		<mkdir dir="${war.classes.directory}" />
 	    <echo message="Compiling Source from ${source.directory} into ${war.classes.directory}" />
 		<javac destdir="${war.classes.directory}" srcdir="${source.directory}"
@@ -385,30 +398,30 @@
 		<copy todir="${war.classes.directory}">
 			<fileset dir="${source.directory}" includes="${non.java.resources}" />
 		</copy>
-        <if>
-            <isset property="additional.source.directory"/>
-            <then>
-                <echo message="Compiling Source from ${additional.source.directory} into ${war.classes.directory}" />
-                <javac destdir="${war.classes.directory}" srcdir="${additional.source.directory}"
-                       debug="true" nowarn="true" optimize="true" fork="true" 
-                       memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
-                    <!-- add the just compiled files to the classpath for compiling the customizations -->
-                    <classpath>
-                        <pathelement location="${war.classes.directory}"/>
-                        <path refid="compile.source.classpath" />
-                        <fileset dir="${additional.lib.directory}">
-                            <include name="*.jar"/>
-                        </fileset>
-                    </classpath>
-                </javac>
-                <copy todir="${war.classes.directory}" overwrite="true" verbose="true">
-                    <fileset dir="${additional.source.directory}" includes="${non.java.resources}" />
-                </copy>
-            </then>
-        </if>
+	</target>
+	
+	<target name="make-additional-source" depends="init-make-references,filter-project" if="additional.source.directory">
+        <echo message="Compiling Source from ${additional.source.directory} into ${war.classes.directory}" />
+        <javac destdir="${war.classes.directory}" srcdir="${additional.source.directory}"
+               debug="true" nowarn="true" optimize="true" fork="true" 
+               memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
+            <!-- add the just compiled files to the classpath for compiling the customizations -->
+            <classpath>
+                <pathelement location="${war.classes.directory}"/>
+                <path refid="compile.source.classpath" />
+                <fileset dir="${additional.lib.directory}">
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+        <copy todir="${war.classes.directory}" overwrite="true" verbose="true">
+            <fileset dir="${additional.source.directory}" includes="${non.java.resources}" />
+        </copy>
 	</target>
 
-	<target name="make-tests" depends="init-make-references,filter-project">
+	<target name="make-tests" depends="make-foundation-tests,make-additional-tests" />
+
+	<target name="make-foundation-tests" depends="init-make-references,filter-project">
 		<mkdir dir="${test.classes.directory}" />
 		<javac destdir="${test.classes.directory}" 
 	 	    source="1.5" target="1.5"
@@ -427,36 +440,34 @@
 		<copy todir="${test.classes.directory}">
 			<fileset dir="${source.directory}" includes="${non.java.resources}" />
 		</copy>
-        <if>
-            <isset property="additional.test.source.directory"/>
-            <then>
-                <echo message="Compiling Test Source from ${additional.test.source.directory} into ${test.classes.directory}" />
-                <javac destdir="${test.classes.directory}" debug="true" nowarn="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
-                    <src path="${additional.source.directory}" />
-                    <src path="${additional.test.source.directory}" />
-                    <classpath>
-                        <pathelement location="${test.classes.directory}"/>
-                        <path refid="compile.tests.classpath" />
-                        <fileset dir="${additional.lib.directory}">
-                            <include name="*.jar"/>
-                        </fileset>
-                        <fileset dir="${additional.test.lib.directory}">
-                            <include name="*.jar" />
-                        </fileset>
-                    </classpath>
-                </javac>
-                <echo message="Copying Non-Java files from ${additional.test.source.directory} into ${test.classes.directory}" />
-                <copy todir="${test.classes.directory}">
-                    <fileset dir="${additional.test.source.directory}" includes="${non.java.resources}" />
-                </copy>
-                <echo message="Copying Non-Java files from ${additional.source.directory} into ${test.classes.directory}" />
-                <copy todir="${test.classes.directory}">
-                    <fileset dir="${additional.source.directory}" includes="${non.java.resources}" />
-                </copy>
-            </then>
-        </if>
 	</target>
 
+	<target name="make-additional-tests" depends="init-make-references,filter-project" if="additional.test.source.directory">
+        <echo message="Compiling Test Source from ${additional.test.source.directory} into ${test.classes.directory}" />
+        <javac destdir="${test.classes.directory}" debug="true" nowarn="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
+            <src path="${additional.source.directory}" />
+            <src path="${additional.test.source.directory}" />
+            <classpath>
+                <pathelement location="${test.classes.directory}"/>
+                <path refid="compile.tests.classpath" />
+                <fileset dir="${additional.lib.directory}">
+                    <include name="*.jar"/>
+                </fileset>
+                <fileset dir="${additional.test.lib.directory}">
+                    <include name="*.jar" />
+                </fileset>
+            </classpath>
+        </javac>
+        <echo message="Copying Non-Java files from ${additional.test.source.directory} into ${test.classes.directory}" />
+        <copy todir="${test.classes.directory}">
+            <fileset dir="${additional.test.source.directory}" includes="${non.java.resources}" />
+        </copy>
+        <echo message="Copying Non-Java files from ${additional.source.directory} into ${test.classes.directory}" />
+        <copy todir="${test.classes.directory}">
+            <fileset dir="${additional.source.directory}" includes="${non.java.resources}" />
+        </copy>
+	</target>
+	
 	<!-- please be careful if you muck with these settings - you can seriously hose the continuous integration process -->
 	<target name="test">
 		<mkdir dir="${all.temp.directory}" />
@@ -509,6 +520,14 @@
 		<jar jarfile="${ant.project.name}-${build.environment}.war" basedir="${war.directory}" compress="false" />
 	</target>
 
+    <target name="overlay-additional-web-content" depends="init-property-files" if="additional.web.content.directory">
+        <copy todir="${webroot.directory}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${additional.web.content.directory}">
+                <include name="**/*" />
+            </fileset>
+        </copy>
+    </target>
+	
 	<target name="continuous-integration" depends="clean,make-tests,test">
 		<fail if="tests.failed" message="Tests failed" />
 	</target>

@@ -55,6 +55,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public class OriginEntryFull extends PersistableBusinessObjectBase implements Transaction, OriginEntryInformation, FlexibleAccountUpdateable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryFull.class);
+    private static OriginEntryFieldUtil originEntryFieldUtil;
     
  // 17 characters while it is 19 character in DD. Don't change, it has to be 17.
     // KFSMI-3308 - changed to 20
@@ -177,11 +178,8 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
      */
     
     public List<Message> setFromTextFileForBatch(String line, int lineNumber) throws LoadException {
-        List<Message> returnList = new ArrayList(); 
-        OriginEntryFieldUtil oefu = new OriginEntryFieldUtil();
-        //Map<String, Integer> fieldLengthMap = oefu.getFieldLengthMap();
-        Map<String, Integer> pMap = oefu.getFieldBeginningPositionMap();
-        
+        List<Message> returnList = new ArrayList<Message>(); 
+        final Map<String, Integer> pMap = getOriginEntryFieldUtil().getFieldBeginningPositionMap();
         
         // Just in case
         line = org.apache.commons.lang.StringUtils.rightPad(line, GeneralLedgerConstants.getSpaceAllOriginEntryFields().length(), ' ');
@@ -299,8 +297,7 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
 
     public String getLine() {
         StringBuffer sb = new StringBuffer();
-        OriginEntryFieldUtil oefu = new OriginEntryFieldUtil();
-        Map<String, Integer> fieldLengthMap = oefu.getFieldLengthMap();
+        Map<String, Integer> fieldLengthMap = getOriginEntryFieldUtil().getFieldLengthMap();
         
         if (universityFiscalYear == null) {
             sb.append(GeneralLedgerConstants.getSpaceUniversityFiscalYear());
@@ -1096,5 +1093,13 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         return newOriginEntry;
     }
     
-
+    /**
+     * @return the static instance of the OriginEntryFieldUtil
+     */
+    protected static OriginEntryFieldUtil getOriginEntryFieldUtil() {
+        if (originEntryFieldUtil == null) {
+            originEntryFieldUtil = new OriginEntryFieldUtil();
+        }
+        return originEntryFieldUtil;
+    }
 }

@@ -936,11 +936,11 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         String transTotHrsStr = line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_TOTAL_HOURS), pMap.get(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR)); 
         if (!transTotHrsStr.trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setTransactionTotalHours(new BigDecimal(org.springframework.util.StringUtils.trimTrailingWhitespace(transTotHrsStr)));
+                setTransactionTotalHours(new BigDecimal(transTotHrsStr.trim()));
             }
             catch (NumberFormatException e) {
                 setTransactionTotalHours(null);
-                returnList.add(new Message("Transaction Total Hours '" + transTotHrsStr + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Transaction Total Hours '" + transTotHrsStr.trim() + "' contains an invalid value." , Message.TYPE_FATAL));
             }
         } else {
             setTransactionTotalHours(null);
@@ -965,10 +965,10 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         String empRecordStr = line.substring(pMap.get(KFSPropertyConstants.EMPLOYEE_RECORD), pMap.get(KFSPropertyConstants.EARN_CODE));
         if (!empRecordStr.trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
-                setEmployeeRecord(new Integer(org.springframework.util.StringUtils.trimTrailingWhitespace(empRecordStr)));
+                setEmployeeRecord(new Integer(empRecordStr.trim()));
             }
             catch (NumberFormatException e) {
-                returnList.add(new Message("Employee Record '" + empRecordStr + "' contains an invalid value." , Message.TYPE_FATAL));
+                returnList.add(new Message("Employee Record '" + empRecordStr.trim() + "' contains an invalid value." , Message.TYPE_FATAL));
                 setEmployeeRecord(null);
             }
         } else {

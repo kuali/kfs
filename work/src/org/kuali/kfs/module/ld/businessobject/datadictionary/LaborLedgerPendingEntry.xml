@@ -22,6 +22,7 @@
         <ref bean="LaborLedgerPendingEntry-financialBalanceTypeCode"/>
         <ref bean="LaborLedgerPendingEntry-documentNumber"/>
         <ref bean="LaborLedgerPendingEntry-financialDocumentTypeCode"/>
+        <ref bean="LaborLedgerPendingEntry-financialDocumentReversalDate"/>
         <ref bean="LaborLedgerPendingEntry-financialObjectCode"/>
         <ref bean="LaborLedgerPendingEntry-financialObjectTypeCode"/>
         <ref bean="LaborLedgerPendingEntry-financialSubObjectCode"/>
@@ -125,6 +126,11 @@
   <bean id="LaborLedgerPendingEntry-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
     <property name="name" value="financialDocumentTypeCode"/>
     <property name="required" value="false"/>
+  </bean>
+  <bean id="LaborLedgerPendingEntry-financialDocumentReversalDate" parent="LaborLedgerPendingEntry-financialDocumentReversalDate-parentBean" />
+  <bean id="LaborLedgerPendingEntry-financialDocumentReversalDate-parentBean" abstract="true" parent="LedgerEntry-financialDocumentReversalDate">
+  	<property name="name" value="financialDocumentReversalDate" />
+  	<property name="required" value="false" />
   </bean>
   <bean id="LaborLedgerPendingEntry-financialObjectCode" parent="LaborLedgerPendingEntry-financialObjectCode-parentBean"/>
 

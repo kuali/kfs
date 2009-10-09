@@ -6,7 +6,7 @@
     <property name="documentTypeName" value="POR"/>
     <property name="sessionDocument" value="true"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderReopenDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="businessRulesClass" value="org.kuali.rice.kns.rules.TransactionalDocumentRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderReopenDocumentPresentationController"/>
     <property name="importedLineParserClass" value="org.kuali.kfs.module.purap.businessobject.PurApAccountingLineParser" />
@@ -22,7 +22,6 @@
 	    	</entry>
     	</map>
     </property>
-    <property name="validationMap" ref="PurchaseOrderReopenDocument-validations"/>
 	<property name="relationships">
     	<list>
 			<bean parent="RelationshipDefinition">
@@ -36,35 +35,6 @@
     	</list>
     </property>
   </bean>
-
-	<bean id="PurchaseOrderReopenDocument-validations" parent="PurchaseOrderReopenDocument-validations-parentBean"/>
-	 
-	   <bean id="PurchaseOrderReopenDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
-	   	<property name="sourceMap">
-	    	<map>			
-				<entry>
-					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
-					<value>PurchaseOrderReopen-routeDocumentValidation</value>
-				</entry>
-				<entry>
-					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
-					<value>PurchaseOrderReopen-approveDocumentValidation</value>
-				</entry>		
-				<entry>
-					<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingAccountsPayableItemEvent</value></key>
-					<value>PurchaseOrderReopen-addPurchasingAccountsPayableItemValidation</value>				
-				</entry>
-				<entry>
-					<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedImportPurchasingAccountsPayableItemEvent</value></key>
-					<value>PurchaseOrderReopen-importPurchasingAccountsPayableItemValidation</value>				
-				</entry>																									
-				<entry>
-					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
-					<value>PurchaseOrderReopen-saveDocumentValidation</value>				
-				</entry>												
-		    </map>
-	    </property>	  
-	   </bean>
 
     <!-- workflow attributes -->
     <bean id="PurchaseOrderReopenDocument-workflowAttributes" parent="PurchaseOrderReopenDocument-workflowAttributes-parentBean"/>

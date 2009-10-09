@@ -6,7 +6,7 @@
     <property name="documentTypeName" value="POV"/>
     <property name="sessionDocument" value="true"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderVoidDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="businessRulesClass" value="org.kuali.rice.kns.rules.TransactionalDocumentRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderVoidDocumentPresentationController"/>
     <property name="importedLineParserClass" value="org.kuali.kfs.module.purap.businessobject.PurApAccountingLineParser" />
@@ -22,7 +22,6 @@
 	    	</entry>
     	</map>
     </property>    
-    <property name="validationMap" ref="PurchaseOrderVoidDocument-validations"/>
 	<property name="relationships">
     	<list>
 			<bean parent="RelationshipDefinition">
@@ -37,47 +36,6 @@
     </property>
   </bean>
 
-	<bean id="PurchaseOrderVoidDocument-validations" parent="PurchaseOrderVoidDocument-validations-parentBean"/>
-  
-    <bean id="PurchaseOrderVoidDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
-    	<property name="sourceMap">
-	    	<map>			
-				<entry>
-					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
-					<value>PurchaseOrderVoid-routeDocumentValidation</value>
-				</entry>
-				<entry>
-					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
-					<value>PurchaseOrderVoid-approveDocumentValidation</value>
-				</entry>		
-				<entry>
-					<key><value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value></key>
-					<value>PurchaseOrderVoid-addAccountingLineValidation</value>
-				</entry>
-				<entry>
-					<key><value>org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
-					<value>PurchaseOrderVoid-updateAccountingLineValidation</value>
-				</entry>	
-				<entry>
-					<key><value>org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
-					<value>PurchaseOrderVoid-reviewAccountingLineValidation</value>
-				</entry>
-				<entry>
-					<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingAccountsPayableItemEvent</value></key>
-					<value>PurchaseOrderVoid-addPurchasingAccountsPayableItemValidation</value>				
-				</entry>
-				<entry>
-					<key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedImportPurchasingAccountsPayableItemEvent</value></key>
-					<value>PurchaseOrderVoid-importPurchasingAccountsPayableItemValidation</value>				
-				</entry>																									
-				<entry>
-					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
-					<value>PurchaseOrderVoid-saveDocumentValidation</value>				
-				</entry>												
-		    </map>
-	    </property>	  
-    </bean>
-  
     <!-- workflow attributes -->
     <bean id="PurchaseOrderVoidDocument-workflowAttributes" parent="PurchaseOrderVoidDocument-workflowAttributes-parentBean"/>
   

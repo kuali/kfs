@@ -538,18 +538,6 @@
 		<property name="purchaseOrderService" ref="purchaseOrderService" />
     </bean>
 
-<!-- Purchase Order Reopen Definitions -->
-
-	<bean id="PurchaseOrderReopen-saveValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderReopenSaveValidation" abstract="true">
-		<property name="purchaseOrderService" ref="purchaseOrderService"/>
-	</bean>
-	
-<!-- Purchase Order Void Definitions -->
-
-	<bean id="PurchaseOrderVoid-saveValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderVoidSaveValidation" abstract="true">
-		<property name="purchaseOrderService" ref="purchaseOrderService"/>
-	</bean>
-	
 <!-- Accounts Payable Definitions  -->
     <bean id="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" class="org.kuali.kfs.module.purap.document.validation.impl.AccountsPayableProcessApprovalAtAccountsPayableReviewAllowedValidation" abstract="true"/>        
 	

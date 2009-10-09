@@ -77,7 +77,7 @@
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Contact Name"/>
     <property name="shortLabel" value="Cont. Nm"/>
-    <property name="maxLength" value="40"/>
+    <property name="maxLength" value="123"/>
     <property name="required" value="true"/>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="40"/>

@@ -91,6 +91,7 @@
     <property name="name" value="disbVchrPayeePersonName"/>
     <property name="label" value="Payee Name"/>
     <property name="required" value="true"/>
+    <property name="maxLength" value="123" />
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeLine1Addr" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeLine1Addr-parentBean"/>
 
@@ -141,6 +142,7 @@
     <property name="label" value="Special Handling Name"/>
     <property name="shortLabel" value="Special Handling Nm"/>
     <property name="required" value="false"/>
+    <property name="maxLength" value="123" />
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingLine1Addr" parent="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingLine1Addr-parentBean"/>
 

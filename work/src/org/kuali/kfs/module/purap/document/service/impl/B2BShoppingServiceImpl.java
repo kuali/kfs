@@ -160,7 +160,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
             }
 
             // get items for this vendor
-            List itemsForVendor = getAllVendorItems(items, vendor.getVendorNumber(), user.getPrincipalName());
+            List itemsForVendor = getAllVendorItems(items, vendor.getVendorNumber());
 
             // default data from user
             req.setDeliveryCampusCode(user.getCampusCode());
@@ -283,10 +283,9 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
      * 
      * @param items List of all items
      * @param vendorId  String containing "vendorHeaderId-vendorDetailId"
-     * @param updateUserId last update user id
      * @return list of RequisitionItems for a specific vendor id
      */
-    protected List getAllVendorItems(List items, String vendorId, String updateUserId) {
+    protected List getAllVendorItems(List items, String vendorId) {
         LOG.debug("getAllVendorItems() started");
 
         // First get all the ShoppingCartItems for this vendor in a list

@@ -166,10 +166,11 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
      * @param vendorNumber The vendorNumber to set.
      */
     public void setVendorNumber(String vendorNumber) {
+        this.vendorNumber = vendorNumber;
+
         if (StringUtils.isEmpty(vendorNumber)) {
             vendorHeaderGeneratedIdentifier = null;
             vendorDetailAssignedIdentifier = null;
-            this.vendorNumber = vendorNumber;
             return;
         }
             
@@ -179,7 +180,6 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
             try {
                 vendorHeaderGeneratedIdentifier = new Integer(vendorNumber.substring(0, dashInd));
                 vendorDetailAssignedIdentifier = new Integer(vendorNumber.substring(dashInd + 1));
-                this.vendorNumber = vendorNumber;
             }
             catch (NumberFormatException e) {
                 // in case of invalid number format
@@ -242,10 +242,11 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
      * @param vendorSoldToNumber The vendorSoldToNumber to set.
      */
     public void setVendorSoldToNumber(String vendorSoldToNumber) {
+        this.vendorSoldToNumber = vendorSoldToNumber;
+        
         if (StringUtils.isEmpty(vendorSoldToNumber)) {
             vendorSoldToGeneratedIdentifier = null;
             vendorSoldToAssignedIdentifier = null;
-            this.vendorSoldToNumber = vendorSoldToNumber;
             return;
         }
             
@@ -255,7 +256,6 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
             try {
                 vendorSoldToGeneratedIdentifier = new Integer(vendorSoldToNumber.substring(0, dashInd));
                 vendorSoldToAssignedIdentifier = new Integer(vendorSoldToNumber.substring(dashInd + 1));
-                this.vendorSoldToNumber = vendorSoldToNumber;
             }
             catch (NumberFormatException e) {
                 // in case of invalid number format

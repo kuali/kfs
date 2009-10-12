@@ -158,6 +158,7 @@
         <property name="parameterService">
             <ref bean="parameterService" />
         </property>
+        <property name="configurationService" ref="kualiConfigurationService" />
     </bean>
 
     <bean id="cfdaJob" parent="scheduledJobDescriptor">

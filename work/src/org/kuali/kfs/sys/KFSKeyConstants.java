@@ -548,6 +548,8 @@ public class KFSKeyConstants {
 
     public static final String WARNING_AWARD_ENTRY_BEFORE_START_DATE = "warning.cg.award.entryDateBeforeStartDate";
     public static final String WARNING_AWARD_SUBCONTRACTOR_TOTAL_GREATER_THAN_AWARD_TOTAL = "warning.cg.award.subcontractorAmountGreaterThanAwardAmount";
+    
+    public static final String CFDA_UPDATE_EMAIL_SUBJECT_LINE = "cfda.updateEmail.subject";
 
     // batch upload
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_PCDO = "message.batchUpload.title.procurementCard";

@@ -44,6 +44,7 @@ import org.kuali.rice.kns.service.ParameterService;
 import au.com.bytecode.opencsv.CSVReader;
 
 public class CfdaServiceImpl implements CfdaService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CfdaServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
     protected static Comparator cfdaComparator;
@@ -57,56 +58,6 @@ public class CfdaServiceImpl implements CfdaService {
             }
         };
     }
-//
-//    /**
-//     * I know this is hack-ish. Regexes are appropriate. I just couldn't get the pattern down and didn't want to waste my time
-//     * figuring it out.
-//     * 
-//     * @param string
-//     * @return
-//     */
-//    public String extractCfdaNumberFrom(String string) {
-//        if (null == string)
-//            return null;
-//
-//        string = string.substring(string.indexOf("<U>") + 3);
-//        string = string.substring(0, string.indexOf("</U>"));
-//        return string;
-//    }
-//
-//    /**
-//     * I know this is hack-ish. Regexes are appropriate. I just couldn't get the pattern down and didn't want to waste my time
-//     * figuring it out.
-//     * 
-//     * @param string
-//     * @return
-//     */
-//    public String extractCfdaAgencyFrom(String string) {
-//        if (null == string)
-//            return null;
-//
-//        string = string.substring(string.indexOf("<FONT") + 5);
-//        string = string.substring(string.indexOf(">") + 1);
-//        string = string.substring(0, string.indexOf("</FONT>"));
-//        return string;
-//    }
-//
-//    /**
-//     * I know this is hack-ish. Regexes are appropriate. I just couldn't get the pattern down and didn't want to waste my time
-//     * figuring it out.
-//     * 
-//     * @param string
-//     * @return
-//     */
-//    public String extractCfdaTitleFrom(String string) {
-//        if (null == string)
-//            return null;
-//
-//        string = string.substring(string.indexOf("<FONT") + 5);
-//        string = string.substring(string.indexOf(">") + 1);
-//        string = string.substring(0, string.indexOf("</FONT>"));
-//        return string;
-//    }
 
     /**
      * @return
@@ -147,26 +98,6 @@ public class CfdaServiceImpl implements CfdaService {
             
         }
         
-//        String line = screen.readLine();
-//
-//        //boolean headerFound = false;
-//        while (null != line) {
-//            if (line.trim().equals("<TR>")) {
-//
-//                String number = extractCfdaNumberFrom(screen.readLine());
-//                /* String agency = extractCfdaAgencyFrom( */screen.readLine()/* ) */; // not used, but we still need to read the line
-//                // to move past it.
-//                String title = extractCfdaTitleFrom(screen.readLine());
-//
-//                CFDA cfda = new CFDA();
-//                cfda.setCfdaNumber(number);
-//                cfda.setCfdaProgramTitleName(title);
-//
-//                govMap.put(number, cfda);
-//            }
-//
-//            line = screen.readLine();
-//        }
         return govMap;
     }
 

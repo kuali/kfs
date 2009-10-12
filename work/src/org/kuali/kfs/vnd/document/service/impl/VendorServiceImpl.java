@@ -72,10 +72,23 @@ public class VendorServiceImpl implements VendorService {
      */
     public VendorDetail getVendorDetail(String vendorNumber) {
         LOG.debug("Entering getVendorDetail for vendorNumber: " + vendorNumber);
-        int dashInd = vendorNumber.indexOf("-");
-        if (vendorNumber.length() >= dashInd) {
-            return getVendorDetail(new Integer(vendorNumber.substring(0, dashInd)), new Integer(vendorNumber.substring(dashInd + 1)));
+        if (StringUtils.isEmpty(vendorNumber)) 
+            return null;
+        
+        int dashInd = vendorNumber.indexOf('-');
+        // make sure there's at least one char before and after '-'
+        if (dashInd > 0 && dashInd < vendorNumber.length() - 1) {
+            try {
+                Integer headerId = new Integer(vendorNumber.substring(0, dashInd));
+                Integer detailId = new Integer(vendorNumber.substring(dashInd + 1));
+                return getVendorDetail(headerId, detailId);
+            }
+            catch (NumberFormatException e) {
+                // in case of invalid number format
+                return null;
+            }
         }
+        
         return null;
     }
 

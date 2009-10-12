@@ -26,6 +26,7 @@ public class VendorKeyConstants {
     public static final String ERROR_VENDOR_NAME_REQUIRED = "error.vendorMaint.vendorName.required";
     public static final String ERROR_VENDOR_BOTH_NAME_REQUIRED = "error.vendorMaint.bothNameRequired";
     public static final String ERROR_VENDOR_NAME_INVALID = "error.vendorMaint.nameInvalid";
+    public static final String VENDOR_SOLD_TO_NUMBER_INVALID = "error.vendorSoldToNumber.invalid";
     public static final String ERROR_VENDOR_MAX_MIN_ORDER_AMOUNT = "error.vendorMaint.minimumAmt.invalid";
     public static final String ERROR_VENDOR_TAX_TYPE_CANNOT_BE_BLANK = "error.vendorMaint.tax.type.cannot.be.blank";
     public static final String ERROR_VENDOR_TAX_TYPE_CANNOT_BE_SET = "error.vendorMaint.tax.type.cannot.be.set";

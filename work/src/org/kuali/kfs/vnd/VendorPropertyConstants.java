@@ -50,6 +50,7 @@ public class VendorPropertyConstants {
     public static final String VENDOR_FIRST_NAME = "vendorFirstName";
     public static final String VENDOR_LAST_NAME = "vendorLastName";
     public static final String VENDOR_PARENT_NAME = "vendorParentName";
+    public static final String VENDOR_SOLD_TO_NUMBER = "vendorSoldToNumber";
     public static final String VENDOR_TAX_NUMBER = "vendorHeader.vendorTaxNumber";
     public static final String VENDOR_TAX_TYPE_CODE = "vendorHeader.vendorTaxTypeCode";
     public static final String VENDOR_OWNERSHIP_CODE = "vendorHeader.vendorOwnershipCode";

@@ -440,17 +440,35 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * @return boolean true if the vendorDetail in the document contains valid vendorSoldToNumber.
      */
     protected boolean validateVendorSoldToNumber(VendorDetail vendorDetail) {
-        String vendorSoldToNumber = vendorDetail.getVendorSoldToNumber();
         boolean valid = true;
-        if (StringUtils.isNotEmpty(vendorSoldToNumber)) {
-            VendorDetail vendorSoldTo = SpringContext.getBean(VendorService.class).getVendorDetail(vendorSoldToNumber);
-            if (vendorSoldTo != null) {
-                vendorDetail.setVendorSoldToName(vendorSoldTo.getVendorName());
-            }
-            else {
-                valid &= false;
-            }
+        String vendorSoldToNumber = vendorDetail.getVendorSoldToNumber();
+
+        // if vendor number is empty, clear all vendorSoldTo fields 
+        if (StringUtils.isEmpty(vendorSoldToNumber)) {
+            vendorDetail.setSoldToVendorDetail(null);
+            vendorDetail.setVendorSoldToGeneratedIdentifier(null);
+            vendorDetail.setVendorSoldToAssignedIdentifier(null);
+            vendorDetail.setVendorSoldToNumber(null);
+            vendorDetail.setVendorSoldToName(null);
+            return valid;
         }
+        
+        VendorDetail vendorSoldTo = SpringContext.getBean(VendorService.class).getVendorDetail(vendorSoldToNumber);
+        if (vendorSoldTo != null) {
+            // if vendor number is valid, set all vendorSoldTo fields 
+            vendorDetail.setSoldToVendorDetail(vendorSoldTo);
+            vendorDetail.setVendorSoldToGeneratedIdentifier(vendorSoldTo.getVendorHeaderGeneratedIdentifier());
+            vendorDetail.setVendorSoldToAssignedIdentifier(vendorSoldTo.getVendorDetailAssignedIdentifier());
+            vendorDetail.setVendorSoldToName(vendorSoldTo.getVendorName());
+        }
+        else {
+            // otherwise clear vendorSoldToName
+            vendorDetail.setSoldToVendorDetail(null);
+            vendorDetail.setVendorSoldToName(null);
+            valid = false;
+            putFieldError(VendorPropertyConstants.VENDOR_SOLD_TO_NUMBER, VendorKeyConstants.VENDOR_SOLD_TO_NUMBER_INVALID);
+        }                 
+
         return valid;
     }    
 

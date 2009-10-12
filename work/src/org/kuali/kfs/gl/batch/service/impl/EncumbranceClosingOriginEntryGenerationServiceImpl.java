@@ -134,9 +134,9 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
             String financialObjectCode = encumbrance.getObjectCode();
             
             String overriddenObjectCode = overrideCostShareObjectCode(financialObjectLevelCode, financialObjectCode);
+            final ObjectCode overriddenObject = this.getAccountingCycleCachingService().getObjectCode(entry.getUniversityFiscalYear(), entry.getChartOfAccountsCode(), overriddenObjectCode);
             
-            
-            String param = parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_BY_LEVEL_PARM_NM, overriddenObjectCode);
+            String param = parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_BY_LEVEL_PARM_NM, overriddenObject.getFinancialObjectLevelCode());
             if (param == null) {
                 param = parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_BY_LEVEL_PARM_NM, "DEFAULT");
                 if (param == null) {

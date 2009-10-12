@@ -208,6 +208,30 @@
   		</property>
 	</bean>
 	
+    <!-- Review Accounting Line Event -->
+    <bean id="PurchaseOrder-reviewAccountingLineValidation" parent="PurchaseOrder-reviewAccountingLineValidation-parentBean" scope="prototype" />
+  
+    <bean id="PurchaseOrder-reviewAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-accountingLine-newAccountingLineBranchingValidation" scope="prototype" />           
+                <bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <bean parent="accountingLineToBusinessObjectFieldConversion" />
+                    </property>
+                </bean>
+                <bean parent="Purchasing-accountingLineDataDictionaryValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="accountingLineFieldConversion" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="PurchasingAccountsPayable-accountingLineValuesAllowedValidation-parentBean" scope="prototype"/>               
+            </list>
+        </property>
+    </bean>
+
     <!-- Split Purchase Order Event -->
     <bean id="PurchaseOrder-performSplitValidation" parent="PurchaseOrder-performSplitValidation-parentBean" scope="prototype" />
   

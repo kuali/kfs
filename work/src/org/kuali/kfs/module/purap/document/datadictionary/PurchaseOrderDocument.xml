@@ -1433,6 +1433,10 @@
 				    <key><value>org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
 				    <value>PurchaseOrder-updateAccountingLineValidation</value>
 			    </entry>	
+                <entry>
+                    <key><value>org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
+                    <value>PurchaseOrder-reviewAccountingLineValidation</value>
+                </entry>                
 			    <entry>
 				    <key><value>org.kuali.kfs.module.purap.document.validation.event.AttributedSplitPurchaseOrderEvent</value></key>
 				    <value>PurchaseOrder-performSplitValidation</value>

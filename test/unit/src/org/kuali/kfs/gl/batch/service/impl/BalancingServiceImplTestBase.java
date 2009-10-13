@@ -119,7 +119,7 @@ public abstract class BalancingServiceImplTestBase extends KualiTestBase {
         LOG.debug("Basic test that getting GL or Labor OriginEntryInformation works. Since the parsing method isn't part of Balancing we don't run a full test.");
         OriginEntryInformation originEntry = balancingService.getOriginEntry(INPUT_TRANSACTIONS[0], 0);
         assertNotNull(originEntry);
-        assertEquals(2009, originEntry.getUniversityFiscalYear().intValue());
+        assertEquals(TestUtils.getFiscalYearForTesting().intValue(), originEntry.getUniversityFiscalYear().intValue());
     }
     
     public void testIsFilesReady() {

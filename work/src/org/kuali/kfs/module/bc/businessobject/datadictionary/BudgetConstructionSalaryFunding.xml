@@ -85,7 +85,7 @@
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Emplid"/>
     <property name="shortLabel" value="Emplid"/>
-    <property name="maxLength" value="11"/>
+    <property name="maxLength" value="40"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>
@@ -133,7 +133,7 @@
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Person Universal Identifier"/>
     <property name="shortLabel" value="Identifier"/>
-    <property name="maxLength" value="10"/>
+    <property name="maxLength" value="40"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>

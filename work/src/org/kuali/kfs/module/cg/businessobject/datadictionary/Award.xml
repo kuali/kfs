@@ -296,7 +296,7 @@
     <property name="name" value="agencyAnalystName"/>
     <property name="label" value="Agency Analyst Name"/>
     <property name="shortLabel" value="Name"/>
-    <property name="maxLength" value="40"/>
+    <property name="maxLength" value="123"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>

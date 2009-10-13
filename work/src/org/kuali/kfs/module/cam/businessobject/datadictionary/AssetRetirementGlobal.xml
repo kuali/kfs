@@ -176,10 +176,11 @@
   </bean>
   
   <bean id="AssetRetirementGlobal-retirementContactName" parent="AssetRetirementGlobal-retirementContactName-parentBean"/>
-  <bean id="AssetRetirementGlobal-retirementContactName-parentBean" abstract="true" parent="AssetLocation-assetLocationCityName">
+  <bean id="AssetRetirementGlobal-retirementContactName-parentBean" abstract="true" parent="AssetLocation-assetLocationContactName">
     <property name="name" value="retirementContactName"/>
     <property name="label" value="Contact Name"/>
     <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="123" />
   </bean>
   
   <bean id="AssetRetirementGlobal-retirementInstitutionName" parent="AssetRetirementGlobal-retirementInstitutionName-parentBean"/>

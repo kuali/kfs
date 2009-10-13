@@ -361,7 +361,7 @@
     <property name="name" value="proposalFellowName"/>
     <property name="label" value="Fellow Name"/>
     <property name="shortLabel" value="Fellow"/>
-    <property name="maxLength" value="30"/>
+    <property name="maxLength" value="123"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>

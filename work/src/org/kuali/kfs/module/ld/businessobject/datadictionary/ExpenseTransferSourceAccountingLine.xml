@@ -77,7 +77,7 @@
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Employee ID"/>
     <property name="shortLabel" value="Empl ID"/>
-    <property name="maxLength" value="11"/>
+    <property name="maxLength" value="40"/>
     <property name="required" value="false"/>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="13"/>

@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.gl.batch.service;
 
+import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
+
 
 /**
  * An interface declaring a method that runs the sufficient funds rebuilder process.
@@ -25,4 +27,19 @@ public interface SufficientFundsAccountUpdateService {
      * Rebuilds all necessary sufficient funds balances.
      */
     public void rebuildSufficientFunds();
+    
+    /**
+     * Given an O SF rebuild type, it will look up all of the matching balances in the table and add each account it finds as an A
+     * SF rebuild type.
+     * 
+     * @param sfrb the sufficient fund rebuild record to convert
+     */
+    public abstract void convertOtypeToAtypes(SufficientFundRebuild sfrb);
+    
+    /**
+     * Updates sufficient funds balances for the given account
+     * 
+     * @param sfrb the sufficient fund rebuild record, with a chart and account number
+     */
+    public abstract void calculateSufficientFundsByAccount(SufficientFundRebuild sfrb);
 }

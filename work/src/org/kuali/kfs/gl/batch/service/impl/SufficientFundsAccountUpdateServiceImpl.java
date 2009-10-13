@@ -123,7 +123,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
             LOG.debug("rebuildSufficientFunds() Converting O types to A types");
         }
         Map criteria = new HashMap();
-        criteria.put(KFSPropertyConstants.ACCOUNT_FINANCIAL_OBJECT_TYPE_CODE, KFSConstants.SF_TYPE_ACCOUNT);
+        criteria.put(KFSPropertyConstants.ACCOUNT_FINANCIAL_OBJECT_TYPE_CODE, KFSConstants.SF_TYPE_OBJECT);
         
         for (Iterator iter = boService.findMatching(SufficientFundRebuild.class, criteria).iterator(); iter.hasNext();) {
             SufficientFundRebuild sfrb = (SufficientFundRebuild) iter.next();
@@ -145,7 +145,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
         // Get all the A types and process them
         LOG.debug("rebuildSufficientFunds() Calculating SF balances for all A types");
         
-        criteria.put(KFSPropertyConstants.ACCOUNT_FINANCIAL_OBJECT_TYPE_CODE, KFSConstants.SF_TYPE_OBJECT);
+        criteria.put(KFSPropertyConstants.ACCOUNT_FINANCIAL_OBJECT_TYPE_CODE, KFSConstants.SF_TYPE_ACCOUNT);
 
         for (Iterator iter = boService.findMatching(SufficientFundRebuild.class, criteria).iterator(); iter.hasNext();) {
             SufficientFundRebuild sfrb = (SufficientFundRebuild) iter.next();
@@ -218,7 +218,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
      * 
      * @param sfrb the sufficient fund rebuild record to convert
      */
-    protected void convertOtypeToAtypes(SufficientFundRebuild sfrb) {
+    public void convertOtypeToAtypes(SufficientFundRebuild sfrb) {
         ++sfrbRecordsConvertedCount;
         Collection fundBalances = sufficientFundBalancesDao.getByObjectCode(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode());
 
@@ -248,7 +248,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
      * 
      * @param sfrb the sufficient fund rebuild record, with a chart and account number
      */
-    protected void calculateSufficientFundsByAccount(SufficientFundRebuild sfrb) {
+    public void calculateSufficientFundsByAccount(SufficientFundRebuild sfrb) {
         Account sfrbAccount = accountService.getByPrimaryId(sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode());
 
         if ((sfrbAccount.getAccountSufficientFundsCode() != null) 

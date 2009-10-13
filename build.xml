@@ -517,6 +517,14 @@
 		<copy todir="${war.directory}">
 			<fileset dir="${webroot.directory}" excludes="WEB-INF/classes/**/**" />
 		</copy>
+		<if>
+			<isset property="additional.lib.directory" />
+			<then>
+				<copy todir="${war.directory}/WEB-INF/lib">
+					<fileset dir="${additional.lib.directory}" includes="*.jar" />
+				</copy>
+			</then>
+		</if>
 		<jar jarfile="${ant.project.name}-${build.environment}.war" basedir="${war.directory}" compress="false" />
 	</target>
 

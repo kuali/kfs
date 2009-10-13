@@ -17,6 +17,7 @@ package org.kuali.kfs.sys.batch;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.kuali.kfs.fp.batch.ProcurementCardInputFileType;
 import org.kuali.kfs.gl.batch.CollectorBatch;
@@ -80,7 +81,8 @@ public class BatchInputFileTypeTest extends KualiTestBase {
      * Assures that only the user who created the collector file is granted permission to manage.
      */
     public final void testCheckAuthorization_collector() throws Exception {
-        Object parsedContents = new CollectorBatch();
+        List<CollectorBatch> parsedContents = new ArrayList<CollectorBatch>();
+        parsedContents.add(new CollectorBatch());
         Person createUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(Data4.USER_ID2);
         Person nonCreateUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(Data4.USER_ID1);
 

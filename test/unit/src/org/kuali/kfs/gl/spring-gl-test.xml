@@ -178,6 +178,9 @@
 		<property name="sufficientFundBalancesDao">
 			<ref bean="glSufficientFundBalancesDao" />
 		</property>
+		<property name="sufficientFundRebuildDao">
+			<ref bean="glSufficientFundRebuildDao" />
+		</property>
 		<property name="optionsDao">
 			<ref bean="optionsDao" />
 		</property>
@@ -188,6 +191,7 @@
 		<property name="sufficientFundsService">
 			<ref bean="sufficientFundsService" />
 		</property>
+		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
 	<bean id="glNightlyOutService" class="org.kuali.kfs.gl.batch.service.impl.NightlyOutServiceImpl">

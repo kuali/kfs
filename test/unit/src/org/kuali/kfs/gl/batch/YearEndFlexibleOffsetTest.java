@@ -181,7 +181,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         
         public Encumbrance convertToEncumbrance() {
             Encumbrance encumbrance = new Encumbrance();
-            encumbrance.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting().intValue());
+            encumbrance.setUniversityFiscalYear(TestUtils.getFiscalYearForTesting().intValue() - 1);
             encumbrance.setChartOfAccountsCode(this.chartOfAccountsCode);
             encumbrance.setAccountNumber(this.accountNumber);
             encumbrance.setSubAccountNumber(this.subAccountNumber);

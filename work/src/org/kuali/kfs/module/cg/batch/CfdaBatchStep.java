@@ -63,10 +63,12 @@ public class CfdaBatchStep extends AbstractStep {
             
             for (String listserv : listservAddresses) {
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug(listserv);
+                    LOG.debug("Mailing to: "+listserv);
                 }
                 message.addToAddress(listserv);
             }
+            
+            message.setFromAddress(listservAddresses.get(0));
 
             // TODO this message should come from some config file.
             StringBuilder builder = new StringBuilder();

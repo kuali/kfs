@@ -28,8 +28,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class BenefitsCalculationDocumentRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BenefitsCalculationDocumentRule.class);
-    private BenefitsCalculation oldBenefitsCalculation;
-    private BenefitsCalculation newBenefitsCalculation;
+    protected BenefitsCalculation oldBenefitsCalculation;
+    protected BenefitsCalculation newBenefitsCalculation;
 
     /**
      * Constructs a BenefitsCalculationDocumentRule.java.

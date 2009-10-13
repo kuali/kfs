@@ -50,9 +50,9 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
     protected static final String MAINTAINABLE_DETAIL_ERROR_PATH = KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + "indirectCostRecoveryRateDetails";
     protected static final String MAINTAINABLE_DETAIL_ADDLINE_ERROR_PATH = "add.indirectCostRecoveryRateDetails";
     
-    private IndirectCostRecoveryRate indirectCostRecoveryRate;
-    private IndirectCostRecoveryRateDetail indirectCostRecoveryRateDetail;
-    private List<IndirectCostRecoveryRateDetail> indirectCostRecoveryRateDetails;
+    protected IndirectCostRecoveryRate indirectCostRecoveryRate;
+    protected IndirectCostRecoveryRateDetail indirectCostRecoveryRateDetail;
+    protected List<IndirectCostRecoveryRateDetail> indirectCostRecoveryRateDetails;
     
     public void setupConvenienceObjects() {
         indirectCostRecoveryRate = (IndirectCostRecoveryRate) super.getNewBo();

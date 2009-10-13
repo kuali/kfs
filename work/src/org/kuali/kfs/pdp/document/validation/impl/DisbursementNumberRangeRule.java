@@ -27,7 +27,7 @@ import org.kuali.rice.kns.util.KualiInteger;
  * Contains Business Rules for the Effort Certification Report Maintenance Document.
  */
 public class DisbursementNumberRangeRule extends MaintenanceDocumentRuleBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementNumberRangeRule.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementNumberRangeRule.class);
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)

@@ -44,10 +44,10 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
 
-    private static final String PROJECT_DIRECTOR_DECEASED = "D";
-    private static final String[] PROJECT_DIRECTOR_INVALID_STATUSES = { PROJECT_DIRECTOR_DECEASED };
+    protected static final String PROJECT_DIRECTOR_DECEASED = "D";
+    protected static final String[] PROJECT_DIRECTOR_INVALID_STATUSES = { PROJECT_DIRECTOR_DECEASED };
 
-    private static final String AGENCY_TYPE_CODE_FEDERAL = "F";
+    protected static final String AGENCY_TYPE_CODE_FEDERAL = "F";
 
     /**
      * Checks to see if the end date is after the begin date

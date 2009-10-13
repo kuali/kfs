@@ -42,11 +42,11 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class AwardRule extends CGMaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(AwardRule.class);
 
-    private Award newAwardCopy;
+    protected Award newAwardCopy;
 
-    private static final String GRANT_DESCRIPTION_NPT = "NPT";
-    private static final String GRANT_DESCRIPTION_OPT = "OPT";
-    private static final String[] NON_FED_GRANT_DESCS = new String[] { GRANT_DESCRIPTION_NPT, GRANT_DESCRIPTION_OPT };
+    protected static final String GRANT_DESCRIPTION_NPT = "NPT";
+    protected static final String GRANT_DESCRIPTION_OPT = "OPT";
+    protected static final String[] NON_FED_GRANT_DESCS = new String[] { GRANT_DESCRIPTION_NPT, GRANT_DESCRIPTION_OPT };
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -79,7 +79,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
      * 
      * @return true if the award contains at least 1 {@link AwardAccount}, false otherwise
      */
-    private boolean checkAccounts() {
+    protected boolean checkAccounts() {
         boolean success = true;
         Collection<AwardAccount> awardAccounts = newAwardCopy.getAwardAccounts();
 
@@ -101,7 +101,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
      * 
      * @return
      */
-    private boolean checkProposal() {
+    protected boolean checkProposal() {
         boolean success = true;
         if (AwardRuleUtil.isProposalAwarded(newAwardCopy)) {
             putFieldError(KFSPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_AWARD_PROPOSAL_AWARDED, newAwardCopy.getProposalNumber().toString());
@@ -121,7 +121,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
      * 
      * @return
      */
-    private boolean checkFederalPassThrough() {
+    protected boolean checkFederalPassThrough() {
         boolean success = true;
         success = super.checkFederalPassThrough(newAwardCopy.getFederalPassThroughIndicator(), newAwardCopy.getAgency(), newAwardCopy.getFederalPassThroughAgencyNumber(), Award.class, KFSPropertyConstants.FEDERAL_PASS_THROUGH_INDICATOR);
 
@@ -180,7 +180,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
     }
 
     // check if the given award organization exists
-    private boolean checkAwardOrganization(AwardOrganization awardOrganization) {
+    protected boolean checkAwardOrganization(AwardOrganization awardOrganization) {
         boolean success = true;
         int originalErrorCount = GlobalVariables.getMessageMap().getErrorCount();
         String errorPathPrefix = KFSConstants.MAINTENANCE_ADD_PREFIX + KFSPropertyConstants.AWARD_ORGRANIZATIONS + ".";
@@ -203,7 +203,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
     }
 
     // check if the given award subcontrator exists
-    private boolean checkAwardSubcontractor(AwardSubcontractor awardSubcontractor) {
+    protected boolean checkAwardSubcontractor(AwardSubcontractor awardSubcontractor) {
         boolean success = true;
         int originalErrorCount = GlobalVariables.getMessageMap().getErrorCount();
         String errorPathPrefix = KFSConstants.MAINTENANCE_ADD_PREFIX + KFSPropertyConstants.AWARD_SUBCONTRACTORS + ".";
@@ -226,7 +226,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
     }
 
     // check if the given award account exists
-    private boolean checkAwardAccount(AwardAccount awardAccount) {
+    protected boolean checkAwardAccount(AwardAccount awardAccount) {
         boolean success = true;
         int originalErrorCount = GlobalVariables.getMessageMap().getErrorCount();
         String errorPathPrefix = KFSConstants.MAINTENANCE_ADD_PREFIX + KFSPropertyConstants.AWARD_ACCOUNTS + ".";
@@ -257,7 +257,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
     }
 
     // check if the given award project director exists
-    private boolean checkAwardProjectDirector(AwardProjectDirector awardProjectDirector) {
+    protected boolean checkAwardProjectDirector(AwardProjectDirector awardProjectDirector) {
         boolean success = true;
 
         Person projectDirector = awardProjectDirector.getProjectDirector();

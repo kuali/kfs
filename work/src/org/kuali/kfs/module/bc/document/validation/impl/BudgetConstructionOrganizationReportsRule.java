@@ -34,12 +34,12 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
     protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionOrganizationReportsRule.class);
 
 
-    private OrganizationService orgService;
-    private ChartService chartService;
-    private BudgetConstructionOrganizationReportsService bcOrgReportsService;
+    protected OrganizationService orgService;
+    protected ChartService chartService;
+    protected BudgetConstructionOrganizationReportsService bcOrgReportsService;
 
-    private BudgetConstructionOrganizationReports oldBCOrgReports;
-    private BudgetConstructionOrganizationReports newBCOrgReports;
+    protected BudgetConstructionOrganizationReports oldBCOrgReports;
+    protected BudgetConstructionOrganizationReports newBCOrgReports;
 
 
     public BudgetConstructionOrganizationReportsRule() {

@@ -39,7 +39,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * Business rule(s) applicable to Contract Manager Assignment document.
  */
 public class ContractManagerAssignmentDocumentRule extends TransactionalDocumentRuleBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractManagerAssignmentDocumentRule.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractManagerAssignmentDocumentRule.class);
 
     /**
      * @see org.kuali.rice.kns.rules.TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(Document)
@@ -68,7 +68,7 @@ public class ContractManagerAssignmentDocumentRule extends TransactionalDocument
      * @param document Contract Manager Assignment document
      * @return Boolean indicating if validation succeeded
      */
-    private boolean processValidation(ContractManagerAssignmentDocument document) {
+    protected boolean processValidation(ContractManagerAssignmentDocument document) {
         return validateContractManagerCodes(document.getContractManagerAssignmentDetails());
     }
 

@@ -41,8 +41,8 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountRule.class);
 
-    private SubAccount oldSubAccount;
-    private SubAccount newSubAccount;
+    protected SubAccount oldSubAccount;
+    protected SubAccount newSubAccount;
 
     /**
      * This performs rules checks on document approve
@@ -488,7 +488,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      * @param propertyName - property to retrieve label for (from the DD)
      * @return the label
      */
-    private String getDisplayName(String propertyName) {
+    protected String getDisplayName(String propertyName) {
         return getDdService().getAttributeLabel(SubAccount.class, propertyName);
     }
 

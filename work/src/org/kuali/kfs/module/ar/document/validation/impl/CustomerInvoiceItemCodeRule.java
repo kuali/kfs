@@ -41,7 +41,7 @@ public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
     
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ArKeyConstants.InvoiceItemCode.class);
     
-    private CustomerInvoiceItemCode newInvoiceItemCode;
+    protected CustomerInvoiceItemCode newInvoiceItemCode;
     
     @Override
     public void setupConvenienceObjects() {

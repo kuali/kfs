@@ -34,7 +34,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * This class implements the business rules specific to the {@link SubObjCdGlobal} Maintenance Document.
  */
 public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
-    private SubObjectCodeGlobal subObjCdGlobal;
+    protected SubObjectCodeGlobal subObjCdGlobal;
 
     /**
      * This method sets the convenience objects like subObjCdGlobal and all the detail objects, so you have short and easy handles to the new and

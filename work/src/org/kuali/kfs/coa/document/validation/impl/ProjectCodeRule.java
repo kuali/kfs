@@ -25,8 +25,8 @@ public class ProjectCodeRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProjectCodeRule.class);
 
-    private ProjectCode oldProjectCode;
-    private ProjectCode newProjectCode;
+    protected ProjectCode oldProjectCode;
+    protected ProjectCode newProjectCode;
 
     public ProjectCodeRule() {
         super();

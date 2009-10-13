@@ -35,9 +35,9 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class IndirectCostRecoveryTypeRule extends MaintenanceDocumentRuleBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Account.class);
 
-    private IndirectCostRecoveryType indirectCostRecoveryType;
-    private List indirectCostRecoveryExclusionTypeDetails;
-    private ChartService chartService;
+    protected IndirectCostRecoveryType indirectCostRecoveryType;
+    protected List indirectCostRecoveryExclusionTypeDetails;
+    protected ChartService chartService;
 
     
     public IndirectCostRecoveryTypeRule () {

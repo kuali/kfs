@@ -44,8 +44,8 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DelegateRule.class);
 
-    private AccountDelegate oldDelegate;
-    private AccountDelegate newDelegate;
+    protected AccountDelegate oldDelegate;
+    protected AccountDelegate newDelegate;
 
     /**
      * Constructs a DelegateRule.java.

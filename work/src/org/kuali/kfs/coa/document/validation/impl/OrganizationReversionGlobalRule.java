@@ -40,10 +40,10 @@ import org.kuali.rice.core.util.KeyLabelPair;
  * This class implements the business rules for {@link OrganizationReversionGlobal}
  */
 public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionGlobalRule.class);
-    private OrganizationReversionGlobal globalOrganizationReversion;
-    private OrganizationReversionService organizationReversionService;
-    private ObjectCodeService objectCodeService;
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionGlobalRule.class);
+    protected OrganizationReversionGlobal globalOrganizationReversion;
+    protected OrganizationReversionService organizationReversionService;
+    protected ObjectCodeService objectCodeService;
 
     /**
      * 
@@ -485,7 +485,7 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
         this.objectCodeService = objectCodeService;
     }
 
-    private OrganizationReversionGlobal getGlobalOrganizationReversion() {
+    protected OrganizationReversionGlobal getGlobalOrganizationReversion() {
         return this.globalOrganizationReversion;
     }
 }

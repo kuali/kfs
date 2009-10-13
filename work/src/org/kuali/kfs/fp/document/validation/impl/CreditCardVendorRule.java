@@ -33,7 +33,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
 
-    private CreditCardVendor newCreditCardVendor;
+    protected CreditCardVendor newCreditCardVendor;
 
     /**
      *  Sets up a CreditCardVendor convenience objects to make sure all possible sub-objects are populated
@@ -188,7 +188,7 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
      * 
      * @return true if credit card vendor number is valid (i.e. numeric and at least 5 digits)
      */
-    private boolean checkCreditCardVendorNumber() {
+    protected boolean checkCreditCardVendorNumber() {
         String ccvNumber = newCreditCardVendor.getFinancialDocumentCreditCardVendorNumber();
 
         if (ccvNumber == null) {
@@ -217,7 +217,7 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
      * @param errorMessage error message to display
      * @return true if account is active (i.e. exists and is not expired or closed)
      */
-    private boolean checkExistingActiveAccount(String accountNumber, String fieldName, String errorMessage) {
+    protected boolean checkExistingActiveAccount(String accountNumber, String fieldName, String errorMessage) {
         boolean result = false;
         Account account;
         Map pkMap = new HashMap();
@@ -253,7 +253,7 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
      * @param string determines whether or not to check income or expense sub account information (valid values include "Income" or "Expense")
      * @return true if corresponding sub account values exist
      */
-    private boolean checkRequiredSubAccount(String string) {
+    protected boolean checkRequiredSubAccount(String string) {
         boolean returnVal = true;
         if (string.equals("Income")) {
             if (newCreditCardVendor.getIncomeFinancialChartOfAccountsCode() == null) {
@@ -291,7 +291,7 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
      * @param string determines whether or not to retrieve a income or expense sub account (valid values include "Income" or "Expense")
      * @return SubAccount Income/Expense SubAccount object
      */
-    private SubAccount checkExistenceSubAccount(String string) {
+    protected SubAccount checkExistenceSubAccount(String string) {
 
         SubAccount subAccount = null;
 
@@ -321,7 +321,7 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
      * @param string determines whether or not to check for an income or expense sub-object code (valid values include "Income" or "Expense")
      * @return true if income/expense chart of account code, account number, and financial object code exist
      */
-    private boolean checkRequiredSubObjectCode(String string) {
+    protected boolean checkRequiredSubObjectCode(String string) {
 
         boolean returnVal = true;
         if (string.equals("Income")) {
@@ -372,7 +372,7 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
      * @param string determines whether or not to retrieve a income or expense sub object (valid values include "Income" or "Expense")
      * @return SubAccount Income/Expense SubObjCd object
      */
-    private SubObjectCode checkExistenceSubObj(String string) {
+    protected SubObjectCode checkExistenceSubObj(String string) {
 
         SubObjectCode subObjCd = null;
 

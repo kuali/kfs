@@ -49,11 +49,11 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrgRule.class);
 
 
-    private static OrganizationService orgService;
+    protected static OrganizationService orgService;
 
-    private Organization oldOrg;
-    private Organization newOrg;
-    private boolean isHrmsOrgActivated;
+    protected Organization oldOrg;
+    protected Organization newOrg;
+    protected boolean isHrmsOrgActivated;
 
     /**
      * Constructs a OrgRule and pseudo-injects services
@@ -381,7 +381,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * @param organization
      * @return true if it does
      */
-    private boolean getOrgMustReportToSelf(Organization organization) {
+    protected boolean getOrgMustReportToSelf(Organization organization) {
         return SpringContext.getBean(ParameterService.class).getParameterEvaluator(Organization.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, organization.getOrganizationTypeCode()).evaluationSucceeds();
     }
 

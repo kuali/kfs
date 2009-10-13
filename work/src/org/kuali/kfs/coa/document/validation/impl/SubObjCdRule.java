@@ -24,10 +24,10 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class SubObjCdRule extends MaintenanceDocumentRuleBase {
 
-    private static final String ACCOUNT_ORG_RULE_KEY = "SubObjectCode.AccountOrgsAllowingClosedAccounts";
+    protected static final String ACCOUNT_ORG_RULE_KEY = "SubObjectCode.AccountOrgsAllowingClosedAccounts";
 
-    private SubObjectCode oldSubObjectCode;
-    private SubObjectCode newSubObjectCode;
+    protected SubObjectCode oldSubObjectCode;
+    protected SubObjectCode newSubObjectCode;
 
     public SubObjCdRule() {
         super();

@@ -35,8 +35,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class OrganizationParameterRule extends MaintenanceDocumentRuleBase {
 
-    private OrganizationParameter newOrganizationParameter;
-    private BusinessObjectService boService;
+    protected OrganizationParameter newOrganizationParameter;
+    protected BusinessObjectService boService;
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()

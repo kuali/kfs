@@ -30,8 +30,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * This class implements the business rules for {@link OffsetDefinition}
  */
 public class OffsetDefinitionRule extends MaintenanceDocumentRuleBase {
-    private OffsetDefinition oldDefinition;
-    private OffsetDefinition newDefinition;
+    protected OffsetDefinition oldDefinition;
+    protected OffsetDefinition newDefinition;
 
 
     /**
@@ -82,7 +82,7 @@ public class OffsetDefinitionRule extends MaintenanceDocumentRuleBase {
      * @param document
      * @return false if the {@link org.kuali.rice.kns.bo.Parameter} evaluation fails and the financial object code is either null or inactive
      */
-    private boolean checkDocTypeActiveFinancialObjCode(MaintenanceDocument document) {
+    protected boolean checkDocTypeActiveFinancialObjCode(MaintenanceDocument document) {
         boolean success = true;
         ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(OffsetDefinition.class, KFSConstants.ChartApcParms.DOCTYPE_AND_OBJ_CODE_ACTIVE, newDefinition.getFinancialDocumentTypeCode());
         if (!evaluator.evaluationSucceeds()) {

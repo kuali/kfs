@@ -30,9 +30,9 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
  */
 public class ObjectConsRule extends MaintenanceDocumentRuleBase {
 
-    private static ChartService chartService;
-    private static ObjectLevelService objectLevelService;
-    private static ObjectCodeService objectCodeService;
+    protected static ChartService chartService;
+    protected static ObjectLevelService objectLevelService;
+    protected static ObjectCodeService objectCodeService;
     
     /**
      * 
@@ -87,7 +87,7 @@ public class ObjectConsRule extends MaintenanceDocumentRuleBase {
      * @param document
      * @return false if Object Level Code already exists
      */
-    private boolean checkObjLevelCode(ObjectConsolidation objConsolidation) {
+    protected boolean checkObjLevelCode(ObjectConsolidation objConsolidation) {
         boolean success = true;
 
         ObjectLevel objLevel = objectLevelService.getByPrimaryId(objConsolidation.getChartOfAccountsCode(), objConsolidation.getFinConsolidationObjectCode());

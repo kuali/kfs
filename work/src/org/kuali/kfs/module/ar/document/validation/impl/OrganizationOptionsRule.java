@@ -42,8 +42,8 @@ import org.kuali.rice.kns.util.TypedArrayList;
 public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationOptionsRule.class);
 
-    private OrganizationOptions newOrganizationOptions;
-    private OrganizationOptions oldOrganizationOptions;
+    protected OrganizationOptions newOrganizationOptions;
+    protected OrganizationOptions oldOrganizationOptions;
 
     @Override
     public void setupConvenienceObjects() {
@@ -97,7 +97,7 @@ public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
      * This method...
      * @param map
      */
-    private void removeRestrictedFieldChangedErrors(ErrorMap map, String propertyKey) {
+    protected void removeRestrictedFieldChangedErrors(ErrorMap map, String propertyKey) {
         TypedArrayList errorMessages = (TypedArrayList)map.get(propertyKey);
         if(errorMessages!=null) {
             for(int i=0; i<errorMessages.size(); i++) {

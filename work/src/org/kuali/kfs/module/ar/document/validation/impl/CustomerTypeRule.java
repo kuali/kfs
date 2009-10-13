@@ -33,7 +33,7 @@ public class CustomerTypeRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerTypeRule.class);
 
-    private CustomerType newCustomerType;
+    protected CustomerType newCustomerType;
 
     @Override
     public void setupConvenienceObjects() {

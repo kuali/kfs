@@ -35,8 +35,8 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class AgencyRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(AgencyRule.class);
 
-    Agency newAgency;
-    Agency oldAgency;
+    protected Agency newAgency;
+    protected Agency oldAgency;
 
     BusinessObjectService businessObjectService;
 
@@ -82,7 +82,7 @@ public class AgencyRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
-    private boolean validateAgencyType(MaintenanceDocument document) {
+    protected boolean validateAgencyType(MaintenanceDocument document) {
         String agencyType = newAgency.getAgencyTypeCode();
         Map params = new HashMap();
         params.put("code", agencyType);
@@ -94,7 +94,7 @@ public class AgencyRule extends MaintenanceDocumentRuleBase {
         return false;
     }
 
-    private boolean checkAgencyReportsTo(MaintenanceDocument document) {
+    protected boolean checkAgencyReportsTo(MaintenanceDocument document) {
         boolean success = true;
 
         if (newAgency.getReportsToAgencyNumber() != null) {

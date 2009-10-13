@@ -56,7 +56,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class CashControlDocumentRule extends TransactionalDocumentRuleBase implements AddCashControlDetailRule<CashControlDocument>, DeleteCashControlDetailRule<CashControlDocument>, GenerateReferenceDocumentRule<CashControlDocument> {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocumentRule.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocumentRule.class);
 
     /**
      * @see org.kuali.rice.kns.rules.TransactionalDocumentRuleBase#processCustomSaveDocumentBusinessRules(Document)
@@ -282,7 +282,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      * @param cashControlDetail CashControlDetail
      * @return true if CashControlDetail is valid, false otherwise
      */
-    private boolean validateCashControlDetail(CashControlDocument document, CashControlDetail cashControlDetail) {
+    protected boolean validateCashControlDetail(CashControlDocument document, CashControlDetail cashControlDetail) {
 
         MessageMap errorMap = GlobalVariables.getMessageMap();
 
@@ -341,7 +341,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      * @param cashControlDetail
      * @return true if valid, false otherwise
      */
-    private boolean checkCustomerNumber(String customerNumber) {
+    protected boolean checkCustomerNumber(String customerNumber) {
         boolean isValid = true;
 
         if (customerNumber != null && !customerNumber.equals("")) {

@@ -68,7 +68,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class AssetRule extends MaintenanceDocumentRuleBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRule.class);
-    private static final Map<LocationField, String> LOCATION_FIELD_MAP = new HashMap<LocationField, String>();
+    protected static final Map<LocationField, String> LOCATION_FIELD_MAP = new HashMap<LocationField, String>();
     static {
         LOCATION_FIELD_MAP.put(LocationField.CAMPUS_CODE, CamsPropertyConstants.Asset.CAMPUS_CODE);
         LOCATION_FIELD_MAP.put(LocationField.BUILDING_CODE, CamsPropertyConstants.Asset.BUILDING_CODE);
@@ -82,21 +82,21 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         LOCATION_FIELD_MAP.put(LocationField.COUNTRY_CODE, CamsPropertyConstants.Asset.AssetLocation.COUNTRY_CODE);
     }
 
-    // private AgencyService agencyService = SpringContext.getBean(AgencyService.class);
-    private AssetService assetService = SpringContext.getBean(AssetService.class);
-    private ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-    private PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
-    private RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
-    private EquipmentLoanOrReturnService equipmentLoanOrReturnService = SpringContext.getBean(EquipmentLoanOrReturnService.class);
-    private AssetDateService assetDateService = SpringContext.getBean(AssetDateService.class);
-    private AssetComponentService assetComponentService = SpringContext.getBean(AssetComponentService.class);
-    private UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
-    private AssetLocationService assetLocationService = SpringContext.getBean(AssetLocationService.class);
-    private DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+    // protected AgencyService agencyService = SpringContext.getBean(AgencyService.class);
+    protected AssetService assetService = SpringContext.getBean(AssetService.class);
+    protected ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+    protected PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
+    protected RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
+    protected EquipmentLoanOrReturnService equipmentLoanOrReturnService = SpringContext.getBean(EquipmentLoanOrReturnService.class);
+    protected AssetDateService assetDateService = SpringContext.getBean(AssetDateService.class);
+    protected AssetComponentService assetComponentService = SpringContext.getBean(AssetComponentService.class);
+    protected UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+    protected AssetLocationService assetLocationService = SpringContext.getBean(AssetLocationService.class);
+    protected DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
 
-    private Asset newAsset;
-    private Asset oldAsset;
-    private boolean isFabrication;
+    protected Asset newAsset;
+    protected Asset oldAsset;
+    protected boolean isFabrication;
 
 
     /**
@@ -149,7 +149,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @param valid
      * @return
      */
-    private boolean checkAssetLocked(MaintenanceDocument document) {
+    protected boolean checkAssetLocked(MaintenanceDocument document) {
         Asset asset = (Asset) document.getNewMaintainableObject().getBusinessObject();
         return !getCapitalAssetManagementModuleService().isAssetLocked(retrieveAssetNumberForLocking(asset), CamsConstants.DocumentTypeName.ASSET_EDIT, document.getDocumentNumber());
     }
@@ -159,7 +159,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * 
      * @return
      */
-    private List<Long> retrieveAssetNumberForLocking(Asset asset) {
+    protected List<Long> retrieveAssetNumberForLocking(Asset asset) {
         List<Long> capitalAssetNumbers = new ArrayList<Long>();
         if (asset.getCapitalAssetNumber() != null) {
             capitalAssetNumbers.add(asset.getCapitalAssetNumber());
@@ -204,7 +204,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @param incidentDateSet
      * @return boolean
      */
-    private boolean checkDuplicateIncidentDate(AssetRepairHistory assetRepairHistory, Set<Date> incidentDateSet) {
+    protected boolean checkDuplicateIncidentDate(AssetRepairHistory assetRepairHistory, Set<Date> incidentDateSet) {
         boolean success = true;
 
         if (!incidentDateSet.add(assetRepairHistory.getIncidentDate())) {
@@ -220,7 +220,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * 
      * @return boolean
      */
-    private boolean validateFabricationDetails() {
+    protected boolean validateFabricationDetails() {
         /**
          * Please don't remove this validation, forcing required fields from DD file is not possible and will break asset edit
          * screen, so please leave this validation here.
@@ -246,7 +246,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * 
      * @return boolean
      */
-    private boolean validateAccount() {
+    protected boolean validateAccount() {
         boolean valid = true;
         Account currentOwnerAccount = newAsset.getOrganizationOwnerAccount();
         Account previoudOwnerAccount = oldAsset.getOrganizationOwnerAccount();
@@ -275,7 +275,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * 
      * @param asset
      */
-    private void setAssetComponentNumbers(Asset asset) {
+    protected void setAssetComponentNumbers(Asset asset) {
         List<AssetComponent> assetComponents = asset.getAssetComponents();
         Integer maxNo = null;
         for (AssetComponent assetComponent : assetComponents) {
@@ -295,7 +295,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @param document MaintenanceDocument instance
      * @return boolean false or true
      */
-    private boolean processAssetValidation(MaintenanceDocument document) {
+    protected boolean processAssetValidation(MaintenanceDocument document) {
         boolean valid = true;
 
         // validate Inventory Status Code.
@@ -334,7 +334,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * 
      * @return
      */
-    private boolean validateInServiceDate() {
+    protected boolean validateInServiceDate() {
         boolean valid = true;
         // if asset already starts depreciation, the user can't blank in-service date.
         if (ObjectUtils.isNull(newAsset.getCapitalAssetInServiceDate()) && assetService.isAssetDepreciationStarted(oldAsset)) {
@@ -355,7 +355,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * 
      * @return
      */
-    private boolean isOffCampusLocationChanged() {
+    protected boolean isOffCampusLocationChanged() {
         boolean changed = false;
         AssetLocation oldLocation = oldAsset.getOffCampusLocation();
         AssetLocation newLocation = newAsset.getOffCampusLocation();
@@ -369,7 +369,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     /**
      * Validate Inventory Status Code Change
      */
-    private boolean validateInventoryStatusCode(String oldInventoryStatusCode, String newInventoryStatusCode) {
+    protected boolean validateInventoryStatusCode(String oldInventoryStatusCode, String newInventoryStatusCode) {
         boolean valid = true;
         if (assetService.isCapitalAsset(oldAsset) && assetService.isAssetRetired(newAsset)) {
             // disallow retire capital asset.
@@ -385,7 +385,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
-    private void initializeAttributes(MaintenanceDocument document) {
+    protected void initializeAttributes(MaintenanceDocument document) {
         if (newAsset == null) {
             newAsset = (Asset) document.getNewMaintainableObject().getBusinessObject();
         }
@@ -405,7 +405,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @param asset
      * @return
      */
-    private boolean validateTagNumber() {
+    protected boolean validateTagNumber() {
         boolean valid = true;
         boolean anyFound = false;
 
@@ -435,7 +435,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @param asset
      * @return
      */
-    private boolean validateVendorName() {
+    protected boolean validateVendorName() {
         boolean valid = true;
 
         if (assetService.isCapitalAsset(newAsset) && StringUtils.isBlank(newAsset.getVendorName())) {
@@ -453,7 +453,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @param asset
      * @return
      */
-    private boolean validateLocation() {
+    protected boolean validateLocation() {
         GlobalVariables.getMessageMap().addToErrorPath("document.newMaintainableObject");
         boolean isCapitalAsset = assetService.isCapitalAsset(newAsset);
         boolean valid = assetLocationService.validateLocation(LOCATION_FIELD_MAP, newAsset, isCapitalAsset, newAsset.getCapitalAssetType());
@@ -471,7 +471,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @param asset Asset
      * @return validation result
      */
-    private boolean validateWarrantyInformation(Asset asset) {
+    protected boolean validateWarrantyInformation(Asset asset) {
         AssetWarranty warranty = asset.getAssetWarranty();
         if (warranty != null) {
             if (!StringUtils.isEmpty(warranty.getWarrantyContactName()) || !StringUtils.isEmpty(warranty.getWarrantyPhoneNumber()) || !StringUtils.isEmpty(warranty.getWarrantyText()) || warranty.getWarrantyBeginningDate() != null || warranty.getWarrantyEndingDate() != null) {
@@ -491,7 +491,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @param asset
      * @return boolean
      */
-    private boolean validateDepreciationData(Asset asset) {
+    protected boolean validateDepreciationData(Asset asset) {
         if (asset.getSalvageAmount() == null) {
             asset.setSalvageAmount(KualiDecimal.ZERO);
         }
@@ -544,7 +544,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @param document
      * @return
      */
-    private boolean setAssetLock(MaintenanceDocument document) {
+    protected boolean setAssetLock(MaintenanceDocument document) {
         Asset asset = (Asset) document.getNewMaintainableObject().getBusinessObject();
         return this.getCapitalAssetManagementModuleService().storeAssetLocks(retrieveAssetNumberForLocking(asset), document.getDocumentNumber(), CamsConstants.DocumentTypeName.ASSET_EDIT, null);
     }
@@ -567,7 +567,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @param newAcquisitionTypeCode
      * @return boolean
      */
-    private boolean checkAcquisitionTypeCodeChange() {
+    protected boolean checkAcquisitionTypeCodeChange() {
         if (ObjectUtils.isNull(newAsset.getAcquisitionType())) {
             putFieldError(CamsPropertyConstants.Asset.ACQUISITION_TYPE_CODE, CamsKeyConstants.Asset.ERROR_ACQUISITION_TYPE_CODE_INVALID);
             return false;
@@ -591,7 +591,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @param newConditionCode
      * @return boolean
      */
-    private boolean checkConditionCodeChange() {
+    protected boolean checkConditionCodeChange() {
         if (ObjectUtils.isNull(newAsset.getCondition())) {
             putFieldError(CamsPropertyConstants.Asset.CONDITION_CODE, CamsKeyConstants.Asset.ERROR_ASSET_CONDITION_INVALID);
             return false;
@@ -615,7 +615,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @param newAssetDepreciationMethod
      * @return boolean
      */
-    private boolean checkAssetDepreciationMethodChange() {
+    protected boolean checkAssetDepreciationMethodChange() {
         if (ObjectUtils.isNull(newAsset.getAssetPrimaryDepreciationMethod())) {
             putFieldError(CamsPropertyConstants.Asset.PRIMARY_DEPRECIATION_METHOD, CamsKeyConstants.Asset.ERROR_DEPRECATION_METHOD_CODE_INVALID);
             return false;
@@ -639,7 +639,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @param newAssetStatus
      * @return boolean
      */
-    private boolean checkAssetStatusCodeChange() {
+    protected boolean checkAssetStatusCodeChange() {
         if (ObjectUtils.isNull(newAsset.getInventoryStatus())) {
             putFieldError(CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS, CamsKeyConstants.Asset.ERROR_ASSET_STATUS_INVALID);
             return false;
@@ -663,7 +663,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @param newAssetType
      * @return boolean
      */
-    private boolean checkAssetTypeCodeChange() {
+    protected boolean checkAssetTypeCodeChange() {
         if (ObjectUtils.isNull(newAsset.getCapitalAssetType())) {
             putFieldError(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.Asset.ERROR_TYPE_CODE_INVALID);
             return false;
@@ -687,7 +687,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @param newObjectSubType
      * @return boolean
      */
-    private boolean checkFinancialObjectSubtypeCodeChange() {
+    protected boolean checkFinancialObjectSubtypeCodeChange() {
         if (ObjectUtils.isNotNull(newAsset.getFinancialObjectSubType()) || StringUtils.isNotBlank(newAsset.getFinancialObjectSubTypeCode())) {
             newAsset.refreshReferenceObject(CamsPropertyConstants.Asset.REF_OBJECT_SUB_TYPE);
             if (ObjectUtils.isNull(newAsset.getFinancialObjectSubType())) {

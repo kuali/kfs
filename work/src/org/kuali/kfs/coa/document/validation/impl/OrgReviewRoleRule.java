@@ -53,10 +53,10 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
 
-    private UiDocumentService uiDocumentService;
-    private transient static GroupService groupService;
-    private transient static KimTypeInfoService typeInfoService;
-    private static Logger LOG = Logger.getLogger(OrgReviewRoleRule.class);
+    protected UiDocumentService uiDocumentService;
+    protected transient static GroupService groupService;
+    protected transient static KimTypeInfoService typeInfoService;
+    protected static Logger LOG = Logger.getLogger(OrgReviewRoleRule.class);
 
     @Override
     public boolean processRouteDocument(Document document) {
@@ -82,7 +82,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
     
-    private void validateRoleMembersToSave(OrgReviewRole orr){
+    protected void validateRoleMembersToSave(OrgReviewRole orr){
         if(orr==null) return;
         boolean valid = true;
         String memberId;
@@ -232,7 +232,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
-    private boolean areAttributesUnique(OrgReviewRole orr, AttributeSet attributeSet){
+    protected boolean areAttributesUnique(OrgReviewRole orr, AttributeSet attributeSet){
         String docTypeName = orr.getFinancialSystemDocumentTypeCode();
         String chartOfAccountCode = orr.getChartOfAccountsCode();
         String organizationCode = orr.getOrganizationCode();

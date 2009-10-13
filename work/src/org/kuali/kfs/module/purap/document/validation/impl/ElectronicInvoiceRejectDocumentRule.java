@@ -34,8 +34,8 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public class ElectronicInvoiceRejectDocumentRule extends DocumentRuleBase {
 
-    private static KualiDecimal zero = KualiDecimal.ZERO;
-    private static BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
+    protected static KualiDecimal zero = KualiDecimal.ZERO;
+    protected static BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
 
     /**
      * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)

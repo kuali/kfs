@@ -27,9 +27,9 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CalculatedSalaryFoundationTrackerOverrideRule extends MaintenanceDocumentRuleBase {
 
-    private CalculatedSalaryFoundationTrackerOverride oldCalculatedSalaryFoundationTrackerOverride;
-    private CalculatedSalaryFoundationTrackerOverride newCalculatedSalaryFoundationTrackerOverride;
-    private CalculatedSalaryFoundationTrackerOverrideService calculatedSalaryFoundationTrackerOverrideService;
+    protected CalculatedSalaryFoundationTrackerOverride oldCalculatedSalaryFoundationTrackerOverride;
+    protected CalculatedSalaryFoundationTrackerOverride newCalculatedSalaryFoundationTrackerOverride;
+    protected CalculatedSalaryFoundationTrackerOverrideService calculatedSalaryFoundationTrackerOverrideService;
 
     public CalculatedSalaryFoundationTrackerOverrideRule() {
         super();
@@ -68,7 +68,7 @@ public class CalculatedSalaryFoundationTrackerOverrideRule extends MaintenanceDo
         return success;
     }
 
-    private void setupConvenienceObjects(MaintenanceDocument document) {
+    protected void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup oldAccount convenience objects, make sure all possible sub-objects are populated
         oldCalculatedSalaryFoundationTrackerOverride = (CalculatedSalaryFoundationTrackerOverride) super.getOldBo();
@@ -77,7 +77,7 @@ public class CalculatedSalaryFoundationTrackerOverrideRule extends MaintenanceDo
         newCalculatedSalaryFoundationTrackerOverride = (CalculatedSalaryFoundationTrackerOverride) super.getNewBo();
     }
 
-    private boolean checkFiscalYearIsCurrent(MaintenanceDocument document) {
+    protected boolean checkFiscalYearIsCurrent(MaintenanceDocument document) {
         boolean success = true;
 
         if ((ObjectUtils.isNotNull(newCalculatedSalaryFoundationTrackerOverride.getUniversityFiscalYear())) && (document.isNew())) {
@@ -92,7 +92,7 @@ public class CalculatedSalaryFoundationTrackerOverrideRule extends MaintenanceDo
         return success;
     }
 
-    private boolean checkAppointmentIsValid() {
+    protected boolean checkAppointmentIsValid() {
         boolean success = true;
 
         if ((ObjectUtils.isNotNull(newCalculatedSalaryFoundationTrackerOverride.getEmplid())) && (ObjectUtils.isNotNull(newCalculatedSalaryFoundationTrackerOverride.getPositionNumber())) && (ObjectUtils.isNotNull(newCalculatedSalaryFoundationTrackerOverride.getUniversityFiscalYear()))) {
@@ -113,7 +113,7 @@ public class CalculatedSalaryFoundationTrackerOverrideRule extends MaintenanceDo
         return success;
     }
 
-    private boolean checkPositionIsValid() {
+    protected boolean checkPositionIsValid() {
         boolean success = true;
 
         if ((ObjectUtils.isNotNull(newCalculatedSalaryFoundationTrackerOverride.getPositionNumber())) && (ObjectUtils.isNotNull(newCalculatedSalaryFoundationTrackerOverride.getUniversityFiscalYear()))) {

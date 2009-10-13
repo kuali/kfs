@@ -175,7 +175,7 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
      * @param equipmentLoanOrReturnDocument the equipmentLoanOrReturn document to be validated
      * @return boolean false if the borrower or storage state code is not valid
      */
-    private boolean validStateZipCode(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
+    protected boolean validStateZipCode(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
         boolean valid = true;
         // validate borrower state and postal zip code
         if (StringUtils.isBlank(equipmentLoanOrReturnDocument.getBorrowerCountryCode())) {

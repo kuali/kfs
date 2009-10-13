@@ -57,7 +57,7 @@ import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBase implements RecalculateCustomerCreditMemoDetailRule<TransactionalDocument>, RecalculateCustomerCreditMemoDocumentRule<TransactionalDocument>, ContinueCustomerCreditMemoDocumentRule<TransactionalDocument> {
 
-    private static final KualiDecimal ALLOWED_QTY_DEVIATION = new KualiDecimal("0.10");
+    protected static final KualiDecimal ALLOWED_QTY_DEVIATION = new KualiDecimal("0.10");
 
     public CustomerCreditMemoDocumentRule() {
     }

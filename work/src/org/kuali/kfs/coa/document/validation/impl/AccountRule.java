@@ -61,29 +61,29 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountRule.class);
 
-    private static final String ACCT_PREFIX_RESTRICTION = "PREFIXES";
-    private static final String ACCT_CAPITAL_SUBFUNDGROUP = "CAPITAL_SUB_FUND_GROUPS";
+    protected static final String ACCT_PREFIX_RESTRICTION = "PREFIXES";
+    protected static final String ACCT_CAPITAL_SUBFUNDGROUP = "CAPITAL_SUB_FUND_GROUPS";
 
-    private static final String GENERAL_FUND_CD = "GF";
-    private static final String RESTRICTED_FUND_CD = "RF";
-    private static final String ENDOWMENT_FUND_CD = "EN";
-    private static final String PLANT_FUND_CD = "PF";
+    protected static final String GENERAL_FUND_CD = "GF";
+    protected static final String RESTRICTED_FUND_CD = "RF";
+    protected static final String ENDOWMENT_FUND_CD = "EN";
+    protected static final String PLANT_FUND_CD = "PF";
 
-    private static final String RESTRICTED_CD_RESTRICTED = "R";
-    private static final String RESTRICTED_CD_UNRESTRICTED = "U";
-    private static final String RESTRICTED_CD_TEMPORARILY_RESTRICTED = "T";
-    private static final String BUDGET_RECORDING_LEVEL_MIXED = "M";
+    protected static final String RESTRICTED_CD_RESTRICTED = "R";
+    protected static final String RESTRICTED_CD_UNRESTRICTED = "U";
+    protected static final String RESTRICTED_CD_TEMPORARILY_RESTRICTED = "T";
+    protected static final String BUDGET_RECORDING_LEVEL_MIXED = "M";
 
-    private static SubFundGroupService subFundGroupService;
-    private static ParameterService parameterService;    
+    protected static SubFundGroupService subFundGroupService;
+    protected static ParameterService parameterService;    
     
-    private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
-    private BalanceService balanceService;
-    private AccountService accountService;
-    private ContractsAndGrantsModuleService contractsAndGrantsModuleService;
+    protected GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
+    protected BalanceService balanceService;
+    protected AccountService accountService;
+    protected ContractsAndGrantsModuleService contractsAndGrantsModuleService;
 
-    private Account oldAccount;
-    private Account newAccount;
+    protected Account oldAccount;
+    protected Account newAccount;
 
     public AccountRule() {
 
@@ -737,7 +737,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
      * @param errorConstant
      * @return error string that has had tokens "{0}" and "{1}" replaced
      */
-    private String replaceTokens(String errorConstant) {
+    protected String replaceTokens(String errorConstant) {
         String cngLabel = getSubFundGroupService().getContractsAndGrantsDenotingAttributeLabel();
         String cngValue = getSubFundGroupService().getContractsAndGrantsDenotingValueForMessage();
         String result = getKualiConfigurationService().getPropertyString(errorConstant);

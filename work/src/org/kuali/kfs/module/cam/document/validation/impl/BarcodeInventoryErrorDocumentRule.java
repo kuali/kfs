@@ -129,7 +129,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * @param tagNumber
      * @return boolean
      */
-    private boolean validateTagNumber(String tagNumber) {
+    protected boolean validateTagNumber(String tagNumber) {
         boolean result = true;
         // Getting a list of active assets.
         Collection<Asset> assets = getAssetService().findAssetsMatchingTagNumber(tagNumber);
@@ -162,7 +162,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * @param inventoryDate
      * @return boolean
      */
-    private boolean validateInventoryDate(Timestamp inventoryDate) {
+    protected boolean validateInventoryDate(Timestamp inventoryDate) {
         boolean result = true;
         String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(BarcodeInventoryErrorDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.BarcodeInventory.INVENTORY_DATE).getLabel();
 
@@ -181,7 +181,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * @param detail
      * @return boolean
      */
-    private boolean validateCampusCode(String campusCode, BarcodeInventoryErrorDetail detail) {
+    protected boolean validateCampusCode(String campusCode, BarcodeInventoryErrorDetail detail) {
         boolean result = true;
         String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(BarcodeInventoryErrorDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.BarcodeInventory.CAMPUS_CODE).getLabel();
 
@@ -209,7 +209,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * @param detail
      * @return boolean
      */
-    private boolean validateBuildingCode(String buildingCode, BarcodeInventoryErrorDetail detail) {
+    protected boolean validateBuildingCode(String buildingCode, BarcodeInventoryErrorDetail detail) {
         boolean result = true;
         String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(BarcodeInventoryErrorDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.BarcodeInventory.BUILDING_CODE).getLabel();
 
@@ -238,7 +238,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * @param detail
      * @return boolean
      */
-    private boolean validateBuildingRoomNumber(String roomNumber, BarcodeInventoryErrorDetail detail) {
+    protected boolean validateBuildingRoomNumber(String roomNumber, BarcodeInventoryErrorDetail detail) {
         boolean result = true;
         String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(BarcodeInventoryErrorDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_NUMBER).getLabel();
 
@@ -269,7 +269,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * @param detail
      * @return boolean
      */
-    private boolean validateConditionCode(String conditionCode, BarcodeInventoryErrorDetail detail) {
+    protected boolean validateConditionCode(String conditionCode, BarcodeInventoryErrorDetail detail) {
         boolean result = true;
         String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(BarcodeInventoryErrorDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.BarcodeInventory.ASSET_CONDITION_CODE).getLabel();
 
@@ -297,7 +297,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * @param tagNumber
      * @return boolean
      */
-    private boolean validateTaggingLock(String tagNumber, String documentNumber) {
+    protected boolean validateTaggingLock(String tagNumber, String documentNumber) {
         boolean result = true;
         boolean isAssetLocked = false;
         String skipAssetLockValidation;
@@ -346,7 +346,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * @param errorPath
      * @return String
      */
-    private String getErrorMessages(String errorPath) {
+    protected String getErrorMessages(String errorPath) {
         String message = "";
         String[] fields = { CamsPropertyConstants.BarcodeInventory.ASSET_TAG_NUMBER, CamsPropertyConstants.BarcodeInventory.INVENTORY_DATE, CamsPropertyConstants.BarcodeInventory.CAMPUS_CODE, CamsPropertyConstants.BarcodeInventory.BUILDING_CODE, CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_NUMBER, CamsPropertyConstants.BarcodeInventory.ASSET_CONDITION_CODE };
 
@@ -368,7 +368,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * 
      * @return none
      */
-    private void deleteLockErrorMessages() {
+    protected void deleteLockErrorMessages() {
         // Finding locking error messages
         List<ErrorMessage> el = new ArrayList<ErrorMessage>();
 
@@ -389,23 +389,23 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         }
     }
 
-    private ParameterService getParameterService() {
+    protected ParameterService getParameterService() {
         return SpringContext.getBean(ParameterService.class);
     }
 
-    private AssetService getAssetService() {
+    protected AssetService getAssetService() {
         return SpringContext.getBean(AssetService.class);
     }
 
-    private DateTimeService getDateTimeService() {
+    protected DateTimeService getDateTimeService() {
         return SpringContext.getBean(DateTimeService.class);
     }
 
-    private BusinessObjectService getBusinessObjectService() {
+    protected BusinessObjectService getBusinessObjectService() {
         return SpringContext.getBean(BusinessObjectService.class);
     }
 
-    private AssetBarcodeInventoryLoadService getAssetBarcodeInventoryLoadService() {
+    protected AssetBarcodeInventoryLoadService getAssetBarcodeInventoryLoadService() {
         return SpringContext.getBean(AssetBarcodeInventoryLoadService.class);
     }
 }

@@ -32,8 +32,8 @@ public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionRule.class);
 
-    OrganizationReversion oldOrgReversion;
-    OrganizationReversion newOrgReversion;
+    protected OrganizationReversion oldOrgReversion;
+    protected OrganizationReversion newOrgReversion;
 
     /**
      * No-Args Constructor for an OrganizationReversionRule.
@@ -75,7 +75,7 @@ public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
      * @param orgReversion
      * @return false if any of the detail objects fail with their validation
      */
-    private boolean validateDetailBusinessObjects(OrganizationReversion orgReversion) {
+    protected boolean validateDetailBusinessObjects(OrganizationReversion orgReversion) {
         GlobalVariables.getMessageMap().addToErrorPath("document.newMaintainableObject");
         List<OrganizationReversionDetail> details = orgReversion.getOrganizationReversionDetail();
         int index = 0;

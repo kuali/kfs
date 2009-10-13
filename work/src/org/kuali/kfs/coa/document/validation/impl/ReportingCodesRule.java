@@ -31,10 +31,10 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class ReportingCodesRule extends MaintenanceDocumentRuleBase {
 
-    private ReportingCode oldReportingCode;
-    private ReportingCode newReportingCode;
+    protected ReportingCode oldReportingCode;
+    protected ReportingCode newReportingCode;
 
-    private BusinessObjectService businessObjectService;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * 
@@ -83,7 +83,7 @@ public class ReportingCodesRule extends MaintenanceDocumentRuleBase {
      * 
      * @param document
      */
-    private void setupConvenienceObjects(MaintenanceDocument document) {
+    protected void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup oldAccount convenience objects, make sure all possible sub-objects are populated
         oldReportingCode = (ReportingCode) super.getOldBo();
@@ -99,7 +99,7 @@ public class ReportingCodesRule extends MaintenanceDocumentRuleBase {
      * in the system.
      * @return true if the reports to reporting code is filled and exists or true if it isn't filled in (doesn't need to be), false otherwise
      */
-    private boolean checkReportsToReportingCode() {
+    protected boolean checkReportsToReportingCode() {
         boolean success = true;
         boolean oneMissing = false;
         boolean bothMissing = false;
@@ -138,7 +138,7 @@ public class ReportingCodesRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
-    private void setBusinessObjectService(BusinessObjectService boService) {
+    protected void setBusinessObjectService(BusinessObjectService boService) {
         businessObjectService = boService;
     }
 

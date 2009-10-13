@@ -37,11 +37,11 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
 public class ThresholdRule extends MaintenanceDocumentRuleBase {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ThresholdRule.class);
-    private ChartService chartService;
-    private AccountService accountService;
-    private ReceivingThreshold newThreshold;
-    private ReceivingThreshold oldThreshold;
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ThresholdRule.class);
+    protected ChartService chartService;
+    protected AccountService accountService;
+    protected ReceivingThreshold newThreshold;
+    protected ReceivingThreshold oldThreshold;
     
     public ThresholdRule(){
         chartService = SpringContext.getBean(ChartService.class);
@@ -70,7 +70,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
         return  true;
     }
     
-    private boolean isValidDocument(ReceivingThreshold newThreshold, boolean checkDuplicate){
+    protected boolean isValidDocument(ReceivingThreshold newThreshold, boolean checkDuplicate){
         
         boolean valid = isValidThresholdCriteria(newThreshold);
         if (!valid){
@@ -94,7 +94,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
     
-    private void constructFieldError(ReceivingThreshold threshold){
+    protected void constructFieldError(ReceivingThreshold threshold){
         
         if (StringUtils.isNotBlank(threshold.getAccountTypeCode())){
             putFieldError(ThresholdField.ACCOUNT_TYPE_CODE.getName(), PurapKeyConstants.INVALID_THRESHOLD_CRITERIA);
@@ -117,7 +117,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
         
     }
     
-    private boolean isValidChartCode(ReceivingThreshold threshold){
+    protected boolean isValidChartCode(ReceivingThreshold threshold){
         if (StringUtils.isNotBlank(threshold.getChartOfAccountsCode())){
             Map pkMap = new HashMap();
             pkMap.put(ThresholdField.CHART_OF_ACCOUNTS_CODE.getName(), newThreshold.getChartOfAccountsCode());
@@ -133,7 +133,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
         return false;
     }
     
-    private boolean isValidSubFund(ReceivingThreshold threshold){
+    protected boolean isValidSubFund(ReceivingThreshold threshold){
     
         if (StringUtils.isNotBlank(threshold.getSubFundGroupCode())){
             Map pkMap = new HashMap();
@@ -147,7 +147,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
         return true;
     }
     
-    private boolean isValidCommodityCode(ReceivingThreshold threshold){
+    protected boolean isValidCommodityCode(ReceivingThreshold threshold){
         
         if (StringUtils.isNotBlank(threshold.getPurchasingCommodityCode())){
             Map pkMap = new HashMap();
@@ -162,7 +162,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
         return true;
     }
 
-    private boolean isValidObjectCode(ReceivingThreshold threshold){
+    protected boolean isValidObjectCode(ReceivingThreshold threshold){
         
         if (StringUtils.isNotBlank(threshold.getFinancialObjectCode())){
             Map pkMap = new HashMap();
@@ -177,7 +177,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
         return true;
     }
     
-    private boolean isValidOrgCode(ReceivingThreshold threshold){
+    protected boolean isValidOrgCode(ReceivingThreshold threshold){
         
         if (StringUtils.isNotBlank(threshold.getOrganizationCode())){
             Map pkMap = new HashMap();
@@ -192,7 +192,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
         return true;
     }
     
-    private boolean isValidVendorNumber(ReceivingThreshold threshold){
+    protected boolean isValidVendorNumber(ReceivingThreshold threshold){
         
         if (StringUtils.isNotBlank(threshold.getVendorNumber())){
             Map keys = new HashMap();
@@ -208,7 +208,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
         return true;
     }
     
-    private boolean isValidThresholdCriteria(ReceivingThreshold threshold){
+    protected boolean isValidThresholdCriteria(ReceivingThreshold threshold){
         
         if (StringUtils.isBlank(threshold.getAccountTypeCode()) &&
             StringUtils.isBlank(threshold.getSubFundGroupCode()) &&
@@ -263,7 +263,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
         return false;
     }
     
-    private boolean isDuplicateEntry(ReceivingThreshold newThreshold){
+    protected boolean isDuplicateEntry(ReceivingThreshold newThreshold){
         
         Map fieldValues = new HashMap();
         fieldValues.put(ThresholdField.CHART_OF_ACCOUNTS_CODE.getName(), newThreshold.getChartOfAccountsCode());

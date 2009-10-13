@@ -65,7 +65,7 @@ public class ObjectLevelRule extends MaintenanceDocumentRuleBase {
      * @param document
      * @return false if Object Level Code already exists
      */
-    private boolean checkObjConsCode() {
+    protected boolean checkObjConsCode() {
         boolean success = true;
         ObjectLevel objLevel = (ObjectLevel) super.getNewBo();
         String chartOfAccountsCode = objLevel.getChartOfAccountsCode();

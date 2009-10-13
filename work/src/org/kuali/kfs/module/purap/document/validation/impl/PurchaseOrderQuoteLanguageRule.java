@@ -30,9 +30,9 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 */
 public class PurchaseOrderQuoteLanguageRule extends MaintenanceDocumentRuleBase {
 
-    private PurchaseOrderQuoteLanguage oldQuoteLanguage;
-    private PurchaseOrderQuoteLanguage newQuoteLanguage;
-    private BusinessObjectService boService;
+    protected PurchaseOrderQuoteLanguage oldQuoteLanguage;
+    protected PurchaseOrderQuoteLanguage newQuoteLanguage;
+    protected BusinessObjectService boService;
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()

@@ -55,7 +55,7 @@ public class SensitiveDataRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
-    private boolean validateInactivationBlocking() {
+    protected boolean validateInactivationBlocking() {
         SensitiveData oldSensitiveData = (SensitiveData)getOldBo();
         SensitiveData newSensitiveData = (SensitiveData)getNewBo();
         if (oldSensitiveData.isActive() && !newSensitiveData.isActive()) {
@@ -68,7 +68,7 @@ public class SensitiveDataRule extends MaintenanceDocumentRuleBase {
         return true;
     }
     
-    private boolean hasABlockingRecord(String sensitiveDataCode) {
+    protected boolean hasABlockingRecord(String sensitiveDataCode) {
         Map<String, Object> queryMap = new HashMap<String, Object>();
         queryMap.put("sensitiveDataCode", sensitiveDataCode);
 

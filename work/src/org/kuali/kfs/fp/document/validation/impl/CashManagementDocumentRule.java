@@ -102,7 +102,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
      * 
      * @param cmd submitted cash management document
      */
-    private void verifyUserIsDocumentInitiator(CashManagementDocument cmd) {
+    protected void verifyUserIsDocumentInitiator(CashManagementDocument cmd) {
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         if (cmd.getDocumentHeader() != null && cmd.getDocumentHeader().getWorkflowDocument() != null) {
             String cmdInitiatorNetworkId = cmd.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
@@ -118,7 +118,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
      * 
      * @param cmd submitted cash management document
      */
-    private void verifyCashDrawerForVerificationUnitIsOpenForPostInitiationSaves(CashManagementDocument cmd) {
+    protected void verifyCashDrawerForVerificationUnitIsOpenForPostInitiationSaves(CashManagementDocument cmd) {
         if (cmd.getDocumentHeader() != null && cmd.getDocumentHeader().getWorkflowDocument() != null && cmd.getDocumentHeader().getWorkflowDocument().getRouteHeader() != null) {
             if (cmd.getDocumentHeader().getWorkflowDocument().stateIsSaved()) {
                 // now verify that the associated cash drawer is in the appropriate state
@@ -148,7 +148,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
      * @param cmd submitted cash management document
      * @return true if all deposits in a cash management are valid
      */
-    private boolean validateDeposits(CashManagementDocument cmd) {
+    protected boolean validateDeposits(CashManagementDocument cmd) {
         boolean isValid = true;
         boolean isInitiated = cmd.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
 
@@ -176,7 +176,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
      * @param documentIsInitiated if document is initiated
      * @return true if deposit is valid
      */
-    private boolean validateDeposit(Deposit deposit, boolean documentIsInitiated) {
+    protected boolean validateDeposit(Deposit deposit, boolean documentIsInitiated) {
         boolean isValid = true;
 
         verifyCashReceipts(deposit, documentIsInitiated);
@@ -199,7 +199,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
      * @param deposit deposit from cash management document
      * @param documentIsInitiated if document is initiated
      */
-    private void verifyCashReceipts(Deposit deposit, boolean documentIsInitiated) {
+    protected void verifyCashReceipts(Deposit deposit, boolean documentIsInitiated) {
         List desiredCRStates = null;
         if (documentIsInitiated) {
             desiredCRStates = INITIATED_STATES;
@@ -224,7 +224,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
      * @param cmDoc the cash management document that is about to be routed
      * @return true if there are no outstanding verified cash receipts that are not part of a deposit, false if otherwise
      */
-    private boolean verifyAllVerifiedCashReceiptsDeposited(CashManagementDocument cmDoc) {
+    protected boolean verifyAllVerifiedCashReceiptsDeposited(CashManagementDocument cmDoc) {
         boolean allCRsDeposited = true;
         CashManagementService cms = SpringContext.getBean(CashManagementService.class);
         List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(cmDoc.getCampusCode(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
@@ -243,7 +243,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
      * @param deposit deposit from cash management document
      * @return true if deposit is validated against data dictionary entry
      */
-    private boolean performDataDictionaryValidation(Deposit deposit) {
+    protected boolean performDataDictionaryValidation(Deposit deposit) {
         // check for required fields
         SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(deposit);
 
@@ -795,7 +795,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
      * @param trans
      * @return KualiDecimal as total from cash drawer reserves
      */
-    private KualiDecimal calculateTotalCashDrawerReserves(CashDrawer cashDrawer, CashieringTransaction trans) {
+    protected KualiDecimal calculateTotalCashDrawerReserves(CashDrawer cashDrawer, CashieringTransaction trans) {
         KualiDecimal reserves = new KualiDecimal(cashDrawer.getTotalAmount().bigDecimalValue());
         reserves = reserves.add(trans.getMoneyInCurrency().getTotalAmount());
         reserves = reserves.add(trans.getMoneyInCoin().getTotalAmount());
@@ -808,7 +808,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
      * @param d date
      * @return int as day of year
      */
-    private int convertDateToDayYear(Date d) {
+    protected int convertDateToDayYear(Date d) {
         Calendar cal = new GregorianCalendar();
         cal.setTime(d);
         return cal.get(Calendar.YEAR) * 366 + cal.get(Calendar.DAY_OF_YEAR);

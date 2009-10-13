@@ -49,7 +49,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetLocationGlobalRule.class);
-    private AssetService assetService = SpringContext.getBean(AssetService.class);
+    protected AssetService assetService = SpringContext.getBean(AssetService.class);
 
     /**
      * Constructs an AssetLocationGlobalRule
@@ -118,7 +118,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
      * @param assetLocationGlobal
      * @return
      */
-    private List<Long> retrieveAssetNumberForLocking(AssetLocationGlobal assetLocationGlobal) {
+    protected List<Long> retrieveAssetNumberForLocking(AssetLocationGlobal assetLocationGlobal) {
         List<Long> capitalAssetNumbers = new ArrayList<Long>();
         for (AssetLocationGlobalDetail locationDetail : assetLocationGlobal.getAssetLocationGlobalDetails()) {
             if (locationDetail.getCapitalAssetNumber() != null) {

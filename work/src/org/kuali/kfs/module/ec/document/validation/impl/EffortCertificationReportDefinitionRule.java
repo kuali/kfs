@@ -36,7 +36,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * Contains Business Rules for the Effort Certification Report Maintenance Document.
  */
 public class EffortCertificationReportDefinitionRule extends MaintenanceDocumentRuleBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationReportDefinitionRule.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationReportDefinitionRule.class);
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
@@ -88,7 +88,7 @@ public class EffortCertificationReportDefinitionRule extends MaintenanceDocument
     }
 
     // determine whether the given report position object group exists
-    private boolean reportPositionObjectGroupExists(String errorKey, EffortCertificationReportPosition reportPosition) {
+    protected boolean reportPositionObjectGroupExists(String errorKey, EffortCertificationReportPosition reportPosition) {
         String positionObjectGroupCode = reportPosition.getEffortCertificationReportPositionObjectGroupCode();
         
         if(StringUtils.isNotBlank(positionObjectGroupCode) && ObjectUtils.isNull(reportPosition.getPositionObjectGroup())) {

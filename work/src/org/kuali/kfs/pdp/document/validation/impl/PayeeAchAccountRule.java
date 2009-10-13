@@ -35,8 +35,8 @@ import org.kuali.rice.kns.util.KualiInteger;
 public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PayeeACHAccount.class);
 
-    private PayeeACHAccount oldPayeeAchAccount;
-    private PayeeACHAccount newPayeeAchAccount;
+    protected PayeeACHAccount oldPayeeAchAccount;
+    protected PayeeACHAccount newPayeeAchAccount;
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()

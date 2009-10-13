@@ -72,11 +72,11 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         LOCATION_FIELD_MAP.put(LocationField.CONTACT_NAME, CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_CONTACT_NAME);
     }
 
-    private UniversityDateService universityDateService;
-    private AssetPaymentService assetPaymentService;
-    private AssetService assetService;
-    private ObjectCodeService objectCodeService;
-    private AssetLockService assetLockService;
+    protected UniversityDateService universityDateService;
+    protected AssetPaymentService assetPaymentService;
+    protected AssetService assetService;
+    protected ObjectCodeService objectCodeService;
+    protected AssetLockService assetLockService;
 
     /**
      * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
@@ -112,7 +112,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         return assetNumbers;
     }
 
-    private boolean validateAssetObjectCodeDefn(AssetTransferDocument assetTransferDocument, Asset asset) {
+    protected boolean validateAssetObjectCodeDefn(AssetTransferDocument assetTransferDocument, Asset asset) {
 
         if (StringUtils.isNotBlank(assetTransferDocument.getOrganizationOwnerChartOfAccountsCode()) && StringUtils.isNotBlank(assetTransferDocument.getOrganizationOwnerAccountNumber())) {
             boolean valid = true;
@@ -148,7 +148,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
      * @param assetPayment
      * @return
      */
-    private boolean validateAssetObjectCode(AssetObjectCode assetObjectCode, String chartOfAccountsCode, String finObjectSubTypeCode) {
+    protected boolean validateAssetObjectCode(AssetObjectCode assetObjectCode, String chartOfAccountsCode, String finObjectSubTypeCode) {
         boolean valid = true;
         if (ObjectUtils.isNull(assetObjectCode)) {
             putError(CamsConstants.DOCUMENT_NUMBER_PATH, CamsKeyConstants.GLPosting.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, new String[] { chartOfAccountsCode, finObjectSubTypeCode });
@@ -169,7 +169,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
      * @param assetPayment
      * @return
      */
-    private boolean validateFinancialObjectCodes(Asset asset, AssetPayment assetPayment, AssetObjectCode assetObjectCode) {
+    protected boolean validateFinancialObjectCodes(Asset asset, AssetPayment assetPayment, AssetObjectCode assetObjectCode) {
         AssetPaymentService assetPaymentService = getAssetPaymentService();
         boolean valid = true;
 
@@ -199,7 +199,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
      * @param finObject
      * @return
      */
-    private boolean validateFinObjectCodeForGLPosting(String chartOfAccountsCode, String finObjectCode, ObjectCode finObject, String glPostingType) {
+    protected boolean validateFinObjectCodeForGLPosting(String chartOfAccountsCode, String finObjectCode, ObjectCode finObject, String glPostingType) {
         boolean valid = true;
         // not defined in Asset Object Code table
         if (StringUtils.isBlank(finObjectCode)) {

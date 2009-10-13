@@ -31,10 +31,10 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class SystemInformationRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(SystemInformationRule.class);
     
-    private ObjectTypeService objectTypeService;
-    private AccountService accountService;
-    private SystemInformation newSystemInformation;
-    private SystemInformation oldSystemInformation;
+    protected ObjectTypeService objectTypeService;
+    protected AccountService accountService;
+    protected SystemInformation newSystemInformation;
+    protected SystemInformation oldSystemInformation;
 
     public SystemInformationRule() {
         super();

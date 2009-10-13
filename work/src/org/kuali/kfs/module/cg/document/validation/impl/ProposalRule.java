@@ -33,7 +33,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class ProposalRule extends CGMaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(ProposalRule.class);
 
-    private Proposal newProposalCopy;
+    protected Proposal newProposalCopy;
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument documentCopy) {
@@ -79,7 +79,7 @@ public class ProposalRule extends CGMaintenanceDocumentRuleBase {
      * @param addLine New business object values being added.
      * @return True is the value being added passed all applicable validation rules.
      */
-    private boolean validateAddSubcontractor(PersistableBusinessObject addLine) {
+    protected boolean validateAddSubcontractor(PersistableBusinessObject addLine) {
         boolean success = true;
         if (addLine.getClass().isAssignableFrom(ProposalSubcontractor.class)) {
             ProposalSubcontractor subc = (ProposalSubcontractor) addLine;

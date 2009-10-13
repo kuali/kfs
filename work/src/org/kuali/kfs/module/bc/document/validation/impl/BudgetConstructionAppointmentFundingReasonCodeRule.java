@@ -29,10 +29,10 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 public class BudgetConstructionAppointmentFundingReasonCodeRule extends MaintenanceDocumentRuleBase {
     protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionAppointmentFundingReasonCodeRule.class);
 
-    BudgetConstructionAppointmentFundingReasonCode oldBudgetConstructionAppointmentFundingReasonCode;
-    BudgetConstructionAppointmentFundingReasonCode newBudgetConstructionAppointmentFundingReasonCode;
+    protected BudgetConstructionAppointmentFundingReasonCode oldBudgetConstructionAppointmentFundingReasonCode;
+    protected BudgetConstructionAppointmentFundingReasonCode newBudgetConstructionAppointmentFundingReasonCode;
 
-    private SalarySettingService salarySettingService;
+    protected SalarySettingService salarySettingService;
 
     public BudgetConstructionAppointmentFundingReasonCodeRule() {
         

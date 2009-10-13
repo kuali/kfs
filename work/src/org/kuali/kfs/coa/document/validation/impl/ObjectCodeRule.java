@@ -49,13 +49,13 @@ import org.kuali.rice.kns.util.GlobalVariables;
  */
 public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 
-    private static ObjectLevelService objectLevelService;
-    private static ObjectCodeService objectCodeService;
-    private static ObjectConsService objectConsService;
+    protected static ObjectLevelService objectLevelService;
+    protected static ObjectCodeService objectCodeService;
+    protected static ObjectConsService objectConsService;
 
-    private static KualiConfigurationService configService;
-    private static ChartService chartService;
-    private Map reportsTo;
+    protected static KualiConfigurationService configService;
+    protected static ChartService chartService;
+    protected Map reportsTo;
 
     /**
      * 
@@ -139,7 +139,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
      * @param objectCode
      * @return
      */
-    private boolean processObjectCodeRules(ObjectCode objectCode) {
+    protected boolean processObjectCodeRules(ObjectCode objectCode) {
 
         boolean result = true;
 

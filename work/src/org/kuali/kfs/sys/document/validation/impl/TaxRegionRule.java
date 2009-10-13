@@ -46,7 +46,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
 
-    private BusinessObjectService businessObjectService;
+    protected BusinessObjectService businessObjectService;
 
     public TaxRegionRule() {
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);

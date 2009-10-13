@@ -56,9 +56,9 @@ import org.kuali.rice.kns.util.UrlFactory;
  * This class represents the business rules for the maintenance of {@link ObjectCodeGlobal} business objects
  */
 public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
-    private ObjectCodeGlobal objectCodeGlobal;
-    private ObjectCodeService objectCodeService;
-    private ObjectLevelService objectLevelService;
+    protected ObjectCodeGlobal objectCodeGlobal;
+    protected ObjectCodeService objectCodeService;
+    protected ObjectLevelService objectLevelService;
 
     public ObjectCodeGlobalRule() {
         super();
@@ -340,7 +340,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
      * @param dtl
      * @return true (not currently implemented fully)
      */
-    private boolean checkUniqueIdentifiers(ObjectCodeGlobalDetail dtl) {
+    protected boolean checkUniqueIdentifiers(ObjectCodeGlobalDetail dtl) {
         boolean success = true;
         return success;
 
@@ -378,7 +378,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
      * @param dtl
      * @return true if the reports to object is valid for the given reports to chart
      */
-    private boolean checkReportsToObjectCode(ObjectCodeGlobal objectCodeGlobal, ObjectCodeGlobalDetail dtl, int lineNum, boolean add) {
+    protected boolean checkReportsToObjectCode(ObjectCodeGlobal objectCodeGlobal, ObjectCodeGlobalDetail dtl, int lineNum, boolean add) {
         boolean success = true;
         String errorPath = KFSConstants.EMPTY_STRING;
         if (checkEmptyValue(objectCodeGlobal.getReportsToFinancialObjectCode())) {
@@ -420,7 +420,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
      * @param dtl
      * @return false if this object code doesn't exist in the next fiscal year
      */
-    private boolean checkNextYearObjectCode(ObjectCodeGlobal objectCodeGlobal, ObjectCodeGlobalDetail dtl, int lineNum, boolean add) {
+    protected boolean checkNextYearObjectCode(ObjectCodeGlobal objectCodeGlobal, ObjectCodeGlobalDetail dtl, int lineNum, boolean add) {
         boolean success = true;
         String errorPath = KFSConstants.EMPTY_STRING;
         // first check to see if the Next Year object code was filled in
@@ -452,7 +452,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
      * @param dtl
      * @return false if object level doesn't exist for the chart, and level code filled in
      */
-    private boolean checkObjectLevelCode(ObjectCodeGlobal objectCodeGlobal, ObjectCodeGlobalDetail dtl, int lineNum, boolean add) {
+    protected boolean checkObjectLevelCode(ObjectCodeGlobal objectCodeGlobal, ObjectCodeGlobalDetail dtl, int lineNum, boolean add) {
         boolean success = true;
         String errorPath = KFSConstants.EMPTY_STRING;
         // first check to see if the level code is filled in
@@ -582,7 +582,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
      * @param objectCodeGlobalDocument2
      * @return true if all lines pass
      */
-    private boolean checkReportsToObjectCodeAllLines(ObjectCodeGlobal objectCodeGlobalDocument2) {
+    protected boolean checkReportsToObjectCodeAllLines(ObjectCodeGlobal objectCodeGlobalDocument2) {
         boolean success = true;
         int i = 0;
         for (ObjectCodeGlobalDetail objectCodeGlobalDetail : objectCodeGlobal.getObjectCodeGlobalDetails()) {
@@ -604,7 +604,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
      * @param objectCodeGlobalDocument2
      * @return true if all lines pass
      */
-    private boolean checkNextYearObjectCodeAllLines(ObjectCodeGlobal objectCodeGlobalDocument2) {
+    protected boolean checkNextYearObjectCodeAllLines(ObjectCodeGlobal objectCodeGlobalDocument2) {
         boolean success = true;
         int i = 0;
         for (ObjectCodeGlobalDetail objectCodeGlobalDetail : objectCodeGlobal.getObjectCodeGlobalDetails()) {
@@ -626,7 +626,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
      * @param objectCodeGlobalDocument2
      * @return true if all lines pass
      */
-    private boolean checkObjectLevelCodeAllLines(ObjectCodeGlobal objectCodeGlobalDocument2) {
+    protected boolean checkObjectLevelCodeAllLines(ObjectCodeGlobal objectCodeGlobalDocument2) {
         boolean success = true;
         int i = 0;
         for (ObjectCodeGlobalDetail objectCodeGlobalDetail : objectCodeGlobal.getObjectCodeGlobalDetails()) {
@@ -700,13 +700,13 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
 
-    private void setObjectCodeService(ObjectCodeService objectCodeService) {
+    protected void setObjectCodeService(ObjectCodeService objectCodeService) {
         this.objectCodeService = objectCodeService;
 
     }
 
 
-    private void setObjectLevelService(ObjectLevelService objectLevelService) {
+    protected void setObjectLevelService(ObjectLevelService objectLevelService) {
         this.objectLevelService = objectLevelService;
 
     }

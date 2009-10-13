@@ -60,7 +60,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRetirementGlobalRule.class);
 
-    private PersistableBusinessObject bo;
+    protected PersistableBusinessObject bo;
 
 
     /**
@@ -126,7 +126,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
-    private List<Long> retrieveAssetNumbersForLocking(AssetRetirementGlobal assetRetirementGlobal) {
+    protected List<Long> retrieveAssetNumbersForLocking(AssetRetirementGlobal assetRetirementGlobal) {
         List<Long> capitalAssetNumbers = new ArrayList<Long>();
         if (getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal) && assetRetirementGlobal.getMergedTargetCapitalAssetNumber() != null) {
             capitalAssetNumbers.add(assetRetirementGlobal.getMergedTargetCapitalAssetNumber());
@@ -153,13 +153,13 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
-    private boolean setAssetLocks(MaintenanceDocument document) {
+    protected boolean setAssetLocks(MaintenanceDocument document) {
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getNewMaintainableObject().getBusinessObject();
         // get asset locks
         return this.getCapitalAssetManagementModuleService().storeAssetLocks(retrieveAssetNumbersForLocking(assetRetirementGlobal), document.getDocumentNumber(), DocumentTypeName.ASSET_RETIREMENT_GLOBAL, null);
     }
 
-    private CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+    protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
         return SpringContext.getBean(CapitalAssetManagementModuleService.class);
     }
 
@@ -170,7 +170,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * @param assetRetirementGlobal
      * @return
      */
-    private boolean allPaymentsFederalOwned(AssetRetirementGlobal assetRetirementGlobal) {
+    protected boolean allPaymentsFederalOwned(AssetRetirementGlobal assetRetirementGlobal) {
         List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
         for (AssetRetirementGlobalDetail assetRetirementGlobalDetail : assetRetirementGlobalDetails) {
             for (AssetPayment assetPayment : assetRetirementGlobalDetail.getAsset().getAssetPayments()) {
@@ -188,7 +188,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * @param assetRetirementGlobal
      * @return
      */
-    private boolean validateObjectCodesForGLPosting(AssetRetirementGlobal assetRetirementGlobal) {
+    protected boolean validateObjectCodesForGLPosting(AssetRetirementGlobal assetRetirementGlobal) {
         boolean valid = true;
         List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
         Asset asset = null;
@@ -217,7 +217,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * @param assetPayment
      * @return
      */
-    private boolean validateFinancialObjectCodes(Asset asset, AssetPayment assetPayment) {
+    protected boolean validateFinancialObjectCodes(Asset asset, AssetPayment assetPayment) {
         AssetPaymentService assetPaymentService = getAssetPaymentService();
         boolean valid = true;
         AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
@@ -246,7 +246,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * @param finObject
      * @return
      */
-    private boolean validateFinObjectCodeForGLPosting(String chartOfAccountsCode, String finObjectCode, ObjectCode finObject, String glPostingType) {
+    protected boolean validateFinObjectCodeForGLPosting(String chartOfAccountsCode, String finObjectCode, ObjectCode finObject, String glPostingType) {
         boolean valid = true;
         // not defined in Asset Object Code table
         if (StringUtils.isBlank(finObjectCode)) {
@@ -273,7 +273,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * @param assetPayment
      * @return
      */
-    private boolean validateAssetObjectCode(Asset asset, AssetPayment assetPayment) {
+    protected boolean validateAssetObjectCode(Asset asset, AssetPayment assetPayment) {
         boolean valid = true;
 
         AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
@@ -337,7 +337,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * @param maintenanceDocument
      * @return
      */
-    private boolean checkRetireMultipleAssets(String retirementReasonCode, List<AssetRetirementGlobalDetail> assetRetirementDetails, Integer maxNumber, MaintenanceDocument maintenanceDocument) {
+    protected boolean checkRetireMultipleAssets(String retirementReasonCode, List<AssetRetirementGlobalDetail> assetRetirementDetails, Integer maxNumber, MaintenanceDocument maintenanceDocument) {
         boolean success = true;
 
         if (assetRetirementDetails.size() > maxNumber && !getAssetRetirementService().isAllowedRetireMultipleAssets(maintenanceDocument)) {
@@ -355,7 +355,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * @param maintenanceDocument
      * @return
      */
-    private boolean validateRetirementDetails(AssetRetirementGlobal assetRetirementGlobal, MaintenanceDocument maintenanceDocument) {
+    protected boolean validateRetirementDetails(AssetRetirementGlobal assetRetirementGlobal, MaintenanceDocument maintenanceDocument) {
         boolean success = true;
 
         List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails = assetRetirementGlobal.getAssetRetirementGlobalDetails();
@@ -388,7 +388,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * @param maintenanceDocument
      * @return
      */
-    private boolean checkRetirementDetailOneLine(AssetRetirementGlobalDetail assetRetirementGlobalDetail, AssetRetirementGlobal assetRetirementGlobal, MaintenanceDocument maintenanceDocument) {
+    protected boolean checkRetirementDetailOneLine(AssetRetirementGlobalDetail assetRetirementGlobalDetail, AssetRetirementGlobal assetRetirementGlobal, MaintenanceDocument maintenanceDocument) {
         boolean success = true;
 
         assetRetirementGlobalDetail.refreshReferenceObject(CamsPropertyConstants.AssetRetirementGlobalDetail.ASSET);
@@ -421,7 +421,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * @param sourceAssetNumber
      * @return
      */
-    private boolean validateDuplicateAssetNumber(Long targetAssetNumber, Long sourceAssetNumber) {
+    protected boolean validateDuplicateAssetNumber(Long targetAssetNumber, Long sourceAssetNumber) {
         boolean success = true;
 
         if (getAssetService().isCapitalAssetNumberDuplicate(targetAssetNumber, sourceAssetNumber)) {
@@ -439,7 +439,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * @param maintenanceDocument
      * @return
      */
-    private boolean validateNonMoveableAsset(Asset asset, MaintenanceDocument maintenanceDocument) {
+    protected boolean validateNonMoveableAsset(Asset asset, MaintenanceDocument maintenanceDocument) {
         boolean success = true;
 
         FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(maintenanceDocument);
@@ -483,7 +483,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * @param assetRetirementGlobal
      * @return
      */
-    private boolean validateMergeTargetAsset(AssetRetirementGlobal assetRetirementGlobal) {
+    protected boolean validateMergeTargetAsset(AssetRetirementGlobal assetRetirementGlobal) {
         boolean valid = true;
         Asset targetAsset = assetRetirementGlobal.getMergedTargetCapitalAsset();
         Long targetAssetNumber = assetRetirementGlobal.getMergedTargetCapitalAssetNumber();
@@ -526,7 +526,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * @param detail
      * @return
      */
-    private boolean validateActiveCapitalAsset(Asset asset) {
+    protected boolean validateActiveCapitalAsset(Asset asset) {
         boolean valid = true;
 
         if (!getAssetService().isCapitalAsset(asset)) {
@@ -551,7 +551,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * @param assetRetirementGlobal
      * @return
      */
-    private boolean validateRequiredGlobalFields(AssetRetirementGlobal assetRetirementGlobal) {
+    protected boolean validateRequiredGlobalFields(AssetRetirementGlobal assetRetirementGlobal) {
         boolean valid = true;
 
         if (getAssetRetirementService().isAssetRetiredBySold(assetRetirementGlobal)) {
@@ -585,7 +585,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * @param sharedRetirementInfo
      * @return boolean
      */
-    private boolean validateCashReceiptFinancialDocumentNumber(String documentNumber) {
+    protected boolean validateCashReceiptFinancialDocumentNumber(String documentNumber) {
         boolean valid = true;
         if (StringUtils.isNotBlank(documentNumber)) {
             Map retirementInfoMap = new HashMap();
@@ -606,7 +606,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
      * @param assetRetirementGlobalDetail
      * @return boolean
      */
-    private boolean validateAssetOnLoan(Asset asset) {
+    protected boolean validateAssetOnLoan(Asset asset) {
         boolean success = true;
         if (this.getAssetService().isAssetLoaned(asset)) {
             GlobalVariables.getMessageMap().putErrorForSectionId(CamsConstants.AssetRetirementGlobal.SECTION_ID_ASSET_DETAIL_INFORMATION, CamsKeyConstants.Retirement.ERROR_LOANED_ASSET_CANNOT_RETIRED);
@@ -616,19 +616,19 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
 
-    private AssetService getAssetService() {
+    protected AssetService getAssetService() {
         return SpringContext.getBean(AssetService.class);
     }
 
-    private AssetRetirementService getAssetRetirementService() {
+    protected AssetRetirementService getAssetRetirementService() {
         return SpringContext.getBean(AssetRetirementService.class);
     }
 
-    private AssetPaymentService getAssetPaymentService() {
+    protected AssetPaymentService getAssetPaymentService() {
         return SpringContext.getBean(AssetPaymentService.class);
     }
 
-    private AssetObjectCodeService getAssetObjectCodeService() {
+    protected AssetObjectCodeService getAssetObjectCodeService() {
         return SpringContext.getBean(AssetObjectCodeService.class);
     }
 }

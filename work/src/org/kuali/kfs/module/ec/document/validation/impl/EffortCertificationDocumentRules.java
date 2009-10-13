@@ -53,15 +53,15 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * To define the rules that may be applied to the effort certification document, a transactional document
  */
 public class EffortCertificationDocumentRules extends TransactionalDocumentRuleBase implements AddDetailLineRule<EffortCertificationDocument, EffortCertificationDetail>, UpdateDetailLineRule<EffortCertificationDocument, EffortCertificationDetail>, CheckDetailLineAmountRule<EffortCertificationDocument, EffortCertificationDetail>, LoadDetailLineRule<EffortCertificationDocument> {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentRules.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentRules.class);
 
-    private EffortCertificationDocumentService effortCertificationDocumentService = SpringContext.getBean(EffortCertificationDocumentService.class);
-    private EffortCertificationReportDefinitionService effortCertificationReportDefinitionService = SpringContext.getBean(EffortCertificationReportDefinitionService.class);
-    private EffortCertificationExtractService effortCertificationExtractService = SpringContext.getBean(EffortCertificationExtractService.class);
+    protected EffortCertificationDocumentService effortCertificationDocumentService = SpringContext.getBean(EffortCertificationDocumentService.class);
+    protected EffortCertificationReportDefinitionService effortCertificationReportDefinitionService = SpringContext.getBean(EffortCertificationReportDefinitionService.class);
+    protected EffortCertificationExtractService effortCertificationExtractService = SpringContext.getBean(EffortCertificationExtractService.class);
 
-    private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-    private LaborModuleService laborModuleService = SpringContext.getBean(LaborModuleService.class);
-    private AccountingLineRuleHelperService accountingLineRuleHelperService = SpringContext.getBean(AccountingLineRuleHelperService.class);
+    protected BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+    protected LaborModuleService laborModuleService = SpringContext.getBean(LaborModuleService.class);
+    protected AccountingLineRuleHelperService accountingLineRuleHelperService = SpringContext.getBean(AccountingLineRuleHelperService.class);
 
     /**
      * @see org.kuali.kfs.module.ec.document.validation.AddDetailLineRule#processAddDetailLineRules(org.kuali.kfs.module.ec.document.EffortCertificationDocument,
@@ -289,7 +289,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      * @return true if the attributes in the detail line are valid for the defintions in data dictionary and have valid references;
      *         otherwise, false
      */
-    private boolean checkDetailLineAttributes(EffortCertificationDetail detailLine) {
+    protected boolean checkDetailLineAttributes(EffortCertificationDetail detailLine) {
         LOG.debug("checkDetailLine() start");
 
         DataDictionary dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
@@ -317,7 +317,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      * @param effortCertificationDocument the given document
      * @return true if the given document is in the state of initiation; otherwise, false
      */
-    private boolean bypassBusinessRuleIfInitiation(EffortCertificationDocument effortCertificationDocument) {
+    protected boolean bypassBusinessRuleIfInitiation(EffortCertificationDocument effortCertificationDocument) {
         return effortCertificationDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
     }
 
@@ -327,7 +327,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      * @param effortCertificationDocument the given document
      * @return true if the given document can be populated; otherwise, return false and the document is not changed
      */
-    private boolean populateEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument) {
+    protected boolean populateEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument) {
         String emplid = effortCertificationDocument.getEmplid();
         EffortCertificationReportDefinition reportDefinition = effortCertificationDocument.getEffortCertificationReportDefinition();
         EffortCertificationDocumentBuild documentBuild = effortCertificationExtractService.extract(emplid, reportDefinition);
@@ -348,7 +348,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     }
 
     // record the error into the global error map
-    private void reportError(String propertyName, String errorKey, String... errorParameters) {
+    protected void reportError(String propertyName, String errorKey, String... errorParameters) {
         GlobalVariables.getMessageMap().putError(propertyName, errorKey, errorParameters);
     }
 }

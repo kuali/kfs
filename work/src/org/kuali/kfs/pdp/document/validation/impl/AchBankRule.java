@@ -26,8 +26,8 @@ public class AchBankRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ACHBank.class);
 
-    private ACHBank oldAchBank;
-    private ACHBank newAchBank;
+    protected ACHBank oldAchBank;
+    protected ACHBank newAchBank;
 
     /**
      * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and

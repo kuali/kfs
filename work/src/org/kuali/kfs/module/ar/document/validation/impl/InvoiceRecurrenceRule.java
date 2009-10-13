@@ -44,10 +44,10 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(InvoiceRecurrenceRule.class);
-    private InvoiceRecurrence oldInvoiceRecurrence;
-    private InvoiceRecurrence newInvoiceRecurrence;
+    protected InvoiceRecurrence oldInvoiceRecurrence;
+    protected InvoiceRecurrence newInvoiceRecurrence;
     
-    private DateTimeService dateTimeService;
+    protected DateTimeService dateTimeService;
 
     @Override
     public void setupConvenienceObjects() {
@@ -91,7 +91,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
     /**
      * Check if an Invoice Recurrence Maintenance document already exists.
      */
-    private boolean checkIfRecurrenceMaintenanceAlreadyExists(InvoiceRecurrence newInvoiceRecurrence) {
+    protected boolean checkIfRecurrenceMaintenanceAlreadyExists(InvoiceRecurrence newInvoiceRecurrence) {
         boolean success = true;
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("invoiceNumber", newInvoiceRecurrence.getInvoiceNumber());
@@ -105,7 +105,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
     /**
      * Validate if the invoice has an approved status.
      */
-    private boolean checkIfInvoiceIsApproved(String recurrenceInvoiceNumber) {
+    protected boolean checkIfInvoiceIsApproved(String recurrenceInvoiceNumber) {
         boolean success = true;
         
         if (ObjectUtils.isNull(recurrenceInvoiceNumber)) {
@@ -135,7 +135,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
     /**
      * Validate Begin Date.
      */
-    private boolean validateDocumentRecurrenceBeginDate(InvoiceRecurrence newInvoiceRecurrence) {
+    protected boolean validateDocumentRecurrenceBeginDate(InvoiceRecurrence newInvoiceRecurrence) {
         boolean success = true;
         if (ObjectUtils.isNull(newInvoiceRecurrence.getDocumentRecurrenceBeginDate())) {
             return success;
@@ -165,7 +165,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
      * @param document the maintenance document
      * @return
      */
-    private boolean validateIfBothEndDateAndTotalRecurrenceNumberAreEntered(Date recurrenceBeginDate, Date recurrenceEndDate, Integer totalRecurrenceNumber, String recurrenceIntervalCode) {
+    protected boolean validateIfBothEndDateAndTotalRecurrenceNumberAreEntered(Date recurrenceBeginDate, Date recurrenceEndDate, Integer totalRecurrenceNumber, String recurrenceIntervalCode) {
 
         if (ObjectUtils.isNull(recurrenceBeginDate) || 
             ObjectUtils.isNull(recurrenceIntervalCode) ||
@@ -218,7 +218,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
     /**
      * Validate that either End Date or Total Number of Recurrences must be entered.
      */
-    private boolean validateEndDateOrTotalNumberofRecurrences(Date recurrenceEndDate, Integer totalRecurrenceNumber) {
+    protected boolean validateEndDateOrTotalNumberofRecurrences(Date recurrenceEndDate, Integer totalRecurrenceNumber) {
         boolean success = true;
         if (ObjectUtils.isNull(recurrenceEndDate) && ObjectUtils.isNull(totalRecurrenceNumber)) {
             putFieldError(ArPropertyConstants.InvoiceRecurrenceFields.INVOICE_RECURRENCE_END_DATE, ArKeyConstants.ERROR_END_DATE_OR_TOTAL_NUMBER_OF_RECURRENCES);
@@ -230,7 +230,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
     /**
      * Total number of recurrences may not be greater than the number defined in system parameter MAXIMUM_RECURRENCES_BY_INTERVAL.
      */ 
-    private boolean validateMaximumNumberOfRecurrences(Integer totalRecurrenceNumber, String recurrenceIntervalCode) {
+    protected boolean validateMaximumNumberOfRecurrences(Integer totalRecurrenceNumber, String recurrenceIntervalCode) {
 
         if (ObjectUtils.isNull(recurrenceIntervalCode) ||
             ObjectUtils.isNull(totalRecurrenceNumber)) {

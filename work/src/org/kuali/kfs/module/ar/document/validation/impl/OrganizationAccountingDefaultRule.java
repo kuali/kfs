@@ -34,9 +34,9 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationAccountingDefaultRule.class);
 
-    private ObjectTypeService objectTypeService;
-    private OrganizationAccountingDefault newOrganizationAccountingDefault;
-    private OrganizationAccountingDefault oldOrganizationAccountingDefault;
+    protected ObjectTypeService objectTypeService;
+    protected OrganizationAccountingDefault newOrganizationAccountingDefault;
+    protected OrganizationAccountingDefault oldOrganizationAccountingDefault;
 
     public OrganizationAccountingDefaultRule() {
 
@@ -85,7 +85,7 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
      * @param doc
      * @return
      */
-    private boolean doesWriteoffAccountNumberExist(OrganizationAccountingDefault organizationAccountingDefault) {
+    protected boolean doesWriteoffAccountNumberExist(OrganizationAccountingDefault organizationAccountingDefault) {
 
         if (StringUtils.isEmpty(organizationAccountingDefault.getWriteoffAccountNumber())) {
             putFieldError(ArPropertyConstants.OrganizationAccountingDefaultFields.WRITEOFF_ACCOUNT_NUMBER, ArKeyConstants.OrganizationAccountingDefaultErrors.ERROR_WRITEOFF_ACCOUNT_NUMBER_REQUIRED);
@@ -101,7 +101,7 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
      * @param doc
      * @return
      */
-    private boolean doesWriteoffChartOfAccountsCodeExist(OrganizationAccountingDefault organizationAccountingDefault) {
+    protected boolean doesWriteoffChartOfAccountsCodeExist(OrganizationAccountingDefault organizationAccountingDefault) {
 
         if (StringUtils.isEmpty(organizationAccountingDefault.getWriteoffChartOfAccountsCode())) {
             putFieldError(ArPropertyConstants.OrganizationAccountingDefaultFields.WRITEOFF_CHART_OF_ACCOUNTS_CODE, ArKeyConstants.OrganizationAccountingDefaultErrors.ERROR_WRITEOFF_CHART_OF_ACCOUNTS_CODE_REQUIRED);
@@ -117,7 +117,7 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
      * @param doc
      * @return
      */
-    private boolean doesWriteoffFinancialObjectCodeExist(OrganizationAccountingDefault organizationAccountingDefault) {
+    protected boolean doesWriteoffFinancialObjectCodeExist(OrganizationAccountingDefault organizationAccountingDefault) {
         if (StringUtils.isEmpty(organizationAccountingDefault.getWriteoffFinancialObjectCode())) {
             putFieldError(ArPropertyConstants.OrganizationAccountingDefaultFields.WRITEOFF_FINANCIAL_OBJECT_CODE, ArKeyConstants.OrganizationAccountingDefaultErrors.ERROR_WRITEOFF_OBJECT_CODE_REQUIRED);
             return false;
@@ -245,7 +245,7 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
      * @param doc
      * @return
      */
-    private boolean doesPaymentAccountNumberExist(OrganizationAccountingDefault organizationAccountingDefault) {
+    protected boolean doesPaymentAccountNumberExist(OrganizationAccountingDefault organizationAccountingDefault) {
 
         if (StringUtils.isEmpty(organizationAccountingDefault.getDefaultPaymentAccountNumber())) {
             putFieldError(ArPropertyConstants.OrganizationAccountingDefaultFields.PAYMENT_ACCOUNT_NUMBER, ArKeyConstants.OrganizationAccountingDefaultErrors.ERROR_PAYMENT_ACCOUNT_NUMBER_REQUIRED);
@@ -261,7 +261,7 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
      * @param doc
      * @return
      */
-    private boolean doesPaymentChartOfAccountsCodeExist(OrganizationAccountingDefault organizationAccountingDefault) {
+    protected boolean doesPaymentChartOfAccountsCodeExist(OrganizationAccountingDefault organizationAccountingDefault) {
 
         if (StringUtils.isEmpty(organizationAccountingDefault.getDefaultPaymentChartOfAccountsCode())) {
             putFieldError(ArPropertyConstants.OrganizationAccountingDefaultFields.PAYMENT_CHART_OF_ACCOUNTS_CODE, ArKeyConstants.OrganizationAccountingDefaultErrors.ERROR_PAYMENT_CHART_OF_ACCOUNTS_CODE_REQUIRED);
@@ -277,7 +277,7 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
      * @param doc
      * @return
      */
-    private boolean doesPaymentFinancialObjectCodeExist(OrganizationAccountingDefault organizationAccountingDefault) {
+    protected boolean doesPaymentFinancialObjectCodeExist(OrganizationAccountingDefault organizationAccountingDefault) {
         if (StringUtils.isEmpty(organizationAccountingDefault.getDefaultPaymentFinancialObjectCode())) {
             putFieldError(ArPropertyConstants.OrganizationAccountingDefaultFields.PAYMENT_FINANCIAL_OBJECT_CODE, ArKeyConstants.OrganizationAccountingDefaultErrors.ERROR_PAYMENT_OBJECT_CODE_REQUIRED);
             return false;

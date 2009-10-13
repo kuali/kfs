@@ -72,7 +72,7 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
      * @param receivingDocument
      * @return
      */
-    private boolean isAtLeastOneItemEntered(ReceivingDocument receivingDocument){
+    protected boolean isAtLeastOneItemEntered(ReceivingDocument receivingDocument){
         for (ReceivingItem item : (List<ReceivingItem>) receivingDocument.getItems()) {
             if (((PurapEnterableItem)item).isConsideredEntered()) {
                 //if any item is entered return true
@@ -108,7 +108,7 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
      * @param lineItemReceivingDocument
      * @return
      */
-    private boolean hasRequiredFieldsForContinue(LineItemReceivingDocument lineItemReceivingDocument){
+    protected boolean hasRequiredFieldsForContinue(LineItemReceivingDocument lineItemReceivingDocument){
         
         boolean valid = true;
         
@@ -132,7 +132,7 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
      * @param lineItemReceivingDocument
      * @return
      */
-    private boolean canCreateLineItemReceivingDocument(LineItemReceivingDocument lineItemReceivingDocument){
+    protected boolean canCreateLineItemReceivingDocument(LineItemReceivingDocument lineItemReceivingDocument){
         
         boolean valid = true;
         
@@ -147,7 +147,7 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
     /**
      * Validates that if the item type is quantity based, the unit of measure is required.
      */
-    private boolean validateItemUnitOfMeasure(ReceivingDocument receivingDocument) {
+    protected boolean validateItemUnitOfMeasure(ReceivingDocument receivingDocument) {
         boolean valid = true;
         for (ReceivingItem item : (List<ReceivingItem>) receivingDocument.getItems()) {
             // Validations for quantity based item type
@@ -190,7 +190,7 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
         return valid;
     }
 
-    private boolean validateQuantityReturnedNotMoreThanReceived(ReceivingDocument document, LineItemReceivingItem item, String errorPathPrefix, Integer lineNumber) {
+    protected boolean validateQuantityReturnedNotMoreThanReceived(ReceivingDocument document, LineItemReceivingItem item, String errorPathPrefix, Integer lineNumber) {
         if (item.getItemReturnedTotalQuantity() != null && item.getItemReceivedTotalQuantity() != null) {
             if (item.getItemReturnedTotalQuantity().isGreaterThan(item.getItemReceivedTotalQuantity())) {
                 GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_LINE_QTYRETURNED_GT_QTYRECEIVED, (lineNumber.intValue() == 0 ? "Add Line" : lineNumber.toString()));
@@ -200,7 +200,7 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
         return true;
     }
 
-    private boolean validateQuantityDamagedNotMoreThanReceived(ReceivingDocument document, LineItemReceivingItem item, String errorPathPrefix, Integer lineNumber) {
+    protected boolean validateQuantityDamagedNotMoreThanReceived(ReceivingDocument document, LineItemReceivingItem item, String errorPathPrefix, Integer lineNumber) {
         if (item.getItemDamagedTotalQuantity() != null && item.getItemReceivedTotalQuantity() != null) {
             if (item.getItemDamagedTotalQuantity().isGreaterThan(item.getItemReceivedTotalQuantity())) {
                 GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_LINE_QTYDAMAGED_GT_QTYRECEIVED, (lineNumber.intValue() == 0 ? "Add Line" : lineNumber.toString()));
@@ -210,7 +210,7 @@ public class LineItemReceivingDocumentRule extends DocumentRuleBase implements C
         return true;
     }
     
-    private boolean validateAllReceivingLinesHaveSaneQuantities(ReceivingDocument document) {
+    protected boolean validateAllReceivingLinesHaveSaneQuantities(ReceivingDocument document) {
         GlobalVariables.getMessageMap().clearErrorPath();
         boolean valid = true;
         for (int i = 0; i < document.getItems().size(); i++) {

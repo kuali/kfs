@@ -41,16 +41,16 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CustomerRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(CustomerRule.class);
-    private Customer oldCustomer;
-    private Customer newCustomer;
-    private DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+    protected Customer oldCustomer;
+    protected Customer newCustomer;
+    protected DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
 
     /**
      * This method initializes the old and new customer
      * 
      * @param document
      */
-    private void initializeAttributes(MaintenanceDocument document) {
+    protected void initializeAttributes(MaintenanceDocument document) {
         if (newCustomer == null) {
             newCustomer = (Customer) document.getNewMaintainableObject().getBusinessObject();
         }
@@ -104,7 +104,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
      * 
      * @return Returns true if the customer number is set successfully, false otherwise.
      */
-    private boolean setCustomerNumber() {
+    protected boolean setCustomerNumber() {
         // TODO This should probably be done in a BO 'before insert' hook, rather than in the business rule validation,
         // unless there's some reason not clear why it needs to happen here.
         boolean success = true;

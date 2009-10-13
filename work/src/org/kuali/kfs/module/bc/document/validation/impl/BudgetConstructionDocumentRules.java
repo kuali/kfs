@@ -73,26 +73,26 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypeUtils;
 
 public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBase implements AddBudgetConstructionDocumentRule<BudgetConstructionDocument>, AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeleteMonthlySpreadRule<BudgetConstructionDocument>, SaveMonthlyBudgetRule<BudgetConstructionDocument, BudgetConstructionMonthly> {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionDocumentRules.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionDocumentRules.class);
 
     // some services used here - other service refs are from parent classes
     // if this class is extended we may need to create protected getters
-    private static BudgetParameterService budgetParameterService = SpringContext.getBean(BudgetParameterService.class);
-    private static AccountingLineRuleHelperService accountingLineRuleHelper = SpringContext.getBean(AccountingLineRuleHelperService.class);
-    private static DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-    private static SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
-    private static BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-    private static FiscalYearFunctionControlService fiscalYearFunctionControlService = SpringContext.getBean(FiscalYearFunctionControlService.class);
+    protected static BudgetParameterService budgetParameterService = SpringContext.getBean(BudgetParameterService.class);
+    protected static AccountingLineRuleHelperService accountingLineRuleHelper = SpringContext.getBean(AccountingLineRuleHelperService.class);
+    protected static DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+    protected static SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
+    protected static BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+    protected static FiscalYearFunctionControlService fiscalYearFunctionControlService = SpringContext.getBean(FiscalYearFunctionControlService.class);
 
-    private List<String> revenueObjectTypesParamValues = BudgetParameterFinder.getRevenueObjectTypes();
-    private List<String> expenditureObjectTypesParamValues = BudgetParameterFinder.getExpenditureObjectTypes();
-    private List<String> budgetAggregationCodesParamValues = BudgetParameterFinder.getBudgetAggregationCodes();
-    private List<String> fringeBenefitDesignatorCodesParamValues = BudgetParameterFinder.getFringeBenefitDesignatorCodes();
-    private List<String> salarySettingFundGroupsParamValues = BudgetParameterFinder.getSalarySettingFundGroups();
-    private List<String> salarySettingSubFundGroupsParamValues = BudgetParameterFinder.getSalarySettingSubFundGroups();
+    protected List<String> revenueObjectTypesParamValues = BudgetParameterFinder.getRevenueObjectTypes();
+    protected List<String> expenditureObjectTypesParamValues = BudgetParameterFinder.getExpenditureObjectTypes();
+    protected List<String> budgetAggregationCodesParamValues = BudgetParameterFinder.getBudgetAggregationCodes();
+    protected List<String> fringeBenefitDesignatorCodesParamValues = BudgetParameterFinder.getFringeBenefitDesignatorCodes();
+    protected List<String> salarySettingFundGroupsParamValues = BudgetParameterFinder.getSalarySettingFundGroups();
+    protected List<String> salarySettingSubFundGroupsParamValues = BudgetParameterFinder.getSalarySettingSubFundGroups();
 
     // this field is highlighted for any errors found on an existing line
-    private static final String TARGET_ERROR_PROPERTY_NAME = KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT;
+    protected static final String TARGET_ERROR_PROPERTY_NAME = KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT;
 
     public BudgetConstructionDocumentRules() {
         super();
@@ -428,7 +428,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * @param isRevenue
      * @return
      */
-    private boolean checkPendingBudgetConstructionGeneralLedgerLines(BudgetConstructionDocument budgetConstructionDocument, MessageMap errors, boolean isRevenue, boolean doMonthRICheck) {
+    protected boolean checkPendingBudgetConstructionGeneralLedgerLines(BudgetConstructionDocument budgetConstructionDocument, MessageMap errors, boolean isRevenue, boolean doMonthRICheck) {
 
         boolean isValid = true;
         boolean isReqAmountValid;
@@ -589,7 +589,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * @param pendingBudgetConstructionGeneralLedger
      * @return
      */
-    private boolean checkPendingBudgetConstructionGeneralLedgerLine(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, MessageMap errors, boolean isRevenue, boolean isAdd) {
+    protected boolean checkPendingBudgetConstructionGeneralLedgerLine(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, MessageMap errors, boolean isRevenue, boolean isAdd) {
         LOG.debug("checkPendingBudgetConstructionGeneralLedgerLine() start");
 
         boolean isValid = true;
@@ -643,7 +643,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         return isValid;
     }
 
-    private boolean validatePBGLLine(PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, boolean isAdd) {
+    protected boolean validatePBGLLine(PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, boolean isAdd) {
         if (pendingBudgetConstructionGeneralLedger == null) {
             throw new IllegalStateException(getKualiConfigurationService().getPropertyString(KFSKeyConstants.ERROR_DOCUMENT_NULL_ACCOUNTING_LINE));
         }
@@ -691,7 +691,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * @param errorPrefix
      * @param validateRequired
      */
-    private void validatePrimitiveFromDescriptor(Object object, String attributeName, String errorPrefix, boolean validateRequired) {
+    protected void validatePrimitiveFromDescriptor(Object object, String attributeName, String errorPrefix, boolean validateRequired) {
 
         try {
             PropertyDescriptor attributeDescriptor = PropertyUtils.getPropertyDescriptor(object, attributeName);
@@ -717,7 +717,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * @param errorPrefix
      * @param validateRequired
      */
-    private void validatePrimitiveFromDescriptor(String entryName, Object object, PropertyDescriptor propertyDescriptor, String errorPrefix, boolean validateRequired) {
+    protected void validatePrimitiveFromDescriptor(String entryName, Object object, PropertyDescriptor propertyDescriptor, String errorPrefix, boolean validateRequired) {
 
         // validate the primitive attributes if defined in the dictionary
         if (null != propertyDescriptor && dataDictionaryService.isAttributeDefined(entryName, propertyDescriptor.getName())) {
@@ -739,7 +739,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         }
     }
 
-    private boolean isObjectTypeAllowed(List paramValues, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isRevenue, boolean isAdd) {
+    protected boolean isObjectTypeAllowed(List paramValues, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isRevenue, boolean isAdd) {
         boolean isAllowed = true;
 
         if (paramValues != null) {
@@ -769,7 +769,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         return isAllowed;
     }
 
-    private boolean isBudgetAggregationAllowed(List paramValues, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isAdd) {
+    protected boolean isBudgetAggregationAllowed(List paramValues, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isAdd) {
         boolean isAllowed = true;
 
         if (paramValues != null) {
@@ -786,7 +786,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         return isAllowed;
     }
 
-    private boolean isNewLineUnique(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger newLine, MessageMap errors, boolean isRevenue) {
+    protected boolean isNewLineUnique(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger newLine, MessageMap errors, boolean isRevenue) {
         boolean isUnique = true;
         List<PendingBudgetConstructionGeneralLedger> existingLines;
 
@@ -805,7 +805,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         return isUnique;
     }
 
-    private boolean isNonWagesAccountNotLaborObject(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isAdd) {
+    protected boolean isNonWagesAccountNotLaborObject(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isAdd) {
         boolean isAllowed = true;
 
         if (budgetConstructionDocument.getAccount().getSubFundGroup() == null || !budgetConstructionDocument.getAccount().getSubFundGroup().isSubFundGroupWagesIndicator()) {
@@ -817,7 +817,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         return isAllowed;
     }
 
-    private boolean isNotFringeBenefitObject(List paramValues, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isAdd) {
+    protected boolean isNotFringeBenefitObject(List paramValues, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isAdd) {
         boolean isAllowed = true;
 
         if (paramValues != null) {
@@ -835,7 +835,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         return isAllowed;
     }
 
-    private boolean isNotSalarySettingOnly(List fundGroupParamValues, List subfundGroupParamValues, BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isRevenue, boolean isAdd) {
+    protected boolean isNotSalarySettingOnly(List fundGroupParamValues, List subfundGroupParamValues, BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isRevenue, boolean isAdd) {
         boolean isAllowed = true;
 
         // check if account belongs to a fund or subfund that only allows salary setting lines
@@ -877,7 +877,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * @param isDocumentAdd
      * @return
      */
-    private boolean isBudgetAllowed(BudgetConstructionDocument budgetConstructionDocument, String propertyName, MessageMap errors, boolean isAdd, boolean isDocumentAdd) {
+    protected boolean isBudgetAllowed(BudgetConstructionDocument budgetConstructionDocument, String propertyName, MessageMap errors, boolean isAdd, boolean isDocumentAdd) {
         boolean isAllowed = true;
         SimpleDateFormat tdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
 
@@ -1038,7 +1038,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * @param isAdd
      * @param errorParameters
      */
-    private void putError(MessageMap errors, String propertyName, String errorKey, boolean isAdd, String... errorParameters) {
+    protected void putError(MessageMap errors, String propertyName, String errorKey, boolean isAdd, String... errorParameters) {
 
         if (isAdd) {
             errors.putError(propertyName, errorKey, errorParameters);

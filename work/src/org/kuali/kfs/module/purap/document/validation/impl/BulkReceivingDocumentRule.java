@@ -71,7 +71,7 @@ public class BulkReceivingDocumentRule extends DocumentRuleBase implements Conti
      * @param bulkReceivingDocument
      * @return
      */
-    private boolean hasRequiredFieldsForContinue(BulkReceivingDocument bulkReceivingDocument){
+    protected boolean hasRequiredFieldsForContinue(BulkReceivingDocument bulkReceivingDocument){
         
         boolean valid = true;
         
@@ -89,7 +89,7 @@ public class BulkReceivingDocumentRule extends DocumentRuleBase implements Conti
      * @param bulkReceivingDocument
      * @return
      */
-    private boolean canCreateBulkReceivingDocument(BulkReceivingDocument bulkReceivingDocument){
+    protected boolean canCreateBulkReceivingDocument(BulkReceivingDocument bulkReceivingDocument){
         
         boolean valid = true;
         

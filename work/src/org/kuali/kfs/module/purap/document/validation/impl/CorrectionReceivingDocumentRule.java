@@ -49,7 +49,7 @@ public class CorrectionReceivingDocumentRule extends DocumentRuleBase {
     }
 
 
-    private boolean isAtLeastOneItemEntered(ReceivingDocument receivingDocument){
+    protected boolean isAtLeastOneItemEntered(ReceivingDocument receivingDocument){
         for (ReceivingItem item : (List<ReceivingItem>) receivingDocument.getItems()) {
             if (((PurapEnterableItem)item).isConsideredEntered()) {
                 //if any item is entered return true
@@ -68,7 +68,7 @@ public class CorrectionReceivingDocumentRule extends DocumentRuleBase {
      * @param receivingCorrectionDocument
      * @return
      */
-    private boolean canCreateCorrectionReceivingDocument(CorrectionReceivingDocument correctionReceivingDocument){
+    protected boolean canCreateCorrectionReceivingDocument(CorrectionReceivingDocument correctionReceivingDocument){
         
         boolean valid = true;
         

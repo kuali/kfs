@@ -46,21 +46,21 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * This class represents the business rules for the maintenance of {@link AccountGlobal} business objects
  */
 public class AccountGlobalRule extends GlobalDocumentRuleBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountGlobalRule.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountGlobalRule.class);
 
-    private static final String GENERAL_FUND_CD = "GF";
-    private static final String RESTRICTED_FUND_CD = "RF";
-    private static final String ENDOWMENT_FUND_CD = "EN";
-    private static final String PLANT_FUND_CD = "PF";
+    protected static final String GENERAL_FUND_CD = "GF";
+    protected static final String RESTRICTED_FUND_CD = "RF";
+    protected static final String ENDOWMENT_FUND_CD = "EN";
+    protected static final String PLANT_FUND_CD = "PF";
 
-    private static final String RESTRICTED_CD_RESTRICTED = "R";
-    private static final String RESTRICTED_CD_UNRESTRICTED = "U";
-    private static final String RESTRICTED_CD_TEMPORARILY_RESTRICTED = "T";
+    protected static final String RESTRICTED_CD_RESTRICTED = "R";
+    protected static final String RESTRICTED_CD_UNRESTRICTED = "U";
+    protected static final String RESTRICTED_CD_TEMPORARILY_RESTRICTED = "T";
 
-    private static final String SUB_FUND_GROUP_MEDICAL_PRACTICE_FUNDS = "MPRACT";
+    protected static final String SUB_FUND_GROUP_MEDICAL_PRACTICE_FUNDS = "MPRACT";
 
-    private AccountGlobal newAccountGlobal;
-    private Timestamp today;
+    protected AccountGlobal newAccountGlobal;
+    protected Timestamp today;
 
     public AccountGlobalRule() {
         super();

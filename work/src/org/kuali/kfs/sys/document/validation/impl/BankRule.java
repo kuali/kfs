@@ -31,8 +31,8 @@ import org.kuali.rice.kns.service.ParameterService;
  * Evaluates business rules for editing or creation of a new bank record.
  */
 public class BankRule extends MaintenanceDocumentRuleBase {
-    private Bank oldBank;
-    private Bank newBank;
+    protected Bank oldBank;
+    protected Bank newBank;
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
@@ -69,7 +69,7 @@ public class BankRule extends MaintenanceDocumentRuleBase {
      * 
      * @return true if there are no partially filled out references
      */
-    private boolean checkPartiallyFilledOutReferences() {
+    protected boolean checkPartiallyFilledOutReferences() {
         boolean valid = true;
 
         valid &= checkForPartiallyFilledOutReferenceForeignKeys(KFSPropertyConstants.CASH_OFFSET_ACCOUNT);
@@ -84,7 +84,7 @@ public class BankRule extends MaintenanceDocumentRuleBase {
      * 
      * @return true if all cash offset fields needed have value
      */
-    private boolean validateFieldsForBankOffsetEntries() {
+    protected boolean validateFieldsForBankOffsetEntries() {
         boolean valid = true;
 
         if (!SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {

@@ -36,7 +36,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  */
 public class SubcontractorRule extends MaintenanceDocumentRuleBase {
 
-    private SubContractor newSubcontractor;
+    protected SubContractor newSubcontractor;
 
     /**
      * This method has been overridden to add some additional validation checks to the {@link Subcontractor} maintenance document.
@@ -66,7 +66,7 @@ public class SubcontractorRule extends MaintenanceDocumentRuleBase {
      * @param stateCode
      * @return Whether state code entered is valid
      */
-    private boolean validateStateCode(String countryCode, String stateCode) {
+    protected boolean validateStateCode(String countryCode, String stateCode) {
         boolean valid = true;
 
         // Perform lookup for state code provided
@@ -88,7 +88,7 @@ public class SubcontractorRule extends MaintenanceDocumentRuleBase {
      * @param countryCode
      * @return Whether country code entered is valid.
      */
-    private boolean validateCountryCode(String countryCode) {
+    protected boolean validateCountryCode(String countryCode) {
         boolean valid = true;
 
         Country country = SpringContext.getBean(CountryService.class).getByPrimaryId(countryCode);

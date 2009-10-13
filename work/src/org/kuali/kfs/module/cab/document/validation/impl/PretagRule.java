@@ -55,9 +55,9 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * This class represents the business rules for the maintenance of {@link AccountGlobal} business objects
  */
 public class PretagRule extends MaintenanceDocumentRuleBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PretagRule.class);
-    private PersistableBusinessObject bo;
-    private Pretag newPretag;
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PretagRule.class);
+    protected PersistableBusinessObject bo;
+    protected Pretag newPretag;
 
     public PretagRule() {
         super();

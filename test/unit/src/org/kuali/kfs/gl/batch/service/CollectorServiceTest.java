@@ -77,7 +77,7 @@ public class CollectorServiceTest extends KualiTestBase {
     // @RelatesTo(RelatesTo.JiraIssue.KULUT31)
     public final void testPerformValidation_mixedDocumentTypes() throws Exception {
         MockCollectorBatch collectorBatch = new MockCollectorBatch();
-
+        populateMockCollectorBatch(collectorBatch);
         OriginEntryFull entry1 = new OriginEntryFull();
         entry1.setFinancialDocumentTypeCode("foo1");
         collectorBatch.addOriginEntry(entry1);
@@ -91,6 +91,14 @@ public class CollectorServiceTest extends KualiTestBase {
         assertTrue("error message for mixed document types does not exist", GlobalVariables.getMessageMap().containsMessageKey(KFSKeyConstants.Collector.MIXED_DOCUMENT_TYPES));
     }
 
+    protected void populateMockCollectorBatch(MockCollectorBatch mockCollectorBatch) {
+        mockCollectorBatch.setChartOfAccountsCode("BL");
+        mockCollectorBatch.setOrganizationCode("ACAC");
+        mockCollectorBatch.setCampusCode("BL");
+        mockCollectorBatch.setPhoneNumber("555-555-5555");
+        mockCollectorBatch.setMailingAddress("Somewhere");
+        mockCollectorBatch.setDepartmentName("Some Dept");
+    }
     /**
      * Verifies an error is added when a collector detail key does not have a matching gl entry. Note: Actual test values do have to
      * be valid, only need to be different from the gl record to the detail
@@ -98,7 +106,7 @@ public class CollectorServiceTest extends KualiTestBase {
     // @RelatesTo(RelatesTo.JiraIssue.KULUT31)
     public final void testPerformValidation_unmatchedDetailKey() throws Exception {
         MockCollectorBatch collectorBatch = new MockCollectorBatch();
-
+        populateMockCollectorBatch(collectorBatch);
         OriginEntryFull entry = new OriginEntryFull();
         entry.setUniversityFiscalYear(new Integer(2007));
         entry.setChartOfAccountsCode("BA");
@@ -123,7 +131,7 @@ public class CollectorServiceTest extends KualiTestBase {
     // @RelatesTo(RelatesTo.JiraIssue.KULUT31)
     public final void testPerformValidation_mixedBalanceTypes() throws Exception {
         MockCollectorBatch collectorBatch = new MockCollectorBatch();
-
+        populateMockCollectorBatch(collectorBatch);
         OriginEntryFull entry1 = new OriginEntryFull();
         entry1.setFinancialBalanceTypeCode("AC");
         collectorBatch.addOriginEntry(entry1);

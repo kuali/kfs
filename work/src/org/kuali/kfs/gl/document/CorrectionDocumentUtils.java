@@ -70,7 +70,6 @@ public class CorrectionDocumentUtils {
      * This method returns the number of records per page
      * 
      * @return number of records per page
-     * 
      */
     public static int getRecordsPerPage() {
         String limitString = SpringContext.getBean(ParameterService.class).getParameterValue(GeneralLedgerCorrectionProcessDocument.class, KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORDS_PER_PAGE);
@@ -84,7 +83,7 @@ public class CorrectionDocumentUtils {
      * This method returns true if input group size is greater than or equal to record count functionality limit
      * 
      * @param inputGroupSize size of input groups
-     * @param recordCountFunctionalityLimit limit for record count functionality 
+     * @param recordCountFunctionalityLimit limit for record count functionality
      * @return true if input group size is greater than or equal to record count functionality limit
      */
     public static boolean isRestrictedFunctionalityMode(int inputGroupSize, int recordCountFunctionalityLimit) {
@@ -135,7 +134,8 @@ public class CorrectionDocumentUtils {
      * When a document is about to be saved, this will check if it is valid, meaning that the field name and value are both blank
      * 
      * @param correctionCriteria validated correction criteria
-     * @return true if correction change is valid for saving (i.e. correction change is null or correction field name and field value are blank)
+     * @return true if correction change is valid for saving (i.e. correction change is null or correction field name and field
+     *         value are blank)
      */
     public static boolean validCorrectionChangeForSaving(CorrectionChange correctionChange) {
         return correctionChange == null || (StringUtils.isBlank(correctionChange.getCorrectionFieldName()) && StringUtils.isBlank(correctionChange.getCorrectionFieldValue()));
@@ -199,10 +199,21 @@ public class CorrectionDocumentUtils {
         else if ("ct".equals(cc.getCorrectionOperatorCode())) {
             return (fieldActualValueString.indexOf(fieldTestValue) > -1);
         }
+        else if ("lt".equals(cc.getCorrectionOperatorCode())) {
+            return (fieldActualValueString.compareTo(fieldTestValue) < 0);
+        }
+        else if ("le".equals(cc.getCorrectionOperatorCode())) {
+            return (fieldActualValueString.compareTo(fieldTestValue) <= 0);
+        }
+        else if ("gt".equals(cc.getCorrectionOperatorCode())) {
+            return (fieldActualValueString.compareTo(fieldTestValue) > 0);
+        }
+        else if ("ge".equals(cc.getCorrectionOperatorCode())) {
+            return (fieldActualValueString.compareTo(fieldTestValue) >= 0);
+        }
         throw new IllegalArgumentException("Unknown operator: " + cc.getCorrectionOperatorCode());
     }
 
-    
 
     /**
      * Converts the value into a string, with the appropriate formatting
@@ -229,7 +240,7 @@ public class CorrectionDocumentUtils {
         else if ("BigDecimal".equals(fieldType)) {
             BigDecimal bd = (BigDecimal) fieldActualValue;
             return bd.toString();
-        } 
+        }
         else if ("Date".equals(fieldType)) {
             Date d = (Date) fieldActualValue;
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");

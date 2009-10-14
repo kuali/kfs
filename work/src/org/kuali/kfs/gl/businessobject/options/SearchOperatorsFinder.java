@@ -36,8 +36,10 @@ public class SearchOperatorsFinder extends KeyValuesBase {
         List activeLabels = new ArrayList();
         activeLabels.add(new KeyLabelPair("eq", "Equals"));
         activeLabels.add(new KeyLabelPair("ne", "Not equal to"));
-        // activeLabels.add(new KeyLabelPair("gt", "Greater than"));
-        // activeLabels.add(new KeyLabelPair("lt", "Less than"));
+        activeLabels.add(new KeyLabelPair("gt", "Greater than"));
+        activeLabels.add(new KeyLabelPair("ge", "Greater than or equal"));
+        activeLabels.add(new KeyLabelPair("lt", "Less than"));
+        activeLabels.add(new KeyLabelPair("le", "Less than or equal"));
         activeLabels.add(new KeyLabelPair("sw", "Starts with"));
         activeLabels.add(new KeyLabelPair("ew", "Ends with"));
         activeLabels.add(new KeyLabelPair("ct", "Contains"));

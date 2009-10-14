@@ -28,7 +28,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * A validation that runs a list of child validations over each member of a collection.
  */
 public class CollectionValidation extends CompositeValidation {
-    private String collectionProperty;
+    protected String collectionProperty;
 
     /**
      * Iterates over each member of the collection, which is assumed to be the property of the validation event named by the given collectionProperty
@@ -86,7 +86,7 @@ public class CollectionValidation extends CompositeValidation {
      * @params count the count of the current item in the collection
      * @return
      */
-    private String buildPropertyName(int count) {
+    protected String buildPropertyName(int count) {
         return new StringBuilder().append(collectionProperty.substring(0, collectionProperty.length()-1)).append('[').append(count).append(']').toString();
     }
     

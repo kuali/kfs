@@ -38,8 +38,8 @@ public class GeneralErrorCorrectionRequiredReferenceFieldValidation extends Gene
     private ParameterService parameterService;
     private AccountingLine accountingLineForValidation;
 
-    static String VALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE = "VALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE";
-    static String INVALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE = "INVALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE";
+    protected static String VALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE = "VALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE";
+    protected static String INVALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE = "INVALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE";
    
     /**
      * determines if object code sub types are valid with the object type code.

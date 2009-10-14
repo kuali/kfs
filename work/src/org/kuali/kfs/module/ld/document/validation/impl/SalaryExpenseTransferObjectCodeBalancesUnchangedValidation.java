@@ -67,7 +67,7 @@ public class SalaryExpenseTransferObjectCodeBalancesUnchangedValidation extends 
      * @param accountingDocumentForValidation The accounting document from which the amounts by objects codes are checked
      * @return True if the given accounting documents amounts by object code are unchanged, false otherwise.
      */
-    private boolean isObjectCodeBalancesUnchanged(SalaryExpenseTransferDocument salaryExpenseTransferDocument) {
+    protected boolean isObjectCodeBalancesUnchanged(SalaryExpenseTransferDocument salaryExpenseTransferDocument) {
         boolean isUnchanged = true;
 
         Map<String, KualiDecimal> initiatedObjectCodeBalances = salaryExpenseTransferDocument.getApprovalObjectCodeBalances();

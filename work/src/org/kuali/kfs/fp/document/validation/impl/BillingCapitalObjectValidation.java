@@ -66,7 +66,7 @@ public class BillingCapitalObjectValidation extends GenericValidation {
      * @param accountingLine The accounting line the object code will be retrieved from.
      * @return True if the given accounting line's object code is a capital code, false otherwise.
      */
-    private boolean isCapitalObject(AccountingLine accountingLine) {
+    protected boolean isCapitalObject(AccountingLine accountingLine) {
         ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(InternalBillingDocument.class, "CAPITAL_OBJECT_SUB_TYPE_CODES", accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
         return evaluator != null ? evaluator.evaluationSucceeds() : false; // can't find the param?  then I guess we don't care...just say that nothing is a capital object
     }

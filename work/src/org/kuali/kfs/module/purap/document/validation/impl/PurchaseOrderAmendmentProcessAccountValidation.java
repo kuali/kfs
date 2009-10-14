@@ -23,8 +23,8 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 public class PurchaseOrderAmendmentProcessAccountValidation extends BranchingValidation {
     
-    private final String PROCESS_ACCOUNT_VALIDATION="processAccountValidation";
-    private PurApItem itemForValidation;
+    protected final String PROCESS_ACCOUNT_VALIDATION="processAccountValidation";
+    protected PurApItem itemForValidation;
     
     /**
      * Overrides the method in PurchasingProcessAccountValidation to provide additional

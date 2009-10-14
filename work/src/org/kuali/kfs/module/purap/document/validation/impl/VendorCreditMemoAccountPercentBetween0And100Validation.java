@@ -59,7 +59,7 @@ public class VendorCreditMemoAccountPercentBetween0And100Validation extends Gene
      * @param businessObject - Business object to check for value
      * @param fieldName - Name of the property in the business object
      */
-    private boolean validateRequiredField(BusinessObject businessObject, String fieldName) {
+    protected boolean validateRequiredField(BusinessObject businessObject, String fieldName) {
         boolean valid = true;
 
         Object fieldValue = ObjectUtils.getPropertyValue(businessObject, fieldName);

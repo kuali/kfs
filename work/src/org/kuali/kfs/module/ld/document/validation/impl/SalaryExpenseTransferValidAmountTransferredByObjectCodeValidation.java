@@ -78,7 +78,7 @@ public class SalaryExpenseTransferValidAmountTransferredByObjectCodeValidation e
     }
 
     // check if user is allowed to edit the object code.
-    private boolean hasEditPermissionOnObjectCode(SalaryExpenseTransferDocument expenseTransferDocument, KualiWorkflowDocument workflowDocument) {
+    protected boolean hasEditPermissionOnObjectCode(SalaryExpenseTransferDocument expenseTransferDocument, KualiWorkflowDocument workflowDocument) {
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
         DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(expenseTransferDocument);
         String templateName = KFSConstants.PermissionTemplate.MODIFY_ACCOUNTING_LINES.name;
@@ -97,7 +97,7 @@ public class SalaryExpenseTransferValidAmountTransferredByObjectCodeValidation e
      * @param accountingDocument SalaryExpenseTransferDocument to check
      * @return true if the balances have not changed, false if they have
      */
-    private boolean isObjectCodeBalancesUnchanged(AccountingDocument accountingDocument) {
+    protected boolean isObjectCodeBalancesUnchanged(AccountingDocument accountingDocument) {
         boolean isUnchanged = true;
 
         Map<String, KualiDecimal> initiatedObjectCodeBalances = ((SalaryExpenseTransferDocument) accountingDocument).getApprovalObjectCodeBalances();

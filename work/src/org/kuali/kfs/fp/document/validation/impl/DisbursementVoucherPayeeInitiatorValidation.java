@@ -92,7 +92,7 @@ public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidati
      * @param vendorDetailIdNumber vendor detail ID number
      * @return <code>VendorDetail</code>
      */
-    private VendorDetail retrieveVendorDetail(Integer vendorIdNumber, Integer vendorDetailIdNumber) {
+    protected VendorDetail retrieveVendorDetail(Integer vendorIdNumber, Integer vendorDetailIdNumber) {
         return SpringContext.getBean(VendorService.class).getVendorDetail(vendorIdNumber, vendorDetailIdNumber);
     }
 
@@ -102,7 +102,7 @@ public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidati
      * @param ssnNumber social security number
      * @return <code>Person</code>
      */
-    private Person retrieveEmployeeBySSN(String ssnNumber) {
+    protected Person retrieveEmployeeBySSN(String ssnNumber) {
         Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(KimConstants.PersonExternalIdentifierTypes.TAX, ssnNumber).get(0);
         if (person == null) {
             LOG.error("User Not Found");
@@ -116,7 +116,7 @@ public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidati
      * @param document submitted document
      * @return <code>KualiUser</code>
      */
-    private Person getInitiator(AccountingDocument document) {
+    protected Person getInitiator(AccountingDocument document) {
         Person initUser = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
         if (initUser == null) {
             throw new RuntimeException("Document Initiator not found");

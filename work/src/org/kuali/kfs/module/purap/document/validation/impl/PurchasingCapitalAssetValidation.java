@@ -38,9 +38,9 @@ import org.kuali.rice.kns.util.RiceKeyConstants;
 public class PurchasingCapitalAssetValidation extends GenericValidation {
     CapitalAssetBuilderModuleService capitalAssetBuilderModuleService;
     PurchasingService purchasingService;
-    private static String ERROR_PATH_PREFIX_FOR_IND_SYSTEM = "document.purchasingCapitalAssetItems[";
-    private static String ERROR_PATH_SUFFIX_FOR_IND_SYSTEM = "].purchasingCapitalAssetSystem";
-    private static String ERROR_PATH_PREFIX_FOR_ONE_SYSTEM = "document.purchasingCapitalAssetSystems[0]";
+    protected static String ERROR_PATH_PREFIX_FOR_IND_SYSTEM = "document.purchasingCapitalAssetItems[";
+    protected static String ERROR_PATH_SUFFIX_FOR_IND_SYSTEM = "].purchasingCapitalAssetSystem";
+    protected static String ERROR_PATH_PREFIX_FOR_ONE_SYSTEM = "document.purchasingCapitalAssetSystems[0]";
 
     public boolean validate(AttributedDocumentEvent event) {
         GlobalVariables.getMessageMap().clearErrorPath();
@@ -100,7 +100,7 @@ public class PurchasingCapitalAssetValidation extends GenericValidation {
      * @param purchasingDocument
      * @return
      */
-    private boolean validateAssetTypeExistence(PurchasingDocument purchasingDocument) {
+    protected boolean validateAssetTypeExistence(PurchasingDocument purchasingDocument) {
         boolean valid = true;
         // validate for Individual system
         if (purchasingDocument.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
@@ -137,7 +137,7 @@ public class PurchasingCapitalAssetValidation extends GenericValidation {
      * 
      * @param errorPath
      */
-    private void addAssetTypeErrorWithFullErrorPath(String errorPath) {
+    protected void addAssetTypeErrorWithFullErrorPath(String errorPath) {
         GlobalVariables.getMessageMap().addToErrorPath(errorPath);
         String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(RequisitionCapitalAssetSystem.class.getName()).getAttributeDefinition(PurapPropertyConstants.CAPITAL_ASSET_TYPE_CODE).getLabel();
         GlobalVariables.getMessageMap().putError(PurapPropertyConstants.CAPITAL_ASSET_TYPE_CODE, RiceKeyConstants.ERROR_EXISTENCE, label);

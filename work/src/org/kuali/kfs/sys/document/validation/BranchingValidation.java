@@ -29,9 +29,9 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
  * if null is returned, then no validation will occur.
  */
 public abstract class BranchingValidation extends ParameterizedValidation implements Validation {
-    private Map<String, Validation> branchMap;
-    private List<ValidationFieldConvertible> parameterProperties;
-    private boolean shouldQuitOnFail = false;
+    protected Map<String, Validation> branchMap;
+    protected List<ValidationFieldConvertible> parameterProperties;
+    protected boolean shouldQuitOnFail = false;
 
     /**
      * Determines which branch, if any, within the branchMap should be used as the validation to take.

@@ -124,7 +124,7 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
      * @param vendorDetailIdNumber vendor detail ID number
      * @return <code>VendorDetail</code>
      */
-    private VendorDetail retrieveVendorDetail(Integer vendorIdNumber, Integer vendorDetailIdNumber) {
+    protected VendorDetail retrieveVendorDetail(Integer vendorIdNumber, Integer vendorDetailIdNumber) {
         return SpringContext.getBean(VendorService.class).getVendorDetail(vendorIdNumber, vendorDetailIdNumber);
     }
 
@@ -134,7 +134,7 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
      * @param ssnNumber social security number
      * @return <code>Person</code>
      */
-    private Person retrieveEmployeeBySSN(String ssnNumber) {
+    protected Person retrieveEmployeeBySSN(String ssnNumber) {
         Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(PersonExternalIdentifierTypes.TAX, ssnNumber).get(0);
         if (person == null) {
             LOG.error("User Not Found");
@@ -148,7 +148,7 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
      * @param ssnNumber social security number
      * @return true if the ssn number is a valid employee ssn
      */
-    private boolean isEmployeeSSN(String ssnNumber) {
+    protected boolean isEmployeeSSN(String ssnNumber) {
         return retrieveEmployeeBySSN(ssnNumber) != null;
     }
 
@@ -158,7 +158,7 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
      * @param ssnNumber social security number
      * @return true if the ssn number is a valid employee ssn and the employee is active
      */
-    private boolean isActiveEmployeeSSN(String ssnNumber) {
+    protected boolean isActiveEmployeeSSN(String ssnNumber) {
         Person employee = retrieveEmployeeBySSN(ssnNumber);
         return employee != null && KFSConstants.EMPLOYEE_ACTIVE_STATUS.equals(employee.getEmployeeStatusCode());
     }

@@ -69,7 +69,7 @@ public class LaborJournalVoucherExternalEncumbranceValidation extends GenericVal
      * @param accountingLineForValidation laborJournalVoucherDetail line will be checked for valid encumbrance code
      * @return True if accountingLineForValidation has the valid encumbrance code, false otherwise.
      */ 
-    private boolean externalEncumbranceSpecificBusinessRulesValid(AccountingLine accountingLineForValidation) {
+    protected boolean externalEncumbranceSpecificBusinessRulesValid(AccountingLine accountingLineForValidation) {
         boolean externalEncumbranceValid  = true ;
         
         accountingLineForValidation.refreshReferenceObject(KFSPropertyConstants.BALANCE_TYP);

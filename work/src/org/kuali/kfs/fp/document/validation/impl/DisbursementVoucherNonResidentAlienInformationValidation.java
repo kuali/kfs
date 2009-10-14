@@ -178,7 +178,7 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
      * 
      * @return the tax edit mode name
      */
-    private List<String> getTaxEditMode() {
+    protected List<String> getTaxEditMode() {
         List<String> candidateEdiModes = new ArrayList<String>();
         candidateEdiModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TAX_ENTRY);
 
@@ -190,7 +190,7 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
      * 
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
      */
-    public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
+    protected void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
     }
 

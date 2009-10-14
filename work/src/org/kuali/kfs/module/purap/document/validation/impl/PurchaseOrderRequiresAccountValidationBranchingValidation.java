@@ -24,7 +24,7 @@ public class PurchaseOrderRequiresAccountValidationBranchingValidation extends B
     
     public static final String NEEDS_ACCOUNT_VALIDATION = "needsAccountValidation";
     
-    private PurApItem itemForValidation;
+    protected PurApItem itemForValidation;
     
     @Override
     protected String determineBranch(AttributedDocumentEvent event) {

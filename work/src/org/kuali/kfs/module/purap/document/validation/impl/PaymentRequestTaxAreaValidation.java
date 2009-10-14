@@ -473,7 +473,7 @@ public class PaymentRequestTaxAreaValidation extends GenericValidation {
      * @param list the specified ArrayList
      * @param value the specified BigDecimal
      */
-    private boolean listContainsValue(ArrayList<BigDecimal> list, BigDecimal value) {
+    protected boolean listContainsValue(ArrayList<BigDecimal> list, BigDecimal value) {
         if (list == null || value == null)
             return false;
         for (BigDecimal val : list) {

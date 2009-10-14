@@ -37,15 +37,15 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * A validation which uses parameters to determine if a value on an accounting line is valid.
  */
 public class PurchasingAccountsPayableObjectCodeOverrideBranchingValidation extends BranchingValidation {
-    private String propertyPath;
-    private String parameterToCheckAgainst;
-    private ParameterService parameterService;
-    private String responsibleProperty;
-    private AccountingDocument accountingDocumentForValidation;
-    private AccountingLine accountingLineForValidation;
+    protected String propertyPath;
+    protected String parameterToCheckAgainst;
+    protected ParameterService parameterService;
+    protected String responsibleProperty;
+    protected AccountingDocument accountingDocumentForValidation;
+    protected AccountingLine accountingLineForValidation;
 
-    private final static String OBJECT_CODE_OVERRIDEN = "ObjectCodeOverriden"; 
-    private final static String OBJECT_CODE_NOT_OVERRIDEN = "ObjectCodeNotOverriden";
+    protected final static String OBJECT_CODE_OVERRIDEN = "ObjectCodeOverriden"; 
+    protected final static String OBJECT_CODE_NOT_OVERRIDEN = "ObjectCodeNotOverriden";
     
     @Override
     protected String determineBranch(AttributedDocumentEvent event) {
@@ -87,7 +87,7 @@ public class PurchasingAccountsPayableObjectCodeOverrideBranchingValidation exte
      * @param userEnteredPropertyName the value the user entered on the line
      * @return true if this passes validation, false otherwise
      */
-    private boolean isAccountingLineValueAllowed(Class documentClass, AccountingLine accountingLine, String parameterName, String propertyName, String userEnteredPropertyName) {
+    protected boolean isAccountingLineValueAllowed(Class documentClass, AccountingLine accountingLine, String parameterName, String propertyName, String userEnteredPropertyName) {
         boolean isAllowed = false;
         String exceptionMessage = "Invalid property name provided to PurchasingAccountsPayableObjectCodeOverrideBranchingValidation isAccountingLineValueAllowed method: " + propertyName;
         try {
@@ -121,7 +121,7 @@ public class PurchasingAccountsPayableObjectCodeOverrideBranchingValidation exte
      * @param path the path to convert to a Queue
      * @return a Queue representing the path
      */
-    private Queue<String> convertPathToQueue(String path) {
+    protected Queue<String> convertPathToQueue(String path) {
         Queue<String> pathQueue = new LinkedList<String>();
         for (String property: path.split("\\.")) {
             pathQueue.add(property);
@@ -134,7 +134,7 @@ public class PurchasingAccountsPayableObjectCodeOverrideBranchingValidation exte
      * @param bo the business object to refresh
      * @param path the path, in Queue form, of properties to refresh
      */
-    private void refreshByQueue(PersistableBusinessObject bo, Queue<String> path) {
+    protected void refreshByQueue(PersistableBusinessObject bo, Queue<String> path) {
         if (path.size() > 1) { // we know that the last thing on our list is a code. why refresh that?
             String currentProperty = path.remove();
             bo.refreshReferenceObject(currentProperty);

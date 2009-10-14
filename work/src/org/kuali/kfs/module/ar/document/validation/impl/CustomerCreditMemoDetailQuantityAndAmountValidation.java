@@ -33,7 +33,9 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CustomerCreditMemoDetailQuantityAndAmountValidation extends GenericValidation {
 
-    private static final KualiDecimal ALLOWED_QTY_DEVIATION = new KualiDecimal("0.10");
+    protected KualiDecimal getAllowedQtyDeviation() {
+        return new KualiDecimal("0.10");
+    }
 
     private CustomerCreditMemoDetail customerCreditMemoDetail;
     
@@ -54,7 +56,7 @@ public class CustomerCreditMemoDetailQuantityAndAmountValidation extends Generic
             KualiDecimal deviationPercentage = expectedCreditQuantity.subtract(creditQuantity).abs().divide(expectedCreditQuantity);
         
             // only allow a certain deviation of creditQuantity from the expectedCreditQuantity 
-            validValue = (deviationPercentage.isLessEqual(ALLOWED_QTY_DEVIATION));
+            validValue = (deviationPercentage.isLessEqual(getAllowedQtyDeviation()));
             if (!validValue){
                 GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);
                 GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);

@@ -76,7 +76,7 @@ public class AuxiliaryVoucherAccountingLineAmountValidation extends GenericValid
      * @param isDebit boolean to determine whether or not value isDebit or not
      * @return String represents error map key to use
      */
-    private String buildErrorMapKeyPathForDebitCreditAmount(boolean isDebit) {
+    protected String buildErrorMapKeyPathForDebitCreditAmount(boolean isDebit) {
         // determine if we are looking at a new line add or an update
         boolean isNewLineAdd = GlobalVariables.getMessageMap().getErrorPath().contains(NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
         isNewLineAdd |= GlobalVariables.getMessageMap().getErrorPath().contains(NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);

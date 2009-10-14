@@ -24,7 +24,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
  * A validation which uses the AccountingLineRuleHelperService to validate the values on an accounting line
  */
 public class AccountingLineDataDictionaryValidation extends GenericValidation {
-    private AccountingLineRuleHelperService ruleHelperService; 
+    protected AccountingLineRuleHelperService ruleHelperService; 
     private AccountingLine accountingLineForValidation;
 
     /**

@@ -53,7 +53,7 @@ public class BulkReceivingPurchaseOrderIdValidation extends GenericValidation {
      * @param bulkReceivingDocument
      * @return
      */
-    private boolean canCreateBulkReceivingDocument(BulkReceivingDocument bulkReceivingDocument){
+    protected boolean canCreateBulkReceivingDocument(BulkReceivingDocument bulkReceivingDocument){
         
         boolean valid = true;
         

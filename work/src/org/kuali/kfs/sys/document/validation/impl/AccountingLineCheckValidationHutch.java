@@ -26,17 +26,17 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * 
  */
 public class AccountingLineCheckValidationHutch implements Validation {
-    private Validation lineAmountValidation;
-    private Validation lineCheckValidation;
-    private Validation lineValuesAllowedValidation;
+    protected Validation lineAmountValidation;
+    protected Validation lineCheckValidation;
+    protected Validation lineValuesAllowedValidation;
     
-    private String accountingDocumentParameterPropertyName;
-    private String accountingLineParameterPropertyName;
+    protected String accountingDocumentParameterPropertyName;
+    protected String accountingLineParameterPropertyName;
     
-    private AccountingDocument accountingDocumentForValidation;
-    private AccountingLine accountingLineForValidation;
+    protected AccountingDocument accountingDocumentForValidation;
+    protected AccountingLine accountingLineForValidation;
     
-    private boolean quitOnFail;
+    protected boolean quitOnFail;
 
     /**
      * @see org.kuali.kfs.sys.document.validation.Validation#shouldQuitOnFail()

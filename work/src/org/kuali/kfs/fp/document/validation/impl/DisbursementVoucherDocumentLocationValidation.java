@@ -86,7 +86,7 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
      * @param document submitted document
      * @return <code>KualiUser</code>
      */
-    private Person getInitiator(AccountingDocument document) {
+    protected Person getInitiator(AccountingDocument document) {
         Person initUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
         if (initUser == null) {
             throw new RuntimeException("Document Initiator not found ");

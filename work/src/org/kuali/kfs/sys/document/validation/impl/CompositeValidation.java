@@ -27,8 +27,8 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 public class CompositeValidation implements Validation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CompositeValidation.class);
     
-    private List<Validation> subValidations;
-    private boolean shouldQuitOnFail = false;
+    protected List<Validation> subValidations;
+    protected boolean shouldQuitOnFail = false;
 
     /**
      * Validates each sub-validation in turn, returning the cumulative effect of each

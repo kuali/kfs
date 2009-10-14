@@ -232,7 +232,7 @@ public class LaborExpenseTransferValidTransferAmountValidation extends GenericVa
      * @param periodCode
      * @return
      */
-    private KualiDecimal getBalanceAmountOfGivenPeriod(Map<String, Object> fieldValues, String periodCode) {
+    protected KualiDecimal getBalanceAmountOfGivenPeriod(Map<String, Object> fieldValues, String periodCode) {
         KualiDecimal balanceAmount = KualiDecimal.ZERO;
         List<LedgerBalance> ledgerBalances = (List<LedgerBalance>) SpringContext.getBean(BusinessObjectService.class).findMatching(LedgerBalance.class, fieldValues);
         

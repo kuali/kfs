@@ -91,7 +91,7 @@ public class DisbursementVoucherPrePaidTravelValidation extends GenericValidatio
      * @param disbursementVoucherDocument
      * @return true if payment reason is for pre-paid travel reason
      */
-    private boolean isTravelPrepaidPaymentReason(DisbursementVoucherDocument disbursementVoucherDocument) {
+    protected boolean isTravelPrepaidPaymentReason(DisbursementVoucherDocument disbursementVoucherDocument) {
         ParameterEvaluator travelPrepaidPaymentReasonEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.PREPAID_TRAVEL_PAYMENT_REASONS_PARM_NM, disbursementVoucherDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
         return travelPrepaidPaymentReasonEvaluator.evaluationSucceeds();
     }

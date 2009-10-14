@@ -65,7 +65,7 @@ public class SalaryExpenseTransferPendingLegerEntryValidation extends GenericVal
      * @param accountingDocumentForValidation The accounting document from which the amounts by objects codes are checked
      * @return True if the given accounting documents amounts by object code are unchanged, false otherwise.
      */ 
-    private boolean hasPendingLedgerEntry(AccountingDocument accountingDocument) {
+    protected boolean hasPendingLedgerEntry(AccountingDocument accountingDocument) {
         boolean entriesExist = false ;
         
         LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;

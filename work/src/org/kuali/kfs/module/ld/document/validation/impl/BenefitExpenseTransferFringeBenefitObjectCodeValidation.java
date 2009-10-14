@@ -56,7 +56,7 @@ public class BenefitExpenseTransferFringeBenefitObjectCodeValidation extends Gen
      * @param accountingLine The accounting line the fringe benefit object code will be retrieved from.
      * @return True if the given accounting line's object code is a fringe benefit object code, false otherwise.
      */ 
-    private boolean isFringeBenefitObjectCode(AccountingLine accountingLine) {
+    protected boolean isFringeBenefitObjectCode(AccountingLine accountingLine) {
         boolean fringeObjectCode = true ;
         
         ExpenseTransferAccountingLine expenseTransferAccountingLine = (ExpenseTransferAccountingLine) accountingLine;

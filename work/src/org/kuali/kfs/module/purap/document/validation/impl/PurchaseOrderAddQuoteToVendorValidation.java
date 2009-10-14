@@ -49,7 +49,7 @@ public class PurchaseOrderAddQuoteToVendorValidation extends GenericValidation {
         return valid;
     }
 
-    private boolean isVendorQuoteActiveNotDebarredVendor(Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifer) {
+    protected boolean isVendorQuoteActiveNotDebarredVendor(Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifer) {
         VendorDetail vendorDetail = vendorService.getVendorDetail(vendorHeaderGeneratedIdentifier, vendorDetailAssignedIdentifer);    
         if (vendorDetail != null) {
             if (!vendorDetail.isActiveIndicator()) {
@@ -64,7 +64,7 @@ public class PurchaseOrderAddQuoteToVendorValidation extends GenericValidation {
         return true;
     }
     
-    private boolean vendorQuoteHasRequiredFields (PurchaseOrderVendorQuote vendorQuote) {
+    protected boolean vendorQuoteHasRequiredFields (PurchaseOrderVendorQuote vendorQuote) {
         boolean valid = true;
         if ( StringUtils.isBlank(vendorQuote.getVendorName()) ) {
             GlobalVariables.getMessageMap().putError(PurapPropertyConstants.NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_NAME, KFSKeyConstants.ERROR_REQUIRED, "Vendor Name");

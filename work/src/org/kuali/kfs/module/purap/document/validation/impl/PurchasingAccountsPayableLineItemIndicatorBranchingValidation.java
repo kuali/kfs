@@ -23,8 +23,8 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 public class PurchasingAccountsPayableLineItemIndicatorBranchingValidation extends BranchingValidation{
 
-    private static final String IS_LINE_ITEM_INDICATOR = "isLineItemIndicator";
-    private static final String IS_NOT_LINE_ITEM_INDICATOR = "isNotLineItemIndicator";
+    protected static final String IS_LINE_ITEM_INDICATOR = "isLineItemIndicator";
+    protected static final String IS_NOT_LINE_ITEM_INDICATOR = "isNotLineItemIndicator";
     private PurApItem itemForValidation;
     
     @Override

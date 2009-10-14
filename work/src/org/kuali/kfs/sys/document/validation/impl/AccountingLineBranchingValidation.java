@@ -24,7 +24,7 @@ public class AccountingLineBranchingValidation extends BranchingValidation {
     public static final String IS_NEW_LINE = "isNewLine";
     public static final String IS_OLD_LINE = "isOldLine";
     
-    private AccountingLine accountingLineForValidation;
+    protected AccountingLine accountingLineForValidation;
 
     @Override
     protected String determineBranch(AttributedDocumentEvent event) {

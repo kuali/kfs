@@ -90,7 +90,7 @@ public class PurchasingPaymentInfoValidation extends GenericValidation {
      * @param purDocument the purchasing document to be validated
      * @return boolean false if the begin date is not before the end date.
      */
-    private boolean checkBeginDateBeforeEndDate(PurchasingDocument purDocument) {
+    protected boolean checkBeginDateBeforeEndDate(PurchasingDocument purDocument) {
         boolean valid = true;
 
         Date beginDate = purDocument.getPurchaseOrderBeginDate();

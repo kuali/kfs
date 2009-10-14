@@ -72,7 +72,7 @@ public class PaymentRequestInvoiceImageAttachmentValidation extends GenericValid
         return valid;
     }
 
-    private boolean isDocumentStoppedInRouteNode(PaymentRequestDocument document, String nodeName) {
+    protected boolean isDocumentStoppedInRouteNode(PaymentRequestDocument document, String nodeName) {
         List<String> currentRouteLevels = new ArrayList<String>();
         try {
             KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();

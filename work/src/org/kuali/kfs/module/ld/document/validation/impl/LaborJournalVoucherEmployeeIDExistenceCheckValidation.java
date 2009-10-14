@@ -67,7 +67,7 @@ public class LaborJournalVoucherEmployeeIDExistenceCheckValidation extends Gener
      * @param employeeid employee id is checked against the collection of universal users
      * @return True if the given employee id exists, false otherwise.
      */ 
-    private boolean employeeIDExistenceCheck(String employeeid) {
+    protected boolean employeeIDExistenceCheck(String employeeid) {
         
         boolean employeeIDExists  = true ;
         Map criteria = new HashMap();

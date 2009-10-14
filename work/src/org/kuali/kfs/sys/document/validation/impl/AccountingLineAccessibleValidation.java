@@ -45,9 +45,9 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * A validation that checks whether the given accounting line is accessible to the given user or not
  */
 public class AccountingLineAccessibleValidation extends GenericValidation {
-    private DataDictionaryService dataDictionaryService;
-    private AccountingDocument accountingDocumentForValidation;
-    private AccountingLine accountingLineForValidation;
+    protected DataDictionaryService dataDictionaryService;
+    protected AccountingDocument accountingDocumentForValidation;
+    protected AccountingLine accountingLineForValidation;
     
     /**
      * Indicates what is being done to an accounting line. This allows the same method to be used for different actions.

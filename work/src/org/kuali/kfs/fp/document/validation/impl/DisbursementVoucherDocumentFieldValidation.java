@@ -100,7 +100,7 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
      * @param document submitted disbursement voucher document
      * @return whether the given document has no notes
      */
-    private boolean hasNoNotes(DisbursementVoucherDocument document) {
+    protected boolean hasNoNotes(DisbursementVoucherDocument document) {
         List<Note> notes = document.getDocumentHeader().getBoNotes();
 
         if(notes == null || notes.isEmpty()) {

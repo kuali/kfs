@@ -31,8 +31,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class RequiredAccountingLinesCountValidation extends GenericValidation {
     private String accountingLineGroupName;
     private int minimumNumber;
-    private String accountingLineGroupPropertyName;
-    private String errorMessageName;
+    protected String accountingLineGroupPropertyName;
+    protected String errorMessageName;
     private AccountingDocument accountingDocumentForValidation;
     
     private static final String ACCOUNTING_LINES_GROUP_PROPERTY_SUFFIX = "AccountingLines";
@@ -56,7 +56,7 @@ public class RequiredAccountingLinesCountValidation extends GenericValidation {
      * Returns the title of the given accounting line group on the document
      * @return an accounting line group title
      */
-    private String discoverGroupTitle(AccountingDocument document) {
+    protected String discoverGroupTitle(AccountingDocument document) {
         String title = accountingLineGroupName;
         Method groupTitleMethod = discoverGroupTitleMethod(document);
         if (groupTitleMethod != null) {
@@ -77,7 +77,7 @@ public class RequiredAccountingLinesCountValidation extends GenericValidation {
      * Looks up what should be the method on the AccountingDocument class that returns the group title
      * @return
      */
-    private Method discoverGroupTitleMethod(AccountingDocument document) {
+    protected Method discoverGroupTitleMethod(AccountingDocument document) {
         Method groupTitleMethod = null;
         try {
             String methodName = new StringBuilder().append("get").append(accountingLineGroupPropertyName.substring(0, 1).toUpperCase()).append(accountingLineGroupPropertyName.substring(1)).append("SectionTitle").toString();

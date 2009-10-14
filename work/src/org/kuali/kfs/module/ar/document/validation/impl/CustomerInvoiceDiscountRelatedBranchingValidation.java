@@ -24,7 +24,7 @@ public class CustomerInvoiceDiscountRelatedBranchingValidation extends Branching
     public static final String IS_DISCOUNT_VALIDATION = "isDiscountValidation";
     public static final String IS_PARENT_VALIDATION = "isParentValidation";
     
-    private CustomerInvoiceDetail customerInvoiceDetail;
+    protected CustomerInvoiceDetail customerInvoiceDetail;
 
     @Override
     protected String determineBranch(AttributedDocumentEvent event) {

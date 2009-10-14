@@ -63,7 +63,7 @@ public class JournalVoucherBalanceTypeValidation extends GenericValidation {
      * @param attributeName the attribute to look up the label for
      * @return the label
      */
-    private String getLabelFromDataDictionary(Class entryClass, String attributeName) {
+    protected String getLabelFromDataDictionary(Class entryClass, String attributeName) {
         DataDictionaryEntry entry = getDataDictionaryService().getDataDictionary().getDictionaryObjectEntry(entryClass.getName());
         if (entry == null) {
             throw new IllegalArgumentException("Cannot find DataDictionary entry for " + entryClass);

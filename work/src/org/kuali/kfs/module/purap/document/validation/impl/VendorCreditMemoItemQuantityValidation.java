@@ -73,7 +73,7 @@ public class VendorCreditMemoItemQuantityValidation extends GenericValidation {
      * @param item - credit memo item line to return total invoice quantity
      * @return KualiDecimal - total invoiced quantity
      */
-    private KualiDecimal getSourceTotalInvoiceQuantity(VendorCreditMemoDocument cmDocument, CreditMemoItem item) {
+    protected KualiDecimal getSourceTotalInvoiceQuantity(VendorCreditMemoDocument cmDocument, CreditMemoItem item) {
         KualiDecimal invoicedQuantity = null;
 
         if (cmDocument.isSourceDocumentPurchaseOrder()) {

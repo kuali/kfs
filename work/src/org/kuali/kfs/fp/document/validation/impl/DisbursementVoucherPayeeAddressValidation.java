@@ -80,6 +80,15 @@ public class DisbursementVoucherPayeeAddressValidation extends GenericValidation
 
 
     /**
+     * Gets the accountingDocumentForValidation attribute. 
+     * @return Returns the accountingDocumentForValidation.
+     */
+    public AccountingDocument getAccountingDocumentForValidation() {
+        return accountingDocumentForValidation;
+    }
+
+
+    /**
      * Sets the accountingDocumentForValidation attribute value.
      * 
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.

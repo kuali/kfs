@@ -34,7 +34,7 @@ import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class DisbursementVoucherAccountingLineTotalsValidation extends AccountingLineGroupTotalsUnchangedValidation {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAccountingLineTotalsValidation.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAccountingLineTotalsValidation.class);
 
     /**
      * @see org.kuali.kfs.sys.document.validation.impl.AccountingLineGroupTotalsUnchangedValidation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
@@ -83,7 +83,7 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
      * @param candidateEditEditModes the given candidate edit modes
      * @return true if the give user has permission to any edit mode defined in the given candidate edit modes; otherwise, false
      */
-    private boolean hasRequiredEditMode(Set<String> currentEditModes, List<String> candidateEditModes) {
+    protected boolean hasRequiredEditMode(Set<String> currentEditModes, List<String> candidateEditModes) {
         for (String editMode : candidateEditModes) {
             if (currentEditModes.contains(editMode)) {
                 return true;
@@ -115,7 +115,7 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
      * 
      * @return the possibly desired edit modes
      */
-    private List<String> getCandidateEditModes() {
+    protected List<String> getCandidateEditModes() {
         List<String> candidateEdiModes = new ArrayList<String>();
         candidateEdiModes.add(DisbursementVoucherEditMode.TAX_ENTRY);
         candidateEdiModes.add(DisbursementVoucherEditMode.FRN_ENTRY);
@@ -130,7 +130,7 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
      * @param dvDocument the document we're validating 
      * @return foreign draft And wire transfer edit mode names
      */
-    private List<String> getForeignDraftAndWireTransferEditModes(DisbursementVoucherDocument dvDocument) {
+    protected List<String> getForeignDraftAndWireTransferEditModes(DisbursementVoucherDocument dvDocument) {
         List<String> foreignDraftAndWireTransferEditModes = new ArrayList<String>();
         foreignDraftAndWireTransferEditModes.add(DisbursementVoucherEditMode.FRN_ENTRY);
         foreignDraftAndWireTransferEditModes.add(DisbursementVoucherEditMode.WIRE_ENTRY);
@@ -148,7 +148,7 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
      * @param dvDocument the document to check
      * @return true if the tax entry mode can change accounting line totals, false otherwise
      */
-    private boolean includeTaxAsTotalChangingMode(DisbursementVoucherDocument dvDocument) {
+    protected boolean includeTaxAsTotalChangingMode(DisbursementVoucherDocument dvDocument) {
         return dvDocument.getDvPayeeDetail().isDisbVchrAlienPaymentCode();
     }
 }

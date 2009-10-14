@@ -35,8 +35,8 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class DisbursementVoucherAccountingLineAccessibleValidation extends AccountingLineAccessibleValidation {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAccountingLineAccessibleValidation.class);
-    private AccountingLine oldAccountingLineForValidation;
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAccountingLineAccessibleValidation.class);
+    protected AccountingLine oldAccountingLineForValidation;
 
     /**
      * Validates that the given accounting line is accessible for editing by the current user. <strong>This method expects a
@@ -92,7 +92,7 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
      * @param candidateEditEditModes the given candidate edit modes
      * @return true if the give user has permission to any edit mode defined in the given candidate edit modes; otherwise, false
      */
-    private boolean hasRequiredEditMode(AccountingDocument accountingDocument, Person financialSystemUser, List<String> candidateEditModes) {
+    protected boolean hasRequiredEditMode(AccountingDocument accountingDocument, Person financialSystemUser, List<String> candidateEditModes) {
         DocumentHelperService documentHelperService = SpringContext.getBean(DocumentHelperService.class);
         TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) documentHelperService.getDocumentAuthorizer(accountingDocument);
         TransactionalDocumentPresentationController presentationController = (TransactionalDocumentPresentationController) documentHelperService.getDocumentPresentationController(accountingDocument);
@@ -114,7 +114,7 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
      * 
      * @return the possibly desired edit modes
      */
-    private List<String> getCandidateEditModes() {
+    protected List<String> getCandidateEditModes() {
         List<String> candidateEdiModes = new ArrayList<String>();
         candidateEdiModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TAX_ENTRY);
         candidateEdiModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.FRN_ENTRY);

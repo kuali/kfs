@@ -68,7 +68,7 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
      * @param item
      * @return
      */
-    private boolean validateEachItem(PaymentRequestDocument paymentRequestDocument, PaymentRequestItem item) {
+    protected boolean validateEachItem(PaymentRequestDocument paymentRequestDocument, PaymentRequestItem item) {
         boolean valid = true;
         String identifierString = item.getItemIdentifierString();
         valid &= validateItem(paymentRequestDocument, item, identifierString);
@@ -105,7 +105,7 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
      * @param identifierString - identifier string used to mark in an error map
      * @return
      */
-    private boolean validateAboveTheLineItems(PaymentRequestItem item, String identifierString, boolean isReceivingDocumentRequiredIndicator) {
+    protected boolean validateAboveTheLineItems(PaymentRequestItem item, String identifierString, boolean isReceivingDocumentRequiredIndicator) {
         boolean valid = true;
         // Currently Quantity is allowed to be NULL on screen;
         // must be either a positive number or NULL for DB
@@ -213,7 +213,7 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
         this.itemForValidation = itemForValidation;
     }
 
-    private boolean reviewAccountingLineValidation(PaymentRequestDocument document, PurApAccountingLine accountingLine){
+    protected boolean reviewAccountingLineValidation(PaymentRequestDocument document, PurApAccountingLine accountingLine){
         boolean valid = true;
         List<Validation> gauntlet = new ArrayList<Validation>();
         this.preqDocument = document;
@@ -228,7 +228,7 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
         return valid;
     }
     
-    private void createGauntlet(CompositeValidation validation) {
+    protected void createGauntlet(CompositeValidation validation) {
         for (Validation val : validation.getValidations()) {
             if (val instanceof CompositeValidation) {
                 createGauntlet((CompositeValidation)val);
@@ -262,6 +262,54 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
     protected void addParametersToValidation(AccountingLineValuesAllowedValidationHutch validation) {        
         validation.setAccountingDocumentForValidation(this.preqDocument);
         validation.setAccountingLineForValidation(this.preqAccountingLine);
+    }
+
+    /**
+     * Gets the event attribute. 
+     * @return Returns the event.
+     */
+    protected AttributedDocumentEvent getEvent() {
+        return event;
+    }
+
+    /**
+     * Sets the event attribute value.
+     * @param event The event to set.
+     */
+    protected void setEvent(AttributedDocumentEvent event) {
+        this.event = event;
+    }
+
+    /**
+     * Gets the preqDocument attribute. 
+     * @return Returns the preqDocument.
+     */
+    protected PaymentRequestDocument getPreqDocument() {
+        return preqDocument;
+    }
+
+    /**
+     * Sets the preqDocument attribute value.
+     * @param preqDocument The preqDocument to set.
+     */
+    protected void setPreqDocument(PaymentRequestDocument preqDocument) {
+        this.preqDocument = preqDocument;
+    }
+
+    /**
+     * Gets the preqAccountingLine attribute. 
+     * @return Returns the preqAccountingLine.
+     */
+    protected PurApAccountingLine getPreqAccountingLine() {
+        return preqAccountingLine;
+    }
+
+    /**
+     * Sets the preqAccountingLine attribute value.
+     * @param preqAccountingLine The preqAccountingLine to set.
+     */
+    protected void setPreqAccountingLine(PurApAccountingLine preqAccountingLine) {
+        this.preqAccountingLine = preqAccountingLine;
     }
 
 }

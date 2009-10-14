@@ -70,7 +70,7 @@ public class PaymentRequestPurchaseOrderIdValidation extends GenericValidation {
      * @param document - purchase order document
      * @return
      */
-    private boolean encumberedItemExistsForInvoicing(PurchaseOrderDocument document) {
+    protected boolean encumberedItemExistsForInvoicing(PurchaseOrderDocument document) {
         boolean zeroDollar = true;
         GlobalVariables.getMessageMap().clearErrorPath();
         GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);

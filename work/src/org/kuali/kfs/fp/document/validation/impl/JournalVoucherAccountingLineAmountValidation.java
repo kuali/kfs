@@ -109,7 +109,7 @@ public class JournalVoucherAccountingLineAmountValidation extends GenericValidat
      * @param isDebit Identifies whether or not the line we are returning an error path for is a debit accounting line or not.
      * @return The full error map key path for the appropriate amount type.
      */
-    private String buildErrorMapKeyPathForDebitCreditAmount(boolean isDebit) {
+    protected String buildErrorMapKeyPathForDebitCreditAmount(boolean isDebit) {
         // determine if we are looking at a new line add or an update
         boolean isNewLineAdd = GlobalVariables.getMessageMap().getErrorPath().contains(NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
         isNewLineAdd |= GlobalVariables.getMessageMap().getErrorPath().contains(NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);

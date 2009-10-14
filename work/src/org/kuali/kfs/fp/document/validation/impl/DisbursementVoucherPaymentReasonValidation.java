@@ -135,8 +135,32 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
      * @param vendorDetailIdNumber vendor detail ID number
      * @return <code>VendorDetail</code>
      */
-    private VendorDetail retrieveVendorDetail(Integer vendorIdNumber, Integer vendorDetailIdNumber) {
+    protected VendorDetail retrieveVendorDetail(Integer vendorIdNumber, Integer vendorDetailIdNumber) {
         return SpringContext.getBean(VendorService.class).getVendorDetail(vendorIdNumber, vendorDetailIdNumber);
+    }
+
+    /**
+     * Gets the parameterService attribute. 
+     * @return Returns the parameterService.
+     */
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    /**
+     * Gets the disbursementVoucherPaymentReasonService attribute. 
+     * @return Returns the disbursementVoucherPaymentReasonService.
+     */
+    public DisbursementVoucherPaymentReasonService getDisbursementVoucherPaymentReasonService() {
+        return disbursementVoucherPaymentReasonService;
+    }
+
+    /**
+     * Gets the disbursementVoucherPayeeService attribute. 
+     * @return Returns the disbursementVoucherPayeeService.
+     */
+    public DisbursementVoucherPayeeService getDisbursementVoucherPayeeService() {
+        return disbursementVoucherPayeeService;
     }
 
     /**

@@ -158,7 +158,7 @@ public class PurchasingImportItemValidation extends PurchasingAccountsPayableImp
      * @param item the item to be validated
      * @return boolean false if the item type is quantity based and the unit of measure code is invalid.
      */
-    private boolean validateUnitOfMeasureCodeExists(PurApItem item) {
+    protected boolean validateUnitOfMeasureCodeExists(PurApItem item) {
         boolean valid = true;
         
         if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {            

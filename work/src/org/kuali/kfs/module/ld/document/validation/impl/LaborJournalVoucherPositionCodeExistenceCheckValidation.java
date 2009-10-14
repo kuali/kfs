@@ -66,7 +66,7 @@ public class LaborJournalVoucherPositionCodeExistenceCheckValidation extends Gen
      * @param positionNumber positionNumber is checked against the collection of position number matches
      * @return True if the given position number exists, false otherwise.
      */
-    private boolean positionCodeExistenceCheck(String positionNumber) {
+    protected boolean positionCodeExistenceCheck(String positionNumber) {
 
         boolean positionNumberExists = true;
 

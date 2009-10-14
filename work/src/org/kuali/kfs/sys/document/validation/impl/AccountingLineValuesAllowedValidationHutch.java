@@ -32,20 +32,20 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * of everything.
  */
 public class AccountingLineValuesAllowedValidationHutch implements Validation {
-    private Validation objectCodeAllowedValidation;
-    private Validation objectTypeAllowedValidation;
-    private Validation fundGroupAllowedValidation;
-    private Validation subFundGroupAllowedValidation;
-    private Validation objectSubTypeAllowedValidation;
-    private Validation objectLevelAllowedValidation;
-    private Validation objectConsolidationAllowedValidation;
+    protected Validation objectCodeAllowedValidation;
+    protected Validation objectTypeAllowedValidation;
+    protected Validation fundGroupAllowedValidation;
+    protected Validation subFundGroupAllowedValidation;
+    protected Validation objectSubTypeAllowedValidation;
+    protected Validation objectLevelAllowedValidation;
+    protected Validation objectConsolidationAllowedValidation;
     
-    private String accountingDocumentParameterPropertyName;
-    private String accountingLineParameterPropertyName;
-    private AccountingDocument accountingDocumentForValidation;
-    private AccountingLine accountingLineForValidation;
+    protected String accountingDocumentParameterPropertyName;
+    protected String accountingLineParameterPropertyName;
+    protected AccountingDocument accountingDocumentForValidation;
+    protected AccountingLine accountingLineForValidation;
     
-    private boolean quitOnFail;
+    protected boolean quitOnFail;
     
     /**
      * @see org.kuali.kfs.sys.document.validation.Validation#shouldQuitOnFail()

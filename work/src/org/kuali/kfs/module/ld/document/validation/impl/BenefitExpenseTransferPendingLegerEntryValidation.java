@@ -64,7 +64,7 @@ public class BenefitExpenseTransferPendingLegerEntryValidation extends GenericVa
      * @param accountingDocumentForValidation The accounting document from which the Pending Entries are checked
      * @return True if the given accounting documents Pending Entries do not conflict with current PEs, false otherwise.
      */ 
-    private boolean hasPendingLedgerEntry(AccountingDocument accountingDocument) {
+    protected boolean hasPendingLedgerEntry(AccountingDocument accountingDocument) {
         boolean entriesExist = false ;
         
         LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;

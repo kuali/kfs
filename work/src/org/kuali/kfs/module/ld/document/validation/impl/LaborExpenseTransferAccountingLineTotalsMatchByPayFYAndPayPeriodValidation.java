@@ -105,7 +105,7 @@ public class LaborExpenseTransferAccountingLineTotalsMatchByPayFYAndPayPeriodVal
      * @param accountingLines
      * @return
      */
-    private Map sumAccountingLineAmountsByPayFYAndPayPeriod(List accountingLines) {
+    protected Map sumAccountingLineAmountsByPayFYAndPayPeriod(List accountingLines) {
 
         ExpenseTransferAccountingLine line = null;
         KualiDecimal linesAmount = KualiDecimal.ZERO;
@@ -141,7 +141,7 @@ public class LaborExpenseTransferAccountingLineTotalsMatchByPayFYAndPayPeriodVal
      * @param payPeriodCode
      * @return
      */
-    private String createPayFYPeriodKey(Integer payFiscalYear, String payPeriodCode) {
+    protected String createPayFYPeriodKey(Integer payFiscalYear, String payPeriodCode) {
 
         StringBuffer payFYPeriodKey = new StringBuffer();
 
@@ -162,7 +162,7 @@ public class LaborExpenseTransferAccountingLineTotalsMatchByPayFYAndPayPeriodVal
      * @param targetLinesMap
      * @return
      */
-    private boolean compareAccountingLineTotalsByPayFYAndPayPeriod(Map sourceLinesMap, Map targetLinesMap) {
+    protected boolean compareAccountingLineTotalsByPayFYAndPayPeriod(Map sourceLinesMap, Map targetLinesMap) {
 
         boolean isValid = true;
         Map.Entry entry = null;

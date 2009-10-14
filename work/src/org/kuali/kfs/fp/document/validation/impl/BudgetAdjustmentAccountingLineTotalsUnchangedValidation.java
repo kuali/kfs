@@ -89,7 +89,7 @@ public class BudgetAdjustmentAccountingLineTotalsUnchangedValidation extends Acc
      * @param persistedSourceLineTotal previously persisted source line total
      * @param currentSourceLineTotal current entered source line total
      */
-    private void buildTotalChangeErrorMessage(String propertyName, String sectionTitle, KualiDecimal persistedSourceLineTotal, KualiDecimal currentSourceLineTotal) {
+    protected void buildTotalChangeErrorMessage(String propertyName, String sectionTitle, KualiDecimal persistedSourceLineTotal, KualiDecimal currentSourceLineTotal) {
         String persistedTotal = (String) new CurrencyFormatter().format(persistedSourceLineTotal);
         String currentTotal = (String) new CurrencyFormatter().format(currentSourceLineTotal);
 

@@ -90,14 +90,14 @@ public class DisbursementVoucherNonEmployeeTravelComanyValidation extends Generi
     }
 
     // build the full name of a document property
-    private String buildFullPropertyName(String propertyPath, int index, String propertyName) {
+    protected String buildFullPropertyName(String propertyPath, int index, String propertyName) {
         String fileNamePattern = "{0}[{1}].{2}";
 
         return MessageFormat.format(fileNamePattern, propertyPath, index, propertyName);
     }
 
     // Retrieves the Company object from the company name
-    private TravelCompanyCode retrieveCompany(String companyCode, String companyName) {
+    protected TravelCompanyCode retrieveCompany(String companyCode, String companyName) {
         TravelCompanyCode travelCompanyCode = new TravelCompanyCode();
         travelCompanyCode.setCode(companyCode);
         travelCompanyCode.setName(companyName);

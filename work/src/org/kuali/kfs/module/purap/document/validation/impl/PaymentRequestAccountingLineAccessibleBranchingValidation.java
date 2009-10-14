@@ -23,7 +23,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 public class PaymentRequestAccountingLineAccessibleBranchingValidation extends BranchingValidation {
 
-    private static final String USE_DEFAULT_ACCOUNTING_LINE_ACCESSIBLE="useDefaultAccountingLineAccessible";
+    protected static final String USE_DEFAULT_ACCOUNTING_LINE_ACCESSIBLE="useDefaultAccountingLineAccessible";
     
     @Override
     protected String determineBranch(AttributedDocumentEvent event) {

@@ -25,8 +25,8 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 public class PurchaseOrderAmendmentRequiresAccountValidationBranchingValidation extends PurchaseOrderRequiresAccountValidationBranchingValidation {
     
-    private PurchaseOrderService purchaseOrderService;
-    private PurapService purapService;
+    protected PurchaseOrderService purchaseOrderService;
+    protected PurapService purapService;
     
     @Override
     protected String determineBranch(AttributedDocumentEvent event) {

@@ -60,7 +60,7 @@ public class PaymentRequestTotalsValidation extends GenericValidation {
      * @param excludedItemTypes - list of item types to exclude from totalling
      * @return
      */
-    private KualiDecimal getTotalExcludingItemTypes(List<PurApItem> itemList, List<String> excludedItemTypes) {
+    protected KualiDecimal getTotalExcludingItemTypes(List<PurApItem> itemList, List<String> excludedItemTypes) {
         KualiDecimal total = KualiDecimal.ZERO;
         for (PurApItem item : itemList) {
             if (item.getTotalAmount() != null && item.getTotalAmount().isNonZero()) {
@@ -84,7 +84,7 @@ public class PaymentRequestTotalsValidation extends GenericValidation {
      * 
      * @param itemList - list of purap items
      */
-    private void flagLineItemTotals(List<PurApItem> itemList) {
+    protected void flagLineItemTotals(List<PurApItem> itemList) {
         for (PurApItem purApItem : itemList) {
             PaymentRequestItem item = (PaymentRequestItem) purApItem;
             if (item.getItemQuantity() != null && item.getExtendedPrice() !=null) {

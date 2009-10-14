@@ -56,7 +56,7 @@ public class SalaryExpenseTransferSalaryObjectCodeValidation extends GenericVali
      * @param accountingLine The accounting line the salary object code will be retrieved from.
      * @return True if the given accounting line's object code is a salary object code, false otherwise.
      */ 
-    private boolean isSalaryObjectCode(AccountingLine accountingLine) {
+    protected boolean isSalaryObjectCode(AccountingLine accountingLine) {
         boolean salaryObjectCode = true;
         
         ExpenseTransferAccountingLine expenseTransferAccountingLine = (ExpenseTransferAccountingLine) accountingLine;

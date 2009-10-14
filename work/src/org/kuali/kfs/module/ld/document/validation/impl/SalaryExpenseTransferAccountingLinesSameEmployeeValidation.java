@@ -65,7 +65,7 @@ public class SalaryExpenseTransferAccountingLinesSameEmployeeValidation extends 
         return result ;    
     }
 
-    private boolean hasAccountingLinesSameEmployee(AccountingDocument accountingDocument) {
+    protected boolean hasAccountingLinesSameEmployee(AccountingDocument accountingDocument) {
         
         LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) accountingDocument;
         List<ExpenseTransferSourceAccountingLine> sourceAccountingLines = expenseTransferDocument.getSourceAccountingLines();

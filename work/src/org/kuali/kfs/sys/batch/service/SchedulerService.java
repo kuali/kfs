@@ -177,4 +177,6 @@ public interface SchedulerService {
      * @return
      */
     public Date getNextStartTime(String groupName, String jobName);
+    
+    public void reinitializeScheduledJobs();
 }

@@ -730,4 +730,18 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
         return BatchSpringContext.getJobDescriptor(jobName);
     }
+    
+    public void reinitializeScheduledJobs() {
+        try {
+            for (String scheduledJobName : scheduler.getJobNames(SCHEDULED_GROUP)) {
+                if (scheduler.getTriggersOfJob(scheduledJobName, SCHEDULED_GROUP).length == 0) {
+                    // jobs that have their own triggers will not be reinited
+                    updateStatus(SCHEDULED_GROUP, scheduledJobName, null);
+                }
+            }
+        }
+        catch (Exception e) {
+            LOG.error("Error occurred while trying to reinitialize jobs", e);
+        }
+    }
 }

@@ -30,6 +30,7 @@ public class ScheduleStep extends AbstractStep {
      */
     public boolean execute(String jobName, Date jobRunDate) {
         boolean isPastScheduleCutoffTime = false;
+        schedulerService.reinitializeScheduledJobs();
         while (schedulerService.hasIncompleteJob() && !isPastScheduleCutoffTime) {
             schedulerService.processWaitingJobs();
             isPastScheduleCutoffTime = schedulerService.isPastScheduleCutoffTime();

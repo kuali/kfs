@@ -59,7 +59,7 @@ public class PurgeTest extends KualiTestBase {
      */
     public void testPurgeEntry() throws Exception {
         LOG.debug("testPurgeEntry() started");
-        final int currentFiscalYear = TestUtils.getFiscalYearForTesting().intValue() + 1;
+        final int currentFiscalYear = TestUtils.getFiscalYearForTesting().intValue();
         final int pastFiscalYear = currentFiscalYear - 1;
 
         // The data keeps changing, so this will make sure the test always succeeds
@@ -94,7 +94,7 @@ public class PurgeTest extends KualiTestBase {
     public void testPurgeBalance() throws Exception {
         LOG.debug("testPurgeBalance() started");
         
-        final int currentFiscalYear = TestUtils.getFiscalYearForTesting().intValue() + 1;
+        final int currentFiscalYear = TestUtils.getFiscalYearForTesting().intValue();
         final int pastFiscalYear = currentFiscalYear - 1;
 
         // The data keeps changing, so this will make sure the test always succeeds
@@ -129,7 +129,7 @@ public class PurgeTest extends KualiTestBase {
     public void testPurgeAccountBalances() throws Exception {
         LOG.debug("testPurgeAccountBalances() started");
         
-        final int currentFiscalYear = TestUtils.getFiscalYearForTesting().intValue() + 1;
+        final int currentFiscalYear = TestUtils.getFiscalYearForTesting().intValue();
         final int pastFiscalYear = currentFiscalYear - 1;
 
         // Clear out the table to start with
@@ -164,7 +164,7 @@ public class PurgeTest extends KualiTestBase {
     public void testPurgeEncumbrance() throws Exception {
         LOG.debug("testPurgeEncumbrance() started");
         
-        final int currentFiscalYear = TestUtils.getFiscalYearForTesting().intValue() + 1;
+        final int currentFiscalYear = TestUtils.getFiscalYearForTesting().intValue();
         final int pastFiscalYear = currentFiscalYear - 1;
 
         // Clear out the table
@@ -199,17 +199,17 @@ public class PurgeTest extends KualiTestBase {
     public void testPurgeCollectorDetail() throws Exception {
         LOG.debug("testPurgeCollectorDetail() started");
         
-        final int currentFiscalYear = TestUtils.getFiscalYearForTesting().intValue() + 1;
+        final int currentFiscalYear = TestUtils.getFiscalYearForTesting().intValue();
         final int pastFiscalYear = currentFiscalYear - 1;
 
         // Clear out the table
         unitTestSqlDao.sqlCommand("DELETE FROM GL_ID_BILL_T");
 
         // Should be deleted
-        unitTestSqlDao.sqlCommand("insert into GL_ID_BILL_T (FS_ORIGIN_CD,UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, CREATE_DT, CREATE_SEQ, FIN_COA_CD, ACCOUNT_NBR, " + "SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FDOC_IDBIL_SEQ_NBR, FDOC_TYP_CD, FDOC_NBR, OBJ_ID, VER_NBR, FDOC_IDBIL_ITM_AMT, " + "FDOC_IDBIL_NTE_TXT, FIN_OBJ_TYP_CD, FIN_BALANCE_TYP_CD) values ('01','01', "+pastFiscalYear+", " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", '1', 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX','" + new Guid().toString() + "', 1, 0, 'x', 'EX', 'AC')");
+        unitTestSqlDao.sqlCommand("insert into GL_ID_BILL_T (FS_ORIGIN_CD,UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, CREATE_DT, FIN_COA_CD, ACCOUNT_NBR, " + "SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FDOC_IDBIL_SEQ_NBR, FDOC_TYP_CD, FDOC_NBR, OBJ_ID, VER_NBR, FDOC_IDBIL_ITM_AMT, " + "FDOC_IDBIL_NTE_TXT, FIN_OBJ_TYP_CD, FIN_BALANCE_TYP_CD, TRN_ENTR_SEQ_NBR) values ('01','01', "+pastFiscalYear+", " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX','" + new Guid().toString() + "', 1, 0, 'x', 'EX', 'AC', 1)");
 
         // Shouldn't be deleted
-        unitTestSqlDao.sqlCommand("insert into GL_ID_BILL_T (FS_ORIGIN_CD,UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, CREATE_DT, CREATE_SEQ, FIN_COA_CD, ACCOUNT_NBR, " + "SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FDOC_IDBIL_SEQ_NBR, FDOC_TYP_CD, FDOC_NBR, OBJ_ID, VER_NBR, FDOC_IDBIL_ITM_AMT, " + "FDOC_IDBIL_NTE_TXT, FIN_OBJ_TYP_CD, FIN_BALANCE_TYP_CD) values ('01','01', "+currentFiscalYear+", " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", '1', 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX','" + new Guid().toString() + "', 1, 0, 'x', 'EX', 'AC')");
+        unitTestSqlDao.sqlCommand("insert into GL_ID_BILL_T (FS_ORIGIN_CD,UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, CREATE_DT, FIN_COA_CD, ACCOUNT_NBR, " + "SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FDOC_IDBIL_SEQ_NBR, FDOC_TYP_CD, FDOC_NBR, OBJ_ID, VER_NBR, FDOC_IDBIL_ITM_AMT, " + "FDOC_IDBIL_NTE_TXT, FIN_OBJ_TYP_CD, FIN_BALANCE_TYP_CD, TRN_ENTR_SEQ_NBR) values ('01','01', "+currentFiscalYear+", " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX','" + new Guid().toString() + "', 1, 0, 'x', 'EX', 'AC', 2)");
 
         Step purgeStep = SpringContext.getBean(PurgeCollectorDetailStep.class);
         TestUtils.setSystemParameter(purgeStep.getClass(), KFSConstants.SystemGroupParameterNames.PURGE_GL_ENTRY_T_BEFORE_YEAR, Integer.toString(currentFiscalYear));
@@ -234,7 +234,7 @@ public class PurgeTest extends KualiTestBase {
     public void testPurgeSufficientFundsBalances() throws Exception {
         LOG.debug("testPurgeSufficientFundsBalances() started");
         
-        final int currentFiscalYear = TestUtils.getFiscalYearForTesting().intValue() + 1;
+        final int currentFiscalYear = TestUtils.getFiscalYearForTesting().intValue();
         final int pastFiscalYear = currentFiscalYear - 1;
 
         // Clear out the table

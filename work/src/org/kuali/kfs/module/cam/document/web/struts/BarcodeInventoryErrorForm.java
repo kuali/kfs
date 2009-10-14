@@ -29,11 +29,11 @@ import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
  * Action form for the asset barcode inventory error document
  */
 public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocumentFormBase {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorForm.class);
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorForm.class);
 
-    private int[] rowCheckbox; 
-    private boolean selectAllCheckbox;
-    private HashMap barcodeInventoryStatuses; 
+    protected int[] rowCheckbox; 
+    protected boolean selectAllCheckbox;
+    protected HashMap barcodeInventoryStatuses; 
 
     /**
      * 

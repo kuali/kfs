@@ -48,7 +48,7 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
  */
 public class PurchasingAccountsPayableFormBase extends KualiAccountingDocumentFormBase {
 
-    private transient List<SummaryAccount> summaryAccounts;
+    protected transient List<SummaryAccount> summaryAccounts;
 
     /**
      * Constructs a PurchasingAccountsPayableFormBase instance and initializes summary accounts.

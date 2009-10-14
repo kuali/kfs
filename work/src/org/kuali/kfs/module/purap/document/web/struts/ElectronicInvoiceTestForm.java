@@ -23,8 +23,8 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
  */
 public class ElectronicInvoiceTestForm extends KualiDocumentFormBase {
 
-    private FormFile xmlFile;
-    private String returnXml;
+    protected FormFile xmlFile;
+    protected String returnXml;
 
     public FormFile getXmlFile() {
         return xmlFile;

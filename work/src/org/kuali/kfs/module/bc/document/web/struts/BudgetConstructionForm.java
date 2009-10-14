@@ -48,52 +48,52 @@ import org.kuali.rice.kns.util.TypedArrayList;
 
 
 public class BudgetConstructionForm extends FinancialSystemTransactionalDocumentFormBase {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionForm.class);
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionForm.class);
 
-    private PendingBudgetConstructionGeneralLedger newRevenueLine;
-    private PendingBudgetConstructionGeneralLedger newExpenditureLine;
+    protected PendingBudgetConstructionGeneralLedger newRevenueLine;
+    protected PendingBudgetConstructionGeneralLedger newExpenditureLine;
     
-    private static String revenueObjectTypeCodesLookup = SpringContext.getBean(BudgetParameterService.class).getLookupObjectTypes(true);
-    private static String expenditureObjectTypeCodesLookup = SpringContext.getBean(BudgetParameterService.class).getLookupObjectTypes(false);
+    protected static String revenueObjectTypeCodesLookup = SpringContext.getBean(BudgetParameterService.class).getLookupObjectTypes(true);
+    protected static String expenditureObjectTypeCodesLookup = SpringContext.getBean(BudgetParameterService.class).getLookupObjectTypes(false);
 
-    private boolean closingDocument = false;
+    protected boolean closingDocument = false;
 
-    private boolean hideDetails = false;
-    private boolean pickListClose = false;
-    private boolean securityNoAccess = false;
-    private boolean hideAdjustmentMeasurement = true;
-    private KualiDecimal revenueAdjustmentAmount;
-    private KualiDecimal expenditureAdjustmentAmount;
+    protected boolean hideDetails = false;
+    protected boolean pickListClose = false;
+    protected boolean securityNoAccess = false;
+    protected boolean hideAdjustmentMeasurement = true;
+    protected KualiDecimal revenueAdjustmentAmount;
+    protected KualiDecimal expenditureAdjustmentAmount;
 
-    private List<BCKeyLabelPair> pushdownLevelKeyLabels;
-    private List<BCKeyLabelPair> pullupLevelKeyLabels;
-    private String pushdownKeyCode;
-    private String pullupKeyCode;
-    private List<BudgetConstructionAccountOrganizationHierarchy> accountOrgHierLevels;
+    protected List<BCKeyLabelPair> pushdownLevelKeyLabels;
+    protected List<BCKeyLabelPair> pullupLevelKeyLabels;
+    protected String pushdownKeyCode;
+    protected String pullupKeyCode;
+    protected List<BudgetConstructionAccountOrganizationHierarchy> accountOrgHierLevels;
 
     // a flag set during initial load to force a benefits calc and 2plg adjustment
     // at the first instance a BC doc becomes editable - which is detected in action execute
-    private boolean checkTwoPlugAdjustment = false;
+    protected boolean checkTwoPlugAdjustment = false;
 
     // holds Salary Setting associated rows as they looked before applying any DB changes from performSalarySetting
     // this is used to compare before and after state.
-    private HashMap<String, PendingBudgetConstructionGeneralLedger> preSalarySettingRows;
+    protected HashMap<String, PendingBudgetConstructionGeneralLedger> preSalarySettingRows;
 
     // passed parms
-    private String backLocation;
-    private String returnAnchor;
-    private String returnFormKey;
-    private Integer universityFiscalYear;
-    private String chartOfAccountsCode;
-    private String accountNumber;
-    private String subAccountNumber;
-    private boolean pickListMode;
-    private boolean accountReportsExist;
-    private boolean mainWindow = false;
+    protected String backLocation;
+    protected String returnAnchor;
+    protected String returnFormKey;
+    protected Integer universityFiscalYear;
+    protected String chartOfAccountsCode;
+    protected String accountNumber;
+    protected String subAccountNumber;
+    protected boolean pickListMode;
+    protected boolean accountReportsExist;
+    protected boolean mainWindow = false;
 
     // holds anchor value to return to when doing doing balance inquiry
     // it is only set when setting up to do balance inquiry and reset in refresh
-    private String balanceInquiryReturnAnchor;
+    protected String balanceInquiryReturnAnchor;
 
     public BudgetConstructionForm() {
         super();
@@ -333,7 +333,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      * 
      * @param line
      */
-    private void populatePBGLLine(PendingBudgetConstructionGeneralLedger line) {
+    protected void populatePBGLLine(PendingBudgetConstructionGeneralLedger line) {
 
         SpringContext.getBean(BudgetDocumentService.class).populatePBGLLine(line);
 

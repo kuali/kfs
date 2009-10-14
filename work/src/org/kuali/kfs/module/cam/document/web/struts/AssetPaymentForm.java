@@ -37,16 +37,16 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
-    private static Log LOG = LogFactory.getLog(AssetPaymentForm.class);
+    protected static Log LOG = LogFactory.getLog(AssetPaymentForm.class);
 
     // Indicates which result set we are using when refreshing/returning from a multi-value lookup.
-    private String lookupResultsSequenceNumber;
+    protected String lookupResultsSequenceNumber;
 
     // Type of result returned by the multi-value lookup. ?to be persisted in the lookup results service instead?
-    private String lookupResultsBOClassName;
+    protected String lookupResultsBOClassName;
 
     // The name of the collection looked up (by a multiple value lookup)
-    private String lookedUpCollectionName;
+    protected String lookedUpCollectionName;
 
     String capitalAssetNumber = "";
 

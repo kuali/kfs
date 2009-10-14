@@ -34,12 +34,12 @@ import org.kuali.rice.kns.util.KNSConstants;
  */
 public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormBase implements MultipleValueLookupBroker {
 
-    private String lookupResultsSequenceNumber; // Indicates which result set we are using when refreshing/returning from a
+    protected String lookupResultsSequenceNumber; // Indicates which result set we are using when refreshing/returning from a
                                                 // multi-value lookup.
-    private String lookupResultsBOClassName; // Type of result returned by the multi-value lookup. ?to be persisted in the lookup
+    protected String lookupResultsBOClassName; // Type of result returned by the multi-value lookup. ?to be persisted in the lookup
                                                 // results service instead?
-    private String lookedUpCollectionName; // The name of the collection looked up (by a multiple value lookup)
-    private Integer universityFiscalYear;
+    protected String lookedUpCollectionName; // The name of the collection looked up (by a multiple value lookup)
+    protected Integer universityFiscalYear;
 
     /**
      * Constructs a ExpenseTransferDocumentFormBase instance for the dependent object.

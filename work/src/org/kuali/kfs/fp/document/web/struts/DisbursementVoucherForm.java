@@ -45,27 +45,27 @@ import org.kuali.rice.kns.web.format.SimpleBooleanFormatter;
 public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherForm.class);
 
-    private static final long serialVersionUID = 1L;
+    protected static final long serialVersionUID = 1L;
 
-    private String payeeIdNumber;
-    private String vendorHeaderGeneratedIdentifier = StringUtils.EMPTY;
-    private String vendorDetailAssignedIdentifier = StringUtils.EMPTY;
-    private String vendorAddressGeneratedIdentifier;
+    protected String payeeIdNumber;
+    protected String vendorHeaderGeneratedIdentifier = StringUtils.EMPTY;
+    protected String vendorDetailAssignedIdentifier = StringUtils.EMPTY;
+    protected String vendorAddressGeneratedIdentifier;
     
-    private String tempPayeeIdNumber;
-    private String tempVendorHeaderGeneratedIdentifier = StringUtils.EMPTY;
-    private String tempVendorDetailAssignedIdentifier = StringUtils.EMPTY;
-    private String tempVendorAddressGeneratedIdentifier;
-    private String oldPayeeType = StringUtils.EMPTY;
+    protected String tempPayeeIdNumber;
+    protected String tempVendorHeaderGeneratedIdentifier = StringUtils.EMPTY;
+    protected String tempVendorDetailAssignedIdentifier = StringUtils.EMPTY;
+    protected String tempVendorAddressGeneratedIdentifier;
+    protected String oldPayeeType = StringUtils.EMPTY;
     
-    private boolean hasMultipleAddresses = false;
+    protected boolean hasMultipleAddresses = false;
 
-    private DisbursementVoucherNonEmployeeExpense newNonEmployeeExpenseLine;
-    private DisbursementVoucherNonEmployeeExpense newPrePaidNonEmployeeExpenseLine;
-    private DisbursementVoucherPreConferenceRegistrant newPreConferenceRegistrantLine;
-    private String wireChargeMessage;
+    protected DisbursementVoucherNonEmployeeExpense newNonEmployeeExpenseLine;
+    protected DisbursementVoucherNonEmployeeExpense newPrePaidNonEmployeeExpenseLine;
+    protected DisbursementVoucherPreConferenceRegistrant newPreConferenceRegistrantLine;
+    protected String wireChargeMessage;
     
-    private boolean canExport = false;
+    protected boolean canExport = false;
 
     /**
      * Constructs a DisbursementVoucherForm.java.

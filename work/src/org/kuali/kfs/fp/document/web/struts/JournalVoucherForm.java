@@ -40,9 +40,9 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * matches the accounting lines source list.
  */
 public class JournalVoucherForm extends VoucherForm {
-    private List balanceTypes;
-    private String originalBalanceType;
-    private BalanceType selectedBalanceType;
+    protected List balanceTypes;
+    protected String originalBalanceType;
+    protected BalanceType selectedBalanceType;
 
     /**
      * Constructs a JournalVoucherForm instance.
@@ -189,7 +189,7 @@ public class JournalVoucherForm extends VoucherForm {
     /**
      * This method retrieves all of the balance types in the system and prepares them to be rendered in a dropdown UI component.
      */
-    private void populateBalanceTypeListForRendering() {
+    protected void populateBalanceTypeListForRendering() {
         // grab the list of valid balance types
         ArrayList balanceTypes = new ArrayList(SpringContext.getBean(BalanceTypeService.class).getAllBalanceTypes());
 
@@ -235,7 +235,7 @@ public class JournalVoucherForm extends VoucherForm {
      * 
      * @return boolean True if it is an offset generation balance type, false otherwise.
      */
-    private boolean isSelectedBalanceTypeFinancialOffsetGenerationIndicator() {
+    protected boolean isSelectedBalanceTypeFinancialOffsetGenerationIndicator() {
         return getPopulatedBalanceTypeInstance(getSelectedBalanceType().getCode()).isFinancialOffsetGenerationIndicator();
     }
 }

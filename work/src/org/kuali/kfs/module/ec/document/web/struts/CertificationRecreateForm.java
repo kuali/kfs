@@ -31,12 +31,12 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * To define an action form for effrot certification recreate process
  */
 public class CertificationRecreateForm extends EffortCertificationForm {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CertificationRecreateForm.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CertificationRecreateForm.class);
 
-    private String emplid;
-    private String personName;
-    private Integer universityFiscalYear;
-    private String effortCertificationReportNumber;
+    protected String emplid;
+    protected String personName;
+    protected Integer universityFiscalYear;
+    protected String effortCertificationReportNumber;
 
     /**
      * Constructs a CertificationRecreateForm.java.
@@ -50,7 +50,7 @@ public class CertificationRecreateForm extends EffortCertificationForm {
      * 
      * @return Returns the importing field values.
      */
-    private List<String> getImportingFields() {
+    protected List<String> getImportingFields() {
         List<String> importingFields = new ArrayList<String>();
 
         importingFields.add(KFSPropertyConstants.EMPLID);

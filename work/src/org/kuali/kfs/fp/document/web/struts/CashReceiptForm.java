@@ -45,19 +45,19 @@ import org.kuali.rice.kns.web.format.SimpleBooleanFormatter;
  * This class is the action form for Cash Receipts.
  */
 public class CashReceiptForm extends KualiAccountingDocumentFormBase implements CapitalAssetEditable{
-    private static final long serialVersionUID = 1L;
-    private static final String CAN_PRINT_COVERSHEET_SIG_STR = "isCoverSheetPrintingAllowed";
+    protected static final long serialVersionUID = 1L;
+    protected static final String CAN_PRINT_COVERSHEET_SIG_STR = "isCoverSheetPrintingAllowed";
 
-    private Check newCheck;
+    protected Check newCheck;
 
-    private KualiDecimal checkTotal;
+    protected KualiDecimal checkTotal;
 
-    private String checkEntryMode;
-    private List checkEntryModes;
+    protected String checkEntryMode;
+    protected List checkEntryModes;
 
-    private List baselineChecks;
+    protected List baselineChecks;
     
-    private CapitalAssetInformation capitalAssetInformation;
+    protected CapitalAssetInformation capitalAssetInformation;
 
     /**
      * Constructs a CashReceiptForm.java.

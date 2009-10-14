@@ -32,7 +32,7 @@ import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
  */
 public class BudgetAdjustmentForm extends KualiAccountingDocumentFormBase {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetAdjustmentForm.class);
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetAdjustmentForm.class);
 
     
     /**

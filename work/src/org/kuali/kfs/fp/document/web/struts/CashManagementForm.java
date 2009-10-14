@@ -54,15 +54,15 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
  * This class is the action form for CashManagement
  */
 public class CashManagementForm extends KualiDocumentFormBase {
-    private static final long serialVersionUID = 1L;
-    private static Logger LOG = Logger.getLogger(CashManagementForm.class);
+    protected static final long serialVersionUID = 1L;
+    protected static Logger LOG = Logger.getLogger(CashManagementForm.class);
 
-    private static final String CAMPUS_CODE_PROPERTY = "document.campusCode";
+    protected static final String CAMPUS_CODE_PROPERTY = "document.campusCode";
 
-    private transient List depositHelpers;
-    private CashDrawerSummary cashDrawerSummary;
-    private List<CashieringItemInProcess> recentlyClosedItemsInProcess;
-    private transient CashManagementDocumentPresentationController cmDocPrezController;
+    protected transient List depositHelpers;
+    protected CashDrawerSummary cashDrawerSummary;
+    protected List<CashieringItemInProcess> recentlyClosedItemsInProcess;
+    protected transient CashManagementDocumentPresentationController cmDocPrezController;
 
     /**
      * Constructs a CashManagementForm.
@@ -239,9 +239,9 @@ public class CashManagementForm extends KualiDocumentFormBase {
      * Inner helper class.
      */
     public static final class DepositHelper {
-        private Integer depositLineNumber;
-        private List<CashReceiptSummary> cashReceiptSummarys;
-        private List<Check> cashieringChecks;
+        protected Integer depositLineNumber;
+        protected List<CashReceiptSummary> cashReceiptSummarys;
+        protected List<Check> cashieringChecks;
 
         /**
          * Constructs a DepositHelper - default constructor used by PojoProcessor.
@@ -293,7 +293,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
          * 
          * @param minSize
          */
-        private void extendCashReceiptSummarys(int minSize) {
+        protected void extendCashReceiptSummarys(int minSize) {
             while (cashReceiptSummarys.size() < minSize) {
                 cashReceiptSummarys.add(new CashReceiptSummary());
             }
@@ -324,7 +324,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
          * 
          * @param minSize the minimum size to make the list
          */
-        private void extendCashieringChecks(int minSize) {
+        protected void extendCashieringChecks(int minSize) {
             while (cashieringChecks.size() <= minSize) {
                 cashieringChecks.add(new CheckBase());
             }
@@ -347,11 +347,11 @@ public class CashManagementForm extends KualiDocumentFormBase {
     }
 
     public static final class CashReceiptSummary {
-        private String documentNumber;
-        private String description;
-        private Timestamp createDate;
-        private KualiDecimal totalAmount;
-        private KualiDecimal checkAmount;
+        protected String documentNumber;
+        protected String description;
+        protected Timestamp createDate;
+        protected KualiDecimal totalAmount;
+        protected KualiDecimal checkAmount;
 
         /**
          * Default constructor used by PojoProcessor.
@@ -462,39 +462,39 @@ public class CashManagementForm extends KualiDocumentFormBase {
     }
 
     public static final class CashDrawerSummary implements Serializable {
-        private Timestamp timeOpened;
-        private Timestamp timeRefreshed;
+        protected Timestamp timeOpened;
+        protected Timestamp timeRefreshed;
 
         // directly calculated
-        private int overallReceiptCount;
-        private int depositedReceiptCount;
+        protected int overallReceiptCount;
+        protected int depositedReceiptCount;
 
-        private CashReceiptStatistics verifiedReceiptStats = new CashReceiptStatistics();
-        private CashReceiptStatistics interimReceiptStats = new CashReceiptStatistics();
-        private CashReceiptStatistics finalReceiptStats = new CashReceiptStatistics();
-        private CashReceiptStatistics overallReceiptStats = new CashReceiptStatistics();
+        protected CashReceiptStatistics verifiedReceiptStats = new CashReceiptStatistics();
+        protected CashReceiptStatistics interimReceiptStats = new CashReceiptStatistics();
+        protected CashReceiptStatistics finalReceiptStats = new CashReceiptStatistics();
+        protected CashReceiptStatistics overallReceiptStats = new CashReceiptStatistics();
 
         // derived
-        private KualiDecimal verifiedReceiptSumTotal;
-        private KualiDecimal interimReceiptSumTotal;
-        private KualiDecimal finalReceiptSumTotal;
-        private KualiDecimal overallReceiptSumTotal;
+        protected KualiDecimal verifiedReceiptSumTotal;
+        protected KualiDecimal interimReceiptSumTotal;
+        protected KualiDecimal finalReceiptSumTotal;
+        protected KualiDecimal overallReceiptSumTotal;
 
-        private KualiDecimal remainingCheckTotal;
-        private KualiDecimal remainingCurrencyTotal;
-        private KualiDecimal remainingCoinTotal;
-        private KualiDecimal remainingSumTotal;
+        protected KualiDecimal remainingCheckTotal;
+        protected KualiDecimal remainingCurrencyTotal;
+        protected KualiDecimal remainingCoinTotal;
+        protected KualiDecimal remainingSumTotal;
 
-        private boolean isDepositsFinal = false;
-        private KualiDecimal cashieringChecksTotal;
-        private KualiDecimal depositedCashieringChecksTotal;
-        private KualiDecimal undepositedCashieringChecksTotal;
-        private KualiDecimal cashDrawerCurrencyTotal;
-        private KualiDecimal cashDrawerCoinTotal;
-        private KualiDecimal openItemsTotal;
-        private KualiDecimal cashDrawerTotal;
-        private KualiDecimal interimDepositedCashieringChecksTotal;
-        private KualiDecimal finalDepositedCashieringChecksTotal;
+        protected boolean isDepositsFinal = false;
+        protected KualiDecimal cashieringChecksTotal;
+        protected KualiDecimal depositedCashieringChecksTotal;
+        protected KualiDecimal undepositedCashieringChecksTotal;
+        protected KualiDecimal cashDrawerCurrencyTotal;
+        protected KualiDecimal cashDrawerCoinTotal;
+        protected KualiDecimal openItemsTotal;
+        protected KualiDecimal cashDrawerTotal;
+        protected KualiDecimal interimDepositedCashieringChecksTotal;
+        protected KualiDecimal finalDepositedCashieringChecksTotal;
 
         public CashDrawerSummary(CashManagementDocument cmDoc) {
             timeOpened = cmDoc.getDocumentHeader().getWorkflowDocument().getCreateDate();
@@ -506,7 +506,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
         }
 
 
-        private static final String[] INTERESTING_STATII = { CashReceipt.VERIFIED, CashReceipt.INTERIM, CashReceipt.FINAL };
+        protected static final String[] INTERESTING_STATII = { CashReceipt.VERIFIED, CashReceipt.INTERIM, CashReceipt.FINAL };
 
         public void resummarize(CashManagementDocument cmDoc) {
             //
@@ -581,15 +581,15 @@ public class CashManagementForm extends KualiDocumentFormBase {
             timeRefreshed = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
         }
 
-        private KualiDecimal calculateDepositedCashieringChecksTotal(CashManagementDocument cmDoc) {
+        protected KualiDecimal calculateDepositedCashieringChecksTotal(CashManagementDocument cmDoc) {
             return SpringContext.getBean(CashManagementService.class).calculateDepositedCheckTotal(cmDoc.getDocumentNumber());
         }
 
-        private KualiDecimal calculateUndepositedCashieringChecksTotal(CashManagementDocument cmDoc) {
+        protected KualiDecimal calculateUndepositedCashieringChecksTotal(CashManagementDocument cmDoc) {
             return SpringContext.getBean(CashManagementService.class).calculateUndepositedCheckTotal(cmDoc.getDocumentNumber());
         }
 
-        private KualiDecimal calculateOpenItemsTotal(CashManagementDocument cmDoc) {
+        protected KualiDecimal calculateOpenItemsTotal(CashManagementDocument cmDoc) {
             KualiDecimal total = KualiDecimal.ZERO;
             for (CashieringItemInProcess itemInProcess : SpringContext.getBean(CashManagementService.class).getOpenItemsInProcess(cmDoc)) {
                 if (itemInProcess.getItemRemainingAmount() != null) {
@@ -599,7 +599,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
             return total;
         }
 
-        private Map<String, KualiDecimal> calculateDepositedCashieringChecksTotalByDepositType(CashManagementDocument cmDoc) {
+        protected Map<String, KualiDecimal> calculateDepositedCashieringChecksTotalByDepositType(CashManagementDocument cmDoc) {
             Map<String, KualiDecimal> result = new HashMap<String, KualiDecimal>();
             result.put(DepositConstants.DEPOSIT_TYPE_INTERIM, KualiDecimal.ZERO);
             result.put(DepositConstants.DEPOSIT_TYPE_FINAL, KualiDecimal.ZERO);
@@ -987,10 +987,10 @@ public class CashManagementForm extends KualiDocumentFormBase {
         }
 
         public static final class CashReceiptStatistics implements Serializable{
-            private int receiptCount;
-            private KualiDecimal checkTotal;
-            private KualiDecimal currencyTotal;
-            private KualiDecimal coinTotal;
+            protected int receiptCount;
+            protected KualiDecimal checkTotal;
+            protected KualiDecimal currencyTotal;
+            protected KualiDecimal coinTotal;
 
             /**
              * Constructs a SubSummary.

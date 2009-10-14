@@ -51,17 +51,17 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
  * This class is the base action form for all financial documents.
  */
 public class KualiAccountingDocumentFormBase extends FinancialSystemTransactionalDocumentFormBase {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiAccountingDocumentFormBase.class);
-    private SourceAccountingLine newSourceLine;
-    private TargetAccountingLine newTargetLine;
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiAccountingDocumentFormBase.class);
+    protected SourceAccountingLine newSourceLine;
+    protected TargetAccountingLine newTargetLine;
 
-    private Map editableAccounts;
-    private Map forcedLookupOptionalFields;
+    protected Map editableAccounts;
+    protected Map forcedLookupOptionalFields;
 
     // TODO: FormFile isn't Serializable, so mark these fields need as transient or create a Serializable subclass of FormFile
     protected FormFile sourceFile;
     protected FormFile targetFile;
-    private boolean hideDetails = false;
+    protected boolean hideDetails = false;
 
     /**
      * This constructor sets up empty instances for the dependent objects...
@@ -402,7 +402,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
      * @param lines a list of objects
      * @return a list of the accounting lines that were in the lines parameter
      */
-    private List<AccountingLine> harvestAccountingLines(List lines) {
+    protected List<AccountingLine> harvestAccountingLines(List lines) {
         List<AccountingLine> accountingLines = new ArrayList<AccountingLine>();
         for (Object o : lines) {
             if (o instanceof AccountingLine) {

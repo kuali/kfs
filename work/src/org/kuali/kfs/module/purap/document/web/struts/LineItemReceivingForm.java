@@ -41,9 +41,9 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class LineItemReceivingForm extends ReceivingFormBase {
     
-    private Integer purchaseOrderId;
-    private LineItemReceivingItem newLineItemReceivingItemLine;
-    private boolean fromPurchaseOrder = false;
+    protected Integer purchaseOrderId;
+    protected LineItemReceivingItem newLineItemReceivingItemLine;
+    protected boolean fromPurchaseOrder = false;
     
     /**
      * Constructs a LineItemReceivingForm instance and sets up the appropriately casted document.
@@ -126,7 +126,7 @@ public class LineItemReceivingForm extends ReceivingFormBase {
         return extraButtons;
     }        
 
-    private boolean canCreateCorrection() {
+    protected boolean canCreateCorrection() {
         Person user = GlobalVariables.getUserSession().getPerson();
         String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(CorrectionReceivingDocument.class);
         DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(documentTypeName);
@@ -139,7 +139,7 @@ public class LineItemReceivingForm extends ReceivingFormBase {
      * 
      * @return the button map created.
      */
-    private Map<String, ExtraButton> createButtonsMap() {
+    protected Map<String, ExtraButton> createButtonsMap() {
         HashMap<String, ExtraButton> result = new HashMap<String, ExtraButton>();
 
         // Continue button

@@ -43,7 +43,7 @@ import org.kuali.rice.kns.service.ParameterService;
  * Struts form so <code>{@link AuxiliaryVoucherDocument}</code> can be accessed and modified through UI.
  */
 public class AuxiliaryVoucherForm extends VoucherForm {
-    private String originalVoucherType = KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE; // keep this in sync with the default
+    protected String originalVoucherType = KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE; // keep this in sync with the default
 
     // value set in the document business
     // object
@@ -179,14 +179,14 @@ public class AuxiliaryVoucherForm extends VoucherForm {
         populateSelectedVoucherAccountingPeriod();
     }
 
-    private class OpenAuxiliaryVoucherPredicate implements Predicate {
-        private ParameterService parameterService;
-        private UniversityDateService dateService;
-        private AccountingPeriodService acctPeriodService;
-        private Document auxiliaryVoucherDocument;
-        private AccountingPeriod currPeriod;
-        private java.sql.Date currentDate;
-        private Integer currentFiscalYear;
+    protected class OpenAuxiliaryVoucherPredicate implements Predicate {
+        protected ParameterService parameterService;
+        protected UniversityDateService dateService;
+        protected AccountingPeriodService acctPeriodService;
+        protected Document auxiliaryVoucherDocument;
+        protected AccountingPeriod currPeriod;
+        protected java.sql.Date currentDate;
+        protected Integer currentFiscalYear;
 
         public OpenAuxiliaryVoucherPredicate(Document doc) {
             this.parameterService = SpringContext.getBean(ParameterService.class);

@@ -39,7 +39,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class RequisitionForm extends PurchasingFormBase {
 
-    private String shopUrl;
+    protected String shopUrl;
     
     /**
      * Constructs a RequisitionForm instance and sets up the appropriately casted document.

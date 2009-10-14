@@ -31,9 +31,9 @@ import org.kuali.rice.kns.lookup.HtmlData;
  * Action form for Effort Certification Document.
  */
 public class CertificationReportForm extends EffortCertificationForm {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CertificationReportForm.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CertificationReportForm.class);
 
-    private String sortOrder = SortOrder.ASC.name();
+    protected String sortOrder = SortOrder.ASC.name();
 
     /**
      * Gets the sortOrder attribute.
@@ -84,7 +84,7 @@ public class CertificationReportForm extends EffortCertificationForm {
      * 
      * @return Returns the universityFiscalPeriodBeginDate.
      */
-    private Date getUniversityFiscalPeriodBeginDate(AccountingPeriod accountingPeriod) {
+    protected Date getUniversityFiscalPeriodBeginDate(AccountingPeriod accountingPeriod) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(accountingPeriod.getUniversityFiscalPeriodEndDate());
         calendar.set(Calendar.DAY_OF_MONTH, 1);

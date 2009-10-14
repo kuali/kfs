@@ -25,7 +25,7 @@ import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 
 public class AssetTransferForm extends FinancialSystemTransactionalDocumentFormBase {
-    private boolean loanNoteAdded;
+    protected boolean loanNoteAdded;
 
     public AssetTransferForm() {
         super();

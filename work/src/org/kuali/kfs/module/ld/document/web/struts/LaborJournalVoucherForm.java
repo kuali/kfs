@@ -36,7 +36,7 @@ import org.kuali.rice.kim.bo.Person;
  */
 public class LaborJournalVoucherForm extends JournalVoucherForm {
 
-    private String originalOffsetTypeCode = JournalVoucherOffsetType.NO_OFFSET.typeCode;
+    protected String originalOffsetTypeCode = JournalVoucherOffsetType.NO_OFFSET.typeCode;
 
     /**
      * Constructs a JournalVoucherForm instance.

@@ -58,9 +58,9 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * Action form for Effort Certification Document.
  */
 public class EffortCertificationForm extends FinancialSystemTransactionalDocumentFormBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationForm.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationForm.class);
 
-    private EffortCertificationDetail newDetailLine;
+    protected EffortCertificationDetail newDetailLine;
 
     /**
      * Constructs a EffortCertificationForm.java.
@@ -189,7 +189,7 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
      * @param relationshipMetadata the relationship metadata that contains the primitive relationship
      * @return the primitive relationship for an attribute from a set of relationships.
      */
-    private BusinessObjectRelationship getPrimitiveBusinessObjectRelationship(Map<String, BusinessObjectRelationship> relationshipMetadata) {
+    protected BusinessObjectRelationship getPrimitiveBusinessObjectRelationship(Map<String, BusinessObjectRelationship> relationshipMetadata) {
         int minCountOfKeys = Integer.MAX_VALUE;
         BusinessObjectRelationship primitiveRelationship = null;
 
@@ -403,7 +403,7 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
      * 
      * @return the inquirable implmentation
      */
-    private Inquirable getInquirable() {
+    protected Inquirable getInquirable() {
         return new EffortLedgerBalanceInquirableImpl();
     }
 

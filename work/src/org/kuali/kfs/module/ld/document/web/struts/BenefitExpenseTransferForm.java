@@ -28,9 +28,9 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
  */
 public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase {
 
-    private String chartOfAccountsCode;
-    private String accountNumber;
-    private String subAccountNumber;
+    protected String chartOfAccountsCode;
+    protected String accountNumber;
+    protected String subAccountNumber;
 
     /**
      * Constructs a BenefitExpenseTransferForm instance and sets up the appropriately casted document.

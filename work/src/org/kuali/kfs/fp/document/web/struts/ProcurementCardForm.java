@@ -51,12 +51,12 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * class which contains all of the common form methods and form attributes needed by the Procurment Card document.
  */
 public class ProcurementCardForm extends KualiAccountingDocumentFormBase implements CapitalAssetEditable{
-    private static final long serialVersionUID = 1L;
-    private List newTargetLines;
-    private List<Boolean> transactionCreditCardNumbersViewStatus;
+    protected static final long serialVersionUID = 1L;
+    protected List newTargetLines;
+    protected List<Boolean> transactionCreditCardNumbersViewStatus;
     protected final static String TARGET_ACCOUNTING_LINE_GROUP_NAME = "target";
     
-    private CapitalAssetInformation capitalAssetInformation;
+    protected CapitalAssetInformation capitalAssetInformation;
 
     /**
      * Override to accomodate multiple target lines.

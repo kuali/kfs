@@ -42,28 +42,28 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
  */
 public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
 
-    private Boolean notOtherDeliveryBuilding = true;
-    private Boolean hideDistributeAccounts = true;
-    private PurApItem newPurchasingItemLine;
-    private FormFile itemImportFile; // file from which items can be imported
-    private String distributePurchasingCommodityCode;
-    private String distributePurchasingCommodityDescription;
-    private boolean calculated;
+    protected Boolean notOtherDeliveryBuilding = true;
+    protected Boolean hideDistributeAccounts = true;
+    protected PurApItem newPurchasingItemLine;
+    protected FormFile itemImportFile; // file from which items can be imported
+    protected String distributePurchasingCommodityCode;
+    protected String distributePurchasingCommodityDescription;
+    protected boolean calculated;
     
-    private String initialZipCode;
+    protected String initialZipCode;
     
     // *** Note that the following variables do not use camel caps ON PURPOSE, because of how the accounting lines tag uses the
     // accountPrefix
-    private Integer accountDistributionnextSourceLineNumber;
-    private List<PurApAccountingLine> accountDistributionsourceAccountingLines;
-    private PurApAccountingLine accountDistributionnewSourceLine;
+    protected Integer accountDistributionnextSourceLineNumber;
+    protected List<PurApAccountingLine> accountDistributionsourceAccountingLines;
+    protected PurApAccountingLine accountDistributionnewSourceLine;
 
-    private CapitalAssetLocation newPurchasingCapitalAssetLocationLine;
+    protected CapitalAssetLocation newPurchasingCapitalAssetLocationLine;
 
-    private BigDecimal totalPercentageOfAccountDistributionsourceAccountingLines;
+    protected BigDecimal totalPercentageOfAccountDistributionsourceAccountingLines;
     
-    private String locationBuildingFromLookup;
-    private String locationCampusFromLookup;
+    protected String locationBuildingFromLookup;
+    protected String locationCampusFromLookup;
 
     /**
      * Constructs a PurchasingFormBase instance and sets up the appropriately casted document.

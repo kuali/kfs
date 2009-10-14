@@ -40,80 +40,80 @@ import org.kuali.rice.kns.web.ui.Column;
  * This class represents the action form for the Correction Document
  */
 public class CorrectionForm extends KualiDocumentFormBase implements CorrectionDocumentEntryMetadata {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionForm.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionForm.class);
 
-    private String docTitle;
-    private String htmlFormAction;
-    private String documentType;
+    protected String docTitle;
+    protected String htmlFormAction;
+    protected String documentType;
 
 
-    private String chooseSystem;
+    protected String chooseSystem;
     /**
      * Used to store the previously selected system, in case the user changed the selection when it's not appropriate, so that it
      * can be restored
      */
-    private String previousChooseSystem;
+    protected String previousChooseSystem;
 
-    private String editMethod;
+    protected String editMethod;
     /**
      * Used to store the previously selected edit method, in case the user changed the selection when it's not appropriate, so that
      * it can be restored
      */
-    private String previousEditMethod;
+    protected String previousEditMethod;
 
     /**
      * This is the input group ID selected when the last page was rendered
      */
-    private String previousInputGroupId;
+    protected String previousInputGroupId;
 
     /**
      * This is the input group ID of the document when it was retrieved from the DB
      */
-    private String inputGroupIdFromLastDocumentLoad;
+    protected String inputGroupIdFromLastDocumentLoad;
 
     /**
      * True only when the selected input group ID does not correspond to an input group in the system. True means that querying the
      * {@link org.kuali.kfs.gl.service.OriginEntryGroupService} for the group id last saved in the doc would turn up no results.
      */
-    private boolean inputGroupIdFromLastDocumentLoadIsMissing = false;
+    protected boolean inputGroupIdFromLastDocumentLoadIsMissing = false;
 
     /**
      * Whether the origin entries we should be displaying on the form are not currently persisted by the
      * {@link CorrectionDocumentService}.
      */
-    private boolean persistedOriginEntriesMissing = false;
+    protected boolean persistedOriginEntriesMissing = false;
 
-    private String outputGroupId;
-    private String inputFileName;
+    protected String outputGroupId;
+    protected String inputFileName;
     protected FormFile sourceFile;
-    private boolean processInBatch = true;
-    private boolean matchCriteriaOnly = false;
-    private boolean dataLoadedFlag = false;
-    private boolean editableFlag = false;
-    private boolean manualEditFlag = false;
-    private boolean deleteFileFlag = false;
-    private boolean showOutputFlag = false;
-    private boolean showSummaryOutputFlag = false;
-    private boolean restrictedFunctionalityMode = false;
-    private List<OriginEntryFull> allEntries;
-    private List<OriginEntryFull> displayEntries;
-    private String entryUniversityFiscalYear;
-    private String entryFinancialDocumentReversalDate;
-    private String entryTransactionDate;
-    private String entryTransactionLedgerEntrySequenceNumber;
-    private String entryTransactionLedgerEntryAmount;
+    protected boolean processInBatch = true;
+    protected boolean matchCriteriaOnly = false;
+    protected boolean dataLoadedFlag = false;
+    protected boolean editableFlag = false;
+    protected boolean manualEditFlag = false;
+    protected boolean deleteFileFlag = false;
+    protected boolean showOutputFlag = false;
+    protected boolean showSummaryOutputFlag = false;
+    protected boolean restrictedFunctionalityMode = false;
+    protected List<OriginEntryFull> allEntries;
+    protected List<OriginEntryFull> displayEntries;
+    protected String entryUniversityFiscalYear;
+    protected String entryFinancialDocumentReversalDate;
+    protected String entryTransactionDate;
+    protected String entryTransactionLedgerEntrySequenceNumber;
+    protected String entryTransactionLedgerEntryAmount;
 
 
     /**
      * Used to identify the search results on the form
      */
-    private String glcpSearchResultsSequenceNumber;
+    protected String glcpSearchResultsSequenceNumber;
 
-    private OriginEntryFull entryForManualEdit;
+    protected OriginEntryFull entryForManualEdit;
 
-    private List<GroupHolder> groups;
+    protected List<GroupHolder> groups;
 
-    private transient KualiTableRenderFormMetadata originEntrySearchResultTableMetadata;
+    protected transient KualiTableRenderFormMetadata originEntrySearchResultTableMetadata;
 
     public CorrectionForm() {
         super();

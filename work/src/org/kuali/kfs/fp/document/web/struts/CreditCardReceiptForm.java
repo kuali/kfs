@@ -31,9 +31,9 @@ import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
  * This class is the struts form for Credit Card Receipt document.
  */
 public class CreditCardReceiptForm extends KualiAccountingDocumentFormBase implements CapitalAssetEditable {
-    private CreditCardDetail newCreditCardReceipt;
+    protected CreditCardDetail newCreditCardReceipt;
 
-    private CapitalAssetInformation capitalAssetInformation;
+    protected CapitalAssetInformation capitalAssetInformation;
 
     /**
      * Constructs a CreditCardReceiptForm.java.

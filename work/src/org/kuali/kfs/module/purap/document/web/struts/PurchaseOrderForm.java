@@ -74,26 +74,26 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class PurchaseOrderForm extends PurchasingFormBase {
 
-    private PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine;
-    private PurchaseOrderVendorQuote newPurchaseOrderVendorQuote;
-    private Long awardedVendorNumber;
+    protected PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine;
+    protected PurchaseOrderVendorQuote newPurchaseOrderVendorQuote;
+    protected Long awardedVendorNumber;
     
     // Retransmit.
-    private String[] retransmitItemsSelected = {};
-    private String retransmitTransmissionMethod;
-    private String retransmitFaxNumber;
-    private String retransmitHeader;
+    protected String[] retransmitItemsSelected = {};
+    protected String retransmitTransmissionMethod;
+    protected String retransmitFaxNumber;
+    protected String retransmitHeader;
 
     // Need this for amendment for accounting line only
     protected Map accountingLineEditingMode;
     
-    private String splitNoteText;
+    protected String splitNoteText;
 
     // Assign Sensitive Data related fields
-    private String sensitiveDataAssignmentReason = null; // reason for current assignment of sensitive data to the PO
-    private SensitiveDataAssignment lastSensitiveDataAssignment = null; // last sensitive data assignment info for the PO
-    private SensitiveData newSensitiveDataLine = null; // new sensitive data entry to be added to the PO
-    private List<SensitiveData> sensitiveDatasAssigned = null;  // sensitive data entries currently assigned to the PO
+    protected String sensitiveDataAssignmentReason = null; // reason for current assignment of sensitive data to the PO
+    protected SensitiveDataAssignment lastSensitiveDataAssignment = null; // last sensitive data assignment info for the PO
+    protected SensitiveData newSensitiveDataLine = null; // new sensitive data entry to be added to the PO
+    protected List<SensitiveData> sensitiveDatasAssigned = null;  // sensitive data entries currently assigned to the PO
 
     /**
      * Constructs a PurchaseOrderForm instance and sets up the appropriately casted document.
@@ -354,7 +354,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * @param document A PurchaseOrderDocument
      * @return True if the document passes all the validations.
      */
-    private boolean processPaymentRequestRulesForCanClose(PurchaseOrderDocument document) {
+    protected boolean processPaymentRequestRulesForCanClose(PurchaseOrderDocument document) {
         boolean valid = true;
         // The PO must have at least one PREQ against it.
         Integer poDocId = document.getPurapDocumentIdentifier();
@@ -403,7 +403,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * 
      * @return boolean true if the amend button can be displayed.
      */
-    private boolean canAmend() {
+    protected boolean canAmend() {
         boolean can = SpringContext.getBean(PurchaseOrderService.class).isPurchaseOrderOpenForProcessing(getPurchaseOrderDocument());
         
         // check user authorization
@@ -424,7 +424,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * 
      * @return boolean true if the void button can be displayed.
      */
-    private boolean canVoid() {
+    protected boolean canVoid() {
         // check PO status etc
         boolean can = getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
                
@@ -458,7 +458,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * 
      * @return boolean true if the close order button can be displayed.
      */
-    private boolean canClose() {        
+    protected boolean canClose() {        
         // check PO status etc
         boolean can = PurchaseOrderStatuses.OPEN.equals(getPurchaseOrderDocument().getStatusCode());
         can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
@@ -480,7 +480,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * 
      * @return boolean true if the reopen order button can be displayed.
      */
-    private boolean canReopen() {
+    protected boolean canReopen() {
         // check PO status etc
         boolean can = PurchaseOrderStatuses.CLOSED.equals(getPurchaseOrderDocument().getStatusCode());
         can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
@@ -501,7 +501,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * 
      * @return boolean true if the payment hold button can be displayed.
      */
-    private boolean canHoldPayment() {
+    protected boolean canHoldPayment() {
         // check PO status etc
         boolean can = PurchaseOrderStatuses.OPEN.equals(getPurchaseOrderDocument().getStatusCode());
         can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
@@ -522,7 +522,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * 
      * @return boolean true if the remove hold button can be displayed.
      */
-    private boolean canRemoveHold() {
+    protected boolean canRemoveHold() {
         // check PO status etc
         boolean can = PurchaseOrderStatuses.PAYMENT_HOLD.equals(getPurchaseOrderDocument().getStatusCode());
         can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
@@ -545,7 +545,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * 
      * @return boolean true if the retransmit button can be displayed.
      */
-    private boolean canRetransmit() {
+    protected boolean canRetransmit() {
         // check PO status etc
         boolean can = PurchaseOrderStatuses.OPEN.equals(getPurchaseOrderDocument().getStatusCode());
         can = can && getPurchaseOrderDocument().isPurchaseOrderCurrentIndicator() && !getPurchaseOrderDocument().isPendingActionIndicator();
@@ -581,7 +581,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * 
      * @return boolean true if the print retransmit button can be displayed.
      */
-    private boolean canPrintRetransmit() {
+    protected boolean canPrintRetransmit() {
         // check PO status etc
         boolean can = getPurchaseOrderDocument().getDocumentHeader().getWorkflowDocument().getDocumentType().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT);
         can = can && editingMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB);
@@ -611,7 +611,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * 
      * @return boolean true if the split PO button can be displayed.
      */
-    private boolean canSplitPo() {
+    protected boolean canSplitPo() {
         // PO must be in either "In Process" or "Awaiting Purchasing Review"
         boolean can = PurchaseOrderStatuses.IN_PROCESS.equals(getPurchaseOrderDocument().getStatusCode());
         can = can && !getPurchaseOrderDocument().getDocumentHeader().getWorkflowDocument().stateIsEnroute(); 
@@ -648,7 +648,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * 
      * @return  True if the PO can continue to be split.
      */
-    private boolean canContinuePoSplit() {
+    protected boolean canContinuePoSplit() {
         boolean can = editingMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.SPLITTING_ITEM_SELECTION);
         
         // check user authorization
@@ -666,7 +666,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * 
      * @return boolean true if the receiving document button can be displayed.
      */
-    private boolean canCreateReceiving() {       
+    protected boolean canCreateReceiving() {       
         // check PO status and item info 
         boolean can = SpringContext.getBean(ReceivingService.class).canCreateLineItemReceivingDocument(getPurchaseOrderDocument());
         
@@ -685,7 +685,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * 
      * @return the button map created.
      */
-    private Map<String, ExtraButton> createButtonsMap() {
+    protected Map<String, ExtraButton> createButtonsMap() {
         HashMap<String, ExtraButton> result = new HashMap<String, ExtraButton>();
         
         // Retransmit button

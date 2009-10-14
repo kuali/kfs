@@ -42,9 +42,9 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
  * method which is a convenience method for getting at the Salary Expense Transfer document easier.
  */
 public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
-    private static Log LOG = LogFactory.getLog(SalaryExpenseTransferForm.class);
+    protected static Log LOG = LogFactory.getLog(SalaryExpenseTransferForm.class);
 
-    private String balanceTypeCode;
+    protected String balanceTypeCode;
 
     /**
      * Constructs a SalaryExpenseTransferForm instance and sets up the appropriately casted document.

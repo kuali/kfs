@@ -31,9 +31,9 @@ import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
  * This class is the struts form for Advance Deposit document.
  */
 public class AdvanceDepositForm extends KualiAccountingDocumentFormBase implements CapitalAssetEditable {
-    private AdvanceDepositDetail newAdvanceDeposit;
+    protected AdvanceDepositDetail newAdvanceDeposit;
 
-    private CapitalAssetInformation capitalAssetInformation;
+    protected CapitalAssetInformation capitalAssetInformation;
 
     /**
      * Constructs a AdvanceDepositForm.java.

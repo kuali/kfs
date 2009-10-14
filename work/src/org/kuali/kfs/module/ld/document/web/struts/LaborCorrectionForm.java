@@ -30,20 +30,20 @@ import org.kuali.rice.kns.web.ui.Column;
  * Struts Action Form for the Labor Ledger Correction Process.
  */
 public class LaborCorrectionForm extends CorrectionForm {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCorrectionForm.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCorrectionForm.class);
 
-    private LaborOriginEntry laborEntryForManualEdit;
-    private String laborEntryUniversityFiscalYear;
-    private String laborEntryFinancialDocumentReversalDate;
-    private String laborEntryTransactionDate;
-    private String laborEntryTransactionLedgerEntrySequenceNumber;
-    private String laborEntryTransactionLedgerEntryAmount;
+    protected LaborOriginEntry laborEntryForManualEdit;
+    protected String laborEntryUniversityFiscalYear;
+    protected String laborEntryFinancialDocumentReversalDate;
+    protected String laborEntryTransactionDate;
+    protected String laborEntryTransactionLedgerEntrySequenceNumber;
+    protected String laborEntryTransactionLedgerEntryAmount;
     
-    private String laborEntryTransactionPostingDate;
-    private String laborEntryPayPeriodEndDate;
-    private String laborEntryTransactionTotalHours;
-    private String laborEntryPayrollEndDateFiscalYear;
-    private String laborEntryEmployeeRecord;
+    protected String laborEntryTransactionPostingDate;
+    protected String laborEntryPayPeriodEndDate;
+    protected String laborEntryTransactionTotalHours;
+    protected String laborEntryPayrollEndDateFiscalYear;
+    protected String laborEntryEmployeeRecord;
 
     /**
      * Constructs a LaborCorrectionForm instance.

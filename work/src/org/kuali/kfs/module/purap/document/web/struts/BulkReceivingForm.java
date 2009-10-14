@@ -34,8 +34,8 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
 
 public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormBase {
     
-    private static final Logger LOG = Logger.getLogger(BulkReceivingForm.class); 
-    private Integer purchaseOrderId;
+    protected static final Logger LOG = Logger.getLogger(BulkReceivingForm.class); 
+    protected Integer purchaseOrderId;
 
     public BulkReceivingForm() {
         super();
@@ -86,7 +86,7 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
         return extraButtons;
     }        
 
-    private ExtraButton createBulkReceivingContinueButton(){
+    protected ExtraButton createBulkReceivingContinueButton(){
         ExtraButton continueButton = new ExtraButton();
         continueButton.setExtraButtonProperty("methodToCall.continueBulkReceiving");
         continueButton.setExtraButtonSource("${" + KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_continue.gif");
@@ -94,7 +94,7 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
         return continueButton;
     }
     
-    private ExtraButton createClearInitFieldsButton(){
+    protected ExtraButton createClearInitFieldsButton(){
         ExtraButton clearButton = new ExtraButton();
         clearButton.setExtraButtonProperty("methodToCall.clearInitFields");
         clearButton.setExtraButtonSource("${" + KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_clear.gif");
@@ -102,7 +102,7 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
         return clearButton;
     }
     
-    private ExtraButton createPrintReceivingTicketButton(){
+    protected ExtraButton createPrintReceivingTicketButton(){
         ExtraButton printButton = new ExtraButton();
         printButton.setExtraButtonProperty("methodToCall.printReceivingTicketPDF");
         printButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_print.gif");

@@ -21,8 +21,8 @@ import org.kuali.kfs.module.purap.document.CorrectionReceivingDocument;
 
 public class CorrectionReceivingForm extends ReceivingFormBase {
 
-    private String receivingLineDocId;
-    private CorrectionReceivingItem newCorrectionReceivingItemLine;
+    protected String receivingLineDocId;
+    protected CorrectionReceivingItem newCorrectionReceivingItemLine;
     
     /**
      * Constructs a ReceivingCorrectionForm instance and sets up the appropriately casted document.

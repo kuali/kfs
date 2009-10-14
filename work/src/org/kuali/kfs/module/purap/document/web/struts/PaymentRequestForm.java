@@ -48,7 +48,7 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
      * Indicates whether tax has been calculated based on the tax area data.
      * Tax calculation is enforced before preq can be routed for tax approval.
      */
-    private boolean calculatedTax;
+    protected boolean calculatedTax;
 
     /**
      * Constructs a PaymentRequestForm instance and sets up the appropriately casted document.

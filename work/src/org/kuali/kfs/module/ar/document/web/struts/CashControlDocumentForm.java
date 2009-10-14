@@ -28,12 +28,12 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class CashControlDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocumentForm.class);
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocumentForm.class);
 
-    private CashControlDetail newCashControlDetail;
-    private String processingChartOfAccCodeAndOrgCode;
+    protected CashControlDetail newCashControlDetail;
+    protected String processingChartOfAccCodeAndOrgCode;
     
-    private boolean cashPaymentMediumSelected;
+    protected boolean cashPaymentMediumSelected;
 
     /**
      * Constructs a CashControlDocumentForm.java.

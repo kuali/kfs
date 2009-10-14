@@ -47,26 +47,26 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PaymentApplicationDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
-    private static Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocumentForm.class);;
+    protected static Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocumentForm.class);;
 
-    private String selectedInvoiceDocumentNumber;
-    private String enteredInvoiceDocumentNumber;
-    private String selectedCustomerNumber;
-    private KualiDecimal unappliedCustomerAmount;
-    private PaymentApplicationInvoiceApply selectedInvoiceApplication;
-    private NonInvoiced nonInvoicedAddLine;
-    private Integer nextNonInvoicedLineNumber;
-    private KualiDecimal nonAppliedHoldingAmount;
-    private String nonAppliedHoldingCustomerNumber;
+    protected String selectedInvoiceDocumentNumber;
+    protected String enteredInvoiceDocumentNumber;
+    protected String selectedCustomerNumber;
+    protected KualiDecimal unappliedCustomerAmount;
+    protected PaymentApplicationInvoiceApply selectedInvoiceApplication;
+    protected NonInvoiced nonInvoicedAddLine;
+    protected Integer nextNonInvoicedLineNumber;
+    protected KualiDecimal nonAppliedHoldingAmount;
+    protected String nonAppliedHoldingCustomerNumber;
 
-    private List<PaymentApplicationInvoiceApply> invoiceApplications;
-    private List<CustomerInvoiceDocument> invoices;
+    protected List<PaymentApplicationInvoiceApply> invoiceApplications;
+    protected List<CustomerInvoiceDocument> invoices;
     
     //  used for non-cash-control pay app docs
-    private List<PaymentApplicationDocument> nonAppliedControlDocs;
-    private List<NonAppliedHolding> nonAppliedControlHoldings;
-    private Map<String,KualiDecimal> nonAppliedControlAllocations;
-    private Map<String,KualiDecimal> distributionsFromControlDocs;
+    protected List<PaymentApplicationDocument> nonAppliedControlDocs;
+    protected List<NonAppliedHolding> nonAppliedControlHoldings;
+    protected Map<String,KualiDecimal> nonAppliedControlAllocations;
+    protected Map<String,KualiDecimal> distributionsFromControlDocs;
     
     /**
      * Constructs a PaymentApplicationDocumentForm.java.

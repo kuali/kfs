@@ -45,10 +45,10 @@ import org.kuali.rice.kns.util.UrlFactory;
  */
 public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
 
-    private PurApItem newPurchasingItemLine;
-    private boolean calculated;
-    private int countOfAboveTheLine = 0;
-    private int countOfBelowTheLine = 0;
+    protected PurApItem newPurchasingItemLine;
+    protected boolean calculated;
+    protected int countOfAboveTheLine = 0;
+    protected int countOfBelowTheLine = 0;
 
     /**
      * Constructs an AccountsPayableForm instance and sets up the appropriately casted document.

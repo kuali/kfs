@@ -25,10 +25,10 @@ import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
  * This class is the action form for Internal Billing.
  */
 public class InternalBillingForm extends KualiAccountingDocumentFormBase implements CapitalAssetEditable{
-    private static final long serialVersionUID = 1L;
-    private InternalBillingItem newItem;
+    protected static final long serialVersionUID = 1L;
+    protected InternalBillingItem newItem;
     
-    private CapitalAssetInformation capitalAssetInformation;
+    protected CapitalAssetInformation capitalAssetInformation;
 
     public InternalBillingForm() {
         super();

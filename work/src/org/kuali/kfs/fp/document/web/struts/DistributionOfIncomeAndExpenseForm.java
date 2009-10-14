@@ -25,7 +25,7 @@ import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
  */
 public class DistributionOfIncomeAndExpenseForm extends KualiAccountingDocumentFormBase implements CapitalAssetEditable{
     
-    private CapitalAssetInformation capitalAssetInformation;
+    protected CapitalAssetInformation capitalAssetInformation;
     
     /**
      * Constructs a DistributionOfIncomeAndExpenseForm.java.

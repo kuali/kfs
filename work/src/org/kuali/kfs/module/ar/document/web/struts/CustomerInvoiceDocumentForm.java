@@ -47,9 +47,9 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase {
 
-    private transient KualiConfigurationService configService;
+    protected transient KualiConfigurationService configService;
 
-    private CustomerInvoiceDetail newCustomerInvoiceDetail;
+    protected CustomerInvoiceDetail newCustomerInvoiceDetail;
 
     /**
      * Constructs a CustomerInvoiceDocumentForm.java. Also sets new customer invoice document detail to a newly constructed customer
@@ -190,7 +190,7 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
         extraButtons.add(newButton);
     }
 
-    private KualiConfigurationService getConfigService() {
+    protected KualiConfigurationService getConfigService() {
         if (configService == null) {
             configService = SpringContext.getBean(KualiConfigurationService.class);
         }

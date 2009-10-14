@@ -55,10 +55,10 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
  * accounting lines source list.
  */
 public class VoucherForm extends KualiAccountingDocumentFormBase {
-    private List accountingPeriods;
-    private KualiDecimal newSourceLineDebit;
-    private KualiDecimal newSourceLineCredit;
-    private List voucherLineHelpers;
+    protected List accountingPeriods;
+    protected KualiDecimal newSourceLineDebit;
+    protected KualiDecimal newSourceLineCredit;
+    protected List voucherLineHelpers;
     protected String selectedAccountingPeriod;
 
     /**
@@ -118,7 +118,7 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
      * @return Integer
      */
 
-    private Integer getSelectedPostingYear() {
+    protected Integer getSelectedPostingYear() {
         Integer postingYear = null;
         if (StringUtils.isNotBlank(getSelectedAccountingPeriod())) {
             postingYear = new Integer(StringUtils.right(getSelectedAccountingPeriod(), 4));
@@ -131,7 +131,7 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
      * 
      * @return String
      */
-    private String getSelectedPostingPeriodCode() {
+    protected String getSelectedPostingPeriodCode() {
         String periodCode = null;
         String selectedPeriod = getSelectedAccountingPeriod();
         if (StringUtils.isNotBlank(selectedPeriod)) {

@@ -24,9 +24,9 @@ import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
  * This class is the Struts specific form object that works in conjunction with the pojo utilities to build the UI.
  */
 public class GeneralErrorCorrectionForm extends KualiAccountingDocumentFormBase implements CapitalAssetEditable{
-    private static final long serialVersionUID = 1L;
+    protected static final long serialVersionUID = 1L;
     
-    private CapitalAssetInformation capitalAssetInformation;
+    protected CapitalAssetInformation capitalAssetInformation;
 
     /**
      * Constructs a GeneralErrorCorrectionForm.java.

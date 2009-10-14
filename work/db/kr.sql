@@ -4618,3 +4618,6 @@ ALTER INDEX USER_CHANNEL_SUBSCRIPTION_UK1 RENAME TO KREN_CHNL_SUBSCRP_TC0
 ALTER TABLE KRIM_PND_ROLE_MBR_MT
 DROP COLUMN MBR_NM
 /
+
+-- KFSMI-5055: pointing CFDA job to proper URL
+update krns_parm_t set txt = 'ftp://ftp.cfda.gov/programs' where nmspc_cd = 'KFS-CG' and parm_dtl_typ_cd = 'CfdaBatchStep' and parm_nm = 'SOURCE_URL' and appl_nmspc_cd = 'KFS'

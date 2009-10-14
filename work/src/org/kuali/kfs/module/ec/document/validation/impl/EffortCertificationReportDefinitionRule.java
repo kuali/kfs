@@ -44,14 +44,14 @@ public class EffortCertificationReportDefinitionRule extends MaintenanceDocument
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("processCustomRouteDocumentBusinessRules() start");
-        
+
         if (GlobalVariables.getMessageMap().getErrorCount() > 0) {
             return false;
         }
-        
+
         boolean isValid = true;
         EffortCertificationReportDefinition reportDefintion = (EffortCertificationReportDefinition) document.getNewMaintainableObject().getBusinessObject();
-        
+
         // report begin fiscal year must be less than report end fiscal year
         Integer beginPeriodCode = Integer.parseInt(reportDefintion.getEffortCertificationReportBeginPeriodCode());
         Integer endPeriodCode = Integer.parseInt(reportDefintion.getEffortCertificationReportEndPeriodCode());
@@ -67,37 +67,52 @@ public class EffortCertificationReportDefinitionRule extends MaintenanceDocument
             isValid = false;
         }
 
+        // add custom validation for periods but dont check active flag
+        if (ObjectUtils.isNull(reportDefintion.getReportBeginPeriod())) {
+            putFieldError(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_BEGIN_FISCAL_YEAR, EffortKeyConstants.INVALID_REPORT_BEGIN_PERIOD);
+            isValid = false;
+        }
+        if (ObjectUtils.isNull(reportDefintion.getReportEndPeriod())) {
+            putFieldError(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_END_FISCAL_YEAR, EffortKeyConstants.INVALID_REPORT_END_PERIOD);
+            isValid = false;
+        }
+        if (ObjectUtils.isNull(reportDefintion.getExpenseTransferFiscalPeriod())) {
+            putFieldError(EffortPropertyConstants.EXPENSE_TRANSFER_FISCAL_YEAR, EffortKeyConstants.INVALID_EXPENSE_TRANSFER_PERIOD);
+            isValid = false;
+        }
+
         return isValid;
     }
 
     /**
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
+     *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
         boolean success = super.processCustomAddCollectionLineBusinessRules(document, collectionName, line);
 
-        if(success && line instanceof EffortCertificationReportPosition) {
-            EffortCertificationReportPosition reportPosition = (EffortCertificationReportPosition)line;           
+        if (success && line instanceof EffortCertificationReportPosition) {
+            EffortCertificationReportPosition reportPosition = (EffortCertificationReportPosition) line;
             String errorKey = KNSConstants.MAINTENANCE_ADD_PREFIX + collectionName + "." + EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_POSITION_OBJECT_GROUP_CODE;
-            
+
             success &= this.reportPositionObjectGroupExists(errorKey, reportPosition);
         }
-        
-        return success; 
+
+        return success;
     }
 
     // determine whether the given report position object group exists
     protected boolean reportPositionObjectGroupExists(String errorKey, EffortCertificationReportPosition reportPosition) {
         String positionObjectGroupCode = reportPosition.getEffortCertificationReportPositionObjectGroupCode();
-        
-        if(StringUtils.isNotBlank(positionObjectGroupCode) && ObjectUtils.isNull(reportPosition.getPositionObjectGroup())) {
+
+        if (StringUtils.isNotBlank(positionObjectGroupCode) && ObjectUtils.isNull(reportPosition.getPositionObjectGroup())) {
             String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(EffortCertificationReportPosition.class, EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_POSITION_OBJECT_GROUP_CODE);
             putFieldError(errorKey, KFSKeyConstants.ERROR_EXISTENCE, label + "(" + positionObjectGroupCode + ")");
-            
+
             return false;
         }
-        
+
         return true;
     }
 }

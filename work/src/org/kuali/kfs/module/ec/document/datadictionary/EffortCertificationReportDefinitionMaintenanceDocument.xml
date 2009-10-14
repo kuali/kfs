@@ -30,14 +30,16 @@
       <list>
         <bean parent="ReferenceDefinition" p:attributeName="options" p:attributeToHighlightOnFail="universityFiscalYear"/>
         <bean parent="ReferenceDefinition" p:attributeName="effortCertificationPeriodStatusCode" p:attributeToHighlightOnFail="effortCertificationReportPeriodStatusCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="effortCertificationReportType" p:attributeToHighlightOnFail="effortCertificationReportTypeCode"/>
+        <bean parent="ReferenceDefinition" p:collection="effortCertificationReportPositions" p:attributeName="positionObjectGroup" p:attributeToHighlightOnFail="effortCertificationReportPositionObjectGroupCode"/>
+        <!-- 
         <bean parent="ReferenceDefinition" p:attributeName="reportBeginFiscalYear" p:attributeToHighlightOnFail="effortCertificationReportBeginFiscalYear"/>
         <bean parent="ReferenceDefinition" p:attributeName="reportBeginPeriod" p:attributeToHighlightOnFail="effortCertificationReportBeginPeriodCode"/>
         <bean parent="ReferenceDefinition" p:attributeName="reportEndFiscalYear" p:attributeToHighlightOnFail="effortCertificationReportEndFiscalYear"/>
         <bean parent="ReferenceDefinition" p:attributeName="reportEndPeriod" p:attributeToHighlightOnFail="effortCertificationReportEndPeriodCode"/>
         <bean parent="ReferenceDefinition" p:attributeName="expenseTransferYear" p:attributeToHighlightOnFail="expenseTransferFiscalYear"/>
         <bean parent="ReferenceDefinition" p:attributeName="expenseTransferFiscalPeriod" p:attributeToHighlightOnFail="expenseTransferFiscalPeriodCode"/>
-        <bean parent="ReferenceDefinition" p:attributeName="effortCertificationReportType" p:attributeToHighlightOnFail="effortCertificationReportTypeCode"/>
-        <bean parent="ReferenceDefinition" p:collection="effortCertificationReportPositions" p:attributeName="positionObjectGroup" p:attributeToHighlightOnFail="effortCertificationReportPositionObjectGroupCode"/>
+         -->
       </list>
     </property>
     <property name="lockingKeys">

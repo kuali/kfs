@@ -54,7 +54,7 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
      * @param readOnlyPropertyNames
      * @param document
      */
-    private void setBillingOrgFieldsEditable(Set<String> readOnlyPropertyNames, MaintenanceDocument document) {
+    protected void setBillingOrgFieldsEditable(Set<String> readOnlyPropertyNames, MaintenanceDocument document) {
         if (document.isEdit()) {
             readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.CHART_OF_ACCOUNTS_CODE);
             readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_CODE);
@@ -68,7 +68,7 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
      * 
      * @param readOnlyPropertyNames
      */
-    private void setRemitToNameEditable(Set<String> readOnlyPropertyNames) {
+    protected void setRemitToNameEditable(Set<String> readOnlyPropertyNames) {
         ParameterService service = SpringContext.getBean(ParameterService.class);
         String nameEditable = service.getParameterValue(OrganizationOptions.class, ArConstants.REMIT_TO_NAME_EDITABLE_IND);
         if ("N".equalsIgnoreCase(nameEditable)) {
@@ -83,7 +83,7 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
      * 
      * @param readOnlyPropertyNames
      */
-    private void setOrgPostalZipCodeEditable(Set<String> readOnlyPropertyNames) {
+    protected void setOrgPostalZipCodeEditable(Set<String> readOnlyPropertyNames) {
         ParameterService service = SpringContext.getBean(ParameterService.class);
         if (!service.getIndicatorParameter(KfsParameterConstants.ACCOUNTS_RECEIVABLE_DOCUMENT.class, ArConstants.ENABLE_SALES_TAX_IND) ){
             readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_POSTAL_ZIP_CODE);
@@ -97,7 +97,7 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
      * 
      * @param readOnlySectionIds
      */
-    private void setRemitToAddressSectionEditable(Set<String> readOnlySectionIds) {
+    protected void setRemitToAddressSectionEditable(Set<String> readOnlySectionIds) {
         ParameterService service = SpringContext.getBean(ParameterService.class);
         String addressEditable = service.getParameterValue(OrganizationOptions.class, ArConstants.REMIT_TO_ADDRESS_EDITABLE_IND);
         if ("N".equalsIgnoreCase(addressEditable)) {

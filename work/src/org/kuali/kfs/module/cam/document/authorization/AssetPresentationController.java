@@ -189,7 +189,7 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
         return !getAssetService().isAssetRetired(asset) & super.canSave(document);
     }
     
-    private AssetService getAssetService() {
+    protected AssetService getAssetService() {
         return SpringContext.getBean(AssetService.class);
     }
 }

@@ -167,7 +167,7 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
      * @param cmDocument - credit memo document to hold.
      * @return boolean - true if hold can occur, false if not allowed.
      */
-    private boolean canHold(VendorCreditMemoDocument cmDocument) {
+    protected boolean canHold(VendorCreditMemoDocument cmDocument) {
         return !cmDocument.isHoldIndicator() && !cmDocument.isExtracted() && !PurapConstants.CreditMemoStatuses.STATUSES_DISALLOWING_HOLD.contains(cmDocument.getStatusCode());
     }
 
@@ -177,7 +177,7 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
      * @param cmDocument - credit memo document that is on hold.
      * @return boolean - true if document can be taken off hold, false if it cannot.
      */
-    private boolean canRemoveHold(VendorCreditMemoDocument cmDocument) {
+    protected boolean canRemoveHold(VendorCreditMemoDocument cmDocument) {
         return cmDocument.isHoldIndicator();
     }
 
@@ -188,11 +188,11 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
      * @param cmDocument - credit memo document to cancel.
      * @return boolean - true if document can be canceled, false if it cannot be.
      */
-    private boolean canCancel(VendorCreditMemoDocument cmDocument) {
+    protected boolean canCancel(VendorCreditMemoDocument cmDocument) {
         return !CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getStatusCode()) && !cmDocument.isExtracted() && !cmDocument.isHoldIndicator();
     }
 
-    private boolean canEditPreExtraction(VendorCreditMemoDocument vendorCreditMemoDocument) {
+    protected boolean canEditPreExtraction(VendorCreditMemoDocument vendorCreditMemoDocument) {
         return (!vendorCreditMemoDocument.isExtracted() && 
                 !vendorCreditMemoDocument.getDocumentHeader().getWorkflowDocument().isAdHocRequested() &&
                 !PurapConstants.CreditMemoStatuses.CANCELLED_STATUSES.contains(vendorCreditMemoDocument.getStatusCode()));

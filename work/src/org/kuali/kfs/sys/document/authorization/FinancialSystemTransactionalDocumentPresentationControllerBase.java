@@ -116,7 +116,7 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
     }
 
     // check if bank entry should be viewable for the given document
-    private boolean canHaveBankEntry(Document document) {
+    protected boolean canHaveBankEntry(Document document) {
         boolean bankSpecificationEnabled = SpringContext.getBean(BankService.class).isBankSpecificationEnabled();
         
         if (bankSpecificationEnabled) {

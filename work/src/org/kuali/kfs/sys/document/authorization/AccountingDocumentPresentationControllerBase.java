@@ -49,7 +49,7 @@ public class AccountingDocumentPresentationControllerBase extends LedgerPostingD
     }
 
     // add expense entry edit mode when the given document is enroute for account review
-    private void addExpenseEntryEditMode(Document document, Set<String> editModes) {
+    protected void addExpenseEntryEditMode(Document document, Set<String> editModes) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
 

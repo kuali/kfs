@@ -202,7 +202,7 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
         return super.canSave(document);
     }
 
-    private boolean isDocInRouteNodeNotForCurrentUser(Document document, NodeDetails nodeDetails) {
+    protected boolean isDocInRouteNodeNotForCurrentUser(Document document, NodeDetails nodeDetails) {
         List<String> currentRouteLevels = new ArrayList<String>();
             KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
             try {

@@ -233,7 +233,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
      * 
      * @return boolean true if the print first transmit button can be displayed.
      */
-    private boolean canFirstTransmitPrintPo(PurchaseOrderDocument poDocument) {
+    protected boolean canFirstTransmitPrintPo(PurchaseOrderDocument poDocument) {
         // status shall be Pending Print, or the transmission method is changed to PRINT during amendment, 
         boolean can = PurchaseOrderStatuses.PENDING_PRINT.equals(poDocument.getStatusCode());
         if (!can) {
@@ -253,7 +253,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
      * 
      * @return boolean true if the preview print button can be displayed.
      */
-    private boolean canPreviewPrintPo(PurchaseOrderDocument poDocument) {
+    protected boolean canPreviewPrintPo(PurchaseOrderDocument poDocument) {
         // PO is saved or enroute
         boolean can = poDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved() || poDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute();
 
@@ -273,7 +273,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
      * 
      * @return boolean true if the resend po button shall be displayed.
      */
-    private boolean canResendCxml(PurchaseOrderDocument poDocument) {
+    protected boolean canResendCxml(PurchaseOrderDocument poDocument) {
         // check PO status etc
         boolean can = PurchaseOrderStatuses.CXML_ERROR.equals(poDocument.getStatusCode());
         can = can && poDocument.isPurchaseOrderCurrentIndicator() && !poDocument.isPendingActionIndicator();

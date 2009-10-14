@@ -25,7 +25,7 @@ import org.kuali.rice.kns.document.Document;
  * Presentation Controller for Barcode Error Documents
  */
 public class BarcodeInventoryErrorDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
-    AssetBarcodeInventoryLoadService assetBarcodeInventoryLoadService;
+    protected AssetBarcodeInventoryLoadService assetBarcodeInventoryLoadService;
     
     public BarcodeInventoryErrorDocumentPresentationController() {
         assetBarcodeInventoryLoadService = SpringContext.getBean(AssetBarcodeInventoryLoadService.class); 

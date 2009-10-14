@@ -99,7 +99,7 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
         return !hasAtLeastOneAppDocApproved((CashControlDocument) document);
     }
     
-    private boolean containsGLPEs(CashControlDocument document) {
+    protected boolean containsGLPEs(CashControlDocument document) {
         return !document.getGeneralLedgerPendingEntries().isEmpty();
     }
 
@@ -109,7 +109,7 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
      * @param ccDoc the CashControlDocument
      * @return true if it has at least one application document approved, false otherwise
      */
-    private boolean hasAtLeastOneAppDocApproved(CashControlDocument cashControlDocument) {
+    protected boolean hasAtLeastOneAppDocApproved(CashControlDocument cashControlDocument) {
         boolean result = false;
         // check if there is at least one Application Document approved
         for (CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {
@@ -130,7 +130,7 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
      * @param cashControlDocument the CashControlDocument
      * @return true if all application documents have been approved, false otherwise
      */
-    private boolean hasAllAppDocsApproved(CashControlDocument cashControlDocument) {
+    protected boolean hasAllAppDocsApproved(CashControlDocument cashControlDocument) {
         boolean result = true;
         for (CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {
 

@@ -42,7 +42,7 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
         return this.canApproveOrBlanketApprove(document) ? super.canBlanketApprove(document) : false;
     }
 
-    private boolean canApproveOrBlanketApprove(Document document) {
+    protected boolean canApproveOrBlanketApprove(Document document) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isApprovalRequested() && !workflowDocument.isAdHocRequested()) {
             CashReceiptDocument cashReceiptDocument = (CashReceiptDocument) document;

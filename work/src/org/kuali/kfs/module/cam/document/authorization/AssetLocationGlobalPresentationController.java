@@ -23,7 +23,7 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocume
 import org.kuali.rice.kns.bo.BusinessObject;
 
 public class AssetLocationGlobalPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetLocationGlobalPresentationController.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetLocationGlobalPresentationController.class);
 
     @Override
     public Set<String> getConditionallyHiddenPropertyNames(BusinessObject businessObject) {

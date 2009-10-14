@@ -75,7 +75,7 @@ public class CustomerCreditMemoDocumentPresentationController extends FinancialS
     /**
      * Returns true if the document passed in is in initiated status.
      */
-    private boolean isDocStatusCodeInitiated(Document document) {
+    protected boolean isDocStatusCodeInitiated(Document document) {
         CustomerCreditMemoDocument creditMemoDoc = (CustomerCreditMemoDocument) document;
         return (StringUtils.equals(creditMemoDoc.getStatusCode(), ArConstants.CustomerCreditMemoStatuses.INITIATE));
     }

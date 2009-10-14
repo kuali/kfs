@@ -89,7 +89,7 @@ public class CustomerInvoiceDocumentPresentationController extends FinancialSyst
     }
     
     //  if this isnt self-explanatory, I dont know what is
-    private boolean isDocFinalWithNoAppliedAmountsExceptDiscounts(CustomerInvoiceDocument document) {
+    protected boolean isDocFinalWithNoAppliedAmountsExceptDiscounts(CustomerInvoiceDocument document) {
         boolean isFinal = document.getDocumentHeader().getWorkflowDocument().stateIsFinal();
         
         InvoicePaidAppliedService<CustomerInvoiceDetail> paidAppliedService = SpringContext.getBean(InvoicePaidAppliedService.class);

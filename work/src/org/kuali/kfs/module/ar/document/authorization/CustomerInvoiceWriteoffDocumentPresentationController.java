@@ -57,7 +57,7 @@ public class CustomerInvoiceWriteoffDocumentPresentationController extends Finan
     /**
      * Returns true if the document passed in is in initiated status.
      */
-    private boolean isDocStatusCodeInitiated(Document document) {
+    protected boolean isDocStatusCodeInitiated(Document document) {
         CustomerInvoiceWriteoffDocument writeoffDoc = (CustomerInvoiceWriteoffDocument) document;
         return (StringUtils.equals(writeoffDoc.getStatusCode(), ArConstants.CustomerInvoiceWriteoffStatuses.INITIATE));
     }

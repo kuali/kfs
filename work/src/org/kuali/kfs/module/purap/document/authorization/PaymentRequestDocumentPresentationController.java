@@ -238,7 +238,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     }
 
 
-    private boolean canProcessorCancel(PaymentRequestDocument paymentRequestDocument) {
+    protected boolean canProcessorCancel(PaymentRequestDocument paymentRequestDocument) {
         // if Payment Request is in INITIATE status, user cannot cancel doc
         if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PaymentRequestStatuses.INITIATE)) {
             return false;
@@ -275,7 +275,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         return can;
     }
 
-    private boolean canManagerCancel(PaymentRequestDocument paymentRequestDocument) {
+    protected boolean canManagerCancel(PaymentRequestDocument paymentRequestDocument) {
         // if Payment Request is in INITIATE status, user cannot cancel doc
         if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PaymentRequestStatuses.INITIATE)) {
             return false;
@@ -318,7 +318,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
      * 
      * @return True if the document state allows placing the Payment Request on hold.
      */
-    private boolean canHold(PaymentRequestDocument paymentRequestDocument) {
+    protected boolean canHold(PaymentRequestDocument paymentRequestDocument) {
         boolean can = !paymentRequestDocument.isHoldIndicator() && !paymentRequestDocument.isPaymentRequestedCancelIndicator() && !paymentRequestDocument.isExtracted();
         if (can) {
             can = paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isAdHocRequested();
@@ -337,7 +337,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
      * 
      * @return True if the document state allows placing the request that the Payment Request be canceled.
      */
-    private boolean canRequestCancel(PaymentRequestDocument paymentRequestDocument) {
+    protected boolean canRequestCancel(PaymentRequestDocument paymentRequestDocument) {
         boolean can = !paymentRequestDocument.isPaymentRequestedCancelIndicator() && !paymentRequestDocument.isHoldIndicator() && !paymentRequestDocument.isExtracted();
         if (can) {
             can = paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isAdHocRequested();
@@ -357,7 +357,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
      * 
      * @return True if the document state allows removing the Payment Request from hold.
      */
-    private boolean canRemoveHold(PaymentRequestDocument paymentRequestDocument) {
+    protected boolean canRemoveHold(PaymentRequestDocument paymentRequestDocument) {
         return paymentRequestDocument.isHoldIndicator();       
     }
 
@@ -371,11 +371,11 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
      *  
      * @return True if the document state allows removing a request that the Payment Request be canceled.
      */
-    private boolean canRemoveRequestCancel(PaymentRequestDocument paymentRequestDocument) {
+    protected boolean canRemoveRequestCancel(PaymentRequestDocument paymentRequestDocument) {
         return paymentRequestDocument.isPaymentRequestedCancelIndicator();
     }
 
-    private boolean canEditPreExtraction(PaymentRequestDocument paymentRequestDocument) {
+    protected boolean canEditPreExtraction(PaymentRequestDocument paymentRequestDocument) {
         return (!paymentRequestDocument.isExtracted() && 
                 !paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isAdHocRequested() &&
                 !PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(paymentRequestDocument.getStatusCode()));

@@ -59,8 +59,8 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * Action class for CashManagementForm
  */
 public class CashManagementAction extends KualiTransactionalDocumentActionBase {
-    private static Logger LOG = Logger.getLogger(CashManagementAction.class);
-    private static final String CASH_MANAGEMENT_STATUS_PAGE = "/cashManagementStatus.do";
+    protected static Logger LOG = Logger.getLogger(CashManagementAction.class);
+    protected static final String CASH_MANAGEMENT_STATUS_PAGE = "/cashManagementStatus.do";
 
     /**
      * Default constructor
@@ -170,7 +170,7 @@ public class CashManagementAction extends KualiTransactionalDocumentActionBase {
      * @param cmDoc
      * @param cmForm
      */
-    private void checkDepositAuthorization(CashManagementForm cmForm, CashManagementDocument cmDoc) {
+    protected void checkDepositAuthorization(CashManagementForm cmForm, CashManagementDocument cmDoc) {
         //deposits can only be added if the CashDrawer is open
         if (!cmDoc.getCashDrawerStatus().equals(CashDrawerConstants.STATUS_OPEN)) {
             throw new IllegalStateException("CashDrawer '" + cmDoc.getCampusCode() + "' must be open for deposits to be made");
@@ -188,7 +188,7 @@ public class CashManagementAction extends KualiTransactionalDocumentActionBase {
      * @param depositTypeCode
      * @return URL for passing control to the DepositWizard
      */
-    private String buildDepositWizardUrl(CashManagementDocument cmDoc, String depositTypeCode) {
+    protected String buildDepositWizardUrl(CashManagementDocument cmDoc, String depositTypeCode) {
         Properties params = new Properties();
         params.setProperty("methodToCall", "startWizard");
         params.setProperty("cmDocId", cmDoc.getDocumentNumber());
@@ -394,7 +394,7 @@ public class CashManagementAction extends KualiTransactionalDocumentActionBase {
      * @param depositTypeCode
      * @return URL for passing control to the DepositWizard
      */
-    private String buildCashDrawerCorrectionUrl(CashManagementDocument cmDoc) {
+    protected String buildCashDrawerCorrectionUrl(CashManagementDocument cmDoc) {
         Properties params = new Properties();
         params.setProperty("methodToCall", "startCorrections");
         params.setProperty("campusCode", cmDoc.getCampusCode());

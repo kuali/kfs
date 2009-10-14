@@ -43,7 +43,7 @@ import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class AssetTransferAction extends FinancialSystemTransactionalDocumentActionBase {
-    private static final Logger LOG = Logger.getLogger(AssetTransferAction.class);
+    protected static final Logger LOG = Logger.getLogger(AssetTransferAction.class);
 
     /**
      * This method had to override because asset information has to be refreshed before display
@@ -153,7 +153,7 @@ public class AssetTransferAction extends FinancialSystemTransactionalDocumentAct
         return actionForward;
     }
 
-    private void allPaymentsFederalOwnedMessage(ActionForm form) {
+    protected void allPaymentsFederalOwnedMessage(ActionForm form) {
         boolean allPaymentsFederalOwned = true;
 
         AssetTransferDocument assetTransferDocument = ((AssetTransferForm) form).getAssetTransferDocument();
@@ -170,7 +170,7 @@ public class AssetTransferAction extends FinancialSystemTransactionalDocumentAct
         }
     }
 
-    private AssetPaymentService getAssetPaymentService() {
+    protected AssetPaymentService getAssetPaymentService() {
         return SpringContext.getBean(AssetPaymentService.class);
     }
 

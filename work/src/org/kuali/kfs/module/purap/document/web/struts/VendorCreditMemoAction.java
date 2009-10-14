@@ -59,7 +59,7 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
  * Struts Action for Credit Memo document.
  */
 public class VendorCreditMemoAction extends AccountsPayableActionBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VendorCreditMemoAction.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VendorCreditMemoAction.class);
 
     /**
      * Do initialization for a new credit memo.
@@ -175,7 +175,7 @@ public class VendorCreditMemoAction extends AccountsPayableActionBase {
      * @return An ActionForward
      * @see org.kuali.kfs.module.purap.document.service.CreditMemoService
      */
-    private ActionForward performDuplicateCreditMemoCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, VendorCreditMemoDocument creditMemoDocument) throws Exception {
+    protected ActionForward performDuplicateCreditMemoCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, VendorCreditMemoDocument creditMemoDocument) throws Exception {
         ActionForward forward = null;
         String duplicateMessage = SpringContext.getBean(CreditMemoService.class).creditMemoDuplicateMessages(creditMemoDocument);
         if (StringUtils.isNotBlank(duplicateMessage)) {

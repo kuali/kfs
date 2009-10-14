@@ -372,7 +372,7 @@ public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocument
      * @param methodToCall String: The name of the method that will be invoked to do this particular print
      * @return The URL
      */
-    private String getUrlForPrintCreditMemo(String basePath, String docId, String methodToCall) {
+    protected String getUrlForPrintCreditMemo(String basePath, String docId, String methodToCall) {
         StringBuffer result = new StringBuffer(basePath);
         result.append("/arCustomerCreditMemoDocument.do?methodToCall=");
         result.append(methodToCall);

@@ -92,7 +92,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * Struts Action for Purchase Order document.
  */
 public class PurchaseOrderAction extends PurchasingActionBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderAction.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderAction.class);
 
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
@@ -195,7 +195,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @return An ActionForward
      * @throws Exception
      */
-    private ActionForward askQuestionsAndPerformDocumentAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String confirmType, String documentType, String notePrefix, String messageType, String operation) throws Exception {
+    protected ActionForward askQuestionsAndPerformDocumentAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String confirmType, String documentType, String notePrefix, String messageType, String operation) throws Exception {
         LOG.debug("askQuestionsAndPerformDocumentAction started.");
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
@@ -793,7 +793,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @param methodToCall String: The name of the method that will be invoked to do this particular print
      * @return The URL
      */
-    private String getUrlForPrintPO(String basePath, String docId, String methodToCall) {
+    protected String getUrlForPrintPO(String basePath, String docId, String methodToCall) {
         StringBuffer result = new StringBuffer(basePath);
         result.append("/purapPurchaseOrder.do?methodToCall=");
         result.append(methodToCall);
@@ -1225,7 +1225,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @param items The List of items on the PurchaseOrderDocument.
      * @return
      */
-    private StringBuffer createSelectedItemIndexes(List<PurchaseOrderItem>items) {
+    protected StringBuffer createSelectedItemIndexes(List<PurchaseOrderItem>items) {
         StringBuffer itemIndexesBuffer = new StringBuffer();
         int i = 0;
         for (PurchaseOrderItem item : items) {
@@ -1313,7 +1313,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @param selectedItemIndexes  The String containing the indexes of items selected to be retransmitted, separated by comma.
      * @param itemsFromDB          The List of items of the PurchaseOrderDocument obtained from the database.
      */
-    private void setItemSelectedForRetransmitIndicatorFromPOInForm(String selectedItemIndexes, List itemsFromDB) {
+    protected void setItemSelectedForRetransmitIndicatorFromPOInForm(String selectedItemIndexes, List itemsFromDB) {
         int i = 0;
         StringTokenizer tok = new StringTokenizer(selectedItemIndexes, ",");
         while (tok.hasMoreTokens()) {
@@ -1328,7 +1328,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @param po the PurchaseOrderDocument whose status and indicators are to be checked in the conditions
      * @return boolean true if the Purchase Order doesn't have any warnings and false otherwise.
      */
-    private void checkForPOWarnings(PurchaseOrderDocument po, ActionMessages messages) {
+    protected void checkForPOWarnings(PurchaseOrderDocument po, ActionMessages messages) {
         // "This is not the current version of this Purchase Order." (curr_ind = N and doc status is not enroute)
         if (!po.isPurchaseOrderCurrentIndicator() && !po.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
             GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_NOT_CURRENT);
@@ -1732,7 +1732,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        // this should probably be moved into a private instance variable
+        // this should probably be moved into a protected instance variable
         KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
         // logic for cancel question
@@ -1789,7 +1789,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @param response The HttpServletResponse
      * @return An ActionForward
      */
-    private ActionForward askSaveQuestions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType) {
+    protected ActionForward askSaveQuestions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType) {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
@@ -1882,7 +1882,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * 
      * @param po A PurchaseOrderDocument
      */
-    private void executeManualStatusChange(PurchaseOrderDocument po) {
+    protected void executeManualStatusChange(PurchaseOrderDocument po) {
         try {
             SpringContext.getBean(PurapService.class).updateStatus(po, po.getStatusChange());
         }

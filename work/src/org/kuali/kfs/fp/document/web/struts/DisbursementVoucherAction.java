@@ -65,7 +65,7 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
  * This class handles Actions for the DisbursementVoucher.
  */
 public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAction.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAction.class);
 
     /**
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
@@ -199,7 +199,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
     /**
      * clear travel perdiem amounts
      */
-    private void clearTravelPerDiem(DisbursementVoucherNonEmployeeTravel dvNet) {
+    protected void clearTravelPerDiem(DisbursementVoucherNonEmployeeTravel dvNet) {
         dvNet.setDisbVchrPerdiemCalculatedAmt(null);
         dvNet.setDisbVchrPerdiemActualAmount(null);
     }
@@ -250,7 +250,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
     /**
      * reset the travel mileage amount as null
      */
-    private void clearTravelMileageAmount(DisbursementVoucherNonEmployeeTravel dvNet) {
+    protected void clearTravelMileageAmount(DisbursementVoucherNonEmployeeTravel dvNet) {
         dvNet.setDisbVchrMileageCalculatedAmt(null);
         dvNet.setDisbVchrPersonalCarAmount(null);
     }
@@ -420,7 +420,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
      * 
      * @return the wire charge message for the current fiscal year
      */
-    private String retrieveWireChargeMessage() {
+    protected String retrieveWireChargeMessage() {
         String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.MESSAGE_DV_WIRE_CHARGE);
         WireCharge wireCharge = new WireCharge();
         wireCharge.setUniversityFiscalYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
@@ -448,7 +448,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
     }
 
     // do refresh after a payee is selected
-    private ActionForward refreshAfterPayeeSelection(ActionMapping mapping, DisbursementVoucherForm dvForm, HttpServletRequest request) {
+    protected ActionForward refreshAfterPayeeSelection(ActionMapping mapping, DisbursementVoucherForm dvForm, HttpServletRequest request) {
         String refreshCaller = dvForm.getRefreshCaller();
 
         boolean isPayeeLookupable = KFSConstants.KUALI_DISBURSEMENT_PAYEE_LOOKUPABLE_IMPL.equals(refreshCaller);
@@ -534,7 +534,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
     /**
      * render the vendor address lookup results if there are multiple addresses for the selected vendor
      */
-    private ActionForward renderVendorAddressSelection(ActionMapping mapping, HttpServletRequest request, DisbursementVoucherForm dvForm) {
+    protected ActionForward renderVendorAddressSelection(ActionMapping mapping, HttpServletRequest request, DisbursementVoucherForm dvForm) {
         Properties props = new Properties();
 
         props.put(KNSConstants.SUPPRESS_ACTIONS, Boolean.toString(true));
@@ -573,7 +573,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
     /**
      * setup the payee as an employee with the given id number
      */
-    private void setupPayeeAsEmployee(DisbursementVoucherForm dvForm, String payeeIdNumber) {
+    protected void setupPayeeAsEmployee(DisbursementVoucherForm dvForm, String payeeIdNumber) {
         Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeIdNumber);
         if (person != null) {
             ((DisbursementVoucherDocument) dvForm.getDocument()).templateEmployee(person);
@@ -589,7 +589,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
     /**
      * setup the payee as a vendor with the given id number and address id
      */
-    private void setupPayeeAsVendor(DisbursementVoucherForm dvForm, String payeeIdNumber, String payeeAddressIdentifier) {
+    protected void setupPayeeAsVendor(DisbursementVoucherForm dvForm, String payeeIdNumber, String payeeAddressIdentifier) {
         VendorDetail vendorDetail = new VendorDetail();
         vendorDetail.setVendorNumber(payeeIdNumber);
         vendorDetail = (VendorDetail) SpringContext.getBean(BusinessObjectService.class).retrieve(vendorDetail);
@@ -614,7 +614,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
     /**
      * add warning message based on the given reason code
      */
-    private void addPaymentCodeWarningMessage(DisbursementVoucherForm dvForm, String paymentReasonCode) {
+    protected void addPaymentCodeWarningMessage(DisbursementVoucherForm dvForm, String paymentReasonCode) {
         // clear up the warning message and tab state carried from previous screen
         for (String tabKey : TabByReasonCode.getAllTabKeys()) {
             dvForm.getTabStates().remove(tabKey);

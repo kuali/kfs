@@ -39,7 +39,7 @@ import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase
 
 
 public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActionBase {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnAction.class);
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnAction.class);
 
     /**
      * This method had to override because equipmentLoanOrReturn information has to be refreshed before display

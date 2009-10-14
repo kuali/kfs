@@ -171,7 +171,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
      * @param cashControlDocument
      * @throws WorkflowException
      */
-    private boolean cancelLinkedPaymentApplicationDocuments(CashControlDocument cashControlDocument) throws WorkflowException {
+    protected boolean cancelLinkedPaymentApplicationDocuments(CashControlDocument cashControlDocument) throws WorkflowException {
         boolean success = true;
         List<CashControlDetail> details = cashControlDocument.getCashControlDetails();
 
@@ -336,7 +336,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
      * 
      * @param cashControlDocument
      */
-    private KualiDecimal calculateCashControlTotal(CashControlDocument cashControlDocument) {
+    protected KualiDecimal calculateCashControlTotal(CashControlDocument cashControlDocument) {
         KualiDecimal total = KualiDecimal.ZERO;
         for (CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {
 

@@ -68,15 +68,15 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return super.save(mapping, form, request, response);
     }
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocumentAction.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocumentAction.class);
 
-    private BusinessObjectService businessObjectService;
-    private DocumentService documentService;
-    private WorkflowDocumentService workflowDocumentService;
-    private PaymentApplicationDocumentService paymentApplicationDocumentService;
-    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
-    private CustomerInvoiceDetailService customerInvoiceDetailService;
-    private NonAppliedHoldingService nonAppliedHoldingService;
+    protected BusinessObjectService businessObjectService;
+    protected DocumentService documentService;
+    protected WorkflowDocumentService workflowDocumentService;
+    protected PaymentApplicationDocumentService paymentApplicationDocumentService;
+    protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
+    protected CustomerInvoiceDetailService customerInvoiceDetailService;
+    protected NonAppliedHoldingService nonAppliedHoldingService;
 
     /**
      * Constructs a PaymentApplicationDocumentAction.java.
@@ -180,7 +180,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * @return
      * @throws WorkflowException
      */
-    private InvoicePaidApplied generateAndValidateNewPaidApplied(PaymentApplicationInvoiceDetailApply detailApplication, String fieldName, KualiDecimal totalFromControl) {
+    protected InvoicePaidApplied generateAndValidateNewPaidApplied(PaymentApplicationInvoiceDetailApply detailApplication, String fieldName, KualiDecimal totalFromControl) {
 
         // generate the paidApplied
         InvoicePaidApplied paidApplied = detailApplication.generatePaidApplied();
@@ -197,7 +197,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    private void doApplicationOfFunds(PaymentApplicationDocumentForm paymentApplicationDocumentForm) throws WorkflowException {
+    protected void doApplicationOfFunds(PaymentApplicationDocumentForm paymentApplicationDocumentForm) throws WorkflowException {
         PaymentApplicationDocument paymentApplicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
 
         List<InvoicePaidApplied> invoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
@@ -284,7 +284,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         }
     }
 
-    private List<InvoicePaidApplied> applyToIndividualCustomerInvoiceDetails(PaymentApplicationDocumentForm paymentApplicationDocumentForm) {
+    protected List<InvoicePaidApplied> applyToIndividualCustomerInvoiceDetails(PaymentApplicationDocumentForm paymentApplicationDocumentForm) {
         PaymentApplicationDocument paymentApplicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
         String applicationDocNbr = paymentApplicationDocument.getDocumentNumber();
 
@@ -331,7 +331,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return invoicePaidApplieds;
     }
 
-    private List<InvoicePaidApplied> quickApplyToInvoices(PaymentApplicationDocumentForm paymentApplicationDocumentForm, List<InvoicePaidApplied> appliedToIndividualDetails) {
+    protected List<InvoicePaidApplied> quickApplyToInvoices(PaymentApplicationDocumentForm paymentApplicationDocumentForm, List<InvoicePaidApplied> appliedToIndividualDetails) {
         PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) paymentApplicationDocumentForm.getDocument();
         List<InvoicePaidApplied> invoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
 
@@ -397,7 +397,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return invoicePaidApplieds;
     }
 
-    private NonInvoiced applyNonInvoiced(PaymentApplicationDocumentForm payAppForm) throws WorkflowException {
+    protected NonInvoiced applyNonInvoiced(PaymentApplicationDocumentForm payAppForm) throws WorkflowException {
         PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) payAppForm.getDocument();
 
         NonInvoiced nonInvoiced = payAppForm.getNonInvoicedAddLine();
@@ -439,7 +439,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return nonInvoiced;
     }
 
-    private NonAppliedHolding applyUnapplied(PaymentApplicationDocumentForm payAppForm) throws WorkflowException {
+    protected NonAppliedHolding applyUnapplied(PaymentApplicationDocumentForm payAppForm) throws WorkflowException {
         PaymentApplicationDocument payAppDoc = payAppForm.getPaymentApplicationDocument();
         String customerNumber = payAppForm.getNonAppliedHoldingCustomerNumber();
         KualiDecimal amount = payAppForm.getNonAppliedHoldingAmount();
@@ -495,7 +495,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * 
      * @param applicationDocumentForm
      */
-    private void loadInvoices(PaymentApplicationDocumentForm payAppForm, String selectedInvoiceNumber) {
+    protected void loadInvoices(PaymentApplicationDocumentForm payAppForm, String selectedInvoiceNumber) {
         PaymentApplicationDocument payAppDoc = payAppForm.getPaymentApplicationDocument();
         AccountsReceivableDocumentHeader arDocHeader = payAppDoc.getAccountsReceivableDocumentHeader();
         String currentInvoiceNumber = selectedInvoiceNumber;
@@ -787,7 +787,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * @param propertyName
      * @param errorKey
      */
-    private void addFieldError(String errorPathToAdd, String propertyName, String errorKey) {
+    protected void addFieldError(String errorPathToAdd, String propertyName, String errorKey) {
         GlobalVariables.getMessageMap().addToErrorPath(errorPathToAdd);
         GlobalVariables.getMessageMap().putError(propertyName, errorKey);
         GlobalVariables.getMessageMap().removeFromErrorPath(errorPathToAdd);
@@ -798,7 +798,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * 
      * @param errorKey
      */
-    private void addGlobalError(String errorKey) {
+    protected void addGlobalError(String errorKey) {
         GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.DOCUMENT_ERRORS, errorKey, "document.hiddenFieldForErrors");
     }
 

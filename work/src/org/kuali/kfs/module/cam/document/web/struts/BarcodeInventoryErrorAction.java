@@ -47,7 +47,7 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
  * Action class for the asset barcode inventory error document
  */
 public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDocumentActionBase {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorAction.class);
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorAction.class);
 
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#sendAdHocRequests(org.apache.struts.action.ActionMapping,
@@ -264,7 +264,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
     }
 
 
-    private boolean validateGlobalReplaceFields(BarcodeInventoryErrorDocument document) {
+    protected boolean validateGlobalReplaceFields(BarcodeInventoryErrorDocument document) {
         if (StringUtils.isBlank(document.getCurrentScanCode()) && StringUtils.isBlank(document.getCurrentCampusCode()) && StringUtils.isBlank(document.getCurrentBuildingNumber()) && StringUtils.isBlank(document.getCurrentRoom()) && StringUtils.isBlank(document.getCurrentSubroom()) && StringUtils.isBlank(document.getCurrentConditionCode()) && StringUtils.isBlank(document.getCurrentTagNumber())) {
 
             GlobalVariables.getMessageMap().putErrorForSectionId(CamsPropertyConstants.BCIE_GLOBAL_REPLACE_ERROR_SECTION_ID, CamsKeyConstants.BarcodeInventory.ERROR_GLOBAL_REPLACE_SEARCH_CRITERIA);
@@ -279,15 +279,15 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
      * 
      * @param document
      */
-    private void invokeRules(BarcodeInventoryErrorDocument document, boolean updateStatus) {
+    protected void invokeRules(BarcodeInventoryErrorDocument document, boolean updateStatus) {
         getKualiRuleService().applyRules(new ValidateBarcodeInventoryEvent("", document, updateStatus));
     }
 
-    private AssetBarcodeInventoryLoadService getAssetBarcodeInventoryLoadService() {
+    protected AssetBarcodeInventoryLoadService getAssetBarcodeInventoryLoadService() {
         return SpringContext.getBean(AssetBarcodeInventoryLoadService.class);
     }
 
-    private DateTimeService getDateTimeService() {
+    protected DateTimeService getDateTimeService() {
         return SpringContext.getBean(DateTimeService.class);
     }
 }

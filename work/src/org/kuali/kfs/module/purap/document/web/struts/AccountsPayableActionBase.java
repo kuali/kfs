@@ -78,7 +78,7 @@ import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
  * Struts Action for Accounts Payable documents.
  */
 public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableActionBase.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableActionBase.class);
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -319,7 +319,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
      * @return An ActionForward
      * @throws Exception
      */
-    private ActionForward askQuestionWithInput(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String notePrefix, String operation, String messageKey, TreeMap<String, PurQuestionCallback> questionsAndCallbacks, String messagePrefix, ActionForward redirect) throws Exception {
+    protected ActionForward askQuestionWithInput(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String notePrefix, String operation, String messageKey, TreeMap<String, PurQuestionCallback> questionsAndCallbacks, String messagePrefix, ActionForward redirect) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         AccountsPayableDocumentBase apDocument = (AccountsPayableDocumentBase) kualiDocumentFormBase.getDocument();
 
@@ -420,7 +420,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
      * @param question String. The most specific part of the message key in PurapKeyConstants.
      * @return The message to be displayed given the key
      */
-    private String getQuestionProperty(String messageKey, String messagePrefix, KualiConfigurationService kualiConfiguration, String question) {
+    protected String getQuestionProperty(String messageKey, String messagePrefix, KualiConfigurationService kualiConfiguration, String question) {
         return kualiConfiguration.getPropertyString((StringUtils.isEmpty(messagePrefix)) ? messageKey : messagePrefix + question);
     }
 
@@ -448,7 +448,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
      * @return An ActionForward
      * @throws Exception
      */
-    private ActionForward askCancelQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    protected ActionForward askCancelQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase apForm = (PurchasingAccountsPayableFormBase) form;
         
         String operation = "Cancel ";
@@ -529,7 +529,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         };
     }
 
-    private ActionForward askQuestionsAndPerformReopenPurchaseOrder(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    protected ActionForward askQuestionsAndPerformReopenPurchaseOrder(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("askQuestionsAndPerformDocumentAction started.");
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         AccountsPayableDocumentBase apDoc = (AccountsPayableDocumentBase) kualiDocumentFormBase.getDocument();

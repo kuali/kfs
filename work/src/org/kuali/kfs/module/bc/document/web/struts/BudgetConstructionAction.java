@@ -88,7 +88,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * need to figure out if this should extend KualiAction, KualiDocumentActionBase or KualiTransactionDocumentActionBase
  */
 public class BudgetConstructionAction extends KualiTransactionalDocumentActionBase {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionAction.class);
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionAction.class);
 
     /**
      * Entry point to all actions Checks for cases where methodToCall is loadDocument, performAccountPullup or
@@ -373,7 +373,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * 
      * @param budgetConstructionForm
      */
-    private void cleanupForLockError(BudgetConstructionForm budgetConstructionForm) {
+    protected void cleanupForLockError(BudgetConstructionForm budgetConstructionForm) {
         budgetConstructionForm.setSecurityNoAccess(true);
         budgetConstructionForm.getDocumentActions().remove(KNSConstants.KUALI_ACTION_CAN_EDIT);
         budgetConstructionForm.getDocumentActions().remove(KNSConstants.KUALI_ACTION_CAN_SAVE);
@@ -425,7 +425,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * 
      * @param bcForm
      */
-    private void adjustForSalarySettingChanges(BudgetConstructionForm bcForm) {
+    protected void adjustForSalarySettingChanges(BudgetConstructionForm bcForm) {
 
         BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
         BudgetConstructionDocument bcDoc = (BudgetConstructionDocument) bcForm.getDocument();
@@ -1825,7 +1825,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    private void adjustRequest(PendingBudgetConstructionGeneralLedger pbglLine) {
+    protected void adjustRequest(PendingBudgetConstructionGeneralLedger pbglLine) {
 
         KualiInteger baseAmount = pbglLine.getFinancialBeginningBalanceLineAmount();
         if (baseAmount.isNonZero()) {

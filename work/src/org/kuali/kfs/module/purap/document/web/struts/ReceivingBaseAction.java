@@ -85,7 +85,7 @@ public class ReceivingBaseAction extends FinancialSystemTransactionalDocumentAct
      * @return An ActionForward
      * @throws Exception
      */
-    private ActionForward askQuestionWithInput(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String notePrefix, String operation, String messageKey, TreeMap<String, ReceivingQuestionCallback> questionsAndCallbacks, String messagePrefix, ActionForward redirect) throws Exception {
+    protected ActionForward askQuestionWithInput(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String notePrefix, String operation, String messageKey, TreeMap<String, ReceivingQuestionCallback> questionsAndCallbacks, String messagePrefix, ActionForward redirect) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         ReceivingDocument receivingDocument = (ReceivingDocument) kualiDocumentFormBase.getDocument();
 
@@ -186,7 +186,7 @@ public class ReceivingBaseAction extends FinancialSystemTransactionalDocumentAct
      * @param question String. The most specific part of the message key in PurapKeyConstants.
      * @return The message to be displayed given the key
      */
-    private String getQuestionProperty(String messageKey, String messagePrefix, KualiConfigurationService kualiConfiguration, String question) {
+    protected String getQuestionProperty(String messageKey, String messagePrefix, KualiConfigurationService kualiConfiguration, String question) {
 
         return kualiConfiguration.getPropertyString((StringUtils.isEmpty(messagePrefix)) ? messageKey : messagePrefix + question);
     }

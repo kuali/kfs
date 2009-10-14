@@ -67,7 +67,7 @@ public class ElectronicInvoiceRejectAction extends FinancialSystemTransactionalD
 
     }
     
-    private PersistableBusinessObject getNoteParent(ElectronicInvoiceRejectDocument document, Note newNote) {
+    protected PersistableBusinessObject getNoteParent(ElectronicInvoiceRejectDocument document, Note newNote) {
         //get the property name to set (this assumes this is a document type note)
         String propertyName = getNoteService().extractNoteProperty(newNote);
         //get BO to set

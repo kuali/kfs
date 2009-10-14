@@ -162,7 +162,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
      * @return
      * @throws Exception
      */
-    private ActionForward performInvoiceWithDiscountsCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, CustomerInvoiceDocument customerInvoiceDocument) throws Exception {
+    protected ActionForward performInvoiceWithDiscountsCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, CustomerInvoiceDocument customerInvoiceDocument) throws Exception {
         ActionForward forward = null;
 
         if( customerInvoiceDocument.hasAtLeastOneDiscount() ){
@@ -583,7 +583,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
      * @param methodToCall String: The name of the method that will be invoked to do this particular print
      * @return The URL
      */
-    private String getUrlForPrintInvoice(String basePath, String docId, String methodToCall) {
+    protected String getUrlForPrintInvoice(String basePath, String docId, String methodToCall) {
         StringBuffer result = new StringBuffer(basePath);
         result.append("/arCustomerInvoiceDocument.do?methodToCall=");
         result.append(methodToCall);

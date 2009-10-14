@@ -93,7 +93,7 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
  * Struts Action for Purchasing documents.
  */
 public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingActionBase.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingActionBase.class);
 
     /**
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#refresh(org.apache.struts.action.ActionMapping,
@@ -273,13 +273,13 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         return super.refresh(mapping, form, request, response);
     }
 
-    private String getCaptialAssetLocationNumberFromParameter(String parameterKey) {
+    protected String getCaptialAssetLocationNumberFromParameter(String parameterKey) {
         int beginIndex = parameterKey.lastIndexOf("[") + 1;
         int endIndex = parameterKey.lastIndexOf("]");
         return parameterKey.substring(beginIndex, endIndex);
     }
 
-    private String getCaptialAssetItemNumberFromParameter(String parameterKey) {
+    protected String getCaptialAssetItemNumberFromParameter(String parameterKey) {
         int beginIndex = parameterKey.indexOf("[") + 1;
         int endIndex = parameterKey.indexOf("]");
         return parameterKey.substring(beginIndex, endIndex);
@@ -354,7 +354,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    private void useOffCampusAssetLocationBuilding(CapitalAssetLocation location) {
+    protected void useOffCampusAssetLocationBuilding(CapitalAssetLocation location) {
         if (location != null) {
             location.setOffCampusIndicator(true);
             location.setBuildingCode("");
@@ -614,7 +614,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      * @param distributionsourceAccountingLines
      * @return
      */
-    private boolean validateDistributeAccounts(Document document, List<PurApAccountingLine> distributionsourceAccountingLines) {
+    protected boolean validateDistributeAccounts(Document document, List<PurApAccountingLine> distributionsourceAccountingLines) {
         boolean rulePassed = true;
         String errorPrefix = null;
         int i = 0;
@@ -1251,7 +1251,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      * @param request
      * @return
      */
-    private String findBuildingCodeFromCapitalAssetBuildingLookup(HttpServletRequest request) {
+    protected String findBuildingCodeFromCapitalAssetBuildingLookup(HttpServletRequest request) {
         Enumeration anEnum = request.getParameterNames();
         while (anEnum.hasMoreElements()) {
             String paramName = (String) anEnum.nextElement();

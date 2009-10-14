@@ -70,7 +70,7 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
  * Base Struts Action class for Benefit Expense Transfer Document.
  */
 public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentActionBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExpenseTransferDocumentActionBase.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExpenseTransferDocumentActionBase.class);
 
     /**
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#performBalanceInquiryForSourceLine(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -478,7 +478,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
      * 
      * @param line accounting line
      */
-    private void updateAccountOverrideCode(ExpenseTransferAccountingLine line) {
+    protected void updateAccountOverrideCode(ExpenseTransferAccountingLine line) {
         AccountingLineOverride override = LaborAccountingLineOverride.determineNeededOverrides(line);
         line.setOverrideCode(override.getCode());
     }
@@ -489,7 +489,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
      * @param event to run the rules for
      * @return true if rule passes
      */
-    private boolean runRule(KualiDocumentEventBase event) {
+    protected boolean runRule(KualiDocumentEventBase event) {
         // check any business rules
 
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(event);
@@ -509,7 +509,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
     /**
      * @return SegmentedLookupResultsService
      */
-    private SegmentedLookupResultsService getSegmentedLookupResultsService() {
+    protected SegmentedLookupResultsService getSegmentedLookupResultsService() {
         return SpringContext.getBean(SegmentedLookupResultsService.class);
     }
 }

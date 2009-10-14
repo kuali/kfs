@@ -40,7 +40,7 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
  * This class handles specific Actions requests for the BudgetAdjustment.
  */
 public class BudgetAdjustmentAction extends KualiAccountingDocumentActionBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetAdjustmentAction.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetAdjustmentAction.class);
 
     /**
      * Do initialization for a new budget adjustment
@@ -78,7 +78,7 @@ public class BudgetAdjustmentAction extends KualiAccountingDocumentActionBase {
         }
     }
     
-    private void processForOutput(AccountingLine line) {
+    protected void processForOutput(AccountingLine line) {
         AccountingLineOverride fromCurrentCode = AccountingLineOverride.valueOf(line.getOverrideCode());
         AccountingLineOverride needed = AccountingLineOverride.determineNeededOverrides(line);
         line.setAccountExpiredOverride(fromCurrentCode.hasComponent(COMPONENT.EXPIRED_ACCOUNT));

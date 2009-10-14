@@ -66,7 +66,7 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
  * This class handles Actions for EffortCertification document approval.
  */
 public class CertificationReportAction extends EffortCertificationAction {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CertificationReportAction.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CertificationReportAction.class);
 
     /**
      * recalculate the detail line
@@ -334,7 +334,7 @@ public class CertificationReportAction extends EffortCertificationAction {
      * @param groupId the given group id
      * @return the detail lines belonging to the given group
      */
-    private List<EffortCertificationDetail> findDetailLinesInGroup(List<EffortCertificationDetail> detailLines, String groupId) {
+    protected List<EffortCertificationDetail> findDetailLinesInGroup(List<EffortCertificationDetail> detailLines, String groupId) {
         List<EffortCertificationDetail> detailLinesInGroup = new ArrayList<EffortCertificationDetail>();
 
         for (EffortCertificationDetail line : detailLines) {
@@ -352,7 +352,7 @@ public class CertificationReportAction extends EffortCertificationAction {
      * @param certificationReportForm the action form
      * @return true if the summarized detail lines need to be rendered; otherwise, false
      */
-    private boolean isSummarizeDetailLinesRendered(CertificationReportForm certificationReportForm) {
+    protected boolean isSummarizeDetailLinesRendered(CertificationReportForm certificationReportForm) {
         super.populateAuthorizationFields(certificationReportForm);
 
         return certificationReportForm.getEditingMode().containsKey(EffortCertificationEditMode.SUMMARY_TAB_ENTRY);
@@ -363,7 +363,7 @@ public class CertificationReportAction extends EffortCertificationAction {
      * 
      * @param certificationReportForm the given action form
      */
-    private void recalculateAllDetailLines(CertificationReportForm certificationReportForm) {
+    protected void recalculateAllDetailLines(CertificationReportForm certificationReportForm) {
         Map<String, DetailLineGroup> detailLineGroupMap = DetailLineGroup.groupDetailLines(certificationReportForm.getDetailLines());
 
         EffortCertificationDocument effortDocument = (EffortCertificationDocument) certificationReportForm.getDocument();
@@ -385,7 +385,7 @@ public class CertificationReportAction extends EffortCertificationAction {
      * 
      * @param certificationReportForm the given action form
      */
-    private void updateDetailLinesFromSummaryLines(CertificationReportForm certificationReportForm) {
+    protected void updateDetailLinesFromSummaryLines(CertificationReportForm certificationReportForm) {
         EffortCertificationDocument effortDocument = (EffortCertificationDocument) certificationReportForm.getDocument();
         List<EffortCertificationDetail> detailLines = certificationReportForm.getDetailLines();
         List<EffortCertificationDetail> summarizedDetailLines = certificationReportForm.getSummarizedDetailLines();
@@ -445,7 +445,7 @@ public class CertificationReportAction extends EffortCertificationAction {
      * @param detailLine the given detail line
      * @param totalPayrollAmount the total payroll amount of the document associating with the detail line group
      */
-    private void updateDetailLineGroup(DetailLineGroup detailLineGroup, EffortCertificationDetail detailLine, KualiDecimal totalPayrollAmount) {
+    protected void updateDetailLineGroup(DetailLineGroup detailLineGroup, EffortCertificationDetail detailLine, KualiDecimal totalPayrollAmount) {
         EffortCertificationDetail summaryLine = detailLineGroup.getSummaryDetailLine();
         summaryLine.setEffortCertificationUpdatedOverallPercent(detailLine.getEffortCertificationUpdatedOverallPercent());
         summaryLine.setEffortCertificationPayrollAmount(detailLine.getEffortCertificationPayrollAmount());
@@ -458,7 +458,7 @@ public class CertificationReportAction extends EffortCertificationAction {
      * Toggles the sort order between ascending and descending. If the current order is ascending, then the sort order will be set
      * to descending, and vice versa.
      */
-    private void toggleSortOrder(CertificationReportForm certificationReportForm) {
+    protected void toggleSortOrder(CertificationReportForm certificationReportForm) {
         if (SortOrder.ASC.name().equals(certificationReportForm.getSortOrder())) {
             certificationReportForm.setSortOrder(SortOrder.DESC.name());
         }
@@ -470,7 +470,7 @@ public class CertificationReportAction extends EffortCertificationAction {
     /**
      * sort the detail lines based on the values of the sort order and sort column
      */
-    private void sortDetailLine(CertificationReportForm certificationReportForm, List<EffortCertificationDetail> detailLines, String... sortColumn) {
+    protected void sortDetailLine(CertificationReportForm certificationReportForm, List<EffortCertificationDetail> detailLines, String... sortColumn) {
         String sortOrder = certificationReportForm.getSortOrder();
         DynamicCollectionComparator.sort(detailLines, SortOrder.valueOf(sortOrder), sortColumn);
     }
@@ -478,7 +478,7 @@ public class CertificationReportAction extends EffortCertificationAction {
     /**
      * rebuild the detail line group map from the detail lines of the current document
      */
-    private Map<String, DetailLineGroup> refreshDetailLineGroupMap(CertificationReportForm certificationReportForm) {
+    protected Map<String, DetailLineGroup> refreshDetailLineGroupMap(CertificationReportForm certificationReportForm) {
         LOG.info("refreshDetailLineGroupMap() started");
 
         List<EffortCertificationDetail> summarizedDetailLines = certificationReportForm.getSummarizedDetailLines();
@@ -502,7 +502,7 @@ public class CertificationReportAction extends EffortCertificationAction {
     /**
      * find the given detail line from the given collection of detail lines and revert it
      */
-    private void revertDetaiLine(List<EffortCertificationDetail> detailLines, EffortCertificationDetail lineToRevert) {
+    protected void revertDetaiLine(List<EffortCertificationDetail> detailLines, EffortCertificationDetail lineToRevert) {
         int lineToRevertIndex = detailLines.lastIndexOf(lineToRevert);
 
         this.revertDetaiLine(detailLines, lineToRevertIndex);
@@ -511,7 +511,7 @@ public class CertificationReportAction extends EffortCertificationAction {
     /**
      * revert the detail line in the specified position
      */
-    private void revertDetaiLine(List<EffortCertificationDetail> detailLines, int lineToRevertIndex) {
+    protected void revertDetaiLine(List<EffortCertificationDetail> detailLines, int lineToRevertIndex) {
         EffortCertificationDetail lineToRevert = detailLines.get(lineToRevertIndex);
 
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
@@ -525,7 +525,7 @@ public class CertificationReportAction extends EffortCertificationAction {
     /**
      * reset the persisted fields of the given detail line
      */
-    private void resetPersistedFields(EffortCertificationDetail detailLine) {
+    protected void resetPersistedFields(EffortCertificationDetail detailLine) {
         int persistedEffortPercent = detailLine.getEffortCertificationUpdatedOverallPercent();
         detailLine.setPersistedEffortPercent(new Integer(persistedEffortPercent));
 

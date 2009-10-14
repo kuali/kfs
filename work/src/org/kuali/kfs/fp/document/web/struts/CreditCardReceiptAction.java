@@ -110,7 +110,7 @@ public class CreditCardReceiptAction extends KualiAccountingDocumentActionBase {
      * @param creditCardReceipt
      * @return boolean
      */
-    private boolean validateNewCreditCardReceipt(CreditCardDetail creditCardReceipt) {
+    protected boolean validateNewCreditCardReceipt(CreditCardDetail creditCardReceipt) {
         GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.NEW_CREDIT_CARD_RECEIPT);
         boolean isValid = CreditCardReceiptDocumentRuleUtil.validateCreditCardReceipt(creditCardReceipt);
         GlobalVariables.getMessageMap().removeFromErrorPath(KFSPropertyConstants.NEW_CREDIT_CARD_RECEIPT);

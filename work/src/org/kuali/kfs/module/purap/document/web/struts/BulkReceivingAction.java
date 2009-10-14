@@ -58,7 +58,7 @@ import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
-    private static final Logger LOG = Logger.getLogger(BulkReceivingAction.class);
+    protected static final Logger LOG = Logger.getLogger(BulkReceivingAction.class);
 
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
@@ -108,7 +108,7 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    private ActionForward isDuplicateDocumentEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, BulkReceivingDocument bulkReceivingDocument) throws Exception {
+    protected ActionForward isDuplicateDocumentEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, BulkReceivingDocument bulkReceivingDocument) throws Exception {
         ActionForward forward = null;
         HashMap<String, String> duplicateMessages = SpringContext.getBean(BulkReceivingService.class).bulkReceivingDuplicateMessages(bulkReceivingDocument);
 
@@ -191,7 +191,7 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
         return mapping.findForward("printReceivingTicketPDF");
     }
 
-    private String getUrlForPrintReceivingTicket(String basePath, String docId, String methodToCall) {
+    protected String getUrlForPrintReceivingTicket(String basePath, String docId, String methodToCall) {
 
         StringBuffer result = new StringBuffer(basePath);
         result.append("/purapBulkReceiving.do?methodToCall=");

@@ -81,7 +81,7 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
  * This class handles UI actions for all shared methods of financial documents.
  */
 public class KualiAccountingDocumentActionBase extends FinancialSystemTransactionalDocumentActionBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiAccountingDocumentActionBase.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiAccountingDocumentActionBase.class);
 
     /**
      * Adds check for accountingLine updates, generates and dispatches any events caused by such updates
@@ -209,7 +209,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
      * @param transForm
      * @param lineSet
      */
-    private void processAccountingLines(AccountingDocument transDoc, KualiAccountingDocumentFormBase transForm, String lineSet) {
+    protected void processAccountingLines(AccountingDocument transDoc, KualiAccountingDocumentFormBase transForm, String lineSet) {
         // figure out which set of lines we're looking at
         List formLines;
         String pathPrefix;
@@ -543,7 +543,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     /**
      * TODO: remove this method once baseline accounting lines has been removed
      */
-    private List deepCopyAccountingLinesList(List originals) {
+    protected List deepCopyAccountingLinesList(List originals) {
         if (originals == null) {
             return null;
         }
@@ -793,7 +793,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
      * @param line
      * @return true if sales is either not required or it contains sales tax
      */
-    private boolean checkSalesTax(AccountingDocument document, AccountingLine line, boolean source, boolean newLine, int index) {
+    protected boolean checkSalesTax(AccountingDocument document, AccountingLine line, boolean source, boolean newLine, int index) {
         boolean passed = true;
         if (isSalesTaxRequired(document, line)) {
             // then set the salesTaxRequired on the accountingLine
@@ -851,7 +851,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
      * @param accountingLine
      * @return true if entered correctly, false otherwise
      */
-    private boolean isValidSalesTaxEntered(AccountingLine accountingLine, boolean source, boolean newLine, int index) {
+    protected boolean isValidSalesTaxEntered(AccountingLine accountingLine, boolean source, boolean newLine, int index) {
         boolean valid = true;
         DictionaryValidationService dictionaryValidationService = SpringContext.getBean(DictionaryValidationService.class);
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
@@ -919,7 +919,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
      * 
      * @param accountingLine
      */
-    private void removeSalesTax(AccountingLine accountingLine) {
+    protected void removeSalesTax(AccountingLine accountingLine) {
         SalesTax salesTax = accountingLine.getSalesTax();
         if (ObjectUtils.isNotNull(salesTax)) {
             accountingLine.setSalesTax(null);
@@ -937,7 +937,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
      * @param formLine
      * @param baseLine
      */
-    private void handleSalesTaxRequired(AccountingDocument transDoc, AccountingLine formLine, boolean source, boolean newLine, int index) {
+    protected void handleSalesTaxRequired(AccountingDocument transDoc, AccountingLine formLine, boolean source, boolean newLine, int index) {
         boolean salesTaxRequired = isSalesTaxRequired(transDoc, formLine);
         if (salesTaxRequired) {
             formLine.setSalesTaxRequired(true);
@@ -949,7 +949,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         }
     }
 
-    private boolean hasSalesTaxBeenEntered(AccountingLine accountingLine, boolean source, boolean newLine, int index) {
+    protected boolean hasSalesTaxBeenEntered(AccountingLine accountingLine, boolean source, boolean newLine, int index) {
         boolean entered = true;
         String objCd = accountingLine.getFinancialObjectCode();
         String account = accountingLine.getAccountNumber();
@@ -982,7 +982,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
      * @param kualiDocumentFormBase
      * @param baselineSourceLines
      */
-    private void handleSalesTaxRequiredAllLines(KualiDocumentFormBase kualiDocumentFormBase, List<AccountingLine> baselineAcctingLines) {
+    protected void handleSalesTaxRequiredAllLines(KualiDocumentFormBase kualiDocumentFormBase, List<AccountingLine> baselineAcctingLines) {
         AccountingDocument accoutingDocument = (AccountingDocument) kualiDocumentFormBase.getDocument();
         int index = 0;
         for (AccountingLine accountingLine : baselineAcctingLines) {
@@ -996,7 +996,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
 
     }
 
-    private boolean checkSalesTaxRequiredAllLines(KualiDocumentFormBase kualiDocumentFormBase, List<AccountingLine> baselineAcctingLines) {
+    protected boolean checkSalesTaxRequiredAllLines(KualiDocumentFormBase kualiDocumentFormBase, List<AccountingLine> baselineAcctingLines) {
         AccountingDocument accoutingDocument = (AccountingDocument) kualiDocumentFormBase.getDocument();
         boolean passed = true;
         int index = 0;
@@ -1017,7 +1017,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
      * 
      * @param form
      */
-    private void refreshSalesTaxInfo(ActionForm form) {
+    protected void refreshSalesTaxInfo(ActionForm form) {
         KualiAccountingDocumentFormBase accountingForm = (KualiAccountingDocumentFormBase) form;
         AccountingDocument document = (AccountingDocument) accountingForm.getDocument();
         List sourceLines = document.getSourceAccountingLines();
@@ -1041,7 +1041,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
      * 
      * @param line
      */
-    private void populateSalesTax(AccountingLine line) {
+    protected void populateSalesTax(AccountingLine line) {
         SalesTax salesTax = line.getSalesTax();
 
         if (ObjectUtils.isNotNull(salesTax)) {

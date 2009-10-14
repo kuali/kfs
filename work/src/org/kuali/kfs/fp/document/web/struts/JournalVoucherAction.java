@@ -124,7 +124,7 @@ public class JournalVoucherAction extends VoucherAction {
      * 
      * @param journalVoucherForm
      */
-    private void populateBalanceTypeOneDocument(JournalVoucherForm journalVoucherForm) {
+    protected void populateBalanceTypeOneDocument(JournalVoucherForm journalVoucherForm) {
         String selectedBalanceTypeCode = journalVoucherForm.getSelectedBalanceType().getCode();
         BalanceType selectedBalanceType = getPopulatedBalanceTypeInstance(selectedBalanceTypeCode);
         journalVoucherForm.getJournalVoucherDocument().setBalanceTypeCode(selectedBalanceTypeCode);
@@ -267,7 +267,7 @@ public class JournalVoucherAction extends VoucherAction {
      * @return ActionForward
      * @throws Exception
      */
-    private ActionForward processChangeBalanceTypeConfirmationQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    protected ActionForward processChangeBalanceTypeConfirmationQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         JournalVoucherForm jvForm = (JournalVoucherForm) form;
         JournalVoucherDocument jvDoc = jvForm.getJournalVoucherDocument();
 
@@ -308,7 +308,7 @@ public class JournalVoucherAction extends VoucherAction {
      * @return The message to display to the user in the question prompt window.
      * @throws Exception
      */
-    private String buildBalanceTypeChangeConfirmationMessage(JournalVoucherForm jvForm, KualiConfigurationService kualiConfiguration) throws Exception {
+    protected String buildBalanceTypeChangeConfirmationMessage(JournalVoucherForm jvForm, KualiConfigurationService kualiConfiguration) throws Exception {
         String message = new String("");
 
         // figure out which way the balance type is changing
@@ -378,7 +378,7 @@ public class JournalVoucherAction extends VoucherAction {
      * 
      * @param journalVoucherForm
      */
-    private void switchFromSingleAmountModeToCreditDebitMode(JournalVoucherForm journalVoucherForm) {
+    protected void switchFromSingleAmountModeToCreditDebitMode(JournalVoucherForm journalVoucherForm) {
         // going from single amount to credit/debit view so we want to blank out the amount and the extra "reference" fields
         // that the single amount view uses
         JournalVoucherDocument jvDoc = (JournalVoucherDocument) journalVoucherForm.getTransactionalDocument();
@@ -404,7 +404,7 @@ public class JournalVoucherAction extends VoucherAction {
      * 
      * @param journalVoucherForm
      */
-    private void switchFromExternalEncumbranceModeToNonExternalEncumbrance(JournalVoucherForm journalVoucherForm) {
+    protected void switchFromExternalEncumbranceModeToNonExternalEncumbrance(JournalVoucherForm journalVoucherForm) {
         // going from external encumbrance view to non external encumbrance view, so we want to blank out the extra "reference"
         // fields
         JournalVoucherDocument jvDoc = (JournalVoucherDocument) journalVoucherForm.getTransactionalDocument();
@@ -423,7 +423,7 @@ public class JournalVoucherAction extends VoucherAction {
      * 
      * @param journalVoucherForm
      */
-    private void switchFromCreditDebitModeToSingleAmountMode(JournalVoucherForm journalVoucherForm) {
+    protected void switchFromCreditDebitModeToSingleAmountMode(JournalVoucherForm journalVoucherForm) {
         // going from credit/debit view to single amount view so we don't need the debit and credit
         // indicator set any more and we need to blank out the amount values to zero
         JournalVoucherDocument jvDoc = journalVoucherForm.getJournalVoucherDocument();
@@ -477,7 +477,7 @@ public class JournalVoucherAction extends VoucherAction {
      * @param journalVoucherDocument
      * @param journalVoucherForm
      */
-    private void populateSelectedJournalBalanceType(JournalVoucherDocument journalVoucherDocument, JournalVoucherForm journalVoucherForm) {
+    protected void populateSelectedJournalBalanceType(JournalVoucherDocument journalVoucherDocument, JournalVoucherForm journalVoucherForm) {
         journalVoucherForm.setSelectedBalanceType(journalVoucherDocument.getBalanceType());
         if (StringUtils.isNotBlank(journalVoucherDocument.getBalanceTypeCode())) {
             journalVoucherForm.setOriginalBalanceType(journalVoucherDocument.getBalanceTypeCode());

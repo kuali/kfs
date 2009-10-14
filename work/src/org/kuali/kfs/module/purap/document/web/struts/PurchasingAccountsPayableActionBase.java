@@ -92,7 +92,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
      * 
      * @param document A descendant of PurchasingAccountsPayableDocument
      */
-    private <T extends PurchasingAccountsPayableDocument, V extends KualiAccountingDocumentFormBase> void updateBaseline(T document, V form) {
+    protected <T extends PurchasingAccountsPayableDocument, V extends KualiAccountingDocumentFormBase> void updateBaseline(T document, V form) {
         // clear out the old lines first
         for (PurApItem item : document.getItems()) {
             // clear out the old lines first

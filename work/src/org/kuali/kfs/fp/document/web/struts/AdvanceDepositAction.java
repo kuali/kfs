@@ -115,7 +115,7 @@ public class AdvanceDepositAction extends KualiAccountingDocumentActionBase {
      * @param advanceDeposit
      * @return boolean
      */
-    private boolean validateNewAdvanceDeposit(AdvanceDepositDetail advanceDeposit) {
+    protected boolean validateNewAdvanceDeposit(AdvanceDepositDetail advanceDeposit) {
         GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.NEW_ADVANCE_DEPOSIT);
         boolean isValid = AdvanceDepositDocumentRuleUtil.validateAdvanceDeposit(advanceDeposit);
         GlobalVariables.getMessageMap().removeFromErrorPath(KFSPropertyConstants.NEW_ADVANCE_DEPOSIT);
@@ -127,7 +127,7 @@ public class AdvanceDepositAction extends KualiAccountingDocumentActionBase {
      * 
      * @param advanceDepositDocument
      */
-    private KualiDecimal calculateAdvanceDepositTotal(AdvanceDepositDocument advanceDepositDocument) {
+    protected KualiDecimal calculateAdvanceDepositTotal(AdvanceDepositDocument advanceDepositDocument) {
         KualiDecimal total = KualiDecimal.ZERO;
         Iterator<AdvanceDepositDetail> deposits = advanceDepositDocument.getAdvanceDeposits().iterator();
         while (deposits.hasNext()) {

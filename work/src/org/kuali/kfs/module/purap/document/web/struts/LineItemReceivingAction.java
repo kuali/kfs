@@ -141,7 +141,7 @@ public class LineItemReceivingAction extends ReceivingBaseAction {
 
         ReceivingQuestionCallback callback = new ReceivingQuestionCallback() {
             public boolean questionComplete = false;
-            private String correctionDocumentnoteText;
+            protected String correctionDocumentnoteText;
             
             public ReceivingDocument doPostQuestion(ReceivingDocument document, String noteText) throws Exception {
                 //mark question completed
@@ -203,7 +203,7 @@ public class LineItemReceivingAction extends ReceivingBaseAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    private ActionForward performDuplicateReceivingLineCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, LineItemReceivingDocument lineItemReceivingDocument) throws Exception {
+    protected ActionForward performDuplicateReceivingLineCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, LineItemReceivingDocument lineItemReceivingDocument) throws Exception {
         ActionForward forward = null;
         HashMap<String, String> duplicateMessages = SpringContext.getBean(ReceivingService.class).receivingLineDuplicateMessages(lineItemReceivingDocument);
         if (duplicateMessages != null && !duplicateMessages.isEmpty()) {

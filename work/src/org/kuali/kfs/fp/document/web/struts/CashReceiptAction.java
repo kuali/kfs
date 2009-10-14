@@ -129,7 +129,7 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
      * @param crForm
      * @param crDoc
      */
-    private void processCheckEntryMode(CashReceiptForm crForm, CashReceiptDocument crDoc) {
+    protected void processCheckEntryMode(CashReceiptForm crForm, CashReceiptDocument crDoc) {
         String formMode = crForm.getCheckEntryMode();
         String docMode = crDoc.getCheckEntryMode();
 
@@ -166,7 +166,7 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
      * @param cdoc
      * @param cform
      */
-    private void processChecks(CashReceiptDocument cdoc, CashReceiptForm cform) {
+    protected void processChecks(CashReceiptDocument cdoc, CashReceiptForm cform) {
         List formChecks = cdoc.getChecks();
 
         int index = 0;
@@ -345,7 +345,7 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
      * 
      * @param cform
      */
-    private void initDerivedCheckValues(CashReceiptForm cform) {
+    protected void initDerivedCheckValues(CashReceiptForm cform) {
         CashReceiptDocument cdoc = cform.getCashReceiptDocument();
 
         cform.setCheckEntryMode(cdoc.getCheckEntryMode());

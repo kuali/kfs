@@ -1322,7 +1322,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
      */
     
     //TODO: Shawn - need to check - this method is using for docHandler, but commented out 
-    private void loadPersistedInputGroup(CorrectionForm correctionForm) throws Exception {
+    protected void loadPersistedInputGroup(CorrectionForm correctionForm) throws Exception {
 
         GeneralLedgerCorrectionProcessDocument document = correctionForm.getCorrectionDocument();
 
@@ -1539,7 +1539,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
     /**
      * Sort CorrectionGroups and their search criteria and replacement specifications so they display properly on the page.
      */
-    private void sortForDisplay(List groups) {
+    protected void sortForDisplay(List groups) {
         for (Iterator i = groups.iterator(); i.hasNext();) {
             CorrectionChangeGroup group = (CorrectionChangeGroup) i.next();
             Collections.sort(group.getCorrectionCriteria());
@@ -1549,7 +1549,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         Collections.sort(groups);
     }
 
-    private void printChangeGroups(GeneralLedgerCorrectionProcessDocument doc) {
+    protected void printChangeGroups(GeneralLedgerCorrectionProcessDocument doc) {
         List l = doc.getCorrectionChangeGroup();
         for (Iterator iter = l.iterator(); iter.hasNext();) {
             CorrectionChangeGroup ccg = (CorrectionChangeGroup) iter.next();

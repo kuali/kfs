@@ -68,7 +68,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentAction.class);
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentAction.class);
 
 
     @Override
@@ -312,7 +312,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         }
     }
 
-    private AssetPaymentService getAssetPaymentService() {
+    protected AssetPaymentService getAssetPaymentService() {
         return SpringContext.getBean(AssetPaymentService.class);
     }
 

@@ -58,7 +58,7 @@ public class InternalBillingAction extends KualiAccountingDocumentActionBase {
      * @param internalBillingForm
      * @return whether the new item is valid
      */
-    private static boolean validateNewItem(InternalBillingForm internalBillingForm) {
+    protected static boolean validateNewItem(InternalBillingForm internalBillingForm) {
         return SpringContext.getBean(DictionaryValidationService.class).isBusinessObjectValid(internalBillingForm.getNewItem(), KFSPropertyConstants.NEW_ITEM);
     }
 

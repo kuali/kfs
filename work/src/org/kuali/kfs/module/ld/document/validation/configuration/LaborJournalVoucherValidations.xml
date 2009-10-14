@@ -118,10 +118,7 @@
 				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
+							<bean parent="accountingDocumentFieldConversion"/>
 							<bean parent="accountingLineFieldConversion" />
 						</list>
 					</property>
@@ -174,7 +171,7 @@
 	<bean id="LaborJournalVoucherDocument-updateAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>			
-				<bean parent="LaborJournalVoucher-accountingLineValidations" scope="prototype"/> <!-- here to get the quit on fail issues correct -->
+				<bean parent="LaborJournalVoucher-updatedAccountingLineValidations" scope="prototype"/> <!-- here to get the quit on fail issues correct -->
 					
 				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
 					<property name="parameterProperties">
@@ -230,6 +227,51 @@
 			<list>
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
+						<bean parent="accountingLineToBusinessObjectFieldConversion" />
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="JournalVoucher-accountingLineAmountValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="journalVoucherForValidation" />
+							</bean>
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="JournalVoucher-accountingLineObjectTypeCodeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="JournalVoucher-accountingLineValuesAllowedValidation" scope="prototype">
+					<property name="accountingDocumentParameterPropertyName" value="document" />
+					<property name="accountingLineParameterPropertyName" value="accountingLine" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="LaborJournalVoucher-updatedAccountingLineValidations" abstract="true" parent="CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
 						<bean parent="updatedAccountingLineToBusinessObjectFieldConversion" />
 					</property>
 					<property name="quitOnFail" value="true" />
@@ -269,8 +311,6 @@
 			</list>
 		</property>
 	</bean>
-
-
 
 	<bean id="LaborJournalVoucherDocument-reviewAccountingLineValidation" parent="LaborJournalVoucherDocument-reviewAccountingLineValidation-parentBean" scope="prototype" />		
 	<bean id="LaborJournalVoucherDocument-reviewAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">

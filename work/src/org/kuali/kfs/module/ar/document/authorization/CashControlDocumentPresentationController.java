@@ -22,8 +22,10 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -32,7 +34,7 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
-        
+
         CashControlDocument cashControlDocument = (CashControlDocument) document;
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
@@ -41,12 +43,15 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
             editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_DETAILS);
             editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_REF_DOC_NBR);
             editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_BANK_CODE);
+            if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
+                editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.SHOW_BANK_CODE);
+            }
         }
 
         // if the document is in routing, then we have some special rules
         if (workflowDocument.stateIsEnroute()) {
 
-            //  if doc is cash-type then payment app link always shows, once its in routing
+            // if doc is cash-type then payment app link always shows, once its in routing
             if (ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(cashControlDocument.getCustomerPaymentMediumCode())) {
                 editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_APP_DOC);
             }
@@ -78,17 +83,17 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
     public boolean canBlanketApprove(Document document) {
         return false;
     }
-    
+
     @Override
     public boolean canDisapprove(Document document) {
         return !hasAtLeastOneAppDocApproved((CashControlDocument) document);
     }
-    
+
     @Override
     public boolean canApprove(Document document) {
         return hasAllAppDocsApproved((CashControlDocument) document);
     }
-    
+
     @Override
     public boolean canErrorCorrect(FinancialSystemTransactionalDocument document) {
         return false;
@@ -98,7 +103,7 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
     public boolean canCancel(Document document) {
         return !hasAtLeastOneAppDocApproved((CashControlDocument) document);
     }
-    
+
     protected boolean containsGLPEs(CashControlDocument document) {
         return !document.getGeneralLedgerPendingEntries().isEmpty();
     }

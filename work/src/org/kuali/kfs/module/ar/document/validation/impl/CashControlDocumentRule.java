@@ -262,13 +262,13 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     public boolean processAddCashControlDetailBusinessRules(CashControlDocument transactionalDocument, CashControlDetail cashControlDetail) {
 
         boolean success = true;
-        
+
         success &= checkGLPEsNotGenerated(transactionalDocument);
         if (success) {
             GlobalVariables.getMessageMap().removeFromErrorPath(ArConstants.NEW_CASH_CONTROL_DETAIL_ERROR_PATH_PREFIX);
             success &= validateBankCode(transactionalDocument);
             GlobalVariables.getMessageMap().addToErrorPath(ArConstants.NEW_CASH_CONTROL_DETAIL_ERROR_PATH_PREFIX);
-            
+
             success &= validateCashControlDetail(transactionalDocument, cashControlDetail);
         }
         return success;
@@ -439,38 +439,41 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         return success;
 
     }
-    
+
     // validate bankCode
     public boolean validateBankCode(CashControlDocument document) {
         boolean isValid = true;
-        
-        //  if the EDIT_BANK_CODE isnt enabled, then dont bother checking it, return with success
-        CashControlDocumentPresentationController ccPC =(CashControlDocumentPresentationController) SpringContext.getBean( DocumentHelperService.class).getDocumentPresentationController(document);
+
+        // if the EDIT_BANK_CODE isnt enabled, then dont bother checking it, return with success
+        CashControlDocumentPresentationController ccPC = (CashControlDocumentPresentationController) SpringContext.getBean(DocumentHelperService.class).getDocumentPresentationController(document);
         if (!ccPC.getEditModes(document).contains(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_BANK_CODE)) {
             return isValid;
         }
-        
-        //  otherwise, make sure it exists and is valid
+
+        // otherwise, make sure it exists and is valid
         String bankCode = document.getBankCode();
         if (StringUtils.isNotBlank(bankCode)) {
             Bank bank = SpringContext.getBean(BankService.class).getByPrimaryId(bankCode);
             if (ObjectUtils.isNull(bank)) {
                 isValid = false;
-                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.BANK_CODE,ArKeyConstants.ERROR_INVALID_BANK_CODE);
-            } else {
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.BANK_CODE, ArKeyConstants.ERROR_INVALID_BANK_CODE);
+            }
+            else {
                 // make sure the bank is eligible for deposit activity
                 if (!bank.isBankDepositIndicator()) {
                     isValid = false;
-                    GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.BANK_CODE,ArKeyConstants.ERROR_BANK_NOT_ELIGIBLE_FOR_DEPOSIT_ACTIVITY);
+                    GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.BANK_CODE, ArKeyConstants.ERROR_BANK_NOT_ELIGIBLE_FOR_DEPOSIT_ACTIVITY);
                 }
             }
-        } else {
-            isValid = false;
-            GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.BANK_CODE,ArKeyConstants.ERROR_BANK_CODE_REQUIRED);
         }
-            
+        else {
+            if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
+                isValid = false;
+                GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.BANK_CODE, ArKeyConstants.ERROR_BANK_CODE_REQUIRED);
+            }
+        }
+
         return isValid;
     }
 
 }
-

@@ -31,14 +31,15 @@ public class ArAuthorizationConstants extends AuthorizationConstants {
         public static final String EDIT_PAYMENT_APP_DOC = "editPaymentAppDoc";
         public static final String EDIT_BANK_CODE = "editBankCode";
         public static final String SHOW_GENERATE_BUTTON = "showGenerateButton";
+        public static final String SHOW_BANK_CODE = "showBankCode";
     }
-    
+
     public static class CustomerCreditMemoEditMode extends EditMode {
-        public static final String DISPLAY_INIT_TAB ="displayInitTab";
+        public static final String DISPLAY_INIT_TAB = "displayInitTab";
         public static final String DISPLAY_PRINT_BUTTON = "displayPrintButton";
     }
-    
-    public static final String SALES_TAX_ENABLED = "salesTaxEnabled"; 
+
+    public static final String SALES_TAX_ENABLED = "salesTaxEnabled";
 
 
 }

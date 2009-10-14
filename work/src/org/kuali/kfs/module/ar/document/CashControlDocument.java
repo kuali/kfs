@@ -45,6 +45,7 @@ import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -95,7 +96,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
         universityFiscalYear = universityDateService.getCurrentUniversityDate().getUniversityFiscalYear();
         universityFiscalPeriod = universityDateService.getCurrentUniversityDate().getAccountingPeriod();
-        
+
         cashControlDetails = new ArrayList<CashControlDetail>();
         generalLedgerPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
         electronicPaymentClaims = new ArrayList<ElectronicPaymentClaim>();
@@ -104,7 +105,9 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
             DataDictionaryService ddService = SpringContext.getBean(DataDictionaryService.class);
             DocumentEntry docEntry = ddService.getDataDictionary().getDocumentEntry(ddService.getValidDocumentClassByTypeName("CTRL").getCanonicalName());
             String documentTypeCode = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(this.getClass());
-            bankCode = SpringContext.getBean(ParameterService.class).getParameterValue(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE, documentTypeCode);
+            if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
+                bankCode = SpringContext.getBean(ParameterService.class).getParameterValue(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE, documentTypeCode);
+            }
         }
         catch (Exception x) {
             LOG.error("Problem occurred setting default bank code for cash control document", x);
@@ -675,21 +678,21 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         cashControlTotalAmount = total;
         getDocumentHeader().setFinancialDocumentTotalAmount(total);
     }
-    
+
     @Override
     public void prepareForSave() {
-        
-        //  remove all the cash control detail records from the db in prep for the save, 
-        // where they'll get re-persisted.  This is necessary to make sure that details 
-        // deleted on the form are actually deleted, as OJB does a terrible job at this 
+
+        // remove all the cash control detail records from the db in prep for the save,
+        // where they'll get re-persisted. This is necessary to make sure that details
+        // deleted on the form are actually deleted, as OJB does a terrible job at this
         // by itself.
         deleteCashControlDetailsFromDB();
         recalculateTotals();
     }
-    
+
     protected void deleteCashControlDetailsFromDB() {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        Map<String,String> pkMap = new HashMap<String,String>();
+        Map<String, String> pkMap = new HashMap<String, String>();
         pkMap.put("documentNumber", getDocumentNumber());
         boService.deleteMatching(CashControlDetail.class, pkMap);
     }

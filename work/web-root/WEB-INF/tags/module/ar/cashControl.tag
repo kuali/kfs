@@ -28,6 +28,8 @@
 	description="If document reference document number is in edit mode"%>
 <%@ attribute name="editBankCode" required="true"
 	description="If document bank code is in edit mode"%>
+<%@ attribute name="showBankCode" required="false"
+	description="If document bank code is in edit mode"%>
 
 <c:set var="arDocHeaderAttributes"
 	value="${DataDictionary.AccountsReceivableDocumentHeader.attributes}" />
@@ -49,7 +51,7 @@
 						property="processingChartOfAccCodeAndOrgCode" readOnly="true" />
 				</td>
 			</tr>
-
+			<c:if test="${showBankCode}" >
 			<tr>
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${documentAttributes.bankCode}"
@@ -68,6 +70,7 @@
 					</c:otherwise>
 				</c:choose>
 			</tr>
+			</c:if>
 
 			<tr>
 				<kul:htmlAttributeHeaderCell

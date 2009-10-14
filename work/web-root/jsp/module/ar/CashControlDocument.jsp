@@ -29,6 +29,8 @@
 	value="${!empty KualiForm.editingMode['editPaymentAppDoc']}" />
 <c:set var="editBankCode"
 	value="${!empty KualiForm.editingMode['editBankCode']}" />
+<c:set var="showBankCode"
+	value="${!empty KualiForm.editingMode['showBankCode']}" />	
 	
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="CashControlDocument"
@@ -49,6 +51,7 @@
         showGenerateButton = "${showGenerateButton}"
         editPaymentMedium= "${editPaymentMedium}"
         editBankCode = "${editBankCode}"
+        showBankCode = "${showBankCode}"
         editRefDocNbr = "${editRefDocNbr}" />
         
     <ar:cashControlDetails

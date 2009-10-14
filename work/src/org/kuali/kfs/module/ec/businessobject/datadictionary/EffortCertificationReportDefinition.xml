@@ -51,9 +51,11 @@
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="effortCertificationReportType"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="effortCertificationPeriodStatusCode"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="effortCertificationReportPositions"/>
+        <!-- 
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="expenseTransferFiscalPeriod"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="reportBeginPeriod"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="reportEndPeriod"/>
+         -->
       </list>      
     </property>
   </bean>

@@ -56,12 +56,11 @@
   </bean>
   <bean id="PurchaseOrderVendorStipulation-vendorStipulationAuthorEmployeeIdentifier" parent="PurchaseOrderVendorStipulation-vendorStipulationAuthorEmployeeIdentifier-parentBean"/>
 
-  <bean id="PurchaseOrderVendorStipulation-vendorStipulationAuthorEmployeeIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="PurchaseOrderVendorStipulation-vendorStipulationAuthorEmployeeIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="vendorStipulationAuthorEmployeeIdentifier"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Vendor Stipulation Author Employee Identifier"/>
     <property name="shortLabel" value="Stipulation Author Identifier"/>
-    <property name="maxLength" value="11"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>

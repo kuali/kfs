@@ -666,12 +666,11 @@
   </bean>
   <bean id="PaymentRequestDocument-accountsPayableProcessorIdentifier" parent="PaymentRequestDocument-accountsPayableProcessorIdentifier-parentBean"/>
 
-  <bean id="PaymentRequestDocument-accountsPayableProcessorIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="PaymentRequestDocument-accountsPayableProcessorIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="accountsPayableProcessorIdentifier"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Accounts Payable Processor"/>
     <property name="shortLabel" value="AP Processor"/>
-    <property name="maxLength" value="11"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>

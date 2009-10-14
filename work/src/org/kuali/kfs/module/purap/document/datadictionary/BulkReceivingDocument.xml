@@ -611,12 +611,11 @@
   
   <bean id="BulkReceivingDocument-preparerPersonName" parent="BulkReceivingDocument-preparerPersonName-parentBean"/>
 
-  <bean id="BulkReceivingDocument-preparerPersonName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BulkReceivingDocument-preparerPersonName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="preparerPersonName"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Requisition Preparer"/>
     <property name="shortLabel" value="Name"/>
-    <property name="maxLength" value="45"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>

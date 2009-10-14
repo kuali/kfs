@@ -99,8 +99,7 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
                         PurchasingCapitalAssetItem newCamsItem = createCamsItem(purDoc, purapItem);
                         newCamsItemsList.add(newCamsItem);
                     }
-                    else {
-                        
+                    else {                        
                         camsItem.setPurchasingDocument(purDoc);
                         newCamsItemsList.add(camsItem);
                     }

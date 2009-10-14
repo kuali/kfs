@@ -47,21 +47,27 @@ public class PurchasingCapitalAssetValidation extends GenericValidation {
         boolean valid = true;
         PurchasingDocument purchasingDocument = (PurchasingDocument) event.getDocument();
 
-        boolean isPurchasingObjectSubType = capitalAssetBuilderModuleService.validatePurchasingObjectSubType(purchasingDocument);
-        boolean isAllFieldRequirementsByChart = capitalAssetBuilderModuleService.validateAllFieldRequirementsByChart(purchasingDocument);
+        boolean requiredByObjectSubType = !capitalAssetBuilderModuleService.validatePurchasingObjectSubType(purchasingDocument);
+        boolean requiredByChart = !capitalAssetBuilderModuleService.validateAllFieldRequirementsByChart(purchasingDocument);
+        boolean capitalAssetRequired = requiredByObjectSubType && requiredByChart;
 
-        if (!isPurchasingObjectSubType && !isAllFieldRequirementsByChart) {
-            if (StringUtils.isBlank(purchasingDocument.getCapitalAssetSystemTypeCode()) || 
-                    StringUtils.isBlank(purchasingDocument.getCapitalAssetSystemStateCode())){
+        if (capitalAssetRequired) {
+            // if capital asset required, check to see if the capital asset data are setup 
+            if (StringUtils.isBlank(purchasingDocument.getCapitalAssetSystemTypeCode()) || StringUtils.isBlank(purchasingDocument.getCapitalAssetSystemStateCode()) ||
+                    purchasingDocument.getPurchasingCapitalAssetSystems() == null || purchasingDocument.getPurchasingCapitalAssetSystems().isEmpty() ||
+                    purchasingDocument.getPurchasingCapitalAssetItems() == null || purchasingDocument.getPurchasingCapitalAssetItems().isEmpty()){
                 GlobalVariables.getMessageMap().putError("newPurchasingItemCapitalAssetLine", PurapKeyConstants.ERROR_CAPITAL_ASSET_REQD_FOR_PUR_OBJ_SUB_TYPE);
                 return false;
             }
         }
+        else {
+            // if capital asset not required, reset system type and state code in case they are filled in
+            purchasingDocument.setCapitalAssetSystemTypeCode(null);
+            purchasingDocument.setCapitalAssetSystemStateCode(null);
+        }
 
-        // We only need to do capital asset validations if the capital asset system type
-        // code is not blank.
+        // We only need to do capital asset validations if the capital asset system type is not blank.
         if (StringUtils.isNotBlank(purchasingDocument.getCapitalAssetSystemTypeCode())) {
-
             valid &= capitalAssetBuilderModuleService.validatePurchasingData(purchasingDocument);
 
             // FIXME hjs move this to cab module service

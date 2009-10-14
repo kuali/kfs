@@ -27,7 +27,7 @@ import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class FinancialSystemTransactionalDocumentAuthorizerBase extends TransactionalDocumentAuthorizerBase {
-    private static Log LOG = LogFactory.getLog(FinancialSystemTransactionalDocumentAuthorizerBase.class);
+    protected static Log LOG = LogFactory.getLog(FinancialSystemTransactionalDocumentAuthorizerBase.class);
 
     /**
      * Overridden to check if document error correction can be allowed here.

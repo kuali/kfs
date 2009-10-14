@@ -35,7 +35,7 @@ import org.kuali.rice.kns.util.KNSConstants;
  * The customized document authorizer for the Service Billing document
  */
 public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
-    private static String serviceBillingDocumentTypeName;
+    protected static String serviceBillingDocumentTypeName;
 
     /**
      * Overridden to only allow error correction and copy actions if the current user has Modify Accounting Document permission on every accounting line on the document

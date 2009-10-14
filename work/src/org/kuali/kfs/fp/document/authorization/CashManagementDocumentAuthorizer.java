@@ -28,7 +28,7 @@ import org.kuali.rice.kns.bo.BusinessObject;
  * DocumentAuthorizer containing authorization code for CashManagement documents
  */
 public class CashManagementDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
-    private static Log LOG = LogFactory.getLog(CashManagementDocumentAuthorizer.class);
+    protected static Log LOG = LogFactory.getLog(CashManagementDocumentAuthorizer.class);
 
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#addRoleQualification(org.kuali.rice.kns.bo.BusinessObject,

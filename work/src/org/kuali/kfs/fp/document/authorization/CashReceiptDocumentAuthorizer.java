@@ -34,8 +34,5 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * Abstract base class for all TransactionalDocumentAuthorizers, since there's this one bit of common code.
  */
 public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
-    private static Log LOG = LogFactory.getLog(CashReceiptDocumentAuthorizer.class);
-
-    
 }
 

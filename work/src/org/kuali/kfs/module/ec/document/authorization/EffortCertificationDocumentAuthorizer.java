@@ -21,5 +21,4 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocu
  * Document Authorizer for the Effort Certification document.
  */
 public class EffortCertificationDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase { 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentAuthorizer.class);
 }

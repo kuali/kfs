@@ -19,5 +19,4 @@ package org.kuali.kfs.gl.document.authorization;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 
 public class CorrectionDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionDocumentAuthorizer.class);
 }

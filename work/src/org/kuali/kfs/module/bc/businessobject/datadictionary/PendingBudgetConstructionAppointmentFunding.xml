@@ -332,12 +332,11 @@
   
   <bean id="PendingBudgetConstructionAppointmentFunding-emplid" parent="PendingBudgetConstructionAppointmentFunding-emplid-parentBean"/>
 
-  <bean id="PendingBudgetConstructionAppointmentFunding-emplid-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="PendingBudgetConstructionAppointmentFunding-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
     <property name="name" value="emplid"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Emplid"/>
     <property name="shortLabel" value="Emplid"/>
-    <property name="maxLength" value="40"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>

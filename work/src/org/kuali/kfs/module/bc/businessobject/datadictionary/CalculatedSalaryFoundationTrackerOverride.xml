@@ -172,12 +172,11 @@
   </bean>
   <bean id="CalculatedSalaryFoundationTrackerOverride-emplid" parent="CalculatedSalaryFoundationTrackerOverride-emplid-parentBean"/>
 
-  <bean id="CalculatedSalaryFoundationTrackerOverride-emplid-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalculatedSalaryFoundationTrackerOverride-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
     <property name="name" value="emplid"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Employee ID"/>
     <property name="shortLabel" value="Employee ID"/>
-    <property name="maxLength" value="40"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>

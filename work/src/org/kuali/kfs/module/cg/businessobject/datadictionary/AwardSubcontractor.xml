@@ -132,11 +132,10 @@
   </bean>
   <bean id="AwardSubcontractor-subcontractorContactFirstName" parent="AwardSubcontractor-subcontractorContactFirstName-parentBean"/>
 
-  <bean id="AwardSubcontractor-subcontractorContactFirstName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AwardSubcontractor-subcontractorContactFirstName-parentBean" abstract="true" parent="PersonImpl-firstName">
     <property name="name" value="subcontractorContactFirstName"/>
     <property name="label" value="Contact First Name"/>
     <property name="shortLabel" value="First Name"/>
-    <property name="maxLength" value="20"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>
@@ -146,7 +145,7 @@
   </bean>
   <bean id="AwardSubcontractor-subcontractorContactLastName" parent="AwardSubcontractor-subcontractorContactLastName-parentBean"/>
 
-  <bean id="AwardSubcontractor-subcontractorContactLastName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AwardSubcontractor-subcontractorContactLastName-parentBean" abstract="true" parent="PersonImpl-lastName">
     <property name="name" value="subcontractorContactLastName"/>
     <property name="label" value="Contact Last Name"/>
     <property name="shortLabel" value="Last Name"/>

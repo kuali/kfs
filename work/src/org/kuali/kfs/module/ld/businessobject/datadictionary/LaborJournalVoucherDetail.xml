@@ -402,12 +402,11 @@
   </bean>
   <bean id="LaborJournalVoucherDetail-emplid" parent="LaborJournalVoucherDetail-emplid-parentBean"/>
 
-  <bean id="LaborJournalVoucherDetail-emplid-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="LaborJournalVoucherDetail-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
     <property name="name" value="emplid"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Emplid"/>
     <property name="shortLabel" value="Emplid"/>
-    <property name="maxLength" value="40"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>

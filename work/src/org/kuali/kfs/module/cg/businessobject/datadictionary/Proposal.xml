@@ -357,11 +357,10 @@
   </bean>
   <bean id="Proposal-proposalFellowName" parent="Proposal-proposalFellowName-parentBean"/>
 
-  <bean id="Proposal-proposalFellowName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Proposal-proposalFellowName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="proposalFellowName"/>
     <property name="label" value="Fellow Name"/>
     <property name="shortLabel" value="Fellow"/>
-    <property name="maxLength" value="123"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>

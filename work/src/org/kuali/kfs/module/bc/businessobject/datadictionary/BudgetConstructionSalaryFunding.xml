@@ -80,12 +80,11 @@
   </bean>
   <bean id="BudgetConstructionSalaryFunding-emplid" parent="BudgetConstructionSalaryFunding-emplid-parentBean"/>
 
-  <bean id="BudgetConstructionSalaryFunding-emplid-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetConstructionSalaryFunding-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
     <property name="name" value="emplid"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Emplid"/>
     <property name="shortLabel" value="Emplid"/>
-    <property name="maxLength" value="40"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>
@@ -128,12 +127,11 @@
   </bean>
   <bean id="BudgetConstructionSalaryFunding-principalId" parent="BudgetConstructionSalaryFunding-principalId-parentBean"/>
 
-  <bean id="BudgetConstructionSalaryFunding-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetConstructionSalaryFunding-principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="principalId"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Person Universal Identifier"/>
     <property name="shortLabel" value="Identifier"/>
-    <property name="maxLength" value="40"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>

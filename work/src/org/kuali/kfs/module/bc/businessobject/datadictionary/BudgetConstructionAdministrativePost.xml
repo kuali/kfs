@@ -57,12 +57,11 @@
   </bean>
   <bean id="BudgetConstructionAdministrativePost-emplid" parent="BudgetConstructionAdministrativePost-emplid-parentBean"/>
 
-  <bean id="BudgetConstructionAdministrativePost-emplid-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetConstructionAdministrativePost-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
     <property name="name" value="emplid"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Emplid"/>
     <property name="shortLabel" value="Emplid"/>
-    <property name="maxLength" value="40"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>

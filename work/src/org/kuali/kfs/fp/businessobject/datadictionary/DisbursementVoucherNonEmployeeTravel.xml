@@ -59,12 +59,11 @@
 
   <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrNonEmpTravelerName" parent="DisbursementVoucherNonEmployeeTravel-disbVchrNonEmpTravelerName-parentBean"/>
 
-  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrNonEmpTravelerName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="DisbursementVoucherNonEmployeeTravel-disbVchrNonEmpTravelerName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="disbVchrNonEmpTravelerName"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Name"/>
     <property name="shortLabel" value="Nm"/>
-    <property name="maxLength" value="123"/>
     <property name="required" value="true"/>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="40"/>

@@ -165,12 +165,11 @@
   </bean>
   
   <bean id="CustomerProfile-contactFullName" parent="CustomerProfile-contactFullName-parentBean"/>
-  <bean id="CustomerProfile-contactFullName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CustomerProfile-contactFullName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="contactFullName"/>
     <property name="label" value="Primary Contact Name"/>
     <property name="shortLabel" value="Primary Contact Name"/>
     <property name="required" value="true"/>
-    <property name="maxLength" value="123"/>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="50"/>
     </property>

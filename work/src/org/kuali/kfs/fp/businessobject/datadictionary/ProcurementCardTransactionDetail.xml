@@ -246,11 +246,10 @@
   </bean>
   <bean id="ProcurementCardTransactionDetail-transactionUnitContactName" parent="ProcurementCardTransactionDetail-transactionUnitContactName-parentBean"/>
 
-  <bean id="ProcurementCardTransactionDetail-transactionUnitContactName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ProcurementCardTransactionDetail-transactionUnitContactName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="transactionUnitContactName"/>
     <property name="label" value="Transaction Unit Contact Name"/>
     <property name="shortLabel" value="Name"/>
-    <property name="maxLength" value="123"/>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="37"/>
     </property>

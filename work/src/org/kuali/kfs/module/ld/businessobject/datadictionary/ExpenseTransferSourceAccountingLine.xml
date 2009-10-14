@@ -72,12 +72,11 @@
 
   <bean id="ExpenseTransferSourceAccountingLine-emplid" parent="ExpenseTransferSourceAccountingLine-emplid-parentBean"/>
 
-  <bean id="ExpenseTransferSourceAccountingLine-emplid-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ExpenseTransferSourceAccountingLine-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
     <property name="name" value="emplid"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Employee ID"/>
     <property name="shortLabel" value="Empl ID"/>
-    <property name="maxLength" value="40"/>
     <property name="required" value="false"/>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="13"/>

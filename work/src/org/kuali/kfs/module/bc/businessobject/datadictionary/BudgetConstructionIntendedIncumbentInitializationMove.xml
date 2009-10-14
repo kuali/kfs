@@ -44,12 +44,11 @@
 
   <bean id="BudgetConstructionIntendedIncumbentInitializationMove-emplid" parent="BudgetConstructionIntendedIncumbentInitializationMove-emplid-parentBean"/>
 
-  <bean id="BudgetConstructionIntendedIncumbentInitializationMove-emplid-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetConstructionIntendedIncumbentInitializationMove-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
     <property name="name" value="emplid"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Emplid"/>
     <property name="shortLabel" value="Emplid"/>
-    <property name="maxLength" value="40"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>
@@ -95,12 +94,11 @@
   </bean>
   <bean id="BudgetConstructionIntendedIncumbentInitializationMove-name" parent="BudgetConstructionIntendedIncumbentInitializationMove-name-parentBean"/>
 
-  <bean id="BudgetConstructionIntendedIncumbentInitializationMove-name-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetConstructionIntendedIncumbentInitializationMove-name-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="name"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Person Name"/>
     <property name="shortLabel" value="Name"/>
-    <property name="maxLength" value="123"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
     </property>

@@ -184,7 +184,6 @@
     <property name="name" value="offCampusName"/>
     <property name="label" value="Off Campus Name"/>
     <property name="shortLabel" value="Name"/>
-    <property name="maxLength" value="123"/>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="32"/>
     </property>

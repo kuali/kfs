@@ -244,12 +244,11 @@
   </bean>
   
   <bean id="AssetComponent-componentWarrantyContactName" parent="AssetComponent-componentWarrantyContactName-parentBean"/>
-  <bean id="AssetComponent-componentWarrantyContactName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetComponent-componentWarrantyContactName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="componentWarrantyContactName"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Component Warranty Contact Name"/>
     <property name="shortLabel" value="Name"/>
-    <property name="maxLength" value="123"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>

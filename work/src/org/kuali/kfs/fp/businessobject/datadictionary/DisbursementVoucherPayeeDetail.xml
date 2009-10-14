@@ -102,11 +102,10 @@
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeePersonName" parent="DisbursementVoucherPayeeDetail-disbVchrPayeePersonName-parentBean"/>
 
-  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeePersonName-parentBean" abstract="true" parent="VendorDetail-vendorName">
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeePersonName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="disbVchrPayeePersonName"/>
     <property name="label" value="Payee Name"/>
     <property name="required" value="true"/>
-    <property name="maxLength" value="123" />
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeLine1Addr" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeLine1Addr-parentBean"/>
 
@@ -152,12 +151,14 @@
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingPersonName" parent="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingPersonName-parentBean"/>
 
-  <bean id="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingPersonName-parentBean" abstract="true" parent="VendorDetail-vendorName">
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingPersonName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="disbVchrSpecialHandlingPersonName"/>
     <property name="label" value="Special Handling Name"/>
     <property name="shortLabel" value="Special Handling Nm"/>
     <property name="required" value="false"/>
-    <property name="maxLength" value="123" />
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="45"/>
+    </property>
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingLine1Addr" parent="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingLine1Addr-parentBean"/>
 

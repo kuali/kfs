@@ -35,7 +35,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * This class is a KFS specific TransactionalDocumentBase class
  */
 public class FinancialSystemTransactionalDocumentBase extends TransactionalDocumentBase implements FinancialSystemTransactionalDocument {
-    private static final Logger LOG = Logger.getLogger(FinancialSystemTransactionalDocumentBase.class);
+    protected static final Logger LOG = Logger.getLogger(FinancialSystemTransactionalDocumentBase.class);
 
     protected FinancialSystemDocumentHeader documentHeader;
 

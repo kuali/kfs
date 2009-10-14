@@ -36,7 +36,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 @COMPONENT(component="OutstandingCertificationsByOrganization")
 public class OutstandingCertificationsByOrganization extends EffortCertificationDocument {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OutstandingCertificationsByOrganization.class);
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OutstandingCertificationsByOrganization.class);
 
     /**
      * gets a string representation of the document's chart and organization.

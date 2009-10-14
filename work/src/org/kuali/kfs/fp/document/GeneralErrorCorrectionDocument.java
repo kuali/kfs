@@ -51,8 +51,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class GeneralErrorCorrectionDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling, CapitalAssetEditable {
 
-    private CapitalAssetInformation capitalAssetInformation;
-    private transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
+    protected CapitalAssetInformation capitalAssetInformation;
+    protected transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
 
     /**
      * Initializes the array lists and some basic info.
@@ -152,7 +152,7 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
      * @param transactionalDocument submitted accounting document
      * @return String formatted string to be used for transaction ledger entry description
      */
-    private String buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(GeneralLedgerPendingEntrySourceDetail line) {
+    protected String buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(GeneralLedgerPendingEntrySourceDetail line) {
         String description = "";
         description = line.getReferenceOriginCode() + "-" + line.getReferenceNumber();
 

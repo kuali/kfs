@@ -40,7 +40,7 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
  * Purchase Order Reopen Document
  */
 public class PurchaseOrderReopenDocument extends PurchaseOrderDocument {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderReopenDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderReopenDocument.class);
 
     /**
      * Default constructor.

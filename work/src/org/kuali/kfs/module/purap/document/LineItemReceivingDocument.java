@@ -43,7 +43,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 public class LineItemReceivingDocument extends ReceivingDocumentBase {
 
     //Collections
-    private List<LineItemReceivingItem> items;
+    protected List<LineItemReceivingItem> items;
 
     /**
      * Default constructor.
@@ -209,7 +209,7 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
         }
     }
 
-    private void populateDocumentDescription(PurchaseOrderDocument poDocument) {
+    protected void populateDocumentDescription(PurchaseOrderDocument poDocument) {
         String description = "PO: " + poDocument.getPurapDocumentIdentifier() + " Vendor: " + poDocument.getVendorName();
         int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KNSPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
         if (noteTextMaxLength < description.length()) {
@@ -219,7 +219,7 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
     }
 
 
-    private boolean isAwaitingPurchaseOrderOpen() {
+    protected boolean isAwaitingPurchaseOrderOpen() {
         return SpringContext.getBean(PurchaseOrderService.class).isPurchaseOrderOpenForProcessing(getPurchaseOrderDocument());
     }
 

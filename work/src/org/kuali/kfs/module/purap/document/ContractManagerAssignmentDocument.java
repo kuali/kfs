@@ -41,21 +41,21 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class ContractManagerAssignmentDocument extends FinancialSystemTransactionalDocumentBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractManagerAssignmentDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractManagerAssignmentDocument.class);
 
-    private List<ContractManagerAssignmentDetail> contractManagerAssignmentDetails = new ArrayList<ContractManagerAssignmentDetail>();
+    protected List<ContractManagerAssignmentDetail> contractManagerAssignmentDetails = new ArrayList<ContractManagerAssignmentDetail>();
 
     // Not persisted (only for labels in tag)
-    private String requisitionNumber;
-    private String deliveryCampusCode;
-    private String vendorName;
-    private String generalDescription;
-    private String requisitionTotalAmount;
-    private String requisitionCreateDate;
-    private String firstItemDescription;
-    private String firstItemCommodityCode;
-    private String firstObjectCode;
-    private String universityFiscalYear;
+    protected String requisitionNumber;
+    protected String deliveryCampusCode;
+    protected String vendorName;
+    protected String generalDescription;
+    protected String requisitionTotalAmount;
+    protected String requisitionCreateDate;
+    protected String firstItemDescription;
+    protected String firstItemCommodityCode;
+    protected String firstObjectCode;
+    protected String universityFiscalYear;
 
 
     /**
@@ -137,7 +137,7 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
         LOG.debug("doRouteStatusChange() Leaving method.");
     }
 
-    private String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
+    protected String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
         String[] nodeNames = wd.getNodeNames();
         if ((nodeNames == null) || (nodeNames.length == 0)) {
             return null;

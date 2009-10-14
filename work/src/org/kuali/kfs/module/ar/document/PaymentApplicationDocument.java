@@ -74,28 +74,28 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocument.class);
 
-    private static final String LAUNCHED_FROM_BATCH = "LaunchedBySystemUser";
+    protected static final String LAUNCHED_FROM_BATCH = "LaunchedBySystemUser";
     
-    private String hiddenFieldForErrors;
-    private List<InvoicePaidApplied> invoicePaidApplieds;
-    private List<NonInvoiced> nonInvoiceds;
-    private Collection<NonInvoicedDistribution> nonInvoicedDistributions;
-    private Collection<NonAppliedDistribution> nonAppliedDistributions;
-    private NonAppliedHolding nonAppliedHolding;
-    private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
+    protected String hiddenFieldForErrors;
+    protected List<InvoicePaidApplied> invoicePaidApplieds;
+    protected List<NonInvoiced> nonInvoiceds;
+    protected Collection<NonInvoicedDistribution> nonInvoicedDistributions;
+    protected Collection<NonAppliedDistribution> nonAppliedDistributions;
+    protected NonAppliedHolding nonAppliedHolding;
+    protected AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
     
-    private transient PaymentApplicationDocumentService paymentApplicationDocumentService;
-    private transient CashControlDetail cashControlDetail;
-    private transient FinancialSystemUserService fsUserService;
-    private transient CustomerInvoiceDocumentService invoiceDocService;
-    private transient DocumentService docService;
-    private transient NonAppliedHoldingService nonAppliedHoldingService;
-    private transient BusinessObjectService boService;
+    protected transient PaymentApplicationDocumentService paymentApplicationDocumentService;
+    protected transient CashControlDetail cashControlDetail;
+    protected transient FinancialSystemUserService fsUserService;
+    protected transient CustomerInvoiceDocumentService invoiceDocService;
+    protected transient DocumentService docService;
+    protected transient NonAppliedHoldingService nonAppliedHoldingService;
+    protected transient BusinessObjectService boService;
     
     // used for non-cash-control payapps
-    private ArrayList<NonAppliedHolding> nonAppliedHoldingsForCustomer; // control docs for non-cash-control payapps
+    protected ArrayList<NonAppliedHolding> nonAppliedHoldingsForCustomer; // control docs for non-cash-control payapps
 
     public PaymentApplicationDocument() {
         super();
@@ -481,7 +481,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @return
      * @throws WorkflowException
      */
-    private ObjectCode getInvoiceReceivableObjectCode(InvoicePaidApplied invoicePaidApplied) throws WorkflowException {
+    protected ObjectCode getInvoiceReceivableObjectCode(InvoicePaidApplied invoicePaidApplied) throws WorkflowException {
         CustomerInvoiceDocument customerInvoiceDocument = invoicePaidApplied.getCustomerInvoiceDocument();
         CustomerInvoiceDetail customerInvoiceDetail = invoicePaidApplied.getInvoiceDetail();
         ReceivableCustomerInvoiceDetail receivableInvoiceDetail = new ReceivableCustomerInvoiceDetail(customerInvoiceDetail, customerInvoiceDocument);
@@ -496,7 +496,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @param sequenceHelper
      * @return the pending entries for the document
      */
-    private List<GeneralLedgerPendingEntry> createPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) throws WorkflowException {
+    protected List<GeneralLedgerPendingEntry> createPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) throws WorkflowException {
         
         // Collection of all generated entries
         List<GeneralLedgerPendingEntry> generatedEntries = new ArrayList<GeneralLedgerPendingEntry>();
@@ -945,7 +945,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * what invoices to update.
      * @return
      */
-    private List<String> getInvoiceNumbersToUpdateOnFinal() {
+    protected List<String> getInvoiceNumbersToUpdateOnFinal() {
         List<String> docIds = new ArrayList<String>();
         for(InvoicePaidApplied ipa : getInvoicePaidApplieds()) {
             docIds.add(ipa.getFinancialDocumentReferenceInvoiceNumber());
@@ -1051,35 +1051,35 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         return paymentApplicationDocumentService;
     }
 
-    private FinancialSystemUserService getFsUserService() {
+    protected FinancialSystemUserService getFsUserService() {
         if (fsUserService == null) {
             fsUserService = SpringContext.getBean(FinancialSystemUserService.class);
         }
         return fsUserService;
     }
     
-    private CustomerInvoiceDocumentService getInvoiceDocService() {
+    protected CustomerInvoiceDocumentService getInvoiceDocService() {
         if (invoiceDocService == null) {
             invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         }
         return invoiceDocService;
     }
     
-    private DocumentService getDocService() {
+    protected DocumentService getDocService() {
         if (docService == null) {
             docService = SpringContext.getBean(DocumentService.class);
         }
         return docService;
     }
     
-    private NonAppliedHoldingService getNonAppliedHoldingService() {
+    protected NonAppliedHoldingService getNonAppliedHoldingService() {
         if (nonAppliedHoldingService == null) {
             nonAppliedHoldingService = SpringContext.getBean(NonAppliedHoldingService.class);
         }
         return nonAppliedHoldingService;
     }
     
-    private BusinessObjectService getBoService() {
+    protected BusinessObjectService getBoService() {
         if (boService == null) {
             boService = SpringContext.getBean(BusinessObjectService.class);
         }
@@ -1331,7 +1331,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
 
     // determines if the doc was launched by SYSTEM_USER, if so, then it was launched from batch
-    private boolean launchedFromBatch() {
+    protected boolean launchedFromBatch() {
         boolean result = false;
         Person initiator = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
         result = initiator.getPrincipalId().equalsIgnoreCase(getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());

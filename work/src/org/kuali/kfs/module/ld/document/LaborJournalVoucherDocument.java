@@ -49,10 +49,10 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
  */
 public class LaborJournalVoucherDocument extends JournalVoucherDocument implements LaborLedgerPostingDocument, AmountTotaling {
     // @latex.ClassSignatureStop
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborJournalVoucherDocument.class);
-    private String offsetTypeCode = JournalVoucherOffsetType.NO_OFFSET.typeCode;
-    private List<LaborLedgerPendingEntry> laborLedgerPendingEntries;
-    private DocumentTypeEBO financialSystemDocumentTypeCode;
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborJournalVoucherDocument.class);
+    protected String offsetTypeCode = JournalVoucherOffsetType.NO_OFFSET.typeCode;
+    protected List<LaborLedgerPendingEntry> laborLedgerPendingEntries;
+    protected DocumentTypeEBO financialSystemDocumentTypeCode;
 
     /**
      * Constructs a LaborJournalVoucherDocument.java.
@@ -154,7 +154,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     /**
      * This method iterates over all of the pending entries for a document and sets their approved status code to APPROVED "A".
      */
-    private void changeLedgerPendingEntriesApprovedStatusCode() {
+    protected void changeLedgerPendingEntriesApprovedStatusCode() {
         for (LaborLedgerPendingEntry pendingEntry : laborLedgerPendingEntries) {
             pendingEntry.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
         }
@@ -163,7 +163,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     /**
      * This method calls the service to remove all of the pending entries associated with this document
      */
-    private void removeLedgerPendingEntries() {
+    protected void removeLedgerPendingEntries() {
         LaborLedgerPendingEntryService laborLedgerPendingEntryService = SpringContext.getBean(LaborLedgerPendingEntryService.class);
         laborLedgerPendingEntryService.delete(getDocumentHeader().getDocumentNumber());
     }

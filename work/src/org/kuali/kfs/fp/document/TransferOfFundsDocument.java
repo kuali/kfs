@@ -40,7 +40,7 @@ import org.kuali.rice.kns.document.Copyable;
  * commonly used throughout the university.
  */
 public class TransferOfFundsDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling {
-    private static final long serialVersionUID = -3871133713027969492L;
+    protected static final long serialVersionUID = -3871133713027969492L;
 
     /**
      * Initializes the array lists and some basic info.

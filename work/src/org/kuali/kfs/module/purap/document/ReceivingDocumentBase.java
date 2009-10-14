@@ -48,61 +48,61 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 public abstract class ReceivingDocumentBase extends FinancialSystemTransactionalDocumentBase implements ReceivingDocument {
 
-    private String carrierCode;
-    private String shipmentPackingSlipNumber;
-    private String shipmentReferenceNumber;
-    private String shipmentBillOfLadingNumber;
-    private Date shipmentReceivedDate;
-    private Integer vendorHeaderGeneratedIdentifier;
-    private Integer vendorDetailAssignedIdentifier;
-    private String vendorName;
-    private String vendorLine1Address;
-    private String vendorLine2Address;
-    private String vendorCityName;
-    private String vendorStateCode;
-    private String vendorPostalCode;
-    private String vendorCountryCode;
-    private String deliveryCampusCode;
-    private boolean deliveryBuildingOtherIndicator;
-    private String deliveryBuildingCode;
-    private String deliveryBuildingName;
-    private String deliveryBuildingRoomNumber;
-    private String deliveryBuildingLine1Address;
-    private String deliveryBuildingLine2Address;
-    private String deliveryCityName;
-    private String deliveryStateCode;
-    private String deliveryPostalCode;
-    private String deliveryCountryCode;
-    private String deliveryToName;
-    private String deliveryToEmailAddress;
-    private String deliveryToPhoneNumber;
-    private Date deliveryRequiredDate;
-    private String deliveryInstructionText;
-    private String deliveryRequiredDateReasonCode;
-    private String lineItemReceivingStatusCode;
-    private String lineItemReceivingStatusDescription;
+    protected String carrierCode;
+    protected String shipmentPackingSlipNumber;
+    protected String shipmentReferenceNumber;
+    protected String shipmentBillOfLadingNumber;
+    protected Date shipmentReceivedDate;
+    protected Integer vendorHeaderGeneratedIdentifier;
+    protected Integer vendorDetailAssignedIdentifier;
+    protected String vendorName;
+    protected String vendorLine1Address;
+    protected String vendorLine2Address;
+    protected String vendorCityName;
+    protected String vendorStateCode;
+    protected String vendorPostalCode;
+    protected String vendorCountryCode;
+    protected String deliveryCampusCode;
+    protected boolean deliveryBuildingOtherIndicator;
+    protected String deliveryBuildingCode;
+    protected String deliveryBuildingName;
+    protected String deliveryBuildingRoomNumber;
+    protected String deliveryBuildingLine1Address;
+    protected String deliveryBuildingLine2Address;
+    protected String deliveryCityName;
+    protected String deliveryStateCode;
+    protected String deliveryPostalCode;
+    protected String deliveryCountryCode;
+    protected String deliveryToName;
+    protected String deliveryToEmailAddress;
+    protected String deliveryToPhoneNumber;
+    protected Date deliveryRequiredDate;
+    protected String deliveryInstructionText;
+    protected String deliveryRequiredDateReasonCode;
+    protected String lineItemReceivingStatusCode;
+    protected String lineItemReceivingStatusDescription;
 
-    private Integer alternateVendorHeaderGeneratedIdentifier;
-    private Integer alternateVendorDetailAssignedIdentifier;
-    private String alternateVendorName;
+    protected Integer alternateVendorHeaderGeneratedIdentifier;
+    protected Integer alternateVendorDetailAssignedIdentifier;
+    protected String alternateVendorName;
     
     //not persisted in db
-    private String vendorNumber;
-    private Integer vendorAddressGeneratedIdentifier;
-    private String alternateVendorNumber;
-    private boolean sensitive;
+    protected String vendorNumber;
+    protected Integer vendorAddressGeneratedIdentifier;
+    protected String alternateVendorNumber;
+    protected boolean sensitive;
 
-    private CampusParameter deliveryCampus;
-    private Country vendorCountry;
-    private Carrier carrier;
-    private VendorDetail vendorDetail;
-    private DeliveryRequiredDateReason deliveryRequiredDateReason;
-    private LineItemReceivingStatus lineItemReceivingStatus;
-    private Integer purchaseOrderIdentifier;
-    private Integer accountsPayablePurchasingDocumentLinkIdentifier;
-    private transient PurchaseOrderDocument purchaseOrderDocument;
+    protected CampusParameter deliveryCampus;
+    protected Country vendorCountry;
+    protected Carrier carrier;
+    protected VendorDetail vendorDetail;
+    protected DeliveryRequiredDateReason deliveryRequiredDateReason;
+    protected LineItemReceivingStatus lineItemReceivingStatus;
+    protected Integer purchaseOrderIdentifier;
+    protected Integer accountsPayablePurchasingDocumentLinkIdentifier;
+    protected transient PurchaseOrderDocument purchaseOrderDocument;
 
-    private transient PurApRelatedViews relatedViews;
+    protected transient PurApRelatedViews relatedViews;
 
     public ReceivingDocumentBase(){
         super();           
@@ -571,7 +571,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
      * @return the name of the current route node.
      * @throws WorkflowException
      */
-    private String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
+    protected String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
         String[] nodeNames = wd.getNodeNames();
         if ((nodeNames == null) || (nodeNames.length == 0)) {
             return null;

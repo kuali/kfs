@@ -41,115 +41,115 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactionalDocumentBase implements SessionDocument {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceRejectDocument.class);
-    private static BigDecimal zero = new BigDecimal(0);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceRejectDocument.class);
+    protected static BigDecimal zero = new BigDecimal(0);
 
     // NOT NULL FIELDS
-    private Integer purapDocumentIdentifier;
-    private Integer accountsPayablePurchasingDocumentLinkIdentifier;
-    private Integer invoiceLoadSummaryIdentifier;
-    private Timestamp invoiceProcessTimestamp;
-    private Boolean invoiceFileHeaderTypeIndicator = Boolean.FALSE;
-    private Boolean invoiceFileInformationOnlyIndicator = Boolean.FALSE;
-    private Boolean invoiceFileTaxInLineIndicator = Boolean.FALSE;
-    private Boolean invoiceFileSpecialHandlingInLineIndicator = Boolean.FALSE;
-    private Boolean invoiceFileShippingInLineIndicator = Boolean.FALSE;
-    private Boolean invoiceFileDiscountInLineIndicator = Boolean.FALSE;
+    protected Integer purapDocumentIdentifier;
+    protected Integer accountsPayablePurchasingDocumentLinkIdentifier;
+    protected Integer invoiceLoadSummaryIdentifier;
+    protected Timestamp invoiceProcessTimestamp;
+    protected Boolean invoiceFileHeaderTypeIndicator = Boolean.FALSE;
+    protected Boolean invoiceFileInformationOnlyIndicator = Boolean.FALSE;
+    protected Boolean invoiceFileTaxInLineIndicator = Boolean.FALSE;
+    protected Boolean invoiceFileSpecialHandlingInLineIndicator = Boolean.FALSE;
+    protected Boolean invoiceFileShippingInLineIndicator = Boolean.FALSE;
+    protected Boolean invoiceFileDiscountInLineIndicator = Boolean.FALSE;
 
-    private String invoiceFileName;
-    private String vendorDunsNumber;
-    private Integer vendorHeaderGeneratedIdentifier;
-    private Integer vendorDetailAssignedIdentifier;
-    private String invoiceFileDate;
-    private String invoiceFileNumber;
-    private String invoiceFilePurposeIdentifier;
-    private String invoiceFileOperationIdentifier;
-    private String invoiceFileDeploymentModeValue;
-    private String invoiceOrderReferenceOrderIdentifier;
-    private String invoiceOrderReferenceDocumentReferencePayloadIdentifier;
-    private String invoiceOrderReferenceDocumentReferenceText;
-    private String invoiceOrderMasterAgreementReferenceIdentifier;
-    private String invoiceOrderMasterAgreementReferenceDate;
-    private String invoiceOrderMasterAgreementInformationIdentifier;
-    private String invoiceOrderMasterAgreementInformationDate;
-    private String invoiceOrderPurchaseOrderIdentifier;
-    private String invoiceOrderPurchaseOrderDate;
-    private String invoiceOrderSupplierOrderInformationIdentifier;
-    private String invoiceShipDate;
-    private String invoiceShipToAddressName;
-    private String invoiceShipToAddressType;
-    private String invoiceShipToAddressLine1;
-    private String invoiceShipToAddressLine2;
-    private String invoiceShipToAddressLine3;
-    private String invoiceShipToAddressCityName;
-    private String invoiceShipToAddressStateCode;
-    private String invoiceShipToAddressPostalCode;
-    private String invoiceShipToAddressCountryCode;
-    private String invoiceShipToAddressCountryName;
-    private String invoiceBillToAddressName;
-    private String invoiceBillToAddressType;
-    private String invoiceBillToAddressLine1;
-    private String invoiceBillToAddressLine2;
-    private String invoiceBillToAddressLine3;
-    private String invoiceBillToAddressCityName;
-    private String invoiceBillToAddressStateCode;
-    private String invoiceBillToAddressPostalCode;
-    private String invoiceBillToAddressCountryCode;
-    private String invoiceBillToAddressCountryName;
-    private String invoiceRemitToAddressName;
-    private String invoiceRemitToAddressType;
-    private String invoiceRemitToAddressLine1;
-    private String invoiceRemitToAddressLine2;
-    private String invoiceRemitToAddressLine3;
-    private String invoiceRemitToAddressCityName;
-    private String invoiceRemitToAddressStateCode;
-    private String invoiceRemitToAddressPostalCode;
-    private String invoiceRemitToAddressCountryCode;
-    private String invoiceRemitToAddressCountryName;
+    protected String invoiceFileName;
+    protected String vendorDunsNumber;
+    protected Integer vendorHeaderGeneratedIdentifier;
+    protected Integer vendorDetailAssignedIdentifier;
+    protected String invoiceFileDate;
+    protected String invoiceFileNumber;
+    protected String invoiceFilePurposeIdentifier;
+    protected String invoiceFileOperationIdentifier;
+    protected String invoiceFileDeploymentModeValue;
+    protected String invoiceOrderReferenceOrderIdentifier;
+    protected String invoiceOrderReferenceDocumentReferencePayloadIdentifier;
+    protected String invoiceOrderReferenceDocumentReferenceText;
+    protected String invoiceOrderMasterAgreementReferenceIdentifier;
+    protected String invoiceOrderMasterAgreementReferenceDate;
+    protected String invoiceOrderMasterAgreementInformationIdentifier;
+    protected String invoiceOrderMasterAgreementInformationDate;
+    protected String invoiceOrderPurchaseOrderIdentifier;
+    protected String invoiceOrderPurchaseOrderDate;
+    protected String invoiceOrderSupplierOrderInformationIdentifier;
+    protected String invoiceShipDate;
+    protected String invoiceShipToAddressName;
+    protected String invoiceShipToAddressType;
+    protected String invoiceShipToAddressLine1;
+    protected String invoiceShipToAddressLine2;
+    protected String invoiceShipToAddressLine3;
+    protected String invoiceShipToAddressCityName;
+    protected String invoiceShipToAddressStateCode;
+    protected String invoiceShipToAddressPostalCode;
+    protected String invoiceShipToAddressCountryCode;
+    protected String invoiceShipToAddressCountryName;
+    protected String invoiceBillToAddressName;
+    protected String invoiceBillToAddressType;
+    protected String invoiceBillToAddressLine1;
+    protected String invoiceBillToAddressLine2;
+    protected String invoiceBillToAddressLine3;
+    protected String invoiceBillToAddressCityName;
+    protected String invoiceBillToAddressStateCode;
+    protected String invoiceBillToAddressPostalCode;
+    protected String invoiceBillToAddressCountryCode;
+    protected String invoiceBillToAddressCountryName;
+    protected String invoiceRemitToAddressName;
+    protected String invoiceRemitToAddressType;
+    protected String invoiceRemitToAddressLine1;
+    protected String invoiceRemitToAddressLine2;
+    protected String invoiceRemitToAddressLine3;
+    protected String invoiceRemitToAddressCityName;
+    protected String invoiceRemitToAddressStateCode;
+    protected String invoiceRemitToAddressPostalCode;
+    protected String invoiceRemitToAddressCountryCode;
+    protected String invoiceRemitToAddressCountryName;
 
-    private String invoiceCustomerNumber;
-    private String invoicePurchaseOrderNumber;
-    private Integer purchaseOrderIdentifier;
-    private String purchaseOrderDeliveryCampusCode;
+    protected String invoiceCustomerNumber;
+    protected String invoicePurchaseOrderNumber;
+    protected Integer purchaseOrderIdentifier;
+    protected String purchaseOrderDeliveryCampusCode;
 
-    private String invoiceItemSubTotalCurrencyCode;
-    private String invoiceItemSpecialHandlingCurrencyCode;
-    private String invoiceItemSpecialHandlingDescription;
-    private String invoiceItemShippingCurrencyCode;
-    private String invoiceItemShippingDescription;
-    private String invoiceItemTaxCurrencyCode;
-    private String invoiceItemTaxDescription;
-    private String invoiceItemGrossCurrencyCode;
-    private String invoiceItemDiscountCurrencyCode;
-    private String invoiceItemNetCurrencyCode;
+    protected String invoiceItemSubTotalCurrencyCode;
+    protected String invoiceItemSpecialHandlingCurrencyCode;
+    protected String invoiceItemSpecialHandlingDescription;
+    protected String invoiceItemShippingCurrencyCode;
+    protected String invoiceItemShippingDescription;
+    protected String invoiceItemTaxCurrencyCode;
+    protected String invoiceItemTaxDescription;
+    protected String invoiceItemGrossCurrencyCode;
+    protected String invoiceItemDiscountCurrencyCode;
+    protected String invoiceItemNetCurrencyCode;
 
-    private BigDecimal invoiceItemSubTotalAmount;
-    private BigDecimal invoiceItemSpecialHandlingAmount;
-    private BigDecimal invoiceItemShippingAmount;
-    private BigDecimal invoiceItemTaxAmount;
-    private BigDecimal invoiceItemGrossAmount;
-    private BigDecimal invoiceItemDiscountAmount;
-    private BigDecimal invoiceItemNetAmount;
+    protected BigDecimal invoiceItemSubTotalAmount;
+    protected BigDecimal invoiceItemSpecialHandlingAmount;
+    protected BigDecimal invoiceItemShippingAmount;
+    protected BigDecimal invoiceItemTaxAmount;
+    protected BigDecimal invoiceItemGrossAmount;
+    protected BigDecimal invoiceItemDiscountAmount;
+    protected BigDecimal invoiceItemNetAmount;
 
-    private boolean invoiceNumberAcceptIndicator = false;
-    private boolean invoiceResearchIndicator = false;
-    private Timestamp invoiceFileTimeStampForSearch;
+    protected boolean invoiceNumberAcceptIndicator = false;
+    protected boolean invoiceResearchIndicator = false;
+    protected Timestamp invoiceFileTimeStampForSearch;
     
-    private Timestamp accountsPayableApprovalTimestamp;
+    protected Timestamp accountsPayableApprovalTimestamp;
     
-    private transient PurApRelatedViews relatedViews;
-    private PurchaseOrderDocument currentPurchaseOrderDocument;
+    protected transient PurApRelatedViews relatedViews;
+    protected PurchaseOrderDocument currentPurchaseOrderDocument;
 
-    private VendorDetail vendorDetail;
-    private ElectronicInvoiceLoadSummary invoiceLoadSummary;
-    private List<ElectronicInvoiceRejectItem> invoiceRejectItems = new ArrayList<ElectronicInvoiceRejectItem>();
-    private List<ElectronicInvoiceRejectReason> invoiceRejectReasons = new ArrayList<ElectronicInvoiceRejectReason>();
+    protected VendorDetail vendorDetail;
+    protected ElectronicInvoiceLoadSummary invoiceLoadSummary;
+    protected List<ElectronicInvoiceRejectItem> invoiceRejectItems = new ArrayList<ElectronicInvoiceRejectItem>();
+    protected List<ElectronicInvoiceRejectReason> invoiceRejectReasons = new ArrayList<ElectronicInvoiceRejectReason>();
     
-    private boolean isDocumentCreationInProgress = false;
+    protected boolean isDocumentCreationInProgress = false;
 
-    private String vendorNumber;
+    protected String vendorNumber;
     
-    private CampusParameter purchaseOrderDeliveryCampus;
+    protected CampusParameter purchaseOrderDeliveryCampus;
     
     /**
    * 
@@ -327,7 +327,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         }
     }
 
-    private ElectronicInvoicePostalAddress getCxmlPostalAddressByAddressName(ElectronicInvoiceContact contact, String addressName) {
+    protected ElectronicInvoicePostalAddress getCxmlPostalAddressByAddressName(ElectronicInvoiceContact contact, String addressName) {
         if (contact != null) {
             for (ElectronicInvoicePostalAddress cpa : contact.getPostalAddresses()) {
                 if (addressName == null) {

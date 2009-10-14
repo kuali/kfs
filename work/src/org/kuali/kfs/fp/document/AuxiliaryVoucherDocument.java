@@ -63,10 +63,10 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * and target. Expense is the expense and target is the income lines.
  */
 public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements VoucherDocument, Copyable, Correctable, AmountTotaling {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AuxiliaryVoucherDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AuxiliaryVoucherDocument.class);
 
-    private String typeCode = ADJUSTMENT_DOC_TYPE;
-    private java.sql.Date reversalDate;
+    protected String typeCode = ADJUSTMENT_DOC_TYPE;
+    protected java.sql.Date reversalDate;
 
     /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#documentPerformsSufficientFundsCheck()
@@ -229,7 +229,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      * This method handles updating the reversal data on the document in addition to all of the GLPEs, but only for the accrual and
      * recode types.
      */
-    private void updateReversalDate() {
+    protected void updateReversalDate() {
         if (refreshReversalDate()) {
             // set the reversal date on each GLPE for the document too
             List<GeneralLedgerPendingEntry> glpes = getGeneralLedgerPendingEntries();
@@ -243,7 +243,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      * If the reversal date on this document is in need of refreshing, refreshes the reveral date.  THIS METHOD MAY CHANGE DOCUMENT STATE!
      * @return true if the reversal date ended up getting refreshed, false otherwise
      */
-    private boolean refreshReversalDate() {
+    protected boolean refreshReversalDate() {
         boolean refreshed = false;
         if ((isAccrualType() || isRecodeType()) && getReversalDate() != null) {
             java.sql.Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
@@ -269,7 +269,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      * KULEDOCS-1700 This method iterates over each source line and flip the sign on the amount to nullify the super's effect, then
      * flip the debit/credit code b/c an error corrected AV flips the debit/credit code.
      */
-    private void processAuxiliaryVoucherErrorCorrections() {
+    protected void processAuxiliaryVoucherErrorCorrections() {
         Iterator i = getSourceAccountingLines().iterator();
 
         int index = 0;

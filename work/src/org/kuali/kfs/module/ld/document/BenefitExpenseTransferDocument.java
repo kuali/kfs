@@ -30,7 +30,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
  */
 
 public class BenefitExpenseTransferDocument extends LaborExpenseTransferDocumentBase {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BenefitExpenseTransferDocument.class);
+    protected static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BenefitExpenseTransferDocument.class);
 
     /**
      * Default Constructor.

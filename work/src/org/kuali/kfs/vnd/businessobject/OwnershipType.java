@@ -29,10 +29,10 @@ import org.kuali.rice.kns.document.DocumentBase;
  */
 public class OwnershipType extends DocumentBase implements Inactivateable{
 
-    private String vendorOwnershipCode;
-    private String vendorOwnershipDescription;
-    private boolean vendorOwnershipCategoryAllowedIndicator;
-    private boolean active;
+    protected String vendorOwnershipCode;
+    protected String vendorOwnershipDescription;
+    protected boolean vendorOwnershipCategoryAllowedIndicator;
+    protected boolean active;
 
     /**
      * Default constructor.

@@ -47,9 +47,9 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * Accounting office to record wire transfers, foreign drafts, etc.
  */
 public class NonCheckDisbursementDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling {
-    private String financialDocumentBankCode;
+    protected String financialDocumentBankCode;
 
-    private Bank bank;
+    protected Bank bank;
 
     /**
      * Constructs a NonCheckDisbursementDocument instance.
@@ -201,7 +201,7 @@ public class NonCheckDisbursementDocument extends AccountingDocumentBase impleme
      * @param line The accounting line that will be used for populating the transaction ledger entry description.
      * @return The description to be applied to the transaction ledger entry.
      */
-    private String buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(GeneralLedgerPendingEntrySourceDetail postable) {
+    protected String buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(GeneralLedgerPendingEntrySourceDetail postable) {
         String description = "";
         if (StringUtils.isBlank(postable.getReferenceNumber())) {
             throw new IllegalStateException("Reference Document Number is required and should be validated before this point.");

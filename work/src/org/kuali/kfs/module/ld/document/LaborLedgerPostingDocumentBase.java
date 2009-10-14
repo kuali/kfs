@@ -38,7 +38,7 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 public abstract class LaborLedgerPostingDocumentBase extends AccountingDocumentBase implements LaborLedgerPostingDocument {
     protected List<LaborLedgerPendingEntry> laborLedgerPendingEntries;
     
-    private final static String LABOR_LEDGER_GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "kfsDoNothingGeneralLedgerPostingHelper";
+    protected final static String LABOR_LEDGER_GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "kfsDoNothingGeneralLedgerPostingHelper";
 
     /**
      * Initializes the pending entries.
@@ -81,7 +81,7 @@ public abstract class LaborLedgerPostingDocumentBase extends AccountingDocumentB
     /**
      * This method iterates over all of the pending entries for a document and sets their approved status code to APPROVED "A".
      */
-    private void changeLedgerPendingEntriesApprovedStatusCode() {
+    protected void changeLedgerPendingEntriesApprovedStatusCode() {
         for (LaborLedgerPendingEntry pendingEntry : laborLedgerPendingEntries) {
             pendingEntry.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
         }
@@ -90,7 +90,7 @@ public abstract class LaborLedgerPostingDocumentBase extends AccountingDocumentB
     /**
      * This method calls the service to remove all of the pending entries associated with this document
      */
-    private void removeLedgerPendingEntries() {
+    protected void removeLedgerPendingEntries() {
         LaborLedgerPendingEntryService laborLedgerPendingEntryService = SpringContext.getBean(LaborLedgerPendingEntryService.class);
         laborLedgerPendingEntryService.delete(getDocumentHeader().getDocumentNumber());
     }

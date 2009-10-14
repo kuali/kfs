@@ -29,7 +29,7 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
  * Purchase Order Payment Hold Document
  */
 public class PurchaseOrderPaymentHoldDocument extends PurchaseOrderDocument {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderPaymentHoldDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderPaymentHoldDocument.class);
 
     /**
      * Default constructor.

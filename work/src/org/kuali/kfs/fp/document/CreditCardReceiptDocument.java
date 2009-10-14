@@ -50,13 +50,13 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
  */
 public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements Copyable, AmountTotaling {
     // holds details about each credit card receipt
-    private List<CreditCardDetail> creditCardReceipts = new ArrayList<CreditCardDetail>();
+    protected List<CreditCardDetail> creditCardReceipts = new ArrayList<CreditCardDetail>();
 
     // incrementers for detail lines
-    private Integer nextCcCrLineNumber = new Integer(1);
+    protected Integer nextCcCrLineNumber = new Integer(1);
 
     // monetary attributes
-    private KualiDecimal totalCreditCardAmount = KualiDecimal.ZERO;
+    protected KualiDecimal totalCreditCardAmount = KualiDecimal.ZERO;
 
     /**
      * Default constructor that calls super.
@@ -273,7 +273,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
     /**
      * Returns the default bank code for Credit Card Receipt documents.
      */
-    private Bank getOffsetBank() {
+    protected Bank getOffsetBank() {
         return SpringContext.getBean(BankService.class).getDefaultBankByDocType(CreditCardReceiptDocument.class);
     }
     

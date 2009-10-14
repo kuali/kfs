@@ -46,13 +46,13 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
  */
 public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Copyable, AmountTotaling {
     // holds details about each advance deposit
-    private List<AdvanceDepositDetail> advanceDeposits = new ArrayList<AdvanceDepositDetail>();
+    protected List<AdvanceDepositDetail> advanceDeposits = new ArrayList<AdvanceDepositDetail>();
 
     // incrementers for detail lines
-    private Integer nextAdvanceDepositLineNumber = 1;
+    protected Integer nextAdvanceDepositLineNumber = 1;
 
     // monetary attributes
-    private KualiDecimal totalAdvanceDepositAmount = KualiDecimal.ZERO;
+    protected KualiDecimal totalAdvanceDepositAmount = KualiDecimal.ZERO;
 
     /**
      * Default constructor that calls super.

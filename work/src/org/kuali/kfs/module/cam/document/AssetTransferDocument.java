@@ -61,42 +61,42 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetTransferDocument.class);
-    private String hiddenFieldForError;
-    private String representativeUniversalIdentifier;
-    private String campusCode;
-    private String buildingCode;
-    private String buildingRoomNumber;
-    private String buildingSubRoomNumber;
-    private String organizationTagNumber;
-    private String organizationOwnerChartOfAccountsCode;
-    private String organizationOwnerAccountNumber;
-    private String organizationText;
-    private String organizationInventoryName;
-    private String transferOfFundsFinancialDocumentNumber;
-    private String offCampusAddress;
-    private String offCampusCityName;
-    private String offCampusStateCode;
-    private String offCampusZipCode;
-    private String oldOrganizationOwnerChartOfAccountsCode;
-    private String oldOrganizationOwnerAccountNumber;
-    private String offCampusName;
-    private String offCampusCountryCode;
-    private boolean interdepartmentalSalesIndicator;
-    private Long capitalAssetNumber;
-    private Person assetRepresentative;
-    private Campus campus;
-    private Account organizationOwnerAccount;
-    private Account oldOrganizationOwnerAccount;
-    private Chart organizationOwnerChartOfAccounts;
-    private State offCampusState;
-    private Country offCampusCountry;
-    private Building building;
-    private Room buildingRoom;
-    private transient List<AssetGlpeSourceDetail> sourceAssetGlpeSourceDetails;
-    private transient List<AssetGlpeSourceDetail> targetAssetGlpeSourceDetails;
-    private Asset asset;
-    private PostalCode postalZipCode;
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetTransferDocument.class);
+    protected String hiddenFieldForError;
+    protected String representativeUniversalIdentifier;
+    protected String campusCode;
+    protected String buildingCode;
+    protected String buildingRoomNumber;
+    protected String buildingSubRoomNumber;
+    protected String organizationTagNumber;
+    protected String organizationOwnerChartOfAccountsCode;
+    protected String organizationOwnerAccountNumber;
+    protected String organizationText;
+    protected String organizationInventoryName;
+    protected String transferOfFundsFinancialDocumentNumber;
+    protected String offCampusAddress;
+    protected String offCampusCityName;
+    protected String offCampusStateCode;
+    protected String offCampusZipCode;
+    protected String oldOrganizationOwnerChartOfAccountsCode;
+    protected String oldOrganizationOwnerAccountNumber;
+    protected String offCampusName;
+    protected String offCampusCountryCode;
+    protected boolean interdepartmentalSalesIndicator;
+    protected Long capitalAssetNumber;
+    protected Person assetRepresentative;
+    protected Campus campus;
+    protected Account organizationOwnerAccount;
+    protected Account oldOrganizationOwnerAccount;
+    protected Chart organizationOwnerChartOfAccounts;
+    protected State offCampusState;
+    protected Country offCampusCountry;
+    protected Building building;
+    protected Room buildingRoom;
+    protected transient List<AssetGlpeSourceDetail> sourceAssetGlpeSourceDetails;
+    protected transient List<AssetGlpeSourceDetail> targetAssetGlpeSourceDetails;
+    protected Asset asset;
+    protected PostalCode postalZipCode;
 
     public AssetTransferDocument() {
         super();
@@ -465,7 +465,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         }
     }
 
-    private CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+    protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
         return SpringContext.getBean(CapitalAssetManagementModuleService.class);
     }
 

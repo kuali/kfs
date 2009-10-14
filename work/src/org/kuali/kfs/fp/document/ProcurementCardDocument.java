@@ -50,14 +50,14 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * are associated with the document to help better distribute the expense.
  */
 public class ProcurementCardDocument extends AccountingDocumentBase implements AmountTotaling, CapitalAssetEditable {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardDocument.class);
 
-    private ProcurementCardHolder procurementCardHolder;
+    protected ProcurementCardHolder procurementCardHolder;
 
-    private List transactionEntries;
+    protected List transactionEntries;
 
-    private transient CapitalAssetInformation capitalAssetInformation;
-    private transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
+    protected transient CapitalAssetInformation capitalAssetInformation;
+    protected transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
 
     /**
      * Default constructor.
@@ -303,7 +303,7 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
     /**
      * @return CapitalAssetManagementModuleService
      */
-    private CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+    protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
         if (capitalAssetManagementModuleService == null) {
             capitalAssetManagementModuleService = SpringContext.getBean(CapitalAssetManagementModuleService.class);
         }

@@ -42,9 +42,9 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * Labor Base class for Expense Transfer Documents
  */
 public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostingDocumentBase implements AmountTotaling, Copyable, Correctable, LaborExpenseTransferDocument {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(LaborExpenseTransferDocumentBase.class);
-    private String emplid;
-    private Person user;
+    protected static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(LaborExpenseTransferDocumentBase.class);
+    protected String emplid;
+    protected Person user;
 
     /**
      * Constructor
@@ -96,7 +96,7 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
      * @param accountingLines the given accounting line list
      * @return the summerized amounts by object codes
      */
-    private Map<String, KualiDecimal> summerizeByObjectCode(List accountingLines) {
+    protected Map<String, KualiDecimal> summerizeByObjectCode(List accountingLines) {
         Map<String, KualiDecimal> amountByObjectCode = new HashMap<String, KualiDecimal>();
 
         for (Object accountingLine : accountingLines) {

@@ -49,32 +49,32 @@ import org.kuali.kfs.coa.businessobject.Organization;
  */
 @COMPONENT(component="EffortCertification")
 public class EffortCertificationDocument extends FinancialSystemTransactionalDocumentBase  {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocument.class);
 
-    private static final String DO_AWARD_SPLIT = "DoAwardSplit";
-    private static final String DO_RECREATE_SPLIT = "DoRecreateSplit";
+    protected static final String DO_AWARD_SPLIT = "DoAwardSplit";
+    protected static final String DO_RECREATE_SPLIT = "DoRecreateSplit";
     
-    private String effortCertificationReportNumber;
-    private boolean effortCertificationDocumentCode;
-    private Integer universityFiscalYear;
-    private String emplid;
-    private String organizationCode;    
-    private KualiDecimal financialDocumentTotalAmount;
+    protected String effortCertificationReportNumber;
+    protected boolean effortCertificationDocumentCode;
+    protected Integer universityFiscalYear;
+    protected String emplid;
+    protected String organizationCode;    
+    protected KualiDecimal financialDocumentTotalAmount;
 
-    private Integer totalEffortPercent;
-    private Integer totalOriginalEffortPercent;
-    private KualiDecimal totalPayrollAmount;
-    private KualiDecimal totalOriginalPayrollAmount;
+    protected Integer totalEffortPercent;
+    protected Integer totalOriginalEffortPercent;
+    protected KualiDecimal totalPayrollAmount;
+    protected KualiDecimal totalOriginalPayrollAmount;
 
-    private EffortCertificationReportDefinition effortCertificationReportDefinition;
-    private Person employee;
-    private Organization organization;
-    private SystemOptions options;
+    protected EffortCertificationReportDefinition effortCertificationReportDefinition;
+    protected Person employee;
+    protected Organization organization;
+    protected SystemOptions options;
 
-    private List<EffortCertificationDetail> effortCertificationDetailLines;
-    private List<EffortCertificationDetail> summarizedDetailLines;
+    protected List<EffortCertificationDetail> effortCertificationDetailLines;
+    protected List<EffortCertificationDetail> summarizedDetailLines;
     
-    private Person ledgerPerson;
+    protected Person ledgerPerson;
     
 
     /**
@@ -689,7 +689,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
      * 
      * @return max effort line
      */
-    private EffortCertificationDetail getMaxEffortLine() {
+    protected EffortCertificationDetail getMaxEffortLine() {
         Integer maxEffort = 0;
         EffortCertificationDetail maxLine = null;
         List<EffortCertificationDetail> detailLines = this.getEffortCertificationDetailLines();

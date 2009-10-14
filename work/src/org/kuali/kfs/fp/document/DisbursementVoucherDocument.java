@@ -93,62 +93,62 @@ import edu.emory.mathcs.backport.java.util.Arrays;
  * This is the business object that represents the DisbursementVoucher document in Kuali.
  */
 public class DisbursementVoucherDocument extends AccountingDocumentBase implements Copyable, AmountTotaling {
-    private static Logger LOG = Logger.getLogger(DisbursementVoucherDocument.class);
+    protected static Logger LOG = Logger.getLogger(DisbursementVoucherDocument.class);
     
-    private static final String PAYEE_IS_PURCHASE_ORDER_VENDOR_SPLIT = "PayeeIsPurchaseOrderVendor";
-    private static final String PURCHASE_ORDER_VENDOR_TYPE = "PO";
-    private static final String DOCUMENT_REQUIRES_TAX_REVIEW_SPLIT = "RequiresTaxReview";
-    private static final String DOCUMENT_REQUIRES_TRAVEL_REVIEW_SPLIT = "RequiresTravelReview";
+    protected static final String PAYEE_IS_PURCHASE_ORDER_VENDOR_SPLIT = "PayeeIsPurchaseOrderVendor";
+    protected static final String PURCHASE_ORDER_VENDOR_TYPE = "PO";
+    protected static final String DOCUMENT_REQUIRES_TAX_REVIEW_SPLIT = "RequiresTaxReview";
+    protected static final String DOCUMENT_REQUIRES_TRAVEL_REVIEW_SPLIT = "RequiresTravelReview";
     
-    private static final String PAYMENT_REASONS_REQUIRING_TAX_REVIEW_PARAMETER_NAME = "PAYMENT_REASONS_REQUIRING_TAX_REVIEW";
+    protected static final String PAYMENT_REASONS_REQUIRING_TAX_REVIEW_PARAMETER_NAME = "PAYMENT_REASONS_REQUIRING_TAX_REVIEW";
 
-    private static final String TAX_CONTROL_BACKUP_HOLDING = "B";
-    private static final String TAX_CONTROL_HOLD_PAYMENTS = "H";
+    protected static final String TAX_CONTROL_BACKUP_HOLDING = "B";
+    protected static final String TAX_CONTROL_HOLD_PAYMENTS = "H";
     
-    private static transient PersonService<Person> personService;
-    private static transient ParameterService parameterService;
-    private static transient VendorService vendorService;
-    private static transient BusinessObjectService businessObjectService;
-    private static transient DateTimeService dateTimeService;
-    private static transient DisbursementVoucherPaymentReasonService dvPymentReasonService;
+    protected static transient PersonService<Person> personService;
+    protected static transient ParameterService parameterService;
+    protected static transient VendorService vendorService;
+    protected static transient BusinessObjectService businessObjectService;
+    protected static transient DateTimeService dateTimeService;
+    protected static transient DisbursementVoucherPaymentReasonService dvPymentReasonService;
 
-    private Integer finDocNextRegistrantLineNbr;
-    private String disbVchrContactPersonName;
-    private String disbVchrContactPhoneNumber;
-    private String disbVchrContactEmailId;
-    private Date disbursementVoucherDueDate;
-    private boolean disbVchrAttachmentCode;
-    private boolean disbVchrSpecialHandlingCode;
-    private KualiDecimal disbVchrCheckTotalAmount;
-    private boolean disbVchrForeignCurrencyInd;
-    private String disbursementVoucherDocumentationLocationCode;
-    private String disbVchrCheckStubText;
-    private boolean dvCheckStubOverflowCode;
-    private String campusCode;
-    private String disbVchrPayeeTaxControlCode;
-    private boolean disbVchrPayeeChangedInd;
-    private String disbursementVoucherCheckNbr;
-    private Timestamp disbursementVoucherCheckDate;
-    private boolean disbVchrPayeeW9CompleteCode;
-    private String disbVchrPaymentMethodCode;
-    private boolean exceptionIndicator;
-    private Date extractDate;
-    private Date paidDate;
-    private Date cancelDate;
-    private String disbVchrBankCode;
-    private String disbVchrPdpBankCode;
+    protected Integer finDocNextRegistrantLineNbr;
+    protected String disbVchrContactPersonName;
+    protected String disbVchrContactPhoneNumber;
+    protected String disbVchrContactEmailId;
+    protected Date disbursementVoucherDueDate;
+    protected boolean disbVchrAttachmentCode;
+    protected boolean disbVchrSpecialHandlingCode;
+    protected KualiDecimal disbVchrCheckTotalAmount;
+    protected boolean disbVchrForeignCurrencyInd;
+    protected String disbursementVoucherDocumentationLocationCode;
+    protected String disbVchrCheckStubText;
+    protected boolean dvCheckStubOverflowCode;
+    protected String campusCode;
+    protected String disbVchrPayeeTaxControlCode;
+    protected boolean disbVchrPayeeChangedInd;
+    protected String disbursementVoucherCheckNbr;
+    protected Timestamp disbursementVoucherCheckDate;
+    protected boolean disbVchrPayeeW9CompleteCode;
+    protected String disbVchrPaymentMethodCode;
+    protected boolean exceptionIndicator;
+    protected Date extractDate;
+    protected Date paidDate;
+    protected Date cancelDate;
+    protected String disbVchrBankCode;
+    protected String disbVchrPdpBankCode;
 
-    private boolean payeeAssigned = false;
+    protected boolean payeeAssigned = false;
 
-    private DocumentHeader financialDocument;
-    private DisbursementVoucherDocumentationLocation disbVchrDocumentationLoc;
-    private DisbursementVoucherNonEmployeeTravel dvNonEmployeeTravel;
-    private DisbursementVoucherNonResidentAlienTax dvNonResidentAlienTax;
-    private DisbursementVoucherPayeeDetail dvPayeeDetail;
-    private DisbursementVoucherPreConferenceDetail dvPreConferenceDetail;
-    private DisbursementVoucherWireTransfer dvWireTransfer;
+    protected DocumentHeader financialDocument;
+    protected DisbursementVoucherDocumentationLocation disbVchrDocumentationLoc;
+    protected DisbursementVoucherNonEmployeeTravel dvNonEmployeeTravel;
+    protected DisbursementVoucherNonResidentAlienTax dvNonResidentAlienTax;
+    protected DisbursementVoucherPayeeDetail dvPayeeDetail;
+    protected DisbursementVoucherPreConferenceDetail dvPreConferenceDetail;
+    protected DisbursementVoucherWireTransfer dvWireTransfer;
 
-    private Bank bank;
+    protected Bank bank;
 
     /**
      * Default no-arg constructor.
@@ -803,7 +803,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * This method...
      * 
      * @param method
-     * @deprecated This method should not be used. There is no private attribute to store this value. The associated getter
+     * @deprecated This method should not be used. There is no protected attribute to store this value. The associated getter
      *             retrieves the value remotely.
      */
     public void setDisbVchrPaymentMethodName(String method) {
@@ -822,7 +822,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * This method...
      * 
      * @param name
-     * @deprecated This method should not be used. There is no private attribute to store this value. The associated getter
+     * @deprecated This method should not be used. There is no protected attribute to store this value. The associated getter
      *             retrieves the value remotely.
      */
     public void setDisbursementVoucherDocumentationLocationName(String name) {
@@ -1092,7 +1092,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * Clears information that might have been entered for sub tables, but because of changes to the document is longer needed and
      * should not be persisted.
      */
-    private void cleanDocumentData() {
+    protected void cleanDocumentData() {
         // TODO: warren: this method ain't called!!! maybe this should be called by prepare for save above
         if (!DisbursementVoucherConstants.PAYMENT_METHOD_WIRE.equals(this.getDisbVchrPaymentMethodCode()) && !DisbursementVoucherConstants.PAYMENT_METHOD_DRAFT.equals(this.getDisbVchrPaymentMethodCode())) {
             getBusinessObjectService().delete(dvWireTransfer);
@@ -1323,7 +1323,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @param wireCharge wireCharge object from current fiscal year
      * @return GeneralLedgerPendingEntry generated wire charge debit
      */
-    private GeneralLedgerPendingEntry processWireChargeDebitEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, WireCharge wireCharge) {
+    protected GeneralLedgerPendingEntry processWireChargeDebitEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, WireCharge wireCharge) {
         LOG.info("processWireChargeDebitEntries started");
         
         // grab the explicit entry for the first accounting line and adjust for wire charge entry
@@ -1371,7 +1371,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @param chargeEntry GLPE charge
      * @param wireCharge wireCharge object from current fiscal year
      */
-    private void processWireChargeCreditEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, WireCharge wireCharge, GeneralLedgerPendingEntry chargeEntry) {
+    protected void processWireChargeCreditEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, WireCharge wireCharge, GeneralLedgerPendingEntry chargeEntry) {
         LOG.info("processWireChargeCreditEntries started");
         
         // copy the charge entry and adjust for credit
@@ -1448,7 +1448,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * 
      * @return <code>WireCharge</code>
      */
-    private WireCharge retrieveWireCharge() {
+    protected WireCharge retrieveWireCharge() {
         WireCharge wireCharge = new WireCharge();
         wireCharge.setUniversityFiscalYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
 
@@ -1520,7 +1520,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @param the default document title
      * @return the combine information of the given title and additional payment indicators 
      */
-    private String buildDocumentTitle(String title) {  
+    protected String buildDocumentTitle(String title) {  
         DisbursementVoucherPayeeDetail payee = getDvPayeeDetail();
         if(payee == null) {
             return title;

@@ -40,7 +40,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * Base implementation for a general ledger posting document.
  */
 public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase implements GeneralLedgerPostingDocument {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerPostingDocumentBase.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerPostingDocumentBase.class);
 
     protected List<GeneralLedgerPendingEntry> generalLedgerPendingEntries;
 
@@ -132,7 +132,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
     /**
      * This method iterates over all of the GLPEs for a document and sets their approved status code to APPROVED "A".
      */
-    private void changeGeneralLedgerPendingEntriesApprovedStatusCode() {
+    protected void changeGeneralLedgerPendingEntriesApprovedStatusCode() {
         for (GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
             glpe.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
         }

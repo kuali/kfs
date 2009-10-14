@@ -27,9 +27,9 @@ import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
  */
 @COMPONENT(component="EffortCertificationDocumentBuild")
 public class EffortCertificationDocumentBuild extends EffortCertificationDocument {
-    private Long effortCertificationBuildNumber;
+    protected Long effortCertificationBuildNumber;
  
-    private List<EffortCertificationDetailBuild> effortCertificationDetailLinesBuild;
+    protected List<EffortCertificationDetailBuild> effortCertificationDetailLinesBuild;
 
     /**
      * Default constructor.

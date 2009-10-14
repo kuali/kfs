@@ -53,16 +53,16 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * Base implementation class for financial edocs.
  */
 public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumentBase implements AccountingDocument, GeneralLedgerPendingEntrySource {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingDocumentBase.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingDocumentBase.class);
 
     protected Integer nextSourceLineNumber;
     protected Integer nextTargetLineNumber;
     protected List sourceAccountingLines;
     protected List targetAccountingLines;
 
-    private transient FinancialSystemTransactionalDocumentEntry dataDictionaryEntry;
-    private transient Class sourceAccountingLineClass;
-    private transient Class targetAccountingLineClass;
+    protected transient FinancialSystemTransactionalDocumentEntry dataDictionaryEntry;
+    protected transient Class sourceAccountingLineClass;
+    protected transient Class targetAccountingLineClass;
 
     /**
      * Default constructor.
@@ -404,7 +404,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
      * 
      * @param lines a List of accounting lines to update
      */
-    private void updatePostingYearForAccountingLines(List<AccountingLine> lines) {
+    protected void updatePostingYearForAccountingLines(List<AccountingLine> lines) {
         if (lines != null) {
             for (AccountingLine line : lines) {
                 if (!line.getPostingYear().equals(getPostingYear())) {
@@ -515,7 +515,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
      * @param document
      * @return List of AccountingLineEvent subclass instances
      */
-    private List generateEvents(List persistedLines, List currentLines, String errorPathPrefix, TransactionalDocument document) {
+    protected List generateEvents(List persistedLines, List currentLines, String errorPathPrefix, TransactionalDocument document) {
         List addEvents = new ArrayList();
         List updateEvents = new ArrayList();
         List reviewEvents = new ArrayList();
@@ -582,7 +582,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
      * @param accountingLines
      * @return Map containing accountingLines from the given List, indexed by their sequenceNumber
      */
-    private Map buildAccountingLineMap(List accountingLines) {
+    protected Map buildAccountingLineMap(List accountingLines) {
         Map lineMap = new HashMap();
 
         for (Iterator i = accountingLines.iterator(); i.hasNext();) {
@@ -682,7 +682,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
      * @param secondaryString the "rebound" String, which you'll end up with if the preferred String is blank
      * @return one of the String's
      */
-    private String getEntryValue(String preferredString, String secondaryString) {
+    protected String getEntryValue(String preferredString, String secondaryString) {
         return (StringUtils.isNotBlank(preferredString) ? preferredString : secondaryString);
     }
 

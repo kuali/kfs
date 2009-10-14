@@ -63,18 +63,18 @@ import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
  * Credit Memo Document Business Object. Contains the fields associated with the main document table.
  */
 public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VendorCreditMemoDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VendorCreditMemoDocument.class);
 
-    private Integer paymentRequestIdentifier;
-    private String creditMemoNumber;
-    private Date creditMemoDate;
-    private KualiDecimal creditMemoAmount;
-    private Timestamp creditMemoPaidTimestamp;
-    private String itemMiscellaneousCreditDescription;
-    private Date purchaseOrderEndDate;
-    private String vendorAttentionName;
+    protected Integer paymentRequestIdentifier;
+    protected String creditMemoNumber;
+    protected Date creditMemoDate;
+    protected KualiDecimal creditMemoAmount;
+    protected Timestamp creditMemoPaidTimestamp;
+    protected String itemMiscellaneousCreditDescription;
+    protected Date purchaseOrderEndDate;
+    protected String vendorAttentionName;
     
-    private PaymentRequestDocument paymentRequestDocument;
+    protected PaymentRequestDocument paymentRequestDocument;
 
     /**
      * Default constructor.
@@ -192,7 +192,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
      * 
      * @return - Text of hold
      */
-    private String getTitleIndicator() {
+    protected String getTitleIndicator() {
         if (isHoldIndicator()) {
             return PurapConstants.PaymentRequestIndicatorText.HOLD;
         }
@@ -276,7 +276,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
      * 
      * @return - Customized document title text dependent upon route level.
      */
-    private String getCustomDocumentTitle() {
+    protected String getCustomDocumentTitle() {
         String popreq = "";
         if (this.isSourceDocumentPurchaseOrder() || this.isSourceDocumentPaymentRequest()) {
             String poNumber = getPurchaseOrderIdentifier().toString();

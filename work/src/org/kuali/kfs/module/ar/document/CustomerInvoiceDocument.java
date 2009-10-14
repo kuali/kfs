@@ -79,81 +79,81 @@ import org.kuali.rice.kns.util.TypedArrayList;
  */
 public class CustomerInvoiceDocument extends AccountingDocumentBase implements AmountTotaling, Copyable, Correctable, Comparable<CustomerInvoiceDocument> {
 
-    private static final String HAS_RECCURENCE_NODE = "HasReccurence";
-    private static final String BATCH_GENERATED_NODE = "BatchGenerated";
+    protected static final String HAS_RECCURENCE_NODE = "HasReccurence";
+    protected static final String BATCH_GENERATED_NODE = "BatchGenerated";
 
-    private String invoiceHeaderText;
-    private String invoiceAttentionLineText;
-    private Date invoiceDueDate;
-    private Date billingDate;
-    private Date closedDate;
-    private Date billingDateForDisplay;
-    private String invoiceTermsText;
-    private String organizationInvoiceNumber;
-    private String customerPurchaseOrderNumber;
-    private String printInvoiceIndicator;
-    private Date customerPurchaseOrderDate;
-    private String billByChartOfAccountCode;
-    private String billedByOrganizationCode;
-    private Integer customerShipToAddressIdentifier;
-    private Integer customerBillToAddressIdentifier;
-    private String customerSpecialProcessingCode;
-    private boolean customerRecordAttachmentIndicator;
-    private boolean openInvoiceIndicator;
-    private String paymentChartOfAccountsCode;
-    private String paymentAccountNumber;
-    private String paymentSubAccountNumber;
-    private String paymentFinancialObjectCode;
-    private String paymentFinancialSubObjectCode;
-    private String paymentProjectCode;
-    private String paymentOrganizationReferenceIdentifier;
-    private Date printDate;
-    private Integer age;
-    private String customerName;
-    private String billingAddressName;
-    private String billingCityName;
-    private String billingStateCode;
-    private String billingZipCode;
-    private String billingCountryCode;
-    private String billingAddressInternationalProvinceName;
-    private String billingInternationalMailCode;
-    private String billingEmailAddress;
-    private String billingAddressTypeCode;
-    private String billingLine1StreetAddress;
-    private String billingLine2StreetAddress;
-    private String shippingLine1StreetAddress;
-    private String shippingLine2StreetAddress;
-    private String shippingAddressName;
-    private String shippingCityName;
-    private String shippingStateCode;
-    private String shippingZipCode;
-    private String shippingCountryCode;
-    private String shippingAddressInternationalProvinceName;
-    private String shippingInternationalMailCode;
-    private String shippingEmailAddress;
-    private String shippingAddressTypeCode;
-    private boolean recurredInvoiceIndicator;
+    protected String invoiceHeaderText;
+    protected String invoiceAttentionLineText;
+    protected Date invoiceDueDate;
+    protected Date billingDate;
+    protected Date closedDate;
+    protected Date billingDateForDisplay;
+    protected String invoiceTermsText;
+    protected String organizationInvoiceNumber;
+    protected String customerPurchaseOrderNumber;
+    protected String printInvoiceIndicator;
+    protected Date customerPurchaseOrderDate;
+    protected String billByChartOfAccountCode;
+    protected String billedByOrganizationCode;
+    protected Integer customerShipToAddressIdentifier;
+    protected Integer customerBillToAddressIdentifier;
+    protected String customerSpecialProcessingCode;
+    protected boolean customerRecordAttachmentIndicator;
+    protected boolean openInvoiceIndicator;
+    protected String paymentChartOfAccountsCode;
+    protected String paymentAccountNumber;
+    protected String paymentSubAccountNumber;
+    protected String paymentFinancialObjectCode;
+    protected String paymentFinancialSubObjectCode;
+    protected String paymentProjectCode;
+    protected String paymentOrganizationReferenceIdentifier;
+    protected Date printDate;
+    protected Integer age;
+    protected String customerName;
+    protected String billingAddressName;
+    protected String billingCityName;
+    protected String billingStateCode;
+    protected String billingZipCode;
+    protected String billingCountryCode;
+    protected String billingAddressInternationalProvinceName;
+    protected String billingInternationalMailCode;
+    protected String billingEmailAddress;
+    protected String billingAddressTypeCode;
+    protected String billingLine1StreetAddress;
+    protected String billingLine2StreetAddress;
+    protected String shippingLine1StreetAddress;
+    protected String shippingLine2StreetAddress;
+    protected String shippingAddressName;
+    protected String shippingCityName;
+    protected String shippingStateCode;
+    protected String shippingZipCode;
+    protected String shippingCountryCode;
+    protected String shippingAddressInternationalProvinceName;
+    protected String shippingInternationalMailCode;
+    protected String shippingEmailAddress;
+    protected String shippingAddressTypeCode;
+    protected boolean recurredInvoiceIndicator;
     
-    private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
-    private Chart billByChartOfAccount;
-    private Organization billedByOrganization;
-    private CustomerProcessingType customerSpecialProcessing;
-    private Account paymentAccount;
-    private Chart paymentChartOfAccounts;
-    private SubAccount paymentSubAccount;
-    private ObjectCode paymentFinancialObject;
-    private SubObjectCode paymentFinancialSubObject;
-    private ProjectCode paymentProject;
-    private PrintInvoiceOptions printInvoiceOption;
-    private CustomerAddress customerShipToAddress;
-    private CustomerAddress customerBillToAddress;
-    private CustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails;
+    protected AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
+    protected Chart billByChartOfAccount;
+    protected Organization billedByOrganization;
+    protected CustomerProcessingType customerSpecialProcessing;
+    protected Account paymentAccount;
+    protected Chart paymentChartOfAccounts;
+    protected SubAccount paymentSubAccount;
+    protected ObjectCode paymentFinancialObject;
+    protected SubObjectCode paymentFinancialSubObject;
+    protected ProjectCode paymentProject;
+    protected PrintInvoiceOptions printInvoiceOption;
+    protected CustomerAddress customerShipToAddress;
+    protected CustomerAddress customerBillToAddress;
+    protected CustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails;
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocument.class);
 
     // added for quick apply check control
     //TODO Andrew
-    //private boolean quickApply;
+    //protected boolean quickApply;
 
     /**
      * Default constructor.
@@ -1168,7 +1168,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         }
     }
     
-    private String getInvoiceRecurrenceMaintenanceDocumentTypeName() {
+    protected String getInvoiceRecurrenceMaintenanceDocumentTypeName() {
         return "INVR";
     }
 
@@ -1947,7 +1947,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * Determines whether this document was generated from a recurrence batch.  Returns true if so, false if not.
      * @return
      */
-    private boolean isBatchGenerated() {
+    protected boolean isBatchGenerated() {
         return recurredInvoiceIndicator;
     }
     
@@ -1956,7 +1956,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      * Determines whether this document has a Recurrence filled out enough to create an INVR doc.
      * @return
      */
-    private boolean hasRecurrence() {
+    protected boolean hasRecurrence() {
         return (ObjectUtils.isNotNull(getCustomerInvoiceRecurrenceDetails()) && getCustomerInvoiceRecurrenceDetails().isActive());
     }
 

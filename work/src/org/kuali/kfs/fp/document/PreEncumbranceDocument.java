@@ -44,9 +44,9 @@ import org.kuali.rice.kns.service.DateTimeService;
  * have already been made.
  */
 public class PreEncumbranceDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PreEncumbranceDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PreEncumbranceDocument.class);
 
-    private java.sql.Date reversalDate;
+    protected java.sql.Date reversalDate;
 
     /**
      * Initializes the array lists and some basic info.
@@ -173,7 +173,7 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
      * If the reversal date on this document is in need of refreshing, refreshes the reveral date.  THIS METHOD MAY CHANGE DOCUMENT STATE!
      * @return true if the reversal date ended up getting refreshed, false otherwise
      */
-    private boolean refreshReversalDate() {
+    protected boolean refreshReversalDate() {
         boolean refreshed = false;
         if (getReversalDate() != null) {
             java.sql.Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();

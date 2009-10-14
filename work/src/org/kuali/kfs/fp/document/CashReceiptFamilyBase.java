@@ -40,12 +40,12 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * Abstract class which defines behavior common to CashReceipt-like documents.
  */
 abstract public class CashReceiptFamilyBase extends AccountingDocumentBase implements CapitalAssetEditable {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashReceiptFamilyBase.class);
-    private String campusLocationCode; // TODO Needs to be an actual object - also need to clarify this
-    private Date depositDate;
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashReceiptFamilyBase.class);
+    protected String campusLocationCode; // TODO Needs to be an actual object - also need to clarify this
+    protected Date depositDate;
 
     // capital asset
-    private transient CapitalAssetInformation capitalAssetInformation;
+    protected transient CapitalAssetInformation capitalAssetInformation;
 
     /**
      * Constructs a CashReceiptFamilyBase

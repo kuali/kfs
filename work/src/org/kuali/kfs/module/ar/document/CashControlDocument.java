@@ -61,27 +61,27 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class CashControlDocument extends GeneralLedgerPostingDocumentBase implements AmountTotaling, GeneralLedgerPendingEntrySource, ElectronicPaymentClaiming, GeneralLedgerPostingDocument {
-    private static final String NODE_ASSOCIATED_WITH_ELECTRONIC_PAYMENT = "AssociatedWithElectronicPayment";
-    private static Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocument.class);
+    protected static final String NODE_ASSOCIATED_WITH_ELECTRONIC_PAYMENT = "AssociatedWithElectronicPayment";
+    protected static Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocument.class);
 
-    private String referenceFinancialDocumentNumber;
-    private Integer universityFiscalYear;
-    private String universityFiscalPeriodCode;
-    private String customerPaymentMediumCode;
-    private KualiDecimal cashControlTotalAmount = KualiDecimal.ZERO;
-    private String lockboxNumber;
-    private String bankCode;
+    protected String referenceFinancialDocumentNumber;
+    protected Integer universityFiscalYear;
+    protected String universityFiscalPeriodCode;
+    protected String customerPaymentMediumCode;
+    protected KualiDecimal cashControlTotalAmount = KualiDecimal.ZERO;
+    protected String lockboxNumber;
+    protected String bankCode;
 
-    private Bank bank;
-    private PaymentMedium customerPaymentMedium;
-    private AccountingPeriod universityFiscalPeriod;
-    private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
+    protected Bank bank;
+    protected PaymentMedium customerPaymentMedium;
+    protected AccountingPeriod universityFiscalPeriod;
+    protected AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
 
-    private List<CashControlDetail> cashControlDetails;
+    protected List<CashControlDetail> cashControlDetails;
 
     protected List<GeneralLedgerPendingEntry> generalLedgerPendingEntries;
-    private final static String GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "kfsGenericGeneralLedgerPostingHelper";
-    private List<ElectronicPaymentClaim> electronicPaymentClaims;
+    protected final static String GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "kfsGenericGeneralLedgerPostingHelper";
+    protected List<ElectronicPaymentClaim> electronicPaymentClaims;
 
     /**
      * Default constructor.
@@ -306,7 +306,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
      * This is a helper method that automatically populates document specfic information into the cash control detail deposit
      * (CashControlDetail) instance.
      */
-    private void prepareCashControlDetail(CashControlDetail cashControlDetail) {
+    protected void prepareCashControlDetail(CashControlDetail cashControlDetail) {
         cashControlDetail.setDocumentNumber(this.getDocumentNumber());
     }
 
@@ -412,7 +412,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
      * @param transactionalDocument submitted accounting document
      * @return String formatted string to be used for transaction ledger entry description
      */
-    private String buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(GeneralLedgerPendingEntrySourceDetail line) {
+    protected String buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(GeneralLedgerPendingEntrySourceDetail line) {
         String description = "";
         description = line.getReferenceOriginCode() + "-" + line.getReferenceNumber();
 
@@ -687,7 +687,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         recalculateTotals();
     }
     
-    private void deleteCashControlDetailsFromDB() {
+    protected void deleteCashControlDetailsFromDB() {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         Map<String,String> pkMap = new HashMap<String,String>();
         pkMap.put("documentNumber", getDocumentNumber());

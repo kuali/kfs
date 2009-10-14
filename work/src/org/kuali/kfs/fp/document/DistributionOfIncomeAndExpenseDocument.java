@@ -43,11 +43,11 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * being distributed are usually the result of an accumulation of transactions that need to be divided up between various accounts.
  */
 public class DistributionOfIncomeAndExpenseDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling, ElectronicPaymentClaiming, CapitalAssetEditable {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DistributionOfIncomeAndExpenseDocument.class);
-    private List<ElectronicPaymentClaim> electronicPaymentClaims;
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DistributionOfIncomeAndExpenseDocument.class);
+    protected List<ElectronicPaymentClaim> electronicPaymentClaims;
 
-    private transient CapitalAssetInformation capitalAssetInformation;
-    private transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
+    protected transient CapitalAssetInformation capitalAssetInformation;
+    protected transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
 
 
     /**

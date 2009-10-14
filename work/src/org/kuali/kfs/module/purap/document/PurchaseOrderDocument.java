@@ -119,73 +119,73 @@ import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
  * Purchase Order Document
  */
 public class PurchaseOrderDocument extends PurchasingDocumentBase implements MultiselectableDocSearchConversion {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderDocument.class);
 
-    private Timestamp purchaseOrderCreateTimestamp;
-    private Integer requisitionIdentifier;
-    private String purchaseOrderVendorChoiceCode;
-    private String recurringPaymentFrequencyCode;
-    private KualiDecimal recurringPaymentAmount;
-    private Date recurringPaymentDate;
-    private KualiDecimal initialPaymentAmount;
-    private Date initialPaymentDate;
-    private KualiDecimal finalPaymentAmount;
-    private Date finalPaymentDate;
-    private Timestamp purchaseOrderInitialOpenTimestamp;
-    private Timestamp purchaseOrderLastTransmitTimestamp;
-    private Date purchaseOrderQuoteDueDate;
-    private String purchaseOrderQuoteTypeCode;
-    private String purchaseOrderQuoteVendorNoteText;
-    private boolean purchaseOrderConfirmedIndicator;
-    private String purchaseOrderCommodityDescription;
-    private Integer purchaseOrderPreviousIdentifier;
-    private Integer alternateVendorHeaderGeneratedIdentifier;
-    private Integer alternateVendorDetailAssignedIdentifier;
-    private Integer newQuoteVendorHeaderGeneratedIdentifier;
-    private Integer newQuoteVendorDetailAssignedIdentifier;
-    private String alternateVendorName;
-    private boolean purchaseOrderCurrentIndicator = false;
-    private boolean pendingActionIndicator = false;
-    private Timestamp purchaseOrderFirstTransmissionTimestamp;
-    private Integer contractManagerCode;
-    private Date purchaseOrderQuoteInitializationDate;
-    private Date purchaseOrderQuoteAwardedDate;
-    private String assignedUserPrincipalId;
+    protected Timestamp purchaseOrderCreateTimestamp;
+    protected Integer requisitionIdentifier;
+    protected String purchaseOrderVendorChoiceCode;
+    protected String recurringPaymentFrequencyCode;
+    protected KualiDecimal recurringPaymentAmount;
+    protected Date recurringPaymentDate;
+    protected KualiDecimal initialPaymentAmount;
+    protected Date initialPaymentDate;
+    protected KualiDecimal finalPaymentAmount;
+    protected Date finalPaymentDate;
+    protected Timestamp purchaseOrderInitialOpenTimestamp;
+    protected Timestamp purchaseOrderLastTransmitTimestamp;
+    protected Date purchaseOrderQuoteDueDate;
+    protected String purchaseOrderQuoteTypeCode;
+    protected String purchaseOrderQuoteVendorNoteText;
+    protected boolean purchaseOrderConfirmedIndicator;
+    protected String purchaseOrderCommodityDescription;
+    protected Integer purchaseOrderPreviousIdentifier;
+    protected Integer alternateVendorHeaderGeneratedIdentifier;
+    protected Integer alternateVendorDetailAssignedIdentifier;
+    protected Integer newQuoteVendorHeaderGeneratedIdentifier;
+    protected Integer newQuoteVendorDetailAssignedIdentifier;
+    protected String alternateVendorName;
+    protected boolean purchaseOrderCurrentIndicator = false;
+    protected boolean pendingActionIndicator = false;
+    protected Timestamp purchaseOrderFirstTransmissionTimestamp;
+    protected Integer contractManagerCode;
+    protected Date purchaseOrderQuoteInitializationDate;
+    protected Date purchaseOrderQuoteAwardedDate;
+    protected String assignedUserPrincipalId;
     
     // COLLECTIONS
-    private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
-    private List<PurchaseOrderVendorQuote> purchaseOrderVendorQuotes;
+    protected List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
+    protected List<PurchaseOrderVendorQuote> purchaseOrderVendorQuotes;
     
     // NOT PERSISTED IN DB
-    private String statusChange;
-    private String alternateVendorNumber;
-    private String purchaseOrderRetransmissionMethodCode;
-    private String retransmitHeader;
-    private Integer purchaseOrderQuoteListIdentifier;
-    private KualiDecimal internalPurchasingLimit;
-    private boolean pendingSplit = false;           // Needed for authorization
-    private boolean copyingNotesWhenSplitting;      // Check box on Split PO tab
-    private boolean assigningSensitiveData = false; // whether the form is currently used for assigning sensitive data to the PO
-    private List<PurchaseOrderSensitiveData> purchaseOrderSensitiveData;  
-    private String assignedUserPrincipalName; // this serves as a temporary holder before validation is done
+    protected String statusChange;
+    protected String alternateVendorNumber;
+    protected String purchaseOrderRetransmissionMethodCode;
+    protected String retransmitHeader;
+    protected Integer purchaseOrderQuoteListIdentifier;
+    protected KualiDecimal internalPurchasingLimit;
+    protected boolean pendingSplit = false;           // Needed for authorization
+    protected boolean copyingNotesWhenSplitting;      // Check box on Split PO tab
+    protected boolean assigningSensitiveData = false; // whether the form is currently used for assigning sensitive data to the PO
+    protected List<PurchaseOrderSensitiveData> purchaseOrderSensitiveData;  
+    protected String assignedUserPrincipalName; // this serves as a temporary holder before validation is done
     
     //this is a holder for the accountinglines for GL purposes only; used only for PO change docs
-    private List<SourceAccountingLine> glOnlySourceAccountingLines;
+    protected List<SourceAccountingLine> glOnlySourceAccountingLines;
     
     // REFERENCE OBJECTS
-    private PurchaseOrderVendorChoice purchaseOrderVendorChoice;
-    private PaymentTermType vendorPaymentTerms;
-    private ShippingTitle vendorShippingTitle;
-    private ShippingPaymentTerms vendorShippingPaymentTerms;
-    private RecurringPaymentFrequency recurringPaymentFrequency;
-    private ContractManager contractManager;
-    //private Person assignedUser;
+    protected PurchaseOrderVendorChoice purchaseOrderVendorChoice;
+    protected PaymentTermType vendorPaymentTerms;
+    protected ShippingTitle vendorShippingTitle;
+    protected ShippingPaymentTerms vendorShippingPaymentTerms;
+    protected RecurringPaymentFrequency recurringPaymentFrequency;
+    protected ContractManager contractManager;
+    //protected Person assignedUser;
 
     public static final String FIN_COA_CD_KEY = "fin_coa_cd";
-    private static final String UNIVERSITY_FISCAL_YEAR_KEY = "univ_fiscal_year";
-    private static final String VENDOR_IS_EMPLOYEE = "Employee Vendor";
-    private static final String VENDOR_IS_FOREIGN = "Foreign Vendor";
-    private static final String VENDOR_IS_FOREIGN_EMPLOYEE = "Foreign and Employee Vendor";
+    protected static final String UNIVERSITY_FISCAL_YEAR_KEY = "univ_fiscal_year";
+    protected static final String VENDOR_IS_EMPLOYEE = "Employee Vendor";
+    protected static final String VENDOR_IS_FOREIGN = "Foreign Vendor";
+    protected static final String VENDOR_IS_FOREIGN_EMPLOYEE = "Foreign and Employee Vendor";
     
     /**
      * Default constructor.
@@ -237,7 +237,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      * 
      * @return - Customized document title text dependent upon route level.
      */
-    private String getCustomDocumentTitle() {
+    protected String getCustomDocumentTitle() {
         try {
             String poNumber = getPurapDocumentIdentifier().toString();
             String cmCode = getContractManagerCode().toString();
@@ -292,7 +292,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      * 
      * @return - The first accounting line of the first PO item.
      */
-    private PurApAccountingLine getFirstAccount() {
+    protected PurApAccountingLine getFirstAccount() {
         // loop through items, and pick the first item with non-empty accouting lines
         if (getItems() != null && !getItems().isEmpty()) {
             for (Iterator iter = getItems().iterator(); iter.hasNext();) {
@@ -657,7 +657,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     }
     
     // Only used for debugging in the getWorkflowEngineDocumentIdsToLock above
-    private String printList(List<Long> docIds) {
+    protected String printList(List<Long> docIds) {
         StringBuffer sb = new StringBuffer("[");
         for (int i = 0; i < docIds.size(); i++) {
             sb.append(new Long(docIds.get(i)).toString() + ",");
@@ -714,7 +714,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      * @return the name of the current route node.
      * @throws WorkflowException
      */
-    private String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
+    protected String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
         String[] nodeNames = wd.getNodeNames();
         if ((nodeNames == null) || (nodeNames.length == 0)) {
             return null;
@@ -1588,13 +1588,13 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
     }
     
-    private boolean isContractManagementReviewRequired() {
+    protected boolean isContractManagementReviewRequired() {
         KualiDecimal internalPurchasingLimit = SpringContext.getBean(PurchaseOrderService.class).getInternalPurchasingDollarLimit(this);
         return ((ObjectUtils.isNull(internalPurchasingLimit)) || (internalPurchasingLimit.compareTo(this.getTotalDollarAmount()) < 0));
 
     }
 
-    private boolean isAwardReviewRequired() {
+    protected boolean isAwardReviewRequired() {
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         boolean objectCodeAllowed = true;
         
@@ -1613,7 +1613,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         return objectCodeAllowed;        
     }
     
-    private boolean isObjectCodeAllowedForAwardRouting(PurApAccountingLine accountingLine, ParameterService parameterService) {
+    protected boolean isObjectCodeAllowedForAwardRouting(PurApAccountingLine accountingLine, ParameterService parameterService) {
         if (ObjectUtils.isNull(accountingLine.getObjectCode())) {
             return false;
         }
@@ -1635,7 +1635,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         return objectCodeAllowed;
     }
     
-    private boolean isBudgetReviewRequired() {
+    protected boolean isBudgetReviewRequired() {
         boolean alwaysRoutes = true;
         String documentHeaderId = null;
         String currentXpathExpression = null;
@@ -1657,7 +1657,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     }
 
 
-    private boolean isVendorEmployeeOrNonResidentAlien() {
+    protected boolean isVendorEmployeeOrNonResidentAlien() {
         String vendorHeaderGeneratedId = this.getVendorHeaderGeneratedIdentifier().toString();
         if (StringUtils.isBlank(vendorHeaderGeneratedId)) {
             // no vendor header id so can't check for proper tax routing

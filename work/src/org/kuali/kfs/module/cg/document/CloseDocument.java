@@ -24,8 +24,8 @@ import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
  */
 public class CloseDocument extends FinancialSystemTransactionalDocumentBase {
 
-    private Date userInitiatedCloseDate;
-    private Date closeOnOrBeforeDate;
+    protected Date userInitiatedCloseDate;
+    protected Date closeOnOrBeforeDate;
 
     /**
      * The {@link CloseBatchStep} will close out {@link Proposal}s and {@link Award}s not yet closed and created before the date

@@ -45,54 +45,54 @@ import org.kuali.rice.kns.util.TypedArrayList;
 
 public class BudgetConstructionDocument extends FinancialSystemTransactionalDocumentBase {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionDocument.class);
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionDocument.class);
 
-    private Integer universityFiscalYear;
-    private String chartOfAccountsCode;
-    private String accountNumber;
-    private String subAccountNumber;
-    private Integer organizationLevelCode;
-    private String organizationLevelChartOfAccountsCode;
-    private String organizationLevelOrganizationCode;
-    private String budgetLockUserIdentifier;
-    private String budgetTransactionLockUserIdentifier;
+    protected Integer universityFiscalYear;
+    protected String chartOfAccountsCode;
+    protected String accountNumber;
+    protected String subAccountNumber;
+    protected Integer organizationLevelCode;
+    protected String organizationLevelChartOfAccountsCode;
+    protected String organizationLevelOrganizationCode;
+    protected String budgetLockUserIdentifier;
+    protected String budgetTransactionLockUserIdentifier;
 
-    private Chart chartOfAccounts;
-    private Account account;
-    private SubAccount subAccount;
-    private Person budgetLockUser;
-    private Person budgetTransactionLockUser;
-    private Organization organizationLevelOrganization;
-    private BudgetConstructionAccountReports budgetConstructionAccountReports;
+    protected Chart chartOfAccounts;
+    protected Account account;
+    protected SubAccount subAccount;
+    protected Person budgetLockUser;
+    protected Person budgetTransactionLockUser;
+    protected Organization organizationLevelOrganization;
+    protected BudgetConstructionAccountReports budgetConstructionAccountReports;
 
-    private List pendingBudgetConstructionGeneralLedgerRevenueLines;
-    private List pendingBudgetConstructionGeneralLedgerExpenditureLines;
+    protected List pendingBudgetConstructionGeneralLedgerRevenueLines;
+    protected List pendingBudgetConstructionGeneralLedgerExpenditureLines;
 
-    private Integer previousUniversityFiscalYear;
+    protected Integer previousUniversityFiscalYear;
 
     // revenue and expenditure line totals
-    private KualiInteger revenueAccountLineAnnualBalanceAmountTotal;
-    private KualiInteger revenueFinancialBeginningBalanceLineAmountTotal;
-    private KualiDecimal revenuePercentChangeTotal;
-    private KualiInteger expenditureAccountLineAnnualBalanceAmountTotal;
-    private KualiInteger expenditureFinancialBeginningBalanceLineAmountTotal;
-    private KualiDecimal expenditurePercentChangeTotal;
+    protected KualiInteger revenueAccountLineAnnualBalanceAmountTotal;
+    protected KualiInteger revenueFinancialBeginningBalanceLineAmountTotal;
+    protected KualiDecimal revenuePercentChangeTotal;
+    protected KualiInteger expenditureAccountLineAnnualBalanceAmountTotal;
+    protected KualiInteger expenditureFinancialBeginningBalanceLineAmountTotal;
+    protected KualiDecimal expenditurePercentChangeTotal;
 
     // benefits calculation state flags
     // these are set when a change is detected in the request and the line
     // is involved in the benefits calculation - ie exists in
-    private boolean isBenefitsCalcNeeded;
-    private boolean isMonthlyBenefitsCalcNeeded;
+    protected boolean isBenefitsCalcNeeded;
+    protected boolean isMonthlyBenefitsCalcNeeded;
 
-    private boolean isSalarySettingOnly;
-    private AccountSalarySettingOnlyCause accountSalarySettingOnlyCause;
-    private boolean containsTwoPlug = false;
-    private boolean budgetableDocument = false;
+    protected boolean isSalarySettingOnly;
+    protected AccountSalarySettingOnlyCause accountSalarySettingOnlyCause;
+    protected boolean containsTwoPlug = false;
+    protected boolean budgetableDocument = false;
 
     // This property supports a hack to indicate to the rules framework
     // the user is performing an action (save) that forces rules check on nonZero request amounts
     // while still allowing the user to do salary setting cleanup when a document becomes not budgetable
-    private boolean cleanupModeActionForceCheck = false;
+    protected boolean cleanupModeActionForceCheck = false;
 
     public BudgetConstructionDocument() {
         super();

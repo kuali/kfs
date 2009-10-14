@@ -49,11 +49,11 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * Capital assets document class for the asset payment document
  */
 public class AssetPaymentDocument extends AccountingDocumentBase implements Copyable, AmountTotaling {
-    private static Logger LOG = Logger.getLogger(AssetPaymentDocument.class);
+    protected static Logger LOG = Logger.getLogger(AssetPaymentDocument.class);
 
-    private List<AssetPaymentAssetDetail> assetPaymentAssetDetail;
-    private Long capitalAssetNumber;
-    private boolean capitalAssetBuilderOriginIndicator;
+    protected List<AssetPaymentAssetDetail> assetPaymentAssetDetail;
+    protected Long capitalAssetNumber;
+    protected boolean capitalAssetBuilderOriginIndicator;
 
     public AssetPaymentDocument() {
         super();
@@ -170,7 +170,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         }
     }
 
-    private CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+    protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
         return SpringContext.getBean(CapitalAssetManagementModuleService.class);
     }
 

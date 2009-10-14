@@ -33,7 +33,7 @@ import org.kuali.rice.kns.service.DateTimeService;
  * labor Document class for the Labor Ledger Correction Process.
  */
 public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocument implements AmountTotaling {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCorrectionDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCorrectionDocument.class);
 
     /**
      * Constructs a LaborCorrectionDocument.java.

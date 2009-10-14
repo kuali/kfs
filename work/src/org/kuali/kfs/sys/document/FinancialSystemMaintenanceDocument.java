@@ -33,7 +33,7 @@ import org.kuali.rice.kns.service.DateTimeService;
  * This class is used by the system to use financial specific objects and data for maintenance documents
  */
 public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase {
-    private static final Logger LOG = Logger.getLogger(FinancialSystemMaintenanceDocument.class);
+    protected static final Logger LOG = Logger.getLogger(FinancialSystemMaintenanceDocument.class);
 
     protected FinancialSystemDocumentHeader documentHeader;
 
@@ -174,7 +174,7 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
      * ChartCode in the first index and the OrganizationCode in the second.
      * @return a String array.
      */
-    private String[] getInitiatorPrimaryDepartmentCode() {
+    protected String[] getInitiatorPrimaryDepartmentCode() {
         PersonService personService = SpringContext.getBean(PersonService.class);
         
         String netID = documentHeader.getWorkflowDocument().getInitiatorNetworkId();

@@ -45,41 +45,41 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * Accounts Payable Document Base
  */
 public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPayableDocumentBase implements AccountsPayableDocument {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableDocumentBase.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableDocumentBase.class);
 
     // SHARED FIELDS BETWEEN PAYMENT REQUEST AND CREDIT MEMO
-    private Timestamp accountsPayableApprovalTimestamp;
-    private String lastActionPerformedByPersonId;
-    private String accountsPayableProcessorIdentifier;
-    private boolean holdIndicator;
-    private Timestamp extractedTimestamp;
-    private Integer purchaseOrderIdentifier;
-    private String processingCampusCode;
-    private String noteLine1Text;
-    private String noteLine2Text;
-    private String noteLine3Text;
-    private boolean continuationAccountIndicator;
-    private boolean closePurchaseOrderIndicator;
-    private boolean reopenPurchaseOrderIndicator;
-    private String bankCode;
+    protected Timestamp accountsPayableApprovalTimestamp;
+    protected String lastActionPerformedByPersonId;
+    protected String accountsPayableProcessorIdentifier;
+    protected boolean holdIndicator;
+    protected Timestamp extractedTimestamp;
+    protected Integer purchaseOrderIdentifier;
+    protected String processingCampusCode;
+    protected String noteLine1Text;
+    protected String noteLine2Text;
+    protected String noteLine3Text;
+    protected boolean continuationAccountIndicator;
+    protected boolean closePurchaseOrderIndicator;
+    protected boolean reopenPurchaseOrderIndicator;
+    protected String bankCode;
     
-    private boolean unmatchedOverride; // not persisted
+    protected boolean unmatchedOverride; // not persisted
     
     // NOT PERSISTED IN DB
     // BELOW USED BY ROUTING
-    private String chartOfAccountsCode;
-    private String organizationCode;
+    protected String chartOfAccountsCode;
+    protected String organizationCode;
 
     // NOT PERSISTED IN DB
     // BELOW USED BY GL ENTRY CREATION
-    private boolean generateEncumbranceEntries;
-    private String debitCreditCodeForGLEntries;
+    protected boolean generateEncumbranceEntries;
+    protected String debitCreditCodeForGLEntries;
     protected PurApItemUseTax offsetUseTax;
 
     // REFERENCE OBJECTS
-    private CampusParameter processingCampus;
-    private transient PurchaseOrderDocument purchaseOrderDocument;
-    private Bank bank;
+    protected CampusParameter processingCampus;
+    protected transient PurchaseOrderDocument purchaseOrderDocument;
+    protected Bank bank;
     
     /**
      * Constructs a AccountsPayableDocumentBase

@@ -69,41 +69,41 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDocumentBase implements PurchasingAccountsPayableDocument, AmountTotaling {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingAccountsPayableDocumentBase.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingAccountsPayableDocumentBase.class);
 
     // SHARED FIELDS BETWEEN REQUISITION, PURCHASE ORDER, PAYMENT REQUEST, AND CREDIT MEMO
-    private Integer purapDocumentIdentifier;
-    private String statusCode;
-    private Integer vendorHeaderGeneratedIdentifier;
-    private Integer vendorDetailAssignedIdentifier;
-    private String vendorCustomerNumber;
-    private String vendorName;
-    private String vendorLine1Address;
-    private String vendorLine2Address;
-    private String vendorCityName;
-    private String vendorStateCode;
-    private String vendorAddressInternationalProvinceName;
-    private String vendorPostalCode;
-    private String vendorCountryCode;
-    private Integer accountsPayablePurchasingDocumentLinkIdentifier;
-    private boolean useTaxIndicator;
-    private String vendorAttentionName;
+    protected Integer purapDocumentIdentifier;
+    protected String statusCode;
+    protected Integer vendorHeaderGeneratedIdentifier;
+    protected Integer vendorDetailAssignedIdentifier;
+    protected String vendorCustomerNumber;
+    protected String vendorName;
+    protected String vendorLine1Address;
+    protected String vendorLine2Address;
+    protected String vendorCityName;
+    protected String vendorStateCode;
+    protected String vendorAddressInternationalProvinceName;
+    protected String vendorPostalCode;
+    protected String vendorCountryCode;
+    protected Integer accountsPayablePurchasingDocumentLinkIdentifier;
+    protected boolean useTaxIndicator;
+    protected String vendorAttentionName;
     
     // NOT PERSISTED IN DB
-    private String vendorNumber;
-    private Integer vendorAddressGeneratedIdentifier;
-    private Boolean overrideWorkflowButtons = null;
-    private transient PurApRelatedViews relatedViews;   
-    private boolean sensitive;
+    protected String vendorNumber;
+    protected Integer vendorAddressGeneratedIdentifier;
+    protected Boolean overrideWorkflowButtons = null;
+    protected transient PurApRelatedViews relatedViews;   
+    protected boolean sensitive;
     
     // COLLECTIONS
-    private List<PurApItem> items;
-    private List<SourceAccountingLine> accountsForRouting; // don't use me for anything else!!
+    protected List<PurApItem> items;
+    protected List<SourceAccountingLine> accountsForRouting; // don't use me for anything else!!
     
     // REFERENCE OBJECTS
-    private Status status;
-    private VendorDetail vendorDetail;
-    private Country vendorCountry;
+    protected Status status;
+    protected VendorDetail vendorDetail;
+    protected Country vendorCountry;
 
     // STATIC
     public transient String[] belowTheLineTypes;
@@ -119,7 +119,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         items = new TypedArrayList(getItemClass());
     }
 
-    private GeneralLedgerPendingEntry getFirstPendingGLEntry() {
+    protected GeneralLedgerPendingEntry getFirstPendingGLEntry() {
         if (ObjectUtils.isNotNull(getGeneralLedgerPendingEntries()) && !getGeneralLedgerPendingEntries().isEmpty()) {
             return (GeneralLedgerPendingEntry)getGeneralLedgerPendingEntries().get(0);
         }
@@ -380,7 +380,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * 
      * @return
      */
-    private List getDeletionAwareAccountingLines() {
+    protected List getDeletionAwareAccountingLines() {
         List<PurApAccountingLine> deletionAwareAccountingLines = new ArrayList<PurApAccountingLine>();
         for (Object itemAsObject : this.getItems()) {
             final PurApItem item = (PurApItem)itemAsObject;
@@ -624,7 +624,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * @param itemsForTotal
      * @return
      */
-    private KualiDecimal getTotalDollarAmountWithExclusionsSubsetItems(String[] excludedTypes, boolean includeBelowTheLine, List<PurApItem> itemsForTotal) {
+    protected KualiDecimal getTotalDollarAmountWithExclusionsSubsetItems(String[] excludedTypes, boolean includeBelowTheLine, List<PurApItem> itemsForTotal) {
         if (excludedTypes == null) {
             excludedTypes = new String[] {};
         }

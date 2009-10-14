@@ -41,40 +41,40 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
 public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalDocumentBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnDocument.class);
 
-    private String hiddenFieldForError;
-    private String documentNumber;
-    private Date loanDate;
-    private Date expectedReturnDate;
-    private Date loanReturnDate;
-    private String borrowerUniversalIdentifier;
-    private String borrowerAddress;
-    private String borrowerCityName;
-    private String borrowerStateCode;
-    private String borrowerZipCode;
-    private String borrowerCountryCode;
-    private String borrowerPhoneNumber;
-    private String borrowerStorageAddress;
-    private String borrowerStorageCityName;
-    private String borrowerStorageStateCode;
-    private String borrowerStorageZipCode;
-    private String borrowerStorageCountryCode;
-    private String borrowerStoragePhoneNumber;
-    private Long capitalAssetNumber;
+    protected String hiddenFieldForError;
+    protected String documentNumber;
+    protected Date loanDate;
+    protected Date expectedReturnDate;
+    protected Date loanReturnDate;
+    protected String borrowerUniversalIdentifier;
+    protected String borrowerAddress;
+    protected String borrowerCityName;
+    protected String borrowerStateCode;
+    protected String borrowerZipCode;
+    protected String borrowerCountryCode;
+    protected String borrowerPhoneNumber;
+    protected String borrowerStorageAddress;
+    protected String borrowerStorageCityName;
+    protected String borrowerStorageStateCode;
+    protected String borrowerStorageZipCode;
+    protected String borrowerStorageCountryCode;
+    protected String borrowerStoragePhoneNumber;
+    protected Long capitalAssetNumber;
 
-    private State borrowerState;
-    private State borrowerStorageState;
-    private Country borrowerCountry;
-    private Country borrowerStorageCountry;
-    private Person borrowerPerson;
-    private Asset asset;
-    private PostalCode borrowerPostalZipCode;
-    private PostalCode borrowerStoragePostalZipCode;
+    protected State borrowerState;
+    protected State borrowerStorageState;
+    protected Country borrowerCountry;
+    protected Country borrowerStorageCountry;
+    protected Person borrowerPerson;
+    protected Asset asset;
+    protected PostalCode borrowerPostalZipCode;
+    protected PostalCode borrowerStoragePostalZipCode;
 
     // sets document status (i.e. new loan, return, or renew)
-    private boolean newLoan;
-    private boolean returnLoan;
+    protected boolean newLoan;
+    protected boolean returnLoan;
 
     /**
      * Default constructor.
@@ -567,7 +567,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
         }
     }
 
-    private CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+    protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
         return SpringContext.getBean(CapitalAssetManagementModuleService.class);
     }
 

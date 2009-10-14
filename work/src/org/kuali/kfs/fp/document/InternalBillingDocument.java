@@ -48,11 +48,11 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class InternalBillingDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling, CapitalAssetEditable {
 
-    private List items;
-    private Integer nextItemLineNumber;
+    protected List items;
+    protected Integer nextItemLineNumber;
 
-    private transient CapitalAssetInformation capitalAssetInformation;
-    private transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
+    protected transient CapitalAssetInformation capitalAssetInformation;
+    protected transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
 
     /**
      * Initializes the array lists and some basic info.

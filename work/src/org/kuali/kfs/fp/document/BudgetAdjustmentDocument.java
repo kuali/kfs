@@ -69,12 +69,12 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
  * This is the business object that represents the BudgetAdjustment document in Kuali.
  */
 public class BudgetAdjustmentDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetAdjustmentDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetAdjustmentDocument.class);
     
-    private static final String REQUIRES_FULL_APPROVAL_SPLIT_NODE_NAME = "RequiresFullApproval";
+    protected static final String REQUIRES_FULL_APPROVAL_SPLIT_NODE_NAME = "RequiresFullApproval";
 
-    private Integer nextPositionSourceLineNumber;
-    private Integer nextPositionTargetLineNumber;
+    protected Integer nextPositionSourceLineNumber;
+    protected Integer nextPositionTargetLineNumber;
 
     /**
      * Default constructor.
@@ -876,7 +876,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      * @param incomeStreamAmount
      * @return
      */
-    private KualiDecimal getIncomeStreamAmount(BudgetAdjustmentAccountingLine budgetAccountingLine, KualiDecimal incomeStreamAmount) {
+    protected KualiDecimal getIncomeStreamAmount(BudgetAdjustmentAccountingLine budgetAccountingLine, KualiDecimal incomeStreamAmount) {
         if(incomeStreamAmount == null) {
             incomeStreamAmount = new KualiDecimal(0);
         }

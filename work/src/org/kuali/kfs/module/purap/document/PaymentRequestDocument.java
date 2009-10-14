@@ -84,59 +84,59 @@ import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
  * Payment Request Document Business Object. Contains the fields associated with the main document table.
  */
 public class PaymentRequestDocument extends AccountsPayableDocumentBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestDocument.class);
 
-    private Date invoiceDate;
-    private String invoiceNumber;
-    private KualiDecimal vendorInvoiceAmount;
-    private String vendorPaymentTermsCode;
-    private String vendorShippingPaymentTermsCode;
-    private Date paymentRequestPayDate;
-    private String paymentRequestCostSourceCode;
-    private boolean paymentRequestedCancelIndicator;
-    private boolean paymentAttachmentIndicator;
-    private boolean immediatePaymentIndicator;
-    private String specialHandlingInstructionLine1Text;
-    private String specialHandlingInstructionLine2Text;
-    private String specialHandlingInstructionLine3Text;
-    private Timestamp paymentPaidTimestamp;
-    private boolean paymentRequestElectronicInvoiceIndicator;
-    private String accountsPayableRequestCancelIdentifier;
-    private Integer originalVendorHeaderGeneratedIdentifier;
-    private Integer originalVendorDetailAssignedIdentifier;
-    private Integer alternateVendorHeaderGeneratedIdentifier;
-    private Integer alternateVendorDetailAssignedIdentifier;
-    private String purchaseOrderNotes;
-    private String recurringPaymentTypeCode;
-    private boolean receivingDocumentRequiredIndicator;
-    private boolean paymentRequestPositiveApprovalIndicator;
+    protected Date invoiceDate;
+    protected String invoiceNumber;
+    protected KualiDecimal vendorInvoiceAmount;
+    protected String vendorPaymentTermsCode;
+    protected String vendorShippingPaymentTermsCode;
+    protected Date paymentRequestPayDate;
+    protected String paymentRequestCostSourceCode;
+    protected boolean paymentRequestedCancelIndicator;
+    protected boolean paymentAttachmentIndicator;
+    protected boolean immediatePaymentIndicator;
+    protected String specialHandlingInstructionLine1Text;
+    protected String specialHandlingInstructionLine2Text;
+    protected String specialHandlingInstructionLine3Text;
+    protected Timestamp paymentPaidTimestamp;
+    protected boolean paymentRequestElectronicInvoiceIndicator;
+    protected String accountsPayableRequestCancelIdentifier;
+    protected Integer originalVendorHeaderGeneratedIdentifier;
+    protected Integer originalVendorDetailAssignedIdentifier;
+    protected Integer alternateVendorHeaderGeneratedIdentifier;
+    protected Integer alternateVendorDetailAssignedIdentifier;
+    protected String purchaseOrderNotes;
+    protected String recurringPaymentTypeCode;
+    protected boolean receivingDocumentRequiredIndicator;
+    protected boolean paymentRequestPositiveApprovalIndicator;
 
     // TAX EDIT AREA FIELDS
-    private String taxClassificationCode;
-    private String taxCountryCode;
-    private String taxNQIId;
-    private BigDecimal taxFederalPercent; // number is in whole form so 5% is 5.00
-    private BigDecimal taxStatePercent; // number is in whole form so 5% is 5.00
-    private KualiDecimal taxSpecialW4Amount;
-    private Boolean taxGrossUpIndicator;
-    private Boolean taxExemptTreatyIndicator;
-    private Boolean taxForeignSourceIndicator;
-    private Boolean taxUSAIDPerDiemIndicator;
-    private Boolean taxOtherExemptIndicator;
+    protected String taxClassificationCode;
+    protected String taxCountryCode;
+    protected String taxNQIId;
+    protected BigDecimal taxFederalPercent; // number is in whole form so 5% is 5.00
+    protected BigDecimal taxStatePercent; // number is in whole form so 5% is 5.00
+    protected KualiDecimal taxSpecialW4Amount;
+    protected Boolean taxGrossUpIndicator;
+    protected Boolean taxExemptTreatyIndicator;
+    protected Boolean taxForeignSourceIndicator;
+    protected Boolean taxUSAIDPerDiemIndicator;
+    protected Boolean taxOtherExemptIndicator;
 
     // NOT PERSISTED IN DB
-    private String vendorShippingTitleCode;
-    private Date purchaseOrderEndDate;
-    private String primaryVendorName;
+    protected String vendorShippingTitleCode;
+    protected Date purchaseOrderEndDate;
+    protected String primaryVendorName;
 
     // BELOW USED BY ROUTING
-    private Integer requisitionIdentifier;
+    protected Integer requisitionIdentifier;
 
     // REFERENCE OBJECTS
-    private PaymentTermType vendorPaymentTerms;
-    private ShippingPaymentTerms vendorShippingPaymentTerms;
-    private PurchaseOrderCostSource paymentRequestCostSource;
-    private RecurringPaymentType recurringPaymentType;
+    protected PaymentTermType vendorPaymentTerms;
+    protected ShippingPaymentTerms vendorShippingPaymentTerms;
+    protected PurchaseOrderCostSource paymentRequestCostSource;
+    protected RecurringPaymentType recurringPaymentType;
 
     /**
      * Default constructor.
@@ -604,7 +604,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * 
      * @return - Customized document title text dependent upon route level.
      */
-    private String getCustomDocumentTitle() {
+    protected String getCustomDocumentTitle() {
        
         try {
             // set the workflow document title
@@ -672,7 +672,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * 
      * @return - Text of hold or request cancel
      */
-    private String getTitleIndicator() {
+    protected String getTitleIndicator() {
         if (isHoldIndicator()) {
             return PurapConstants.PaymentRequestIndicatorText.HOLD;
         }
@@ -1159,7 +1159,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
     }
 
-    private boolean isVendorEmployeeOrNonResidentAlien() {
+    protected boolean isVendorEmployeeOrNonResidentAlien() {
         String vendorHeaderGeneratedId = this.getVendorHeaderGeneratedIdentifier().toString();
         if (StringUtils.isBlank(vendorHeaderGeneratedId)) {
             // no vendor header id so can't check for proper tax routing
@@ -1181,7 +1181,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * 
      * @return
      */
-    private boolean shouldWaitForReceiving() {
+    protected boolean shouldWaitForReceiving() {
         // only require if PO was marked to require receiving
         if (isReceivingDocumentRequiredIndicator()) {
             return !isReceivingRequirementMet();

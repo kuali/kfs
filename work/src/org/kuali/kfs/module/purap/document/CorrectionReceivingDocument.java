@@ -39,11 +39,11 @@ import org.kuali.rice.kns.util.TypedArrayList;
  */
 public class CorrectionReceivingDocument extends ReceivingDocumentBase {
 
-    private String lineItemReceivingDocumentNumber;
+    protected String lineItemReceivingDocumentNumber;
     //Collections
-    private List<CorrectionReceivingItem> items;
+    protected List<CorrectionReceivingItem> items;
     
-    private LineItemReceivingDocument lineItemReceivingDocument;
+    protected LineItemReceivingDocument lineItemReceivingDocument;
     
     /**
      * Default constructor.
@@ -113,7 +113,7 @@ public class CorrectionReceivingDocument extends ReceivingDocumentBase {
         refreshLineReceivingDocument();
     }
     
-    private void refreshLineReceivingDocument(){
+    protected void refreshLineReceivingDocument(){
         if(ObjectUtils.isNull(lineItemReceivingDocument) || lineItemReceivingDocument.getDocumentNumber() == null){
             this.refreshReferenceObject("lineItemReceivingDocument");
             if (ObjectUtils.isNull(lineItemReceivingDocument.getDocumentHeader().getDocumentNumber())) {

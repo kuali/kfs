@@ -46,23 +46,23 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * entries within them.
  */
 public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTransactionalDocumentBase implements AmountTotaling {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerCorrectionProcessDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerCorrectionProcessDocument.class);
 
-    private String correctionTypeCode; // CorrectionDocumentService.CORRECTION_TYPE_MANUAL or
-    private boolean correctionSelection; // false if all input rows should be in the output, true if only selected rows should be
+    protected String correctionTypeCode; // CorrectionDocumentService.CORRECTION_TYPE_MANUAL or
+    protected boolean correctionSelection; // false if all input rows should be in the output, true if only selected rows should be
     // in the output
-    private boolean correctionFileDelete; // false if the file should be processed by scrubber, true if the file should not be
+    protected boolean correctionFileDelete; // false if the file should be processed by scrubber, true if the file should not be
     // processed by scrubber
-    private Integer correctionRowCount; // Row count in output group
-    private KualiDecimal correctionDebitTotalAmount; // Debit amount total in output group
-    private KualiDecimal correctionCreditTotalAmount; // Credit amount total in output group
-    private KualiDecimal correctionBudgetTotalAmount; // Budget amount total in output group
-    private String correctionInputFileName; // input file name
-    private String correctionOutputFileName; // output file name
-    private String correctionScriptText; // Not used
-    private Integer correctionChangeGroupNextLineNumber;
+    protected Integer correctionRowCount; // Row count in output group
+    protected KualiDecimal correctionDebitTotalAmount; // Debit amount total in output group
+    protected KualiDecimal correctionCreditTotalAmount; // Credit amount total in output group
+    protected KualiDecimal correctionBudgetTotalAmount; // Budget amount total in output group
+    protected String correctionInputFileName; // input file name
+    protected String correctionOutputFileName; // output file name
+    protected String correctionScriptText; // Not used
+    protected Integer correctionChangeGroupNextLineNumber;
 
-    private List<CorrectionChangeGroup> correctionChangeGroup;
+    protected List<CorrectionChangeGroup> correctionChangeGroup;
 
     public static final String AUTO_APPROVE_ROUTE_LEVEL_NAME = "autoApproveForAsynchronousProcessing";
 

@@ -34,9 +34,9 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * Labor Document Class for the Salary Expense Transfer Document.
  */
 public class SalaryExpenseTransferDocument extends LaborExpenseTransferDocumentBase {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SalaryExpenseTransferDocument.class);
+    protected static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SalaryExpenseTransferDocument.class);
 
-    private Map<String, KualiDecimal> approvalObjectCodeBalances;
+    protected Map<String, KualiDecimal> approvalObjectCodeBalances;
 
     /**
      * Default Constructor.

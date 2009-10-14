@@ -33,9 +33,9 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * Purchase Order Retransmit Document
  */
 public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderRetransmitDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderRetransmitDocument.class);
 
-    private boolean shouldDisplayRetransmitTab;
+    protected boolean shouldDisplayRetransmitTab;
     
     /**
      * Default constructor.

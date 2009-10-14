@@ -54,12 +54,12 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * accounting lines as debits or credits.
  */
 public class JournalVoucherDocument extends AccountingDocumentBase implements VoucherDocument, Copyable, Correctable, AmountTotaling {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(JournalVoucherDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(JournalVoucherDocument.class);
 
     // document specific attributes
-    private String balanceTypeCode; // balanceType key
-    private BalanceType balanceType;
-    private java.sql.Date reversalDate;
+    protected String balanceTypeCode; // balanceType key
+    protected BalanceType balanceType;
+    protected java.sql.Date reversalDate;
 
     /**
      * Constructs a JournalVoucherDocument instance.
@@ -254,7 +254,7 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
      * single amount entry mode. If this is a debit/credit JV, then iterate over each source line and flip the sign on the amount to
      * nullify the super's effect, then flip the debit/credit code b/c an error corrected JV flips the debit/credit code.
      */
-    private void processJournalVoucherErrorCorrections() {
+    protected void processJournalVoucherErrorCorrections() {
         Iterator i = getSourceAccountingLines().iterator();
 
         this.refreshReferenceObject(BALANCE_TYPE);

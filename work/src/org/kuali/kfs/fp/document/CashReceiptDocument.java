@@ -54,7 +54,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * only.
  */
 public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyable, AmountTotaling, CapitalAssetEditable {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashReceiptDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashReceiptDocument.class);
 
     public static final String CHECK_ENTRY_DETAIL = "individual";
     public static final String CHECK_ENTRY_TOTAL = "totals";
@@ -62,22 +62,22 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     public static final String DOCUMENT_TYPE = "CR";
 
     // child object containers - for all the different reconciliation detail sections
-    private String checkEntryMode = CHECK_ENTRY_DETAIL;
-    private List checks = new ArrayList();
+    protected String checkEntryMode = CHECK_ENTRY_DETAIL;
+    protected List checks = new ArrayList();
     
     // deposit controls
-    private List depositCashReceiptControl = new ArrayList();
+    protected List depositCashReceiptControl = new ArrayList();
 
     // incrementers for detail lines
-    private Integer nextCheckSequenceId = new Integer(1);
+    protected Integer nextCheckSequenceId = new Integer(1);
 
     // monetary attributes
-    private KualiDecimal totalCashAmount = KualiDecimal.ZERO;
-    private KualiDecimal totalCheckAmount = KualiDecimal.ZERO;
-    private KualiDecimal totalCoinAmount = KualiDecimal.ZERO;
+    protected KualiDecimal totalCashAmount = KualiDecimal.ZERO;
+    protected KualiDecimal totalCheckAmount = KualiDecimal.ZERO;
+    protected KualiDecimal totalCoinAmount = KualiDecimal.ZERO;
 
-    private CurrencyDetail currencyDetail;
-    private CoinDetail coinDetail;
+    protected CurrencyDetail currencyDetail;
+    protected CoinDetail coinDetail;
 
     
     /**
@@ -472,7 +472,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      * 
      * @return the currency detail record for this cash receipt document
      */
-    private CurrencyDetail retrieveCurrencyDetail() {
+    protected CurrencyDetail retrieveCurrencyDetail() {
         return (CurrencyDetail) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CurrencyDetail.class, getCashDetailPrimaryKey());
     }
 
@@ -481,7 +481,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      * 
      * @return the coin detail record for this cash receipt document
      */
-    private CoinDetail retrieveCoinDetail() {
+    protected CoinDetail retrieveCoinDetail() {
         return (CoinDetail) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CoinDetail.class, getCashDetailPrimaryKey());
     }
 
@@ -490,7 +490,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      * 
      * @return a map with a representation of the proper primary key
      */
-    private Map getCashDetailPrimaryKey() {
+    protected Map getCashDetailPrimaryKey() {
         Map pk = new HashMap();
         pk.put("documentNumber", this.getDocumentNumber());
         pk.put("financialDocumentTypeCode", CashReceiptDocument.DOCUMENT_TYPE);
@@ -533,7 +533,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      * @param crdoc
      * @return List of CheckEvent subclass instances
      */
-    private List generateEvents(List persistedChecks, List currentChecks, String errorPathPrefix, CashReceiptFamilyBase crdoc) {
+    protected List generateEvents(List persistedChecks, List currentChecks, String errorPathPrefix, CashReceiptFamilyBase crdoc) {
         List addEvents = new ArrayList();
         List updateEvents = new ArrayList();
         List deleteEvents = new ArrayList();
@@ -594,7 +594,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      * @param checks
      * @return Map containing Checks from the given List, indexed by their sequenceId
      */
-    private Map buildCheckMap(List checks) {
+    protected Map buildCheckMap(List checks) {
         Map checkMap = new HashMap();
 
         for (Iterator i = checks.iterator(); i.hasNext();) {

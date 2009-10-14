@@ -57,28 +57,28 @@ import org.kuali.rice.kns.util.TypedArrayList;
 
 public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource, AmountTotaling {
 
-    private static final String REQUIRES_APPROVAL_NODE = "RequiresApproval";
-    private String chartOfAccountsCode;
-    private String accountNumber;
-    private String subAccountNumber;
-    private String financialObjectCode;
-    private String financialSubObjectCode;
-    private String projectCode;
-    private String organizationReferenceIdentifier;
-    private String financialDocumentReferenceInvoiceNumber;
-    private String statusCode;
+    protected static final String REQUIRES_APPROVAL_NODE = "RequiresApproval";
+    protected String chartOfAccountsCode;
+    protected String accountNumber;
+    protected String subAccountNumber;
+    protected String financialObjectCode;
+    protected String financialSubObjectCode;
+    protected String projectCode;
+    protected String organizationReferenceIdentifier;
+    protected String financialDocumentReferenceInvoiceNumber;
+    protected String statusCode;
 
-    private String customerNote;
+    protected String customerNote;
 
-    private Account account;
-    private Chart chartOfAccounts;
-    private SubAccount subAccount;
-    private ObjectCode financialObject;
-    private SubObjectCode financialSubObject;
-    private ProjectCode project;
-    private CustomerInvoiceDocument customerInvoiceDocument;
-    private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
-    private KualiDecimal invoiceWriteoffAmount;
+    protected Account account;
+    protected Chart chartOfAccounts;
+    protected SubAccount subAccount;
+    protected ObjectCode financialObject;
+    protected SubObjectCode financialSubObject;
+    protected ProjectCode project;
+    protected CustomerInvoiceDocument customerInvoiceDocument;
+    protected AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
+    protected KualiDecimal invoiceWriteoffAmount;
 
     public AccountsReceivableDocumentHeader getAccountsReceivableDocumentHeader() {
         return accountsReceivableDocumentHeader;

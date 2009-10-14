@@ -80,20 +80,20 @@ import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
  * Document class for the Requisition.
  */
 public class RequisitionDocument extends PurchasingDocumentBase implements Copyable {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionDocument.class);
 
-    private String requisitionOrganizationReference1Text;
-    private String requisitionOrganizationReference2Text;
-    private String requisitionOrganizationReference3Text;
-    private String alternate1VendorName;
-    private String alternate2VendorName;
-    private String alternate3VendorName;
-    private String alternate4VendorName;
-    private String alternate5VendorName;
-    private KualiDecimal organizationAutomaticPurchaseOrderLimit;
+    protected String requisitionOrganizationReference1Text;
+    protected String requisitionOrganizationReference2Text;
+    protected String requisitionOrganizationReference3Text;
+    protected String alternate1VendorName;
+    protected String alternate2VendorName;
+    protected String alternate3VendorName;
+    protected String alternate4VendorName;
+    protected String alternate5VendorName;
+    protected KualiDecimal organizationAutomaticPurchaseOrderLimit;
     
     // non-persistent property used for controlling validation for accounting lines when doc is request for blanket approve.
-    private boolean isBlanketApproveRequest = false;
+    protected boolean isBlanketApproveRequest = false;
     
     /**
      * Default constructor.
@@ -127,7 +127,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
     }
 
-    private boolean isMissingAccountingLines() {
+    protected boolean isMissingAccountingLines() {
         for (Iterator iterator = getItems().iterator(); iterator.hasNext();) {
             RequisitionItem item = (RequisitionItem) iterator.next();
             if (item.isConsideredEntered() && item.isAccountListEmpty()) {
@@ -138,7 +138,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         return false;
     }
     
-    private boolean isSeparationOfDutiesReviewRequired() {
+    protected boolean isSeparationOfDutiesReviewRequired() {
         try {
             Set<Person> priorApprovers = getDocumentHeader().getWorkflowDocument().getAllPriorApprovers();
             // if there are more than 0 prior approvers which means there had been at least another approver than the current approver
@@ -254,7 +254,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      * 
      * @return the PO PO transmission method to use.
      */
-    private String determinePurchaseOrderTransmissionMethod() {
+    protected String determinePurchaseOrderTransmissionMethod() {
         
         return SpringContext.getBean(ParameterService.class).getParameterValue(RequisitionDocument.class, PurapParameterConstants.PURAP_DEFAULT_PO_TRANSMISSION_CODE);
     }
@@ -380,7 +380,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      * 
      * @param statusCode the status code of the current status.
      */
-    private void updateStatusAndSave(String statusCode) {
+    protected void updateStatusAndSave(String statusCode) {
         SpringContext.getBean(PurapService.class).updateStatus(this, statusCode);
         SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
     }
@@ -614,7 +614,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      * 
      * @return The first Chart and Account, or an empty string if there is none.
      */
-    private String getFirstChartAccount() {
+    protected String getFirstChartAccount() {
         String chartAcct = null;
         RequisitionItem item = (RequisitionItem) this.getItem(0);
         if (ObjectUtils.isNotNull(item)) {

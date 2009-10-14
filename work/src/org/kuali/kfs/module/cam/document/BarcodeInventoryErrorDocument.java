@@ -25,29 +25,29 @@ import org.kuali.rice.kns.util.TypedArrayList;
 public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalDocumentBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorDocument.class);
     
-	private String documentNumber;
-	private String uploaderUniversalIdentifier;
+	protected String documentNumber;
+	protected String uploaderUniversalIdentifier;
 	
     //global replace	- search fields
     //*** Old values **************
-    private String currentTagNumber;
-    private String currentScanCode;
-    private String currentCampusCode;
-    private String currentBuildingNumber;
-    private String currentRoom;
-    private String currentSubroom;
-    private String currentConditionCode;
+    protected String currentTagNumber;
+    protected String currentScanCode;
+    protected String currentCampusCode;
+    protected String currentBuildingNumber;
+    protected String currentRoom;
+    protected String currentSubroom;
+    protected String currentConditionCode;
 
     //*** New values **************
-    private String newTagNumber;
-    private String newScanCode;
-    private String newCampusCode;
-    private String newBuildingNumber;
-    private String newRoom;
-    private String newSubroom;
-    private String newConditionCode;
+    protected String newTagNumber;
+    protected String newScanCode;
+    protected String newCampusCode;
+    protected String newBuildingNumber;
+    protected String newRoom;
+    protected String newSubroom;
+    protected String newConditionCode;
 	
-    private List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetail;
+    protected List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetail;
     
 	/**
 	 * Default constructor.

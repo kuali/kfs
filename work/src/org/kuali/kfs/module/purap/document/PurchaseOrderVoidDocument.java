@@ -39,7 +39,7 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
  * Purchase Order Void Document
  */
 public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderVoidDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderVoidDocument.class);
 
     /**
      * Default constructor.

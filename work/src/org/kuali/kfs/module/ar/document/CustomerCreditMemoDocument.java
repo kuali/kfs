@@ -64,24 +64,24 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
  */
 public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource, AmountTotaling {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerCreditMemoDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerCreditMemoDocument.class);
 
-    private String statusCode;
-    private String financialDocumentReferenceInvoiceNumber;
+    protected String statusCode;
+    protected String financialDocumentReferenceInvoiceNumber;
 
-    private KualiDecimal crmTotalItemAmount = KualiDecimal.ZERO;
-    private KualiDecimal crmTotalTaxAmount = KualiDecimal.ZERO;
-    private KualiDecimal crmTotalAmount = KualiDecimal.ZERO;
+    protected KualiDecimal crmTotalItemAmount = KualiDecimal.ZERO;
+    protected KualiDecimal crmTotalTaxAmount = KualiDecimal.ZERO;
+    protected KualiDecimal crmTotalAmount = KualiDecimal.ZERO;
 
-    private Integer invOutstandingDays;
+    protected Integer invOutstandingDays;
 
-    private CustomerInvoiceDocument invoice;
-    private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
+    protected CustomerInvoiceDocument invoice;
+    protected AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
 
-    private List<CustomerCreditMemoDetail> creditMemoDetails;
+    protected List<CustomerCreditMemoDetail> creditMemoDetails;
     
-    private transient TaxService taxService;
-    private transient AccountsReceivableTaxService arTaxService;
+    protected transient TaxService taxService;
+    protected transient AccountsReceivableTaxService arTaxService;
 
     public CustomerCreditMemoDocument() {
         super();
@@ -296,7 +296,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
         }
     }
 
-    private void prepareTotalsForUpdate(KualiDecimal oldItemAmount, boolean isTaxableItemFlag) {
+    protected void prepareTotalsForUpdate(KualiDecimal oldItemAmount, boolean isTaxableItemFlag) {
         KualiDecimal oldItemTaxAmount = KualiDecimal.ZERO;
         if (isTaxableItemFlag)
             oldItemTaxAmount = getTaxService().getTotalSalesTaxAmount(invoice.getBillingDate(), getPostalCode(), oldItemAmount);

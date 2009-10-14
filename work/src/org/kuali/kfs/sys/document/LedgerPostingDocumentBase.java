@@ -29,9 +29,9 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * Base implementation for a ledger posting document.
  */
 public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocumentBase implements LedgerPostingDocument {
-    static private transient DateTimeService dateTimeService;
-    static private transient AccountingPeriodService accountingPeriodService;
-    static private transient DataDictionaryService dataDictionaryService;
+    static protected transient DateTimeService dateTimeService;
+    static protected transient AccountingPeriodService accountingPeriodService;
+    static protected transient DataDictionaryService dataDictionaryService;
        
     protected AccountingPeriod accountingPeriod;
     protected Integer postingYear;
@@ -54,7 +54,7 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
      * 
      * @return AccountingPeriod
      */
-    private void createInitialAccountingPeriod() { 
+    protected void createInitialAccountingPeriod() { 
         AccountingPeriod accountingPeriod = retrieveCurrentAccountingPeriod();
         setAccountingPeriod(accountingPeriod);
     }
@@ -63,7 +63,7 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
      * Finds the accounting period for the current date
      * @return the current accounting period
      */
-    private AccountingPeriod retrieveCurrentAccountingPeriod() {
+    protected AccountingPeriod retrieveCurrentAccountingPeriod() {
         try {
             Date date = getDateTimeService().getCurrentSqlDate();
             return getAccountingPeriodService().getByDate(date);

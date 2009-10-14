@@ -39,7 +39,7 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
  * Purchase Order Close Document
  */
 public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderCloseDocument.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderCloseDocument.class);
 
     /**
      * Default constructor.

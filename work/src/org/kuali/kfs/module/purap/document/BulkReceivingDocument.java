@@ -48,41 +48,41 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class BulkReceivingDocument extends ReceivingDocumentBase{
 
-    private static final Logger LOG = Logger.getLogger(BulkReceivingDocument.class);
+    protected static final Logger LOG = Logger.getLogger(BulkReceivingDocument.class);
     
-    private String shipmentWeight;
-    private Integer noOfCartons;
-    private String trackingNumber;
-    private String vendorAddressInternationalProvinceName;
-    private String vendorNoteText;
+    protected String shipmentWeight;
+    protected Integer noOfCartons;
+    protected String trackingNumber;
+    protected String vendorAddressInternationalProvinceName;
+    protected String vendorNoteText;
 
     /**
      * Goods delivered vendor
      */
-    private Integer goodsDeliveredVendorHeaderGeneratedIdentifier;
-    private Integer goodsDeliveredVendorDetailAssignedIdentifier;
-    private String goodsDeliveredVendorNumber;
-    private String deliveryAdditionalInstructionText;
+    protected Integer goodsDeliveredVendorHeaderGeneratedIdentifier;
+    protected Integer goodsDeliveredVendorDetailAssignedIdentifier;
+    protected String goodsDeliveredVendorNumber;
+    protected String deliveryAdditionalInstructionText;
 
-    private String requestorPersonName;
-    private String requestorPersonPhoneNumber;
-    private String requestorPersonEmailAddress;
+    protected String requestorPersonName;
+    protected String requestorPersonPhoneNumber;
+    protected String requestorPersonEmailAddress;
     
-    private String preparerPersonName;
-    private String preparerPersonPhoneNumber;
+    protected String preparerPersonName;
+    protected String preparerPersonPhoneNumber;
     
-    private String deliveryCampusName;
-    private String institutionContactName;
-    private String institutionContactPhoneNumber;
-    private String institutionContactEmailAddress;
+    protected String deliveryCampusName;
+    protected String institutionContactName;
+    protected String institutionContactPhoneNumber;
+    protected String institutionContactEmailAddress;
 
-    private VendorDetail alternateVendorDetail;
+    protected VendorDetail alternateVendorDetail;
     
     /**
      * Not persisted in DB
      */
-    private String goodsDeliveredVendorName;
-    private String vendorContact;
+    protected String goodsDeliveredVendorName;
+    protected String vendorContact;
     
     public BulkReceivingDocument() {
         super();
@@ -167,7 +167,7 @@ public class BulkReceivingDocument extends ReceivingDocumentBase{
         
     }
      
-    private void populateVendorDetails(){
+    protected void populateVendorDetails(){
         
         if (getVendorHeaderGeneratedIdentifier() != null &&
             getVendorDetailAssignedIdentifier() != null){
@@ -270,7 +270,7 @@ public class BulkReceivingDocument extends ReceivingDocumentBase{
         super.prepareForSave(event);
     }
     
-    private void populateDocumentDescription(PurchaseOrderDocument poDocument) {
+    protected void populateDocumentDescription(PurchaseOrderDocument poDocument) {
         String description = "PO: " + poDocument.getPurapDocumentIdentifier() + " Vendor: " + poDocument.getVendorName();
         int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KNSPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
         if (noteTextMaxLength < description.length()) {

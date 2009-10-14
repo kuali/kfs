@@ -30,13 +30,13 @@ import org.kuali.rice.kim.service.PersonService;
  */
 public class ProposalAwardCloseDocument extends FinancialSystemTransactionalDocumentBase {
 
-    private Date closeOnOrBeforeDate;
-    private Date userInitiatedCloseDate;
-    private Long awardClosedCount;
-    private Long proposalClosedCount;
-    private String principalName;
+    protected Date closeOnOrBeforeDate;
+    protected Date userInitiatedCloseDate;
+    protected Long awardClosedCount;
+    protected Long proposalClosedCount;
+    protected String principalName;
 
-    private Person personUser;
+    protected Person personUser;
 
     /**
      * Default constructor.

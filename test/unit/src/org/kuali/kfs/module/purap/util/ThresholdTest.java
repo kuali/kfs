@@ -1,11 +1,11 @@
 /*
- * Copyright 2008 The Kuali Foundation
+ * Copyright 2008 The Kuali Foundation.
  * 
- * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.opensource.org/licenses/ecl2.php
+ * http://www.opensource.org/licenses/ecl1.php
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -107,7 +107,7 @@ public class ThresholdTest extends KualiTestBase {
         HashMap map = new HashMap();
         map.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,poDocument.getItem(0).getSourceAccountingLines().get(0).getAccount().getChartOfAccountsCode());
         map.put(ThresholdField.ACCOUNT_TYPE_CODE,accTypeCode);
-        checkReceivingFlagInPO(poDocument,map,true,ThresholdHelper.CHART_AND_FUND);
+        checkReceivingFlagInPO(poDocument,map,true,ThresholdHelper.CHART_AND_ACCOUNTTYPE);
     }
     
     public final void testReceivingRequiredFlagWithFundNegativeTest()
@@ -117,7 +117,7 @@ public class ThresholdTest extends KualiTestBase {
         HashMap map = new HashMap();
         map.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,poDocument.getItem(0).getSourceAccountingLines().get(0).getAccount().getChartOfAccountsCode());
         map.put(ThresholdField.ACCOUNT_TYPE_CODE,accTypeCode);
-        checkReceivingFlagInPO(poDocument,map,false,ThresholdHelper.CHART_AND_FUND);
+        checkReceivingFlagInPO(poDocument,map,false,ThresholdHelper.CHART_AND_ACCOUNTTYPE);
     }
     
     public final void testReceivingRequiredFlagWithSubFund()
@@ -167,7 +167,7 @@ public class ThresholdTest extends KualiTestBase {
         HashMap map = new HashMap();
         map.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,poDocument.getItem(0).getSourceAccountingLines().get(0).getAccount().getChartOfAccountsCode());
         map.put(ThresholdField.ORGANIZATION_CODE,orgCode);
-        checkReceivingFlagInPO(poDocument,map,true,ThresholdHelper.CHART_AND_ORGCODE);
+        checkReceivingFlagInPO(poDocument,map,true,ThresholdHelper.CHART_AND_ORGANIZATIONCODE);
     }
     
     public final void testReceivingRequiredFlagWithOrgCodeNegativeTest()
@@ -177,7 +177,7 @@ public class ThresholdTest extends KualiTestBase {
         HashMap map = new HashMap();
         map.put(ThresholdField.CHART_OF_ACCOUNTS_CODE,poDocument.getItem(0).getSourceAccountingLines().get(0).getAccount().getChartOfAccountsCode());
         map.put(ThresholdField.ORGANIZATION_CODE,orgCode);
-        checkReceivingFlagInPO(poDocument,map,false,ThresholdHelper.CHART_AND_ORGCODE);
+        checkReceivingFlagInPO(poDocument,map,false,ThresholdHelper.CHART_AND_ORGANIZATIONCODE);
     }
     
     public final void testReceivingRequiredFlagWithVendor()

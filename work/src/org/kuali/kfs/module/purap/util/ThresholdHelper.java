@@ -47,11 +47,11 @@ public class ThresholdHelper {
     private static Logger LOG = Logger.getLogger(ThresholdHelper.class);
     
     public static final ThresholdCriteria CHART = new ThresholdCriteria("CHART");
-    public static final ThresholdCriteria CHART_AND_FUND = new ThresholdCriteria("CHART_AND_FUND");
-    public static final ThresholdCriteria CHART_AND_SUBFUND = new ThresholdCriteria("CHART_AND_SUBFUND");
-    public static final ThresholdCriteria CHART_AND_COMMODITYCODE = new ThresholdCriteria("CHART_AND_COMMODITYCODE");
-    public static final ThresholdCriteria CHART_AND_OBJECTCODE = new ThresholdCriteria("CHART_AND_OBJECTCODE");
-    public static final ThresholdCriteria CHART_AND_ORGCODE = new ThresholdCriteria("CHART_AND_ORGCODE");
+    public static final ThresholdCriteria CHART_AND_ACCOUNTTYPE = new ThresholdCriteria("CHART_AND_ACCOUNT-TYPE");
+    public static final ThresholdCriteria CHART_AND_SUBFUND = new ThresholdCriteria("CHART_AND_SUB-FUND");
+    public static final ThresholdCriteria CHART_AND_COMMODITYCODE = new ThresholdCriteria("CHART_AND_COMMODITY-CODE");
+    public static final ThresholdCriteria CHART_AND_OBJECTCODE = new ThresholdCriteria("CHART_AND_OBJECT-CODE");
+    public static final ThresholdCriteria CHART_AND_ORGANIZATIONCODE = new ThresholdCriteria("CHART_AND_ORGANIZATION-CODE");
     public static final ThresholdCriteria CHART_AND_VENDOR = new ThresholdCriteria("CHART_AND_VENDOR");
     
     ////////////////////////////////////////////////////////////////////////
@@ -94,10 +94,10 @@ public class ThresholdHelper {
             for (SummaryAccount account : accounts) {
                 
                 updateThresholdSummary(CHART,account,null);
-                updateThresholdSummary(CHART_AND_FUND,account,null);
+                updateThresholdSummary(CHART_AND_ACCOUNTTYPE,account,null);
                 updateThresholdSummary(CHART_AND_SUBFUND,account,null);
                 updateThresholdSummary(CHART_AND_OBJECTCODE,account,null);
-                updateThresholdSummary(CHART_AND_ORGCODE,account,document.getTotalDollarAmount());
+                updateThresholdSummary(CHART_AND_ORGANIZATIONCODE,account,document.getTotalDollarAmount());
                 
                 processVendorForThresholdSummary(account,
                                                  document.getVendorHeaderGeneratedIdentifier().toString(),
@@ -133,7 +133,7 @@ public class ThresholdHelper {
             thresholdSummary.setProperty(ThresholdField.CHART_OF_ACCOUNTS_CODE,
                                          account.getAccount().getChartOfAccountsCode());
             
-            if (thresholdCriteria == CHART_AND_FUND){
+            if (thresholdCriteria == CHART_AND_ACCOUNTTYPE){
                 account.getAccount().refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
                 if (StringUtils.isEmpty(account.getAccount().getAccount().getAccountTypeCode())){
                     return;
@@ -154,7 +154,7 @@ public class ThresholdHelper {
                 }
                 thresholdSummary.setProperty(ThresholdField.FINANCIAL_OBJECT_CODE,
                                              account.getAccount().getFinancialObjectCode());
-            }else if (thresholdCriteria == CHART_AND_ORGCODE){
+            }else if (thresholdCriteria == CHART_AND_ORGANIZATIONCODE){
                 account.getAccount().refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
                 if (StringUtils.isEmpty(account.getAccount().getAccount().getOrganizationCode())){
                     return;
@@ -164,7 +164,7 @@ public class ThresholdHelper {
                 thresholdSummary.addTotalAmount(documentAmount);
             }
             
-            if (thresholdCriteria != CHART_AND_ORGCODE){
+            if (thresholdCriteria != CHART_AND_ORGANIZATIONCODE){
                 thresholdSummary.addTotalAmount(account.getAccount().getAmount());
             }
             addToSummaryList(thresholdSummary);
@@ -193,7 +193,7 @@ public class ThresholdHelper {
         
         if (thresholdCriteria == CHART){
             return chartCodeSummary;
-        }else if (thresholdCriteria == CHART_AND_FUND){
+        }else if (thresholdCriteria == CHART_AND_ACCOUNTTYPE){
             return chartCodeAndFundSummary;
         }else if (thresholdCriteria == CHART_AND_SUBFUND){
             return chartCodeAndSubFundSummary;
@@ -201,7 +201,7 @@ public class ThresholdHelper {
             return chartCodeAndCommodityCodeSummary;
         }else if (thresholdCriteria == CHART_AND_OBJECTCODE){
             return chartCodeAndObjectCodeSummary;
-        }else if (thresholdCriteria == CHART_AND_ORGCODE){
+        }else if (thresholdCriteria == CHART_AND_ORGANIZATIONCODE){
             return chartCodeAndOrgCodeSummary;
         }else if (thresholdCriteria == CHART_AND_VENDOR){
             return chartCodeAndVendorSummary;
@@ -274,7 +274,7 @@ public class ThresholdHelper {
                 
                 if (thresholdEnum == CHART){
                     collection = thresholdService.findByChart(summary.getProperty(ThresholdField.CHART_OF_ACCOUNTS_CODE));
-                }else if (thresholdEnum == CHART_AND_FUND){
+                }else if (thresholdEnum == CHART_AND_ACCOUNTTYPE){
                     collection = thresholdService.findByChartAndFund(summary.getProperty(ThresholdField.CHART_OF_ACCOUNTS_CODE),
                                                                      summary.getProperty(ThresholdField.ACCOUNT_TYPE_CODE));
                 }else if (thresholdEnum == CHART_AND_SUBFUND){
@@ -286,7 +286,7 @@ public class ThresholdHelper {
                 }else if (thresholdEnum == CHART_AND_OBJECTCODE){
                     collection = thresholdService.findByChartAndObjectCode(summary.getProperty(ThresholdField.CHART_OF_ACCOUNTS_CODE),
                                                                            summary.getProperty(ThresholdField.FINANCIAL_OBJECT_CODE));
-                }else if (thresholdEnum == CHART_AND_ORGCODE){
+                }else if (thresholdEnum == CHART_AND_ORGANIZATIONCODE){
                     collection = thresholdService.findByChartAndOrg(summary.getProperty(ThresholdField.CHART_OF_ACCOUNTS_CODE),
                                                                     summary.getProperty(ThresholdField.ORGANIZATION_CODE));
                 }else if (thresholdEnum == CHART_AND_VENDOR){
@@ -365,7 +365,7 @@ public class ThresholdHelper {
             if (getThresholdCriteria() == CHART && 
                 ThresholdField.CHART_OF_ACCOUNTS_CODE == thresholdField){
                 return true;
-            }else if ((getThresholdCriteria() == CHART_AND_FUND) && 
+            }else if ((getThresholdCriteria() == CHART_AND_ACCOUNTTYPE) && 
                       (ThresholdField.CHART_OF_ACCOUNTS_CODE == thresholdField ||
                        ThresholdField.ACCOUNT_TYPE_CODE == thresholdField)){
                 return true;
@@ -381,7 +381,7 @@ public class ThresholdHelper {
                       (ThresholdField.CHART_OF_ACCOUNTS_CODE == thresholdField ||
                        ThresholdField.FINANCIAL_OBJECT_CODE == thresholdField)){
                 return true;
-            }else if ((getThresholdCriteria() == CHART_AND_ORGCODE) && 
+            }else if ((getThresholdCriteria() == CHART_AND_ORGANIZATIONCODE) && 
                       (ThresholdField.CHART_OF_ACCOUNTS_CODE == thresholdField ||
                        ThresholdField.ORGANIZATION_CODE == thresholdField)){
                return true;
@@ -415,7 +415,7 @@ public class ThresholdHelper {
                             return true;
                         }
                         
-                    }else if (getThresholdCriteria() == CHART_AND_FUND){
+                    }else if (getThresholdCriteria() == CHART_AND_ACCOUNTTYPE){
                         
                         if (StringUtils.equals(property2Value.get(ThresholdField.CHART_OF_ACCOUNTS_CODE),
                                                thresholdItem.getProperty(ThresholdField.CHART_OF_ACCOUNTS_CODE)) &&
@@ -451,7 +451,7 @@ public class ThresholdHelper {
                             return true;
                         }
                         
-                    }else if (getThresholdCriteria() == CHART_AND_ORGCODE){
+                    }else if (getThresholdCriteria() == CHART_AND_ORGANIZATIONCODE){
                         
                         if (StringUtils.equals(property2Value.get(ThresholdField.CHART_OF_ACCOUNTS_CODE),
                                                thresholdItem.getProperty(ThresholdField.CHART_OF_ACCOUNTS_CODE)) &&

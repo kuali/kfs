@@ -1389,9 +1389,33 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             ThresholdSummary thresholdSummary = thresholdHelper.getThresholdSummary();
             ReceivingThreshold receivingThreshold = thresholdHelper.getReceivingThreshold();
             po.setReceivingDocumentRequiredIndicator(true);
+            
             String notetxt = "Receiving is set to be required because the threshold summary with a total amount of " + thresholdSummary.getTotalAmount();
-            notetxt += " exceeds the receiving threshold of " + receivingThreshold.getThresholdAmount();
-            notetxt += " with respect to the threshold criteria " + thresholdSummary.getThresholdCriteriaName();
+            notetxt += " exceeds the receiving threshold of " + receivingThreshold.getThresholdAmount();            
+            notetxt += " with respect to the threshold criteria "; 
+            
+            if (thresholdSummary.getThresholdCriteria() == ThresholdHelper.CHART){
+                notetxt += " Chart " + receivingThreshold.getChartOfAccountsCode();
+            } else if (thresholdSummary.getThresholdCriteria() == ThresholdHelper.CHART_AND_ACCOUNTTYPE){
+                notetxt += " Chart " + receivingThreshold.getChartOfAccountsCode();       
+                notetxt += " - Account Type " + receivingThreshold.getAccountTypeCode();                       
+            } else if (thresholdSummary.getThresholdCriteria() == ThresholdHelper.CHART_AND_SUBFUND){
+                notetxt += " Chart " + receivingThreshold.getChartOfAccountsCode();  
+                notetxt += " - Sub-Fund " + receivingThreshold.getSubFundGroupCode();       
+            } else if (thresholdSummary.getThresholdCriteria() == ThresholdHelper.CHART_AND_COMMODITYCODE){
+                notetxt += " Chart " + receivingThreshold.getChartOfAccountsCode();      
+                notetxt += " - Commodity Code " + receivingThreshold.getCommodityCode();
+            } else if (thresholdSummary.getThresholdCriteria() == ThresholdHelper.CHART_AND_OBJECTCODE){
+                notetxt += " Chart " + receivingThreshold.getChartOfAccountsCode();     
+                notetxt += " - Object code " + receivingThreshold.getFinancialObjectCode();
+            } else if (thresholdSummary.getThresholdCriteria() == ThresholdHelper.CHART_AND_ORGANIZATIONCODE){
+                notetxt += " Chart " + receivingThreshold.getChartOfAccountsCode();    
+                notetxt += " - Organization " + receivingThreshold.getOrganizationCode();
+            } else if (thresholdSummary.getThresholdCriteria() == ThresholdHelper.CHART_AND_VENDOR){
+                notetxt += " Chart " + receivingThreshold.getChartOfAccountsCode();  
+                notetxt += " - Vendor " + receivingThreshold.getVendorNumber();
+            }
+
             try { 
                 Note note = documentService.createNoteFromDocument(po, notetxt);
                 documentService.addNoteToDocument(po, note);

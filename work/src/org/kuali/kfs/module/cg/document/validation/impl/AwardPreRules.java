@@ -37,10 +37,10 @@ public class AwardPreRules extends MaintenancePreRulesBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardPreRules.class);
 
-    private KualiConfigurationService configService;
-    private DataDictionaryService dataDictionaryService;
+    protected KualiConfigurationService configService;
+    protected DataDictionaryService dataDictionaryService;
 
-    private Award newAward;
+    protected Award newAward;
 
     /**
      * Constructs a AwardPreRules.java.
@@ -77,7 +77,7 @@ public class AwardPreRules extends MaintenancePreRulesBase {
      * 
      * @return true if the user selects yes, false otherwise
      */
-    private boolean continueIfEntryDateBeforeBeginDate() {
+    protected boolean continueIfEntryDateBeforeBeginDate() {
         boolean proceed = true;
         Date entryDate = newAward.getAwardEntryDate();
         Date beginDate = newAward.getAwardBeginningDate();
@@ -96,7 +96,7 @@ public class AwardPreRules extends MaintenancePreRulesBase {
      * 
      * @return true if the user selects yes, false otherwise
      */
-    private boolean continueIfSubcontractorTotalGreaterThanAwardTotal() {
+    protected boolean continueIfSubcontractorTotalGreaterThanAwardTotal() {
         boolean proceed = true;
 
         KualiDecimal awardTotal = newAward.getAwardTotalAmount();
@@ -132,7 +132,7 @@ public class AwardPreRules extends MaintenancePreRulesBase {
     /**
      * @param document
      */
-    private void setupConvenienceObjects(MaintenanceDocument document) {
+    protected void setupConvenienceObjects(MaintenanceDocument document) {
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newAward = (Award) document.getNewMaintainableObject().getBusinessObject();
     }

@@ -44,7 +44,7 @@ public class CustomerInvoiceDocumentPreRules extends PromptBeforeValidationBase 
      * @param document
      */
     @SuppressWarnings("unchecked")
-    private void updateCustomerInvoiceDetails(CustomerInvoiceDetailService service, CustomerInvoiceDocument document){
+    protected void updateCustomerInvoiceDetails(CustomerInvoiceDetailService service, CustomerInvoiceDocument document){
         CustomerInvoiceDetail customerInvoiceDetail;
         for( Iterator i = document.getSourceAccountingLines().iterator(); i.hasNext(); ){
             customerInvoiceDetail = (CustomerInvoiceDetail)i.next();

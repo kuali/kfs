@@ -36,7 +36,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * Checks warnings and prompt conditions for ba document.
  */
 public class BudgetAdjustmentDocumentPreRules extends PromptBeforeValidationBase {
-    private KualiConfigurationService kualiConfiguration;
+    protected KualiConfigurationService kualiConfiguration;
 
 
     /**
@@ -64,7 +64,7 @@ public class BudgetAdjustmentDocumentPreRules extends PromptBeforeValidationBase
      * @param budgetDocument submitted budget document
      * @return true if labor benefits generation question is NOT asked
      */
-    private boolean askLaborBenefitsGeneration(BudgetAdjustmentDocument budgetDocument) {
+    protected boolean askLaborBenefitsGeneration(BudgetAdjustmentDocument budgetDocument) {
         // before prompting, check the document contains one or more labor object codes
         final boolean hasLaborObjectCodes = SpringContext.getBean(BudgetAdjustmentLaborBenefitsService.class).hasLaborObjectCodes(budgetDocument);
         final boolean canEdit = ((BudgetAdjustmentForm)form).getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT);
@@ -86,7 +86,7 @@ public class BudgetAdjustmentDocumentPreRules extends PromptBeforeValidationBase
     /**
      * TODO: remove this method once baseline accounting lines has been removed
      */
-    private List deepCopyAccountingLinesList(List originals) {
+    protected List deepCopyAccountingLinesList(List originals) {
         if (originals == null) {
             return null;
         }

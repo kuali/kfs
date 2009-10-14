@@ -78,7 +78,7 @@ public class PurchaseOrderDocumentPreRules extends PurchasingDocumentPreRulesBas
      * @param poDocument
      * @return boolean
      */
-    private boolean isDocumentInStateToReceiveNextFyWarning(PurchaseOrderDocument poDocument){
+    protected boolean isDocumentInStateToReceiveNextFyWarning(PurchaseOrderDocument poDocument){
         return (PurapConstants.PurchaseOrderStatuses.IN_PROCESS.equals(poDocument.getStatusCode()) ||
                 PurapConstants.PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW.equals(poDocument.getStatusCode()));
     }
@@ -91,7 +91,7 @@ public class PurchaseOrderDocumentPreRules extends PurchasingDocumentPreRulesBas
      * @return True if the 'Not-to-exceed' amount is to be overridden or if the total dollar amount is less than the purchase order
      *         total dollar limit.
      */
-    private boolean confirmNotToExceedOverride(PurchaseOrderDocument purchaseOrderDocument) {
+    protected boolean confirmNotToExceedOverride(PurchaseOrderDocument purchaseOrderDocument) {
 
         // If the total exceeds the limit, ask for confirmation.
         if (!validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(purchaseOrderDocument)) {
@@ -142,7 +142,7 @@ public class PurchaseOrderDocumentPreRules extends PurchasingDocumentPreRulesBas
      * @param purchaseOrderDocument The current PurchaseOrderDocument
      * @return True if the user wants to continue with PO routing; False to send the user back to the PO for editing.
      */
-    private boolean confirmNextFYPriorToApoAllowedDate(PurchaseOrderDocument poDocument) {
+    protected boolean confirmNextFYPriorToApoAllowedDate(PurchaseOrderDocument poDocument) {
 
         // If the FY is set to NEXT and today is not within APO allowed range, ask for confirmation to continue
         if (poDocument.isPostingYearNext() && !SpringContext.getBean(PurapService.class).isTodayWithinApoAllowedRange()) {

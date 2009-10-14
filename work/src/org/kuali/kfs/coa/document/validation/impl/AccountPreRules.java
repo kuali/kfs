@@ -36,23 +36,23 @@ public class AccountPreRules extends MaintenancePreRulesBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountPreRules.class);
 
-    private static final String DEFAULT_STATE_CODE = "Account.Defaults.StateCode";
-    private static final String DEFAULT_ACCOUNT_TYPE_CODE = "Account.Defaults.AccountType";
+    protected static final String DEFAULT_STATE_CODE = "Account.Defaults.StateCode";
+    protected static final String DEFAULT_ACCOUNT_TYPE_CODE = "Account.Defaults.AccountType";
 
-    private KualiConfigurationService configService;
-    private AccountService accountService;
-    private PostalCodeService postalZipCodeService;
-    private Account newAccount;
+    protected KualiConfigurationService configService;
+    protected AccountService accountService;
+    protected PostalCodeService postalZipCodeService;
+    protected Account newAccount;
 
-    private static final String GENERAL_FUND_CD = "GF";
-    private static final String RESTRICTED_FUND_CD = "RF";
-    private static final String ENDOWMENT_FUND_CD = "EN";
-    private static final String PLANT_FUND_CD = "PF";
+    protected static final String GENERAL_FUND_CD = "GF";
+    protected static final String RESTRICTED_FUND_CD = "RF";
+    protected static final String ENDOWMENT_FUND_CD = "EN";
+    protected static final String PLANT_FUND_CD = "PF";
 
-    private static final String RESTRICTED_CD_RESTRICTED = "R";
-    private static final String RESTRICTED_CD_UNRESTRICTED = "U";
-    private static final String RESTRICTED_CD_TEMPORARILY_RESTRICTED = "T";
-    private static final String RESTRICTED_CD_NOT_APPLICABLE = "N";
+    protected static final String RESTRICTED_CD_RESTRICTED = "R";
+    protected static final String RESTRICTED_CD_UNRESTRICTED = "U";
+    protected static final String RESTRICTED_CD_TEMPORARILY_RESTRICTED = "T";
+    protected static final String RESTRICTED_CD_NOT_APPLICABLE = "N";
 
 
     public AccountPreRules() {
@@ -89,7 +89,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
      * This method sets a default restricted status on an account if and only if the status code in SubFundGroup has been set and
      * the user answers in the affirmative that they definitely want to use this SubFundGroup.
      */
-    private void checkForDefaultSubFundGroupStatus() {
+    protected void checkForDefaultSubFundGroupStatus() {
         String restrictedStatusCode = "";
 
         // if subFundGroupCode was not entered, then we have nothing
@@ -111,7 +111,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
     /**
      * This method checks for continuation accounts and presents the user with a question regarding their use on this account.
      */
-    private void checkForContinuationAccounts() {
+    protected void checkForContinuationAccounts() {
         LOG.debug("entering checkForContinuationAccounts()");
 
         if (StringUtils.isNotBlank(newAccount.getReportsToAccountNumber())) {
@@ -164,7 +164,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
      * 
      * @param document - the maintenanceDocument being evaluated
      */
-    private void setupConvenienceObjects(MaintenanceDocument document) {
+    protected void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newAccount = (Account) document.getNewMaintainableObject().getBusinessObject();
@@ -176,7 +176,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
      * 
      * @param maintenanceDocument
      */
-    private void newAccountDefaults(MaintenanceDocument maintenanceDocument) {
+    protected void newAccountDefaults(MaintenanceDocument maintenanceDocument) {
 
 
         /*
@@ -203,7 +203,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
      * 
      * @param maintenanceDocument
      */
-    private void setStateFromZip(MaintenanceDocument maintenanceDocument) {
+    protected void setStateFromZip(MaintenanceDocument maintenanceDocument) {
 
         // acct_zip_cd, acct_state_cd, acct_city_nm all are populated by looking up
         // the zip code and getting the state and city from that

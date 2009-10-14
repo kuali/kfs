@@ -46,7 +46,7 @@ public class CustomerPreRules extends PromptBeforeValidationBase {
      * @param document the maintenance document
      * @return
      */
-    private boolean conditionallyAskQuestion(Document document) {
+    protected boolean conditionallyAskQuestion(Document document) {
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
         Customer newCostomer = (Customer) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
         boolean shouldAskQuestion = maintenanceDocument.isNew() && checkIfOtherCustomerSameName(newCostomer);

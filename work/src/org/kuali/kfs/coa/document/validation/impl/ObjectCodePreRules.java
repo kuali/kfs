@@ -37,9 +37,9 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 public class ObjectCodePreRules extends PromptBeforeValidationBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectCodePreRules.class);
 
-    private static ChartService chartService;
-    private static ObjectLevelService objectLevelService;
-    private Map reportsTo;
+    protected static ChartService chartService;
+    protected static ObjectLevelService objectLevelService;
+    protected Map reportsTo;
 
     /**
      * 

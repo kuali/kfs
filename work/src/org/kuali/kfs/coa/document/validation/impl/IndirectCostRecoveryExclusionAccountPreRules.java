@@ -27,7 +27,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class IndirectCostRecoveryExclusionAccountPreRules extends MaintenancePreRulesBase {
 
-    private IndirectCostRecoveryExclusionAccount indirectCostRecoveryExclusionAccount;
+    protected IndirectCostRecoveryExclusionAccount indirectCostRecoveryExclusionAccount;
 
 
     public IndirectCostRecoveryExclusionAccountPreRules() {
@@ -53,7 +53,7 @@ public class IndirectCostRecoveryExclusionAccountPreRules extends MaintenancePre
     /**
      * This method checks for continuation accounts and presents the user with a question regarding their use on this account.
      */
-    private void checkForContinuationAccounts() {
+    protected void checkForContinuationAccounts() {
         LOG.debug("entering checkForContinuationAccounts()");
 
         if (StringUtils.isNotBlank(indirectCostRecoveryExclusionAccount.getAccountNumber())) {
@@ -72,7 +72,7 @@ public class IndirectCostRecoveryExclusionAccountPreRules extends MaintenancePre
      * 
      * @param document - the maintenanceDocument being evaluated
      */
-    private void setupConvenienceObjects(MaintenanceDocument document) {
+    protected void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
         indirectCostRecoveryExclusionAccount = (IndirectCostRecoveryExclusionAccount) document.getNewMaintainableObject().getBusinessObject();

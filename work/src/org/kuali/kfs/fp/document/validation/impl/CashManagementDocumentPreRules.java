@@ -55,7 +55,7 @@ public class CashManagementDocumentPreRules extends PromptBeforeValidationBase {
      * @param cmDocument document containing bank code
      * @return true
      */
-    private boolean checkBankCodeActive(CashManagementDocument cmDocument) {
+    protected boolean checkBankCodeActive(CashManagementDocument cmDocument) {
         boolean continueRules = true;
 
         // if bank specification is not enabled, no need to validate bank

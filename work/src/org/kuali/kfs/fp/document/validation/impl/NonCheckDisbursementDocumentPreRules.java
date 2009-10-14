@@ -52,7 +52,7 @@ public class NonCheckDisbursementDocumentPreRules extends PromptBeforeValidation
      * @param nonCheckDocument document containing bank code
      * @return true
      */
-    private boolean checkBankCodeActive(NonCheckDisbursementDocument nonCheckDocument) {
+    protected boolean checkBankCodeActive(NonCheckDisbursementDocument nonCheckDocument) {
         boolean continueRules = true;
         
         // if bank specification is not enabled, no need to validate bank

@@ -41,8 +41,8 @@ public class VendorPreRules extends MaintenancePreRulesBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VendorPreRules.class);
 
-    private VendorDetail newVendorDetail;
-    private String personId;
+    protected VendorDetail newVendorDetail;
+    protected String personId;
 
     public VendorPreRules() {
     }
@@ -84,7 +84,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
      * 
      * @param document - the maintenanceDocument being evaluated
      */
-    private void setupConvenienceObjects(MaintenanceDocument document) {
+    protected void setupConvenienceObjects(MaintenanceDocument document) {
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newVendorDetail = (VendorDetail) document.getNewMaintainableObject().getBusinessObject();
     }
@@ -96,7 +96,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
      * 
      * @param document - the maintenanceDocument being evaluated
      */
-    private void setVendorNamesAndIndicator(MaintenanceDocument document) {
+    protected void setVendorNamesAndIndicator(MaintenanceDocument document) {
         if (StringUtils.isBlank(newVendorDetail.getVendorName()) && !StringUtils.isBlank(newVendorDetail.getVendorFirstName()) && !StringUtils.isBlank(newVendorDetail.getVendorLastName())) {
 
             newVendorDetail.setVendorFirstLastNameIndicator(true);
@@ -114,7 +114,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
      * 
      * @param document - the maintenanceDocument being evaluated
      */
-    private void setVendorRestriction(MaintenanceDocument document) {
+    protected void setVendorRestriction(MaintenanceDocument document) {
         VendorDetail oldVendorDetail = (VendorDetail) document.getOldMaintainableObject().getBusinessObject();
         Boolean oldVendorRestrictedIndicator = null;
         if (ObjectUtils.isNotNull(oldVendorDetail)) {
@@ -140,7 +140,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
      * @param str the original vendorName
      * @return result String the vendorName after the delimiters have been removed
      */
-    private String removeDelimiter(String str) {
+    protected String removeDelimiter(String str) {
         String result = str.replaceAll(VendorConstants.NAME_DELIM, KFSConstants.BLANK_SPACE);
         return result;
     }
@@ -186,7 +186,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
      * 
      * @param document The vendor-change-containing MaintenanceDocument under examination
      */
-    private void detectAndConfirmChangeToParent(MaintenanceDocument document) {
+    protected void detectAndConfirmChangeToParent(MaintenanceDocument document) {
         boolean proceed = true;
         VendorDetail oldVendorDetail = (VendorDetail) document.getOldMaintainableObject().getBusinessObject();
         boolean oldVendorIsParent = oldVendorDetail.isVendorParentIndicator();

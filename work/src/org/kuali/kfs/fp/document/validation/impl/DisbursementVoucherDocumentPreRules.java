@@ -76,7 +76,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
      * 
      * @param dvDocument submitted disbursement voucher document
      */
-    private void checkSpecialHandlingIndicator(DisbursementVoucherDocument dvDocument) {
+    protected void checkSpecialHandlingIndicator(DisbursementVoucherDocument dvDocument) {
         if (StringUtils.isNotBlank(dvDocument.getDvPayeeDetail().getDisbVchrSpecialHandlingPersonName()) && StringUtils.isNotBlank(dvDocument.getDvPayeeDetail().getDisbVchrSpecialHandlingLine1Addr()) && allowTurningOnOfSpecialHandling(dvDocument)) {
             dvDocument.setDisbVchrSpecialHandlingCode(true);
         }
@@ -103,7 +103,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
      * @param dvDocument submitted disbursement voucher document
      * @return true if the state of all the tabs is valid, false otherwise.
      */
-    private boolean checkNonEmployeeTravelTabState(DisbursementVoucherDocument dvDocument) {
+    protected boolean checkNonEmployeeTravelTabState(DisbursementVoucherDocument dvDocument) {
         boolean tabStatesOK = true;
 
         DisbursementVoucherNonEmployeeTravel dvNonEmplTrav = dvDocument.getDvNonEmployeeTravel();
@@ -146,7 +146,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
      * @param dvNonEmplTrav disbursement voucher non employee travel object
      * @return True if non employee travel tab contains any data in any fields.
      */
-    private boolean hasNonEmployeeTravelValues(DisbursementVoucherNonEmployeeTravel dvNonEmplTrav) {
+    protected boolean hasNonEmployeeTravelValues(DisbursementVoucherNonEmployeeTravel dvNonEmplTrav) {
         boolean hasValues = false;
 
         // Checks each explicit field in the tab for user entered values
@@ -178,7 +178,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
      * @param dvNonEmplTrav disbursement voucher non employee travel object
      * @return True if any values are found in the non employee travel tab
      */
-    private boolean hasNonEmployeeTravelGeneralValues(DisbursementVoucherNonEmployeeTravel dvNonEmplTrav) {
+    protected boolean hasNonEmployeeTravelGeneralValues(DisbursementVoucherNonEmployeeTravel dvNonEmplTrav) {
         return StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrNonEmpTravelerName()) || StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrServicePerformedDesc()) || StringUtils.isNotBlank(dvNonEmplTrav.getDvServicePerformedLocName()) || StringUtils.isNotBlank(dvNonEmplTrav.getDvServiceRegularEmprName()) || StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrTravelFromCityName()) || StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrTravelFromStateCode()) || StringUtils.isNotBlank(dvNonEmplTrav.getDvTravelFromCountryCode()) || ObjectUtils.isNotNull(dvNonEmplTrav.getDvPerdiemStartDttmStamp()) || StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrTravelToCityName()) || StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrTravelToStateCode()) || StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrTravelToCountryCode()) || ObjectUtils.isNotNull(dvNonEmplTrav.getDvPerdiemEndDttmStamp());
     }
 
@@ -188,7 +188,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
      * @param dvNonEmplTrav disbursement voucher non employee travel object
      * @return True if non employee travel tab contains data in any of the fields in the per diem section
      */
-    private boolean hasNonEmployeeTravelPerDiemValues(DisbursementVoucherNonEmployeeTravel dvNonEmplTrav) {
+    protected boolean hasNonEmployeeTravelPerDiemValues(DisbursementVoucherNonEmployeeTravel dvNonEmplTrav) {
         return StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrPerdiemCategoryName()) || ObjectUtils.isNotNull(dvNonEmplTrav.getDisbVchrPerdiemRate()) || ObjectUtils.isNotNull(dvNonEmplTrav.getDisbVchrPerdiemCalculatedAmt()) || ObjectUtils.isNotNull(dvNonEmplTrav.getDisbVchrPerdiemActualAmount()) || StringUtils.isNotBlank(dvNonEmplTrav.getDvPerdiemChangeReasonText());
     }
 
@@ -198,7 +198,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
      * @param dvNonEmplTrav disbursement voucher non employee travel object
      * @return True if non employee travel tab contains data in any of the fields in the personal vehicle section
      */
-    private boolean hasNonEmployeeTravelPersonalVehicleValues(DisbursementVoucherNonEmployeeTravel dvNonEmplTrav) {
+    protected boolean hasNonEmployeeTravelPersonalVehicleValues(DisbursementVoucherNonEmployeeTravel dvNonEmplTrav) {
         return StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrAutoFromCityName()) || StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrAutoFromStateCode()) || StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrAutoToCityName()) || StringUtils.isNotBlank(dvNonEmplTrav.getDisbVchrAutoToStateCode()) || ObjectUtils.isNotNull(dvNonEmplTrav.getDisbVchrMileageCalculatedAmt()) || ObjectUtils.isNotNull(dvNonEmplTrav.getDisbVchrPersonalCarAmount());
     }
 
@@ -208,7 +208,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
      * @param dvDocument submitted disbursemtn voucher document
      * @return true if the state of all the tabs is valid, false otherwise.
      */
-    private boolean checkForeignDraftTabState(DisbursementVoucherDocument dvDocument) {
+    protected boolean checkForeignDraftTabState(DisbursementVoucherDocument dvDocument) {
         boolean tabStatesOK = true;
 
         DisbursementVoucherWireTransfer dvForeignDraft = dvDocument.getDvWireTransfer();
@@ -242,7 +242,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
      * @param dvForeignDraft disbursement foreign draft object
      * @return True if foreign draft tab contains any data in any fields.
      */
-    private boolean hasForeignDraftValues(DisbursementVoucherWireTransfer dvForeignDraft) {
+    protected boolean hasForeignDraftValues(DisbursementVoucherWireTransfer dvForeignDraft) {
         boolean hasValues = false;
 
         // Checks each explicit field in the tab for user entered values
@@ -257,7 +257,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
      * 
      * @param dvForeignDraft disbursement foreign draft object
      */
-    private void clearForeignDraftValues(DisbursementVoucherWireTransfer dvForeignDraft) {
+    protected void clearForeignDraftValues(DisbursementVoucherWireTransfer dvForeignDraft) {
         dvForeignDraft.setDisbursementVoucherForeignCurrencyTypeCode(null);
         dvForeignDraft.setDisbursementVoucherForeignCurrencyTypeName(null);
     }
@@ -268,7 +268,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
      * @param dvDocument submitted disbursement voucher document
      * @return Returns true if the state of all the tabs is valid, false otherwise.
      */
-    private boolean checkWireTransferTabState(DisbursementVoucherDocument dvDocument) {
+    protected boolean checkWireTransferTabState(DisbursementVoucherDocument dvDocument) {
         boolean tabStatesOK = true;
 
         DisbursementVoucherWireTransfer dvWireTransfer = dvDocument.getDvWireTransfer();
@@ -301,7 +301,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
      * @param dvDocument document containing bank code
      * @return true
      */
-    private boolean checkBankCodeActive(DisbursementVoucherDocument dvDocument) {
+    protected boolean checkBankCodeActive(DisbursementVoucherDocument dvDocument) {
         boolean continueRules = true;
 
         // if bank specification is not enabled, no need to validate bank
@@ -333,7 +333,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
      * @param dvWireTransfer disbursement voucher wire transfer
      * @return true if wire transfer tab contains any data in any fields.
      */
-    private boolean hasWireTransferValues(DisbursementVoucherWireTransfer dvWireTransfer) {
+    protected boolean hasWireTransferValues(DisbursementVoucherWireTransfer dvWireTransfer) {
         boolean hasValues = false;
 
         // Checks each explicit field in the tab for user entered values
@@ -357,7 +357,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
      * 
      * @param dvWireTransfer
      */
-    private void clearWireTransferValues(DisbursementVoucherWireTransfer dvWireTransfer) {
+    protected void clearWireTransferValues(DisbursementVoucherWireTransfer dvWireTransfer) {
         dvWireTransfer.setDisbursementVoucherAutomatedClearingHouseProfileNumber(null);
         dvWireTransfer.setDisbursementVoucherBankName(null);
         dvWireTransfer.setDisbVchrBankRoutingNumber(null);
@@ -377,7 +377,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
      * @param validPaymentReasonCodes the given valid payement reason codes
      * @return the valid payement reason codes along with their description as a string
      */
-    private String getValidPaymentReasonsAsString(List<String> validPaymentReasonCodes) {
+    protected String getValidPaymentReasonsAsString(List<String> validPaymentReasonCodes) {
         List<String> payementReasonString = new ArrayList<String>();
 
         if (validPaymentReasonCodes == null || validPaymentReasonCodes.isEmpty()) {

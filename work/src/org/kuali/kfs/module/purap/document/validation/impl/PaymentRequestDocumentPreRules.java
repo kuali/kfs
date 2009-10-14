@@ -94,7 +94,7 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
      * @param messageConstant - key to retrieve message
      * @return - true if overriding, false otherwise
      */
-    private boolean askForConfirmation(String questionType, String messageConstant) {
+    protected boolean askForConfirmation(String questionType, String messageConstant) {
 
         String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(messageConstant);
         if (questionText.contains("{")) {
@@ -121,7 +121,7 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
      * @param questionText - actual text of question pulled from resource file
      * @return - question text with place holders replaced
      */
-    private String prepareQuestionText(String questionType, String questionText) {
+    protected String prepareQuestionText(String questionType, String questionText) {
         if (StringUtils.equals(questionType, PREQDocumentsStrings.THRESHOLD_DAYS_OVERRIDE_QUESTION)) {
             questionText = StringUtils.replace(questionText, "{0}", new Integer(PurapConstants.PREQ_PAY_DATE_DAYS_BEFORE_WARNING).toString());
         }

@@ -53,7 +53,7 @@ public class AdvanceDepositDocumentPreRules extends PromptBeforeValidationBase {
      * @param adDocument document containing bank code
      * @return true
      */
-    private boolean checkBankCodeActive(AdvanceDepositDocument adDocument) {
+    protected boolean checkBankCodeActive(AdvanceDepositDocument adDocument) {
         boolean continueRules = true;
 
         // if bank specification is not enabled, no need to validate bank

@@ -31,8 +31,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * confirmations, etc.
  */
 public class OrgPreRules extends MaintenancePreRulesBase {
-    private Organization newOrg;
-    private PostalCodeService postalZipCodeService = SpringContext.getBean(PostalCodeService.class);
+    protected Organization newOrg;
+    protected PostalCodeService postalZipCodeService = SpringContext.getBean(PostalCodeService.class);
 
     public OrgPreRules() {
 
@@ -58,7 +58,7 @@ public class OrgPreRules extends MaintenancePreRulesBase {
     /**
      * This looks for the org default account number and then sets the values to the continuation account value if it exists
      */
-    private void checkForContinuationAccounts() {
+    protected void checkForContinuationAccounts() {
         LOG.debug("entering checkForContinuationAccounts()");
 
         if (StringUtils.isNotBlank(newOrg.getOrganizationDefaultAccountNumber())) {
@@ -77,7 +77,7 @@ public class OrgPreRules extends MaintenancePreRulesBase {
      * 
      * @param document
      */
-    private void setupConvenienceObjects(MaintenanceDocument document) {
+    protected void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup newOrg convenience objects, make sure all possible sub-objects are populated
         newOrg = (Organization) document.getNewMaintainableObject().getBusinessObject();
@@ -89,7 +89,7 @@ public class OrgPreRules extends MaintenancePreRulesBase {
      * @param oldData
      * @param newData
      */
-    private void updateHRMSUpdateDate(Organization oldData, Organization newData) {
+    protected void updateHRMSUpdateDate(Organization oldData, Organization newData) {
         if (oldData != null) {
             OrganizationExtension oldExt = oldData.getOrganizationExtension();
             OrganizationExtension newExt = newData.getOrganizationExtension();
@@ -113,7 +113,7 @@ public class OrgPreRules extends MaintenancePreRulesBase {
      * 
      * @param maintenanceDocument
      */
-    private void setLocationFromZip(MaintenanceDocument maintenanceDocument) {
+    protected void setLocationFromZip(MaintenanceDocument maintenanceDocument) {
 
         // organizationStateCode , organizationCityName are populated by looking up
         // the zip code and getting the state and city from that

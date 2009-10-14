@@ -42,7 +42,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * This prerule is ex..
  */
 public class AssetPaymentDocumentPreRules extends PromptBeforeValidationBase {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentDocumentPreRules.class);
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentDocumentPreRules.class);
 
     @Override
     public boolean doPrompts(Document document) {
@@ -127,7 +127,7 @@ public class AssetPaymentDocumentPreRules extends PromptBeforeValidationBase {
         return false;
     }
 
-    private boolean isOkHavingDifferentObjectSubTypes() {
+    protected boolean isOkHavingDifferentObjectSubTypes() {
         String parameterDetail = "(module:" + getParameterService().getNamespace(AssetGlobal.class) + "/component:" + getParameterService().getDetailType(AssetGlobal.class) + ")";
         KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
@@ -136,11 +136,11 @@ public class AssetPaymentDocumentPreRules extends PromptBeforeValidationBase {
         return super.askOrAnalyzeYesNoQuestion(CamsConstants.AssetPayment.ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION, warningMessage);
     }
 
-    private AssetService getAssetService() {
+    protected AssetService getAssetService() {
         return SpringContext.getBean(AssetService.class);
     }
 
-    private ParameterService getParameterService() {
+    protected ParameterService getParameterService() {
         return SpringContext.getBean(ParameterService.class);
     }
 }

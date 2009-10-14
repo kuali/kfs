@@ -31,9 +31,9 @@ public class AssetPreRule extends MaintenancePreRulesBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPreRule.class);
 
-    private Asset newAsset;
-    private Asset copyAsset;
-    private String personId;
+    protected Asset newAsset;
+    protected Asset copyAsset;
+    protected String personId;
 
     public AssetPreRule() {
     }
@@ -71,14 +71,14 @@ public class AssetPreRule extends MaintenancePreRulesBase {
      * 
      * @param document - the maintenanceDocument being evaluated
      */
-    private void setupConvenienceObjects(MaintenanceDocument document) {
+    protected void setupConvenienceObjects(MaintenanceDocument document) {
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newAsset = (Asset) document.getNewMaintainableObject().getBusinessObject();
         copyAsset = (Asset) ObjectUtils.deepCopy(newAsset);
         copyAsset.refresh();
     }
     
-    private void setFederalContribution(MaintenanceDocument document) {
+    protected void setFederalContribution(MaintenanceDocument document) {
     }
 
     

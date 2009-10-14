@@ -26,7 +26,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * etc.
  */
 public class SubObjectPreRules extends MaintenancePreRulesBase {
-    private SubObjectCode newSubObjectCode;
+    protected SubObjectCode newSubObjectCode;
 
 
     public SubObjectPreRules() {
@@ -56,7 +56,7 @@ public class SubObjectPreRules extends MaintenancePreRulesBase {
      * This method checks for continuation accounts and presents the user with a question regarding their use on this account.
      * 
      */
-    private void checkForContinuationAccounts() {
+    protected void checkForContinuationAccounts() {
         LOG.debug("entering checkForContinuationAccounts()");
 
         if (StringUtils.isNotBlank(newSubObjectCode.getAccountNumber())) {
@@ -74,7 +74,7 @@ public class SubObjectPreRules extends MaintenancePreRulesBase {
      * all sub-objects from the DB by their primary keys, if available.
      * @param document
      */
-    private void setupConvenienceObjects(MaintenanceDocument document) {
+    protected void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newSubObjectCode = (SubObjectCode) document.getNewMaintainableObject().getBusinessObject();

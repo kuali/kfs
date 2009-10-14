@@ -68,7 +68,7 @@ public abstract class AccountsPayableDocumentPreRulesBase extends PurapDocumentP
      * @param accountsPayableDocument - document to have its invoice/totals checked
      * @return
      */
-    private boolean confirmInvoiceNoMatchOverride(AccountsPayableDocument accountsPayableDocument) {
+    protected boolean confirmInvoiceNoMatchOverride(AccountsPayableDocument accountsPayableDocument) {
 
         // If the values are mismatched, ask for confirmation.
         if (validateInvoiceTotalsAreMismatched(accountsPayableDocument)) {
@@ -112,7 +112,7 @@ public abstract class AccountsPayableDocumentPreRulesBase extends PurapDocumentP
      * @param accountsPayableDocument
      * @return
      */
-    private boolean validateInvoiceTotalsAreMismatched(AccountsPayableDocument accountsPayableDocument) {
+    protected boolean validateInvoiceTotalsAreMismatched(AccountsPayableDocument accountsPayableDocument) {
         boolean mismatched = false;
         String[] excludeArray = { PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE };
         if (accountsPayableDocument.getTotalDollarAmountAllItems(excludeArray).compareTo(accountsPayableDocument.getInitialAmount()) != 0 && !accountsPayableDocument.isUnmatchedOverride()) {

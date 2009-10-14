@@ -55,7 +55,7 @@ public class EffortCertificationReportDefinitionMaintenanceDocumentPreRules exte
      * @param reportDefinition
      * @return boolean true to continue, false to correct the report definition
      */
-    private boolean checkOverlappingReportPeriods(EffortCertificationReportDefinition reportDefinition) {
+    protected boolean checkOverlappingReportPeriods(EffortCertificationReportDefinition reportDefinition) {
         EffortCertificationAutomaticReportPeriodUpdateService reportPeriodUpdateService = SpringContext.getBean(EffortCertificationAutomaticReportPeriodUpdateService.class);
         
         boolean isOverlapping = reportPeriodUpdateService.isAnOverlappingReportDefinition(reportDefinition);

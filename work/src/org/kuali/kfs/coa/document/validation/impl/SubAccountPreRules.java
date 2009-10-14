@@ -34,9 +34,9 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class SubAccountPreRules extends MaintenancePreRulesBase {
 
-    private SubAccount newSubAccount;
+    protected SubAccount newSubAccount;
 
-    // private SubAccount copyAccount;
+    // protected SubAccount copyAccount;
 
     public SubAccountPreRules() {
 
@@ -64,7 +64,7 @@ public class SubAccountPreRules extends MaintenancePreRulesBase {
      * This looks for the SubAccount's account number and then sets the values to the continuation account value if it exists
      * @param maintenanceAction
      */
-    private void checkForContinuationAccounts(String maintenanceAction) {
+    protected void checkForContinuationAccounts(String maintenanceAction) {
         LOG.debug("entering checkForContinuationAccounts()");
 
         /*
@@ -89,7 +89,7 @@ public class SubAccountPreRules extends MaintenancePreRulesBase {
      * all sub-objects from the DB by their primary keys, if available.
      * @param document
      */
-    private void setupConvenienceObjects(MaintenanceDocument document) {
+    protected void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newSubAccount = (SubAccount) document.getNewMaintainableObject().getBusinessObject();
@@ -105,7 +105,7 @@ public class SubAccountPreRules extends MaintenancePreRulesBase {
      * If it is "EX" it will then copy over the ICR information from the Account specified for this SubAccount
      * @param document
      */
-    private void copyICRFromAccount(MaintenanceDocument document) {
+    protected void copyICRFromAccount(MaintenanceDocument document) {
         Person user = GlobalVariables.getUserSession().getPerson();
 
         // get a new instance of MaintenanceDocumentAuthorizations for this context

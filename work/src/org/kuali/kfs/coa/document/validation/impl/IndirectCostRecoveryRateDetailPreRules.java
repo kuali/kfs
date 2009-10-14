@@ -29,7 +29,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class IndirectCostRecoveryRateDetailPreRules extends MaintenancePreRulesBase {
 
 
-    private IndirectCostRecoveryRateDetail indirectCostRecoveryRateDetail;
+    protected IndirectCostRecoveryRateDetail indirectCostRecoveryRateDetail;
 
 
     public IndirectCostRecoveryRateDetailPreRules() {
@@ -60,7 +60,7 @@ public class IndirectCostRecoveryRateDetailPreRules extends MaintenancePreRulesB
     /**
      * This method checks for continuation accounts and presents the user with a question regarding their use on this account.
      */
-    private void checkForContinuationAccounts() {
+    protected void checkForContinuationAccounts() {
         LOG.debug("entering checkForContinuationAccounts()");
 
         if (StringUtils.isNotBlank(indirectCostRecoveryRateDetail.getAccountNumber())) {
@@ -97,7 +97,7 @@ public class IndirectCostRecoveryRateDetailPreRules extends MaintenancePreRulesB
      * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
      * all sub-objects from the DB by their primary keys, if available.
      */
-    private void setupConvenienceObjects(MaintenanceDocument document) {
+    protected void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
         indirectCostRecoveryRateDetail = (IndirectCostRecoveryRateDetail) document.getNewMaintainableObject().getBusinessObject();

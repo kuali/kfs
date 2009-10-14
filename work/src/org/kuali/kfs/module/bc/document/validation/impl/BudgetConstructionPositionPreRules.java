@@ -28,8 +28,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class BudgetConstructionPositionPreRules extends MaintenancePreRulesBase {
 
 
-    private BudgetConstructionPosition newBudgetConstructionPosition;
-    private BudgetConstructionPosition copyBudgetConstructionPosition;
+    protected BudgetConstructionPosition newBudgetConstructionPosition;
+    protected BudgetConstructionPosition copyBudgetConstructionPosition;
 
 
     public BudgetConstructionPositionPreRules() {
@@ -60,7 +60,7 @@ public class BudgetConstructionPositionPreRules extends MaintenancePreRulesBase 
         }
     }
 
-    private void setupConvenienceObjects(MaintenanceDocument document) {
+    protected void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newBudgetConstructionPosition = (BudgetConstructionPosition) document.getNewMaintainableObject().getBusinessObject();

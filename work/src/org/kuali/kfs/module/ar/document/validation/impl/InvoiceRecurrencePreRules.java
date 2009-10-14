@@ -50,7 +50,7 @@ public class InvoiceRecurrencePreRules extends PromptBeforeValidationBase {
      * @param document the maintenance document
      * @return
      */
-    private boolean setCustomerNumberIfInvoiceIsEntered(Document document) {
+    protected boolean setCustomerNumberIfInvoiceIsEntered(Document document) {
 
 
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
@@ -77,7 +77,7 @@ public class InvoiceRecurrencePreRules extends PromptBeforeValidationBase {
      * @param document the maintenance document
      * @return
      */
-    private boolean setEndDateIfTotalRecurrenceNumberIsEntered(Document document) {
+    protected boolean setEndDateIfTotalRecurrenceNumberIsEntered(Document document) {
 
 
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
@@ -118,7 +118,7 @@ public class InvoiceRecurrencePreRules extends PromptBeforeValidationBase {
      * @param document the maintenance document
      * @return
      */
-    private boolean setTotalRecurrenceNumberIfEndDateIsEntered(Document document) {
+    protected boolean setTotalRecurrenceNumberIfEndDateIsEntered(Document document) {
 
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
         InvoiceRecurrence newInvoiceRecurrence = (InvoiceRecurrence) maintenanceDocument.getNewMaintainableObject().getBusinessObject();

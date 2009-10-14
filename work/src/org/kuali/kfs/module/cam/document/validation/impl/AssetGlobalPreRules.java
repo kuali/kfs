@@ -33,7 +33,7 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class AssetGlobalPreRules extends MaintenancePreRulesBase {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalPreRules.class);
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalPreRules.class);
 
     /**
      * Sets up a convenience object and few other Asset attributes
@@ -78,7 +78,7 @@ public class AssetGlobalPreRules extends MaintenancePreRulesBase {
     }
 
 
-    private boolean isOkHavingDifferentObjectSubTypes() {
+    protected boolean isOkHavingDifferentObjectSubTypes() {
         String parameterDetail = "(module:" + getParameterService().getNamespace(AssetGlobal.class) + "/component:" + getParameterService().getDetailType(AssetGlobal.class) + ")";
         KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
 
@@ -87,11 +87,11 @@ public class AssetGlobalPreRules extends MaintenancePreRulesBase {
         return super.askOrAnalyzeYesNoQuestion(CamsConstants.AssetPayment.ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION, warningMessage);
     }
 
-    private AssetService getAssetService() {
+    protected AssetService getAssetService() {
         return SpringContext.getBean(AssetService.class);
     }
 
-    private ParameterService getParameterService() {
+    protected ParameterService getParameterService() {
         return SpringContext.getBean(ParameterService.class);
     }
 }

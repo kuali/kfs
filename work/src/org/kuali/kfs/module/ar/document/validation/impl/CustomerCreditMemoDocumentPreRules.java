@@ -41,7 +41,7 @@ public class CustomerCreditMemoDocumentPreRules extends PromptBeforeValidationBa
      * @param document the maintenance document
      * @return
      */
-    private boolean conditionallyAskQuestion(Document document) {
+    protected boolean conditionallyAskQuestion(Document document) {
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) document;
         boolean shouldAskQuestion = customerCreditMemoDocument.getInvoice().hasAtLeastOneDiscount();
         if (shouldAskQuestion) {

@@ -31,8 +31,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class MaintenancePreRulesBase extends PromptBeforeValidationBase {
 
-    private KualiConfigurationService configService;
-    private AccountService accountService;
+    protected KualiConfigurationService configService;
+    protected AccountService accountService;
 
     /**
      * Constructs a MaintenancePreRulesBase class and injects some services through setters

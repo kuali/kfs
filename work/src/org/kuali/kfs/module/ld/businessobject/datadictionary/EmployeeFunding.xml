@@ -155,23 +155,23 @@
   </bean>
   <bean id="EmployeeFunding-csfAmount" parent="EmployeeFunding-csfAmount-parentBean"/>
 
-  <bean id="EmployeeFunding-csfAmount-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfAmount">
+  <bean id="EmployeeFunding-csfAmount-parentBean" abstract="true" parent="LaborCalculatedSalaryFoundationTracker-csfAmount-parentBean">
   </bean>
   <bean id="EmployeeFunding-csfDeleteCode" parent="EmployeeFunding-csfDeleteCode-parentBean"/>
 
-  <bean id="EmployeeFunding-csfDeleteCode-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfDeleteCode">
+  <bean id="EmployeeFunding-csfDeleteCode-parentBean" abstract="true" parent="LaborCalculatedSalaryFoundationTracker-csfDeleteCode">
   </bean>
   <bean id="EmployeeFunding-csfTimePercent" parent="EmployeeFunding-csfTimePercent-parentBean"/>
 
-  <bean id="EmployeeFunding-csfTimePercent-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfTimePercent">
+  <bean id="EmployeeFunding-csfTimePercent-parentBean" abstract="true" parent="LaborCalculatedSalaryFoundationTracker-csfTimePercent">
   </bean>
   <bean id="EmployeeFunding-csfFundingStatusCode" parent="EmployeeFunding-csfFundingStatusCode-parentBean"/>
 
-  <bean id="EmployeeFunding-csfFundingStatusCode-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfFundingStatusCode">
+  <bean id="EmployeeFunding-csfFundingStatusCode-parentBean" abstract="true" parent="LaborCalculatedSalaryFoundationTracker-csfFundingStatusCode">
   </bean>
   <bean id="EmployeeFunding-csfFullTimeEmploymentQuantity" parent="EmployeeFunding-csfFullTimeEmploymentQuantity-parentBean"/>
 
-  <bean id="EmployeeFunding-csfFullTimeEmploymentQuantity-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfFullTimeEmploymentQuantity">
+  <bean id="EmployeeFunding-csfFullTimeEmploymentQuantity-parentBean" abstract="true" parent="LaborCalculatedSalaryFoundationTracker-csfFullTimeEmploymentQuantity">
   </bean>
   <bean id="EmployeeFunding-dummyBusinessObject.pendingEntryOption" parent="EmployeeFunding-dummyBusinessObject.pendingEntryOption-parentBean"/>
 

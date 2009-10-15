@@ -87,7 +87,7 @@
   </bean>
   <bean id="AccountStatusBaseFunds-csfAmount" parent="AccountStatusBaseFunds-csfAmount-parentBean"/>
 
-  <bean id="AccountStatusBaseFunds-csfAmount-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfAmount">
+  <bean id="AccountStatusBaseFunds-csfAmount-parentBean" abstract="true" parent="LaborCalculatedSalaryFoundationTracker-csfAmount">
   </bean>
   <bean id="AccountStatusBaseFunds-baseCSFVarianceAmount" parent="AccountStatusBaseFunds-baseCSFVarianceAmount-parentBean"/>
 

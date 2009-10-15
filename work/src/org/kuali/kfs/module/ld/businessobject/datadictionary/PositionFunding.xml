@@ -98,39 +98,39 @@
   </bean>
   <bean id="PositionFunding-csfCreateTimestamp" parent="PositionFunding-csfCreateTimestamp-parentBean"/>
 
-  <bean id="PositionFunding-csfCreateTimestamp-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfCreateTimestamp">
+  <bean id="PositionFunding-csfCreateTimestamp-parentBean" abstract="true" parent="LaborCalculatedSalaryFoundationTracker-csfCreateTimestamp">
   </bean>
   <bean id="PositionFunding-csfAmount" parent="PositionFunding-csfAmount-parentBean"/>
 
-  <bean id="PositionFunding-csfAmount-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfAmount">
+  <bean id="PositionFunding-csfAmount-parentBean" abstract="true" parent="LaborCalculatedSalaryFoundationTracker-csfAmount">
   </bean>
   <bean id="PositionFunding-csfDeleteCode" parent="PositionFunding-csfDeleteCode-parentBean"/>
 
-  <bean id="PositionFunding-csfDeleteCode-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfDeleteCode">
+  <bean id="PositionFunding-csfDeleteCode-parentBean" abstract="true" parent="LaborCalculatedSalaryFoundationTracker-csfDeleteCode">
   </bean>
   <bean id="PositionFunding-csfTimePercent" parent="PositionFunding-csfTimePercent-parentBean"/>
 
-  <bean id="PositionFunding-csfTimePercent-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfTimePercent">
+  <bean id="PositionFunding-csfTimePercent-parentBean" abstract="true" parent="LaborCalculatedSalaryFoundationTracker-csfTimePercent">
   </bean>
   <bean id="PositionFunding-csfFundingStatusCode" parent="PositionFunding-csfFundingStatusCode-parentBean"/>
 
-  <bean id="PositionFunding-csfFundingStatusCode-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfFundingStatusCode">
+  <bean id="PositionFunding-csfFundingStatusCode-parentBean" abstract="true" parent="LaborCalculatedSalaryFoundationTracker-csfFundingStatusCode">
   </bean>
   <bean id="PositionFunding-csfFullTimeEmploymentQuantity" parent="PositionFunding-csfFullTimeEmploymentQuantity-parentBean"/>
 
-  <bean id="PositionFunding-csfFullTimeEmploymentQuantity-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-csfFullTimeEmploymentQuantity">
+  <bean id="PositionFunding-csfFullTimeEmploymentQuantity-parentBean" abstract="true" parent="LaborCalculatedSalaryFoundationTracker-csfFullTimeEmploymentQuantity">
   </bean>
   <bean id="PositionFunding-effectiveSequence" parent="PositionFunding-effectiveSequence-parentBean"/>
 
-  <bean id="PositionFunding-effectiveSequence-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-effectiveSequence">
+  <bean id="PositionFunding-effectiveSequence-parentBean" abstract="true" parent="LaborCalculatedSalaryFoundationTracker-effectiveSequence">
   </bean>
   <bean id="PositionFunding-earnCode" parent="PositionFunding-earnCode-parentBean"/>
 
-  <bean id="PositionFunding-earnCode-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-earnCode">
+  <bean id="PositionFunding-earnCode-parentBean" abstract="true" parent="LaborCalculatedSalaryFoundationTracker-earnCode">
   </bean>
   <bean id="PositionFunding-effectiveDate" parent="PositionFunding-effectiveDate-parentBean"/>
 
-  <bean id="PositionFunding-effectiveDate-parentBean" abstract="true" parent="CalculatedSalaryFoundationTracker-effectiveDate">
+  <bean id="PositionFunding-effectiveDate-parentBean" abstract="true" parent="LaborCalculatedSalaryFoundationTracker-effectiveDate">
   </bean>
   <bean id="PositionFunding-emplid" parent="PositionFunding-emplid-parentBean"/>
 

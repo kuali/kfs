@@ -19,6 +19,14 @@
 	
 	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local,dist-local-cas,dist-local-rice,overlay-additional-web-content" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
 		<copy file="${metainf.directory}/${context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
+		<if>
+			<isset property="additional.lib.directory" />
+			<then>
+				<copy todir="${lib.directory}">
+					<fileset dir="${additional.lib.directory}" includes="*.jar" />
+				</copy>
+			</then>
+		</if>
 	</target>
 	
 	<target name="dist-local-cas" depends="filter-project">

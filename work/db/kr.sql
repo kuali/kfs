@@ -4706,3 +4706,197 @@ ALTER TABLE KRIM_ENTITY_BIO_T ADD GEO_ORIGIN VARCHAR2(100)
 -- drop ethnicity from bio table
 ALTER TABLE KRIM_ENTITY_BIO_T DROP COLUMN ETHNCTY_CD
 / 
+
+-- KFSMI-5050: update help urls for doc types
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fcashcontrol.htm' where doc_typ_nm = 'CTRL' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fcustomercreditmemo.htm' where doc_typ_nm = 'CRM' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fcustomerinvoice.htm' where doc_typ_nm = 'INV' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fcustomerinvoicewriteoff.htm' where doc_typ_nm = 'INVW' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fpaymentapplication.htm' where doc_typ_nm = 'APP' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fprocurementcard' where doc_typ_nm = 'PCDO' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fbulkreceiving.htm' where doc_typ_nm = 'RCVB' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fcontractmanagerassignment.htm' where doc_typ_nm = 'ACM' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fpaymentrequest.htm' where doc_typ_nm = 'PREQ' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Freceiving.htm' where doc_typ_nm = 'RCVL' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Frequisition.htm' where doc_typ_nm = 'REQS' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fpurchaseorder.htm' where doc_typ_nm = 'PO' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fpurchaseorderamend.htm' where doc_typ_nm = 'POA' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fpurchaseorderpaymenthold.htm' where doc_typ_nm = 'POPH' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fpurchaseorderremovepaymenthold.htm' where doc_typ_nm = 'PORH' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fpurchaseorderretransmit.htm' where doc_typ_nm = 'PORT' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fpurchaseordervoidlhtm' where doc_typ_nm = 'POV' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fpurchaseorderclose.htm' where doc_typ_nm = 'POC' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fpurchaseorderreopen.htm' where doc_typ_nm = 'POR' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fpurchaseordersplit.htm' where doc_typ_nm = 'POSP' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fvendorcreditmemo.htm' where doc_typ_nm = 'CM' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fbarcodeinventoryprocess.htm' where doc_typ_nm = 'BCIE' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fnoncheckdisbursement.htm' where doc_typ_nm = 'ND' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Feditasset.htm' where doc_typ_nm = 'CASM' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fassetglobaladd.htm' where doc_typ_nm = 'AA' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fassetglobaladd.htm' where doc_typ_nm = 'AA' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Ftransferasset.htm' where doc_typ_nm = 'AT' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fequipmentloan.htm' where doc_typ_nm = 'ELR' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fobjectcodeglobal.htm' where doc_typ_nm = 'GOBJ' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fdisbursementvouchertravelcompany.htm' where doc_typ_nm = 'DVTC' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fvendor3.htm' where doc_typ_nm = 'PVEN' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Ffinancialprocessing.htm' where doc_typ_nm = 'YEBA' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Ffinancialprocessing.htm' where doc_typ_nm = 'YEDI' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Ffinancialprocessing.htm' where doc_typ_nm = 'YEGE' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Ffinancialprocessing.htm' where doc_typ_nm = 'YETF' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Flabordistribution.htm' where doc_typ_nm = 'YEBT' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Flabordistribution.htm' where doc_typ_nm = 'YEST' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fcustomer.htm' where doc_typ_nm = 'CUS' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fcustomertype.htm' where doc_typ_nm = 'CTY' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fcustomeraddresstype.htm' where doc_typ_nm = 'CATY' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fcustomerinvoiceitemcode.htm' where doc_typ_nm = 'IICO' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Finvoicerecurrence.htm' where doc_typ_nm = 'INVR' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Forganizationoptions.htm' where doc_typ_nm = 'OOPT' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Forganizationaccountingdefault.htm' where doc_typ_nm = 'OADF' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fpaymentmedium.htm' where doc_typ_nm = 'PMED' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fsysteminformation.htm' where doc_typ_nm = 'ARSI' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fbillingaddress.htm' where doc_typ_nm = 'PMBA' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fcapitalassetsystemstate.htm' where doc_typ_nm = 'PMTY' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fcapitalassetsystemtype.htm' where doc_typ_nm = 'PMSY' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fcarrier.htm' where doc_typ_nm = 'PMCA' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fcreditmemostatus.htm' where doc_typ_nm = 'PMCM' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fdeliveryrequireddatereason.htm' where doc_typ_nm = 'PMDR' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Felectronicinvoiceitemmapping.htm' where doc_typ_nm = 'EIIM' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Ffundingsource.htm' where doc_typ_nm = 'PMFS' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fitemreasonadded.htm' where doc_typ_nm = 'IRAD' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fitemtype.htm' where doc_typ_nm = 'PMIT' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Flineitemreceivingstatus.htm' where doc_typ_nm = 'PMLI' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fmethodofpotransmission.htm' where doc_typ_nm = 'PMTM' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fnegativepaymentrequestapprovallimit.htm' where doc_typ_nm = 'PMNP' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Forganizationparameter.htm' where doc_typ_nm = 'PMOP' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fpaymentrequestautoapproveexclusions.htm' where doc_typ_nm = 'PMAA' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fpaymentrequeststatus.htm' where doc_typ_nm = 'PMPR' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fpurchaseordercontractlanguage.htm' where doc_typ_nm = 'PMCL' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fpurchaseorderquotelanguage.htm' where doc_typ_nm = 'PMQL' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fpurchaseorderquotelist.htm' where doc_typ_nm = 'PMQT' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fpurchaseorderquotestatus.htm' where doc_typ_nm = 'PMQS' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fpurchaseorderstatus.htm' where doc_typ_nm = 'PMPS' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fpurchaseordervendorchoice.htm' where doc_typ_nm = 'PMVC' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Freceivingaddress.htm' where doc_typ_nm = 'PMRA' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Freceivingthreshold.htm' where doc_typ_nm = 'THLD' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Frecurringpaymentfrequency.htm' where doc_typ_nm = 'PMRF' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Frecurringpaymenttype.htm' where doc_typ_nm = 'PMRP' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Frequisitionsource.htm' where doc_typ_nm = 'PMSO' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Frequisitionstatus.htm' where doc_typ_nm = 'PMRS' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fsensitivedata.htm' where doc_typ_nm = 'PMSN' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fvendorstipulation.htm' where doc_typ_nm = 'PMSI' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fassettransactiontype.htm' where doc_typ_nm = 'PMTT' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fcatalogoffederaldomesticassistance.htm' where doc_typ_nm = 'CFDM' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fproposalawardclose.htm' where doc_typ_nm = 'CLOS' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Freportdefinition.htm' where doc_typ_nm = 'ECRD' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Freportearnpaygroup.htm' where doc_typ_nm = 'ECPG' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Freportperiodstatuscode.htm' where doc_typ_nm = 'ECPS' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Freporttype.htm' where doc_typ_nm = 'ECRT' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Flaborobjectcodebenefitsmaintenancedocument' where doc_typ_nm = 'LOBN' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Faccountreports.htm' where doc_typ_nm = 'BCAR' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fappointmentfundingduration.htm' where doc_typ_nm = 'DURA' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fappointmentfundingreasoncode.htm' where doc_typ_nm = 'BCRC' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fbudgetconstructionposition.htm' where doc_typ_nm = 'BCPS' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fcalculatedsalaryfoundationtrackeroverride.htm' where doc_typ_nm = 'CSFO' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fintendedincumbent.htm' where doc_typ_nm = 'IINC' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Forganizationreports.htm' where doc_typ_nm = 'BCOR' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Ftaxregion.htm' where doc_typ_nm = 'TAXR' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fcashdrawer.htm' where doc_typ_nm = 'CDS' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Ffunctionalfielddescription.htm' where doc_typ_nm = 'FFD' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fmessageoftheday.htm' where doc_typ_nm = 'MOTD' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fsystemoptions.htm' where doc_typ_nm = 'SOPT' and actv_ind = 1 and cur_ind = 1
+/ 

@@ -550,7 +550,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         }
         if (!enableSalesTaxInd) {
             // if sales tax is disabled, item tax amount shall be zero 
-            if (invoiceSalesTaxAmount.compareTo(new BigDecimal(0)) != 0) {
+            if (invoiceSalesTaxAmount.compareTo(KualiDecimal.ZERO) != 0) {
                 String extraDescription = "Item Tax Amount:" + invoiceSalesTaxAmount;
                 ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.TAX_SUMMARY_AMT_EXISTS, extraDescription, orderHolder.getFileName());
                 orderHolder.addInvoiceHeaderRejectReason(rejectReason);      

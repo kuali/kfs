@@ -52,6 +52,11 @@
 		<servlet-name>dwr-invoker</servlet-name>
 	</filter-mapping>
 
+	<filter-mapping>
+		<!-- maps the UserLoginFilter to the EDocLite servlet -->
+		<filter-name>UserLoginFilter</filter-name>
+		<servlet-name>edoclite</servlet-name>
+	</filter-mapping>
     <!-- SERVLET CONTEXT LISTENERS -->
 
 	<listener>
@@ -138,7 +143,7 @@
 
 	<servlet-mapping>
 		<servlet-name>edoclite</servlet-name>
-		<url-pattern>/en/EDocLite</url-pattern>
+		<url-pattern>/${workflow.application}/EDocLite</url-pattern>
 	</servlet-mapping>
 
 	<!-- ******************* END Embedded KEW Servlet Mappings ********************* -->

@@ -15,7 +15,10 @@
  */
 package org.kuali.kfs.module.ld.util;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
@@ -23,6 +26,7 @@ import org.kuali.kfs.gl.businessobject.CorrectionCriteria;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.businessobject.options.LaborOriginEntryFieldFinder;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class provides utility methods for the Labor correction document
@@ -44,28 +48,36 @@ public class CorrectionDocumentUtils {
         String fieldType = loeff.getFieldType(cc.getCorrectionFieldName());
         String fieldActualValueString = org.kuali.kfs.gl.document.CorrectionDocumentUtils.convertToString(fieldActualValue, fieldType);
 
-        if ("String".equals(fieldType) && StringUtils.isBlank(fieldActualValueString)) {
-            fieldActualValueString = "";
+        if ("String".equals(fieldType) || "sw".equals(cc.getCorrectionOperatorCode()) || "ew".equals(cc.getCorrectionOperatorCode()) || "ct".equals(cc.getCorrectionOperatorCode())) {
+            return org.kuali.kfs.gl.document.CorrectionDocumentUtils.compareStringData(cc, fieldTestValue, fieldActualValueString);
         }
+        int compareTo = 0;
+        try {
+            if (fieldActualValue == null) {
+                return false;
+            }
+            if ("Integer".equals(fieldType)) {
+                compareTo = ((Integer) fieldActualValue).compareTo(Integer.parseInt(fieldTestValue));
+            }
+            if ("KualiDecimal".equals(fieldType)) {
+                compareTo = ((KualiDecimal) fieldActualValue).compareTo(new KualiDecimal(Double.parseDouble(fieldTestValue)));
+            }
+            if ("BigDecimal".equals(fieldType)) {
+                compareTo = ((BigDecimal) fieldActualValue).compareTo(new BigDecimal(Double.parseDouble(fieldTestValue)));
 
-        if ("eq".equals(cc.getCorrectionOperatorCode())) {
-            return fieldActualValueString.equals(fieldTestValue);
+            }
+            if ("Date".equals(fieldType)) {
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                compareTo = ((Date) fieldActualValue).compareTo(df.parse(fieldTestValue));
+            }
         }
-        else if ("ne".equals(cc.getCorrectionOperatorCode())) {
-            return (!fieldActualValueString.equals(fieldTestValue));
+        catch (Exception e) {
+            // any exception while parsing data return false
+            return false;
         }
-        else if ("sw".equals(cc.getCorrectionOperatorCode())) {
-            return fieldActualValueString.startsWith(fieldTestValue);
-        }
-        else if ("ew".equals(cc.getCorrectionOperatorCode())) {
-            return fieldActualValueString.endsWith(fieldTestValue);
-        }
-        else if ("ct".equals(cc.getCorrectionOperatorCode())) {
-            return (fieldActualValueString.indexOf(fieldTestValue) > -1);
-        }
-        throw new IllegalArgumentException("Unknown operator: " + cc.getCorrectionOperatorCode());
+        return org.kuali.kfs.gl.document.CorrectionDocumentUtils.compareTo(compareTo, cc.getCorrectionOperatorCode());
     }
-    
+
     /**
      * Returns whether the labor entry matches any of the criteria groups
      * 

@@ -178,6 +178,7 @@ public class CorrectionDocumentUtils {
         Object fieldActualValue = oe.getFieldValue(cc.getCorrectionFieldName());
         String fieldTestValue = StringUtils.isBlank(cc.getCorrectionFieldValue()) ? "" : cc.getCorrectionFieldValue();
         String fieldType = oeff.getFieldType(cc.getCorrectionFieldName());
+
         String fieldActualValueString = convertToString(fieldActualValue, fieldType);
 
         if ("String".equals(fieldType) || "sw".equals(cc.getCorrectionOperatorCode()) || "ew".equals(cc.getCorrectionOperatorCode()) || "ct".equals(cc.getCorrectionOperatorCode())) {
@@ -219,7 +220,7 @@ public class CorrectionDocumentUtils {
      * @param fieldActualValueString actual value
      * @return flag true if matches with criteria
      */
-    private static boolean compareStringData(CorrectionCriteria cc, String fieldTestValue, String fieldActualValueString) {
+    public static boolean compareStringData(CorrectionCriteria cc, String fieldTestValue, String fieldActualValueString) {
         if ("eq".equals(cc.getCorrectionOperatorCode())) {
             return fieldActualValueString.equals(fieldTestValue);
         }
@@ -257,7 +258,7 @@ public class CorrectionDocumentUtils {
      * @param operatorCode
      * @return
      */
-    private static boolean compareTo(int compareTo, String operatorCode) {
+    public static boolean compareTo(int compareTo, String operatorCode) {
         if ("eq".equals(operatorCode)) {
             return (compareTo == 0);
         }

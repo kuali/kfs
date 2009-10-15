@@ -10,19 +10,16 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<!--
 		<buildCommand>
-			<name>com.ibm.sse.model.structuredbuilder</name>
+			<name>org.springframework.ide.eclipse.core.springbuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
-		<buildCommand>
-			<name>com.genuitec.eclipse.springframework.springbuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
+		-->
 	</buildSpec>
 	<natures>
-		<nature>com.genuitec.eclipse.springframework.springnature</nature>
+		<nature>org.springframework.ide.eclipse.core.springnature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
 </projectDescription>

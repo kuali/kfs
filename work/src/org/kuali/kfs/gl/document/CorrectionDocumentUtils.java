@@ -180,10 +180,46 @@ public class CorrectionDocumentUtils {
         String fieldType = oeff.getFieldType(cc.getCorrectionFieldName());
         String fieldActualValueString = convertToString(fieldActualValue, fieldType);
 
-        if ("String".equals(fieldType) && StringUtils.isBlank(fieldActualValueString)) {
-            fieldActualValueString = "";
+        if ("String".equals(fieldType) || "sw".equals(cc.getCorrectionOperatorCode()) || "ew".equals(cc.getCorrectionOperatorCode()) || "ct".equals(cc.getCorrectionOperatorCode())) {
+            return compareStringData(cc, fieldTestValue, fieldActualValueString);
         }
+        int compareTo = 0;
+        try {
+            if (fieldActualValue == null) {
+                return false;
+            }
+            if ("Integer".equals(fieldType)) {
+                compareTo = ((Integer) fieldActualValue).compareTo(Integer.parseInt(fieldTestValue));
+            }
+            if ("KualiDecimal".equals(fieldType)) {
+                compareTo = ((KualiDecimal) fieldActualValue).compareTo(new KualiDecimal(Double.parseDouble(fieldTestValue)));
+            }
+            if ("BigDecimal".equals(fieldType)) {
+                compareTo = ((BigDecimal) fieldActualValue).compareTo(new BigDecimal(Double.parseDouble(fieldTestValue)));
 
+            }
+            if ("Date".equals(fieldType)) {
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                compareTo = ((Date) fieldActualValue).compareTo(df.parse(fieldTestValue));
+            }
+        }
+        catch (Exception e) {
+            // any exception while parsing data return false
+            return false;
+        }
+        return compareTo(compareTo, cc.getCorrectionOperatorCode());
+    }
+
+
+    /**
+     * Compares string data
+     * 
+     * @param cc criteria
+     * @param fieldTestValue test value
+     * @param fieldActualValueString actual value
+     * @return flag true if matches with criteria
+     */
+    private static boolean compareStringData(CorrectionCriteria cc, String fieldTestValue, String fieldActualValueString) {
         if ("eq".equals(cc.getCorrectionOperatorCode())) {
             return fieldActualValueString.equals(fieldTestValue);
         }
@@ -214,6 +250,34 @@ public class CorrectionDocumentUtils {
         throw new IllegalArgumentException("Unknown operator: " + cc.getCorrectionOperatorCode());
     }
 
+    /**
+     * Returns true is compared indicator matches
+     * 
+     * @param compareTo
+     * @param operatorCode
+     * @return
+     */
+    private static boolean compareTo(int compareTo, String operatorCode) {
+        if ("eq".equals(operatorCode)) {
+            return (compareTo == 0);
+        }
+        else if ("ne".equals(operatorCode)) {
+            return (compareTo != 0);
+        }
+        else if ("lt".equals(operatorCode)) {
+            return (compareTo < 0);
+        }
+        else if ("le".equals(operatorCode)) {
+            return (compareTo <= 0);
+        }
+        else if ("gt".equals(operatorCode)) {
+            return (compareTo > 0);
+        }
+        else if ("ge".equals(operatorCode)) {
+            return (compareTo >= 0);
+        }
+        throw new IllegalArgumentException("Unknown operator: " + operatorCode);
+    }
 
     /**
      * Converts the value into a string, with the appropriate formatting

@@ -190,7 +190,7 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
      * 
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
      */
-    protected void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
+    public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
     }
 

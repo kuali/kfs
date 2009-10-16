@@ -211,7 +211,8 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
                 orgAccountFundingDetailReportEntry.setName(BCConstants.Report.VACANT);
             }
             else {
-                orgAccountFundingDetailReportEntry.setName(budgetConstructionIntendedIncumbent.getName());
+                int nameLength = budgetConstructionIntendedIncumbent.getName().length();
+                orgAccountFundingDetailReportEntry.setName(budgetConstructionIntendedIncumbent.getName().substring(0, (nameLength > 33) ? 33 : nameLength));
             }
 
             orgAccountFundingDetailReportEntry.setIuClassificationLevel(budgetConstructionIntendedIncumbent.getIuClassificationLevel());

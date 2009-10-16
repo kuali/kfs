@@ -199,7 +199,8 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
             reasonSummaryReport.setIuClassificationLevel(intendedIncumbent.getIuClassificationLevel());
         }
 
-        reasonSummaryReport.setName(salarySSN.getName());
+        int nameLength = salarySSN.getName().length();
+        reasonSummaryReport.setName(salarySSN.getName().substring(0, (nameLength > 35) ? 35 : nameLength));
 
         BudgetConstructionAdministrativePost administrativePost = budgetConstructionReportsServiceHelper.getBudgetConstructionAdministrativePost(appointmentFunding);
         BudgetConstructionPosition budgetConstructionPosition = budgetConstructionReportsServiceHelper.getBudgetConstructionPosition(fiscalYear, appointmentFunding);

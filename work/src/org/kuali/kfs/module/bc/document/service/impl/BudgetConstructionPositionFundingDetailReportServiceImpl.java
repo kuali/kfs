@@ -144,7 +144,8 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
         detailReportEntry.setSubAccountNumber(positionFundingDetailEntry.getSubAccountNumber());
         detailReportEntry.setFinancialSubObjectCode(positionFundingDetailEntry.getFinancialSubObjectCode());
         if (positionFundingDetailEntry.getName() != null) {
-            detailReportEntry.setName(positionFundingDetailEntry.getName());
+            int nameLength = positionFundingDetailEntry.getName().length();
+            detailReportEntry.setName(positionFundingDetailEntry.getName().substring(0, (nameLength > 35) ? 35 : nameLength));
             if (budgetConstructionIntendedIncumbent != null) {
                 if (budgetConstructionIntendedIncumbent.getIuClassificationLevel() == null) {
                     detailReportEntry.setCls(BCConstants.Report.UNDF);

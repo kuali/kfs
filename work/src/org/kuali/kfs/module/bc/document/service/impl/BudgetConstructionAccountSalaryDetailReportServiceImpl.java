@@ -238,8 +238,13 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
         String deleteBox = pendingAppointmentFunding.isAppointmentFundingDeleteIndicator() ? BCConstants.Report.DELETE_MARK : BCConstants.Report.BLANK;
         accountMonthlyDetailReport.setDeleteBox(deleteBox);
 
-        String name = pendingAppointmentFunding.getEmplid().equals(BCConstants.Report.VACANT)? BCConstants.Report.VACANT : intendedIncumbent.getName();
-        accountMonthlyDetailReport.setName(name);
+        if (pendingAppointmentFunding.getEmplid().equals(BCConstants.Report.VACANT)){
+            accountMonthlyDetailReport.setName(BCConstants.Report.VACANT); 
+        } else {
+            int nameLength = intendedIncumbent.getName().length();
+            accountMonthlyDetailReport.setName(intendedIncumbent.getName().substring(0, (nameLength > 35) ? 35 : nameLength));
+
+        }
 
         accountMonthlyDetailReport.setAmountChange(amountChange);
         accountMonthlyDetailReport.setPercentChange(percentChange);

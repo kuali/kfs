@@ -43,7 +43,6 @@ public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.w
      */
     public DataDictionaryDocumentSearchCustomizer() {
         setProcessResultSet(false);
-        setProcessFinalResults(false);
     }
 
 

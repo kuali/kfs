@@ -54,7 +54,7 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
      * 
      * @return AccountingPeriod
      */
-    protected void createInitialAccountingPeriod() { 
+    public void createInitialAccountingPeriod() { 
         AccountingPeriod accountingPeriod = retrieveCurrentAccountingPeriod();
         setAccountingPeriod(accountingPeriod);
     }
@@ -63,7 +63,7 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
      * Finds the accounting period for the current date
      * @return the current accounting period
      */
-    protected AccountingPeriod retrieveCurrentAccountingPeriod() {
+    public AccountingPeriod retrieveCurrentAccountingPeriod() {
         try {
             Date date = getDateTimeService().getCurrentSqlDate();
             return getAccountingPeriodService().getByDate(date);

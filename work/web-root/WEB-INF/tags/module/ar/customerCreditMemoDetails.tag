@@ -61,7 +61,7 @@
 				property="document.creditMemoDetails"
 				indexId="ctr">
 		        <c:set var="displayOrangeFlower" value="${KualiForm.document.creditMemoDetails[ctr].creditMemoLineTotalAmount != 0}" />
-		        <c:set var="isInvoiceOpenItemQuantityZero" value="${org.kuali.rice.kns.util.KualiDecimal.ZERO eq KualiForm.document.creditMemoDetails[ctr].invoiceOpenItemQuantity}" />
+		        <c:set var="isInvoiceOpenItemQuantityZero" value="${KualiForm.document.creditMemoDetails[ctr].invoiceOpenItemQuantityZero}" />
 				<ar:customerCreditMemoDetail
 					rowHeader="${ctr+1}"
 					invPropertyName="document.invoice.customerInvoiceDetailsWithoutDiscounts[${ctr}]"

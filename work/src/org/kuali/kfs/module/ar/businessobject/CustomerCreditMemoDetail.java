@@ -34,7 +34,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 
-public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase implements GeneralLedgerPendingEntrySourceDetail, AppliedPayment{
+public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase implements GeneralLedgerPendingEntrySourceDetail, AppliedPayment {
 
     private String documentNumber;
     private Integer referenceInvoiceItemNumber;
@@ -44,10 +44,12 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
     private KualiDecimal duplicateCreditMemoItemTotalAmount; // not in DB
     private KualiDecimal invoiceLineTotalAmount; // not in DB
     private KualiDecimal creditMemoLineTotalAmount; // not in DB
-    private KualiDecimal invoiceOpenItemAmount; //not in DB
+    private KualiDecimal invoiceOpenItemAmount; // not in DB
     private KualiDecimal invoiceOpenItemQuantity; // not in DB
     private CustomerInvoiceDetail customerInvoiceDetail; // not in DB
     private String financialDocumentReferenceInvoiceNumber; // not in DB
+    private boolean invoiceOpenItemQuantityZero; // not in DB
+
     /**
      * Default constructor.
      */
@@ -59,9 +61,8 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
-     * 
      */
-    public String getDocumentNumber() { 
+    public String getDocumentNumber() {
         return documentNumber;
     }
 
@@ -69,7 +70,6 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -80,9 +80,8 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
      * Gets the referenceInvoiceItemNumber attribute.
      * 
      * @return Returns the referenceInvoiceItemNumber
-     * 
      */
-    public Integer getReferenceInvoiceItemNumber() { 
+    public Integer getReferenceInvoiceItemNumber() {
         return referenceInvoiceItemNumber;
     }
 
@@ -90,7 +89,6 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
      * Sets the referenceInvoiceItemNumber attribute.
      * 
      * @param referenceInvoiceItemNumber The referenceInvoiceItemNumber to set.
-     * 
      */
     public void setReferenceInvoiceItemNumber(Integer referenceInvoiceItemNumber) {
         this.referenceInvoiceItemNumber = referenceInvoiceItemNumber;
@@ -101,9 +99,8 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
      * Gets the creditMemoItemQuantity attribute.
      * 
      * @return Returns the creditMemoItemQuantity
-     * 
      */
-    public BigDecimal getCreditMemoItemQuantity() { 
+    public BigDecimal getCreditMemoItemQuantity() {
         return creditMemoItemQuantity;
     }
 
@@ -111,7 +108,6 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
      * Sets the creditMemoItemQuantity attribute.
      * 
      * @param creditMemoItemQuantity The creditMemoItemQuantity to set.
-     * 
      */
     public void setCreditMemoItemQuantity(BigDecimal creditMemoItemQuantity) {
         this.creditMemoItemQuantity = creditMemoItemQuantity;
@@ -122,9 +118,8 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
      * Gets the creditMemoItemTaxAmount attribute.
      * 
      * @return Returns the creditMemoItemTaxAmount
-     * 
      */
-    public KualiDecimal getCreditMemoItemTaxAmount() { 
+    public KualiDecimal getCreditMemoItemTaxAmount() {
         if (creditMemoItemTaxAmount == null)
             setCreditMemoItemTaxAmount(KualiDecimal.ZERO);
         return creditMemoItemTaxAmount;
@@ -134,7 +129,6 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
      * Sets the creditMemoItemTaxAmount attribute.
      * 
      * @param creditMemoItemTaxAmount The creditMemoItemTaxAmount to set.
-     * 
      */
     public void setCreditMemoItemTaxAmount(KualiDecimal creditMemoItemTaxAmount) {
         if (creditMemoItemTaxAmount == null)
@@ -147,9 +141,8 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
      * Gets the creditMemoItemTotalAmount attribute.
      * 
      * @return Returns the creditMemoItemTotalAmount
-     * 
      */
-    public KualiDecimal getCreditMemoItemTotalAmount() { 
+    public KualiDecimal getCreditMemoItemTotalAmount() {
         return creditMemoItemTotalAmount;
     }
 
@@ -157,14 +150,14 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
      * Sets the creditMemoItemTotalAmount attribute.
      * 
      * @param creditMemoItemTotalAmount The creditMemoItemTotalAmount to set.
-     * 
      */
     public void setCreditMemoItemTotalAmount(KualiDecimal creditMemoItemTotalAmount) {
         this.creditMemoItemTotalAmount = creditMemoItemTotalAmount;
     }
 
     /**
-     * Gets the invoiceOpenItemAmount attribute. 
+     * Gets the invoiceOpenItemAmount attribute.
+     * 
      * @return Returns the invoiceOpenItemAmount.
      */
     public KualiDecimal getInvoiceOpenItemAmount() {
@@ -173,14 +166,16 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
 
     /**
      * Sets the invoiceOpenItemAmount attribute value.
+     * 
      * @param invoiceOpenItemAmount The invoiceOpenItemAmount to set.
      */
     public void setInvoiceOpenItemAmount(KualiDecimal invoiceOpenItemAmount) {
         this.invoiceOpenItemAmount = invoiceOpenItemAmount;
     }
-    
+
     /**
-     * Gets the invoiceLineTotalAmount attribute. 
+     * Gets the invoiceLineTotalAmount attribute.
+     * 
      * @return Returns the invoiceLineTotalAmount.
      */
     public KualiDecimal getInvoiceLineTotalAmount() {
@@ -189,6 +184,7 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
 
     /**
      * Sets the invoiceLineTotalAmount attribute value.
+     * 
      * @param invoiceLineTotalAmount The invoiceLineTotalAmount to set.
      */
     public void setInvoiceLineTotalAmount(KualiDecimal tax, KualiDecimal invItemAmount) {
@@ -196,22 +192,24 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
             invItemAmount = KualiDecimal.ZERO;
         if (tax == null)
             tax = KualiDecimal.ZERO;
-        
+
         this.invoiceLineTotalAmount = invItemAmount.add(tax);
     }
-    
+
     /**
-     * Gets the creditMemoLineTotalAmount attribute. 
+     * Gets the creditMemoLineTotalAmount attribute.
+     * 
      * @return Returns the creditMemoLineTotalAmount.
      */
     public KualiDecimal getCreditMemoLineTotalAmount() {
         if (creditMemoLineTotalAmount == null)
-            setCreditMemoLineTotalAmount(KualiDecimal.ZERO);    
+            setCreditMemoLineTotalAmount(KualiDecimal.ZERO);
         return creditMemoLineTotalAmount;
     }
 
     /**
      * Sets the creditMemoLineTotalAmount attribute value.
+     * 
      * @param creditMemoLineTotalAmount The creditMemoLineTotalAmount to set.
      */
     public void setCreditMemoLineTotalAmount(KualiDecimal creditMemoLineTotalAmount) {
@@ -222,7 +220,7 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", this.documentNumber);
         if (this.referenceInvoiceItemNumber != null) {
             m.put("referenceInvoiceItemNumber", this.referenceInvoiceItemNumber.toString());
@@ -233,12 +231,12 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
     public void setInvoiceLineTotalAmount(KualiDecimal invoiceLineTotalAmount) {
         this.invoiceLineTotalAmount = invoiceLineTotalAmount;
     }
-    
+
     public void recalculateBasedOnEnteredItemQty(CustomerCreditMemoDocument customerCreditMemoDocument) {
         BigDecimal invItemUnitPrice = getCustomerInvoiceDetail().getInvoiceItemUnitPrice();
 
         creditMemoItemTotalAmount = new KualiDecimal(creditMemoItemQuantity.multiply(invItemUnitPrice).setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR));
-        
+
         if (customerCreditMemoDocument.getArTaxService().isCustomerInvoiceDetailTaxable(customerCreditMemoDocument.getInvoice(), getCustomerInvoiceDetail()))
             creditMemoItemTaxAmount = customerCreditMemoDocument.getTaxService().getTotalSalesTaxAmount(customerCreditMemoDocument.getInvoice().getBillingDate(), customerCreditMemoDocument.getPostalCode(), creditMemoItemTotalAmount);
         else
@@ -248,9 +246,9 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
 
     public void recalculateBasedOnEnteredItemAmount(CustomerCreditMemoDocument customerCreditMemoDocument) {
         BigDecimal invItemUnitPrice = getCustomerInvoiceDetail().getInvoiceItemUnitPrice();
-        
+
         creditMemoItemQuantity = creditMemoItemTotalAmount.divide(new KualiDecimal(invItemUnitPrice), true).bigDecimalValue();
-        
+
         if (customerCreditMemoDocument.getArTaxService().isCustomerInvoiceDetailTaxable(customerCreditMemoDocument.getInvoice(), getCustomerInvoiceDetail()))
             creditMemoItemTaxAmount = customerCreditMemoDocument.getTaxService().getTotalSalesTaxAmount(customerCreditMemoDocument.getInvoice().getBillingDate(), customerCreditMemoDocument.getPostalCode(), creditMemoItemTotalAmount);
         else
@@ -259,7 +257,8 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
     }
 
     /**
-     * Gets the duplicateCreditMemoItemTotalAmount attribute. 
+     * Gets the duplicateCreditMemoItemTotalAmount attribute.
+     * 
      * @return Returns the duplicateCreditMemoItemTotalAmount.
      */
     public KualiDecimal getDuplicateCreditMemoItemTotalAmount() {
@@ -268,6 +267,7 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
 
     /**
      * Sets the duplicateCreditMemoItemTotalAmount attribute value.
+     * 
      * @param duplicateCreditMemoItemTotalAmount The duplicateCreditMemoItemTotalAmount to set.
      */
     public void setDuplicateCreditMemoItemTotalAmount(KualiDecimal duplicateCreditMemoItemTotalAmount) {
@@ -275,7 +275,8 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
     }
 
     /**
-     * Gets the invoiceOpenItemQuantity attribute. 
+     * Gets the invoiceOpenItemQuantity attribute.
+     * 
      * @return Returns the invoiceOpenItemQuantity.
      */
     public KualiDecimal getInvoiceOpenItemQuantity() {
@@ -284,6 +285,7 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
 
     /**
      * Sets the invoiceOpenItemQuantity attribute value.
+     * 
      * @param invoiceOpenItemQuantity The invoiceOpenItemQuantity to set.
      */
     public void setInvoiceOpenItemQuantity(KualiDecimal invoiceOpenItemQuantity) {
@@ -355,17 +357,17 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
     public String getBalanceTypeCode() {
         return getCustomerInvoiceDetail().getBalanceTypeCode();
     }
-    
+
     public ObjectCode getAccountsReceivableObject() {
         return getCustomerInvoiceDetail().getAccountsReceivableObject();
     }
-    
+
     public String getAccountsReceivableObjectCode() {
         return getCustomerInvoiceDetail().getAccountsReceivableObjectCode();
     }
-    
-    public CustomerInvoiceDetail getCustomerInvoiceDetail(){
-        if (ObjectUtils.isNull(customerInvoiceDetail) && StringUtils.isNotEmpty(financialDocumentReferenceInvoiceNumber) && ObjectUtils.isNotNull(referenceInvoiceItemNumber)){
+
+    public CustomerInvoiceDetail getCustomerInvoiceDetail() {
+        if (ObjectUtils.isNull(customerInvoiceDetail) && StringUtils.isNotEmpty(financialDocumentReferenceInvoiceNumber) && ObjectUtils.isNotNull(referenceInvoiceItemNumber)) {
             customerInvoiceDetail = SpringContext.getBean(CustomerInvoiceDetailService.class).getCustomerInvoiceDetail(financialDocumentReferenceInvoiceNumber, referenceInvoiceItemNumber);
         }
         return customerInvoiceDetail;
@@ -373,6 +375,7 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
 
     /**
      * Sets the customerInvoiceDetail attribute value.
+     * 
      * @param customerInvoiceDetail The customerInvoiceDetail to set.
      */
     public void setCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail) {
@@ -380,7 +383,8 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
     }
 
     /**
-     * Gets the financialDocumentReferenceInvoiceNumber attribute. 
+     * Gets the financialDocumentReferenceInvoiceNumber attribute.
+     * 
      * @return Returns the financialDocumentReferenceInvoiceNumber.
      */
     public String getFinancialDocumentReferenceInvoiceNumber() {
@@ -389,6 +393,7 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
 
     /**
      * Sets the financialDocumentReferenceInvoiceNumber attribute value.
+     * 
      * @param financialDocumentReferenceInvoiceNumber The financialDocumentReferenceInvoiceNumber to set.
      */
     public void setFinancialDocumentReferenceInvoiceNumber(String financialDocumentReferenceInvoiceNumber) {
@@ -401,5 +406,13 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
 
     public String getInvoiceReferenceNumber() {
         return financialDocumentReferenceInvoiceNumber;
+    }
+
+    public boolean isInvoiceOpenItemQuantityZero() {
+        return KualiDecimal.ZERO.equals(getInvoiceOpenItemQuantity());
+    }
+
+    public void setInvoiceOpenItemQuantityZero(boolean invoiceOpenItemQuantityZero) {
+        this.invoiceOpenItemQuantityZero = invoiceOpenItemQuantityZero;
     }
 }

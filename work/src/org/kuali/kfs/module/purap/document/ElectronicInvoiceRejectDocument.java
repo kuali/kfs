@@ -1935,9 +1935,13 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     @Override
     public List getBoNotes() {
         List notes = super.getBoNotes();
-        for (Iterator iterator = notes.iterator(); iterator.hasNext();) {
-            Note note = (Note) iterator.next();
-            note.refresh();
+        if (!StringUtils.isBlank(this.getObjectId())) {
+            for (Iterator iterator = notes.iterator(); iterator.hasNext();) {
+                Note note = (Note) iterator.next();
+                if (!StringUtils.isBlank(note.getObjectId())) {
+                    note.refresh();
+                }
+            }
         }
         
         return super.getBoNotes();

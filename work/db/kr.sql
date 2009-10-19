@@ -4900,3 +4900,7 @@ update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fmessa
 /
 update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fsystemoptions.htm' where doc_typ_nm = 'SOPT' and actv_ind = 1 and cur_ind = 1
 / 
+
+-- KFSMI-4279: update parameter to use real address type
+update krns_parm_t set txt = 'HM' where NMSPC_CD = 'KFS-FP' and PARM_DTL_TYP_CD = 'DisbursementVoucher' and parm_nm = 'DEFAULT_EMPLOYEE_ADDRESS_TYPE' and appl_nmspc_cd = 'KFS'
+/

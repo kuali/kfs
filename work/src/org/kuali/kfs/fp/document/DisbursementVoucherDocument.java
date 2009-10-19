@@ -30,7 +30,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectTypeService;
-import org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
@@ -49,7 +48,6 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.AdHocPaymentIndicator;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -73,6 +71,11 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.entity.KimEntityAddress;
+import org.kuali.rice.kim.bo.entity.KimEntityEntityType;
+import org.kuali.rice.kim.bo.entity.dto.KimEntityEntityTypeInfo;
+import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -101,6 +104,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     protected static final String DOCUMENT_REQUIRES_TRAVEL_REVIEW_SPLIT = "RequiresTravelReview";
     
     protected static final String PAYMENT_REASONS_REQUIRING_TAX_REVIEW_PARAMETER_NAME = "PAYMENT_REASONS_REQUIRING_TAX_REVIEW";
+    protected static final String USE_DEFAULT_EMPLOYEE_ADDRESS_PARAMETER_NAME = "USE_DEFAULT_EMPLOYEE_ADDRESS_IND";
+    protected static final String DEFAULT_EMPLOYEE_ADDRESS_TYPE_PARAMETER_NAME = "DEFAULT_EMPLOYEE_ADDRESS_TYPE";
 
     protected static final String TAX_CONTROL_BACKUP_HOLDING = "B";
     protected static final String TAX_CONTROL_HOLD_PAYMENTS = "H";
@@ -111,6 +116,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     protected static transient BusinessObjectService businessObjectService;
     protected static transient DateTimeService dateTimeService;
     protected static transient DisbursementVoucherPaymentReasonService dvPymentReasonService;
+    protected static transient IdentityManagementService identityManagementService;
 
     protected Integer finDocNextRegistrantLineNbr;
     protected String disbVchrContactPersonName;
@@ -938,12 +944,26 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(employee.getEmployeeId());
         this.getDvPayeeDetail().setDisbVchrPayeePersonName(employee.getName());
 
-        this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(employee.getAddressLine1Unmasked());
-        this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr(employee.getAddressLine2Unmasked());
-        this.getDvPayeeDetail().setDisbVchrPayeeCityName(employee.getAddressCityNameUnmasked());
-        this.getDvPayeeDetail().setDisbVchrPayeeStateCode(employee.getAddressStateCodeUnmasked());
-        this.getDvPayeeDetail().setDisbVchrPayeeZipCode(employee.getAddressPostalCodeUnmasked());
-        this.getDvPayeeDetail().setDisbVchrPayeeCountryCode(employee.getAddressCountryCodeUnmasked());
+        final ParameterService parameterService = this.getParameterService();
+        
+        if (parameterService.parameterExists(DisbursementVoucherDocument.class, DisbursementVoucherDocument.USE_DEFAULT_EMPLOYEE_ADDRESS_PARAMETER_NAME) && parameterService.getIndicatorParameter(DisbursementVoucherDocument.class, DisbursementVoucherDocument.USE_DEFAULT_EMPLOYEE_ADDRESS_PARAMETER_NAME)) {
+            this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(employee.getAddressLine1Unmasked());
+            this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr(employee.getAddressLine2Unmasked());
+            this.getDvPayeeDetail().setDisbVchrPayeeCityName(employee.getAddressCityNameUnmasked());
+            this.getDvPayeeDetail().setDisbVchrPayeeStateCode(employee.getAddressStateCodeUnmasked());
+            this.getDvPayeeDetail().setDisbVchrPayeeZipCode(employee.getAddressPostalCodeUnmasked());
+            this.getDvPayeeDetail().setDisbVchrPayeeCountryCode(employee.getAddressCountryCodeUnmasked());
+        } else {
+            final KimEntityAddress address = getNonDefaultAddress(employee);
+            if (address != null) {
+                this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(address.getLine1Unmasked());
+                this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr(address.getLine2Unmasked());
+                this.getDvPayeeDetail().setDisbVchrPayeeCityName(address.getCityNameUnmasked());
+                this.getDvPayeeDetail().setDisbVchrPayeeStateCode(address.getStateCodeUnmasked());
+                this.getDvPayeeDetail().setDisbVchrPayeeZipCode(address.getPostalCodeUnmasked());
+                this.getDvPayeeDetail().setDisbVchrPayeeCountryCode(address.getCountryCodeUnmasked());
+            }
+        }
 
         this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(true);
         // I'm assuming that if a tax id type code other than 'TAX' is present, then the employee must be foreign
@@ -969,6 +989,68 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
         this.disbVchrPayeeTaxControlCode = "";
         this.disbVchrPayeeW9CompleteCode = true;
+    }
+    
+    /**
+     * Finds the address for the given employee, matching the type in the KFS-FP / Disbursement Voucher/ DEFAULT_EMPLOYEE_ADDRESS_TYPE parameter,
+     * to use as the address for the employee
+     * @param employee the employee to find a non-default address for
+     * @return the non-default address, or null if not found
+     */
+    protected KimEntityAddress getNonDefaultAddress(Person employee) {
+        final String addressType = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherDocument.DEFAULT_EMPLOYEE_ADDRESS_TYPE_PARAMETER_NAME);
+        final KimEntityInfo entityInfo = getIdentityManagementService().getEntityInfoByPrincipalId(employee.getPrincipalId());
+        if (entityInfo != null) {
+            final KimEntityEntityType entityEntityType = getPersonEntityEntityType(entityInfo);
+            if (entityEntityType != null) {
+                final List<? extends KimEntityAddress> addresses = entityEntityType.getAddresses();
+        
+                return findAddressByType(addresses, addressType);
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Someday this method will be in Rice.  But...'til it is...lazy loop through the entity entity types in the given
+     * KimEntityInfo and return the one who has the type of "PERSON"
+     * @param entityInfo the entity info to loop through entity entity types of
+     * @return a found entity entity type or null if a PERSON entity entity type is not associated with the given KimEntityInfo record
+     */
+    protected KimEntityEntityType getPersonEntityEntityType(KimEntityInfo entityInfo) {
+        final List<KimEntityEntityTypeInfo> entityEntityTypes = entityInfo.getEntityTypes();
+        int count = 0;
+        KimEntityEntityType foundInfo = null;
+        
+        while (count < entityEntityTypes.size() && foundInfo == null) {
+            if (entityEntityTypes.get(count).getEntityTypeCode().equals(KimConstants.EntityTypes.PERSON)) {
+                foundInfo = entityEntityTypes.get(count);
+            }
+            count += 1;
+        }
+        
+        return foundInfo;
+    }
+    
+    /**
+     * Given a List of KimEntityAddress and an address type, finds the address in the List with the given type (or null if no matching KimEntityAddress is found)
+     * @param addresses the List of KimEntityAddress records to search
+     * @param addressType the address type of the address to return
+     * @return the found KimEntityAddress, or null if not found
+     */
+    protected KimEntityAddress findAddressByType(List<? extends KimEntityAddress> addresses, String addressType) {
+        KimEntityAddress foundAddress = null;
+        int count = 0;
+        
+        while (count < addresses.size() && foundAddress == null) {
+            final KimEntityAddress currentAddress = addresses.get(count);
+            if (currentAddress.getAddressTypeCode().equals(addressType)) {
+                foundAddress = currentAddress;
+            }
+            count += 1;
+        }
+        
+        return foundAddress;
     }
 
     /**
@@ -1709,4 +1791,26 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         }
         return dvPymentReasonService;
     }
+
+
+    /**
+     * Gets the identityManagementService attribute. 
+     * @return Returns the identityManagementService.
+     */
+    public static IdentityManagementService getIdentityManagementService() {
+        if (identityManagementService == null) {
+            identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+        }
+        return identityManagementService;
+    }
+
+
+    /**
+     * Sets the identityManagementService attribute value.
+     * @param identityManagementService The identityManagementService to set.
+     */
+    public static void setIdentityManagementService(IdentityManagementService identityManagementService) {
+        DisbursementVoucherDocument.identityManagementService = identityManagementService;
+    }
+    
 }

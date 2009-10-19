@@ -230,15 +230,25 @@ are intended for use only by Kuali Foundation developers.
         	  todir="${build.appserver.directory}" />
     </target>
     
-	<target name="update-rice-extended" depends="init-property-files,init-additional-properties,update-rice-kuali-dependencies,update-rice-licenses" />
+	<target name="update-rice-extended" depends="init-property-files,init-additional-properties,update-rice-kfs-dependencies,update-rice-licenses" />
   
-	<target name="update-rice-kuali-dependencies" depends="init-property-files,init-additional-properties">
+	<target name="update-rice-kfs-dependencies" depends="init-property-files,init-additional-properties">
     	<delete verbose="true" failonerror="false">
-      		<fileset dir="${dependencies.project.directory}" includes="${rice.output.file.prefix}" />
+      		<fileset dir="${dependencies.project.directory}" includes="rice-*.zip" />
     	</delete>
     	<maven goals="compile source:jar javadoc:jar" />
     	<copy todir="${dependencies.project.directory}" verbose="true" overwrite="true">
-      		<fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.src.suffix},${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.doc.suffix}" excludes="${rice.excludes}" />
+      		<fileset dir="${rice.project.directory}">
+      			<include name="**/target/rice*-sources.jar" />
+      			<include name="**/target/rice*-javadoc.jar" />
+      			<exclude name="**/*-kim-*" />
+      			<exclude name="**/*-kns-*" />
+      			<exclude name="**/*-ken-*" />
+      			<exclude name="**/*-kcb-*" />
+      			<exclude name="**/*-ksb-*" />
+      			<exclude name="**/*-kew-*" />
+      			<exclude name="**/*-web-*" />
+      		</fileset>
       		<chainedmapper>
         		<flattenmapper />
         		<globmapper from="*.jar" to="*.zip" />

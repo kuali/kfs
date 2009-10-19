@@ -43,9 +43,7 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
             editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_DETAILS);
             editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_REF_DOC_NBR);
             editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_BANK_CODE);
-            if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
-                editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.SHOW_BANK_CODE);
-            }
+
         }
 
         // if the document is in routing, then we have some special rules
@@ -74,6 +72,9 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
                 editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_MEDIUM);
                 editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_REF_DOC_NBR);
             }
+        }
+        if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
+            editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.SHOW_BANK_CODE);
         }
 
         return editModes;

@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ar.document.authorization;
 
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
@@ -43,7 +44,14 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
             editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_DETAILS);
             editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_REF_DOC_NBR);
             editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_BANK_CODE);
-
+            if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
+                editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.SHOW_BANK_CODE);
+            }
+        }
+        else {
+            if (StringUtils.isNotBlank(cashControlDocument.getBankCode())) {
+                editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.SHOW_BANK_CODE);
+            }
         }
 
         // if the document is in routing, then we have some special rules
@@ -72,9 +80,7 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
                 editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_MEDIUM);
                 editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_REF_DOC_NBR);
             }
-        }
-        if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
-            editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.SHOW_BANK_CODE);
+
         }
 
         return editModes;

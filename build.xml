@@ -68,30 +68,31 @@
 			</then>
 		</if>
 		<property file="${shared.external.build.properties}" />
-		<echo message="Reading Properties: ${basedir}/build.properties" />
-		<property file="build.properties" />
-		<echo message="Reading Properties: ${basedir}/database.properties" />
-		<property file="database.properties" />
-		<echo message="Reading Properties: ${basedir}/directory.properties" />
-		<property file="directory.properties" />
-		<echo message="Reading Properties: ${basedir}/logging.properties" />
-		<property file="logging.properties" />
-		<echo message="Reading Properties: ${basedir}/batch.properties" />
-		<property file="batch.properties" />
-		<echo message="Reading Properties: ${basedir}/email.properties" />
-		<property file="email.properties" />
-		<echo message="Reading Properties: ${basedir}/url.properties" />
-		<property file="url.properties" />
-		<echo message="Reading Properties: ${basedir}/cas.properties" />
-		<property file="cas.properties" />
-		<echo message="Reading Properties: ${basedir}/rice.properties" />
-		<property file="rice.properties" />
-		<echo message="Reading Properties: ${basedir}/spring.properties" />
-		<property file="spring.properties" />
-		<echo message="Reading Properties: ${basedir}/web.properties" />
-		<property file="web.properties" />
-		<echo message="Reading Properties: ${basedir}/b2b.properties" />
-		<property file="b2b.properties" />
+		<property name="properties.directory" location="props" />
+		<echo message="Reading Properties: ${properties.directory}/build.properties" />
+		<property file="${properties.directory}/build.properties" />
+		<echo message="Reading Properties: ${properties.directory}/database.properties" />
+		<property file="${properties.directory}/database.properties" />
+		<echo message="Reading Properties: ${properties.directory}/directory.properties" />
+		<property file="${properties.directory}/directory.properties" />
+		<echo message="Reading Properties: ${properties.directory}/logging.properties" />
+		<property file="${properties.directory}/logging.properties" />
+		<echo message="Reading Properties: ${properties.directory}/batch.properties" />
+		<property file="${properties.directory}/batch.properties" />
+		<echo message="Reading Properties: ${properties.directory}/email.properties" />
+		<property file="${properties.directory}/email.properties" />
+		<echo message="Reading Properties: ${properties.directory}/url.properties" />
+		<property file="${properties.directory}/url.properties" />
+		<echo message="Reading Properties: ${properties.directory}/cas.properties" />
+		<property file="${properties.directory}/cas.properties" />
+		<echo message="Reading Properties: ${properties.directory}/rice.properties" />
+		<property file="${properties.directory}/rice.properties" />
+		<echo message="Reading Properties: ${properties.directory}/spring.properties" />
+		<property file="${properties.directory}/spring.properties" />
+		<echo message="Reading Properties: ${properties.directory}/web.properties" />
+		<property file="${properties.directory}/web.properties" />
+		<echo message="Reading Properties: ${properties.directory}/b2b.properties" />
+		<property file="${properties.directory}/b2b.properties" />
 	</target>
 	
 	<target name="init-properties" depends="init-property-files">
@@ -351,8 +352,8 @@
 	</target>
 	
   	<target name="filter-project-spring-ide" unless="dont.filter.project.spring.ide" depends="init-properties">
-		<echo message="Reading Properties: ${basedir}/springide.properties" />
-		<property file="springide.properties" />
+		<echo message="Reading Properties: ${properties.directory}/springide.properties" />
+		<property file="${properties.directory}/springide.properties" />
 		<delete dir="${rice.datadictionary.directory}" failonerror="false" quiet="true"/>
 		<mkdir dir="${rice.datadictionary.directory}"/>
 		<unjar dest="${rice.datadictionary.directory}">

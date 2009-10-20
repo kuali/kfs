@@ -28,7 +28,8 @@ are intended for use only by Kuali Foundation developers.
 	<target name="make-source" />
 
 	<target name="init-additional-properties">
-		<property file="build-foundation.properties" />
+		<echo message="Reading Properties: ${properties.directory}/build-foundation.properties" />
+		<property file="${properties.directory}/build-foundation.properties" />
 	</target>
 
 	<target name="modularization-test" depends="make-source,init-additional-properties">
@@ -75,17 +76,13 @@ are intended for use only by Kuali Foundation developers.
     <!-- setup destination directories -->
     	<mkdir dir="${doc.directory}" />
     	<mkdir dir="${all.temp.directory}/kfs" />
-    	<mkdir dir="${all.temp.directory}/rice/core" />
-    	<mkdir dir="${all.temp.directory}/rice/kew" />
-    	<mkdir dir="${all.temp.directory}/rice/kns" />
-    	<mkdir dir="${all.temp.directory}/rice/ksb" />
-    	<mkdir dir="${all.temp.directory}/rice/shared" />
+    	<mkdir dir="${all.temp.directory}/rice/api" />
+    	<mkdir dir="${all.temp.directory}/rice/impl" />
+    	<mkdir dir="${all.temp.directory}/rice/web" />
   	<!-- create javadocs from rice project -->
-  		<javadoc destdir="${all.temp.directory}/rice/core" packagenames="org.*" sourcepath="${rice.project.directory}/core/src/main/java" />
-  		<javadoc destdir="${all.temp.directory}/rice/kew" packagenames="org.*" sourcepath="${rice.project.directory}/kew/src/main/java" />
-  		<javadoc destdir="${all.temp.directory}/rice/kns" packagenames="org.*" sourcepath="${rice.project.directory}/kns/src/main/java" />
-  		<javadoc destdir="${all.temp.directory}/rice/ksb" packagenames="org.*" sourcepath="${rice.project.directory}/ksb/src/main/java" />
-  		<javadoc destdir="${all.temp.directory}/rice/shared" packagenames="org.*" sourcepath="${rice.project.directory}/shared/src/main/java" />
+  		<javadoc destdir="${all.temp.directory}/rice/api"  packagenames="org.*" sourcepath="${rice.project.directory}/api/src/main/java" />
+  		<javadoc destdir="${all.temp.directory}/rice/impl" packagenames="org.*" sourcepath="${rice.project.directory}/impl/src/main/java" />
+  		<javadoc destdir="${all.temp.directory}/rice/web"  packagenames="org.*" sourcepath="${rice.project.directory}/web/src/main/java" />
  	
     <!-- create javadoc target for kfs docs -->
 		<javadoc destdir="${all.temp.directory}/kfs" packagenames="org.*" locale="en" useexternalfile="yes" maxmemory="512M">
@@ -140,13 +137,13 @@ are intended for use only by Kuali Foundation developers.
 		-->
 		
 	<!-- replace foundation database URLs -->
-    	<replace file="${all.temp.directory}/kuali_project/build/external/user/kuali-build.properties">
+    	<replace file="${all.temp.directory}/kfs/build/external/user/kfs-build.properties">
       		<replacefilter token="mysql.datasource.url=jdbc:mysql://esdbk01.uits.indiana.edu:3306/$${datasource.username}" 
     		     value="mysql.datasource.url=jdbc:mysql://localhost:3306/$${datasource.username}" />
       		<replacefilter token="oracle.datasource.url=jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI" 
     		     value="oracle.datasource.url=jdbc:oracle:thin:@localhost:1521:XE" />
     	</replace>
-    	<copy file="${all.temp.directory}/${release.kfs.cvs.module}/build/README.txt" todir="${all.temp.directory}" />
+    	<copy file="${all.temp.directory}/kfs/build/README.txt" todir="${all.temp.directory}" />
     <!-- dump a file with the extracted tags -->
     	<echo file="${all.temp.directory}/release-details.txt">
       		KFS URL: ${release.kfs.cvs.tag}

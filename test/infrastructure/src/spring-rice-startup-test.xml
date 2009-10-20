@@ -59,7 +59,7 @@
     <property name="properties" ref="properties" />
     <property name="ksbConfigurer">
       <bean class="org.kuali.rice.ksb.messaging.config.KSBConfigurer"
-          p:serviceServletUrl="${workflow.url}/remote"
+          p:serviceServletUrl="http://${http.url}/remoting"
               p:webModuleConfigurationFiles="${rice.ksb.struts.config.files}"
 			 />
     </property>

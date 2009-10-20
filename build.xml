@@ -585,6 +585,9 @@
 
 	<target name="post-load-encrypt" depends="make-source">
 		<java classname="org.kuali.kfs.sys.context.BatchStepRunner" fork="true">
+			<jvmarg value="-Xms${run.postloadencrypt.min.memory}" />
+			<jvmarg value="-Xmx${run.postloadencrypt.max.memory}" />
+			<jvmarg value="-XX:MaxPermSize=${run.postloadencrypt.max.permsize}" />
 			<arg value="postDataLoadEncryptionStep" />
 			<classpath>
 				<pathelement location="${war.classes.directory}" />

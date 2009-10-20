@@ -16,7 +16,14 @@
 -->
 <project name="kfs" default="dist-local" basedir=".">
 	<!-- run the help target to view usage instructions for public targets -->
-	
+
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<pathelement location="build/ant-contrib-1.0b3.jar" />
+			<pathelement location="build/bcel-5.2.jar" />
+		</classpath>
+	</taskdef>    	
+
 	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local,dist-local-cas,dist-local-rice,overlay-additional-web-content" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
 		<copy file="${metainf.directory}/${context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
 		<if>
@@ -29,7 +36,7 @@
 		</if>
 	</target>
 	
-	<target name="dist-local-cas" depends="filter-project">
+	<target name="dist-local-cas" if="is.local.build" depends="filter-project">
 		<!-- need to check this way, so that the default can be true -->
 		<if>
 			<equals arg1="${deploy.local.cas.server}" arg2="true" />
@@ -40,7 +47,7 @@
 		</if>
 	</target>
 	
-	<target name="dist-local-rice" depends="init-properties">
+	<target name="dist-local-rice" if="is.local.build" depends="init-properties">
 		<if>
 			<equals arg1="${deploy.local.rice.server}" arg2="true" />
 			<then>
@@ -152,7 +159,7 @@
 		<property name="rice.server.datasource.driver.class" value="${datasource.driver.class}" />
 		<property name="rice.server.datasource.url" value="${datasource.url}" />
 		<condition property="rice.server.datasource.platform" value="${mysql.server.datasource.platform}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
-		<property name="rice.server.datasource.platform" value="org.kuali.rice.core.database.platform.OraclePlatform" />
+		<property name="rice.server.datasource.platform" value="${oracle.server.datasource.platform}" />
 		<condition property="rice.dev.mode" value="false"><equals arg1="${rice.standalone}" arg2="true" /></condition>
 		<condition property="rice.dev.mode" value="true"><isset property="is.local.build" /></condition>
 		<property name="rice.dev.mode" value="false" />		
@@ -647,13 +654,6 @@
 			clean: removes all build output
 		</echo>
 	</target>
-
-	<taskdef resource="net/sf/antcontrib/antlib.xml">
-		<classpath>
-			<pathelement location="build/ant-contrib-1.0b3.jar" />
-			<pathelement location="build/bcel-5.2.jar" />
-		</classpath>
-	</taskdef>    	
 
 	<import file="build-foundation.xml"/>
 </project>

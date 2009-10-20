@@ -21,6 +21,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
  * An interface that represents a generic validation.
  */
 public abstract class GenericValidation extends ParameterizedValidation implements Validation {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GenericValidation.class);
     private boolean quitOnFail = false;
     
     /**
@@ -29,6 +30,9 @@ public abstract class GenericValidation extends ParameterizedValidation implemen
      * @return true if validation succeeded and the process required validation should continue, false otherwise
      */
     public boolean stageValidation(AttributedDocumentEvent event) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Staging validation for: "+getClass().getName()+" for event "+event.getClass().getName());
+        }
         populateParametersFromEvent(event);
         return validate(event);
     }

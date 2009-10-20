@@ -125,7 +125,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         criteria.addEqualTo(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, delegateExample.getChartOfAccountsCode());
         criteria.addEqualTo(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, delegateExample.getAccountNumber());
         criteria.addEqualTo("active", "Y");
-        criteria.addLessOrEqualThan("accountDelegateStartDate", SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
+        criteria.addLessOrEqualThan("accountDelegateStartDate", SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
         criteria.addEqualTo("accountsDelegatePrmrtIndicator", accountsDelegatePrmrtIndicator);
         if (totalDollarAmount != null) {
             // (toAmt is nullish and (fromAmt is nullish or fromAmt <= total)) or (fromAmt is nullish and (toAmt is nullish or toAmt >= total)) or (fromAmt <= total and toAmount >= total)
@@ -345,7 +345,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
     protected Criteria getAccountExpiredCriteria() {
         Criteria criteria = new Criteria();
         criteria.addNotNull("accountExpirationDate");
-        criteria.addLessOrEqualThan("accountExpirationDate", dateTimeService.getCurrentTimestamp());
+        criteria.addLessOrEqualThan("accountExpirationDate", dateTimeService.getCurrentSqlDate());
         return criteria;
     }
     
@@ -358,7 +358,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         criteria.addIsNull("accountExpirationDate");
         
         Criteria notYetExpiredCriteria = new Criteria();
-        notYetExpiredCriteria.addGreaterThan("accountExpirationDate", dateTimeService.getCurrentTimestamp());
+        notYetExpiredCriteria.addGreaterThan("accountExpirationDate", dateTimeService.getCurrentSqlDate());
         
         criteria.addOrCriteria(notYetExpiredCriteria);
         return criteria;

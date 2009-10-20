@@ -78,6 +78,7 @@ import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -113,6 +114,27 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         document.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getRequestorPersonPhoneNumber()));
         document.setDeliveryToPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getDeliveryToPhoneNumber()));
 
+        //names in KIM are longer than what we store these names at; truncate them to match our data dictionary maxlengths
+        if (StringUtils.equals(refreshCaller, "kimPersonLookupable")) {
+            Integer deliveryToNameMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(document.getClass(), PurapPropertyConstants.DELIVERY_TO_NAME);
+            if (StringUtils.isNotEmpty(document.getDeliveryToName()) && document.getDeliveryToName().length() > deliveryToNameMaxLength.intValue()) {
+                document.setDeliveryToName(document.getDeliveryToName().substring(0, deliveryToNameMaxLength));
+                GlobalVariables.getMessageMap().clearErrorPath();
+                GlobalVariables.getMessageMap().addToErrorPath(PurapConstants.DELIVERY_TAB_ERRORS);
+                GlobalVariables.getMessageMap().putWarning(PurapPropertyConstants.DELIVERY_TO_NAME, PurapKeyConstants.WARNING_DELIVERY_TO_NAME_TRUNCATED);
+                GlobalVariables.getMessageMap().removeFromErrorPath(PurapConstants.DELIVERY_TAB_ERRORS);
+            }
+
+            Integer requestorNameMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(document.getClass(), PurapPropertyConstants.REQUESTOR_PERSON_NAME);
+            if (StringUtils.isNotEmpty(document.getRequestorPersonName()) && document.getRequestorPersonName().length() > requestorNameMaxLength.intValue()) {
+                document.setRequestorPersonName(document.getRequestorPersonName().substring(0, requestorNameMaxLength));
+                GlobalVariables.getMessageMap().clearErrorPath();
+                GlobalVariables.getMessageMap().addToErrorPath(PurapConstants.ADDITIONAL_TAB_ERRORS);
+                GlobalVariables.getMessageMap().putWarning(PurapPropertyConstants.REQUESTOR_PERSON_NAME, PurapKeyConstants.WARNING_REQUESTOR_NAME_TRUNCATED);
+                GlobalVariables.getMessageMap().removeFromErrorPath(PurapConstants.ADDITIONAL_TAB_ERRORS);
+            }
+        }
+        
         // Refreshing the fields after returning from a vendor lookup in the vendor tab
         if (StringUtils.equals(refreshCaller, VendorConstants.VENDOR_LOOKUPABLE_IMPL) && document.getVendorDetailAssignedIdentifier() != null && document.getVendorHeaderGeneratedIdentifier() != null) {
             document.setVendorContractGeneratedIdentifier(null);

@@ -86,6 +86,8 @@ public class PurapPropertyConstants {
     public static final String DELIVERY_CAMPUS_CODE = "deliveryCampusCode";
     public static final String DELIVERY_POSTAL_CODE = "deliveryPostalCode";
     public static final String DELIVERY_STATE_CODE = "deliveryStateCode";
+    public static final String REQUESTOR_PERSON_NAME = "requestorPersonName";
+    public static final String DELIVERY_TO_NAME = "deliveryToName";
     public static final String BANK_CODE = "bankCode";
     
     // PURCHASING DOCUMENT BASE

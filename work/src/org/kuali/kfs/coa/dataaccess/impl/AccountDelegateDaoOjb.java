@@ -102,7 +102,7 @@ public class AccountDelegateDaoOjb extends PlatformAwareDaoBaseOjb implements Ac
         criteria.addEqualTo("accountsDelegatePrmrtIndicator", (primary ? "Y" : "N"));
         criteria.addEqualTo("active", "Y");
         criteria.addEqualTo("account.active", "Y");
-        criteria.addLessOrEqualThan("accountDelegateStartDate", getDateTimeService().getCurrentTimestamp());
+        criteria.addLessOrEqualThan("accountDelegateStartDate", getDateTimeService().getCurrentSqlDate());
         
         ReportQueryByCriteria reportQuery = QueryFactory.newReportQuery(AccountDelegate.class, criteria);
         reportQuery.setAttributes(new String[] { "count(*)" });

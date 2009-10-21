@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Appender;
@@ -59,6 +60,10 @@ public class BatchStepRunner {
             String jobName = args.length >= 2 ? args[1] : KFSConstants.BATCH_STEP_RUNNER_JOB_NAME;
             Date jobRunDate = dateTimeService.getCurrentDate();
             LOG.info("Executing job: " + jobName + " steps: " + Arrays.toString(stepNames));
+            Map<String, Step> steps = SpringContext.getBeansOfType(Step.class);
+            for (String stepName : steps.keySet()) {
+                System.out.println("Step name: " + stepName + " class: " + steps.get(stepName).getClass().getName());
+            }
             for (int i = 0; i < stepNames.length; ++i) {
                 Step step = BatchSpringContext.getStep(stepNames[i]);
                 if ( step != null ) {

@@ -79,17 +79,9 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     public List<DailyReport> getDailyReportData() {
         LOG.debug("getDailyReportData() started");
 
-        Timestamp now = dateTimeService.getCurrentTimestamp();
-        java.sql.Date sqlDate = new java.sql.Date(now.getTime());
-        Calendar c = Calendar.getInstance();
-        c.setTime(sqlDate);
-        c.set(Calendar.HOUR, 11);
-        c.set(Calendar.MINUTE, 59);
-        c.set(Calendar.SECOND, 59);
-        c.set(Calendar.MILLISECOND, 59);
-        c.set(Calendar.AM_PM, Calendar.PM);
-        Timestamp paydateTs = new Timestamp(c.getTime().getTime());
-        LOG.debug("getDailyReportData() " + paydateTs);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("getDailyReportData() " + dateTimeService.getCurrentSqlDate());
+        }
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PdpPropertyConstants.PaymentDetail.PAYMENT_GROUP + "." + PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYMENT_STATUS_CODE, PdpConstants.PaymentStatusCodes.OPEN);
@@ -99,7 +91,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         criteria1.addEqualTo(PdpPropertyConstants.PaymentDetail.PAYMENT_GROUP + "." + PdpPropertyConstants.PaymentGroup.PROCESS_IMMEDIATE, Boolean.TRUE);
 
         Criteria criteria2 = new Criteria();
-        criteria2.addLessOrEqualThan(PdpPropertyConstants.PaymentDetail.PAYMENT_GROUP + "." + PdpPropertyConstants.PaymentGroup.PAYMENT_DATE, paydateTs);
+        criteria2.addLessOrEqualThan(PdpPropertyConstants.PaymentDetail.PAYMENT_GROUP + "." + PdpPropertyConstants.PaymentGroup.PAYMENT_DATE, dateTimeService.getCurrentSqlDate());
         criteria1.addOrCriteria(criteria2);
 
         criteria.addAndCriteria(criteria1);

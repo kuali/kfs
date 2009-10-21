@@ -197,7 +197,10 @@
 				<bean parent="PurchasingAccountsPayable-updatedAccountingLine-newAccountingLineBranchingValidation" scope="prototype" />  	  			
 				<bean parent="Requisition-accountClosedValidation" scope="prototype">								
 					<property name="parameterProperties">
-						<bean parent="updatedAccountingLineFieldConversion" />
+						<bean parent="validationFieldConversion">
+							<property name="sourceEventProperty" value="updatedAccountingLine" />
+							<property name="targetValidationProperty" value="accountingLine" />
+						</bean>
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>  			

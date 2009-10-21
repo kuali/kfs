@@ -4942,3 +4942,9 @@ update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fparam
 /
 update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fnamespace.htm' where doc_typ_nm = 'NamespaceMaintenanceDocument' and actv_ind = 1 and cur_ind = 1
 /
+
+--KFSMI-5047: fix help urls for year end labor doc types
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Flabordistributionyearend.htm' where doc_typ_nm = 'YEST' and cur_ind = 1 and actv_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Flabordistributionyearend.htm' where doc_typ_nm = 'YEBT' and cur_ind = 1 and actv_ind = 1
+/

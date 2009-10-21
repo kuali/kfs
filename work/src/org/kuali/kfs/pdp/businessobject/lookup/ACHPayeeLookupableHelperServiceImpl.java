@@ -152,9 +152,9 @@ public class ACHPayeeLookupableHelperServiceImpl extends DisbursementPayeeLookup
         if (StringUtils.isNotBlank(entityId) && isVendorInfoEntered) {
             String messageKey = KFSKeyConstants.ERROR_DV_VENDOR_EMPLOYEE_CONFUSION;
 
-            String vendorNameLabel = this.getAttribueLabel(KFSPropertyConstants.VENDOR_NAME);
-            String vendorNumberLabel = this.getAttribueLabel(KFSPropertyConstants.VENDOR_NUMBER);
-            String entityIdLabel = this.getAttribueLabel(KIMPropertyConstants.Person.ENTITY_ID);
+            String vendorNameLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NAME);
+            String vendorNumberLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NUMBER);
+            String entityIdLabel = this.getAttributeLabel(KIMPropertyConstants.Person.ENTITY_ID);
 
             GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.ENTITY_ID, messageKey, entityIdLabel, vendorNameLabel, vendorNumberLabel);
         }
@@ -165,18 +165,18 @@ public class ACHPayeeLookupableHelperServiceImpl extends DisbursementPayeeLookup
         if (payeeTypeEntered && PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(payeeTypeCode) && isEmployeeInfoEntered) {
             String messageKey = PdpKeyConstants.ERROR_PAYEE_LOOKUP_VENDOR_EMPLOYEE_CONFUSION;
 
-            String employeeIdLabel = this.getAttribueLabel(KIMPropertyConstants.Person.EMPLOYEE_ID);
-            String entityIdLabel = this.getAttribueLabel(KIMPropertyConstants.Person.ENTITY_ID);
-            String payeeTypeLabel = this.getAttribueLabel(KFSPropertyConstants.PAYEE_TYPE_CODE);
+            String employeeIdLabel = this.getAttributeLabel(KIMPropertyConstants.Person.EMPLOYEE_ID);
+            String entityIdLabel = this.getAttributeLabel(KIMPropertyConstants.Person.ENTITY_ID);
+            String payeeTypeLabel = this.getAttributeLabel(KFSPropertyConstants.PAYEE_TYPE_CODE);
 
             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.PAYEE_TYPE_CODE, messageKey, payeeTypeLabel, payeeTypeCode, employeeIdLabel, entityIdLabel);
         }
         else if (payeeTypeEntered && (PdpConstants.PayeeIdTypeCodes.EMPLOYEE.equals(payeeTypeCode) || PdpConstants.PayeeIdTypeCodes.ENTITY.equals(payeeTypeCode)) && isVendorInfoEntered) {
             String messageKey = PdpKeyConstants.ERROR_PAYEE_LOOKUP_VENDOR_EMPLOYEE_CONFUSION;
 
-            String vendorNameLabel = this.getAttribueLabel(KFSPropertyConstants.VENDOR_NAME);
-            String vendorNumberLabel = this.getAttribueLabel(KFSPropertyConstants.VENDOR_NUMBER);
-            String payeeTypeLabel = this.getAttribueLabel(KFSPropertyConstants.PAYEE_TYPE_CODE);
+            String vendorNameLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NAME);
+            String vendorNumberLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NUMBER);
+            String payeeTypeLabel = this.getAttributeLabel(KFSPropertyConstants.PAYEE_TYPE_CODE);
 
             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.PAYEE_TYPE_CODE, messageKey, payeeTypeLabel, payeeTypeCode, vendorNameLabel, vendorNumberLabel);
         }

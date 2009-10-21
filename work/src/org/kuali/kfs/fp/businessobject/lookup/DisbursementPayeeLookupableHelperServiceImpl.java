@@ -52,6 +52,8 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
 
     private Lookupable vendorLookupable;
     private DisbursementVoucherPaymentReasonService disbursementVoucherPaymentReasonService;
+    
+    private static final int NAME_REQUIRED_FILLED_WITH_WILDCARD = 4;
 
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#performLookup(org.kuali.rice.kns.web.struts.form.LookupForm,
@@ -107,45 +109,92 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
     @Override
     public void validateSearchParameters(Map fieldValues) {
         super.validateSearchParameters(fieldValues);
+        
+        final String vendorName = (String) fieldValues.get(KFSPropertyConstants.VENDOR_NAME);
+        final String vendorNumber = (String) fieldValues.get(KFSPropertyConstants.VENDOR_NUMBER);
+        final String employeeId = (String) fieldValues.get(KIMPropertyConstants.Person.EMPLOYEE_ID);
+        final String firstName = (String)fieldValues.get(KIMPropertyConstants.Person.FIRST_NAME);
+        final String lastName = (String)fieldValues.get(KIMPropertyConstants.Person.LAST_NAME);
 
-        String vendorName = (String) fieldValues.get(KFSPropertyConstants.VENDOR_NAME);
-        String vendorNumber = (String) fieldValues.get(KFSPropertyConstants.VENDOR_NUMBER);
-        String employeeId = (String) fieldValues.get(KIMPropertyConstants.Person.EMPLOYEE_ID);
-
-        // only can use the vendor name and vendor number fields or the employee id field, but not both.
-        boolean isVendorInfoEntered = StringUtils.isNotBlank(vendorName) || StringUtils.isNotBlank(vendorNumber);
-        if (StringUtils.isNotBlank(employeeId) && isVendorInfoEntered) {
-            String messageKey = KFSKeyConstants.ERROR_DV_VENDOR_EMPLOYEE_CONFUSION;
-
-            String vendorNameLabel = this.getAttribueLabel(KFSPropertyConstants.VENDOR_NAME);
-            String vendorNumberLabel = this.getAttribueLabel(KFSPropertyConstants.VENDOR_NUMBER);
-            String employeeIdLabel = this.getAttribueLabel(KIMPropertyConstants.Person.EMPLOYEE_ID);
-
-            GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.EMPLOYEE_ID, messageKey, employeeIdLabel, vendorNameLabel, vendorNumberLabel);
+        if (StringUtils.isBlank(vendorNumber) && StringUtils.isBlank(employeeId) && StringUtils.isBlank(firstName) && StringUtils.isBlank(lastName) && StringUtils.isBlank(vendorName)) {
+            final String vendorNumberLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NUMBER);
+            final String employeeIdLabel = this.getAttributeLabel(KIMPropertyConstants.Person.EMPLOYEE_ID);
+            final String vendorNameLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NAME);
+            final String firstNameLabel = this.getAttributeLabel(KIMPropertyConstants.Person.FIRST_NAME);
+            final String lastNameLabel = this.getAttributeLabel(KIMPropertyConstants.Person.LAST_NAME);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.VENDOR_NUMBER, KFSKeyConstants.ERROR_DV_LOOKUP_NEEDS_SOME_FIELD, new String[] {vendorNumberLabel, employeeIdLabel, vendorNameLabel, firstNameLabel, lastNameLabel});
+        } else {
+            final boolean isVendorInfoEntered = StringUtils.isNotBlank(vendorName) || StringUtils.isNotBlank(vendorNumber);
+            if (isVendorInfoEntered && StringUtils.isNotBlank(employeeId)) {
+                // only can use the vendor name and vendor number fields or the employee id field, but not both.
+                String messageKey = KFSKeyConstants.ERROR_DV_VENDOR_EMPLOYEE_CONFUSION;
+    
+                String vendorNameLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NAME);
+                String vendorNumberLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NUMBER);
+                String employeeIdLabel = this.getAttributeLabel(KIMPropertyConstants.Person.EMPLOYEE_ID);
+    
+                GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.EMPLOYEE_ID, messageKey, employeeIdLabel, vendorNameLabel, vendorNumberLabel);
+            }
+            if (StringUtils.isBlank(vendorNumber) && !StringUtils.isBlank(vendorName) && !filledEnough(vendorName)) {
+                final String vendorNameLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NAME);
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.VENDOR_NAME, KFSKeyConstants.ERROR_DV_NAME_NOT_FILLED_ENOUGH, new String[] {vendorNameLabel, Integer.toString(getNameLengthWithWildcardRequirement())});
+            }
+    
+            final boolean isPersonNameEntered = StringUtils.isNotBlank(firstName) || StringUtils.isNotBlank(lastName);
+            if (isPersonNameEntered && StringUtils.isNotBlank(vendorName)) {
+                // only can use the person first and last name fields or the vendor name field, but not both.
+                String messageKey = KFSKeyConstants.ERROR_DV_VENDOR_NAME_PERSON_NAME_CONFUSION;
+    
+                String vendorNameLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NAME);
+                String firstNameLabel = this.getAttributeLabel(KIMPropertyConstants.Person.FIRST_NAME);
+                String lastNameLabel = this.getAttributeLabel(KIMPropertyConstants.Person.LAST_NAME);
+    
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.VENDOR_NAME, messageKey, vendorNameLabel, firstNameLabel, lastNameLabel);
+            }
+            if (StringUtils.isBlank(employeeId)) {
+                if (StringUtils.isBlank(firstName) && !StringUtils.isBlank(lastName) && !filledEnough(lastName)) {
+                    final String label = getAttributeLabel(KIMPropertyConstants.Person.LAST_NAME);
+                    GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.LAST_NAME, KFSKeyConstants.ERROR_DV_NAME_NOT_FILLED_ENOUGH, new String[] { label, Integer.toString(getNameLengthWithWildcardRequirement() ) } );
+                } else if (StringUtils.isBlank(lastName) && !StringUtils.isBlank(firstName) && !filledEnough(firstName)) {
+                    final String label = getAttributeLabel(KIMPropertyConstants.Person.FIRST_NAME);
+                    GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.FIRST_NAME, KFSKeyConstants.ERROR_DV_NAME_NOT_FILLED_ENOUGH, new String[] { label, Integer.toString(getNameLengthWithWildcardRequirement() ) } );
+                }
+            }
         }
-
-        String firstName = (String) fieldValues.get(KIMPropertyConstants.Person.FIRST_NAME);
-        String lastName = (String) fieldValues.get(KIMPropertyConstants.Person.LAST_NAME);
-        boolean isPersonNameEntered = StringUtils.isNotBlank(firstName) || StringUtils.isNotBlank(lastName);
-
-        // only can use the person first and last name fields or the vendor name field, but not both.
-        if (StringUtils.isNotBlank(vendorName) && isPersonNameEntered) {
-            String messageKey = KFSKeyConstants.ERROR_DV_VENDOR_NAME_PERSON_NAME_CONFUSION;
-
-            String vendorNameLabel = this.getAttribueLabel(KFSPropertyConstants.VENDOR_NAME);
-            String firstNameLabel = this.getAttribueLabel(KIMPropertyConstants.Person.FIRST_NAME);
-            String lastNameLabel = this.getAttribueLabel(KIMPropertyConstants.Person.LAST_NAME);
-
-            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.VENDOR_NAME, messageKey, vendorNameLabel, firstNameLabel, lastNameLabel);
-        }
-
+        
         if (GlobalVariables.getMessageMap().hasErrors()) {
             throw new ValidationException("errors in search criteria");
         }
     }
+    
+    /**
+     * Determines if a String is "filled enough" - ie, is not null, has a length greater than zero and if a wildcard is present, has a length greater than 4 (3 characters, plus a wildcard)
+     * @param s the String to test
+     * @return true if the given String is "filled" by the definition above, false otherwise
+     */
+    protected boolean filledEnough(String s) {
+        final boolean containsWildcard = containsLookupWildcard(s);
+        return s != null && s.length() > 0 && ((containsWildcard && s.length() >= getNameLengthWithWildcardRequirement()) || !containsWildcard);
+    }
+    
+    /**
+     * @return the number of characters a name field must be filled in for the search to be valid
+     */
+    protected int getNameLengthWithWildcardRequirement() {
+        return DisbursementPayeeLookupableHelperServiceImpl.NAME_REQUIRED_FILLED_WITH_WILDCARD;
+    }
+    
+    /**
+     * Determines if the given String contains a lookup wildcard
+     * @param s the String to test
+     * @return true if a lookup wildcard is in the String, false otherwise
+     */
+    protected boolean containsLookupWildcard(String s) {
+        return s != null && (s.indexOf('*') > -1 || s.indexOf('%') > -1); 
+    }
 
     // get the label for the given attribute of the current business object
-    protected String getAttribueLabel(String attributeName) {
+    protected String getAttributeLabel(String attributeName) {
         return this.getDataDictionaryService().getAttributeLabel(getBusinessObjectClass(), attributeName);
     }
 

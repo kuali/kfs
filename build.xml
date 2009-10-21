@@ -75,7 +75,7 @@
 			</then>
 		</if>
 		<property file="${shared.external.build.properties}" />
-		<property name="properties.directory" location="props" />
+		<property name="properties.directory" location="build/properties" />
 		<echo message="Reading Properties: ${properties.directory}/build.properties" />
 		<property file="${properties.directory}/build.properties" />
 		<echo message="Reading Properties: ${properties.directory}/database.properties" />
@@ -256,7 +256,6 @@
 	<target name="clean-rice" unless="dont.filter.project.rice" depends="init-property-files">
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${basedir}">
-				<include name="${distribution.licenses.directory}/${rice.name}/**" />
 				<include name="${webroot.directory}/ksb/**" />
 				<include name="${webroot.directory}/kew/**" />
 				<include name="${webroot.directory}/kr/**" />

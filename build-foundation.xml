@@ -133,7 +133,7 @@ are intended for use only by Kuali Foundation developers.
     	</replace>
 
 		<!-- There's no need to do this in a development environment.  Add this to the distribution.
-		<unzip dest="${distribution.licenses.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.licenses.suffix}" />
+		<unzip dest="${build.distribution.licenses.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.licenses.suffix}" />
 		-->
 		
 	<!-- replace foundation database URLs -->

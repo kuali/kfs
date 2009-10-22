@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -34,6 +35,7 @@ import org.kuali.rice.kns.util.Guid;
  */
 @ConfigureContext
 public class SufficientFundsServiceTest extends KualiTestBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsServiceTest.class);
 
     private SufficientFundsService sufficientFundsService = null;
     private UnitTestSqlDao unitTestSqlDao = null;
@@ -93,6 +95,26 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, OBJ_ID, VER_NBR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_YR, UNIV_FISCAL_PRD_CD, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT, FDOC_TYP_CD, ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, FDOC_REVERSAL_DT, TRN_ENCUM_UPDT_CD, FDOC_APPROVED_CD, ACCT_SF_FINOBJ_CD, TRN_ENTR_OFST_CD, TRNENTR_PROCESS_TM) values ('01','" + documentHeaderId + "',2,'" + new Guid().toString() + "',2,'BL','" + accountNumber + "','-----','8000','---','AC','AS',"+currentFiscalYear+",null,'TP Generated Offset',500,'D'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'DI',null,'----------',null,'','','',null,'','N','ASST','Y'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
         unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, OBJ_ID, VER_NBR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_YR, UNIV_FISCAL_PRD_CD, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT, FDOC_TYP_CD, ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, FDOC_REVERSAL_DT, TRN_ENCUM_UPDT_CD, FDOC_APPROVED_CD, ACCT_SF_FINOBJ_CD, TRN_ENTR_OFST_CD, TRNENTR_PROCESS_TM) values ('01','" + documentHeaderId + "',4,'" + new Guid().toString() + "',2,'BL','4631638','-----','8000','---','AC','AS',"+currentFiscalYear+",null,'TP Generated Offset',500,'C'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'DI',null,'----------',null,'','','',null,'','N','N/A' ,'Y'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
     }
+    
+    /**
+     * Converts the given Strings into a List of OriginEntryFull objects, printing out error messages as they occur
+     * @param stringInput the String input to convert to OriginEntryFull records
+     * @return a List of OriginEntryFull records
+     */
+    protected List<OriginEntryFull> convertStringInputsToOriginEntries(String[] stringInput) {
+        List<OriginEntryFull> transactions = new ArrayList<OriginEntryFull>();
+
+        // Add inputs to expected output ...
+        for (int i = 0; i < stringInput.length; i++) {
+            OriginEntryFull oe = new OriginEntryFull();
+            List<Message> messages = oe.setFromTextFileForBatch(stringInput[i], i);
+            for (Message message: messages) {
+                LOG.warn(message);
+            }
+            transactions.add(oe);
+        }
+        return transactions;
+    }
 
 
     /**
@@ -105,16 +127,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
         prepareSufficientFundsData("0211101", "C", "GENX", 1000, 300, 100, false);
 
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211101-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                        500.00D2006-01-05          ----------                                                                            ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                        500.00C2006-01-05          ----------                                                                            " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211101-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                         500.00D2006-01-05          ----------                                                                            ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                         500.00C2006-01-05          ----------                                                                            " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -132,16 +148,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211101", "C", "GENX", 100, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211101-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     300.00C2006-01-05          ----------                                                                            ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     300.00D2006-01-05          ----------                                                                            " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211101-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      300.00C2006-01-05          ----------                                                                            ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      300.00D2006-01-05          ----------                                                                            " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -159,15 +169,12 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211101", "C", "GENX", -1000, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211101-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.00D2006-01-05          ----------                                                                            ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.00C2006-01-05          ----------                                                                            " };
+        String[] stringInput = new String[] { 
+                currentFiscalYear+"BL0211101-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.00D2006-01-05          ----------                                                                            ", 
+                currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.00C2006-01-05          ----------                                                                            " 
+        };
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -185,16 +192,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211101", "C", "GENX", 1000, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211101-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1500.00D2006-01-05          ----------                                                                            ", currentFiscalYear+"BL0211101-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1500.00C2006-01-05          ----------                                                                            " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211101-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1500.00D2006-01-05          ----------                                                                            ", currentFiscalYear+"BL0211101-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1500.00C2006-01-05          ----------                                                                            " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -212,16 +213,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211101", "C", "GENX", 100, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211101-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1500.00D2006-01-05          ----------                                                                            ", currentFiscalYear+"BL0211101-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1500.00C2006-01-05          ----------                                                                            " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211101-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1500.00D2006-01-05          ----------                                                                            ", currentFiscalYear+"BL0211101-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1500.00C2006-01-05          ----------                                                                            " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -239,16 +234,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211101", "C", "GENX", 1000, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211101-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.01D2006-01-05          ----------                                                                            ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.01C2006-01-05          ----------                                                                            " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211101-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.01D2006-01-05          ----------                                                                            ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.01C2006-01-05          ----------                                                                            " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -266,16 +255,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211101", "C", "GENX", 1000, 100, 100, true);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211101-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1300.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1300.00C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211101-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1300.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1300.00C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -293,16 +276,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211101", "C", "GENX", 1000, 100, 100, true);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211101-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1300.01D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1300.01C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211101-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1300.01D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1300.01C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -320,16 +297,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211301", "H", "    ", 1000, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211301-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.00C2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.00D2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211301-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.00C2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.00D2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -347,16 +318,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211301", "H", "    ", 100, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211301-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     300.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     300.00C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211301-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      300.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      300.00C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -374,16 +339,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211301", "H", "    ", -1000, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211301-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.00C2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.00D2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211301-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.00C2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.00D2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -401,16 +360,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211301", "H", "    ", 1000, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211301-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1500.00C2006-01-05          ----------                                                                       ", currentFiscalYear+"BL0211301-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1500.00D2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211301-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1500.00C2006-01-05          ----------                                                                       ", currentFiscalYear+"BL0211301-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1500.00D2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -428,16 +381,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211301", "H", "    ", 100, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211301-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1500.00C2006-01-05          ----------                                                                       ", currentFiscalYear+"BL0211301-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1500.00D2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211301-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1500.00C2006-01-05          ----------                                                                       ", currentFiscalYear+"BL0211301-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1500.00D2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -455,16 +402,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211301", "H", "    ", 1000, 0, 500, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211301-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.01C2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.01D2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211301-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.01C2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.01D2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -482,16 +423,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211301", "H", "    ", 1000, 100, 100, true);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211301-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1300.00C2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1300.00D2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211301-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1300.00C2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1300.00D2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -509,16 +444,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211301", "H", "    ", 1000, 0, 200, true);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211301-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1300.01C2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1300.01D2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211301-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1300.01C2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----8000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1300.01D2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -536,16 +465,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211501", "L", "S&E", 1000, 300, 100, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211501-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.00C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211501-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.00C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -563,16 +486,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211501", "L", "S&E", 100, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211501-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     300.00C2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     300.00D2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211501-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      300.00C2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      300.00D2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -590,16 +507,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211501", "L", "S&E", -1000, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211501-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.00C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211501-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.00C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -617,16 +528,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211501", "L", "S&E", 1000, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211501-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL0211501-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1500.00C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211501-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL0211501-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1500.00C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -644,16 +549,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211501", "L", "S&E", 100, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211501-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL0211501-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1500.00C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211501-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL0211501-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1500.00C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -671,16 +570,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211501", "L", "S&E", 1000, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211501-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.01D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.01C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211501-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.01D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.01C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -698,16 +591,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211501", "L", "S&E", 1000, 100, 100, true);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211501-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1300.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1300.00C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211501-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1300.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1300.00C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -725,16 +612,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211501", "L", "S&E", 1000, 100, 100, true);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211501-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1300.01D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1300.01C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211501-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1300.01D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1300.01C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -752,16 +633,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211701", "O", "5000", 1000, 300, 100, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211701-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.00C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211701-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.00C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -779,16 +654,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211701", "O", "5000", 100, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211701-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     300.00C2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     300.00D2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211701-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      300.00C2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      300.00D2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -806,16 +675,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211701", "O", "5000", -1000, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211701-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.00C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211701-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.00C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -833,16 +696,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211701", "O", "5000", 1000, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211701-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL0211701-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1500.00C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211701-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL0211701-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1500.00C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -860,16 +717,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211701", "O", "5000", 100, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211701-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL0211701-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1500.00C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211701-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL0211701-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1500.00C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -887,16 +738,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211701", "O", "5000", 1000, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211701-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.01D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.01C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211701-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.01D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.01C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -914,16 +759,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211701", "O", "5000", 1000, 100, 100, true);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211701-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1300.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1300.00C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211701-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1300.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1300.00C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -941,16 +780,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211701", "O", "5000", 1000, 100, 100, true);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211701-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1300.01D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1300.01C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211701-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1300.01D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1300.01C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -968,16 +801,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211901", "A", "    ", 1000, 300, 100, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211901-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.00C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211901-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.00C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -995,16 +822,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211901", "A", "    ", 100, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211901-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     300.00C2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     300.00D2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211901-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      300.00C2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      300.00D2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -1022,16 +843,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211901", "A", "    ", -1000, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211901-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.00C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211901-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.00C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -1049,16 +864,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211901", "A", "    ", 1000, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211901-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL0211901-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1500.00C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211901-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL0211901-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1500.00C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -1076,16 +885,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211901", "A", "    ", 100, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211901-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL0211901-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1500.00C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211901-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1500.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL0211901-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1500.00C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -1103,16 +906,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211901", "A", "    ", 1000, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211901-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.01D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     500.01C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211901-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.01D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.01C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -1130,16 +927,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211901", "A", "    ", 1000, 100, 100, true);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211901-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1300.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1300.00C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211901-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1300.00D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1300.00C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 
@@ -1157,16 +948,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211901", "A", "    ", 1000, 100, 100, true);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { currentFiscalYear+"BL0211901-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1300.01D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                    1300.01C2006-01-05          ----------                                                                       " };
+        String[] stringInput = new String[] { currentFiscalYear+"BL0211901-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1300.01D2006-01-05          ----------                                                                       ", currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                     1300.01C2006-01-05          ----------                                                                       " };
 
 
-        List transactions = new ArrayList();
-
-        // Add inputs to expected output ...
-        for (int i = 0; i < stringInput.length; i++) {
-            OriginEntryFull oe = new OriginEntryFull(stringInput[i]);
-            transactions.add(oe);
-        }
+        List transactions = convertStringInputsToOriginEntries(stringInput);
 
         List<SufficientFundsItem> insufficientFunds = sufficientFundsService.checkSufficientFunds(transactions);
 

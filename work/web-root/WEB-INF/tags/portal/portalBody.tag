@@ -63,9 +63,6 @@
           <c:when test='${selectedTab == "administration"}'>
               <portal:administrationTab />
           </c:when>
-          <c:when test='${selectedTab == "future"}'>
-          	  <portal:futureTab />
-          </c:when>
           
           <%-- as backup go to the main menu index --%>
           <c:otherwise>

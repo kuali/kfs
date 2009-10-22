@@ -71,22 +71,5 @@
 					title="Administration">Administration</a>
 			</li>
 		</c:if>
-
-		<c:if test='${ConfigProperties.environment == "dev" || ConfigProperties.environment == "ptd"}'>
-		<%-- Future Modules --%>		
-		<c:if test='${selectedTab == "future"}'>
-			<li class="red">
-				<a class="red" href="portal.do?selectedTab=future"
-					title="Future">Future</a>
-			</li>
-		</c:if>
-		<c:if test='${selectedTab != "future"}'>
-			<li class="green">
-				<a class="green"
-					href="portal.do?selectedTab=future"
-					title="Future">Future</a>
-			</li>
-		</c:if>
-		</c:if>
 	</ul>
 </div>

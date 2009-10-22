@@ -137,8 +137,8 @@ public class KFSApplicationRoleTest extends KualiTestBase {
         assertUserIsRoleMember(getPrincipalIdByName(ACCOUNT_DERIVED_AWARD_PROJECT_DIRECTOR), KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.AWARD_SECONDARY_DIRECTOR_KIM_ROLE_NAME, roleQualifications);
     }
     
-    private final static String BILLER_PRINCIPAL_NAME = "keasterl"; // in UA-VPIT
-    private final static String PROCESSOR_PRINCIPAL_NAME = "keasterl"; // in UA-VPIT
+    private final static String BILLER_PRINCIPAL_NAME = "feeney"; // in BA-MOTR
+    private final static String PROCESSOR_PRINCIPAL_NAME = "feeney"; // in UA-VPIT
     private final static String BILLER_ROLE_NAME = "Biller";
     private final static String PROCESSOR_ROLE_NAME = "Processor";
     private final static String ACCOUNTS_RECEIVABLE_NAMESPACE = "KFS-AR";

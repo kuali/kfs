@@ -794,273 +794,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         assertOriginEntries(7, output);
     }
 
-//    /**
-//     * Tests that the scrubber generates cost share entries for entries with object code level == "HRCO"
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testCostShareForLevelHrco() throws Exception {
-//        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
-//        final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(scrubberDate);
-//        final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(scrubberDate);
-//
-//        String[] input = new String[] { 
-//                testingYear+"BL4631618CS0013000---ACEX07DI  01CSHRHRCO      00000Rite Quality Office Supplies Inc.                   94.35D"+testingYear+"-01-05          ----------                                                                       ", 
-//                testingYear+"BL4631618CS0019041---ACLI07DI  01CSHRHRCO      00000Rite Quality Office Supplies Inc.                   94.35C"+testingYear+"-01-05          ----------                                                                       " 
-//        };
-//
-//        EntryHolder[] output = new EntryHolder[] { 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4631618CS0013000---ACEX07DI  01CSHRHRCO      00000Rite Quality Office Supplies Inc.                   94.35D"+testingYear+"-01-05          ----------                                                                       "), 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4631618CS0019041---ACLI07DI  01CSHRHRCO      00000Rite Quality Office Supplies Inc.                   94.35C"+testingYear+"-01-05          ----------                                                                       "), 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631618CS0019915---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4631618                   94.35C"+formattedRunDate+"          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631618CS0018000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                                    94.35D"+formattedRunDate+"          ----------                                                                       "), 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----9930---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4631618                   94.35D"+formattedRunDate+"          ----------                                                                       "), 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----8000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                                    94.35C"+formattedRunDate+"          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631618CS0013000---ACEX07DI  01CSHRHRCO      00000Rite Quality Office Supplies Inc.                   94.35D"+testingYear+"-01-05          ----------                                                                       "), 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631618CS0019041---ACLI07DI  01CSHRHRCO      00000Rite Quality Office Supplies Inc.                   94.35C"+testingYear+"-01-05          ----------                                                                       "), 
-//        };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-
-//    /**
-//     * Tests that the scrubber generates cost share entries for entries with object code level == "FINA2"
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testCostShareForLevelFina2() throws Exception {
-//        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
-//        final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(scrubberDate);
-//        final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(scrubberDate);
-//
-//        String[] input = new String[] { 
-//                testingYear+"BL4831496CS0015800---ACEX07CR  01CSHRFINA2     00000Poplars Garage Fees                                 20.00C"+testingYear+"-01-05          ----------                                                                       ", 
-//                testingYear+"BL4831496CS0018000---ACAS07CR  01CSHRFINA2     00000TP Generated Offset                                 20.00D"+testingYear+"-01-05          ----------                                                                       " 
-//        };
-//
-//        EntryHolder[] output = new EntryHolder[] { 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0015800---ACEX07CR  01CSHRFINA2     00000Poplars Garage Fees                                 20.00C"+testingYear+"-01-05          ----------                                                                       "), 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07CR  01CSHRFINA2     00000TP Generated Offset                                 20.00D"+testingYear+"-01-05          ----------                                                                       "), 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0019915---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4831496                   20.00D"+formattedRunDate+"          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                                    20.00C"+formattedRunDate+"          ----------                                                                       "), 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----9958---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4831496                   20.00C"+formattedRunDate+"          ----------                                                                       "), 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----8000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                                    20.00D"+formattedRunDate+"          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0015800---ACEX07CR  01CSHRFINA2     00000Poplars Garage Fees                                 20.00C"+testingYear+"-01-05          ----------                                                                       "), 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07CR  01CSHRFINA2     00000TP Generated Offset                                 20.00D"+testingYear+"-01-05          ----------                                                                       ") 
-//        };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-
-//    /**
-//     * Tests that the scrubber generates cost share entries for entries with object code level == "FINA1"
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testCostShareForLevelFina1() throws Exception {
-//        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
-//        final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(scrubberDate);
-//        final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(scrubberDate);
-//
-//        String[] input = new String[] { 
-//                testingYear+"BL4631625CS0015400---ACEX07DI  EUCSHRFINA1     00000NOV-05 IMU Business Office          2224           241.75D"+previousTestingYear+"-11-30          ----------                                                                       ", 
-//                testingYear+"BL4631625CS0018000---ACAS07DI  EUCSHRFINA1     00000NOV-05 IMU Business Office          2237           241.75C"+previousTestingYear+"-11-30          ----------                                                                       " 
-//        };
-//
-//        EntryHolder[] output = new EntryHolder[] { 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4631625CS0015400---ACEX07DI  EUCSHRFINA1     00000NOV-05 IMU Business Office          2224           241.75D"+previousTestingYear+"-11-30          ----------                                                                       "), 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4631625CS0018000---ACAS07DI  EUCSHRFINA1     00000NOV-05 IMU Business Office          2237           241.75C"+previousTestingYear+"-11-30          ----------                                                                       "), 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631625CS0019915---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4631625                  241.75C"+formattedRunDate+"          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631625CS0018000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                                   241.75D"+formattedRunDate+"          ----------                                                                      "), 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----9954---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4631625                  241.75D"+formattedRunDate+"          ----------                                                                       "), 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----8000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                                   241.75C"+formattedRunDate+"          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631625CS0015400---ACEX07DI  EUCSHRFINA1     00000NOV-05 IMU Business Office          2224           241.75D"+previousTestingYear+"-11-30          ----------                                                                       "), 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631625CS0018000---ACAS07DI  EUCSHRFINA1     00000NOV-05 IMU Business Office          2237           241.75C"+previousTestingYear+"-11-30          ----------                                                                       ") 
-//        };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
-//    /**
-//     * Tests that the scrubber generates cost share entries for entries with object code level == "CORI"
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testCostShareForLevelCori() throws Exception {
-//        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
-//        final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(scrubberDate);
-//        final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(scrubberDate);
-//
-//        String[] input = new String[] { 
-//                testingYear+"BL4631618CS0019912---ACEX07DI  01CSHRCORI      00000Rite Quality Office Supplies Inc.                   94.35D"+testingYear+"-01-05          ----------                                                                       ", 
-//                testingYear+"BL4631618CS0019041---ACLI07DI  01CSHRCORI      00000Rite Quality Office Supplies Inc.                   94.35C"+testingYear+"-01-05          ----------                                                                       " 
-//        };
-//
-//        EntryHolder[] output = new EntryHolder[] { 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4631618CS0019912---ACEX07DI  01CSHRCORI      00000Rite Quality Office Supplies Inc.                   94.35D"+testingYear+"-01-05          ----------                                                                       "), 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4631618CS0019041---ACLI07DI  01CSHRCORI      00000Rite Quality Office Supplies Inc.                   94.35C"+testingYear+"-01-05          ----------                                                                       "), 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631618CS0019041---ACLI07DI  01CSHRCORI      00000Rite Quality Office Supplies Inc.                   94.35C"+testingYear+"-01-05          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631618CS0019915---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4631618                   94.35C"+formattedRunDate+"          ----------                                                                       "), 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631618CS0018000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                                    94.35D"+formattedRunDate+"          ----------                                                                       "), 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----9912---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4631618                   94.35D"+formattedRunDate+"          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----8000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                                    94.35C"+formattedRunDate+"          ----------                                                                       "), 
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631618CS0019912---ACEX07DI  01CSHRCORI      00000Rite Quality Office Supplies Inc.                   94.35D"+testingYear+"-01-05          ----------                                                                       "), 
-//        };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-
-//    /**
-//     * Tests that the scrubber generates cost share entries for entries with object code level == "CORE"
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testCostShareForLevelCore() throws Exception {
-//    final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
-//    final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(scrubberDate);
-//    final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(scrubberDate);
-//
-//        String[] input = new String[] { testingYear+"BL4831496CS0019951---ACEX07CR  01CSHRCORE      00000Poplars Garage Fees                                 20.00C"+testingYear+"-01-05          ----------                                                                       ", testingYear+"BL4831496CS0018000---ACAS07CR  01CSHRCORE      00000TP Generated Offset                                 20.00D"+testingYear+"-01-05          ----------                                                                       " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0019951---ACEX07CR  01CSHRCORE      00000Poplars Garage Fees                                 20.00C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07CR  01CSHRCORE      00000TP Generated Offset                                 20.00D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07CR  01CSHRCORE      00000TP Generated Offset                                 20.00D"+testingYear+"-01-05          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0019915---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4831496                   20.00D"+formattedRunDate+"          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                                    20.00C"+formattedRunDate+"          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----9951---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4831496                   20.00C"+formattedRunDate+"          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----8000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                                    20.00D"+formattedRunDate+"          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0019951---ACEX07CR  01CSHRCORE      00000Poplars Garage Fees                                 20.00C"+testingYear+"-01-05          ----------                                                                       "), };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
-//    /**
-//     * Tests that the scrubber generates cost share entries for entries with object code level == "CAP"
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testCostShareForLevelCap() throws Exception {
-//    final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
-//    final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(scrubberDate);
-//    final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(scrubberDate);
-//
-//        String[] input = new String[] { testingYear+"BL4631625CS0017000---ACEX07DI  EUCSHRCAP       00000NOV-05 IMU Business Office          2224           241.75D"+previousTestingYear+"-11-30          ----------                                                                       ", testingYear+"BL4631625CS0018000---ACAS07DI  EUCSHRCAP       00000NOV-05 IMU Business Office          2237           241.75C"+previousTestingYear+"-11-30          ----------                                                                       " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4631625CS0017000---ACEX07DI  EUCSHRCAP       00000NOV-05 IMU Business Office          2224           241.75D"+previousTestingYear+"-11-30          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4631625CS0018000---ACAS07DI  EUCSHRCAP       00000NOV-05 IMU Business Office          2237           241.75C"+previousTestingYear+"-11-30          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL9520004-----8610---ACAS07DI  EUCSHRCAP       00000GENERATED CAPITALIZATION                           241.75D"+previousTestingYear+"-11-30          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL9520004-----9899---ACFB07DI  EUCSHRCAP       00000GENERATED CAPITALIZATION                           241.75C"+previousTestingYear+"-11-30          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631625CS0019915---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4631625                  241.75C"+formattedRunDate+"          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631625CS0018000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                                   241.75D"+formattedRunDate+"          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----9970---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4631625                  241.75D"+formattedRunDate+"          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----8000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                                   241.75C"+formattedRunDate+"          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631625CS0017000---ACEX07DI  EUCSHRCAP       00000NOV-05 IMU Business Office          2224           241.75D"+previousTestingYear+"-11-30          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631625CS0018000---ACAS07DI  EUCSHRCAP       00000NOV-05 IMU Business Office          2237           241.75C"+previousTestingYear+"-11-30          ----------                                                                       ") };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
-//    /**
-//     * Tests that the scrubber generates cost share entries for entries with object code level == "BISA"
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testCostShareForLevelBisa() throws Exception {
-//    final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
-//    final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(scrubberDate);
-//    final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(scrubberDate);
-//
-//        String[] input = new String[] { testingYear+"BL4631618CS0012500---ACEX07DI  01CSHRBISA      00000Rite Quality Office Supplies Inc.                   94.35D"+testingYear+"-01-05          ----------                                                                       ", testingYear+"BL4631618CS0019041---ACLI07DI  01CSHRBISA      00000Rite Quality Office Supplies Inc.                   94.35C"+testingYear+"-01-05          ----------                                                                       " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4631618CS0012500---ACEX07DI  01CSHRBISA      00000Rite Quality Office Supplies Inc.                   94.35D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4631618CS0019041---ACLI07DI  01CSHRBISA      00000Rite Quality Office Supplies Inc.                   94.35C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631618CS0019915---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4631618                   94.35C"+formattedRunDate+"          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631618CS0018000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                                    94.35D"+formattedRunDate+"          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----9925---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4631618                   94.35D"+formattedRunDate+"          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----8000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                                    94.35C"+formattedRunDate+"          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631618CS0012500---ACEX07DI  01CSHRBISA      00000Rite Quality Office Supplies Inc.                   94.35D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631618CS0019041---ACLI07DI  01CSHRBISA      00000Rite Quality Office Supplies Inc.                   94.35C"+testingYear+"-01-05          ----------                                                                       ") };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
-//    /**
-//     * Tests that the scrubber generates cost share entries for entries with object code level == "BENF6"
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testCostShareForLevelBenf6() throws Exception {
-//final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
-//    final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(scrubberDate);
-//    final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(scrubberDate);
-//    
-//        String[] input = new String[] { testingYear+"BL4631625CS0015625---ACEX07DI  EUCSHRBENF6     00000NOV-05 IMU Business Office          2224           241.75D"+previousTestingYear+"-11-30          ----------                                                                       ", testingYear+"BL4631625CS0018000---ACAS07DI  EUCSHRBENF6     00000NOV-05 IMU Business Office          2237           241.75C"+previousTestingYear+"-11-30          ----------                                                                       " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4631625CS0015625---ACEX07DI  EUCSHRBENF6     00000NOV-05 IMU Business Office          2224           241.75D"+previousTestingYear+"-11-30          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4631625CS0018000---ACAS07DI  EUCSHRBENF6     00000NOV-05 IMU Business Office          2237           241.75C"+previousTestingYear+"-11-30          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631625CS0019915---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4631625                  241.75C"+formattedRunDate+"          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631625CS0018000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                                   241.75D"+formattedRunDate+"          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----9956---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4631625                  241.75D"+formattedRunDate+"          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----8000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                                   241.75C"+formattedRunDate+"          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631625CS0015625---ACEX07DI  EUCSHRBENF6     00000NOV-05 IMU Business Office          2224           241.75D"+previousTestingYear+"-11-30          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631625CS0018000---ACAS07DI  EUCSHRBENF6     00000NOV-05 IMU Business Office          2237           241.75C"+previousTestingYear+"-11-30          ----------                                                                       ") };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
-//    /**
-//     * Tests that the scrubber generates cost share entries for entries with object code level == "BASE"
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testCostShareForLevelBase() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BL4631618CS0015509---ACEX07DI  01CSHRBASE      00000Rite Quality Office Supplies Inc.                   94.35D"+testingYear+"-01-05          ----------                                                                       ", testingYear+"BL4631618CS0019041---ACLI07DI  01CSHRBASE      00000Rite Quality Office Supplies Inc.                   94.35C"+testingYear+"-01-05          ----------                                                                       " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4631618CS0015509---ACEX07DI  01CSHRBASE      00000Rite Quality Office Supplies Inc.                   94.35D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4631618CS0019041---ACLI07DI  01CSHRBASE      00000Rite Quality Office Supplies Inc.                   94.35C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631618CS0019915---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4631618                   94.35C"+formattedRunDate+"          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631618CS0018000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                                    94.35D"+formattedRunDate+"          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----9959---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4631618                   94.35D"+formattedRunDate+"          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----8000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                                    94.35C"+formattedRunDate+"          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631618CS0015509---ACEX07DI  01CSHRBASE      00000Rite Quality Office Supplies Inc.                   94.35D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631618CS0019041---ACLI07DI  01CSHRBASE      00000Rite Quality Office Supplies Inc.                   94.35C"+testingYear+"-01-05          ----------                                                                       ") };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
-//    /**
-//     * Tests that the scrubber generates cost share entries for entries with object code level == "ACSA"
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testCostShareForLevelAcsa() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BL4831496CS0012000---ACEX07CR  01CSHRACSA      00000Poplars Garage Fees                                 20.00C"+testingYear+"-01-05          ----------                                                                       ", testingYear+"BL4831496CS0018000---ACAS07CR  01CSHRACSA      00000TP Generated Offset                                 20.00D"+testingYear+"-01-05          ----------                                                                       " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0012000---ACEX07CR  01CSHRACSA      00000Poplars Garage Fees                                 20.00C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07CR  01CSHRACSA      00000TP Generated Offset                                 20.00D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0019915---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4831496                   20.00D"+formattedRunDate+"          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                                    20.00C"+formattedRunDate+"          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----9920---ACTE07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED COST SHARE FROM 4831496                   20.00C"+formattedRunDate+"          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031400-----8000---ACAS07TF  CSCSHR"+docTypeOffsetDate+"     00000GENERATED OFFSET                                    20.00D"+formattedRunDate+"          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0012000---ACEX07CR  01CSHRACSA      00000Poplars Garage Fees                                 20.00C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07CR  01CSHRACSA      00000TP Generated Offset                                 20.00D"+testingYear+"-01-05          ----------                                                                       "), };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
-//    /**
-//     * Tests that the scrubber does not generate cost share entries for entries with certain document types
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testNoCostShareTransfersForCertainDocumentTypes() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BL4631618CS0015000---ACEX07JV  01NOCSHRJV      00000Rite Quality Office Supplies Inc.                   94.35D"+testingYear+"-01-05          ----------                                                                       ", testingYear+"BL4631618CS0019041---ACLI07JV  01NOCSHRJV      00000Rite Quality Office Supplies Inc.                   94.35C"+testingYear+"-01-05          ----------                                                                       " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4631618CS0015000---ACEX07JV  01NOCSHRJV      00000Rite Quality Office Supplies Inc.                   94.35D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4631618CS0019041---ACLI07JV  01NOCSHRJV      00000Rite Quality Office Supplies Inc.                   94.35C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631618CS0015000---ACEX07JV  01NOCSHRJV      00000Rite Quality Office Supplies Inc.                   94.35D"+testingYear+"-01-05          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631618CS0019041---ACLI07JV  01NOCSHRJV      00000Rite Quality Office Supplies Inc.                   94.35C"+testingYear+"-01-05          ----------                                                                       "), };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
-//    /**
-//     * Tests that the scrubber does not generate cost share entries for entries that are beginning balance transactions
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testNoCostShareTransfersForBeginningBalanceTransactions() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BL4831496CS0015000---ACEXCBCR  01NOCSHRCB      00000Poplars Garage Fees                                 20.00C"+testingYear+"-01-05          ----------                                                                       ", testingYear+"BL4831496CS0018000---ACASCBCR  01NOCSHRCB      00000TP Generated Offset                                 20.00D"+testingYear+"-01-05          ----------                                                                       " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0015000---ACEXCBCR  01NOCSHRCB      00000Poplars Garage Fees                                 20.00C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0018000---ACASCBCR  01NOCSHRCB      00000TP Generated Offset                                 20.00D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0015000---ACEXCBCR  01NOCSHRCB      00000Poplars Garage Fees                                 20.00C"+testingYear+"-01-05          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---ACASCBCR  01NOCSHRCB      00000TP Generated Offset                                 20.00D"+testingYear+"-01-05          ----------                                                                       "), };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-
     /**
      * Tests that the scrubber does not generate cost share entries for encumbrance entries
      * 
@@ -1131,22 +864,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         assertOriginEntries(7, output);
     }
 
-//    /**
-//     * Tests that the scrubber does not generate cost share entries for entries that are non-expense
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testNoCostShareTransfersForNonExpense() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BL4831496CS0011800---ACIN07CR  01NOCSHRIN      00000Poplars Garage Fees                                 20.00C"+testingYear+"-01-05          ----------                                                                       ", testingYear+"BL4831496CS0018000---ACAS07CR  01NOCSHRIN      00000TP Generated Offset                                 20.00D"+testingYear+"-01-05          ----------                                                                       " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0011800---ACIN07CR  01NOCSHRIN      00000Poplars Garage Fees                                 20.00C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07CR  01NOCSHRIN      00000TP Generated Offset                                 20.00D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0011800---ACIN07CR  01NOCSHRIN      00000Poplars Garage Fees                                 20.00C"+testingYear+"-01-05          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4831496CS0018000---ACAS07CR  01NOCSHRIN      00000TP Generated Offset                                 20.00D"+testingYear+"-01-05          ----------                                                                       ") };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
     /**
      * Tests that the scrubber generates a plant endebtedness entries
      * 
@@ -1199,39 +916,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         assertOriginEntries(7, output);
     }
 
-//    /**
-//     * Tests that the scrubber does not generate a plant endebtedness entry for entries with financial sub object == "P2"
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testNoIndebtednessForObjectSubTypeP2() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BA9120657-----9100---ACLI07DI  EUNODEBTP2      00000BALDWIN WALLACE COLLEGE                           3375.00C"+testingYear+"-01-05          ----------                                                                       ", testingYear+"BA9120657-----8000---ACAS07DI  EUNODEBTP2      00000TP Generated Offset                               3375.00D"+testingYear+"-01-05          ----------                                                                       " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA9120657-----9100---ACLI07DI  EUNODEBTP2      00000BALDWIN WALLACE COLLEGE                           3375.00C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA9120657-----8000---ACAS07DI  EUNODEBTP2      00000TP Generated Offset                               3375.00D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9120657-----8000---ACAS07DI  EUNODEBTP2      00000TP Generated Offset                               3375.00D"+testingYear+"-01-05          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9120657-----9100---ACLI07DI  EUNODEBTP2      00000GENERATED TRANSFER TO NET PLANT                   3375.00D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9120657-----9899---ACFB07DI  EUNODEBTP2      00000GENERATED TRANSFER TO NET PLANT                   3375.00C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9544900-----9100---ACLI07DI  EUNODEBTP2      00000GENERATED TRANSFER FROM BA 9120657                3375.00C"+testingYear+"-01-05          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9544900-----9899---ACFB07DI  EUNODEBTP2      00000GENERATED TRANSFER FROM BA 9120657                3375.00D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9120657-----9100---ACLI07DI  EUNODEBTP2      00000BALDWIN WALLACE COLLEGE                           3375.00C"+testingYear+"-01-05          ----------                                                                       "), };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
-//    /**
-//     * Tests that the scrubber does not generate a plant endebtedness entry for entries with financial sub object == "P1"
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testNoIndebtednessForObjectSubTypeP1() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BL2231423-----9100---ACIN  CR  PLNODEBTP1      00000FRICKA FRACKA                                    45995.84C"+testingYear+"-01-05          ----------                                                                       ", testingYear+"BL2231423-----8000---ACAS  CR  PLNODEBTP1      00000TP Generated Offset                              45995.84D"+testingYear+"-01-05          ----------                                                                       " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL2231423-----9100---ACIN  CR  PLNODEBTP1      00000FRICKA FRACKA                                    45995.84C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL2231423-----8000---ACAS  CR  PLNODEBTP1      00000TP Generated Offset                              45995.84D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2006BL2231423-----8000---ACAS07CR  PLNODEBTP1      00000TP Generated Offset                              45995.84D"+testingYear+"-01-05          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, "2006BL2231423-----9100---ACIN07CR  PLNODEBTP1      00000FRICKA FRACKA                                    45995.84C"+testingYear+"-01-05          ----------                                                                       "), };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-
     /**
      * Tests that the scrubber does not generate a plant endebtedness entry for encumbrance entries
      * 
@@ -1260,22 +944,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         assertOriginEntries(7, output);
     }
 
-//    /**
-//     * Tests that the scrubber does not generate a plant endebtedness entry for entries with budget balance types
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testNoIndebtednessForBudgetTransactions() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BA9020204-----9100---BBLI07SB  01NODEBTBB      00000Biology Stockroom                                   13.77 "+testingYear+"-01-05          ----------                                                                       ", testingYear+"BA9020204-----8000---BBAS07SB  01NODEBTBB      00000TP Generated Offset                                 13.77 "+testingYear+"-01-05          ----------                                                                       " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA9020204-----9100---BBLI07SB  01NODEBTBB      00000Biology Stockroom                                   13.77 "+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA9020204-----8000---BBAS07SB  01NODEBTBB      00000TP Generated Offset                                 13.77 "+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9020204-----8000---BBAS07SB  01NODEBTBB      00000TP Generated Offset                                 13.77 "+testingYear+"-01-05          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9020204-----9100---BBLI07SB  01NODEBTBB      00000Biology Stockroom                                   13.77 "+testingYear+"-01-05          ----------                                                                       "), };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
     /**
      * Tests that the scrubber generates a capitalization entry for entries with object sub type == "CL"
      * 
@@ -1340,182 +1008,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         assertOriginEntries(7, output);
     }
 
-//    /**
-//     * Tests that the scrubber generates a capitalization entry for entries with object sub type == "LI"
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testCapitalizationForObjectSubTypeLI() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BA6044906-----7100---ACEE07TOPS01CAPITALLI     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                       ", testingYear+"BA6044906-----9041---ACLI07TOPS01CAPITALLI     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                       " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044906-----7100---ACEE07TOPS01CAPITALLI     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044906-----9041---ACLI07TOPS01CAPITALLI     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9544900-----8613---ACAS07TOPS01CAPITALLI     00000GENERATED CAPITALIZATION                            48.53C"+testingYear+"-01-05          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9544900-----9899---ACFB07TOPS01CAPITALLI     00000GENERATED CAPITALIZATION                            48.53D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044906-----7100---ACEE07TOPS01CAPITALLI     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044906-----9041---ACLI07TOPS01CAPITALLI     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                       "), };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
-//    /**
-//     * Tests that the scrubber generates a capitalization entry for entries with object sub type == "LE"
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testCapitalizationForObjectSubTypeLE() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BA6044900-----7800---ACEE07CD  PDCAPITALLE     00000214090047 EVERETT J PRESCOTT INC.                 1445.00D"+testingYear+"-01-05          ----------                                                                       ", testingYear+"BA6044900-----8000---ACAS07CD  PDCAPITALLE     00000214090047 EVERETT J PRESCOTT INC.                 1445.00C"+testingYear+"-01-05          ----------                                                                       " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044900-----7800---ACEE07CD  PDCAPITALLE     00000214090047 EVERETT J PRESCOTT INC.                 1445.00D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044900-----8000---ACAS07CD  PDCAPITALLE     00000214090047 EVERETT J PRESCOTT INC.                 1445.00C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9544900-----8608---ACAS07CD  PDCAPITALLE     00000GENERATED CAPITALIZATION                          1445.00D"+testingYear+"-01-05          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9544900-----9899---ACFB07CD  PDCAPITALLE     00000GENERATED CAPITALIZATION                          1445.00C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044900-----7800---ACEE07CD  PDCAPITALLE     00000214090047 EVERETT J PRESCOTT INC.                 1445.00D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044900-----8000---ACAS07CD  PDCAPITALLE     00000214090047 EVERETT J PRESCOTT INC.                 1445.00C"+testingYear+"-01-05          ----------                                                                       ") };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
-//    /**
-//     * Tests that the scrubber generates a capitalization entry for entries with object sub type == "LA"
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testCapitalizationForObjectSubTypeLA() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BA6044913-----7200---ACEE07GEC 01CAPITALLA     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                       ", testingYear+"BA6044913-----9041---ACLI07GEC 01CAPITALLA     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                       ", };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044913-----7200---ACEE07GEC 01CAPITALLA     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044913-----9041---ACLI07GEC 01CAPITALLA     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9544900-----8603---ACAS07GEC 01CAPITALLA     00000GENERATED CAPITALIZATION                            48.53C"+testingYear+"-01-05          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9544900-----9899---ACFB07GEC 01CAPITALLA     00000GENERATED CAPITALIZATION                            48.53D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044913-----7200---ACEE07GEC 01CAPITALLA     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044913-----9041---ACLI07GEC 01CAPITALLA     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                       "), };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
-//    /**
-//     * Tests that the scrubber generates a capitalization entry for entries with object sub type == "EF"
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testCapitalizationForObjectSubTypeEF() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BA6044906-----7400---ACEE07TOPS01CAPITALIF     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                       ", testingYear+"BA6044906-----9041---ACLI07TOPS01CAPITALIF     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                       " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044906-----7400---ACEE07TOPS01CAPITALIF     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044906-----9041---ACLI07TOPS01CAPITALIF     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9544900-----8604---ACAS07TOPS01CAPITALIF     00000GENERATED CAPITALIZATION                            48.53C"+testingYear+"-01-05          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9544900-----9899---ACFB07TOPS01CAPITALIF     00000GENERATED CAPITALIZATION                            48.53D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044906-----7400---ACEE07TOPS01CAPITALIF     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044906-----9041---ACLI07TOPS01CAPITALIF     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                       ") };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
-//    /**
-//     * Tests that the scrubber generates a capitalization entry for entries with object sub type == "ES"
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testCapitalizationForObjectSubTypeES() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BA6044900-----7098---ACEE07CD  PDCAPITALES     00000214090047 EVERETT J PRESCOTT INC.                 1445.00D"+testingYear+"-01-05          ----------                                                                       ", testingYear+"BA6044900-----8000---ACAS07CD  PDCAPITALES     00000214090047 EVERETT J PRESCOTT INC.                 1445.00C"+testingYear+"-01-05          ----------                                                                       " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044900-----7098---ACEE07CD  PDCAPITALES     00000214090047 EVERETT J PRESCOTT INC.                 1445.00D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044900-----8000---ACAS07CD  PDCAPITALES     00000214090047 EVERETT J PRESCOTT INC.                 1445.00C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9544900-----8630---ACAS07CD  PDCAPITALES     00000GENERATED CAPITALIZATION                          1445.00D"+testingYear+"-01-05          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9544900-----9899---ACFB07CD  PDCAPITALES     00000GENERATED CAPITALIZATION                          1445.00C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044900-----7098---ACEE07CD  PDCAPITALES     00000214090047 EVERETT J PRESCOTT INC.                 1445.00D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044900-----8000---ACAS07CD  PDCAPITALES     00000214090047 EVERETT J PRESCOTT INC.                 1445.00C"+testingYear+"-01-05          ----------                                                                       "), };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
-//    /**
-//     * Tests that the scrubber generates a capitalization entry for entries with object sub type == "CF"
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testCapitalizationForObjectSubTypeCF() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BA6044913-----7030---ACEE07GEC 01CAPITALCF     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                       ", testingYear+"BA6044913-----9041---ACLI07GEC 01CAPITALCF     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                       " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044913-----7030---ACEE07GEC 01CAPITALCF     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044913-----9041---ACLI07GEC 01CAPITALCF     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9544900-----8611---ACAS07GEC 01CAPITALCF     00000GENERATED CAPITALIZATION                            48.53C"+testingYear+"-01-05          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9544900-----9899---ACFB07GEC 01CAPITALCF     00000GENERATED CAPITALIZATION                            48.53D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044913-----7030---ACEE07GEC 01CAPITALCF     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044913-----9041---ACLI07GEC 01CAPITALCF     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                       "), };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
-//    /**
-//     * Tests that the scrubber generates a capitalization entry for entries with object sub type == "CM"
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testCapitalizationForObjectSubTypeCM() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BA6044906-----7000---ACEE07TOPS01CAPITALCM     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                       ", testingYear+"BA6044906-----9041---ACLI07TOPS01CAPITALCM     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                       " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044906-----7000---ACEE07TOPS01CAPITALCM     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044906-----9041---ACLI07TOPS01CAPITALCM     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9544900-----8610---ACAS07TOPS01CAPITALCM     00000GENERATED CAPITALIZATION                            48.53C"+testingYear+"-01-05          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9544900-----9899---ACFB07TOPS01CAPITALCM     00000GENERATED CAPITALIZATION                            48.53D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044906-----7000---ACEE07TOPS01CAPITALCM     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044906-----9041---ACLI07TOPS01CAPITALCM     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                       "), };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
-//    /**
-//     * Tests that the scrubber generates a capitalization entry for entries with object sub type == "BF"
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testCapitalizationForObjectSubTypeBF() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BA6044913-----7305---ACEE07GEC 01CAPITALBF     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                       ", testingYear+"BA6044913-----9041---ACLI07GEC 01CAPITALBF     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                       " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044913-----7305---ACEE07GEC 01CAPITALBF     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044913-----9041---ACLI07GEC 01CAPITALBF     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9544900-----8605---ACAS07GEC 01CAPITALBF     00000GENERATED CAPITALIZATION                            48.53C"+testingYear+"-01-05          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9544900-----9899---ACFB07GEC 01CAPITALBF     00000GENERATED CAPITALIZATION                            48.53D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044913-----7305---ACEE07GEC 01CAPITALBF     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044913-----9041---ACLI07GEC 01CAPITALBF     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                       "), };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
-//    /**
-//     * Tests that the scrubber generates a capitalization entry for entries with object sub type == "BD"
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testCapitalizationForObjectSubTypeBD() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BA6044906-----7300---ACEE07TOPS01CAPITALBD     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                       ", testingYear+"BA6044906-----9041---ACLI07TOPS01CAPITALBD     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                       " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044906-----7300---ACEE07TOPS01CAPITALBD     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044906-----9041---ACLI07TOPS01CAPITALBD     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9544900-----8601---ACAS07TOPS01CAPITALBD     00000GENERATED CAPITALIZATION                            48.53C"+testingYear+"-01-05          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9544900-----9899---ACFB07TOPS01CAPITALBD     00000GENERATED CAPITALIZATION                            48.53D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044906-----7300---ACEE07TOPS01CAPITALBD     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044906-----9041---ACLI07TOPS01CAPITALBD     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                       "), };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
-//    /**
-//     * Tests that the scrubber generates a capitalization entry for entries with object sub type == "AM"
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testCapitalizationForObjectSubTypeAM() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BA6044900-----7677---ACEE07CD  PDCAPITALAM     00000214090047 EVERETT J PRESCOTT INC.                 1445.00D"+testingYear+"-01-05          ----------                                                                       ", testingYear+"BA6044900-----8000---ACAS07CD  PDCAPITALAM     00000214090047 EVERETT J PRESCOTT INC.                 1445.00C"+testingYear+"-01-05          ----------                                                                       " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044900-----7677---ACEE07CD  PDCAPITALAM     00000214090047 EVERETT J PRESCOTT INC.                 1445.00D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044900-----8000---ACAS07CD  PDCAPITALAM     00000214090047 EVERETT J PRESCOTT INC.                 1445.00C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9544900-----8615---ACAS07CD  PDCAPITALAM     00000GENERATED CAPITALIZATION                          1445.00D"+testingYear+"-01-05          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA9544900-----9899---ACFB07CD  PDCAPITALAM     00000GENERATED CAPITALIZATION                          1445.00C"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044900-----7677---ACEE07CD  PDCAPITALAM     00000214090047 EVERETT J PRESCOTT INC.                 1445.00D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044900-----8000---ACAS07CD  PDCAPITALAM     00000214090047 EVERETT J PRESCOTT INC.                 1445.00C"+testingYear+"-01-05          ----------                                                                       "), };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
-//    /**
-//     * Tests that the scrubber does not generate a capitalization entry for entries that occurred in certain periods
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testNoCapitalizationForCertainFiscalPeriods() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BA6044900-----7000---ACEECBCD  PDNOCAPCB       00000214090047 EVERETT J PRESCOTT INC.                 1445.00D"+testingYear+"-01-05ACCDEFGHIJ----------12345678                                                               ", testingYear+"BA6044900-----8000---ACASCBCD  PDNOCAPCB       00000214090047 EVERETT J PRESCOTT INC.                 1445.00C"+testingYear+"-01-05ABCDEFGHIG----------12345679                                                               " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044900-----7000---ACEECBCD  PDNOCAPCB       00000214090047 EVERETT J PRESCOTT INC.                 1445.00D"+testingYear+"-01-05ACCDEFGHIJ----------12345678                                                               "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044900-----8000---ACASCBCD  PDNOCAPCB       00000214090047 EVERETT J PRESCOTT INC.                 1445.00C"+testingYear+"-01-05ABCDEFGHIG----------12345679                                                               "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044900-----7000---ACEECBCD  PDNOCAPCB       00000214090047 EVERETT J PRESCOTT INC.                 1445.00D"+testingYear+"-01-05ACCDEFGHIJ----------12345678                                                               "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044900-----8000---ACASCBCD  PDNOCAPCB       00000214090047 EVERETT J PRESCOTT INC.                 1445.00C"+testingYear+"-01-05ABCDEFGHIG----------12345679                                                               "), };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
     /**
      * Tests that the scrubber does not generate a capitalization entry for entries with certain document types
      * 
@@ -1647,24 +1139,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         assertOriginEntries(7, output);
     }
 
-//
-//    /**
-//     * Tests that the scrubber generates the correct offset entries, even with there are multiple origin codes involved
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testOffsetGenerationAcrossMultipleOriginCodes() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BA6044906-----4010---ACEX07DI  01OFFSETORG     00000OFFICE SUPPLY CHARGEBACKS                          294.64D"+testingYear+"-01-05          ----------                                                                       ", testingYear+"BA6044906-----5000---ACEX07DI  EUOFFSETORG     00000OFFICE SUPPLY CHARGEBACKS                          294.64D"+testingYear+"-01-05          ----------                                                                       " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044906-----4010---ACEX07DI  01OFFSETORG     00000OFFICE SUPPLY CHARGEBACKS                          294.64D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BA6044906-----5000---ACEX07DI  EUOFFSETORG     00000OFFICE SUPPLY CHARGEBACKS                          294.64D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044906-----4010---ACEX07DI  01OFFSETORG     00000OFFICE SUPPLY CHARGEBACKS                          294.64D"+testingYear+"-01-05          ----------                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044906-----8000---ACAS07DI  01OFFSETORG     00000GENERATED OFFSET                                   294.64C"+formattedRunDate+"          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044906-----5000---ACEX07DI  EUOFFSETORG     00000OFFICE SUPPLY CHARGEBACKS                          294.64D"+testingYear+"-01-05          ----------                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BA6044906-----8000---ACAS07DI  EUOFFSETORG     00000GENERATED OFFSET                                   294.64C"+formattedRunDate+"          ----------                                                                       "), };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
-//
     /**
      * Tests that the scrubber considers entries with closed accounts to be valid
      * 
@@ -1697,22 +1171,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         assertOriginEntries(7, output);
     }
 
-//    /**
-//     * Tests that the scrubber considers entries with accounts expired by document type to be valid
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testExpiredAccountByDocumentType() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BL4631557-----4100---ACEX07LOCRLGEXPRACTLC     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                               ", testingYear+"BL4631557-----9041---ACLI07LOCRLGEXPRACTLC     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                               " };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4631557-----4100---ACEX07LOCRLGEXPRACTLC     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                               "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4631557-----9041---ACLI07LOCRLGEXPRACTLC     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                               "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631557-----4100---ACEX07LOCRLGEXPRACTLC     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                               "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4631557-----9041---ACLI07LOCRLGEXPRACTLC     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                               "), };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-
     /**
      * Tests that the scrubber considers entries with accounts, expired by the balance type, to be valid
      * 
@@ -1742,38 +1200,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         scrub(input);
         assertOriginEntries(7, output);
     }
-
-//    /**
-//     * Tests that the scrubber considers entries with accounts expired by origin code to be valid
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testExpiredAccountByOriginCode() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BL1031467-----5300---ACEE07DD  01EXPRACT01     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D"+testingYear+"-01-05ABCDEFGHIJ----------12345678                                                                       ", testingYear+"BL1031467-----8000---ACAS07DD  01EXPRACT01     12345214090047 EVERETT J PRESCOTT INC.                 1445.00C"+testingYear+"-01-05ABCDEFGHIG----------12345679                                                                       ", };
-//
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL1031467-----5300---ACEE07DD  01EXPRACT01     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D"+testingYear+"-01-05ABCDEFGHIJ----------12345678                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL1031467-----8000---ACAS07DD  01EXPRACT01     12345214090047 EVERETT J PRESCOTT INC.                 1445.00C"+testingYear+"-01-05ABCDEFGHIG----------12345679                                                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031467-----5300---ACEE07DD  01EXPRACT01     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D"+testingYear+"-01-05ABCDEFGHIJ----------12345678                                                                       "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL1031467-----8000---ACAS07DD  01EXPRACT01     12345214090047 EVERETT J PRESCOTT INC.                 1445.00C"+testingYear+"-01-05ABCDEFGHIG----------12345679                                                                       "), };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
-//    /**
-//     * Tests that the scrubber considers entries with expired c&g accounts to be valid
-//     * 
-//     * @throws Exception thrown if any exception is encountered for any reason
-//     */
-//    public void testExpiredContractAndGrantAccount() throws Exception {
-//
-//        String[] input = new String[] { testingYear+"BL4131407-----4100---ACEX07TOPSLGEXPIRCGAC     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                               ", testingYear+"BL4131407-----9041---ACLI07TOPSLGEXPIRCGAC     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                               " };
-//        EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4131407-----4100---ACEX07TOPSLGEXPIRCGAC     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                               "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear+"BL4131407-----9041---ACLI07TOPSLGEXPIRCGAC     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                               "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4131407-----4100---ACEX07TOPSLGEXPIRCGAC     00000CONCERTO OFFICE PRODUCTS                            48.53C"+testingYear+"-01-05          ----------                                                                               "),
-//                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL4131407-----9041---ACLI07TOPSLGEXPIRCGAC     00000CONCERTO OFFICE PRODUCTS                            48.53D"+testingYear+"-01-05          ----------                                                                               "), };
-//
-//        scrub(input);
-//        assertOriginEntries(7, output);
-//    }
-//
+    
     /**
      * Tests that the scrubber considers entries with expired accounts to be valid
      * 
@@ -2411,7 +1838,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE, inputTransactions[0]),
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL2231423-----8000---ACAS04CR  PLINVALOBJ      00000GENERATED OFFSET                        +00000000000045995.84C"+formattedRunDate+"          ----------                                       "),
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear+"BL2231423-----8000---ACAS04CR  PLINVALOBJ      00000TP Generated Offset                     +00000000000045995.84D"+testingYear+"-01-05          ----------                                       "),
-                //new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, testingYear+"BL2231423-----XXXX---ACIN  CR  PLINVALOBJ      00000FRICKA FRACKA                                    45995.84C"+testingYear+"-01-05          ----------                                                                               "),
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]),
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE, inputTransactions[0])
         };

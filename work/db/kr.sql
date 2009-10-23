@@ -4964,3 +4964,15 @@ update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Flabor
 /
 update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fprocurementcard.htm' where doc_typ_nm = 'PCDO' and actv_ind = 1 and cur_ind = 1
 /
+
+--KFSMI-3800: organization review document clean up
+delete from krew_doc_typ_t where doc_typ_nm = 'ORGG' and parnt_id in (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'COA' and cur_ind = 1 and actv_ind = 1)
+/
+update krew_doc_typ_t set lbl = 'Organization Review Group' where doc_typ_nm = 'ORG' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set lbl = 'Organization Review Role' where doc_typ_nm = 'ORR' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set lbl = 'Organization Review' where doc_typ_nm = 'OR' and actv_ind = 1 and cur_ind = 1
+/
+delete from krew_doc_typ_t where cur_ind = 0
+/

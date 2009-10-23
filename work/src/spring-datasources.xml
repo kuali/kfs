@@ -47,6 +47,7 @@
 		<property name="minSize" value="5" />
 		<property name="maxWait" value="${datasource.connection.timeout}" />
 		<property name="preparedStmtCacheSize" value="${datasource.maximum.cached.preparedstatements}" />
+		<property name="checkLevelObject" value="${datasource.xapool.connection.test.mode}" />
 	</bean>
 
     <bean id="serverDatasource" parent="dataSource">

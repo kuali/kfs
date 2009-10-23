@@ -50,10 +50,8 @@ public class ElectronicInvoiceUtils {
                 stringToParse = invoiceDateString;
             }
             else if (PurApDateFormatUtils.getFormattingString(PurapConstants.NamedDateFormats.KUALI_DATE_FORMAT).equals(formattedDateString)) {
-                //We need to minus the month by one since the date string has 1 month added for display purposes 
                 try {
                     java.util.Date javaDate = SpringContext.getBean(DateTimeService.class).convertToDate(invoiceDateString);
-                    javaDate = DateUtils.addMonths(javaDate, -1);
                     return org.kuali.rice.kns.util.DateUtils.convertToSqlDate(javaDate);
                 }
                 catch (ParseException e) {
@@ -130,48 +128,4 @@ public class ElectronicInvoiceUtils {
         }
     }
     
-    public static void main(String s[]){
-        //TestCase 1 - cdw.xml 
-        String invoiceDate = "2008-08-11T00:00:00-06:00";
-        System.out.println("Actual Date= " + invoiceDate + ", Converted Date = " + getDate(invoiceDate));
-        
-        //TestCase 2 - vwr.xml
-        invoiceDate = "2008-07-29";
-        System.out.println("Actual Date= " + invoiceDate + ", Converted Date = " + getDate(invoiceDate));
-        
-        //TestCase 3 - guybrown.xml
-        invoiceDate = "2008-07-29T12:00:00";
-        System.out.println("Actual Date= " + invoiceDate + ", Converted Date = " + getDate(invoiceDate));
-        
-        //TestCase 4 - barnesandnoble.xml
-        invoiceDate = "2008-07-23T12:00:00-12:00";
-        System.out.println("Actual Date= " + invoiceDate + ", Converted Date = " + getDate(invoiceDate));
-        
-        //TestCase 5 - For reject doc date (in kuali format)
-        invoiceDate = "07/23/2008";
-        System.out.println("Actual Date= " + invoiceDate + ", Converted Date = " + getDate(invoiceDate) + "  (KualiFormat check) ");
-        
-        //TestCase 6 - For invalid format 1
-        invoiceDate = "2008|07|23";
-        System.out.println("Actual Date= " + invoiceDate + ", Converted Date = " + getDate(invoiceDate) + "  (InvalidFormat check) ");
-        
-        //TestCase 7 - For invalid format 2
-        invoiceDate = null;
-        System.out.println("Actual Date= " + invoiceDate + ", Converted Date = " + getDate(invoiceDate) + "  (InvalidFormat check) ");
-        
-        //Invoice Id Check
-        String rawInvoiceId = "A1!B2#C3$D4%";
-        System.out.println("Processed InvId " + stripSplChars(rawInvoiceId));
-        
-        
-        BigDecimal d1 = new BigDecimal("0");
-        BigDecimal d2 = new BigDecimal("-50");
-        
-        System.out.println(d2.compareTo(d1) < 0);
-        if (d2.compareTo(d1) < 0){
-            System.out.println("D2 greater");
-        }else{
-            System.out.println("D1 greater");
-        }
-    }
 }

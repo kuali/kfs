@@ -149,7 +149,7 @@
 	<!-- ******************* END Embedded KEW Servlet Mappings ********************* -->
 
 	<session-config>
-		<session-timeout>15</session-timeout>
+		<session-timeout>${http.session.timeout.minutes}</session-timeout>
 	</session-config>
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>

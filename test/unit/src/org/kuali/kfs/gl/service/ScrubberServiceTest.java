@@ -2200,6 +2200,228 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(7, outputTransactions);
     }
+    
+    /**
+     * Tests that the scrubber does not generate cost share entries for entries that are beginning balance transactions
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
+    public void testNoCostShareTransfersForBeginningBalanceTransactions() throws Exception {
+
+        String[] input = new String[] { 
+                testingYear + "BL4831496CS0015000---ACEXCBCR  01NOCSHRCB      00000Poplars Garage Fees                                     20.00C" + testingYear + "-01-05          ----------                                                                       ", 
+                testingYear + "BL4831496CS0018000---ACASCBCR  01NOCSHRCB      00000TP Generated Offset                                     20.00D" + testingYear + "-01-05          ----------                                                                       " 
+        };
+
+        EntryHolder[] output = new EntryHolder[] { 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        testingYear + "BL4831496CS0015000---ACEXCBCR  01NOCSHRCB      00000Poplars Garage Fees                                     20.00C" + testingYear + "-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        testingYear + "BL4831496CS0018000---ACASCBCR  01NOCSHRCB      00000TP Generated Offset                                     20.00D" + testingYear + "-01-05          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BL4831496CS0015000---ACEXCBCR  01NOCSHRCB      00000Poplars Garage Fees                     +00000000000000020.00C" + testingYear + "-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BL4831496CS0018000---ACASCBCR  01NOCSHRCB      00000TP Generated Offset                     +00000000000000020.00D" + testingYear + "-01-05          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear + "BL4831496CS0015000---ACEXCBCR  01NOCSHRCB      00000Poplars Garage Fees                     +00000000000000020.00C" + testingYear + "-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear + "BL4831496CS0018000---ACASCBCR  01NOCSHRCB      00000TP Generated Offset                     +00000000000000020.00D" + testingYear + "-01-05          ----------                                                                       ")
+        };
+
+        scrub(input);
+        assertOriginEntries(7, output);
+    }
+
+    /**
+     * Tests that the scrubber does not generate a plant endebtedness entry for entries with financial sub object == "P2"
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
+    public void testNoIndebtednessForObjectSubTypeP2() throws Exception {
+
+        String[] input = new String[] { 
+                testingYear + "BA9120657-----9100---ACLI07DI  EUNODEBTP2      00000BALDWIN WALLACE COLLEGE                               3375.00C" + testingYear + "-01-05          ----------                                                                       ", 
+                testingYear + "BA9120657-----8000---ACAS07DI  EUNODEBTP2      00000TP Generated Offset                                   3375.00D" + testingYear + "-01-05          ----------                                                                       " 
+        };
+
+        EntryHolder[] output = new EntryHolder[] { 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        testingYear + "BA9120657-----9100---ACLI07DI  EUNODEBTP2      00000BALDWIN WALLACE COLLEGE                               3375.00C" + testingYear + "-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        testingYear + "BA9120657-----8000---ACAS07DI  EUNODEBTP2      00000TP Generated Offset                                   3375.00D" + testingYear + "-01-05          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BA9120657-----8000---ACAS07DI  EUNODEBTP2      00000TP Generated Offset                     +00000000000003375.00D" + testingYear + "-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BA9120657-----9100---ACLI07DI  EUNODEBTP2      00000GENERATED TRANSFER TO NET PLANT         +00000000000003375.00D" + testingYear + "-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BA9120657-----9899---ACFB07DI  EUNODEBTP2      00000GENERATED TRANSFER TO NET PLANT         +00000000000003375.00C" + testingYear + "-01-05          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BA9544900-----9100---ACLI07DI  EUNODEBTP2      00000GENERATED TRANSFER FROM BA 9120657      +00000000000003375.00C" + testingYear + "-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BA9544900-----9899---ACFB07DI  EUNODEBTP2      00000GENERATED TRANSFER FROM BA 9120657      +00000000000003375.00D" + testingYear + "-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BA9120657-----9100---ACLI07DI  EUNODEBTP2      00000BALDWIN WALLACE COLLEGE                 +00000000000003375.00C" + testingYear + "-01-05          ----------                                                                       "),
+                
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear + "BA9120657-----8000---ACAS07DI  EUNODEBTP2      00000TP Generated Offset                     +00000000000003375.00D" + testingYear + "-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear + "BA9120657-----9100---ACLI07DI  EUNODEBTP2      00000GENERATED TRANSFER TO NET PLANT         +00000000000003375.00D" + testingYear + "-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear + "BA9120657-----9899---ACFB07DI  EUNODEBTP2      00000GENERATED TRANSFER TO NET PLANT         +00000000000003375.00C" + testingYear + "-01-05          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear + "BA9544900-----9100---ACLI07DI  EUNODEBTP2      00000GENERATED TRANSFER FROM BA 9120657      +00000000000003375.00C" + testingYear + "-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear + "BA9544900-----9899---ACFB07DI  EUNODEBTP2      00000GENERATED TRANSFER FROM BA 9120657      +00000000000003375.00D" + testingYear + "-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear + "BA9120657-----9100---ACLI07DI  EUNODEBTP2      00000BALDWIN WALLACE COLLEGE                 +00000000000003375.00C" + testingYear + "-01-05          ----------                                                                       ")
+        };
+
+        scrub(input);
+        assertOriginEntries(7, output);
+    }
+
+    /**
+     * Tests that the scrubber does not generate a plant endebtedness entry for entries with financial sub object == "P1"
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
+    public void testNoIndebtednessForObjectSubTypeP1() throws Exception {
+
+        String[] input = new String[] { 
+                testingYear + "BL2231423-----9100---ACIN  CR  PLNODEBTP1      00000FRICKA FRACKA                                        45995.84C" + testingYear + "-01-05          ----------                                                                       ", 
+                testingYear + "BL2231423-----8000---ACAS  CR  PLNODEBTP1      00000TP Generated Offset                                  45995.84D" + testingYear + "-01-05          ----------                                                                       " 
+        };
+        
+        final AccountingPeriod currentAccountingPeriod = SpringContext.getBean(AccountingPeriodService.class).getByDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+
+        EntryHolder[] output = new EntryHolder[] { 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        testingYear + "BL2231423-----9100---ACIN  CR  PLNODEBTP1      00000FRICKA FRACKA                                        45995.84C" + testingYear + "-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        testingYear + "BL2231423-----8000---ACAS  CR  PLNODEBTP1      00000TP Generated Offset                                  45995.84D" + testingYear + "-01-05          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BL2231423-----8000---ACAS"+currentAccountingPeriod.getUniversityFiscalPeriodCode()+"CR  PLNODEBTP1      00000TP Generated Offset                     +00000000000045995.84D" + testingYear + "-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BL2231423-----9100---ACIN"+currentAccountingPeriod.getUniversityFiscalPeriodCode()+"CR  PLNODEBTP1      00000FRICKA FRACKA                           +00000000000045995.84C" + testingYear + "-01-05          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear + "BL2231423-----8000---ACAS"+currentAccountingPeriod.getUniversityFiscalPeriodCode()+"CR  PLNODEBTP1      00000TP Generated Offset                     +00000000000045995.84D" + testingYear + "-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear + "BL2231423-----9100---ACIN"+currentAccountingPeriod.getUniversityFiscalPeriodCode()+"CR  PLNODEBTP1      00000FRICKA FRACKA                           +00000000000045995.84C" + testingYear + "-01-05          ----------                                                                       "), 
+        };
+
+        scrub(input);
+        assertOriginEntries(7, output);
+    }
+
+    /**
+     * Tests that the scrubber does not generate a plant endebtedness entry for entries with budget balance types
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
+    public void testNoIndebtednessForBudgetTransactions() throws Exception {
+
+        String[] input = new String[] { 
+                testingYear + "BA9020204-----9100---BBLI07SB  01NODEBTBB      00000Biology Stockroom                                       13.77 " + testingYear + "-01-05          ----------                                                                       ", 
+                testingYear + "BA9020204-----8000---BBAS07SB  01NODEBTBB      00000TP Generated Offset                                     13.77 " + testingYear + "-01-05          ----------                                                                       " 
+        };
+
+        EntryHolder[] output = new EntryHolder[] { 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        testingYear + "BA9020204-----9100---BBLI07SB  01NODEBTBB      00000Biology Stockroom                                       13.77 " + testingYear + "-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        testingYear + "BA9020204-----8000---BBAS07SB  01NODEBTBB      00000TP Generated Offset                                     13.77 " + testingYear + "-01-05          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BA9020204-----8000---BBAS07SB  01NODEBTBB      00000TP Generated Offset                     +00000000000000013.77 " + testingYear + "-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BA9020204-----9100---BBLI07SB  01NODEBTBB      00000Biology Stockroom                       +00000000000000013.77 " + testingYear + "-01-05          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear + "BA9020204-----8000---BBAS07SB  01NODEBTBB      00000TP Generated Offset                     +00000000000000013.77 " + testingYear + "-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear + "BA9020204-----9100---BBLI07SB  01NODEBTBB      00000Biology Stockroom                       +00000000000000013.77 " + testingYear + "-01-05          ----------                                                                       ")
+        };
+
+        scrub(input);
+        assertOriginEntries(7, output);
+    }
+
+
+    /**
+     * Tests that the scrubber does not generate a capitalization entry for entries that occurred in certain periods
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
+    public void testNoCapitalizationForCertainFiscalPeriods() throws Exception {
+
+        String[] input = new String[] { 
+                testingYear + "BA6044900-----7000---ACEECBCR  PDNOCAPCB       00000214090047 EVERETT J PRESCOTT INC.                     1445.00D" + testingYear + "-01-05ACCDEFGHIJ----------12345678                                                               ", 
+                testingYear + "BA6044900-----8000---ACASCBCR  PDNOCAPCB       00000214090047 EVERETT J PRESCOTT INC.                     1445.00C" + testingYear + "-01-05ABCDEFGHIG----------12345679                                                               " 
+        };
+
+        EntryHolder[] output = new EntryHolder[] { 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        testingYear + "BA6044900-----7000---ACEECBCR  PDNOCAPCB       00000214090047 EVERETT J PRESCOTT INC.                     1445.00D" + testingYear + "-01-05ACCDEFGHIJ----------12345678                                                               "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        testingYear + "BA6044900-----8000---ACASCBCR  PDNOCAPCB       00000214090047 EVERETT J PRESCOTT INC.                     1445.00C" + testingYear + "-01-05ABCDEFGHIG----------12345679                                                               "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BA6044900-----7000---ACEECBCR  PDNOCAPCB       00000214090047 EVERETT J PRESCOTT INC.       +00000000000001445.00D" + testingYear + "-01-05ACCDEFGHIJ----------12345678                                                               "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BA6044900-----8000---ACASCBCR  PDNOCAPCB       00000214090047 EVERETT J PRESCOTT INC.       +00000000000001445.00C" + testingYear + "-01-05ABCDEFGHIG----------12345679                                                               "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear + "BA6044900-----7000---ACEECBCR  PDNOCAPCB       00000214090047 EVERETT J PRESCOTT INC.       +00000000000001445.00D" + testingYear + "-01-05ACCDEFGHIJ----------12345678                                                               "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear + "BA6044900-----8000---ACASCBCR  PDNOCAPCB       00000214090047 EVERETT J PRESCOTT INC.       +00000000000001445.00C" + testingYear + "-01-05ABCDEFGHIG----------12345679                                                               ")
+        };
+
+        scrub(input);
+        assertOriginEntries(7, output);
+    }
+
+
+    /**
+     * Tests that the scrubber generates the correct offset entries, even with there are multiple origin codes involved
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
+    public void testOffsetGenerationAcrossMultipleOriginCodes() throws Exception {
+        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(SpringContext.getBean(DateTimeService.class).getCurrentDate())).getTime());
+        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
+
+        String[] input = new String[] { 
+                testingYear + "BA6044906-----4010---ACEX07DI  01OFFSETORG     00000OFFICE SUPPLY CHARGEBACKS                              294.64D" + testingYear + "-01-05          ----------                                                                       ", 
+                testingYear + "BA6044906-----5000---ACEX07DI  EUOFFSETORG     00000OFFICE SUPPLY CHARGEBACKS                              294.64D" + testingYear + "-01-05          ----------                                                                       " 
+        };
+
+        EntryHolder[] output = new EntryHolder[] { 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        testingYear + "BA6044906-----4010---ACEX07DI  01OFFSETORG     00000OFFICE SUPPLY CHARGEBACKS                              294.64D" + testingYear + "-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        testingYear + "BA6044906-----5000---ACEX07DI  EUOFFSETORG     00000OFFICE SUPPLY CHARGEBACKS                              294.64D" + testingYear + "-01-05          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BA6044906-----4010---ACEX07DI  01OFFSETORG     00000OFFICE SUPPLY CHARGEBACKS               +00000000000000294.64D" + testingYear + "-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BA6044906-----8000---ACAS07DI  01OFFSETORG     00000GENERATED OFFSET                        +00000000000000294.64C" + formattedRunDate + "          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BA6044906-----5000---ACEX07DI  EUOFFSETORG     00000OFFICE SUPPLY CHARGEBACKS               +00000000000000294.64D" + testingYear + "-01-05          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BA6044906-----8000---ACAS07DI  EUOFFSETORG     00000GENERATED OFFSET                        +00000000000000294.64C" + formattedRunDate + "          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear + "BA6044906-----4010---ACEX07DI  01OFFSETORG     00000OFFICE SUPPLY CHARGEBACKS               +00000000000000294.64D" + testingYear + "-01-05          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear + "BA6044906-----8000---ACAS07DI  01OFFSETORG     00000GENERATED OFFSET                        +00000000000000294.64C" + formattedRunDate + "          ----------                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear + "BA6044906-----5000---ACEX07DI  EUOFFSETORG     00000OFFICE SUPPLY CHARGEBACKS               +00000000000000294.64D" + testingYear + "-01-05          ----------                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear + "BA6044906-----8000---ACAS07DI  EUOFFSETORG     00000GENERATED OFFSET                        +00000000000000294.64C" + formattedRunDate + "          ----------                                                                       "), 
+        };
+
+        scrub(input);
+        assertOriginEntries(7, output);
+    }
+
+    /**
+     * Tests that the scrubber considers entries with accounts expired by origin code to be valid
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
+    public void testExpiredAccountByOriginCode() throws Exception {
+
+        String[] input = new String[] { 
+                testingYear + "BL1031467-----5300---ACEE07BA  01EXPRACT01     12345214090047 EVERETT J PRESCOTT INC.                     1445.00D" + testingYear + "-01-05ABCDEFGHIJ----------12345678                                                                       ", 
+                testingYear + "BL1031467-----8000---ACAS07BA  01EXPRACT01     12345214090047 EVERETT J PRESCOTT INC.                     1445.00C" + testingYear + "-01-05ABCDEFGHIG----------12345679                                                                       ", 
+        };
+
+        EntryHolder[] output = new EntryHolder[] { 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        testingYear + "BL1031467-----5300---ACEE07BA  01EXPRACT01     12345214090047 EVERETT J PRESCOTT INC.                     1445.00D" + testingYear + "-01-05ABCDEFGHIJ----------12345678                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        testingYear + "BL1031467-----8000---ACAS07BA  01EXPRACT01     12345214090047 EVERETT J PRESCOTT INC.                     1445.00C" + testingYear + "-01-05ABCDEFGHIG----------12345679                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BL1031467-----5300---ACEE07BA  01EXPRACT01     12345214090047 EVERETT J PRESCOTT INC.       +00000000000001445.00D" + testingYear + "-01-05ABCDEFGHIJ----------12345678                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BL1031467-----8000---ACAS07BA  01EXPRACT01     12345214090047 EVERETT J PRESCOTT INC.       +00000000000001445.00C" + testingYear + "-01-05ABCDEFGHIG----------12345679                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear + "BL1031467-----5300---ACEE07BA  01EXPRACT01     12345214090047 EVERETT J PRESCOTT INC.       +00000000000001445.00D" + testingYear + "-01-05ABCDEFGHIJ----------12345678                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear + "BL1031467-----8000---ACAS07BA  01EXPRACT01     12345214090047 EVERETT J PRESCOTT INC.       +00000000000001445.00C" + testingYear + "-01-05ABCDEFGHIG----------12345679                                                                       "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE, testingYear + "BL1031467-----5300---ACEE07BA  01EXPRACT01     12345214090047 EVERETT J PRESCOTT INC.       +00000000000001445.00D" + testingYear + "-01-05ABCDEFGHIJ----------12345678                                                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE, testingYear + "BL1031467-----8000---ACAS07BA  01EXPRACT01     12345214090047 EVERETT J PRESCOTT INC.       +00000000000001445.00C" + testingYear + "-01-05ABCDEFGHIG----------12345679                                                                       "), 
+        };
+
+        scrub(input);
+        assertOriginEntries(7, output);
+    }
+
+    /**
+     * Tests that the scrubber considers entries with expired c&g accounts to be valid
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
+    public void testExpiredContractAndGrantAccount() throws Exception {
+
+        String[] input = new String[] { 
+                testingYear + "BL4131407-----4100---ACEX07BA  LGEXPIRCGAC     00000CONCERTO OFFICE PRODUCTS                                48.53C" + testingYear + "-01-05          ----------                                                                               ", 
+                testingYear + "BL4131407-----9041---ACLI07BA  LGEXPIRCGAC     00000CONCERTO OFFICE PRODUCTS                                48.53D" + testingYear + "-01-05          ----------                                                                               " 
+        };
+        EntryHolder[] output = new EntryHolder[] { 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        testingYear + "BL4131407-----4100---ACEX07BA  LGEXPIRCGAC     00000CONCERTO OFFICE PRODUCTS                                48.53C" + testingYear + "-01-05          ----------                                                                               "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE,        testingYear + "BL4131407-----9041---ACLI07BA  LGEXPIRCGAC     00000CONCERTO OFFICE PRODUCTS                                48.53D" + testingYear + "-01-05          ----------                                                                               "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BL2331489-----4100---ACEX07BA  LGEXPIRCGAC     00000AUTO FR BL4131407CONCERTO OFFICE PRODUCT+00000000000000048.53C" + testingYear + "-01-05          ----------                                                                               "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BL2331489-----9041---ACLI07BA  LGEXPIRCGAC     00000AUTO FR BL4131407CONCERTO OFFICE PRODUCT+00000000000000048.53D" + testingYear + "-01-05          ----------                                                                               "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear + "BL2331489-----4100---ACEX07BA  LGEXPIRCGAC     00000AUTO FR BL4131407CONCERTO OFFICE PRODUCT+00000000000000048.53C" + testingYear + "-01-05          ----------                                                                               "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, testingYear + "BL2331489-----9041---ACLI07BA  LGEXPIRCGAC     00000AUTO FR BL4131407CONCERTO OFFICE PRODUCT+00000000000000048.53D" + testingYear + "-01-05          ----------                                                                               "),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE, testingYear + "BL2331489-----4100---ACEX07BA  LGEXPIRCGAC     00000AUTO FR BL4131407CONCERTO OFFICE PRODUCT+00000000000000048.53C" + testingYear + "-01-05          ----------                                                                               "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE, testingYear + "BL2331489-----9041---ACLI07BA  LGEXPIRCGAC     00000AUTO FR BL4131407CONCERTO OFFICE PRODUCT+00000000000000048.53D" + testingYear + "-01-05          ----------                                                                               ")
+        };
+
+        scrub(input);
+        assertOriginEntries(7, output);
+    }
 
     /**
      * Loads an array of String-formatted entries into the database, and then runs the scrubber on those entries

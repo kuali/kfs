@@ -4948,3 +4948,19 @@ update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Flabor
 /
 update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Flabordistributionyearend.htm' where doc_typ_nm = 'YEBT' and cur_ind = 1 and actv_ind = 1
 /
+
+--KFSMI-5105: more doc type url fixes
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Ffinancialprocessingyearend.htm' where doc_typ_nm = 'YEBA' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Ffinancialprocessingyearend.htm' where doc_typ_nm = 'YEDI' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Ffinancialprocessingyearend.htm' where doc_typ_nm = 'YEGE' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Ffinancialprocessingyearend.htm' where doc_typ_nm = 'YETF' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Flabordistributionyearend.htm' where doc_typ_nm = 'YEBT' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Flabordistributionyearend.htm' where doc_typ_nm = 'YEST' and actv_ind = 1 and cur_ind = 1
+/
+update krew_doc_typ_t set help_def_url = 'default.htm?turl=WordDocuments%2Fprocurementcard.htm' where doc_typ_nm = 'PCDO' and actv_ind = 1 and cur_ind = 1
+/

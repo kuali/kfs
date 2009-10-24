@@ -36,7 +36,7 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends KimR
     private static final Logger LOG = Logger.getLogger(OrganizationHierarchyAwareRoleTypeServiceBase.class);
     private ChartService chartService;
     private OrganizationService organizationService;
-    private static final String DOCUMENT_TYPE_NAME = "ORGG";
+    protected static final String DOCUMENT_TYPE_NAME = "ORR";
 
     {
         workflowRoutingAttributes.add( KfsKimAttributes.CHART_OF_ACCOUNTS_CODE );

@@ -28,7 +28,6 @@ import org.kuali.rice.kim.util.KimCommonUtils;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 
 public class OrganizationHierarchyReviewRoleTypeServiceImpl extends OrganizationHierarchyAwareRoleTypeServiceBase {
-    private static final String DOCUMENT_TYPE_NAME = "ORGG";
 
     private DocumentTypeService documentTypeService;
 

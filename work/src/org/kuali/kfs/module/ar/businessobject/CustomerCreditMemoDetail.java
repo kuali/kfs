@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.businessobject;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
@@ -247,7 +248,15 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
     public void recalculateBasedOnEnteredItemAmount(CustomerCreditMemoDocument customerCreditMemoDocument) {
         BigDecimal invItemUnitPrice = getCustomerInvoiceDetail().getInvoiceItemUnitPrice();
 
-        creditMemoItemQuantity = creditMemoItemTotalAmount.divide(new KualiDecimal(invItemUnitPrice), true).bigDecimalValue();
+        KualiDecimal kulVal = creditMemoItemTotalAmount.divide(new KualiDecimal(invItemUnitPrice), true);
+        if (kulVal.isZero() && creditMemoItemTotalAmount != null && !creditMemoItemTotalAmount.isZero()) {
+            MathContext context = new MathContext(1);
+            creditMemoItemQuantity = new BigDecimal(0.01d, context);
+            creditMemoItemQuantity.setScale(2);
+        }
+        else {
+            creditMemoItemQuantity = kulVal.bigDecimalValue();
+        }
 
         if (customerCreditMemoDocument.getArTaxService().isCustomerInvoiceDetailTaxable(customerCreditMemoDocument.getInvoice(), getCustomerInvoiceDetail()))
             creditMemoItemTaxAmount = customerCreditMemoDocument.getTaxService().getTotalSalesTaxAmount(customerCreditMemoDocument.getInvoice().getBillingDate(), customerCreditMemoDocument.getPostalCode(), creditMemoItemTotalAmount);

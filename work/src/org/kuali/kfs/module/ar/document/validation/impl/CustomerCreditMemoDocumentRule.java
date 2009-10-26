@@ -43,7 +43,6 @@ import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.exception.UnknownDocumentIdException;
 import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -181,6 +180,10 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
 
         // determine the expected exact total credit memo quantity, based on actual credit amount entered
         KualiDecimal expectedCreditQuantity = creditAmount.divide(new KualiDecimal(unitPrice), true);
+        if (expectedCreditQuantity == null || expectedCreditQuantity.isZero()) {
+            expectedCreditQuantity = new KualiDecimal(0.01d);
+            return true;
+        }
 
         // determine the deviation percentage that the actual creditQuantity has from expectedCreditQuantity
         KualiDecimal deviationPercentage = expectedCreditQuantity.subtract(creditQuantity).abs().divide(expectedCreditQuantity);

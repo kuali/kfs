@@ -61,15 +61,24 @@
     	<replace file="${all.temp.directory}/kfs/build.xml">
       		<replacefilter token="&lt;import file=&quot;build-foundation.xml&quot;/&gt;" value="" />
     	</replace>
-		<!-- replace foundation database URLs -->
-    	<replace file="${all.temp.directory}/kfs/build/external/user/kfs-build.properties">
+		<!-- replace foundation URL references -->
+		<replace dir="${all.temp.directory}">
+			<include name="impex/*.properties*" />
+			<include name="kfs/build/external/user/kfs-build.properties" />
+			<include name="kfs/build/properties/*.properties" />
+			<!-- SVN -->
+      		<replacefilter token="https://test.kuali.org/svn/" value="" />
+			<!-- database -->
       		<replacefilter token="mysql.datasource.url=jdbc:mysql://esdbk01.uits.indiana.edu:3306/$${datasource.username}" 
     		     value="mysql.datasource.url=jdbc:mysql://localhost:3306/$${datasource.username}" />
       		<replacefilter token="oracle.datasource.url=jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI" 
-    		     value="oracle.datasource.url=jdbc:oracle:thin:@localhost:1521:XE" />
-    	</replace>
+    		     value="oracle.datasource.url=jdbc:oracle:thin:@localhost:1521:XE" />			
+			<!-- misc -->
+			<replacefilter token="feedback.link.url=https://test.kuali.org/jira/secure/CreateIssue.jspa?pid=10091&amp;amp;issuetype=1" value="feedback.link.url=" />
+			<replacefilter token="licensing.contact.email=license@kuali.org" value="licensing.contact.email=" />
+      	</replace>
 		<move file="${all.temp.directory}/kfs/${build.distribution.directory}/impex-build.properties"
-			  todir="${all.temp.directory}" />
+			  todir="${all.temp.directory}" failonerror="false" />
 	</target>
 	
 	<target name="unpack-and-remove-rice-licenses" depends="init-properties,init-additional-properties">
@@ -79,11 +88,13 @@
 	</target>
 	
 	<target name="add-doc-files" depends="init-properties,init-additional-properties">
+		<!-- get any *.txt files we drop in the build/distribution directory -->
 		<move todir="${all.temp.directory}" verbose="true">
 			<fileset dir="${all.temp.directory}/kfs/build/distribution">
 				<include name="*.txt" />
 			</fileset>
 		</move>
+		<!-- get the current revision numbers for each SVN path we are including in the export -->
 		<svn>
 			<info target="${kuali.svn.root}/${kfs.svn.module}/${kfs.svn.path}"
 				  propPrefix="svn.info.kfs" verbose="true" />			
@@ -102,15 +113,15 @@
 		</svn>
 	    <!-- dump a file with the extracted tags -->
     	<echo file="${all.temp.directory}/release-details.txt">
-      		KFS URL: ${kuali.svn.root}/${kfs.svn.module}/${kfs.svn.path} (@${svn.info.kfs.lastRev})
+      		KFS URL: ${kfs.svn.module}/${kfs.svn.path} (@${svn.info.kfs.lastRev})
       		Demo Dataset URLs: 
-    				KFS:  ${kuali.svn.root}/${kfs.database.svn.module}/${kfs.database.demo.svn.path} (@${svn.info.kfsdb.demo.lastRev})
-    				Rice: ${kuali.svn.root}/${rice.database.svn.module}/${rice.database.demo.svn.path} (@${svn.info.kfsdb.bootstrap.lastRev})
+    				KFS:  ${kfs.database.svn.module}/${kfs.database.demo.svn.path} (@${svn.info.kfsdb.demo.lastRev})
+    				Rice: ${rice.database.svn.module}/${rice.database.demo.svn.path} (@${svn.info.kfsdb.bootstrap.lastRev})
       		Bootstrap Dataset URLs: 
-    				KFS:  ${kuali.svn.root}/${kfs.database.svn.module}/${kfs.database.bootstrap.svn.path} (@${svn.info.ricedb.demo.lastRev})
-    				Rice: ${kuali.svn.root}/${rice.database.svn.module}/${rice.database.bootstrap.svn.path} (@${svn.info.ricedb.bootstrap.lastRev})
-      		Impex URL: ${kuali.svn.root}/${impex.tool.svn.module}/${impex.tool.svn.path} (@${svn.info.impex.lastRev})
-      		Rice URL: ${kuali.svn.root}/${rice.svn.module}/${rice.svn.path} (@${svn.info.rice.lastRev})
+    				KFS:  ${kfs.database.svn.module}/${kfs.database.bootstrap.svn.path} (@${svn.info.ricedb.demo.lastRev})
+    				Rice: ${rice.database.svn.module}/${rice.database.bootstrap.svn.path} (@${svn.info.ricedb.bootstrap.lastRev})
+      		Impex URL: ${impex.tool.svn.module}/${impex.tool.svn.path} (@${svn.info.impex.lastRev})
+      		Rice URL: ${rice.svn.module}/${rice.svn.path} (@${svn.info.rice.lastRev})
     	</echo>	
 	</target>
 	

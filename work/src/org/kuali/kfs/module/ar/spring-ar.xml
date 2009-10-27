@@ -585,7 +585,22 @@
 			<ref bean="dateTimeService" />
 		</property>					
 	</bean>
-	
+
+	<bean id="customerInvoiceDocumentBatchStep" class="org.kuali.kfs.module.ar.batch.CustomerInvoiceDocumentBatchStep" parent="step">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="customerInvoiceDocumentService">
+			<ref bean="customerInvoiceDocumentService" />
+		</property>		
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>		
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>					
+	</bean>
+		
 	<!-- Workflow Lookupables -->
 	
 	<bean id="customerLookupHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CustomerLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />

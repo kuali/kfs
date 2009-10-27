@@ -117,6 +117,9 @@
 				<equals arg1="${use.p6spy}" arg2="true" />
 			</and>
 		</condition>
+		<condition property="rice.standalone.flag">
+			<equals arg1="${rice.standalone}" arg2="true" />
+		</condition>
 		<condition property="datasource.driver.class" value="${p6spy.driver.class}"><equals arg1="${use.p6spy.local}" arg2="true"/></condition>
 		<condition property="datasource.driver.class" value="${mysql.driver.class}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<property name="datasource.driver.class" value="${oracle.driver.class}" />
@@ -254,6 +257,7 @@
 	</target>
 
 	<target name="clean-rice" unless="dont.filter.project.rice" depends="init-property-files">
+		<echo message="Cleaning Rice web content from KFS ${webroot.directory}" />
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${basedir}">
 				<include name="${webroot.directory}/ksb/**" />
@@ -262,9 +266,11 @@
 				<include name="${webroot.directory}/ken/**" />
 				<include name="${webroot.directory}/kcb/**" />
 				<include name="${webroot.directory}/kim/**" />
+				<include name="${webroot.directory}/rice-portal/**" />
 				<include name="${tags.directory}/kr/**" />
 				<include name="${tags.directory}/kim/**" />
 				<include name="${tags.directory}/kew/**" />
+				<include name="${tags.directory}/rice-portal/**" />
 			</fileset>
 		</delete>
 	</target>
@@ -343,7 +349,16 @@
 		<unzip dest="${help.directory}" src="${build.project.directory}/help.zip" />
 	</target>
 
-	<target name="filter-project-rice" unless="dont.filter.project.rice" depends="init-properties">
+	<target name="filter-project-rice" unless="dont.filter.project.rice" depends="init-properties,clean-rice">
+		<echo message="Copying Rice Web Content from ${build.appserver.directory}/${rice.server.war.file.name}" />
+		<!--
+		<if>
+			<isset property="rice.standalone.flag" />
+			<then>
+				<echo message="Excluding the kew, kim, and ken content since configured to work with a standalone Rice server." />
+			</then>
+		</if>
+		-->
 		<unzip dest="${webroot.directory}" src="${build.appserver.directory}/${rice.server.war.file.name}">
 			<patternset>
 				<exclude name="META-INF/**"/>
@@ -353,6 +368,12 @@
 				<exclude name="WEB-INF/jsp/**"/>
 				<exclude name="**/rice-portal/**"/>
 				<exclude name="*"/>
+				<!--
+				<exclude name="**/kew/**" if="rice.standalone.flag" />
+				<exclude name="**/kim/**" if="rice.standalone.flag" />
+				<exclude name="**/ken/**" if="rice.standalone.flag" />
+				<exclude name="**/kcb/**" if="rice.standalone.flag" />
+				-->
 			</patternset>
 		</unzip>
 	</target>

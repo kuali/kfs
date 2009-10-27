@@ -26,7 +26,9 @@ import org.kuali.kfs.module.cam.batch.AssetPaymentInfo;
 import org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class MockDepreciationBatchDao implements DepreciationBatchDao {
     private DepreciationBatchDao impl;
     private List<String> assetPaymentsStr = new ArrayList<String>();

@@ -16,7 +16,6 @@
 package org.kuali.kfs.sys.batch.service;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +23,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.kuali.kfs.fp.batch.ProcurementCardInputFileType;
+import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.batch.CollectorXmlInputFileType;
 import org.kuali.kfs.gl.batch.MockCollectorBatch;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -128,7 +128,9 @@ public class BatchInputFileServiceTest extends KualiTestBase {
         // remove file so we can test collector upload
         expectedFile.delete();
 
-        savedFileName = batchInputFileService.save(validWorkgroupUser, collectorBatchInputFileType, testFileIdentifier, validCollectorFileContents, new MockCollectorBatch());
+        List<CollectorBatch> batch = new ArrayList<CollectorBatch>();
+        batch.add(new MockCollectorBatch());
+        savedFileName = batchInputFileService.save(validWorkgroupUser, collectorBatchInputFileType, testFileIdentifier, validCollectorFileContents, batch);
 
         expectedFile = new File(savedFileName);
         createdTestFiles.add(expectedFile);

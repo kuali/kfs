@@ -127,6 +127,7 @@ public class TransactionalAnnotationTest extends KualiTestBase {
                 if (beanClass.getName().startsWith("org.kuali") 
                         && !Modifier.isAbstract(beanClass.getModifiers()) 
                         && !beanClass.getName().endsWith("DaoOjb") 
+                        && !beanClass.getName().endsWith("DaoJdbc") 
                         && !beanClass.getName().endsWith("Factory") 
                         && !beanClass.getName().contains("Lookupable") 
                         && !isClassAnnotated(beanName, beanClass)) {

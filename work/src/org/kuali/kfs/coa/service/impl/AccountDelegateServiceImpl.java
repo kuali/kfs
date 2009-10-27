@@ -41,7 +41,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * The default implementation of AccountDelegateService.
  */
-@Transactional
 public class AccountDelegateServiceImpl implements AccountDelegateService {
 
     private AccountDelegateDao accountDelegateDao;
@@ -180,6 +179,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
     /**
      * Updates the role that this delegate is part of, to account for the changes in this delegate
      */
+    @Transactional
     public void updateDelegationRole() {
         final RoleManagementService roleManagementService = SpringContext.getBean(RoleManagementService.class);
         final String roleId = roleManagementService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME);
@@ -192,6 +192,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
      * Gets the accountDelegateDao attribute. 
      * @return Returns the accountDelegateDao.
      */
+    @NonTransactional
     public AccountDelegateDao getAccountDelegateDao() {
         return accountDelegateDao;
     }
@@ -200,6 +201,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
      * Sets the accountDelegateDao attribute value.
      * @param accountDelegateDao The accountDelegateDao to set.
      */
+    @NonTransactional
     public void setAccountDelegateDao(AccountDelegateDao accountDelegateDao) {
         this.accountDelegateDao = accountDelegateDao;
     }
@@ -208,6 +210,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
      * Gets the accountDelegateGlobalDao attribute. 
      * @return Returns the accountDelegateGlobalDao.
      */
+    @NonTransactional
     public AccountDelegateGlobalDao getAccountDelegateGlobalDao() {
         return accountDelegateGlobalDao;
     }
@@ -216,6 +219,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
      * Sets the accountDelegateGlobalDao attribute value.
      * @param accountDelegateGlobalDao The accountDelegateGlobalDao to set.
      */
+    @NonTransactional
     public void setAccountDelegateGlobalDao(AccountDelegateGlobalDao accountDelegateGlobalDao) {
         this.accountDelegateGlobalDao = accountDelegateGlobalDao;
     }
@@ -224,6 +228,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
      * Gets the dataDictionaryService attribute. 
      * @return Returns the dataDictionaryService.
      */
+    @NonTransactional
     public DataDictionaryService getDataDictionaryService() {
         return dataDictionaryService;
     }
@@ -232,6 +237,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
      * Sets the dataDictionaryService attribute value.
      * @param dataDictionaryService The dataDictionaryService to set.
      */
+    @NonTransactional
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
@@ -240,6 +246,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
      * Gets the businessObjectService attribute. 
      * @return Returns the businessObjectService.
      */
+    @NonTransactional
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
@@ -248,6 +255,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
      * Sets the businessObjectService attribute value.
      * @param businessObjectService The businessObjectService to set.
      */
+    @NonTransactional
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

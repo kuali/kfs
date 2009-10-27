@@ -15,10 +15,12 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
+import java.io.Serializable;
+
 import org.kuali.rice.kns.util.KualiDecimal;
 
 
-public interface PurApItemUseTax {
+public interface PurApItemUseTax extends Serializable {
 
     public String getAccountNumber();
 

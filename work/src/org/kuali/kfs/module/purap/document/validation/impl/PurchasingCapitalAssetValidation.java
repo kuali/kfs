@@ -53,11 +53,26 @@ public class PurchasingCapitalAssetValidation extends GenericValidation {
 
         if (capitalAssetRequired) {
             // if capital asset required, check to see if the capital asset data are setup 
-            if (StringUtils.isBlank(purchasingDocument.getCapitalAssetSystemTypeCode()) || StringUtils.isBlank(purchasingDocument.getCapitalAssetSystemStateCode()) ||
-                    purchasingDocument.getPurchasingCapitalAssetSystems() == null || purchasingDocument.getPurchasingCapitalAssetSystems().isEmpty() ||
-                    purchasingDocument.getPurchasingCapitalAssetItems() == null || purchasingDocument.getPurchasingCapitalAssetItems().isEmpty()){
-                GlobalVariables.getMessageMap().putError("newPurchasingItemCapitalAssetLine", PurapKeyConstants.ERROR_CAPITAL_ASSET_REQD_FOR_PUR_OBJ_SUB_TYPE);
-                return false;
+            String typeCode = purchasingDocument.getCapitalAssetSystemTypeCode();
+            if (StringUtils.isBlank(typeCode) || StringUtils.isBlank(purchasingDocument.getCapitalAssetSystemStateCode()) ||
+                    purchasingDocument.getPurchasingCapitalAssetSystems() == null || purchasingDocument.getPurchasingCapitalAssetItems() == null){
+                valid = false;
+            }
+            else if ((typeCode.equals(PurapConstants.CapitalAssetTabStrings.ONE_SYSTEM) || typeCode.equals(PurapConstants.CapitalAssetTabStrings.MULTIPLE_SYSTEMS)) &&
+                    purchasingDocument.getPurchasingCapitalAssetSystems().size() == 0) {
+                valid = false;
+            }
+            /* TODO
+             * either complete the following with checking that capital asset items are correctly setup, or replace this whole part (and above)
+             * with checking on a flag that indicates whether select/update capital asset has been done since last item changes 
+             */   
+            else if (purchasingDocument.getPurchasingCapitalAssetItems().isEmpty()) {
+                valid = false;
+            }
+            
+            if (!valid) {
+                GlobalVariables.getMessageMap().putError("newPurchasingItemCapitalAssetLine", PurapKeyConstants.ERROR_CAPITAL_ASSET_REQD_FOR_PUR_OBJ_SUB_TYPE);                
+                return valid;
             }
         }
         else {

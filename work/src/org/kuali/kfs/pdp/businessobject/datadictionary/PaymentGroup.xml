@@ -97,7 +97,7 @@
 		<property name="name" value="payeeName"/>
 		<property name="label" value="Payee Name"/>
 		<property name="shortLabel" value="Payee Name"/>
-		<property name="maxLength" value="32"/>
+		<property name="maxLength" value="123"/>
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern"/>
 		</property>

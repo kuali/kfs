@@ -35,6 +35,7 @@ public class PropertyLoadingFactoryBean implements FactoryBean {
     private static final Properties BASE_PROPERTIES = new Properties();
     private static final String HTTP_URL_PROPERTY_NAME = "http.url";
     private static final String KSB_REMOTING_URL_PROPERTY_NAME = "ksb.remoting.url";
+    private static final String REMOTING_URL_SUFFIX = "/remoting";
     private Properties props = new Properties();
     private boolean testMode;
     private boolean secureMode;
@@ -51,10 +52,10 @@ public class PropertyLoadingFactoryBean implements FactoryBean {
             }            
         }
         if (StringUtils.isBlank(System.getProperty(HTTP_URL_PROPERTY_NAME))) {
-            props.put(KSB_REMOTING_URL_PROPERTY_NAME, "");
+            props.put(KSB_REMOTING_URL_PROPERTY_NAME, props.getProperty(KFSConstants.APPLICATION_URL_KEY) + REMOTING_URL_SUFFIX);
         }
         else {
-            props.put(KSB_REMOTING_URL_PROPERTY_NAME, new StringBuffer("http://").append(System.getProperty(HTTP_URL_PROPERTY_NAME)).append("/kfs-").append(props.getProperty(KFSConstants.ENVIRONMENT_KEY)).append("/remoting").toString());
+            props.put(KSB_REMOTING_URL_PROPERTY_NAME, new StringBuffer("http://").append(System.getProperty(HTTP_URL_PROPERTY_NAME)).append("/kfs-").append(props.getProperty(KFSConstants.ENVIRONMENT_KEY)).append(REMOTING_URL_SUFFIX).toString());
         }
         System.out.println(KSB_REMOTING_URL_PROPERTY_NAME + " set to " + props.getProperty(KSB_REMOTING_URL_PROPERTY_NAME));
         return props;

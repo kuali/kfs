@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.util.ClassLoaderUtils;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -50,7 +51,7 @@ public class PropertyLoadingFactoryBean implements FactoryBean {
             }            
         }
         if (StringUtils.isBlank(System.getProperty(HTTP_URL_PROPERTY_NAME))) {
-            props.put(KSB_REMOTING_URL_PROPERTY_NAME, new StringBuffer("http://").append(System.getProperty(HTTP_URL_PROPERTY_NAME)).append("/kfs-").append(props.getProperty("build.environment")).append("/remoting").toString());
+            props.put(KSB_REMOTING_URL_PROPERTY_NAME, new StringBuffer("http://").append(System.getProperty(HTTP_URL_PROPERTY_NAME)).append("/kfs-").append(props.getProperty(KFSConstants.ENVIRONMENT_KEY)).append("/remoting").toString());
             System.out.println("KSB_REMOTING_URL_PROPERTY_NAME set to " + props.getProperty(KSB_REMOTING_URL_PROPERTY_NAME));
         }
         else {

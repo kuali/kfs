@@ -51,11 +51,11 @@ public class PropertyLoadingFactoryBean implements FactoryBean {
             }            
         }
         if (StringUtils.isBlank(System.getProperty(HTTP_URL_PROPERTY_NAME))) {
-            props.put(KSB_REMOTING_URL_PROPERTY_NAME, new StringBuffer("http://").append(System.getProperty(HTTP_URL_PROPERTY_NAME)).append("/kfs-").append(props.getProperty(KFSConstants.ENVIRONMENT_KEY)).append("/remoting").toString());
-            System.out.println(KSB_REMOTING_URL_PROPERTY_NAME + " set to " + props.getProperty(KSB_REMOTING_URL_PROPERTY_NAME));
+            props.put(KSB_REMOTING_URL_PROPERTY_NAME, null);
         }
         else {
-            props.put(KSB_REMOTING_URL_PROPERTY_NAME, null);
+            props.put(KSB_REMOTING_URL_PROPERTY_NAME, new StringBuffer("http://").append(System.getProperty(HTTP_URL_PROPERTY_NAME)).append("/kfs-").append(props.getProperty(KFSConstants.ENVIRONMENT_KEY)).append("/remoting").toString());
+            System.out.println(KSB_REMOTING_URL_PROPERTY_NAME + " set to " + props.getProperty(KSB_REMOTING_URL_PROPERTY_NAME));
         }
         return props;
     }

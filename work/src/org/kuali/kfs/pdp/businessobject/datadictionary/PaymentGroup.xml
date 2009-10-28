@@ -93,11 +93,10 @@
 	</bean>
 	<bean id="PaymentGroup-payeeName" parent="PaymentGroup-payeeName-parentBean"/>
 
-	<bean id="PaymentGroup-payeeName-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="PaymentGroup-payeeName-parentBean" abstract="true" parent="DisbursementVoucherPayeeDetail-disbVchrPayeePersonName">
 		<property name="name" value="payeeName"/>
 		<property name="label" value="Payee Name"/>
 		<property name="shortLabel" value="Payee Name"/>
-		<property name="maxLength" value="123"/>
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern"/>
 		</property>

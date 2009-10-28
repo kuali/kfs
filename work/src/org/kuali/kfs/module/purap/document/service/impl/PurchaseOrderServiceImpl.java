@@ -1404,7 +1404,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 notetxt += " - Sub-Fund " + receivingThreshold.getSubFundGroupCode();       
             } else if (thresholdSummary.getThresholdCriteria() == ThresholdHelper.CHART_AND_COMMODITYCODE){
                 notetxt += " Chart " + receivingThreshold.getChartOfAccountsCode();      
-                notetxt += " - Commodity Code " + receivingThreshold.getCommodityCode();
+                notetxt += " - Commodity Code " + receivingThreshold.getCommodityCode().getPurchasingCommodityCode();
             } else if (thresholdSummary.getThresholdCriteria() == ThresholdHelper.CHART_AND_OBJECTCODE){
                 notetxt += " Chart " + receivingThreshold.getChartOfAccountsCode();     
                 notetxt += " - Object code " + receivingThreshold.getFinancialObjectCode();

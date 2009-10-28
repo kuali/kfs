@@ -484,6 +484,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         criteria.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE);
         criteria.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_DOCUMENT);
         criteria.put(CabPropertyConstants.Parameter.PARAMETER_NAME, "CHARTS_REQUIRING%" + documentType);
+        criteria.put(CabPropertyConstants.Parameter.PARAMETER_VALUE, "%" + purchasingDocument.getChartOfAccountsCode() + "%");
         results.addAll(SpringContext.getBean(ParameterService.class).retrieveParametersGivenLookupCriteria(criteria));
         for (Parameter parameter : results) {
             if (ObjectUtils.isNotNull(parameter)) {

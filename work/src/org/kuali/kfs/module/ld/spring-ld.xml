@@ -346,9 +346,11 @@
 		<property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry"/>
 	</bean>
 	
+	<bean id="laborGLScrubberValidator" class="org.kuali.kfs.module.ld.batch.service.impl.LaborGLScrubberValidatorImpl" parent="scrubberValidator" />
+	
     <bean id="laborScrubberValidator" class="org.kuali.kfs.module.ld.batch.service.impl.ScrubberValidatorImpl">
         <property name="scrubberValidator">
-            <ref bean="scrubberValidator" />
+            <ref bean="laborGLScrubberValidator" />
         </property>
         <property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />

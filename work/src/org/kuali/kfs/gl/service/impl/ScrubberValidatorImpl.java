@@ -930,21 +930,13 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         
         String periodCode = originEntry.getUniversityFiscalPeriodCode();
         if (!StringUtils.hasText(periodCode)) {
-            //commented out for KULLAB-627 
-            //if (!originEntry.getFinancialBalanceTypeCode().equals(KFSConstants.BALANCE_TYPE_A21)){
-                if (universityRunDate.getAccountingPeriod().isOpen()) {
-                    
-                    workingEntry.setUniversityFiscalPeriodCode(universityRunDate.getUniversityFiscalAccountingPeriod());
-                    workingEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
-                    
-                    // shawn - for displaying updated value on report
-//                    originEntry.setUniversityFiscalPeriodCode(universityRunDate.getUniversityFiscalAccountingPeriod());
-//                    originEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
-                    
-                }
-                else {
-                    return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_ACCOUNTING_PERIOD_CLOSED, " (year " + universityRunDate.getUniversityFiscalYear() + ", period " + universityRunDate.getUniversityFiscalAccountingPeriod(), Message.TYPE_FATAL);
-                }
+            if (universityRunDate.getAccountingPeriod().isOpen()) {
+                workingEntry.setUniversityFiscalPeriodCode(universityRunDate.getUniversityFiscalAccountingPeriod());
+                workingEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());                    
+            }
+            else {
+                return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_ACCOUNTING_PERIOD_CLOSED, " (year " + universityRunDate.getUniversityFiscalYear() + ", period " + universityRunDate.getUniversityFiscalAccountingPeriod(), Message.TYPE_FATAL);
+            }
         }
         else {
             AccountingPeriod originEntryAccountingPeriod = accountingCycleCachingService.getAccountingPeriod(originEntry.getUniversityFiscalYear(), originEntry.getUniversityFiscalPeriodCode());

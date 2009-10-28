@@ -19,7 +19,7 @@ import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.service.support.impl.KimGroupTypeServiceBase;
 
 public class OrganizationGroupTypeServiceImpl extends KimGroupTypeServiceBase {
-    private static final String DOCUMENT_TYPE_NAME = "ORGG";
+    private static final String DOCUMENT_TYPE_NAME = "ORG";
 
     {
         workflowRoutingAttributes.add( KfsKimAttributes.CHART_OF_ACCOUNTS_CODE );

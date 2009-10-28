@@ -72,10 +72,4 @@ public class OrganizationHierarchyReviewRoleTypeServiceImpl extends Organization
         }
         return map;
     }
-    
-    
-    @Override
-    public String getWorkflowDocumentTypeName() {
-        return DOCUMENT_TYPE_NAME;
-    }
 }

@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.util.ClassLoaderUtils;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -31,6 +32,8 @@ public class PropertyLoadingFactoryBean implements FactoryBean {
     private static final String SECURITY_PROPERTY_FILE_NAME_KEY = "security.property.file";
     private static final String CONFIGURATION_FILE_NAME = "configuration";
     private static final Properties BASE_PROPERTIES = new Properties();
+    private static final String HTTP_URL_PROPERTY_NAME = "http.url";
+    private static final String KSB_REMOTING_URL_PROPERTY_NAME = "ksb.remoting.url";
     private Properties props = new Properties();
     private boolean testMode;
     private boolean secureMode;
@@ -45,6 +48,13 @@ public class PropertyLoadingFactoryBean implements FactoryBean {
             if (testMode) {
                 loadPropertyList(props,PROPERTY_TEST_FILE_NAMES_KEY);
             }            
+        }
+        if (StringUtils.isBlank(System.getProperty(HTTP_URL_PROPERTY_NAME))) {
+            props.put(KSB_REMOTING_URL_PROPERTY_NAME, new StringBuffer("http://").append(System.getProperty(HTTP_URL_PROPERTY_NAME)).append("/kfs-").append(props.getProperty("build.environment")).append("/remoting").toString());
+            System.out.println("KSB_REMOTING_URL_PROPERTY_NAME set to " + props.getProperty(KSB_REMOTING_URL_PROPERTY_NAME));
+        }
+        else {
+            props.put(KSB_REMOTING_URL_PROPERTY_NAME, null);
         }
         return props;
     }

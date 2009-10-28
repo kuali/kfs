@@ -37,7 +37,7 @@
     <property name="properties" ref="properties" />
     <property name="ksbConfigurer">
       <bean class="org.kuali.rice.ksb.messaging.config.KSBConfigurer"
-          p:serviceServletUrl="http://${http.url}/kfs-${build.environment}/remoting"
+          p:serviceServletUrl="${ksb.remoting.url}"
               p:webModuleConfigurationFiles="${rice.ksb.struts.config.files}"/>
     </property>
     <property name="kewConfigurer">

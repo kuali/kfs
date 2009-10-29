@@ -60,6 +60,8 @@
 	    <!-- remove foundation-only targets import from main build file -->
     	<replace file="${all.temp.directory}/kfs/build.xml">
       		<replacefilter token="&lt;import file=&quot;build-foundation.xml&quot;/&gt;" value="" />
+      		<replacefilter token="&lt;import file=&quot;build-foundation.xml&quot;/&gt;" value="" />
+    		<replacefilter token="&lt;format property=&quot;build.version&quot; pattern=&quot;MM/dd/yyyy hh:mm aa&quot; /&gt;" value="&lt;format property=&quot;build.version&quot; pattern=&quot;'KFS ${release.version.number}' MM/dd/yyyy hh:mm aa&quot; /&gt;" />
     	</replace>
 		<!-- replace foundation URL references -->
 		<replace dir="${all.temp.directory}">
@@ -72,7 +74,7 @@
       		<replacefilter token="mysql.datasource.url=jdbc:mysql://esdbk01.uits.indiana.edu:3306/$${datasource.username}" 
     		     value="mysql.datasource.url=jdbc:mysql://localhost:3306/$${datasource.username}" />
       		<replacefilter token="oracle.datasource.url=jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI" 
-    		     value="oracle.datasource.url=jdbc:oracle:thin:@localhost:1521:XE" />			
+    		     value="oracle.datasource.url=jdbc:oracle:thin:@localhost:1521:XE" />
 			<!-- misc -->
 			<replacefilter token="feedback.link.url=https://test.kuali.org/jira/secure/CreateIssue.jspa?pid=10091&amp;amp;issuetype=1" value="feedback.link.url=" />
 			<replacefilter token="licensing.contact.email=license@kuali.org" value="licensing.contact.email=" />

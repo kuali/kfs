@@ -96,12 +96,14 @@ public class PurchasingAccountsPayableDocumentRuleTest extends
                 
                 RequisitionDocument doc = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
                 PurchasingAccountsPayableBelowTheLineValuesValidation validation = (PurchasingAccountsPayableBelowTheLineValuesValidation)validations.get("PurchasingAccountsPayable-belowTheLineValuesValidation");
+                item.setPurapDocument(doc);
                 validation.setItemForValidation(item);
                 assertTrue( validation.validate(new AttributedDocumentEventBase("","", doc)));        
             }
             else {
                 RequisitionDocument doc = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
                 PurchasingAccountsPayableBelowTheLineValuesValidation validation = (PurchasingAccountsPayableBelowTheLineValuesValidation)validations.get("PurchasingAccountsPayable-belowTheLineValuesValidation");
+                item.setPurapDocument(doc);
                 validation.setItemForValidation(item);
                 assertFalse( validation.validate(new AttributedDocumentEventBase("","",doc)) );        
             }

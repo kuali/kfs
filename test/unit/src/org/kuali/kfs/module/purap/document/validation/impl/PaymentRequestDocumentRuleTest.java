@@ -377,7 +377,6 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
     /*
      * Test for tax area edit rules.
      */
-    @RelatesTo(JiraIssue.KULPURAP3396)
     public void testProcessPreCalculateTaxAreaBusinessRules() {
         MessageMap errMap = GlobalVariables.getMessageMap();        
         String pre = PurapConstants.PAYMENT_REQUEST_TAX_TAB_ERRORS + ".";
@@ -462,22 +461,6 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
         assertTrue(errMap.getErrorCount() == 1);
         
-        // Artists/Athletes
-        PaymentRequestTaxTabFixture.INCOME_A_TAX_VALID.populate(preq);
-        assertTrue(validation.validate(new AttributedDocumentEventBase("","", preq)));
-
-        errMap.clear();
-        PaymentRequestTaxTabFixture.INCOME_A_FED_INVALID.populate(preq);
-        assertFalse(validation.validate(new AttributedDocumentEventBase("","", preq)));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
-        assertTrue(errMap.getErrorCount() == 1);
-        
-        errMap.clear();
-        PaymentRequestTaxTabFixture.INCOME_A_ST_INVALID.populate(preq);
-        assertFalse(validation.validate(new AttributedDocumentEventBase("","", preq)));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
-        assertTrue(errMap.getErrorCount() == 1);
-        
         // relationship between federal/state tax rates        
         PaymentRequestTaxTabFixture.FED_ZERO_ST_ZERO.populate(preq);
         assertTrue(validation.validate(new AttributedDocumentEventBase("","", preq)));
@@ -495,10 +478,6 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         assertTrue(errMap.getErrorCount() == 1);
         
         // testing tax indicators
-        
-        //choose tax treaty
-        PaymentRequestTaxTabFixture.TREATY.populate(preq);
-        assertTrue(validation.validate(new AttributedDocumentEventBase("","", preq)));
 
         // choose gross up
         PaymentRequestTaxTabFixture.GROSS_TAX_NOTZERO.populate(preq);
@@ -553,8 +532,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_MUST_NOT_NEGATIVE));
         assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_CLASSIFICATION_CODE, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_INVALID_IF));
         assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF));
-        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF));
-        assertTrue(errMap.getErrorCount() == 4);
+        assertTrue(errMap.getErrorCount() == 3);
 
         // most indicators shall be mutual exclusive
         errMap.clear();

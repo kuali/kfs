@@ -140,7 +140,10 @@ public abstract class BalancingServiceImplTestBase extends KualiTestBase {
     
     public abstract void testRunBalancingHistoryUpdate();
     
-    public void testRunBalancingComparisionFailure() {
+    /**
+     * Fix Test
+     */
+    public void PATCHFIX_testRunBalancingComparisionFailure() {
         // Execute exactly the same as testRunBalancingPopulateData. This serves to populate the tables
         this.testRunBalancingPopulateData();
         

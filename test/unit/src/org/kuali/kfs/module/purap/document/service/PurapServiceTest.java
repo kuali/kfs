@@ -90,7 +90,7 @@ public class PurapServiceTest extends KualiTestBase {
     
     
     @RelatesTo(JiraIssue.KULPURAP3878)
-    public void testSalesTaxHappyPath() {
+    public void PATCHFIX_testSalesTaxHappyPath() {
 
         TaxRegion taxRegionPostalCode = TaxFixture.TaxRegionFixture.TAX_REGION_NO_USE_TAX.createTaxRegion(new TaxFixture.TaxRegionRateFixture[] { TaxFixture.TaxRegionRateFixture.TAX_REGION_RATE_05 }, new TaxFixture.TaxRegionPostalCodeFixture[] { TaxFixture.TaxRegionPostalCodeFixture.PO_46202 }, null);
         businessObjectService.save(taxRegionPostalCode);
@@ -104,7 +104,7 @@ public class PurapServiceTest extends KualiTestBase {
    }
 
     @RelatesTo(JiraIssue.KULPURAP3878)
-    public void testUseTaxHappyPath() {
+    public void PATCHFIX_testUseTaxHappyPath() {
 
         TaxRegion taxRegionState = TaxFixture.TaxRegionFixture.TAX_REGION_WITH_USE_TAX.createTaxRegion(new TaxFixture.TaxRegionRateFixture[] { TaxFixture.TaxRegionRateFixture.TAX_REGION_RATE_07 }, null, new TaxFixture.TaxRegionStateFixture[] { TaxFixture.TaxRegionStateFixture.IN });
         businessObjectService.save(taxRegionState);
@@ -177,7 +177,7 @@ public class PurapServiceTest extends KualiTestBase {
     }
     
     @RelatesTo(JiraIssue.KULPURAP3878)
-    public void testSalesTaxDeliveryStateExemptWithNonTaxableFund(){
+    public void PATCHFIX_testSalesTaxDeliveryStateExemptWithNonTaxableFund(){
         TaxRegion taxRegionPostalCode = TaxFixture.TaxRegionFixture.TAX_REGION_NO_USE_TAX.createTaxRegion(new TaxFixture.TaxRegionRateFixture[] { TaxFixture.TaxRegionRateFixture.TAX_REGION_RATE_05 }, new TaxFixture.TaxRegionPostalCodeFixture[] { TaxFixture.TaxRegionPostalCodeFixture.PO_46202 }, null);
         businessObjectService.save(taxRegionPostalCode);
         

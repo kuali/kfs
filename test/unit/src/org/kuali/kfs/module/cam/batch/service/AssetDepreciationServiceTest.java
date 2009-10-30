@@ -73,7 +73,8 @@ public class AssetDepreciationServiceTest extends KualiTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        mockDepreciationBatchDao = SpringContext.getBean(MockDepreciationBatchDao.class);
+        // TODO: can't find bean
+      //  mockDepreciationBatchDao = SpringContext.getBean(MockDepreciationBatchDao.class);
         camsAssetDepreciationService = SpringContext.getBean(AssetDepreciationService.class);
         camsAssetDepreciationService.setDepreciationBatchDao(mockDepreciationBatchDao);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);

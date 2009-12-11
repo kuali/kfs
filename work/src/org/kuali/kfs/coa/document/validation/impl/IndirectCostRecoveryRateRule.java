@@ -577,7 +577,7 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
                 logErrorUtility(KFSPropertyConstants.AWARD_INDR_COST_RCVY_RATE_PCT, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_RATE_PERCENT_INVALID_FORMAT_SCALE);
                 success = false;
             }
-            if(item.getAwardIndrCostRcvyRatePct().compareTo(zero) <= 0) {
+            if(item.getAwardIndrCostRcvyRatePct().compareTo(zero) < 0) {
                 logErrorUtility(KFSPropertyConstants.AWARD_INDR_COST_RCVY_RATE_PCT, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_RATE_PERCENT_INVALID_FORMAT_ZERO);
                 success = false;
             }            

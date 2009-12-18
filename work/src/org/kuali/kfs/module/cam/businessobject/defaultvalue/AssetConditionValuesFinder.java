@@ -18,19 +18,32 @@ package org.kuali.kfs.module.cam.businessobject.defaultvalue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.kfs.module.cam.businessobject.AssetCondition;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.service.KeyValuesService;
 
 public class AssetConditionValuesFinder extends KeyValuesBase {
-    // The list is hard coded to achieve this specific order of display
-    // Bad thing is when new record is added to database it wont reflect here
     public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("E", "E - Excellent"));
-        keyValues.add(new KeyLabelPair("G", "G - Good"));
-        keyValues.add(new KeyLabelPair("F", "F - Fair"));
-        keyValues.add(new KeyLabelPair("P", "P - Poor"));
-        return keyValues;
+        List<AssetCondition> assetConditions = (List<AssetCondition>) SpringContext.getBean(KeyValuesService.class).findAll(AssetCondition.class);
+        // copy the list of codes before sorting, since we can't modify the results from this method
+        if ( assetConditions == null ) {
+            assetConditions = new ArrayList<AssetCondition>(0);
+        } else {
+            assetConditions = new ArrayList<AssetCondition>(assetConditions);
+        }
+
+        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
+        labels.add(new KeyLabelPair("", ""));
+
+        for (AssetCondition assetCondition : assetConditions) {
+            if(assetCondition.isActive()) {
+                labels.add(new KeyLabelPair(assetCondition.getAssetConditionCode(), assetCondition.getAssetConditionName()));
+            }
+        }
+
+        return labels;
     }
 
 }

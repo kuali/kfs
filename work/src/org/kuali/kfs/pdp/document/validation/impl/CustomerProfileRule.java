@@ -120,8 +120,11 @@ public class CustomerProfileRule extends MaintenanceDocumentRuleBase {
             }
             
         }
-        
-        isValid &= verifyChartUnitSubUnitIsUnique(customerProfile);
+
+        // KFSMI-5158 Uniqueness check only for new Customer Profiles 
+        if (document.isNew()) { 
+            isValid &= verifyChartUnitSubUnitIsUnique(customerProfile);
+        }
         
         return isValid;
     } 

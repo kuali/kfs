@@ -113,9 +113,9 @@ public class WriteoffCustomerInvoiceDetail extends CustomerInvoiceDetail {
       if ( isUsingOrgAcctDefaultWriteoffFAU ){
           return poster.getFinancialObject();
       } else if (isUsingChartForWriteoff) {
-          //return postable.getChart().getFinAccountsPayableObject();
-          //TODO change which object code is returned
-          return SpringContext.getBean(ObjectCodeService.class).getByPrimaryIdForCurrentYear(postable.getChartOfAccountsCode(), "5105");
+          // KFSMI-5220 - replace hard coded return value
+          String objectCode = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_OBJECT_CODE_BY_CHART, this.getChartOfAccountsCode() );          
+          return SpringContext.getBean(ObjectCodeService.class).getByPrimaryIdForCurrentYear(postable.getChartOfAccountsCode(), objectCode);
       } else {
           return postable.getAccountsReceivableObject();
       }

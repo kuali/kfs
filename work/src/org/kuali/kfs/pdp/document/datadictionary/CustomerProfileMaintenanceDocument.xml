@@ -19,7 +19,7 @@
 
   <bean id="CustomerProfileMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.CustomerProfile"/>
-    <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"/>
+    <property name="maintainableClass" value="org.kuali.kfs.pdp.document.datadictionary.CustomerProfileMaintenanceDocumentMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
         <ref bean="CustomerProfileMaintenanceDocument-EditCustomerProfileSection1"/>
